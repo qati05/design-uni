@@ -13,8 +13,6 @@
 .haken li { display: grid; grid-template-columns: var(--haken) minmax(0, 1fr); gap: .8rem; align-items: baseline; }
 .haken li::before { content: ""; width: var(--haken); height: var(--haken); background: currentColor; transform: translateY(1px); }
 .haken--leer li::before { background: none; border: 2px solid currentColor; }
-.bewegt .haken li::before { transform: translateY(1px) scale(var(--an, 0)); transition: transform .35s cubic-bezier(.3, 1.5, .5, 1); transition-delay: calc(var(--n, 0) * 60ms); }
-.bewegt .ist-an .haken li::before { --an: 1; }
 
 /* Hero */
 .p-hero { border-bottom: 2px solid var(--tinte); }
@@ -24,6 +22,8 @@
 .p-hero__lead { font-size: clamp(1.0625rem, 1.5vw, 1.3rem); max-width: 40ch; }
 .p-hero__lead b { font-weight: 600; white-space: nowrap; background: linear-gradient(var(--signal), var(--signal)) 0 88% / 100% .42em no-repeat; }
 .p-hero__knoepfe { display: flex; flex-wrap: wrap; gap: .75rem; }
+.p-hero__tel { color: var(--grau); max-width: 40ch; }
+.p-hero__tel a { color: var(--tinte); font-weight: 600; white-space: nowrap; display: inline-block; padding-block: 12px; margin-block: -12px; }
 
 /* Beleg: ein Kassenzettel, der sich ausdruckt */
 .beleg { margin: 0; background: var(--feld); border: 2px solid var(--tinte); padding: clamp(18px, 2.4vw, 28px); font: 400 .9375rem/1.4 var(--mono); position: relative; box-shadow: 8px 8px 0 var(--tinte); }
@@ -39,7 +39,6 @@
 .beleg__summe span:first-child { font: 500 .8125rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
 .beleg__total { font-variant-numeric: tabular-nums; }
 .beleg__danach { margin-top: .9rem; font-size: .875rem; }
-.bewegt .beleg--druck { clip-path: inset(0 0 calc(100% - var(--druck, 100%)) 0); }
 
 /* 01 Weg: eine Spur mit sechs Halten. Mit Bewegung am Desktop: steht still, die Spur fährt beim Scrollen durch. */
 .weg { background: var(--tinte); color: var(--papier); }
@@ -58,20 +57,8 @@
 .station__wert { justify-self: start; margin-top: .25rem; padding: .35rem .6rem; border: 2px solid var(--papier); font: 800 clamp(1.25rem, 2.2vw, 1.75rem)/1 var(--anzeige); font-stretch: 112%; transition: background .25s, color .25s, border-color .25s; }
 .station--inklusiv .station__wert, .station.ist-dran .station__wert { background: var(--signal); color: var(--tinte); border-color: var(--signal); }
 .station.ist-dran::before { background: var(--signal); transform: scale(1.4); }
-.bewegt .station { opacity: var(--sicht, .8); transition: opacity .3s; }
 .bewegt .station.ist-dran, .bewegt .station.war-dran { --sicht: 1; }
 
-@media (min-width: 900px) {
-  .bewegt .weg { height: 300vh; height: 300svh; }
-  .bewegt .weg__buehne { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; justify-content: center; overflow: clip; }
-  .bewegt .weg__kopf { padding-top: 0; }
-  .bewegt .weg__spur { padding-block: clamp(40px, 7svh, 72px) 0; max-width: none; margin: 0; }
-  .bewegt .weg__linie { left: 0; right: 0; top: calc(clamp(40px, 7svh, 72px) + 5px); bottom: auto; width: auto; height: 2px; }
-  .bewegt .weg__fuellung { transform-origin: 0 50%; transform: scaleX(var(--fort, 0)); }
-  .bewegt .weg__liste { grid-auto-flow: column; grid-auto-columns: min(30vw, 26rem); gap: clamp(32px, 4vw, 64px); padding: 0; width: max-content; transform: translate3d(var(--x, 0px), 0, 0); will-change: transform; }
-  .bewegt .station { padding-top: 40px; }
-  .bewegt .station::before { left: 0; top: -1px; }
-}
 
 /* 02 Pakete */
 .pakete__raster { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(16px, 2vw, 24px); align-items: start; }
@@ -93,7 +80,6 @@
 .paket--haupt .paket__fuer, .paket--haupt .paket__einheit, .paket--haupt .paket__etikett, .paket--haupt .paket__hinweis { color: var(--grau-dunkel); }
 .paket--haupt .paket__zeile { border-color: var(--linie-hell); }
 .paket--haupt .paket__betrag { color: var(--signal); }
-.bewegt .paket { transform: translateY(var(--hoch, 0px)); }
 
 /* 03 Abos */
 .abos { background: var(--papier-hell); border-block: 2px solid var(--tinte); }
@@ -108,7 +94,6 @@
 .klein { margin-top: clamp(28px, 4vw, 44px); display: grid; gap: .9rem; }
 .klein__liste { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
 .klein__liste li { padding: .5rem .8rem; border: 2px solid var(--tinte); background: var(--feld); font-size: .9375rem; }
-.bewegt .klein__liste li { transform: translateY(var(--y, 0)) rotate(var(--r, 0deg)); }
 .klein__mehr { max-width: 60ch; color: var(--grau); }
 
 /* 04 Rechner */

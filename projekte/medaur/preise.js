@@ -17,7 +17,7 @@
 
   function zaehle(el, von, bis, vor) {
     if (!bewegt || von === bis) { el.textContent = vor + chf(bis); return; }
-    const t0 = performance.now(), dauer = 420;
+    const t0 = performance.now(), dauer = 250;
     const schritt = (t) => {
       const p = Math.min(1, (t - t0) / dauer), e = 1 - Math.pow(1 - p, 3);
       el.textContent = vor + chf(von + (bis - von) * e);
@@ -94,73 +94,18 @@
   if (!bewegt) return;
   const { gsap, ScrollTrigger } = window;
   gsap.registerPlugin(ScrollTrigger);
-  const WEICH = 1;
 
-  // Überschriften: Wort für Wort aus einer Maske.
-  for (const h of document.querySelectorAll('.preise h1, .preise h2')) {
-    const worte = h.textContent.trim().split(/\s+/);
-    h.setAttribute('aria-label', h.textContent.trim());
-    h.innerHTML = worte.map((w) => `<span class="wm" aria-hidden="true"><span>${w}</span></span>`).join(' ');
-    const teile = h.querySelectorAll('.wm > span');
-    gsap.set(teile, { y: 0, yPercent: 110 });
-    const los = () => gsap.to(teile, { yPercent: 0, duration: .8, ease: 'expo.out', stagger: .05 });
-    if (h.tagName === 'H1') los(); else ScrollTrigger.create({ trigger: h, start: 'top 88%', once: true, onEnter: los });
-  }
-
-  // Beleg im Hero druckt sich aus: Papier fährt heraus, Zeilen kommen der Reihe nach, Beträge zählen.
-  const beleg = document.querySelector('.p-hero .beleg');
-  if (beleg) {
-    beleg.classList.add('beleg--druck');
-    const zeilen = beleg.querySelectorAll('.beleg__zeile, .beleg__fuss');
-    const tl = gsap.timeline({ delay: .35 });
-    tl.fromTo(beleg, { '--druck': '0%' }, { '--druck': '100%', duration: 1.1, ease: 'power2.inOut' })
-      .from(zeilen, { y: -10, autoAlpha: 0, duration: .35, stagger: .14, ease: 'power2.out' }, .25);
-    for (const el of beleg.querySelectorAll('[data-zahl]')) {
-      const ziel = Number(el.dataset.zahl), o = { v: 0 };
-      tl.to(o, { v: ziel, duration: .7, ease: 'power2.out', onUpdate: () => { el.textContent = chf(o.v); } }, .55);
-    }
-    tl.set(beleg, { clearProps: 'clipPath' });
-  }
-
-  // Weg: am Desktop fährt die Spur seitwärts, solange die Bühne steht; am Handy füllt sich die Linie nach unten.
+  // Die eine Bewegung der Preisseite: Beim Lesen füllt sich die Linie des Wegs, und die Station, bei der Sie sind, wird gelb.
+  // Nichts steht still, nichts wird gepinnt, nichts wird versteckt.
   const weg = document.querySelector('.weg');
   const liste = weg.querySelector('.weg__liste');
   const stationen = [...weg.querySelectorAll('.station')];
   const markiere = (i) => stationen.forEach((s, k) => { s.classList.toggle('ist-dran', k === i); s.classList.toggle('war-dran', k < i); });
-  ScrollTrigger.matchMedia({
-    '(min-width: 900px)': () => {
-      const spur = weg.querySelector('.weg__spur');
-      const weite = () => { const cs = getComputedStyle(spur); return Math.max(0, liste.scrollWidth - (spur.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight))); };
-      const st = ScrollTrigger.create({
-        trigger: weg, start: 'top top', end: 'bottom bottom', scrub: WEICH, invalidateOnRefresh: true,
-        onUpdate: (s) => {
-          liste.style.setProperty('--x', `${-weite() * s.progress}px`);
-          weg.style.setProperty('--fort', s.progress.toFixed(4));
-          markiere(Math.min(stationen.length - 1, Math.floor(s.progress * stationen.length)));
-        },
-      });
-      return () => { st.kill(); liste.style.removeProperty('--x'); };
-    },
-    '(max-width: 899px)': () => {
-      const st = ScrollTrigger.create({
-        trigger: liste, start: 'top 60%', end: 'bottom 60%', scrub: WEICH,
-        onUpdate: (s) => {
-          weg.style.setProperty('--fort', s.progress.toFixed(4));
-          markiere(Math.min(stationen.length - 1, Math.floor(s.progress * stationen.length)));
-        },
-      });
-      return () => st.kill();
-    },
-  });
-
-  // Karten steigen auf, Business zuletzt und etwas höher.
-  ScrollTrigger.batch('.paket, .abo, .zusatz, .garantie__liste li, .ehrlich__raster > div', {
-    start: 'top 90%', once: true,
-    onEnter: (els) => gsap.from(els, { y: 48, autoAlpha: 0, duration: .8, ease: 'expo.out', stagger: .09 }),
-  });
   ScrollTrigger.create({
-    trigger: '.klein__liste', start: 'top 90%', once: true,
-    onEnter: () => gsap.from('.klein__liste li', { y: -40, rotation: () => gsap.utils.random(-8, 8), autoAlpha: 0, duration: .7, ease: 'bounce.out', stagger: .07 }),
+    trigger: liste, start: 'top 60%', end: 'bottom 60%', scrub: 1,
+    onUpdate: (s) => {
+      weg.style.setProperty('--fort', s.progress.toFixed(4));
+      markiere(Math.min(stationen.length - 1, Math.floor(s.progress * stationen.length)));
+    },
   });
-  gsap.from('.paket__marke', { scale: 0, rotation: -12, duration: .6, ease: 'back.out(3)', scrollTrigger: { trigger: '.paket--haupt', start: 'top 80%', once: true } });
 })();

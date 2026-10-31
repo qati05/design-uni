@@ -1,6 +1,6 @@
 # Preise · Medaur
 
-Entwurf, Stand 28. Oktober 2026. Alle Beträge in CHF. [Lücke: Mehrwertsteuer: Sind die Preise Endpreise ohne MWST? Gründer prüfen]
+Entwurf, Stand 28. Oktober 2026. Alle Beträge in CHF. Endpreise in CHF. Medaur ist nicht mehrwertsteuerpflichtig, darum kommt keine Mehrwertsteuer dazu.
 
 ## Der Weg (Business)
 

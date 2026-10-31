@@ -68,13 +68,16 @@ function telPruefen(href) {
   return '';
 }
 
+// Zuerst exakte Treffer über alle Arten, dann Teiltreffer. Sonst gewinnt bei «Start» der Link
+// «Startseite» vor der Auswahl «Start», nur weil Links vor Auswahlfeldern gesucht werden.
 async function kandidat(p, name) {
-  const kand = [
-    p.getByRole('button', { name }), p.getByRole('link', { name }),
-    p.getByRole('radio', { name }), p.getByRole('checkbox', { name }),
-    p.getByRole('option', { name }), p.getByLabel(name, { exact: false }),
-    p.getByText(name, { exact: false }),
+  const arten = (exact) => [
+    p.getByRole('button', { name, exact }), p.getByRole('link', { name, exact }),
+    p.getByRole('radio', { name, exact }), p.getByRole('checkbox', { name, exact }),
+    p.getByRole('option', { name, exact }), p.getByLabel(name, { exact }),
+    p.getByText(name, { exact }),
   ];
+  const kand = [...arten(true), ...arten(false)];
   for (const k of kand) {
     const v = k.filter({ visible: true });
     const n = await v.count();
@@ -141,7 +144,7 @@ async function lauf(startUrl) {
         await f.selectOption({ label: a.waehle[1] }).catch(() => f.selectOption(a.waehle[1]));
         log.push(`gewählt: ${a.waehle[0]}`);
       } else if (a.scroll) {
-        await p.mouse.wheel(0, a.scroll); await p.waitForTimeout(400);
+        await p.mouse.wheel(0, a.scroll); await p.waitForTimeout(1200); // Zeit für Einblendungen wie bei einem Menschen
         log.push(`gescrollt ${a.scroll}`);
       } else if (a.zurueck) {
         await p.goBack(); await p.waitForTimeout(500);
