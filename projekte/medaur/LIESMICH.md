@@ -14,11 +14,16 @@ Nichts ist veröffentlicht oder an Dritte gegangen. Das Artifact ist privat.
 | P4 Bildtest, Opus / Sonnet | 6,67 / 8,33 | 7,33 / 7,67 | Abstand ≤ 1,5 |
 | P4 «Agentur» | 5 von 6 | 6 von 6 | ≥ 4 von 6 |
 | P4 Fünf-Sekunden-Test | 3 von 3 | nicht wiederholt | 3 von 3 |
-| P7 erreicht | 2 von 6 | siehe unten | 6 von 6 |
-| P7 «anfragen», Mittel | 5,0 | siehe unten | ≥ 8,0 |
-| P7 «Vertrauen», Mittel | 5,2 | siehe unten | ≥ 7,0 |
+| P7 erreicht | 2 von 6 | 6 von 6 | 6 von 6 |
+| P7 «anfragen», Mittel | 5,0 | 7,2 | ≥ 8,0 |
+| P7 «Vertrauen», Mittel | 5,2 | 6,7 | ≥ 7,0 |
+| P7 Aktionen Anfrage / Anruf / Jahreskosten | 8 ohne Ziel / 5–7 / 10–17 | 5 / 1 / 4–5 | ≤ 8 / ≤ 2 / ≤ 3 |
 | P6 maschinell | 4 Fehler | 0 Fehler | 0 |
 | Lighthouse mobil, Median aus 5 | 97 / 100 / LCP 2,6 s | 98 / 100 / LCP 2,5 s | ≥ 90 |
+
+P7 nachher: letzter Lauf je Aufgabe und Modell. Anruf aus Runde 2, Anfrage und Jahreskosten aus Runde 3.
+Nicht erreicht sind die Schwellen für «anfragen» und «Vertrauen» sowie drei Aktionen für die Jahreskosten.
+Die Summe steht zwar schon im ersten Bildschirm, die Agenten scrollten aber zur Bestätigung weiter.
 
 Der Bildtest hat sich in der Note nicht bewegt. Unterschiede unter 0,5 Punkten sind laut Skill Streuung.
 Bewegt haben sich der Anteil «Agentur» und der Abstand zwischen den Modellen, der vorher ein Befund war.
@@ -70,6 +75,14 @@ Bewegt haben sich der Anteil «Agentur» und der Abstand zwischen den Modellen, 
 - `data-zaehl` und `data-ort` an allen Kontakt-Links und am Formular, für eine spätere Zählung ohne Cookies.
 - Toter Verweis auf `index.md` entfernt.
 - Englische Seite gleich behandelt.
+
+## Was die Agenten am Schluss noch nennen
+
+- **Kein echtes Absenden:** «Rückruf anfordern» öffnet die SMS-App, man muss dort selbst senden. Das löst erst ein Eingang.
+- **Keine Belege:** keine Beispiele echter Kunden. Das hält «Vertrauen» unter 7. Das ist eine Lücke des Betriebs, keine der Gestaltung.
+- **Wortmarke am Handy:** «MED / AUR» auf zwei Zeilen las zwei von sechs Agenten als Spiel statt als Firmennamen.
+- **Paket Start:** Für Einzelpersonen steht die passende Summe nur im Fliesstext; die grosse Zahl ist CHF 2’900.
+- **Preisseite oben:** «Entwurf, Stand 28. Oktober 2026» lasen drei Agenten als «Preise noch nicht fix».
 
 ## Offen, braucht Reshat
 
