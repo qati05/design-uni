@@ -72,3 +72,7 @@ Was die blinden Tests, Kunden-Agenten und Prüfrunden gelehrt haben, mit Zahlen.
 ```
 
 Eine Lektion beschreibt, was passiert ist, nicht wer es war. Keine Namen von Betrieben oder Personen, keine Kundendaten.
+
+## Testlauf Auto Speedy (31.10.2026)
+
+**L26 · Der Boden des Skills hat selbst eine Handschrift.** Nach dem Umbau, der alle genannten Bauteile des Vorgängers ersetzte, ordneten 3 von 6 Bewertern (alle Opus, keiner von Sonnet) die neue Website trotzdem dem eigenen Studio zu. Ihre Gründe waren nur noch Pflichten des Skills: Telefon im ersten Bildschirm, nüchterner Text mit Fakten statt Adjektiven, genau ein Knopf. Die Note stieg dabei auf 8,00 (6 von 6 «Agentur»). → Geschwister-Befunde nach Ursache trennen: Bauteil der Gestaltung (ersetzen) oder Boden des Skills (behalten, im Bericht nennen). Ein Nachbarort im Satz macht die Zuordnung zusätzlich wahrscheinlicher.

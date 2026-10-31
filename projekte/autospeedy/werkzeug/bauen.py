@@ -22,8 +22,17 @@ def kopf(aktiv):
   <a class="kopf__name" href="index.html">Auto Speedy AG</a>
   <nav class="kopf__nav" aria-label="Seiten">{links}</nav>
   <details class="kopf__menue"><summary>Menü</summary><nav aria-label="Seiten (Handy)">{links}</nav></details>
-  <a class="kopf__tel" href="{TEL_H}" data-zaehl="anruf" data-ort="kopf">{TEL.replace(" ", "&nbsp;")}</a>
+  <a class="kopf__tel" href="{TEL_H}" data-zaehl="anruf" data-ort="kopf"><small>Telefon</small>{TEL.replace(" ", "&nbsp;")}</a>
 </div></header>'''
+
+def kopf_blaupause():
+    links = ''.join(f'<a href="{h}">{t}</a>' for h, t in NAV)
+    return f'''<a class="skip" href="#inhalt">Zum Inhalt</a>
+<header class="bp-kopf rahmen">
+  <a class="kopf__name" href="index.html">Auto Speedy AG</a>
+  <nav class="kopf__nav" aria-label="Seiten">{links}</nav>
+  <details class="kopf__menue"><summary>Menü</summary><nav aria-label="Seiten (Handy)">{links}</nav></details>
+</header>'''
 
 FUSS = f'''<footer class="fuss"><div class="rahmen">
   <dl class="schriftfeld">
@@ -35,7 +44,7 @@ FUSS = f'''<footer class="fuss"><div class="rahmen">
   <p class="fuss__unten"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a><span>Vorschau, nicht veröffentlicht. Fotos: Auto Speedy AG.</span></p>
 </div></footer>'''
 
-def seite(datei, titel, beschreibung, inhalt, aktiv=''):
+def seite(datei, titel, beschreibung, inhalt, aktiv='', start=False):
     doc = f'''<!doctype html>
 <html lang="de-CH">
 <head>
@@ -48,8 +57,8 @@ def seite(datei, titel, beschreibung, inhalt, aktiv=''):
 <link rel="stylesheet" href="stil.css">
 <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('bewegt');</script>
 </head>
-<body>
-{kopf(aktiv)}
+<body{' class="start"' if start else ''}>
+{'' if start else kopf(aktiv)}
 <main id="inhalt">
 {inhalt}
 </main>
@@ -110,14 +119,17 @@ def stellen_auswahl():
 def formular(ort, mit_stellen=True):
     return f'''<form class="formular" id="melden" data-ziel="" data-mail="{MAIL}" data-zaehl="anfrage" data-ort="{ort}" novalidate>
   {stellen_auswahl() if mit_stellen else ''}
+  <p class="formular__fotos">Fotos: Nach dem Tippen auf «Schaden melden» öffnet sich Ihre Mail mit allen Angaben. Dort hängen Sie zwei Fotos an.</p>
   <div class="feld"><label for="{ort}-name">Name *</label><input id="{ort}-name" name="name" autocomplete="name" required><p class="fehler" id="{ort}-name-f">Bitte Ihren Namen eintragen.</p></div>
   <div class="feld"><label for="{ort}-tel">Telefon *</label><input id="{ort}-tel" name="telefon" type="tel" inputmode="tel" autocomplete="tel" required><p class="fehler" id="{ort}-tel-f">Bitte eine Telefonnummer eintragen, zum Beispiel 079 123 45 67.</p></div>
   <div class="feld"><label for="{ort}-auto">Marke, Modell oder Kennzeichen (optional)</label><input id="{ort}-auto" name="auto" autocomplete="off"></div>
   <div class="feld"><label for="{ort}-text">Was ist passiert? (optional)</label><textarea id="{ort}-text" name="text"></textarea></div>
   <div><button class="knopf" type="submit">Schaden melden</button></div>
-  <p class="formular__hinweis">Unverbindlich. Ihre Angaben nutzen wir nur für diese Meldung. Verantwortlich: Auto Speedy AG, Altstätten (<a href="datenschutz.html">Datenschutz</a>). Fotos hängen Sie in der Mail an, die sich nach dem Tippen öffnet.</p>
+  <p class="formular__hinweis">Unverbindlich. Wir melden uns zu unseren Öffnungszeiten, Mo–Fr. Ihre Angaben nutzen wir nur für diese Meldung. Verantwortlich: Auto Speedy AG, Altstätten (<a href="datenschutz.html">Datenschutz</a>).</p>
   <div class="meldung" role="status" aria-live="polite"></div>
 </form>'''
+
+ZEITEN = '<p class="notiz">Mo–Do 07.30–17.30, Fr bis 17.15, über Mittag 12.00–13.15 zu</p>'
 
 ABLAUF = f'''<ol class="ablauf">
   <li><h3>Melden</h3><p>Rufen Sie an ({tel("ablauf")}) oder schicken Sie zwei Fotos: eines vom ganzen Auto, eines von der Stelle.</p></li>
@@ -141,18 +153,26 @@ def band(name, alt, unterschrift):
 # ---------- Startseite ----------
 seite('index.html', 'Carrosserie und Lack in Altstätten · Auto Speedy AG',
       'Unfall, Hagel, Lackschaden: Stelle antippen, Fotos schicken. Carrosserie und Spritzwerk in Altstätten SG, Tesla Approved Body Shop, Abwicklung mit der Versicherung.',
-f'''<section class="skizze-buehne" aria-labelledby="titel"><div class="rahmen skizze-raster">
-  <div class="skizze-text">
+f'''<div class="blaupause">
+{kopf_blaupause()}
+<section class="bp-raster rahmen" aria-labelledby="titel">
+  <div class="bp-text">
     <h1 id="titel">Wo hat es Ihr Auto erwischt?</h1>
-    <p class="lead">Carrosserie und Spritzwerk in Altstätten SG. Tippen Sie die Stelle an und schicken Sie uns zwei Fotos. Mit Ihrer Versicherung rechnen wir direkt ab.</p>
-    <div class="aktionen"><a class="knopf" href="#melden" data-zaehl="anfrage-start" data-ort="hero">Schaden melden</a><p>{tel("hero", gross=True)}<span class="vh"> </span></p></div>
-    <p class="notiz">Mo–Do 07.30–17.30, Fr bis 17.15, über Mittag 12.00–13.15 zu</p>
+    <p class="lead">Stelle antippen, zwei Fotos schicken. Mit Ihrer Versicherung rechnen wir direkt ab.</p>
+    <p><a class="knopf" href="#melden" data-zaehl="anfrage-start" data-ort="hero">Schaden melden</a></p>
   </div>
   <div class="skizze" data-skizze>{skizze()}</div>
-</div></section>
+  <dl class="schriftfeld bp-schriftfeld">
+    <div><dt>Betrieb</dt><dd>Auto Speedy AG<br>Carrosserie und Spritzwerk</dd></div>
+    <div><dt>Anschrift</dt><dd>Alte Landstrasse 63, 9450 Altstätten<br><a href="{ROUTE}" rel="noopener" data-zaehl="route" data-ort="hero">Route öffnen</a></dd></div>
+    <div><dt>Offen</dt><dd>Mo–Do 07.30–17.30<br>Fr bis 17.15, Mittag zu</dd></div>
+    <div class="bp-tel"><dt>Telefon</dt><dd>{tel("hero")}</dd></div>
+  </dl>
+</section>
+</div>
 
 <section class="abschnitt abschnitt--blech" aria-labelledby="melden-titel"><div class="rahmen zwei">
-  <div><div class="abschnitt__kopf"><h2 id="melden-titel">Schaden melden</h2><p class="lead">Die Stellen, die Sie oben antippen, sind hier schon ausgewählt.</p></div>
+  <div><div class="abschnitt__kopf"><h2 id="melden-titel">Schaden melden</h2><p class="lead">Die Stellen, die Sie oben antippen, sind hier schon ausgewählt. Nach dem Tippen auf «Schaden melden» öffnet sich Ihre Mail: Dort hängen Sie zwei Fotos an.</p></div>
   {formular("start")}</div>
   {foto("dellen-haende", "Ein Mitarbeiter drückt mit Klebelaschen eine Delle aus einem weissen Auto", "Dellen drücken mit Klebelaschen, in der Halle an der Alten Landstrasse 63.")}
 </div></section>
@@ -172,15 +192,15 @@ f'''<section class="skizze-buehne" aria-labelledby="titel"><div class="rahmen sk
 <section class="abschnitt" aria-labelledby="beleg-titel"><div class="rahmen zwei">
   <div><div class="abschnitt__kopf"><h2 id="beleg-titel">Was belegt ist</h2></div>{BELEGE}</div>
   <div class="abschnitt__kopf"><h3>Occasionen</h3><p>Auf dem Areal stehen laufend Occasionen. Alle sind auf AutoScout24 hinterlegt.</p><p><a class="knopf knopf--leise" href="occasionen.html">Zu den Occasionen</a></p></div>
-</div></section>''')
+</div></section>''', start=True)
 
 # ---------- Carrosserie ----------
 seite('carrosserie.html', 'Carrosserie, Hagel und Unfall · Auto Speedy AG Altstätten',
       'Unfallreparaturen vom Blechschaden bis zum Chassisschaden, Hagel, Dellen, Scheiben, Rost und Schweissarbeiten. Mit Originalteilen und Abwicklung mit der Versicherung.',
 f'''<section class="seitenkopf seitenkopf--band"><div class="rahmen">
   <div class="skizze-text breit"><h1>Vom Kratzer bis zum Chassisschaden.</h1>
-  <p class="lead">Wir reparieren nach Herstellervorgaben und verwenden ausschliesslich Original-Ersatzteile. Die Schadensabwicklung mit der Versicherung erledigen wir für Sie.</p>
-  <div class="aktionen"><a class="knopf" href="index.html#melden" data-zaehl="anfrage-start" data-ort="carrosserie">Schaden melden</a>{tel("carrosserie", gross=True)}</div></div>
+  <p class="lead">Unfall, Hagel, Dellen, Scheiben, Rost. Wir reparieren nach Herstellervorgaben und verwenden ausschliesslich Original-Ersatzteile. Die Schadensabwicklung mit der Versicherung erledigen wir für Sie.</p>
+  <div class="aktionen"><a class="knopf" href="index.html#melden" data-zaehl="anfrage-start" data-ort="carrosserie">Schaden melden</a>{tel("carrosserie", gross=True)}</div>{ZEITEN}</div>
 </div>
 {band("dellen-haende", "Ein Mitarbeiter drückt mit Klebelaschen eine Delle aus einem weissen Auto", "Dellen drücken mit Klebelaschen.")}
 </section>
@@ -196,7 +216,7 @@ seite('lack.html', 'Spritzwerk, Felgen und Folierung · Auto Speedy AG Altstätt
 f'''<section class="seitenkopf"><div class="rahmen zwei">
   <div class="skizze-text"><h1>Lack aus eigenen Kabinen.</h1>
   <p class="lead">Für die Lackierung haben wir neue, grössere Lackierkabinen. Kleine Lackschäden setzen wir mit kleinstmöglichem Aufwand instand.</p>
-  <div class="aktionen"><a class="knopf" href="index.html#melden" data-zaehl="anfrage-start" data-ort="lack">Schaden melden</a>{tel("lack", gross=True)}</div></div>
+  <div class="aktionen"><a class="knopf" href="index.html#melden" data-zaehl="anfrage-start" data-ort="lack">Schaden melden</a>{tel("lack", gross=True)}</div>{ZEITEN}</div>
   {foto("lack-911", "Roter Porsche 911 auf einer Hebebühne in einer hellen Lackierkabine", "Porsche 911 in der Lackierkabine.", "eager")}
 </div></section>
 <section class="abschnitt abschnitt--blech"><div class="rahmen zwei">
@@ -219,7 +239,7 @@ seite('occasionen.html', 'Occasionen in Altstätten · Auto Speedy AG',
 f'''<section class="seitenkopf"><div class="rahmen zwei">
   <div class="skizze-text"><h1>Occasionen auf dem Areal.</h1>
   <p class="lead">Unsere Occasionen sind alle auf AutoScout24 hinterlegt. Wir kaufen auch Ihr Auto an, beraten markenunabhängig und vermitteln Leasing.</p>
-  <div class="aktionen"><a class="knopf" href="{AUTOSCOUT}" rel="noopener" data-zaehl="autoscout" data-ort="occasionen">Occasionen auf AutoScout24</a>{tel("occasionen", gross=True)}</div></div>
+  <div class="aktionen"><a class="knopf" href="{AUTOSCOUT}" rel="noopener" data-zaehl="autoscout" data-ort="occasionen">Occasionen auf AutoScout24</a>{tel("occasionen", gross=True)}</div>{ZEITEN}</div>
   {foto("occasion", "Grüner VW Käfer vor den Hallen, im Hintergrund Berge", "Auf dem Areal an der Alten Landstrasse.", "eager")}
 </div></section>
 <section class="abschnitt abschnitt--blech"><div class="rahmen"><ul class="liste"><li>Auto Ankauf</li><li>Verkauf von Occasionen</li><li>Leasing</li><li>Technische Beratung</li></ul></div></section>''', 'occasionen.html')

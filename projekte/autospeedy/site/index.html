@@ -10,21 +10,21 @@
 <link rel="stylesheet" href="stil.css">
 <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('bewegt');</script>
 </head>
-<body>
+<body class="start">
+
+<main id="inhalt">
+<div class="blaupause">
 <a class="skip" href="#inhalt">Zum Inhalt</a>
-<header class="kopf"><div class="rahmen">
+<header class="bp-kopf rahmen">
   <a class="kopf__name" href="index.html">Auto Speedy AG</a>
   <nav class="kopf__nav" aria-label="Seiten"><a href="carrosserie.html">Carrosserie</a><a href="lack.html">Lack</a><a href="occasionen.html">Occasionen</a><a href="betrieb.html">Betrieb</a><a href="kontakt.html">Kontakt</a></nav>
   <details class="kopf__menue"><summary>Menü</summary><nav aria-label="Seiten (Handy)"><a href="carrosserie.html">Carrosserie</a><a href="lack.html">Lack</a><a href="occasionen.html">Occasionen</a><a href="betrieb.html">Betrieb</a><a href="kontakt.html">Kontakt</a></nav></details>
-  <a class="kopf__tel" href="tel:+41717558861" data-zaehl="anruf" data-ort="kopf">071&nbsp;755&nbsp;88&nbsp;61</a>
-</div></header>
-<main id="inhalt">
-<section class="skizze-buehne" aria-labelledby="titel"><div class="rahmen skizze-raster">
-  <div class="skizze-text">
+</header>
+<section class="bp-raster rahmen" aria-labelledby="titel">
+  <div class="bp-text">
     <h1 id="titel">Wo hat es Ihr Auto erwischt?</h1>
-    <p class="lead">Carrosserie und Spritzwerk in Altstätten SG. Tippen Sie die Stelle an und schicken Sie uns zwei Fotos. Mit Ihrer Versicherung rechnen wir direkt ab.</p>
-    <div class="aktionen"><a class="knopf" href="#melden" data-zaehl="anfrage-start" data-ort="hero">Schaden melden</a><p><a class="tel-gross" href="tel:+41717558861" data-zaehl="anruf" data-ort="hero">071&nbsp;755&nbsp;88&nbsp;61</a><span class="vh"> </span></p></div>
-    <p class="notiz">Mo–Do 07.30–17.30, Fr bis 17.15, über Mittag 12.00–13.15 zu</p>
+    <p class="lead">Stelle antippen, zwei Fotos schicken. Mit Ihrer Versicherung rechnen wir direkt ab.</p>
+    <p><a class="knopf" href="#melden" data-zaehl="anfrage-start" data-ort="hero">Schaden melden</a></p>
   </div>
   <div class="skizze" data-skizze><svg viewBox="0 0 760 800" role="img" aria-label="Auto von oben als Strichzeichnung. Tippen Sie die beschädigte Stelle an.">
   <g class="strich">
@@ -51,18 +51,26 @@
   <g><path class="zone" data-stelle="front" d="M290 70 Q380 50 470 70 L490 112 L270 112 Z"><title>Stossstange vorne</title></path><path class="zone" data-stelle="haube" d="M270 112 L490 112 L506 252 L254 252 Z"><title>Motorhaube</title></path><path class="zone" data-stelle="scheibe" d="M262 262 Q380 240 498 262 L478 330 Q380 318 282 330 Z"><title>Frontscheibe</title></path><path class="zone" data-stelle="dach" d="M282 330 Q380 318 478 330 L478 520 Q380 530 282 520 Z"><title>Dach</title></path><path class="zone" data-stelle="heck" d="M266 582 Q380 600 494 582 L506 698 L254 698 Z"><title>Heck</title></path><path class="zone" data-stelle="hinten" d="M258 702 L502 702 L498 730 Q380 765 262 730 Z"><title>Stossstange hinten</title></path><path class="zone" data-stelle="links" d="M246 262 L282 262 L282 582 L246 582 Z"><title>Seite links</title></path><path class="zone" data-stelle="rechts" d="M478 262 L514 262 L514 582 L478 582 Z"><title>Seite rechts</title></path><path class="zone" data-stelle="felgen" d="M232 160 h18 v84 h-18 Z M510 160 h18 v84 h-18 Z M232 600 h18 v84 h-18 Z M510 600 h18 v84 h-18 Z"><title>Felgen</title></path></g>
   <g aria-hidden="true"><circle class="marke" data-marke="front" cx="380" cy="88" r="40" transform="rotate(-90 380 88)"/><circle class="marke" data-marke="haube" cx="380" cy="185" r="40" transform="rotate(-90 380 185)"/><circle class="marke" data-marke="scheibe" cx="380" cy="292" r="40" transform="rotate(-90 380 292)"/><circle class="marke" data-marke="dach" cx="380" cy="425" r="40" transform="rotate(-90 380 425)"/><circle class="marke" data-marke="heck" cx="380" cy="640" r="40" transform="rotate(-90 380 640)"/><circle class="marke" data-marke="hinten" cx="380" cy="726" r="40" transform="rotate(-90 380 726)"/><circle class="marke" data-marke="links" cx="262" cy="420" r="30" transform="rotate(-90 262 420)"/><circle class="marke" data-marke="rechts" cx="498" cy="420" r="30" transform="rotate(-90 498 420)"/><circle class="marke" data-marke="felgen" cx="519" cy="642" r="30" transform="rotate(-90 519 642)"/></g>
 </svg></div>
-</div></section>
+  <dl class="schriftfeld bp-schriftfeld">
+    <div><dt>Betrieb</dt><dd>Auto Speedy AG<br>Carrosserie und Spritzwerk</dd></div>
+    <div><dt>Anschrift</dt><dd>Alte Landstrasse 63, 9450 Altstätten<br><a href="https://www.google.com/maps/search/?api=1&query=Auto%20Speedy%20AG%2C%20Alte%20Landstrasse%2063%2C%209450%20Altst%C3%A4tten" rel="noopener" data-zaehl="route" data-ort="hero">Route öffnen</a></dd></div>
+    <div><dt>Offen</dt><dd>Mo–Do 07.30–17.30<br>Fr bis 17.15, Mittag zu</dd></div>
+    <div class="bp-tel"><dt>Telefon</dt><dd><a class="" href="tel:+41717558861" data-zaehl="anruf" data-ort="hero">071&nbsp;755&nbsp;88&nbsp;61</a></dd></div>
+  </dl>
+</section>
+</div>
 
 <section class="abschnitt abschnitt--blech" aria-labelledby="melden-titel"><div class="rahmen zwei">
-  <div><div class="abschnitt__kopf"><h2 id="melden-titel">Schaden melden</h2><p class="lead">Die Stellen, die Sie oben antippen, sind hier schon ausgewählt.</p></div>
+  <div><div class="abschnitt__kopf"><h2 id="melden-titel">Schaden melden</h2><p class="lead">Die Stellen, die Sie oben antippen, sind hier schon ausgewählt. Nach dem Tippen auf «Schaden melden» öffnet sich Ihre Mail: Dort hängen Sie zwei Fotos an.</p></div>
   <form class="formular" id="melden" data-ziel="" data-mail="info@autospeedy.ch" data-zaehl="anfrage" data-ort="start" novalidate>
   <fieldset class="stellen"><legend>Wo ist der Schaden? Antippen, mehrere möglich.</legend><label><input type="checkbox" name="stelle" value="Stossstange vorne" data-stelle="front"><span>Stossstange vorne</span></label><label><input type="checkbox" name="stelle" value="Motorhaube" data-stelle="haube"><span>Motorhaube</span></label><label><input type="checkbox" name="stelle" value="Frontscheibe" data-stelle="scheibe"><span>Frontscheibe</span></label><label><input type="checkbox" name="stelle" value="Dach" data-stelle="dach"><span>Dach</span></label><label><input type="checkbox" name="stelle" value="Heck" data-stelle="heck"><span>Heck</span></label><label><input type="checkbox" name="stelle" value="Stossstange hinten" data-stelle="hinten"><span>Stossstange hinten</span></label><label><input type="checkbox" name="stelle" value="Seite links" data-stelle="links"><span>Seite links</span></label><label><input type="checkbox" name="stelle" value="Seite rechts" data-stelle="rechts"><span>Seite rechts</span></label><label><input type="checkbox" name="stelle" value="Felgen" data-stelle="felgen"><span>Felgen</span></label></fieldset>
+  <p class="formular__fotos">Fotos: Nach dem Tippen auf «Schaden melden» öffnet sich Ihre Mail mit allen Angaben. Dort hängen Sie zwei Fotos an.</p>
   <div class="feld"><label for="start-name">Name *</label><input id="start-name" name="name" autocomplete="name" required><p class="fehler" id="start-name-f">Bitte Ihren Namen eintragen.</p></div>
   <div class="feld"><label for="start-tel">Telefon *</label><input id="start-tel" name="telefon" type="tel" inputmode="tel" autocomplete="tel" required><p class="fehler" id="start-tel-f">Bitte eine Telefonnummer eintragen, zum Beispiel 079 123 45 67.</p></div>
   <div class="feld"><label for="start-auto">Marke, Modell oder Kennzeichen (optional)</label><input id="start-auto" name="auto" autocomplete="off"></div>
   <div class="feld"><label for="start-text">Was ist passiert? (optional)</label><textarea id="start-text" name="text"></textarea></div>
   <div><button class="knopf" type="submit">Schaden melden</button></div>
-  <p class="formular__hinweis">Unverbindlich. Ihre Angaben nutzen wir nur für diese Meldung. Verantwortlich: Auto Speedy AG, Altstätten (<a href="datenschutz.html">Datenschutz</a>). Fotos hängen Sie in der Mail an, die sich nach dem Tippen öffnet.</p>
+  <p class="formular__hinweis">Unverbindlich. Wir melden uns zu unseren Öffnungszeiten, Mo–Fr. Ihre Angaben nutzen wir nur für diese Meldung. Verantwortlich: Auto Speedy AG, Altstätten (<a href="datenschutz.html">Datenschutz</a>).</p>
   <div class="meldung" role="status" aria-live="polite"></div>
 </form></div>
   <figure class="beleg-foto"><img src="bilder/dellen-haende-800.webp" srcset="bilder/dellen-haende-800.webp 800w, bilder/dellen-haende-1600.webp 1600w" sizes="340px" width="800" height="1000" alt="Ein Mitarbeiter drückt mit Klebelaschen eine Delle aus einem weissen Auto" loading="lazy" decoding="async"><figcaption>Dellen drücken mit Klebelaschen, in der Halle an der Alten Landstrasse 63.</figcaption></figure>
