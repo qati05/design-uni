@@ -63,3 +63,33 @@ Tauschtest mit «Sportgarage Kuratli AG»: scheitert am Tesla-Status und an «ei
 | Erreichbarkeit | Mo–Fr laut Zeiten; Samstag, Notfall, Abschleppen `[Lücke]` |
 | Belege | Tesla Approved Body Shop, Ayvens, Land Rover, AMAG; Google 4,8 bei 33 `[Fakt, mit Vorbehalt]` |
 | Pflege | Occasionen pflegt der Betrieb auf AutoScout24 `[Fakt]`; die Website verlinkt nur |
+
+## P1 · Ergebnis (blind, 6 Bewerter: 3 Opus, 3 Sonnet)
+
+Satz: drei Tafeln, Medaur als frühere eigene Website, qwstion.com und furrer-itx.ch.
+
+| Tafel | Note Mittel | Opus | Sonnet | Betrieb erkannt | Idee nacherzählt |
+|---|---|---|---|---|---|
+| C Schadenskizze | **8,33** | 8 / 8 / 8 | 9 / 8 / 9 | 6 von 6 | 6 von 6 |
+| A Stationen der Halle | 7,33 | 7 / 7 / 7 | 8 / 8 / 7 | 6 von 6 | 6 von 6 |
+| B Lacknebel | 6,83 | 7 / 6 / 7 | 7 / 7 / 7 | 6 von 6 | 6 von 6, «Titel ist eine Floskel» |
+| Medaur (eigene) | 7,17 | 6 / 7 / 6 | 8 / 8 / 8 | – | – |
+
+**Gewählt: C.** Höchste Note, Idee von allen nacherzählt («man tippt die Schadenstelle an»).
+**Geschwister:** 3 von 6 (alle Opus) legten Medaur zu den Tafeln, begründet mit zwei Bauteilen: Kopfzeile «Betrieb · Branche · Ort» und Faktenzeile klein neben dem Knopf. Beide werden im Bau ersetzt. Medaur sitzt zudem im Nachbarort, was zwei Bewerter als Grund nannten.
+**Freigabe durch den Auftraggeber:** im Testlauf übersprungen.
+
+## Die eine grosse Entscheidung
+
+**Die Website ist die Schadenskizze.** Ein Auto von oben als Strichzeichnung. Wer einen Schaden hat, tippt die Stelle an; sie wird rot markiert und geht mit der Meldung mit. Die Fakten stehen als Beschriftungen an der Zeichnung.
+
+Prüfungen: nacherzählbar ✓ (6 von 6) · Tauschtest: Die Skizze allein könnte jede Carrosserie nutzen; sie trägt aber die Fakten dieses Betriebs (Tesla Approved, Originalteile, Abwicklung mit der Versicherung, Schadenmeldung per Mail) und dessen Fotos ✓ mit Vorbehalt · verdrängt keine Fakten ✓ · hält ohne Fototag ✓ (Zeichnung) · beruht auf Belegen ✓.
+
+## Ableitungskette
+- **Schrift:** Saira Condensed für Titel und Beschriftungen, weil Beschriftungen an einer Skizze schmal und kräftig sein müssen, wie auf einem Schadenprotokoll; Barlow für Text, weil sie aus der Welt der Strassen- und Fahrzeugschilder kommt und gut liest.
+- **Grund:** Füllergrau #CDD3D6, weil die Skizze auf dem Grau liegt, das ein Teil vor dem Lack hat (Grundierung).
+- **Raster:** Millimeterraster 24 px, weil Schadenskizzen auf Rasterpapier entstehen; Spalten folgen dem Raster.
+- **Titelmuster:** eine Frage an den Kunden, weil die Skizze eine Antwort verlangt («Wo hat es Ihr Auto erwischt?»).
+- **Knopf:** rote Pille, weil der Marker die einzige Farbe auf der Skizze ist und die Form der Klebelasche beim Ausbeulen folgt.
+- **Bildschnitt:** Fotos als angeheftete Belege im Hochformat, weil zu einer Schadenmeldung Fotos gehören.
+- **Bewegung:** eine: Der Markierungskreis zeichnet sich in 300 ms, wenn man eine Stelle antippt. Unter Reduced Motion erscheint er ohne Weg.

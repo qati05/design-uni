@@ -1,0 +1,187 @@
+/* Auto Speedy · Die Schadenskizze. Tokens: ../tokens.json */
+@font-face { font-family: "Saira Condensed"; src: url(schriften/saira-condensed-latin-800-normal.woff2) format("woff2"); font-weight: 800; font-display: swap; }
+@font-face { font-family: "Saira Condensed"; src: url(schriften/saira-condensed-latin-600-normal.woff2) format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Barlow"; src: url(schriften/barlow-latin-400-normal.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Barlow"; src: url(schriften/barlow-latin-600-normal.woff2) format("woff2"); font-weight: 600; font-display: swap; }
+
+[hidden] { display: none !important; }
+:root {
+  --fueller: #CDD3D6; --blech: #EEF1F1; --tusche: #0E1620; --tusche-weich: #3A4652; --marker: #A51C16; --raster: #0E162017;
+  --beschriftung: "Saira Condensed", "Arial Narrow", sans-serif; --text: "Barlow", Arial, sans-serif;
+  --r: 24px; --rand: max(16px, 4vw); --breit: 1320px;
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--fueller); color: var(--tusche); font: 400 1.125rem/1.5 var(--text);
+  background-image: linear-gradient(var(--raster) 1px, transparent 1px), linear-gradient(90deg, var(--raster) 1px, transparent 1px);
+  background-size: var(--r) var(--r); }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration-thickness: 2px; text-underline-offset: .18em; }
+h1, h2, h3 { font-family: var(--beschriftung); font-weight: 800; line-height: .92; letter-spacing: -.01em; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(3rem, 7.2vw, 6.6rem); }
+h2 { font-size: clamp(2.2rem, 4.6vw, 4rem); }
+h3 { font-size: 1.75rem; line-height: 1; }
+p { margin: 0; text-wrap: pretty; }
+:focus-visible { outline: 3px solid var(--tusche); outline-offset: 3px; }
+.vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: 12px; top: -80px; z-index: 50; background: var(--tusche); color: #fff; padding: 12px 16px; }
+.skip:focus { top: 12px; }
+.rahmen { max-width: var(--breit); margin-inline: auto; padding-inline: var(--rand); }
+
+/* Beschriftung: Text an einer Führungslinie, wie auf einer Skizze */
+.beschriftung { font: 600 1.125rem/1.2 var(--beschriftung); letter-spacing: .01em; }
+.notiz { font: 600 1rem/1.3 var(--beschriftung); color: var(--tusche-weich); }
+
+/* Kopf: Name links, Telefon rechts, keine Ortszeile */
+.kopf { background: var(--blech); border-bottom: 2px solid var(--tusche); }
+.kopf .rahmen { display: flex; align-items: center; gap: 1.5rem; min-height: 72px; }
+.kopf__name { font: 800 1.75rem/1 var(--beschriftung); text-decoration: none; letter-spacing: -.01em; padding-block: 10px; }
+.kopf__nav { display: flex; gap: 1.4rem; margin-left: auto; font: 600 1.25rem/1 var(--beschriftung); }
+.kopf__nav a { text-decoration: none; padding: 12px 0; }
+.kopf__nav a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--marker); text-decoration-thickness: 3px; }
+.kopf__tel { font: 800 1.5rem/1 var(--beschriftung); text-decoration: none; white-space: nowrap; padding: 12px 0; }
+.kopf__menue { display: none; }
+
+/* Knöpfe: rote Pille wie eine Klebelasche; die zweite Aktion ist ein Wort mit Linie */
+.knopf { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 56px; padding: 0 1.75rem; border: 0; border-radius: 999px;
+  background: var(--marker); color: #fff; font: 600 1.375rem/1 var(--beschriftung); letter-spacing: .02em; text-decoration: none; cursor: pointer; transition: background-color .15s; }
+.knopf:hover { background: #7E140F; }
+.knopf--leise { background: transparent; color: var(--tusche); box-shadow: inset 0 0 0 2px var(--tusche); }
+.knopf--leise:hover { background: var(--tusche); color: #fff; }
+.tel-gross { font: 800 clamp(2rem, 3.4vw, 2.75rem)/1 var(--beschriftung); text-decoration: none; white-space: nowrap; display: inline-block; padding-block: 6px; }
+.tel-gross span { display: block; font: 600 1rem/1.2 var(--beschriftung); color: var(--tusche-weich); margin-top: 4px; }
+
+/* Skizze */
+.skizze-buehne { padding-block: clamp(32px, 5vw, 64px) clamp(40px, 6vw, 80px); }
+.skizze-raster { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
+.skizze-text { display: grid; gap: 1.5rem; align-content: start; padding-top: clamp(0px, 2vw, 24px); }
+.skizze-text .lead { font-size: 1.25rem; max-width: 34ch; }
+.aktionen { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; }
+.skizze { position: relative; }
+.skizze svg { width: 100%; height: auto; display: block; overflow: visible; }
+.skizze .strich { fill: none; stroke: var(--tusche); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.skizze .zone { fill: transparent; cursor: pointer; }
+.skizze .zone:hover { fill: #A51C1614; }
+.skizze .marke { fill: none; stroke: var(--marker); stroke-width: 5; stroke-linecap: round; opacity: 0; }
+.skizze .marke.ist-an { opacity: 1; }
+.bewegt .skizze .marke.ist-an { animation: zeichnen .3s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes zeichnen { from { stroke-dashoffset: 260; } to { stroke-dashoffset: 0; } }
+.skizze .marke { stroke-dasharray: 260; }
+.skizze .leitung { stroke: var(--tusche); stroke-width: 1.5; fill: none; }
+.skizze text { font: 600 21px var(--beschriftung); fill: var(--tusche); }
+.skizze .richtung { font-size: 18px; fill: var(--tusche-weich); }
+.skizze .hinweis circle { fill: none; stroke: var(--marker); stroke-width: 4; }
+.skizze .hinweis path { fill: none; stroke: var(--marker); stroke-width: 2; }
+.skizze .hinweis text { fill: var(--marker); }
+.skizze.ist-benutzt .hinweis { display: none; }
+
+/* Stellen: dieselbe Auswahl als normale Felder unter der Skizze */
+.stellen { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+.stellen legend { font: 600 1.25rem/1.2 var(--beschriftung); margin-bottom: .75rem; padding: 0; }
+.stellen label { position: relative; display: inline-flex; }
+.stellen input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.stellen span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem; border-radius: 999px; background: var(--blech); box-shadow: inset 0 0 0 2px var(--tusche); font: 600 1.125rem/1 var(--beschriftung); }
+.stellen input:checked + span { background: var(--marker); color: #fff; box-shadow: none; }
+.stellen input:checked + span::before { content: "×"; margin-right: .4rem; font-size: 1.25em; }
+.stellen input:focus-visible + span { outline: 3px solid var(--tusche); outline-offset: 3px; }
+
+/* Angeheftetes Foto */
+.beleg-foto { margin: 0; background: #fff; padding: 10px 10px 12px; width: min(100%, 340px); box-shadow: 0 0 0 1px #0E162026; }
+.beleg-foto img { aspect-ratio: 4 / 5; object-fit: cover; width: 100%; }
+.beleg-foto figcaption { font: 600 .95rem/1.25 var(--beschriftung); padding-top: 8px; }
+
+/* Abschnitte */
+.abschnitt { padding-block: clamp(56px, 8vw, 112px); }
+.abschnitt--blech { background: var(--blech); }
+.abschnitt__kopf { display: grid; gap: 1rem; margin-bottom: clamp(28px, 4vw, 48px); max-width: 52rem; }
+.lead { font-size: 1.25rem; max-width: 46ch; }
+
+/* Ablauf in drei Schritten: Nummern als Markierungskreise */
+.ablauf { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 3vw, 48px); counter-reset: s; }
+.ablauf li { counter-increment: s; display: grid; gap: .6rem; align-content: start; }
+.ablauf li::before { content: counter(s); display: grid; place-items: center; width: 56px; height: 56px; border: 4px solid var(--marker); border-radius: 50%; font: 800 1.75rem/1 var(--beschriftung); color: var(--marker); }
+.ablauf p { max-width: 34ch; }
+
+/* Leistungen als beschriftete Liste */
+.liste { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(24px, 4vw, 64px); }
+.liste li { display: grid; grid-template-columns: 28px 1fr; gap: .75rem; padding: .9rem 0; border-top: 2px solid var(--tusche); font: 600 1.375rem/1.15 var(--beschriftung); }
+.liste li::before { content: ""; width: 18px; height: 18px; border: 3px solid var(--marker); border-radius: 50%; margin-top: .15rem; }
+
+.zwei { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
+.belege { display: grid; gap: 1rem; }
+.beleg-zeile { display: grid; grid-template-columns: minmax(0, 12rem) 1fr; gap: 1rem; padding: .9rem 0; border-top: 2px solid var(--tusche); }
+.beleg-zeile dt { font: 600 1.125rem/1.2 var(--beschriftung); color: var(--tusche-weich); }
+.beleg-zeile dd { margin: 0; font: 600 1.375rem/1.2 var(--beschriftung); }
+
+/* Formular */
+.formular { display: grid; gap: 1.5rem; max-width: 40rem; }
+.feld { display: grid; gap: .4rem; }
+.feld label { font: 600 1.25rem/1.2 var(--beschriftung); }
+.feld input, .feld textarea { font: inherit; color: var(--tusche); background: var(--blech); border: 0; border-bottom: 3px solid var(--tusche); border-radius: 0; padding: .7rem .8rem; min-height: 52px; width: 100%; }
+.feld textarea { min-height: 120px; resize: vertical; }
+.feld input:focus-visible, .feld textarea:focus-visible { outline: 3px solid var(--tusche); outline-offset: 2px; }
+.feld .fehler { color: var(--marker); font: 600 1.05rem/1.3 var(--beschriftung); }
+.feld .fehler:not(.ist-an) { visibility: hidden; } /* Platz bleibt reserviert: der Knopf verschiebt sich nicht */
+.feld [aria-invalid="true"] { border-bottom-color: var(--marker); background: #F7E9E8; }
+.formular__hinweis { color: var(--tusche-weich); font-size: 1rem; max-width: 52ch; }
+.meldung { padding: 1.25rem; background: var(--blech); box-shadow: inset 4px 0 0 var(--marker); display: grid; gap: .9rem; justify-items: start; }
+.meldung:empty { display: none; }
+
+/* Seitenkopf der Unterseiten */
+.seitenkopf { padding-block: clamp(40px, 6vw, 88px) clamp(32px, 4vw, 56px); }
+.seitenkopf .zwei { align-items: end; }
+
+.seitenkopf--band { padding-bottom: 0; }
+.seitenkopf--band .breit { max-width: 64rem; margin-bottom: clamp(32px, 4vw, 56px); }
+.zitat { font-size: clamp(3.2rem, 8.4vw, 8rem); }
+.band-foto { margin: 0; }
+.band-foto img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; }
+.band-foto figcaption { font: 600 1rem/1.3 var(--beschriftung); padding-block: 10px 0; color: var(--tusche-weich); }
+@media (max-width: 560px) { .band-foto img { aspect-ratio: 4 / 3; } }
+
+/* Fuss: Schriftfeld wie unten auf einem Protokoll */
+.fuss { background: var(--tusche); color: #fff; padding-block: 56px 40px; }
+.fuss a { color: #fff; }
+.schriftfeld { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 2px solid #fff; }
+.schriftfeld > div { padding: 1rem 1.1rem; border-left: 2px solid #fff; display: grid; gap: .35rem; align-content: start; }
+.schriftfeld > div:first-child { border-left: 0; }
+.schriftfeld dt { font: 600 .95rem/1.2 var(--beschriftung); color: #B9C2CB; }
+.schriftfeld dd { margin: 0; font: 600 1.25rem/1.3 var(--beschriftung); }
+.schriftfeld a { display: inline-block; padding-block: 8px; margin-block: -8px; }
+.fuss__unten { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-top: 1.25rem; font: 600 1rem/1.2 var(--beschriftung); color: #B9C2CB; }
+.fuss__unten a { padding-block: 12px; }
+
+@media (max-width: 960px) {
+  .kopf__nav { display: none; }
+  .kopf__menue { display: block; margin-left: auto; }
+  .kopf__menue summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem; border-radius: 999px; box-shadow: inset 0 0 0 2px var(--tusche); font: 600 1.25rem/1 var(--beschriftung); }
+  .kopf__menue summary::-webkit-details-marker { display: none; }
+  .kopf__menue[open] summary { background: var(--tusche); color: #fff; }
+  .kopf__menue nav { position: absolute; left: 0; right: 0; top: 72px; z-index: 40; background: var(--blech); border-bottom: 2px solid var(--tusche); padding: .5rem var(--rand) 1rem; display: grid; }
+  .kopf__menue nav a { font: 800 2rem/1 var(--beschriftung); text-decoration: none; padding: .6rem 0; border-top: 2px solid var(--tusche); }
+  .kopf__menue nav a:first-child { border-top: 0; }
+  .kopf { position: relative; }
+  .skizze-raster, .zwei { grid-template-columns: minmax(0, 1fr); }
+  /* Handy: eigener Ausschnitt, nur das Auto, gross genug zum Antippen */
+  .skizze { overflow: hidden; margin-inline: calc(-1 * var(--rand)); }
+  .skizze svg { width: 160%; margin-left: -30%; }
+  .skizze .beschriftungen { display: none; }
+  .skizze .hinweis path, .skizze .hinweis text { display: none; }
+  .ablauf, .liste { grid-template-columns: minmax(0, 1fr); }
+  .schriftfeld { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .schriftfeld > div:nth-child(3) { border-left: 0; }
+  .schriftfeld > div:nth-child(n+3) { border-top: 2px solid #fff; }
+}
+@media (max-width: 560px) {
+  .kopf .rahmen { gap: .75rem; min-height: 64px; }
+  .kopf__name { font-size: 1.4rem; }
+  .kopf__tel { font-size: 1.25rem; }
+  .kopf__menue nav { top: 64px; }
+  .schriftfeld { grid-template-columns: minmax(0, 1fr); }
+  .schriftfeld > div { border-left: 0; border-top: 2px solid #fff; }
+  .schriftfeld > div:first-child { border-top: 0; }
+  .beleg-zeile { grid-template-columns: minmax(0, 1fr); gap: .2rem; }
+  h1 { font-size: clamp(2.8rem, 13vw, 3.6rem); }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
