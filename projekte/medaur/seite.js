@@ -48,13 +48,15 @@
         wert.textContent = v || leer;
       });
     }
-    const zeigeSms = (daten) => {
+    // Am Handy öffnet der Knopf die SMS-App gleich selbst; am Computer bleibt es beim Angebot.
+    const handy = matchMedia('(pointer: coarse)').matches;
+    const zeigeSms = (daten, direkt) => {
       const nummer = form.dataset.sms;
       const text = `${meldung.dataset.smsGruss}: ${[daten.name, daten.telefon, daten.zeit].filter(Boolean).join(', ')}`;
       meldung.textContent = '';
       meldung.dataset.art = 'sms';
       const satz = document.createElement('span');
-      satz.textContent = meldung.dataset.smsText + ' ';
+      satz.textContent = (direkt ? meldung.dataset.smsOffen : meldung.dataset.smsText) + ' ';
       const sms = document.createElement('a');
       sms.className = 'knopf formular__sms';
       sms.href = `sms:${nummer}?&body=${encodeURIComponent(text)}`;
@@ -67,10 +69,11 @@
       anruf.href = `tel:${nummer}`;
       anruf.dataset.zaehl = 'anruf';
       anruf.dataset.ort = 'formular-meldung';
-      anruf.textContent = (form.querySelector('.person__tel') || {}).textContent || nummer;
+      anruf.textContent = (document.querySelector('.person__tel') || {}).textContent || nummer;
       oder.append(meldung.dataset.smsOder + ' ', anruf);
       meldung.append(satz, sms, oder);
       sms.focus(); // rückt den nächsten Schritt ins Bild, auch am Handy
+      if (direkt) sms.click(); // öffnet die SMS-App wie ein Tipp auf den Link
     };
     form.addEventListener('submit', async (ev) => {
       ev.preventDefault();
@@ -85,7 +88,7 @@
       tel.removeAttribute('aria-invalid');
       const daten = Object.fromEntries(['name', 'telefon', 'zeit'].map((k) => [k, form.elements[k].value.trim()]));
       const ziel = form.dataset.endpoint;
-      if (!ziel) { zeigeSms(daten); return; }
+      if (!ziel) { zeigeSms(daten, handy); return; }
       daten.sprache = form.dataset.sprache;
       form.dataset.laeuft = '1';
       const knopfText = knopf.textContent;

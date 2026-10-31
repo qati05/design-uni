@@ -78,20 +78,34 @@ async function kandidat(p, name) {
     p.getByText(name, { exact }),
   ];
   const kand = [...arten(true), ...arten(false)];
-  for (const k of kand) {
-    const v = k.filter({ visible: true });
-    const n = await v.count();
-    if (!n) continue;
-    let best = null, bd = Infinity;
-    for (let i = 0; i < n; i++) {
-      const bb = await v.nth(i).boundingBox().catch(() => null);
-      if (!bb) continue;
-      const d = Math.abs(bb.y + bb.height / 2 - HOEHE / 2);
-      if (d < bd) { bd = d; best = v.nth(i); }
+  // Erst nur, was auf dem Bildschirm liegt (ein Mensch tippt, was er sieht), dann alles Gerenderte.
+  for (const imBild of [true, false]) {
+    for (const k of kand) {
+      const v = k.filter({ visible: true });
+      const n = await v.count();
+      if (!n) continue;
+      let best = null, bd = Infinity;
+      for (let i = 0; i < n; i++) {
+        const bb = await v.nth(i).boundingBox().catch(() => null);
+        if (!bb) continue;
+        if (imBild && (bb.y + bb.height <= 0 || bb.y >= HOEHE)) continue;
+        const d = Math.abs(bb.y + bb.height / 2 - HOEHE / 2);
+        if (d < bd) { bd = d; best = v.nth(i); }
+      }
+      if (best) return best;
     }
-    if (best) return best;
   }
   return null;
+}
+
+// Wartet, bis die Seite nicht mehr scrollt (weiches Scrollen zu einem Anker kann über eine Sekunde dauern).
+async function ruhe(p, max = 4000) {
+  let alt = -1, gleich = 0;
+  for (let t = 0; t < max && gleich < 3; t += 100) {
+    const y = await p.evaluate(() => scrollY).catch(() => alt);
+    gleich = y === alt ? gleich + 1 : 0; alt = y;
+    await p.waitForTimeout(100);
+  }
 }
 
 async function lauf(startUrl) {
@@ -99,6 +113,14 @@ async function lauf(startUrl) {
   const b = await chromium.launch();
   const ctx = await b.newContext({ viewport: { width: BREITE, height: HOEHE }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 });
   const p = await ctx.newPage();
+  // Sprünge in Apps (sms:, tel:, mailto:), die ein Skript auslöst, ins Protokoll statt in den Browser.
+  await p.exposeFunction('__kundeApp', (u) => log.push(`${u.startsWith('sms:') ? 'SMS GEÖFFNET' : u.startsWith('tel:') ? 'ANRUF AUSGELÖST' : 'APP GEÖFFNET'}: ${decodeURIComponent(u)}`));
+  await p.addInitScript(() => {
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest && e.target.closest('a[href]');
+      if (a && e.isTrusted === false && /^(sms|tel|mailto):/i.test(a.getAttribute('href'))) { e.preventDefault(); window.__kundeApp(a.getAttribute('href')); }
+    }, true);
+  });
   await p.goto(startUrl);
   await p.waitForTimeout(600);
 
@@ -133,8 +155,9 @@ async function lauf(startUrl) {
         }
         if (info.href.startsWith('tel:')) { log.push(`ANRUF AUSGELÖST: ${info.href}${telPruefen(info.href)}`); continue; }
         if (/maps|route|google\.[a-z.]+\/maps|apple\.com\/maps|openstreetmap|map\.search\.ch/i.test(info.href)) { log.push(`ROUTE GEÖFFNET: ${info.href}`); continue; }
-        await el.click({ timeout: 4000 });
-        await p.waitForTimeout(500);
+        if (info.href.startsWith('sms:')) { log.push(`SMS GEÖFFNET: ${decodeURIComponent(info.href)}`); continue; }
+        await el.click({ timeout: 4000, noWaitAfter: true }); // ein sms:- oder tel:-Sprung ist kein Seitenwechsel
+        await p.waitForTimeout(300); await ruhe(p);
         log.push(`getippt: ${a.tippe} (${info.tag})`);
       } else if (a.fuelle) {
         await p.getByLabel(a.fuelle[0], { exact: false }).first().fill(String(a.fuelle[1]));
