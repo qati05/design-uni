@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selbsttest Kunden-Werkzeug · Musterbetrieb</title>
+<!--
+  Selbsttest für werkzeuge/kunde.cjs. Drei Fehler sind absichtlich eingebaut:
+  1. Der Anruf-Link wählt nirgendwohin (tel:+4152).
+  2. Der Knopf «Anfrage senden» liegt unter der festen Leiste unten.
+  3. Die Überschrift «Termin anfragen» hat denselben Text wie der Knopf
+     darunter; das Werkzeug muss den Knopf antippen, nicht die Überschrift.
+  Erwartetes Protokoll: siehe ../../referenzen/kunden-agenten.md, Teil 2.
+-->
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 18px/1.5 system-ui, sans-serif; background: #f4f4f2; color: #1d1d1b; }
+  header, main { padding: 16px; }
+  .knopf { display: inline-block; padding: 12px 18px; background: #1d1d1b; color: #fff; text-decoration: none; border: 0; font: inherit; }
+  label { display: block; margin-top: 12px; }
+  input { display: block; width: 100%; padding: 10px; font: inherit; }
+  .abstand { height: 900px; }
+  .leiste { position: fixed; left: 0; right: 0; bottom: 0; height: 120px; background: #8a1c1c; color: #fff; padding: 16px; z-index: 10; }
+  .leiste a { color: #fff; }
+  form { margin: 0; }
+  #senden { margin-top: 16px; margin-bottom: 0; }
+  main { padding-bottom: 0; }
+</style>
+</head>
+<body>
+<header>
+  <p><strong>Musterbetrieb</strong> · Übungsseite, kein echter Betrieb</p>
+  <a href="tel:+4152">Anrufen 052 555 00 00</a>
+</header>
+<main>
+  <h1>Kachelöfen aus der Musterwerkstatt</h1>
+  <p>Diese Seite prüft nur das Werkzeug.</p>
+  <h2>Termin anfragen</h2>
+  <a class="knopf" href="#formular">Termin anfragen</a>
+  <div class="abstand"></div>
+  <form id="formular" onsubmit="event.preventDefault(); this.innerHTML = '<p>Danke, Anfrage erhalten.</p>';">
+    <label for="name">Name *</label>
+    <input id="name" name="name" autocomplete="name" required>
+    <label for="tel">Telefon *</label>
+    <input id="tel" name="tel" type="tel" autocomplete="tel" required>
+    <button id="senden" class="knopf" type="submit">Anfrage senden</button>
+  </form>
+</main>
+<div class="leiste">Notfall? <a href="tel:+41525550000">052 555 00 00</a></div>
+</body>
+</html>
