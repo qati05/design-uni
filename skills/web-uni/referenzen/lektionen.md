@@ -13,6 +13,7 @@ Jede Lektion trägt ihre Herkunft. Neue Bauten ergänzen diese Datei; was sich n
 | W7 | Das Wort «gebaut» zählt nur mit Messung. Unterlagen, die Stacks beschreiben, ohne sie gebaut zu haben, klingen gleich sicher wie gemessene; deshalb die Kennzeichen. | dieses Repo |
 | W8 | Modellurteile zu «sieht hochwertig aus» stimmen nicht mit Menschenurteilen überein; die Probe erreichte 6,33 und 6,50 gegen 7,5 verlangt und blieb ohne Menschentest offen. | `probe/autospeedy/pruefung/blindtest.md`, `recherche-menschen.md` |
 | W9 | Ein Aufklappmenü entlastet die Kopfzeile, kostet aber Auffindbarkeit (Hinweis aus Studien zu versteckter Navigation: 27 gegen rund 50 Prozent Nutzung). Entscheid mit Menschentest, nicht mit Geschmack. | `recherche-menschen.md` |
+| W10 | Millisekunden sind kein Ziel. Über der Schwelle «gut» ist kein zusätzlicher Anfragegewinn belegt; die Anfragekette (wer antwortet, wie schnell, Bewertungen, Google-Profil) ist der grössere Hebel. In der Probe Auto Speedy waren 37 Google-Bewertungen unbeantwortet, das kostet nichts an Ladezeit. | Rückmeldung des Auftraggebers, `probe/autospeedy/livegang.md`, `branchenwerte.md` |
 
 ## Offene Fragen (nicht entschieden)
 

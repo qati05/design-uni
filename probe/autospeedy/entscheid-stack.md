@@ -29,7 +29,7 @@ Verlangt wird: schnelle Seite, ein Formular mit Fotoanhang, wenig Inhalt, selten
 
 **Weil:**
 1. Die Seite braucht weder Konten noch Zustand noch Zahlung (Zeile 5); Next.js kostete im Spike +133 KB JS und rund 1 s LCP im Labor, und für diese Seite ist kein Gegenwert erkennbar (`skills/web-uni/referenzen/messungen.md`). Dieser Vergleich widerlegt nur Next.js, nicht Astro oder einen Baukasten.
-2. Der Erfolg ist ein Anruf oder eine Meldung auf dem Handy: Geschwindigkeit dürfte hier Funktion sein (Zeile 1, 3), eine Wirkung auf Besucher ist nicht gemessen.
+2. Der Erfolg ist ein Anruf oder eine Meldung auf dem Handy: Geschwindigkeit ist hier Schwelle, kein Ziel (web-uni Grundregel 10): Über «gut» ist kein zusätzlicher Gewinn belegt, und eine Wirkung auf Besucher ist nicht gemessen.
 3. Die Seite steht bereits und besteht 50 Maschinenprüfungen (`pruefung/selbsttest.txt`, `werkzeuge/pruefen.cjs`); ein Umbau auf einen anderen Stack würde Zeit kosten und keine der Kundenforderungen erfüllen (Zeile 2).
 
 **Gegenentwurf 1: Astro (Klasse B) mit Inhaltsdateien.** Besser, wenn der Betrieb selbst pflegen will (Zeile 6 `[Lücke]`). `[nicht gebaut]`: Messung fehlt, deshalb heute kein Urteil. Vorher Spike bauen und gegen `statisch` messen.
@@ -48,12 +48,21 @@ Verlangt wird: schnelle Seite, ein Formular mit Fotoanhang, wenig Inhalt, selten
 
 Die blinden Bewerter beanstandeten vor allem **Material**, nicht den Stack: Logo nur als Pixelbild und klein, Handyfoto im Hero. Vektor-Logo und ein echtes Foto (Fototag) heben die Bewertung wahrscheinlich stärker als jede Technik `[Annahme, Hypothese]`.
 
+## Organisation: der grössere Hebel (web-uni Grundregel 10)
+
+Der Stack ist die kleinere Frage. Was zu mehr Aufträgen führen dürfte `[Annahme]`:
+1. **Anfragekette:** Wer liest `info@autospeedy.ch`, zu welchen Zeiten, mit welcher Antwortzeit? Wer nimmt das Telefon ab, wenn die Werkstatt arbeitet (Öffnungszeiten Mo bis Fr, `fakten.md`)? Was geschieht nach einer Schadenmeldung (Rückruf, Termin, Besichtigung, Offerte)? **Die Seite darf nur versprechen, was diese Kette hält.** Bei Tesla-Fällen: wer bearbeitet sie, und mit welcher Referenz?
+2. **Bewertungen:** 37 Google-Bewertungen, keine beantwortet (`livegang.md`). Antworten kosten keine Ladezeit.
+3. **Google-Profil und Verzeichnisse:** Kategorie «Carrosserie» fehlt, local.ch nicht beansprucht (`livegang.md`).
+4. **Pflege:** Wer ändert Zeiten, Fotos, Occasionen? (Zeile 6.)
+
 ## Offen, bevor gebaut wird
 
 1. Wer pflegt die Seite? (entscheidet A, B oder Baukasten)
 2. Formularweg: `mailto:` öffnet nur ein E-Mail-Programm, hängt keine Fotos an und scheitert auf Handys ohne eingerichtetes Mailprogramm `[Annahme]`. Ein Endpunkt löst das, braucht aber Hosting mit Funktion und Datenschutz-Entscheid.
 3. Budget und Frist.
 4. Zugang zu Vektor-Logo und einem Fototag.
+5. Anfragekette: wer liest und beantwortet Schadenmeldungen, in welcher Zeit (siehe oben).
 
 ## V2-Gegenprüfung
 

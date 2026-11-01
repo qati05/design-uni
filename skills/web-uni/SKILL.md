@@ -35,6 +35,7 @@ Merksatz: *Technik ist gut, wenn der Besucher sie nicht bemerkt, ausser sie ist 
 7. **Der Betrieb muss es pflegen können.** Wer ändert Öffnungszeiten, Fotos, Team, Preise? Ist die Antwort «nur ein Entwickler», ist das ein Kostenpunkt und wird dem Kunden gesagt.
 8. **Entscheide des Auftraggebers** (Stack, Hosting, Marke, Budget) gehen jeder Regel hier vor und stehen mit Quelle im Entscheidblatt.
 9. **Nichts geht live ohne Freigabe.** Gebaut wird eine Vorschau (`noindex`).
+10. **Geschäftswirkung vor Millisekunden, Organisation vor Technik.** Ein Besucher wird zur Anfrage durch Verständlichkeit, Vertrauen und einen kurzen Weg zum Ziel, und die Anfrage wird zum Auftrag durch das, was im Betrieb danach geschieht (wer liest sie, wie schnell kommt die Antwort, was folgt). Ladezeit ist eine **Schwelle** (Hygiene: ab «gut» im Sinne von Core Web Vitals genügt es), kein Wettbewerb: Weitere Millisekunden erzeugen nicht automatisch mehr Anfragen. Der Skill darf deshalb Technik **nicht** allein mit Tempo begründen. Jeder Stack-Entscheid braucht mindestens einen Grund aus der **Organisation** (Pflege, Abläufe, Anfragekette), siehe Schritt 0 Punkt 11 und Schritt 7.
 
 ## Schritt 0 · Brief lesen: Anforderungsblatt
 
@@ -49,9 +50,10 @@ Aus Gespräch, Website und Unterlagen. Jede Zeile `[Fakt · Quelle]`, `[Annahme]
 7. **Budget und Frist:** Bau und laufende Kosten.
 8. **Recht und Daten:** Land (Schweiz: DSG, UWG), Hosting-Standort, Cookies, Anfragen speichern ja oder nein.
 9. **Bestand:** alte Adressen für Weiterleitungen, bisherige Rankings, Konten.
-10. **Messung:** Welche Zahlen zählen nach dem Livegang?
+10. **Messung:** Welche Zahlen zählen nach dem Livegang? Anfragen und Aufträge zählen mehr als Ladezeit.
+11. **Organisation nach der Anfrage (Anfragekette):** Wo kommt eine Anfrage an (Postfach, Telefon, System)? Wer liest sie, zu welchen Zeiten? Wie schnell wird geantwortet (heute und gewünscht)? Was geschieht danach (Rückruf, Termin, Offerte, Besichtigung)? Wer pflegt Bewertungen, Google-Profil, Zeiten? Ohne diese Kette bringt die beste Seite nichts.
 
-**V0 · Anforderungsblatt vollständig:** alle zehn Punkte beantwortet oder als Lücke geführt; **Wunsch des Kunden** als Satz festgehalten.
+**V0 · Anforderungsblatt vollständig:** alle elf Punkte beantwortet oder als Lücke geführt; **Wunsch des Kunden** als Satz festgehalten.
 
 ## Schritt 1 · Fähigkeiten und Klassen
 
@@ -72,7 +74,7 @@ Aus dem Blatt wird abgeleitet, **was die Seite können muss**. Fünf Klassen (Ei
 Der Entscheid steht als Blatt `entscheid-stack.md`:
 
 1. **Wahl** (Klasse und konkreter Stack mit Version).
-2. **Weil-Sätze:** drei Gründe aus dem Anforderungsblatt, jeder mit Zeilenverweis.
+2. **Weil-Sätze:** drei Gründe aus dem Anforderungsblatt, jeder mit Zeilenverweis, **davon mindestens einer aus der Organisation** (Pflege, Anfragekette, Team), nicht nur aus Technik oder Tempo.
 3. **Gegenentwurf:** der zweitbeste Weg und **warum nicht**.
 4. **Der einfachste Weg** (meist Klasse A oder D) und was der Kunde dabei **verliert**. Wenn nichts verloren geht, ist der einfachste Weg der beste.
 5. **Kosten und Pflege:** Stunden Bau (Schätzung), laufende Kosten, wer pflegt.
@@ -132,6 +134,8 @@ Auf der gebauten Seite, mobil, drei Läufe, Median ([messungen.md](referenzen/me
 | Zugänglichkeit | 0 Verstösse in axe, Tastatur-Durchgang | axe, Playwright |
 | Browser | Chromium, Firefox, WebKit | Playwright |
 
+**Tempo ist Schwelle, nicht Ziel.** Ist alles im Zielbereich, wird nicht weiter optimiert. Millisekunden darüber hinaus kosten Bauzeit und Pflege und erzeugen **keine nachgewiesenen** zusätzlichen Anfragen; die Belege für Ladezeit und Umsatz sind Fallstudien von Herstellern und korrelativ ([branchenwerte.md](referenzen/branchenwerte.md)). Aufwand geht dann in Verständlichkeit, Vertrauen und die Anfragekette (Schritt 7).
+
 **Ehrlichkeit:** Messungen im Labor (simulierte Drosselung, Software-Grafik) sind **Hinweise**, keine Feldwerte. Ein 3D-Test ohne echte GPU zeigt Gewicht und Blockierung, nicht Bildrate.
 
 **V5 · Gemessen:** jede Kennzahl hat Wert, Befehl und Datum; Abweichungen von den Zielen stehen im Bericht mit Grund.
@@ -146,9 +150,11 @@ Auf der gebauten Seite, mobil, drei Läufe, Median ([messungen.md](referenzen/me
 
 ## Schritt 7 · Betrieb und Übergabe
 
+**Anfragekette zuerst:** Für jeden Eingang (Formular, Telefon, E-Mail, Google-Profil) steht schriftlich: wer, wann, wie schnell, was danach. Die Seite verspricht nur, was die Kette hält (keine «Rückruf in 30 Minuten», wenn niemand abends liest). Untersuchungen zu Anfragen im Vertrieb zeigen, dass die **Antwortzeit** stark mit dem Erfolg zusammenhängt (MIT/InsideSales 2007, Harvard Business Review 2011), allerdings aus dem US-Vertrieb mit Herstellerdaten und nicht auf Carrosserien übertragen `[gelesen · Annahme der Übertragbarkeit]`. Bewertungen und Google-Profil pflegen gehört dazu.
+
 Hosting (Standort, Kosten, Vorschau je Änderung), Domain, `https`, Weiterleitungen aus dem Umzugsblatt ([text-uni Schritt 7](../text-uni/SKILL.md)), Sicherungen, Zugänge (Konten gehören dem Betrieb), Pflegehandbuch mit Bildern («So ändern Sie die Öffnungszeiten»), Messplan.
 
-**V7 · Betrieb:** Vorschau und Livegang getrennt; der Betrieb hat alle Zugänge; ein Pflegehandbuch existiert und wurde von einer Person des Betriebs durchgespielt.
+**V7 · Betrieb:** Anfragekette schriftlich und vom Betrieb bestätigt; Vorschau und Livegang getrennt; der Betrieb hat alle Zugänge; ein Pflegehandbuch existiert und wurde von einer Person des Betriebs durchgespielt.
 
 ## Schritt 8 · Abliefern
 
