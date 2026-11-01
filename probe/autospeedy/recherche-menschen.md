@@ -7,8 +7,8 @@ Stand 1. November 2026. Auftrag des Auftraggebers: «web design von den menschen
 - **Gesucht:** Umfragen unter Autofahrern, Nutzerstudien (Nielsen Norman Group), Studien über Websites von Handwerksbetrieben, Forendiskussionen von Autofahrern, Studien zu echten Fotos und Stockfotos, Daten zu Anruf-Knöpfen am Handy.
 - **Gelesen:** Jede Quelle unten mit «gelesen» habe ich über ein Werkzeug auslesen lassen, das gezielte Fragen an die Seite beantwortet (Datum, Stichprobe, Methode, Zahlen). Ich habe die Seiten **nicht** vollständig selbst Zeile für Zeile gelesen. Zahlen wurden so wörtlich wie möglich übernommen; wo das Werkzeug unsicher war, steht es dabei.
 - **Nicht lesbar:** Reddit und das Archiv der New York Times liessen sich nicht abrufen. Von Reddit habe ich nur die Auszüge der Suchtreffer; sie sind unten als «nur Auszug» gekennzeichnet und tragen keine Zahlen.
-- **Nicht gefunden:** Keine Schweizer Studie zu Websites von Garagen oder Carrosserien. Keine Studie, die speziell das **Verhalten** von Besuchern auf Carrosserie-Websites misst. Keine neutrale Studie zu festen Anruf-Knöpfen am Handy (nur Anbieter-Blogs).
-- **Länder:** USA, Singapur, Deutschland. Auf die Schweiz übertragen ist das eine Annahme.
+- **Nicht gefunden:** Keine Studie, die speziell das **Verhalten** von Besuchern auf Carrosserie-Websites misst. Keine neutrale Studie zu festen Anruf-Knöpfen am Handy (nur Anbieter-Blogs).
+- **Länder:** USA, Singapur, Deutschland, Schweden, international. **Das ist kein Mangel:** Wie Menschen eine Website wahrnehmen, ihr trauen und sich darin zurechtfinden, ist über Länder hinweg gut belegt. Schweiz-spezifisch sind nur Recht, Sprache und Zahlenformate, und dafür gelten die Skills. Länderspezifisch bleiben allenfalls Gewohnheiten wie der Anruf gegenüber dem Termin online.
 
 ## Die Belege
 
@@ -60,7 +60,6 @@ Güte: **hoch** = Befragung oder beobachtete Nutzerstudie mit genannter Stichpro
 
 - **Gestaltungsregeln im engeren Sinn** (Schriftwahl, Farbe, Kante, Hero-Aufbau): Keine der gefundenen Studien prüft sie bei Werkstätten. Die Menschen-Daten betreffen Inhalt, Offenheit, Fotos und Wege zum Kontakt. Die Idee «Die Abdeckkante» ist damit weder gestützt noch widerlegt.
 - **Feste Anruf-Knöpfe am Handy:** Nur Anbieter-Blogs; kein neutraler Beleg. Wir lassen den Knopf, weil das Nielsen-Ergebnis zu Kontaktangaben in Kopf und Fuss ihn stützt (R5), nicht wegen der Anbieter-Zahlen.
-- **Zahlen für die Schweiz.** Es gibt sie nicht in dem, was ich gefunden habe.
 
 ## Was ich daraus vorschlage (nach Wirkung geordnet)
 
@@ -71,7 +70,43 @@ Güte: **hoch** = Befragung oder beobachtete Nutzerstudie mit genannter Stichpro
 5. **Termin über die Website** als nächste Stufe: ein Feld «Wann passt es Ihnen?» im Formular, oder später ein Buchungswerkzeug. Zwei Drittel der Befragten in Deutschland wünschen es (R3). Das ist eine Entscheidung des Betriebs.
 6. **Menschen-Test mit 5 Personen**, wie conversion.md Teil 7 es für kleine Betriebe empfiehlt: zwei Aufgaben («Ihr Auto hat eine Beule, melden Sie den Schaden»; «Wann ist der Betrieb offen, wie komme ich hin?»), je 5-Sekunden-Frage danach, dazu die Frage nach dem Preis. Das ersetzt die Modell-Urteile an der entscheidenden Stelle.
 
+---
+
+# Teil 2: Internationale Daten zum Webdesign allgemein (nicht nur Werkstätten)
+
+Auftrag des Auftraggebers: Webdesign ist international, die Recherche muss nicht auf die Schweiz oder die Branche begrenzt sein. Darum zusätzlich: wie Menschen Navigation, erste Eindrücke, Bewertungen und Störendes erleben.
+
+| Nr. | Quelle (Datum) | Art, Stichprobe, Land | Was sie zeigt | Güte |
+|---|---|---|---|---|
+| R11 | [NN/g, «Hamburger Menus and Hidden Navigation Hurt UX Metrics»](https://www.nngroup.com/articles/hamburger-menus/) und [Menu-Design Checklist](https://www.nngroup.com/articles/menu-design/) (Datum nicht gelesen) | Quantitative Studie mit **179** Teilnehmenden, **6** Websites, Handy und Desktop, mit WhatUsersDo | Am **Desktop** wurde **versteckte** Navigation in nur **27 %** der Fälle benutzt, **sichtbare** oder **kombinierte** in **48 %** und **50 %**. Versteckte Navigation wurde seltener und später benutzt, Aufgaben wirkten schwieriger. Empfehlung: **keine versteckte Navigation am Desktop**, am Handy ist das Menü ein «notwendiges Übel». Ein klares **Wort** am Menü («Browse») schnitt besser ab als ein blosses Symbol. Häufige Einträge nahe an den Knopf setzen, der das Aufklappmenü öffnet. | hoch (gemessen) |
+| R12 | [Stanford, Fogg u. a.: «How Do People Evaluate a Web Site's Credibility?»](https://simson.net/ref/2002/stanfordPTL.pdf) (Bericht 2002, ACM CHI 2003) | **2'684** Personen bewerteten je zwei echte Websites, USA; ausgewertet wurden **2'440** Kommentare | **46,1 %** der Kommentare nennen den **«Look»** (Layout, Schrift, Weissraum, Bilder, Farben). Wichtig: «Slick»-Seiten bekamen **oft negative** Kommentare («sieht aus, als hätte es ein Marketing-Team gemacht und nicht Leute, die einem die Information geben wollen»). Die Autoren vermuten eine Schwelle: Erst wenn eine Seite «professionell» wirkt, zählen andere Dinge. Die oft zitierte Zahl «75 % beurteilen die Glaubwürdigkeit am Design» konnte ich **nicht** in der Studie finden (nur in einem Marketing-Blog). | hoch (aber 2002, Motivation der Teilnehmenden gering) |
+| R13 | [Lindgaard u. a. 2006, Behaviour and Information Technology 25(2)](https://www.tandfonline.com/doi/abs/10.1080/01449290500330448) | Drei Studien; Startseiten wurden 500 ms und 50 ms gezeigt (Stichprobe nicht gelesen) | Das **visuelle Gefallen** einer Startseite lässt sich **innerhalb von 50 ms** beurteilen; die Urteile bei 50 ms und 500 ms korrelieren hoch. | hoch (Fachzeitschrift), nur Gefallen, nicht Vertrauen |
+| R14 | [BrightLocal, Local Consumer Review Survey 2026](https://www.brightlocal.com/research/local-consumer-review-survey/) (11. 2. 2026) | **1'002** US-Erwachsene, repräsentatives Panel (SurveyMonkey); Herausgeber verkauft Software für Bewertungen (Eigeninteresse) | **97 %** lesen Bewertungen lokaler Betriebe. **49 %** vertrauen Bewertungen so wie persönlichen Empfehlungen. Nach positiven Bewertungen besuchen **54 %** die Website (2019: 32 %). **89 %** erwarten, dass der Betrieb antwortet, **81 %** innerhalb einer Woche. **80 %** würden einen Betrieb eher nutzen, der **allen** Bewertungen antwortet; **42 %** würden einen eher **nicht** nutzen, der nie antwortet. **74 %** suchen Bewertungen der **letzten drei Monate**. | hoch (gross, neu), USA, Anbieter |
+| R15 | [Josh Cable, BodyShop Business: «Photo-Based Body Shop Estimates are a Joke»](https://www.bodyshopbusiness.com/photo-based-estimating-joke-consumers-perspective/) (1. 2. 2018, Meinungsbeitrag eines Verbrauchers) und Anbieterseiten wie [Carwise](https://www.carwise.com/), [Nalley Collision](https://www.nalleycollision.com/locations/lithonia/online-estimate) | Einzelmeinung und Anbieter, USA | Carrosserien in den USA bieten **Foto-Schätzungen** an (Nalley: 7 Fotos, 5 bis 10 Minuten). Der Verbraucher hält sie für unzureichend: «Es ist unmöglich, Kollisionsschäden und die verborgenen Auswirkungen **anhand von ein paar Handyfotos** gründlich zu beurteilen», **«es gibt keinen Ersatz für das Urteil eines geschulten, erfahrenen Fachmanns»**. | schwach (Einzelmeinung); zeigt die Meinungslage |
+| R16 | [Usability Partners: «What do people find most annoying when using a web site?»](https://www.usabilitypartners.se/editorials/what-do-people-find-most-annoying-when-using-a-web-site) (Nov. und Dez. 2005) | Online-Umfrage, **140** Personen im Raum Stockholm | Am meisten stören **Pop-up-Fenster 64 %**, **langsames Laden 59 %**, **erzwungene Anmeldung 37 %**, **kaputte Links 37 %**, **bewegte oder blinkende Grafiken 36 %**, Plug-ins nötig 34 %, Werbung 30 %, irreführende Inhalte 25 %. | schwach (2005, klein, regional); die Liste ist trotzdem plausibel und wird von späteren Quellen gestützt |
+
+**Nur Auszug, nicht gelesen:** Reddit-Thread in r/webdev über Pop-ups («so sick of the pop ups on every website»). Er sagt dasselbe wie R16, ohne Zahl.
+
+## Was Teil 2 für unsere Seite bedeutet
+
+1. **Aufklappmenü «Dienstleistungen» (Vorschlag des Auftraggebers).** R11 sagt deutlich: Was unter einem Menü versteckt liegt, wird am Desktop **weniger benutzt** (27 % gegen rund 50 %). Dagegen sprach vorher die Kritik von 6 der 12 blinden Bewerter, der Kopf sei überladen. **Beides stimmt**, es ist ein Zielkonflikt. Unser Kopf ist eine «Kombination» aus sichtbaren Einträgen (Betrieb, Kontakt, Tesla, Schaden melden, Telefon) und einem beschrifteten Menü, kein Symbol; das ist die bessere Form. Die **vier Leistungen** liegen aber im Menü, und gerade sie sind das, was Besucher suchen. Gemildert wird das dadurch, dass die Startseite die vier Leistungen direkt unter dem ersten Bildschirm als Liste zeigt. Das ist eine **Annahme**, die nur ein Test mit Menschen klärt (zum Beispiel: «Wo würden Sie klicken, um etwas zur Lackierung zu erfahren?»). Variante B wäre: die zwei häufigsten Leistungen (Carrosserie, Lackiererei) sichtbar lassen und die übrigen im Menü.
+2. **Erster Eindruck zählt, aber «slick» schadet.** R13 und R12: Der Look entscheidet in Millisekunden, und fast die Hälfte der Kommentare zur Glaubwürdigkeit betrifft ihn. Zugleich wirkt eine Seite, die nach «Marketing-Team» aussieht, **weniger** glaubwürdig. **Das stellt unseren blinden Test in Frage**: Die Modelle bewerteten Lucid und Rimac (sehr geschliffen) mit 8 bis 9. Ob ein Mensch, der seinen Unfallschaden melden will, das genauso sieht, ist offen. Für eine Carrosserie spricht R12 eher für eine **sachliche, echte** Seite mit echter Arbeit als für Hochglanz.
+3. **Bewertungen:** R14 stützt, was wir schon tun (Schnitt, Anzahl, Link), und verschärft die Aufgabe des Betriebs: **89 % erwarten Antworten, 80 % wählen eher einen Betrieb, der allen antwortet**. Auto Speedy hat keine der 37 beantwortet. **Neuere Bewertungen zählen:** 74 % suchen die letzten drei Monate. Unsere drei Zitate stammen vom Januar 2026, Mai 2025 und Dezember 2023; das älteste sollte zuerst fallen (oder durch ein neueres mit Einwilligung ersetzt werden).
+4. **Fotos als Schadensmeldung:** In den USA bieten Carrosserien Foto-Schätzungen an, Verbraucher sind skeptisch, ob Fotos genügen (R15). Für uns heisst das: Fotos in der Meldung **als Hilfe, nicht als Preisversprechen**; das Formular öffnet nur ein E-Mail-Programm und kann keine Fotos anhängen (die Seite sagt, man solle sie anhängen). Ein Formular mit Foto-Upload braucht einen Server und den Betrieb.
+5. **Störendes (R16):** Wir haben keine Pop-ups, keine erzwungene Anmeldung, keine blinkenden Grafiken, keine toten Links (maschinell geprüft) und nur eine Bewegung. Das stützt den Verzicht auf Pop-ups, Chat-Knopf und Cookie-Banner in den Skills.
+
+## Zusammengefasst: wo Menschen und Modelle sich gerade unterscheiden könnten
+
+| Frage | Modell-Bewerter | Menschen-Daten | Folge |
+|---|---|---|---|
+| Wie viel Politur? | Hochglanz-Seiten wie Lucid: 8 bis 9 | «Slick» kann unglaubwürdig wirken (R12) | Mit echten Menschen testen |
+| Menü? | Zu voll, ruhiger machen | Versteckt wird weniger benutzt (R11) | Zielkonflikt; Test, Variante B bereithalten |
+| Fotos? | Hero-Foto zu schwach | Echte Fotos zählen, aber **schlechte echte Fotos schaden** (R9) | Fototag |
+| Bewertungen? | nicht bewertet | Antworten erwartet, Aktualität zählt (R14) | Antworten, neuere Zitate |
+
 ## Offene Entscheide für den Auftraggeber
 
 - Sollen die Punkte 1 bis 3 in Gespräche mit dem Betrieb (Preisrahmen, Ablauf, Fotos mit Einverständnis)?
-- Soll ich aus Punkt 6 ein Blatt für einen Test mit fünf echten Personen schreiben?
+- Soll ich aus Punkt 6 ein Blatt für einen Test mit fünf echten Personen schreiben, mit Klick-Aufgaben, die auch das Aufklappmenü prüfen?
+- Soll ich Variante B des Kopfes bauen (zwei Leistungen sichtbar, Rest im Menü), damit beide Fassungen im Test gegeneinander laufen?
+- Soll das älteste Bewertungs-Zitat (Dezember 2023) schon jetzt aus der Vorschau fallen?
