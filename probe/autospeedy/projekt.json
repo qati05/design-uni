@@ -1,0 +1,110 @@
+{
+  "name": "Auto Speedy AG (Probe)",
+  "site": "site",
+  "seiten": [
+    "index",
+    "carrosserie",
+    "lackiererei",
+    "felgen-folierung",
+    "occasionen",
+    "betrieb",
+    "kontakt",
+    "tesla",
+    "schaden-melden",
+    "impressum",
+    "datenschutz",
+    "404"
+  ],
+  "telefon": [
+    "071 755 88 61",
+    "076 615 44 41"
+  ],
+  "hauptaktion": {
+    "text": "Schaden melden",
+    "selektor": ".kopf a[href=\"schaden-melden.html\"]",
+    "href": "schaden-melden.html",
+    "fest": true,
+    "ausnahmen": [
+      "404"
+    ]
+  },
+  "formular": {
+    "seite": "schaden-melden.html",
+    "selektor": "#schadenformular",
+    "senden": "#senden",
+    "bestaetigung": "#bestaetigung:not([hidden])",
+    "felder": [
+      3,
+      5
+    ],
+    "pflicht": 2,
+    "verantwortlich": "Auto Speedy AG",
+    "fuellen": {
+      "#name": "Test Person",
+      "#telefon": "079 123 45 67"
+    }
+  },
+  "kalender": {
+    "seite": "index.html",
+    "selektor": "[data-status]",
+    "faelle": [
+      [
+        "Fr 17.30",
+        "2026-11-06T17:30:00+01:00",
+        "geschlossen\\. Wieder offen am Montag ab 7\\.30"
+      ],
+      [
+        "Sa 10.00",
+        "2026-11-07T10:00:00+01:00",
+        "geschlossen\\. Wieder offen am Montag ab 7\\.30"
+      ],
+      [
+        "So 22.40",
+        "2026-11-08T22:40:00+01:00",
+        "geschlossen\\. Wieder offen am Montag ab 7\\.30"
+      ],
+      [
+        "Mo 12.30",
+        "2026-11-09T12:30:00+01:00",
+        "Mittagspause\\. Wieder offen ab 13\\.15"
+      ],
+      [
+        "Sommerzeit Mi 9.00",
+        "2026-07-15T09:00:00+02:00",
+        "geöffnet bis 12\\.00"
+      ]
+    ]
+  },
+  "text": {
+    "anrede": "Sie",
+    "eszett": false,
+    "guillemets": true,
+    "gedankenstriche": false,
+    "uhrzeitMitPunkt": true
+  },
+  "jsonld": {
+    "typ": "AutoBodyShop"
+  },
+  "vorschau": true,
+  "zahlen": {
+    "071 755 88 61": "Q1",
+    "076 615 44 41": "Q1",
+    "9450": "PLZ Q1",
+    "CHE-221.907.243": "Q14",
+    "CH-320.3.080.980-3": "Q14",
+    "7.30": "Q1",
+    "12.00": "Q1",
+    "13.15": "Q1",
+    "17.30": "Q1",
+    "17.15": "Q1",
+    "2026": "Stand",
+    "2025": "Q13",
+    "2023": "Q13",
+    "144": "Notruf",
+    "117": "Notruf",
+    "123": "Beispiel im Hilfetext",
+    "3,5": "Q18",
+    "4,8": "Q12 Google",
+    "37": "Q12"
+  }
+}
