@@ -29,6 +29,8 @@ const NAV = [
   ["kontakt.html", "Kontakt"],
 ];
 
+const DIENST = NAV.slice(0, 4);   // Carrosserie, Lackiererei, Felgen und Folierung, Occasionen
+const REST = NAV.slice(4);        // Betrieb, Kontakt
 const ICON_TEL = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>';
 const STERN = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="#121416" d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg>';
 const STERNE5 = `<span class="sterne" aria-hidden="true">${STERN.repeat(5)}</span>`;
@@ -76,8 +78,11 @@ function luecke(text) {
 function seite({ datei, title, desc, h1, body, aktiv = "", jsonld = "", abschlussOrt = "abschluss", ohneAbschluss = false }) {
   if (title.length < 40 || title.length > 60) throw new Error(`${datei}: Titel ${title.length} Zeichen: ${title}`);
   if (desc.length < 110 || desc.length > 155) throw new Error(`${datei}: Beschreibung ${desc.length} Zeichen: ${desc}`);
-  const navDesk = NAV.map(([h, t]) => `<li><a href="${h}"${aktiv === h ? ' aria-current="page"' : ""}>${t}</a></li>`).join("");
-  const navMenue = [["index.html", "Start"], ...NAV].map(([h, t]) => `<li><a href="${h}"${aktiv === h ? ' aria-current="page"' : ""}>${t}</a></li>`).join("");
+  const imDienst = DIENST.some(([h]) => h === aktiv);
+  const dienstLinks = (cls) => DIENST.map(([h, t]) => `<li><a href="${h}"${aktiv === h ? ' aria-current="page"' : ""}>${t}</a></li>`).join("");
+  const restLinks = REST.map(([h, t]) => `<li><a href="${h}"${aktiv === h ? ' aria-current="page"' : ""}>${t}</a></li>`).join("");
+  const navDesk = `<li><details class="dienst${imDienst ? " ist-aktiv" : ""}"><summary>Dienstleistungen</summary><ul class="dienst-liste">${dienstLinks()}</ul></details></li>${restLinks}`;
+  const navMenue = `<li><a href="index.html"${aktiv === "index.html" ? ' aria-current="page"' : ""}>Start</a></li><li><details class="dienst-m"${imDienst ? " open" : ""}><summary>Dienstleistungen</summary><ul>${dienstLinks()}</ul></details></li>${restLinks}`;
   const html = `<!doctype html>
 <html lang="de-CH">
 <head>

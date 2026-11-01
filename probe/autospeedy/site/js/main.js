@@ -175,6 +175,13 @@
     navigator.sendBeacon(ZAEHL_ENDPUNKT, JSON.stringify({ art: a.getAttribute("data-zaehl"), ort: a.getAttribute("data-ort"), seite: location.pathname }));
   });
 
+  // Aufklappmenü «Dienstleistungen»: schliesst bei Klick daneben und mit Escape (ohne dieses Skript bleibt es per Tipp bedienbar)
+  var dienst = document.querySelector("details.dienst");
+  if (dienst) {
+    document.addEventListener("click", function (e) { if (dienst.open && !dienst.contains(e.target)) dienst.open = false; });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && dienst.open) { dienst.open = false; dienst.querySelector("summary").focus(); } });
+  }
+
   statusZeigen();
   if (form) formularStarten();
   window.__speedy = { oeffnungsstatus: oeffnungsstatus };

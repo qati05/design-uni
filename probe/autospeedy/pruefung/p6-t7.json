@@ -139,7 +139,7 @@
     {
       "id": "P6 Rückmeldung ≤ 300 ms, doppeltes Senden gesperrt",
       "ok": true,
-      "detail": "87 ms (inkl. Klick), Knopf gesperrt: true"
+      "detail": "84 ms (inkl. Klick), Knopf gesperrt: true"
     },
     {
       "id": "E8 Tesla-Vorwahl über die URL (Kästchen, Modell, Chips, Referenz)",
