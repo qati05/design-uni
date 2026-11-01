@@ -14,6 +14,7 @@ Die Vorschau geht **nicht** live (E4). Dieses Blatt hält fest, was vorher gesch
   Entscheid zum Training von KI-Modellen mit Datum (TI5): offen, beim Betrieb.
 - `sitemap.xml` mit den 10 kanonischen Seiten (nicht `404.html`), Statuscode 200, ohne `noindex`-Seiten (TI8, TI11).
 - `canonical` je Seite auf die endgültige Adresse; Weiterleitung `http` auf `https`, mit und ohne `www` genau eine Form (TI31 bis TI37).
+- **Social-Tags** je Seite ergänzen, sobald die Domain feststeht: `og:title`, `og:description`, `og:image` (absolute Adresse, zum Beispiel das Foto der Halle), `og:url`, `twitter:card` (Liste B10 aus [ai-design-skills](pruefung/fremder-skill-ai-design-skills.md)).
 - `LocalBusiness` (`index.html`, `kontakt.html`): `url` und `sameAs` ergänzen; **keine** `aggregateRating` und keine `review` (S24).
 
 ## 2. Weiterleitungen vom alten Wix-Auftritt (TI19 bis TI30)

@@ -84,3 +84,7 @@ main > section:last-child:not(.abschluss) { padding-bottom: var(--luft-xl); }
 .dienst-m ul { list-style: none; margin: 0; padding: 0; background: var(--fueller); }
 .dienst-m ul a { padding-left: calc(var(--rand) + 1.25rem) !important; font-size: 1.0625rem; }
 @media (min-width: 1100px) { .marke-text { display: inline; } }
+
+/* Zustand «aktiv» (Idee aus ai-design-skills B9, ohne dessen Bewegungsregeln) */
+.knopf:active, .menue > summary:active { transform: translateY(1px); }
+.chip input:active + span { transform: translateY(1px); }
