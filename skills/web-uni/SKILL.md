@@ -180,4 +180,5 @@ Hosting (Standort, Kosten, Vorschau je Änderung), Domain, `https`, Weiterleitun
 | [stacks.md](referenzen/stacks.md) | Klassen A bis E, Entscheidbaum, Versionsstand, Status je Stack |
 | [animation-3d.md](referenzen/animation-3d.md) | Leiter der Bewegung, Browser-Unterstützung, Rückfälle, Kostenblatt |
 | [messungen.md](referenzen/messungen.md) | gebaute Spikes mit Zahlen, Befehle, Grenzen |
+| [branchenwerte.md](referenzen/branchenwerte.md) | was im Web normal ist, was Konzerne einsetzen und wie sie messen |
 | [lektionen.md](referenzen/lektionen.md) | was Bau und Messung gelehrt haben |
