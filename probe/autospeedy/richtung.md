@@ -1,5 +1,7 @@
 # Richtung: Die Abdeckkante
 
+> **Farbwechsel (E10):** Die erste Fassung nahm das Grün des Abdeckbands. Der Kunde hat eine Carrosserie in hellem Grün als Beispiel gezeigt; Grün hätte nach Kopie ausgesehen. Die Kante bleibt, ihre Farbe ist jetzt Logo-Marine, leise Linien Logo-Silber. Stellen mit «Abdeckband grün» sind überholt und im Text nachgeführt.
+
 design-uni Schritte 2 bis 4. **Kein Gespräch mit dem Betrieb**: Das Richtungsblatt stammt aus Website, Fotos, Verzeichnissen und Register; jede Zeile trägt die Marke. P1 (blinde Wahl zwischen Collagen) ist **nicht gelaufen**. Die Wahl unten ist meine begründete Vorwahl, kein Urteil.
 
 > **Nachtrag nach dem Kundenwunsch (E6 bis E9, [entscheide.md](entscheide.md)):** Der Kunde will eine **helle** Seite, auf **jeder** Seite einen CTA für die **Schadenmeldung**, eine eigene Tesla-Seite (Tesla Approved Body Shop, Weiterleitungen von Tesla) und «sauber, informativ, simple to use» mit wenigen Klicks und Angaben im Formular. Die Idee «Die Abdeckkante» hält; geändert haben sich Grund (hell), Kopf (hell, mit festem CTA), Hauptaktion (Schaden melden statt Anruf), Seitenplan (`tesla.html`, `schaden-melden.html`) und Knopf (grün gefüllt). Die Teile 7 und 8 sind schon nachgeführt.
@@ -31,29 +33,29 @@ Inventar (Nomen, die man fotografieren kann):
 
 Streichen, was auch ein Mitbewerber im Umkreis von 20 km hat (Zäch AG, Gschwend Garage, Batliner: Kabine, Hebebühne, Mischtisch, Hammer, Occasionen, Telefon, Öffnungszeiten, Mittagspause, Abdeckmaterial als Gattung):
 
-**Bleibt (weder Name noch Ort):** Abdeckband **grün** als Farbe des Hauses auf den Fotos (1) · Schachbrett-Boden mit blauen Rampen in der Kabine (7) · Felgendrehbank mit Schadenmarkierung (10, 11) · Wirbel-S mit Funkelstern (16) · Zusammensetzung «Dellen, Lack, Felgen, Folie, Occasionen auf einem Areal» · «Qualität, die man sieht und fährt» (21). Sechs. Schwelle drei erreicht.
+**Bleibt (weder Name noch Ort):** Abdeckband und blaue Abdeckfolie als Material auf den Fotos, in den Farben des Logos (Marine, Silber) (1) · Schachbrett-Boden mit blauen Rampen in der Kabine (7) · Felgendrehbank mit Schadenmarkierung (10, 11) · Wirbel-S mit Funkelstern (16) · Zusammensetzung «Dellen, Lack, Felgen, Folie, Occasionen auf einem Areal» · «Qualität, die man sieht und fährt» (21). Sechs. Schwelle drei erreicht.
 
-**Ehrlichkeit:** Dass Mitbewerber das Band **nicht** auch in Grün benutzen, ist nicht geprüft `[Annahme]`. Das Sieben stützt sich auf die Fotos des Betriebs, nicht auf Fotos der Mitbewerber.
+**Ehrlichkeit:** Dass Mitbewerber die Kante **nicht** auch als Gestaltungsmittel nutzen, ist nicht geprüft `[Annahme]`. Das Sieben stützt sich auf die Fotos des Betriebs, nicht auf Fotos der Mitbewerber.
 
 ## 3. Only-ness-Satz (intern, nie auf die Website)
 
-> Auto Speedy ist die einzige Carrosserie in Altstätten, die Dellenhammer, Lackierkabine, Felgendrehbank und Occasionen auf einem Areal führt und das mit grünem Abdeckband auf jedem Foto zeigt.
+> Auto Speedy ist die einzige Carrosserie in Altstätten, die Dellenhammer, Lackierkabine, Felgendrehbank und Occasionen auf einem Areal führt und dessen Fotos Abdeckband und Folie zeigen.
 
-**Tauschtest:** «Hermann Zäch AG» einsetzen: Der erste Teil («Carrosserie in Altstätten mit Kabine und Hammer») passt vermutlich; der Teil «Felgendrehbank und Occasionen auf einem Areal» scheitert für Zäch, soweit die Verzeichnisse es erkennen lassen; der Teil «grünes Abdeckband auf jedem Foto» scheitert, weil er ein Merkmal der **Fotos** ist. Anker: **zwei** (Felgendrehbank, grünes Band), beide Eigennomen aus dem Inventar. **Schwach:** Der Satz steht auf Fotos, nicht auf Alleinstellung der Leistung. Das ist das Risiko dieser Richtung.
+**Tauschtest:** «Hermann Zäch AG» einsetzen: Der erste Teil («Carrosserie in Altstätten mit Kabine und Hammer») passt vermutlich; der Teil «Felgendrehbank und Occasionen auf einem Areal» scheitert für Zäch, soweit die Verzeichnisse es erkennen lassen; der Teil «Abdeckband auf jedem Foto» scheitert, weil er ein Merkmal der **Fotos** ist. Anker: **zwei** (Felgendrehbank, grünes Band), beide Eigennomen aus dem Inventar. **Schwach:** Der Satz steht auf Fotos, nicht auf Alleinstellung der Leistung. Das ist das Risiko dieser Richtung.
 
 ## 4. Drei Kandidaten aus drei Quellen
 
 | | Quelle | Form | Die Website ist … | Folge |
 |---|---|---|---|---|
 | **K1** | Ort | Zeichen | **die Hallenfassade**: graue Metallwand, Schild mit Wirbel-S, Occasionen davor | Hallengrau als Grund, das Wirbel-S als Wasserzeichen. Schwach: Zeichen nur als Raster, kein Logo als Vektor (L16). |
-| **K2** | Werkzeug und Material | System | **ein abgedecktes Fahrzeug**: jede Fläche endet an einer Abdeckkante aus grünem Band; was fertig ist, liegt frei | Kante als Linie über jedem Abschnitt, jedem Bild, jedem Knopf; Füller-Grau als Grund |
+| **K2** | Werkzeug und Material | System | **ein abgedecktes Fahrzeug**: jede Fläche endet an einer Abdeckkante aus Band oder Folie; was fertig ist, liegt frei | Kante als Linie über jedem Abschnitt, jedem Bild, jedem Knopf; Füller-Grau als Grund |
 | **K3** | Dokument und Rhythmus | System | **die Laufkarte**: Annahme, Spenglerei, Lackiererei, Aufbereitung, Übergabe als Stationen mit Zahlen | Stationszahlen als Navigation; **Reihenfolge der Stationen ist nicht belegt** (`[Annahme]`, L6). Fällt durch Prüfung 5. |
 
 ## 5. Die eine grosse Entscheidung: K2, **Die Abdeckkante**
 
-Form: **System** (Linie). Die Kante ist ein grünes Band, 10 px hoch, das jeden Abschnitt eröffnet, jedes Bild an **einer** Seite begrenzt, den Hauptknopf am Rand markiert und das Etikett für die Öffnungszeiten trägt. Sie ist das einzige Grün der Website.
+Form: **System** (Linie). Die Kante ist ein Band in Logo-Marine, 10 px hoch, das jeden Abschnitt eröffnet, jedes Bild an **einer** Seite begrenzt, den Hauptknopf am Rand markiert und das Etikett für die Öffnungszeiten trägt. Sie ist das einzige Grün der Website.
 
-**In einem Satz:** *Die Website ist ein abgedecktes Fahrzeug: Wo das grüne Band liegt, endet das eine und beginnt das andere.*
+**In einem Satz:** *Die Website ist ein abgedecktes Fahrzeug: Wo das Band liegt, endet das eine und beginnt das andere.*
 
 Titel der Startseite (Muster «zwei kurze Sätze», kein Gattungsname im grossen Titel): **«Erst die Kante. Dann der Lack.»** Darunter, klein und zuerst gelesen: «Carrosserie, Lackiererei und Felgen in Altstätten». Die Reihenfolge «erst abkleben, dann lackieren» sehen Besucher auf den Fotos (Abdeckband an Tür, Radhaus, Stossstange, Kabinenwand); sie ist **keine Leistungsaussage**.
 
@@ -63,13 +65,13 @@ Prüfungen:
 2. **Tauschtest, zwei Anker:** bestanden, mit dem genannten Vorbehalt (Teil 3).
 3. **Verdrängt keine Fakten:** Telefon und Zeiten liegen in der Kante selbst (Etikett), nicht dahinter.
 4. **Hält ohne Fototag:** Die Fotos des Betriebs sind da (59 Dateien, 40 brauchbar); sie sind Handyfotos (L16). Die Kante trägt auch eine Seite **ohne** Foto.
-5. **Belegt:** Band, Boden, Füller sind auf den Fotos des Betriebs sichtbar; das Grün ist per Pipette gemessen (#96C734 aus der Lackierkabine, #8BC137 aus der grundierten Tür-Szene).
+5. **Belegt:** Band, Boden, Füller sind auf den Fotos des Betriebs sichtbar; Marine und Silber sind per Pipette aus dem Logo gemessen (#243145, #BEBFC1); die Abdeckfolie auf den Fotos ist ebenfalls blau (≈ #215376).
 
 ## 6. Drei Grundsätze (auch das Gegenteil wäre vernünftig)
 
 1. **Eine Kante statt vieler Rahmen.** Gegenteil: Karten mit Schatten und Rand.
 2. **Foto vor Wort, Wort vor Zahl, Zahl vor Versprechen.** Gegenteil: Versprechen zuerst.
-3. **Grau trägt, Grün trennt.** Gegenteil: Farbe als Fläche überall.
+3. **Hell trägt, Marine trennt.** Gegenteil: Farbe als Fläche überall.
 
 ## 7. Ableitungskette
 
@@ -77,14 +79,14 @@ Prüfungen:
 |---|---|---|
 | Titelschrift | **Big Shoulders Display**, 800, mit Kleinbuchstaben | Schmale, gerade Buchstaben wie Beschriftung auf Band und Hallenwand; wird zur Schrift der Kante. Keine Serif, kein kursives Wort. |
 | Textschrift | **Public Sans**, 400 und 600, mit Tabellenziffern in Fakten | Neutral, damit Kante und Foto sprechen. Ziffern stehen im Satz, keine Mono. |
-| Grund | **Füller-Grau, hell** `#EEF0F0`; Fläche **Weiss** `#FFFFFF` für «freigelegte» Teile (Kopf, Felder, Tabelle) | Die grundierte Tür auf dem Foto ist grau (≈ `#B0B1B1`); aufgehellt, weil der Kunde eine helle Seite will (E6). Weiss ist die Kabinenwand. Kein Creme (Hue 190, nicht 60 bis 95). |
-| Text | **Schwarzlack** `#121416` | Schwarzer Lack; Kontrast zu Füller über 15:1. |
-| Akzent | **Abdeckband** `#96C734` | Pipette aus dem Foto; **einziger Akzent**: Kante, Etikett und der **eine** Knopf der Schadenmeldung. Schwarzer Text auf dem Grün: Kontrast über 9:1. |
+| Grund | **Füller-Grau, hell** `#F1F4F8` (leicht bläulich); Fläche **Weiss** `#FFFFFF` für «freigelegte» Teile (Kopf, Felder, Tabelle) | Der Kunde will eine helle Seite (E6). Der Ton folgt dem Grau der grundierten Tür auf dem Foto (≈ `#B0B1B1`, stark aufgehellt) und dem Blau des Logos; Weiss ist die Kabinenwand. Kein Creme (Farbton über 200°, nicht 60 bis 95°). |
+| Text | **Schwarzlack** `#121821` | Schwarzer Lack mit einem Hauch Blau; Kontrast zu Füller über 15:1. |
+| Akzent | **Logo-Marine** `#243145`; leise Linien in **Logo-Silber** `#BEBFC1` | Pipette aus dem Logo des Betriebs (6685 Pixel Marine, 4910 Silber). Marine ist der **einzige** Akzent: Kante, Etikett und Hauptknopf; Silber nur für leise Linien. Das Grün des Abdeckbands wurde verworfen, weil es dem Beispiel des Kunden zu nahe kam (E10). Weisse Schrift auf Marine: Kontrast über 11:1. |
 | Raster | 12 Spalten, Textspalte höchstens 38 rem links, Fotos laufen **nach rechts aus dem Bild** | Die Kante beginnt links und zieht nach rechts weg. |
 | Titelmuster | zwei kurze Sätze, kein Gattungsname gross | folgt der Reihenfolge der Arbeit; vermeidet «[Leistung] in [Ort]». |
-| Knopf (Schadenmeldung) | **Band-Grün gefüllt**, Radius 0, Schwarzlack-Schrift, schwarze Kante 4 px unten | Ein Streifen Band selbst, auf den man schreibt. Er ist der **einzige** grüne Knopf; der Anruf ist weiss mit schwarzem Rand. ≥ 48 × 48 px, Fokus 3 px Schwarzlack. |
+| Knopf (Schadenmeldung) | **Marine gefüllt**, weisse Schrift, Radius 0, silberne Kante 4 px unten | Ein Stück Band am Rand eines Teils, in der Farbe des Logos. Er ist der **einzige** gefüllte Knopf; der Anruf ist weiss mit schwarzem Rand. ≥ 48 × 48 px, Fokus 3 px Schwarzlack. |
 | Bildschnitt | Querformat, **randabfallend rechts**, Kante oben | das Foto «liegt frei», die Kante ist die Grenze. |
-| Fakten | **Etikett** (grünes Band mit schwarzer Schrift) und Tabelle | Auf das Band schreibt man mit Filzstift; hier steht, was gilt. |
+| Fakten | **Etikett** (Band in Marine mit weisser Schrift), Faktenzeile und Tabelle | Auf das Band schreibt man mit Filzstift; hier steht, was gilt. |
 | Bewegung | **eine:** Die Kante zieht sich von links nach rechts (420 ms, nur `transform`) | Der echte Handgriff: Das Band wird gelegt. Hält keinen Inhalt zurück. Unter Reduced Motion steht sie sofort. |
 
 ## 8. Dosen und Bauteile
@@ -95,8 +97,8 @@ Prüfungen:
 
 | Bauteil | Gestalt |
 |---|---|
-| Kopf | **heller** Streifen, **fest** am oberen Rand auf jeder Seite; links Logo (Raster) und «Tesla» als Textlink, rechts der grüne Knopf **«Schaden melden»**; Kante unter dem Streifen |
-| Menü am Handy | Etikett «Menü» auf grünem Band; öffnet eine Liste von Zeilen mit Kante links; der Knopf «Schaden melden» bleibt neben dem Etikett stehen |
+| Kopf | **heller** Streifen, **fest** am oberen Rand auf jeder Seite; links Logo (Raster) und «Tesla» als Textlink, rechts der Marine-Knopf **«Schaden melden»**; Kante unter dem Streifen |
+| Menü am Handy | Etikett «Menü» auf Marine-Band; öffnet eine Liste von Zeilen mit Kante links; der Knopf «Schaden melden» bleibt neben dem Etikett stehen |
 | Faktenblock | Etikett und Tabelle der Öffnungszeiten |
 | Liste (Leistungen) | Zeilen mit Kante links; keine Karten, kein Icon |
 | Primäraktion | Block mit Kante (oben) |

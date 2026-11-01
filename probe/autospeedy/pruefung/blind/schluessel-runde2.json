@@ -1,0 +1,50 @@
+{
+ "1": {
+  "01": "gschwend",
+  "02": "rimac",
+  "03": "alt-autospeedy",
+  "04": "kandidat",
+  "05": "lucid",
+  "06": "falle"
+ },
+ "2": {
+  "01": "rimac",
+  "02": "gschwend",
+  "03": "kandidat",
+  "04": "falle",
+  "05": "lucid",
+  "06": "alt-autospeedy"
+ },
+ "3": {
+  "01": "alt-autospeedy",
+  "02": "falle",
+  "03": "gschwend",
+  "04": "lucid",
+  "05": "rimac",
+  "06": "kandidat"
+ },
+ "4": {
+  "01": "kandidat",
+  "02": "falle",
+  "03": "lucid",
+  "04": "alt-autospeedy",
+  "05": "gschwend",
+  "06": "rimac"
+ },
+ "5": {
+  "01": "kandidat",
+  "02": "lucid",
+  "03": "rimac",
+  "04": "gschwend",
+  "05": "falle",
+  "06": "alt-autospeedy"
+ },
+ "6": {
+  "01": "falle",
+  "02": "kandidat",
+  "03": "rimac",
+  "04": "gschwend",
+  "05": "alt-autospeedy",
+  "06": "lucid"
+ }
+}

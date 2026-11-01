@@ -8,14 +8,14 @@
     },
     "h1kursiv": 0,
     "body": {
-      "backgroundColor": "rgb(238, 240, 240)",
+      "backgroundColor": "rgb(241, 244, 248)",
       "fontFamily": "\"Public Sans\", Arial, sans-serif",
       "fontVariantNumeric": "tabular-nums"
     },
     "knopf": {
-      "backgroundColor": "rgb(150, 199, 52)",
+      "backgroundColor": "rgb(36, 49, 69)",
       "borderRadius": "0px",
-      "color": "rgb(18, 20, 22)"
+      "color": "rgb(255, 255, 255)"
     },
     "knopfLeise": {
       "backgroundColor": "rgb(255, 255, 255)",
@@ -36,11 +36,11 @@
     }
   },
   "grund": {
-    "hex": "#EEF0F0",
+    "hex": "#F1F4F8",
     "oklch": {
-      "L": 0.9536143220027435,
-      "C": 0.0021409523392083175,
-      "h": 197.12084811211648
+      "L": 0.9660133428457754,
+      "C": 0.0062409196831352265,
+      "h": 255.4750229726987
     }
   },
   "kabinenwand": {
@@ -49,13 +49,13 @@
     "h": 89.87556309590241
   },
   "band": {
-    "L": 0.7682257855664772,
-    "C": 0.17735010446515206,
-    "h": 126.62945983482064
+    "L": 0.3109113328566988,
+    "C": 0.04029924144848648,
+    "h": 258.8171514871455
   },
   "deltaE": {
-    "zuCreme": 0.014784725408114522,
-    "zuWeiss": 0.04643505402208521,
+    "zuCreme": 0.023035207862793807,
+    "zuWeiss": 0.034554912096794496,
     "wandZuCreme": 0.047659238442647904
   },
   "cremeZone": {

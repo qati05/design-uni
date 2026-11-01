@@ -1,6 +1,6 @@
 {
   "ziel": "/home/user/design-uni/probe/autospeedy/site",
-  "zeit": "2026-11-01T21:33:39.071Z",
+  "zeit": "2026-11-01T21:50:11.497Z",
   "listeVersion": 1,
   "erlaubt": [],
   "dateien": [
@@ -49,7 +49,7 @@
           "id": "professionell",
           "art": "floskel",
           "stufe": "WARNUNG",
-          "zeile": 76,
+          "zeile": 79,
           "fund": "professionell",
           "kontext": "…araturen verständlich und arbeitet sehr professionell. Termine werden eingehalten und man füh…",
           "warum": "Erwartet man ohnehin.",
@@ -59,7 +59,7 @@
           "id": "preis-leistung",
           "art": "floskel",
           "stufe": "WARNUNG",
-          "zeile": 76,
+          "zeile": 79,
           "fund": "faire Preise",
           "kontext": "…durch schnelle, zuverlässige Arbeit und faire Preise. Das Team ist freundlich, erklärt Repar…",
           "warum": "Ohne Preis unprüfbar.",

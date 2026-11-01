@@ -18,10 +18,11 @@ Der Auftraggeber hat den Wunsch des Kunden am 1. 11. 2026 während des Baus gena
 
 | Nr. | Wunsch des Kunden | Folge für Bau und Text |
 |---|---|---|
-| E6 | **Helle Seite, helle Farben.** | Weisser und hellgrauer Grund, heller Kopfstreifen, kein dunkler Grund. Das Grün des Abdeckbands bleibt der Akzent. |
+| E6 | **Helle Seite, helle Farben.** | Weisser und hellgrauer Grund, heller Kopfstreifen, kein dunkler Grund. Der Akzent war zunächst das Grün des Abdeckbands; E10 ersetzt es durch die Logofarben. |
 | E7 | **Egal, wo der Besucher ist: ein CTA für die Schadenmeldung.** | Der Knopf «Schaden melden» steht in einem Kopfstreifen, der auf jeder Seite und auf jedem Gerät sichtbar bleibt, und am Ende jeder Seite noch einmal als Abschluss. |
 | E8 | **Der Betrieb ist Tesla-Partner (Tesla Approved Body Shop) und bekommt Weiterleitungen von Tesla. Die Tesla-Leute sollen sich direkt klar finden.** | Eigene Seite `tesla.html` mit einer Zeile in der Navigation und einem Hinweis im Kopf jeder Seite; im Formular ein Kästchen «Der Fall kommt von Tesla» mit freiwilligem Feld für die Tesla-Referenz. Die Seite nennt **keinen** Ablauf von Tesla, den ich nicht kenne. |
 | E9 | **«Sauber, informativ und simple to use»** für den Besucher in allem, auch in den Formularen: eine Schadenmeldung in wenigen Klicks und mit wenigen Angaben. | Ein Formular mit zwei Pflichtfeldern (Name, Telefon), drei freiwilligen Angaben; vom CTA bis zur E-Mail zwei Tipps; kein Pflichtfeld, das nicht gebraucht wird. |
+| E10 | **Grün passt nicht.** Der Kunde hat eine Carrosserie in hellem Grün als Beispiel gezeigt; mit Grün sähe die Seite nach Kopie aus. Stattdessen die **Logofarben** nutzen. Und: Die Seite soll **blind von Unteragenten bewertet** werden, wie in den Skills beschrieben. | Akzent Logo-Marine `#243145`, leise Linien Logo-Silber `#BEBFC1`; Unteragenten gestartet (P4-Bildtest, Geschwister-Frage, Fünf-Sekunden-Test), Ergebnis in [pruefung/blindtest.md](pruefung/blindtest.md). Das ersetzt die Aussage, ohne ausdrücklichen Auftrag keine Unteragenten zu starten (AUFTRAG.md). |
 
 E8 ist eine Aussage des Auftraggebers über den Kunden. Die Website des Betriebs zeigt ein Logo «TABS» in derselben Richtung ([fakten.md](fakten.md), Teil 5). Einen **Nachweis** (Vertrag, Zertifikat, erlaubtes Tesla-Zeichen) gibt es nicht öffentlich; er steht im [zusagen-blatt.md](zusagen-blatt.md) als offen.
 

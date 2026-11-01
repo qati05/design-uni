@@ -1,5 +1,5 @@
 /* Ergänzungen zu main.css */
-.kante-bar { height: var(--kante); background: var(--abdeckband); }
+.kante-bar { height: var(--kante); background: var(--logo-marine); }
 .bild.bild-kante { border-top: 0; }
 .kopf .tel-zahl { display: none; }
 @media (min-width: 1180px) {
@@ -15,5 +15,25 @@
 .raster .bild figcaption { padding-inline: 0; }
 
 .fakten-zeile { list-style: none; margin: 0 0 var(--luft-m); padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.fakten-zeile li { background: var(--kabinenwand); border-left: 6px solid var(--abdeckband); padding: 0.4rem 0.8rem; font-weight: 600; font-size: 0.9375rem; }
+.fakten-zeile li { background: var(--kabinenwand); border-left: 6px solid var(--logo-silber); padding: 0.4rem 0.8rem; font-weight: 600; font-size: 0.9375rem; }
 main > section:last-child:not(.abschluss) { padding-bottom: var(--luft-xl); }
+
+/* Überarbeitung nach blindem Test, Runde 1: grösseres Logo, ruhiger Kopf, Hero mit Faktenkarte */
+.marke img { height: 46px; }
+.kopf-innen { min-height: 76px; }
+.kopf .knopf-leise { border-color: transparent; background: transparent; }
+.kopf .knopf-leise:hover { background: var(--fueller); }
+.hero-gitter { display: grid; gap: var(--luft-m); }
+.hero-text h1 { max-width: 12ch; }
+.hero-karte { background: var(--kabinenwand); border-top: var(--kante) solid var(--logo-marine); padding: 1.1rem 1.25rem 0.5rem; align-self: end; }
+.hero-karte h2 { font-size: 1.75rem; }
+.hero-karte table.zeiten { border-top: 0; }
+.hero-karte .status { font-size: 1rem; }
+.hero-karte p { margin-bottom: 0.7em; }
+.hero-start .bild { margin-top: var(--luft-m); }
+@media (min-width: 1000px) {
+  .marke img { height: 58px; }
+  .hero-gitter { grid-template-columns: 7fr 5fr; align-items: end; gap: var(--luft-l); }
+  .hero-start { padding-top: 2.25rem; }
+}
+@media (max-width: 420px) { .marke img { height: 40px; } }

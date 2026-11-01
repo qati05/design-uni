@@ -17,7 +17,7 @@ const rgb2hex = (s) => { const m = s.match(/\d+/g).map(Number); return "#" + m.s
   const m = await p.evaluate(() => { const g = (sel, props) => { const e = document.querySelector(sel); const c = getComputedStyle(e); return Object.fromEntries(props.map((k) => [k, c[k]])); };
     return { h1: g("h1", ["fontFamily", "fontWeight", "fontStyle", "fontSize"]), h1kursiv: document.querySelectorAll("h1 em, h1 i, h1 [style*=italic]").length, body: g("body", ["backgroundColor", "fontFamily", "fontVariantNumeric"]), knopf: g(".hero .knopf", ["backgroundColor", "borderRadius", "color"]), knopfLeise: g(".hero .knopf-leise", ["backgroundColor", "borderRadius", "borderTopWidth"]), tabelle: g("table.zeiten td", ["fontFamily", "fontVariantNumeric"]), bild: g(".hero .bild img", ["aspectRatio", "objectFit"]), animation: g(".hero .kante-zug", ["animationName", "animationDuration"]) }; });
   await b.close(); srv.kill();
-  const grund = "#EEF0F0", wand = "#FFFFFF", creme = "#F5EFE6", band = "#96C734";
+  const grund = "#F1F4F8", wand = "#FFFFFF", creme = "#F5EFE6", band = "#243145";
   const out = { gemessen: m, grund: { hex: grund, oklch: lch(oklab(grund)) }, kabinenwand: lch(oklab(wand)), band: lch(oklab(band)), deltaE: { zuCreme: dE(oklab(grund), oklab(creme)), zuWeiss: dE(oklab(grund), oklab(wand)), wandZuCreme: dE(oklab(wand), oklab(creme)) }, cremeZone: lch(oklab(creme)) };
   console.log(JSON.stringify(out, null, 2));
 })();
