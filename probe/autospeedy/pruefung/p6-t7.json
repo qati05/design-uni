@@ -139,7 +139,7 @@
     {
       "id": "P6 Rückmeldung ≤ 300 ms, doppeltes Senden gesperrt",
       "ok": true,
-      "detail": "90 ms (inkl. Klick), Knopf gesperrt: true"
+      "detail": "87 ms (inkl. Klick), Knopf gesperrt: true"
     },
     {
       "id": "E8 Tesla-Vorwahl über die URL (Kästchen, Modell, Chips, Referenz)",
@@ -224,7 +224,7 @@
     {
       "id": "T3/W1 Sätze im Fliesstext im Mittel ≤ 15 Wörter",
       "ok": true,
-      "detail": "7.6 Wörter im Mittel über 150 Sätze; längster: 20 Wörter (betrieb: Auto Speedy nennt sich zertifizierter Partner für Karosserie und Lack von Tesla )"
+      "detail": "7.5 Wörter im Mittel über 152 Sätze; längster: 20 Wörter (betrieb: Auto Speedy nennt sich zertifizierter Partner für Karosserie und Lack von Tesla )"
     },
     {
       "id": "T3/W2 Kein Satz über 25 Wörter",

@@ -37,3 +37,33 @@ main > section:last-child:not(.abschluss) { padding-bottom: var(--luft-xl); }
   .hero-start { padding-top: 2.25rem; }
 }
 @media (max-width: 420px) { .marke img { height: 40px; } }
+
+/* Runde 3: Name als Schrift, Hero in zwei Feldern mit ganz sichtbarem Foto, Tesla ohne Rahmen */
+.marke { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+.marke-text { display: none; font: 800 1.6rem/1 var(--titel); color: var(--logo-marine); white-space: nowrap; }
+@media (min-width: 560px) { .marke-text { display: inline; } }
+@media (min-width: 1100px) and (max-width: 1299px) { .marke-text { display: none; } }
+.etikett-link { border: 0; position: relative; padding-left: 1.2rem !important; font-weight: 700; }
+.etikett-link::before { content: ""; position: absolute; left: 0.5rem; top: 50%; width: 8px; height: 8px; margin-top: -4px; background: var(--logo-marine); }
+.hero-gitter { display: grid; gap: var(--luft-m); }
+.hero-bild { margin: 0; background: transparent; align-self: end; }
+.hero-bild img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.hero-start .hero-text .status { margin-top: var(--luft-m); max-width: 28rem; }
+@media (min-width: 1000px) {
+  .hero-gitter { grid-template-columns: 5fr 6fr; align-items: end; gap: var(--luft-l); }
+  .hero-bild { margin-right: calc((100% - 100vw) / 2); }
+  .hero-start { padding-top: 2rem; }
+  .hero-start h1 { font-size: clamp(3rem, 6.4vw, 6rem); }
+}
+
+/* Korrekturen Runde 3 */
+.hero .hero-bild { margin: 0; }
+.hero .hero-bild img { aspect-ratio: 4 / 3; object-fit: cover; }
+.rahmen { width: min(100% - 2 * var(--rand), 80rem); }
+.nav-desktop a { padding: 0 0.45rem; }
+.nav-desktop ul { gap: 0; }
+@media (min-width: 1100px) and (max-width: 1459px) { .marke-text { display: none; } }
+@media (min-width: 1460px) { .marke-text { display: inline; } }
+
+@media (min-width: 1300px) { .marke-text { display: inline; } }
+@media (min-width: 1000px) { .marke img { height: 62px; width: auto; } .kopf-innen { min-height: 84px; } }

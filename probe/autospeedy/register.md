@@ -18,14 +18,14 @@ Schwelle `[Annahme]`: mindestens 6 von 8 anders.
 |---|---|---|---|
 | 1 Titelschrift | Serif (Newsreader) mit kursivem Wort; oder Grotesk plus kursives Serifenwort | schmale Grotesk, 0 kursiv | ja |
 | 2 Grundfarbe | Creme, Rost oder Terrakotta | helles Blaugrau `#F1F4F8`, Weiss, Logo-Marine | ja (Farbton), **aber ΔE 0,023** (siehe unten) |
-| 3 Hero-Aufbau | zwei Felder: Text links, Bild rechts | Text links, **Faktenkarte** rechts, Querbild darunter, randabfallend | ja (Bild nicht im Feld rechts) |
+| 3 Hero-Aufbau | zwei Felder: Text links, Bild rechts | **ab Runde 3:** Text links, Foto rechts (Halle mit Schild), Kante oben am Foto | **nein**: gleich dem Standard; Grund: Die Bewerter bemängelten ein angeschnittenes Foto und eine leere Fläche (blindtest.md) |
 | 4 Titelmuster | «[Leistung], [Leistung], *[Wort]*.» | zwei kurze Sätze | ja |
 | 5 Primäraktion | gefüllter Knopf (Radius 0) plus unterstrichener Telefonlink | Marine-Block, Telefon als Link mit Symbol im Kopf und in der Karte | **teilweise gleich** (Knopf plus Telefonlink); die Füllung in Logo-Marine mit silberner Kante ist anders |
 | 6 Schrift der Fakten | Versal-Zeile, Mono-Ziffern | Tabelle und Etikett, Tabellenziffern | ja |
 | 7 Bildschnitt | hoch rechts | quer, randabfallend rechts | ja |
 | 8 Bewegung | jeder Abschnitt gleitet von unten | eine: Strich wird gelegt | ja |
 
-**7 von 8 anders, 1 teilweise** (Achse 5) (Selbstauskunft gegen den beschriebenen Standard).
+**6 von 8 anders, 1 teilweise, 1 gleich** (Achse 3 gleich, Achse 5 teilweise); Schwelle 6 von 8 knapp erreicht (Selbstauskunft gegen den beschriebenen Standard).
 
 ## Creme-Sperre und Abstand zum Grund
 

@@ -99,7 +99,7 @@ ${jsonld ? `<script type="application/ld+json">${jsonld}</script>\n` : ""}<scrip
 <div class="vorschau"><div class="rahmen">Vorschau zur Freigabe, nicht veröffentlicht. Stand 1. November 2026.</div></div>
 <header class="kopf">
 <div class="rahmen kopf-innen">
-<a class="marke" href="index.html" aria-label="Auto Speedy AG, zur Startseite"><img src="bilder/logo-wirbel-s.png" width="76" height="46" alt="Auto Speedy AG"></a>
+<a class="marke" href="index.html" aria-label="Auto Speedy AG, zur Startseite"><img src="bilder/logo-wirbel-s.png" width="76" height="46" alt="Auto Speedy AG"><span class="marke-text" aria-hidden="true">Auto Speedy AG</span></a>
 <nav class="nav-desktop" aria-label="Hauptmenü"><ul>${navDesk}<li><a class="etikett-link" href="tesla.html"${aktiv === "tesla.html" ? ' aria-current="page"' : ""} data-ort="kopf">Tesla</a></li></ul></nav>
 <div class="kopf-aktionen">
 <a class="knopf knopf-text" href="schaden-melden.html" data-zaehl="anfrage" data-ort="kopf">Schaden melden</a>
@@ -177,24 +177,23 @@ seiten.push(seite({
   jsonld: LD,
   aktiv: "index.html",
   abschlussOrt: "abschluss-start",
-  body: `<section class="hero hero-start"><div class="rahmen">
-<div class="hero-gitter">
+  body: `<section class="hero hero-start"><div class="rahmen"><div class="hero-gitter">
 <div class="hero-text">
 <h1>Erst die Kante. Dann der Lack.</h1>
 <p class="lead">Carrosserie, Lackiererei und Felgen in Altstätten. Ihr Auto hat einen Schaden? Für die Meldung genügen Name und Telefon.</p>
 <div class="aktionen">${schadenKnopf("hero")}</div>
-</div>
-<aside class="hero-karte" aria-labelledby="zeiten-titel">
-<h2 id="zeiten-titel">Offen von Montag bis Freitag</h2>
 <p class="status" data-status>Montag bis Freitag geöffnet, mittags von ${U(12, "00")} bis ${U(13, "15")} zu.</p>
-${zeiten()}
-<p class="klein">An Feiertagen und in Betriebsferien gelten andere Zeiten.</p>
-<p><strong>Alte Landstrasse 63, 9450 Altstätten</strong><br>${routeLink("hero-karte")}</p>
-<p>Telefon ${telLink(TEL1, "hero-karte")}<br><a href="${GOOGLE}" data-zaehl="route" data-ort="hero-bewertung">4,8 von 5 bei 37 Google-Bewertungen</a></p>
-</aside>
 </div>
-${bild("hero-kabine-defender.jpg", "Land Rover Defender in der Lackierkabine, links und rechts Lichtleisten, schwarz-weisser Boden", "Land Rover Defender in der Lackierkabine von Auto Speedy", { klasse: "bild-rechts", zug: true, breite: 1600, hoehe: 972, lazy: false, fetch: true })}
-</div></section>
+${bild("halle-defender-schild.jpg", "Graue Halle mit dem Schild von Auto Speedy, davor ein matt schwarzer Land Rover Defender und weitere Fahrzeuge", "Auto Speedy an der Alten Landstrasse 63 in Altstätten", { klasse: "hero-bild", zug: true, breite: 1200, hoehe: 900, lazy: false, fetch: true })}
+</div></div></section>
+
+<section class="abschnitt" aria-labelledby="zeiten-titel"><div class="rahmen">
+<h2 id="zeiten-titel">Offen von Montag bis Freitag</h2>
+<div class="paar">
+<div>${zeiten()}<p class="klein">An Feiertagen und in Betriebsferien gelten andere Zeiten.</p></div>
+<div><p><strong>Alte Landstrasse 63<br>9450 Altstätten</strong></p><p>${routeLink("start-zeiten")}</p>
+<p>Telefon ${telLink(TEL1, "start-zeiten")}<br>Mobil ${telLink(TEL2, "start-zeiten")}<br>E-Mail ${mailLink("start-zeiten")}<br><a href="${GOOGLE}" data-zaehl="route" data-ort="start-bewertung">4,8 von 5 bei 37 Google-Bewertungen</a></p></div>
+</div></div></section>
 
 <section class="abschnitt" aria-labelledby="leistung-titel"><div class="rahmen">
 <h2 id="leistung-titel">Carrosserie, Lack, Felgen und Occasionen an einer Adresse</h2>

@@ -12,6 +12,10 @@ Stand: 1. November 2026 · Branch `claude/text-uni-und-probe` · **Vorschau, nic
 - **Weiter nicht gelaufen:** P1, P5 (blinder Teil), P7 Kunden-Agenten, P8, T2, T4 bis T6, Lighthouse, echte Geräte, Menschen, Juristen. Siehe unten.
 - **Nicht freigabefähig, solange:** die Einwilligung für die drei Bewertungs-Zitate fehlt (P13 sperrt) und die Zusagen im [zusagen-blatt.md](zusagen-blatt.md) nicht bestätigt sind.
 
+## Stand nach dem Blindtest: Fassung «Runde 3» (noch nicht blind getestet)
+
+Nach dem Bericht zum Bildtest habe ich vier Punkte umgebaut, die die Bewerter am häufigsten nannten: Firmenname als Schrift neben dem Logo (ab 1300 px), grösseres Logo, «Tesla» ohne Rahmen, Hero in zwei Feldern mit **ganz sichtbarem** Foto (Halle mit Schild und Defender statt Kabinenfoto; die Kabinenvariante liegt als Foto `hero-kabine-defender.jpg` weiter bereit). 50 maschinelle Prüfungen: 0 Fehler. **Ob die Note steigt, ist nicht gemessen.** Das Layout «Text links, Bild rechts» ist der Modell-Standard; es steht im [Register](register.md) als Ausnahme (Achse 3 gilt damit nicht mehr als anders, 6 von 8). Zurücknehmen: `git revert` dieses Commits.
+
 ## Die Idee: Die Abdeckkante
 
 Eine grosse Entscheidung aus dem Betrieb, nicht aus der Branche: das **Abdeckband und die blaue Abdeckfolie**, die auf den Fotos des Betriebs an Türen, Radhäusern und Stossstangen kleben. Wo das Band liegt, endet das eine und beginnt das andere. Es eröffnet jeden Abschnitt, begrenzt die Bilder an einer Seite und ist, in **Logo-Marine** (`#243145`, per Pipette aus dem Logo), die Farbe des **einzigen** Hauptknopfs. Silber (`#BEBFC1`, ebenfalls aus dem Logo) trägt die leisen Linien. Die erste Fassung war grün; der Kunde hat eine Carrosserie in hellem Grün als Beispiel gezeigt, Grün hätte nach Kopie ausgesehen (E10). Titel der Startseite: «Erst die Kante. Dann der Lack.» Ableitung, Alternativen und Risiko: [richtung.md](richtung.md).
