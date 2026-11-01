@@ -28,6 +28,7 @@ Merksatz: *Die Gestaltung entscheidet, wie etwas aussieht; das Angebot entscheid
 | Richtungsblatt, eine grosse Entscheidung, Ableitung, Komponenten aus der Idee | [richtung.md](referenzen/richtung.md) |
 | Techniken statt Looks: wie Vorbilder die Idee sichtbar machen | [techniken.md](referenzen/techniken.md) |
 | Vorbilder, gemessen: Band aus 25 Websites, Vorlagen-Signale | [vorbilder-gemessen.md](referenzen/vorbilder-gemessen.md) |
+| Bausteine: Muster aus Baukästen, eigene Umsetzungen in der Galerie | [bausteine.md](referenzen/bausteine.md) · [galerie/index.html](galerie/index.html) |
 | Abstand zum eigenen Durchschnitt (Register, Achsen, Bauteile, Sperren) | [abstand.md](referenzen/abstand.md) |
 | Typografie · Komposition · Farbe und Bild · Bewegung | [typografie.md](referenzen/typografie.md) · [komposition.md](referenzen/komposition.md) · [farbe-bild.md](referenzen/farbe-bild.md) · [bewegung.md](referenzen/bewegung.md) |
 | Angebot, Vertrauen, Formulare, Prüflisten A/P/H, Messplan | [conversion.md](referenzen/conversion.md) |
@@ -118,7 +119,7 @@ Ablauf im Detail: [richtung.md](referenzen/richtung.md) Teil 2.
 - **Ableitungskette:** Für Schrift, Grund, Raster, Titelmuster, Knopf, Bildschnitt und Bewegung je ein «weil»-Satz, der auf die Entscheidung zeigt. Eine Wahl ohne diesen Satz ist eine Voreinstellung und fliegt raus.
 - **Techniken:** eine tragende und höchstens zwei stützende aus [techniken.md](referenzen/techniken.md), passend zur Form der Idee und zum Material (ohne eigene Fotos trägt Schrift oder Fakten, kein Bild). Je ein «weil»-Satz; ins Register. Eine tragende Technik der letzten zwei Websites ist gesperrt.
 - **Tokens** als JSON (W3C Design Tokens, Format 2025.10) mit **Namen aus dem Betrieb** (`--bleistift`, `--fahrplan-zeile`, nicht `--accent`). Zwischen Projekten geteilt sind nur funktionale Tokens: Fokus, Abstand, Fehler. Wer Werte vom letzten Projekt kopiert, sieht es an den falschen Namen.
-- **Bewegung: keine oder eine.** Sie zeigt einen echten Handgriff oder ein echtes Material, ist unter 1 s fertig oder steuerbar und hält keinen Inhalt zurück. Rückmeldungen im Interface 100–300 ms. Was länger als 5 s von selbst läuft, bekommt eine Pause. Ein Entscheid «statisch» geht vor ([bewegung.md](referenzen/bewegung.md)).
+- **Bewegung: keine oder eine.** Umsetzungen stehen in der [Galerie](galerie/index.html) ([bausteine.md](referenzen/bausteine.md)); fertige Abschnitte aus Baukästen werden nicht übernommen. Sie zeigt einen echten Handgriff oder ein echtes Material, ist unter 1 s fertig oder steuerbar und hält keinen Inhalt zurück. Rückmeldungen im Interface 100–300 ms. Was länger als 5 s von selbst läuft, bekommt eine Pause. Ein Entscheid «statisch» geht vor ([bewegung.md](referenzen/bewegung.md)).
 - **Farbe** mit der Pipette aus dem eigenen Foto oder Material. Die Palette ist blind kaum ein Hebel; entscheide sie schnell und investiere in Komposition und Bild ([lektionen.md](referenzen/lektionen.md)).
 - **Schwache Fotos:** eine feste Bearbeitung für die ganze Serie als Skript (Lichtregel, z. B. Zweiton, Kontrastkurve, Körnung), und Schrift und Bild komponiert statt nebeneinander. Das hob blind 6,00 auf 7,17 mit denselben Handyfotos ([farbe-bild.md](referenzen/farbe-bild.md)).
 

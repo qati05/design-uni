@@ -1,5 +1,7 @@
 # Bewegung
 
+> Eigene, geprüfte Umsetzungen der erlaubten Bewegungen: [../galerie/index.html](../galerie/index.html) · Einordnung der Baukästen: [bausteine.md](bausteine.md)
+
 > **Quellen:** NN/g «Executing UX Animations: Duration and Motion Characteristics» und «Scrolljacking 101»; Emil Kowalski, «Great animations»; web.dev «How to create high-performance CSS animations»; MDN View Transition API und scroll-driven animations; Chrome for Developers «Cross-document view transitions»; W3C WCAG 2.2.2, 2.3.1, 2.3.3; GSAP-Doku (Eases, ScrollTrigger, matchMedia); Awwwards Sites of the Year; WebKit-Bug 219889 (Autoplay im Stromsparmodus). Eigene Bildfolgen mit Playwright.
 
 ## 1. Was der blinde Test zeigte

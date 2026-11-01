@@ -21,6 +21,7 @@ skills/design-uni/
 ├── referenzen/              Wissen, nach Thema; SKILL.md verlinkt dorthin
 │   ├── techniken.md         14 Techniken statt Looks, aus 25 vermessenen Vorbildern
 │   ├── vorbilder-gemessen.md  Band der Vorbilder, Vorlagen-Signale, Methode, Grenzen
+│   ├── bausteine.md         Baukästen (motionin, beui, backgrounds.supply) eingeordnet
 │   ├── geschmack.md         was premium ausmacht, 60-Sekunden-Prüfung, Billig-Muster
 │   ├── richtung.md          Richtungsblatt, eine grosse Entscheidung, Komponenten aus der Idee
 │   ├── abstand.md           Register, Achsen, Bauteile, Sperren, Modell-Standard
@@ -32,6 +33,9 @@ skills/design-uni/
 │   ├── kunden-agenten.md    Kunden-Agenten am Handy, Auftragstext, Auswertung
 │   ├── lektionen.md         was die Tests gelehrt haben, mit Zahlen
 │   └── nie-liste.md         verboten · nie als Voreinstellung · trotzdem erlaubt
+├── galerie/
+│   ├── index.html           elf Bausteine, eigener Code, ohne Bibliothek, mit Urteil und Technik
+│   └── pruefen-galerie.cjs  ohne JS lesbar, still bei «Bewegung reduzieren», Pause, Kontrast, 44 px
 └── werkzeuge/
     ├── kunde.cjs            Handy-Simulator für Kunden-Agenten (Playwright)
     ├── selbsttest/          Prüfseite mit drei eingebauten Fehlern für kunde.cjs

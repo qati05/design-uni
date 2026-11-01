@@ -61,6 +61,7 @@ Länderspezifisch: [recht-schweiz.md](recht-schweiz.md).
 - Bibliothekseffekte: Partikel, Glitch, Cursor-Kreis, magnetische Knöpfe, Text-Verwürfeln.
 - Karten heben sich beim Hover mit Schatten, Bilder zoomen auf 105–110 %.
 - Verändertes Scroll-Tempo, lange gepinnte Strecken, horizontales Scrollen beim Lesen.
+- Fertige Abschnitte aus Baukästen (3D-Bildwände, Karussells, gekapertes Scrollen) und gekaufte Hintergründe (Verläufe, Aurora, Shader), übernommen statt aus der Idee gebaut ([bausteine.md](bausteine.md)).
 
 **Modell-Standard** (siehe [abstand.md](abstand.md) Teil 4)
 - Creme-Grund, Serifentitel mit kursivem Wort, Versal-Labels mit Werten, gefüllter Knopf plus unterstrichener Telefonlink, Text links / Bild rechts, Mono-Ziffern, 1-px-Linienraster, rote Fehlerbox mit Linkliste, Dunkelblau mit Gelb, Zierlinien.

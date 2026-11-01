@@ -6,7 +6,7 @@ Was Spitzen-Websites **messbar** anders machen als der Modell-Standard. Gemessen
 
 ## 1. Stichprobe und Methode
 
-- **Quellen:** Galerien landdding.com (Automotive, Agency, Architecture), footer.design, recent.design; dazu Websites aus den Galerien, die einem lokalen Betrieb nahe kommen. Stand 1. November 2026.
+- **Quellen:** Galerien landdding.com (Automotive, Agency, Architecture) und footer.design; daraus vor allem Websites, die einem lokalen Betrieb nahe kommen. recent.design wurde gesichtet, aber noch nicht vermessen. Stand 1. November 2026.
 - **Gemessen:** 31 Websites. **Ausgewertet:** 25. Ausgeschlossen, weil der erste Bildschirm nicht messbar war: 2 mit Ladebildschirm oder WebGL, das kopflos schwarz blieb; 4 mit Popup, Keks-Banner oder Intro über dem ersten Bildschirm. Nicht erreichbar: 2 (eine Domain tot, eine hinter einer Browserprüfung).
 - **Ausgewertet sind:** Decimals, Eladio Dieste, Digital Metal, ESR (Carrosserie, Porsche-zertifiziert), Etched, Harvest Hall, Infinite Machine, Northeast Tomato (Konservenfabrik), Object & Archive, Onetech (Lackiertechnik), Pixelflakes, Redwood Materials, Rennsport (Restaurierungs-Werkstatt), Slantis, Storey (Architekten), Studio Ag, Tekt (Modulhäuser), Telha Clarke, This January, Turion, United Carriers, watts, Wine Diplomacy (Weinbar), WRK (Uhrmacher), Yummygum.
 - **Wie:** Chromium ohne Kopf, 1440 × 900 und 390 × 844, nach dem Laden einmal durchgescrollt; Werte aus `getComputedStyle` und aus einem Punktraster von 32 × 20 Proben im ersten Bildschirm. Ein Mensch hat die Bildschirmfotos aller 25 gesehen und die Techniken gezählt.

@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Galerie der Bausteine · design-uni</title>
+<style>
+/* Galerie der Bausteine: eigene Umsetzungen von Mustern aus Baukästen (motionin.design, beui.dev).
+   Kein fremder Code, keine fremden Bilder, keine Bibliothek. Jeder Baustein:
+   - zeigt seinen Inhalt ohne JavaScript,
+   - steht unter «Bewegung reduzieren» still,
+   - ist nach höchstens 1 s fertig oder hat einen Pause-Knopf.
+   Farben und Schriften hier sind NEUTRAL und gehören keinem Projekt: Im Projekt kommen sie aus den Tokens des Betriebs. */
+[hidden] { display: none !important; }
+:root { --grund: #f4f4f2; --tinte: #161616; --leise: #5b5b5b; --linie: #c9c9c4; --signal: #1f4fd6; --fokus: #1f4fd6; --mass: 8px; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--grund); color: var(--tinte); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--fokus); outline-offset: 3px; }
+.seite { max-width: 1120px; margin: 0 auto; padding: 48px 24px 96px; }
+h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.05; margin: 0 0 16px; letter-spacing: -0.02em; }
+.vorspann { max-width: 62ch; color: var(--leise); }
+.inhalt { columns: 2 260px; padding: 0; list-style: none; margin: 24px 0 0; }
+.inhalt a { text-decoration: none; border-bottom: 1px solid var(--linie); }
+.baustein { border-top: 1px solid var(--tinte); margin-top: 72px; padding-top: 16px; display: grid; grid-template-columns: 1fr 2fr; gap: 32px; }
+@media (max-width: 760px) { .baustein { grid-template-columns: 1fr; } }
+.etikett { font: 600 12px/1.3 ui-monospace, Menlo, monospace; letter-spacing: 0.06em; text-transform: uppercase; color: var(--leise); }
+.baustein h2 { font-size: 26px; line-height: 1.15; margin: 6px 0 12px; }
+.urteil { display: inline-block; font-size: 14px; font-weight: 600; padding: 2px 0; border-bottom: 2px solid currentColor; }
+.urteil.traegt { color: #136c2e; } .urteil.idee { color: #8a5a00; } .urteil.nie { color: #a01818; }
+dl { margin: 12px 0 0; font-size: 14px; } dt { font-weight: 600; margin-top: 8px; } dd { margin: 0; color: var(--leise); }
+.buehne { background: #fff; border: 1px solid var(--linie); min-height: 260px; padding: 32px; position: relative; overflow: hidden; }
+.knopf { font: inherit; font-weight: 600; min-height: 44px; min-width: 44px; padding: 8px 16px; background: var(--tinte); color: #fff; border: 0; cursor: pointer; }
+.knopf.leise { background: transparent; color: var(--tinte); border: 1px solid var(--tinte); }
+.neu-abspielen { position: absolute; right: 12px; bottom: 12px; }
+
+/* B1 Strich zeichnet sich */
+.b1-wort { font-size: clamp(28px, 4vw, 44px); font-weight: 700; position: relative; display: inline-block; }
+.b1-wort svg { position: absolute; left: 0; right: 0; bottom: -10px; width: 100%; height: 14px; overflow: visible; }
+.b1-wort path { fill: none; stroke: var(--signal); stroke-width: 3; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.laeuft .b1-wort path { animation: b1-zug 700ms cubic-bezier(.3,.7,.2,1) both; }
+@keyframes b1-zug { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* B2 Zeile aus der Maske */
+.b2-titel { font-size: clamp(30px, 4.5vw, 52px); line-height: 1.05; font-weight: 700; margin: 0; }
+.b2-zeile { display: block; overflow: hidden; padding-bottom: .06em; }
+.b2-zeile > span { display: block; }
+.laeuft .b2-zeile > span { animation: b2-hoch 600ms cubic-bezier(.2,.8,.2,1) both; }
+.laeuft .b2-zeile:nth-child(2) > span { animation-delay: 90ms; }
+@keyframes b2-hoch { from { transform: translateY(105%); } to { transform: none; } }
+
+/* B3 Fallblatt für den Zustand «jetzt» */
+.b3-tafel { display: grid; grid-template-columns: auto 1fr; gap: 0 24px; font-variant-numeric: tabular-nums; }
+.b3-tafel dt, .b3-tafel dd { border-top: 1px solid var(--linie); padding: 10px 0; margin: 0; font-size: 18px; color: var(--tinte); }
+.b3-jetzt { display: inline-flex; gap: 2px; font: 700 28px/1 ui-monospace, Menlo, monospace; }
+.b3-jetzt span { display: inline-block; background: var(--tinte); color: #fff; padding: 6px 4px; min-width: .9em; text-align: center; }
+.laeuft .b3-jetzt span { animation: b3-klapp 380ms steps(4, end) both; }
+.laeuft .b3-jetzt span:nth-child(2n) { animation-delay: 60ms; } .laeuft .b3-jetzt span:nth-child(3n) { animation-delay: 120ms; }
+@keyframes b3-klapp { 0% { transform: rotateX(90deg); } 100% { transform: none; } }
+
+/* B4 Laufband mit Pause */
+.b4-band { border-block: 1px solid var(--tinte); overflow: hidden; white-space: nowrap; }
+.b4-spur { display: inline-flex; gap: 48px; padding: 12px 0; font-weight: 700; font-size: 20px; }
+.b4-spur.laeuft-endlos { animation: b4-lauf 24s linear infinite; }
+.b4-band[data-pausiert="true"] .b4-spur { animation-play-state: paused; }
+@keyframes b4-lauf { to { transform: translateX(-50%); } }
+
+/* B5 Typografische Liste mit aktivem Eintrag */
+.b5 { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; align-items: start; }
+.b5 ul { list-style: none; margin: 0; padding: 0; }
+.b5 a { display: block; text-decoration: none; font-size: clamp(24px, 3.4vw, 40px); line-height: 1.12; font-weight: 600; color: #6e6e6e; transition: color 160ms ease; }
+.b5 a:hover, .b5 a:focus-visible, .b5 a[aria-current="true"] { color: var(--tinte); }
+.b5-bild { aspect-ratio: 1; background: var(--b5-farbe, #ddd); display: grid; place-items: end start; padding: 12px; font: 600 12px ui-monospace, monospace; color: #fff; transition: background-color 200ms ease; }
+@media (max-width: 760px) { .b5 { grid-template-columns: 1fr; } .b5-bild { display: none; } .b5 a::after { content: " →"; } }
+
+/* B6 Form aus dem Betrieb als Bildmaske */
+.b6-bild { height: 220px; background: linear-gradient(160deg, #6b4b33, #b98a5e 55%, #e9cfa9); clip-path: inset(0 0 0 0 round 110px 110px 0 0); }
+.laeuft .b6-bild { animation: b6-auf 800ms cubic-bezier(.2,.8,.2,1) both; }
+@keyframes b6-auf { from { clip-path: inset(100% 0 0 0 round 110px 110px 0 0); } to { clip-path: inset(0 0 0 0 round 110px 110px 0 0); } }
+
+/* B7 Vorher/Nachher-Regler */
+.b7 { position: relative; aspect-ratio: 16 / 9; max-height: 320px; --pos: 50%; }
+.b7 svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.b7 .nachher { clip-path: inset(0 0 0 var(--pos)); }
+.b7-linie { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.35); pointer-events: none; }
+.b7-regler { display: block; margin-top: 12px; font-size: 14px; }
+.b7-regler input { display: block; width: 100%; min-height: 44px; accent-color: var(--tinte); }
+
+/* B8 Masslinien am Werkstück */
+.b8 svg { width: 100%; height: auto; max-height: 260px; }
+.b8 .mass line, .b8 .mass path { stroke: var(--tinte); stroke-width: 1.2; fill: none; }
+.b8 .mass text { font: 600 13px ui-monospace, Menlo, monospace; fill: var(--tinte); }
+.laeuft .b8 .mass line { stroke-dasharray: 1; animation: b1-zug 600ms ease-out both; }
+.laeuft .b8 .mass text { animation: b8-da 300ms 450ms both; }
+@keyframes b8-da { from { opacity: 0; } to { opacity: 1; } }
+
+/* B9 Ablauf als Spalten mit Haarlinien */
+.b9 { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--tinte); }
+.b9 li { list-style: none; padding: 12px 16px 16px 0; border-right: 1px solid var(--linie); margin-right: 16px; }
+.b9 li:last-child { border-right: 0; }
+.b9 b { display: block; font: 700 13px ui-monospace, monospace; color: var(--leise); }
+.b9 { padding: 0; margin: 0; }
+@media (max-width: 600px) { .b9 { grid-template-columns: 1fr; } .b9 li { border-right: 0; border-bottom: 1px solid var(--linie); margin: 0; } }
+
+/* B10 Fragen ohne JavaScript */
+.b10 details { border-top: 1px solid var(--linie); }
+.b10 details:last-child { border-bottom: 1px solid var(--linie); }
+.b10 summary { cursor: pointer; padding: 14px 0; font-weight: 600; min-height: 44px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.b10 summary::-webkit-details-marker { display: none; }
+.b10 summary::after { content: "+"; font-weight: 400; }
+.b10 details[open] summary::after { content: "−"; }
+.b10 p { margin: 0 0 16px; color: var(--leise); max-width: 60ch; }
+
+/* B11 Handy-Menü als Blatt von unten */
+.b11 dialog { margin: auto 0 0; width: 100%; max-width: 100%; border: 0; padding: 24px; background: #fff; border-top: 2px solid var(--tinte); }
+.b11 dialog::backdrop { background: rgba(0,0,0,.35); }
+.b11 dialog[open] { animation: b11-hoch 240ms cubic-bezier(.2,.8,.2,1); }
+@keyframes b11-hoch { from { transform: translateY(100%); } to { transform: none; } }
+.b11 nav a { display: block; padding: 12px 0; font-size: 22px; font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--linie); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+.statisch *, .statisch *::before, .statisch *::after { animation: none !important; }
+</style>
+</head>
+<body>
+<main class="seite">
+  <p class="etikett">design-uni · Galerie der Bausteine</p>
+  <h1>Bausteine, die eine Idee tragen können</h1>
+  <p class="vorspann">Eigene Umsetzungen von Mustern, die in Baukästen wie motionin.design und beui.dev häufig sind. Jeder Baustein nennt die Technik, der er dient (<code>referenzen/techniken.md</code>), sein Urteil und was er vom Betrieb braucht. Ohne JavaScript ist alles lesbar; unter «Bewegung reduzieren» steht alles still. Farben und Schrift sind neutral und gehören keinem Projekt.</p>
+  <p class="vorspann"><span class="urteil traegt">trägt, wenn echt</span> · <span class="urteil idee">nur mit Idee</span> · <span class="urteil nie">nie als Voreinstellung</span> (Gegenbeispiele stehen in <code>referenzen/bausteine.md</code>, nicht hier)</p>
+  <ul class="inhalt">
+    <li><a href="#b1">B1 Strich zeichnet sich</a></li><li><a href="#b2">B2 Zeile aus der Maske</a></li><li><a href="#b3">B3 Fallblatt für «jetzt»</a></li><li><a href="#b4">B4 Laufband mit Pause</a></li>
+    <li><a href="#b5">B5 Liste mit aktivem Eintrag</a></li><li><a href="#b6">B6 Form als Bildmaske</a></li><li><a href="#b7">B7 Vorher und nachher</a></li><li><a href="#b8">B8 Masslinien am Werkstück</a></li>
+    <li><a href="#b9">B9 Ablauf in Spalten</a></li><li><a href="#b10">B10 Fragen ohne JavaScript</a></li><li><a href="#b11">B11 Handy-Menü von unten</a></li>
+  </ul>
+
+  <section class="baustein" id="b1" data-baustein="B1">
+    <div><p class="etikett">B1 · Bewegung · T5, T6</p><h2>Ein Strich zeichnet sich unter ein Wort</h2><span class="urteil traegt">trägt, wenn echt</span>
+      <dl><dt>Braucht</dt><dd>ein Ding aus dem Betrieb, das wirklich gezogen wird: Schnur, Kreidestrich, Abdeckband, Schweissnaht.</dd><dt>Belegt</dt><dd>Schnur unter einem Wort: +1,17 blind, einstimmig «trägt» (L15).</dd><dt>Regeln</dt><dd>einmal, 700 ms, nur <code>stroke-dashoffset</code>; still unter «Bewegung reduzieren».</dd></dl></div>
+    <div class="buehne" data-abspielen><span class="b1-wort">Saubere Fuge.<svg viewBox="0 0 100 14" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M1 9 C 30 5, 70 12, 99 7"/></svg></span>
+      <button class="knopf leise neu-abspielen" type="button" data-neu>Nochmals</button></div>
+  </section>
+
+  <section class="baustein" id="b2" data-baustein="B2">
+    <div><p class="etikett">B2 · Bewegung · T1, T6</p><h2>Die Titelzeile steigt aus einer Maske</h2><span class="urteil idee">nur mit Idee</span>
+      <dl><dt>Braucht</dt><dd>einen Grund aus dem Betrieb (Schublade, Schlitz, Etikett, das herausgezogen wird). Ohne Grund ist es das allgemeine Hereingleiten (L15: 0 bis −0,17).</dd><dt>Regeln</dt><dd>Titel nach ≤ 1,0 s lesbar; nur <code>transform</code>; Achse 8 im Register beachten.</dd></dl></div>
+    <div class="buehne" data-abspielen><h3 class="b2-titel"><span class="b2-zeile"><span>Erst messen,</span></span><span class="b2-zeile"><span>dann schneiden.</span></span></h3>
+      <button class="knopf leise neu-abspielen" type="button" data-neu>Nochmals</button></div>
+  </section>
+
+  <section class="baustein" id="b3" data-baustein="B3">
+    <div><p class="etikett">B3 · Bewegung · T3</p><h2>Ein Fallblatt zeigt, was jetzt gilt</h2><span class="urteil traegt">trägt, wenn echt</span>
+      <dl><dt>Braucht</dt><dd>belegte Öffnungszeiten und die Kalenderprüfung aus P6. Die Bewegung zeigt einen echten Zustand: offen, Mittag, geschlossen.</dd><dt>Regeln</dt><dd>klappt einmal beim Laden, 380 ms; der Text steht auch ohne JavaScript da (dann ohne «jetzt»).</dd></dl></div>
+    <div class="buehne" data-abspielen>
+      <p class="etikett">Jetzt</p><p class="b3-jetzt" data-jetzt aria-live="polite"><span>O</span><span>F</span><span>F</span><span>E</span><span>N</span></p>
+      <dl class="b3-tafel"><dt>Montag bis Freitag</dt><dd>7.30 bis 12.00 und 13.15 bis 17.30 Uhr</dd><dt>Samstag und Sonntag</dt><dd>geschlossen</dd></dl>
+      <button class="knopf leise neu-abspielen" type="button" data-neu>Nochmals</button></div>
+  </section>
+
+  <section class="baustein" id="b4" data-baustein="B4">
+    <div><p class="etikett">B4 · Bewegung · T10</p><h2>Ein Laufband mit gepflegtem Inhalt</h2><span class="urteil idee">nur mit Idee</span>
+      <dl><dt>Braucht</dt><dd>jemanden, der den Inhalt pflegt (nächster Termin, Saison, Pikettdienst). Werbewörter im Band sind die Conversion-Vorlage.</dd><dt>Regeln</dt><dd>läuft länger als 5 s, darum Pause-Knopf; still unter «Bewegung reduzieren»; der Inhalt steht einmal lesbar im Text.</dd></dl></div>
+    <div class="buehne">
+      <div class="b4-band" data-pausiert="false"><div class="b4-spur" aria-hidden="true"><span>Betriebsferien 22.12. bis 4.1.</span><span>·</span><span>Pikettdienst am Wochenende</span><span>·</span><span>Betriebsferien 22.12. bis 4.1.</span><span>·</span><span>Pikettdienst am Wochenende</span><span>·</span></div></div>
+      <p class="vorspann">Betriebsferien vom 22. Dezember bis 4. Januar. Am Wochenende gilt der Pikettdienst.</p>
+      <button class="knopf leise" type="button" data-pause aria-pressed="false">Laufband anhalten</button></div>
+  </section>
+
+  <section class="baustein" id="b5" data-baustein="B5">
+    <div><p class="etikett">B5 · Rückmeldung · T7</p><h2>Eine Wortliste mit einem aktiven Eintrag</h2><span class="urteil traegt">trägt, wenn echt</span>
+      <dl><dt>Braucht</dt><dd>4 bis 12 echte Einträge: Leistungen, Marken, Holzarten. Gesehen bei ESR und Rennsport.</dd><dt>Regeln</dt><dd>inaktive Einträge erreichen trotzdem 4,5:1; Wechsel 160 ms; am Handy ohne Hover jede Zeile mit Pfeil, Bild entfällt.</dd></dl></div>
+    <div class="buehne b5">
+      <ul data-liste>
+        <li><a href="#b5" data-farbe="#3d5a80" aria-current="true">Küchen</a></li>
+        <li><a href="#b5" data-farbe="#7a4b2a">Treppen</a></li>
+        <li><a href="#b5" data-farbe="#2f6b4f">Fenster</a></li>
+        <li><a href="#b5" data-farbe="#5a5a5a">Einbauschränke</a></li>
+      </ul>
+      <div class="b5-bild" style="--b5-farbe:#3d5a80" data-bild>Bild zum Eintrag</div>
+    </div>
+  </section>
+
+  <section class="baustein" id="b6" data-baustein="B6">
+    <div><p class="etikett">B6 · Bewegung · T8</p><h2>Eine Form aus dem Betrieb öffnet das Bild</h2><span class="urteil idee">nur mit Idee</span>
+      <dl><dt>Braucht</dt><dd>eine belegte Form (hier ein Bogen wie ein Tor oder Gewölbe) und Fotos in Serie. Alle Bilder einer Seite tragen dieselbe Maske.</dd><dt>Regeln</dt><dd>öffnet einmal, 800 ms, <code>clip-path</code>; ohne Bewegung steht die Form offen.</dd></dl></div>
+    <div class="buehne" data-abspielen><div class="b6-bild" role="img" aria-label="Fläche in Holzton als Platzhalter für ein Foto, im Bogen geschnitten"></div>
+      <button class="knopf leise neu-abspielen" type="button" data-neu>Nochmals</button></div>
+  </section>
+
+  <section class="baustein" id="b7" data-baustein="B7">
+    <div><p class="etikett">B7 · Bedienung · T2, T9</p><h2>Vorher und nachher, von Hand verschoben</h2><span class="urteil traegt">trägt, wenn echt</span>
+      <dl><dt>Braucht</dt><dd>zwei Fotos vom selben Stativpunkt (Fototag, Motiv 14 in branchen/handwerk-auto-bau.md). Nie aus zwei verschiedenen Aufnahmen.</dd><dt>Regeln</dt><dd>ein normales <code>input type=range</code> mit Beschriftung: Tastatur, Touch und Screenreader gehen ohne Zusatz; nichts bewegt sich von selbst.</dd></dl></div>
+    <div class="buehne" data-vergleich>
+      <div class="b7">
+        <svg viewBox="0 0 320 180" role="img" aria-label="Vorher: Fläche mit Schaden"><rect width="320" height="180" fill="#8d99a6"/><g fill="none" stroke="#e7ecf1" stroke-width="2" opacity=".8"><path d="M0 60 C 80 60, 120 60, 140 75 S 190 95, 320 60"/><path d="M0 100 C 90 100, 130 100, 150 120 S 200 125, 320 100"/></g><text x="12" y="24" fill="#fff" font-family="monospace" font-size="12">VORHER</text></svg>
+        <svg class="nachher" viewBox="0 0 320 180" role="img" aria-label="Nachher: glatte Fläche"><rect width="320" height="180" fill="#8d99a6"/><g fill="none" stroke="#e7ecf1" stroke-width="2" opacity=".8"><path d="M0 60 H320"/><path d="M0 100 H320"/></g><text x="250" y="24" fill="#fff" font-family="monospace" font-size="12">NACHHER</text></svg>
+        <div class="b7-linie" aria-hidden="true"></div>
+      </div>
+      <label class="b7-regler">Vergleich verschieben<input type="range" min="0" max="100" value="50" data-regler></label>
+    </div>
+  </section>
+
+  <section class="baustein" id="b8" data-baustein="B8">
+    <div><p class="etikett">B8 · Bewegung · T9</p><h2>Masslinien legen sich an das Werkstück</h2><span class="urteil idee">nur mit Idee</span>
+      <dl><dt>Braucht</dt><dd>echte Werte aus dem Betrieb (Schichtdicke, Mass, Toleranz) und ein Detailfoto. Erfundene Werte sind erfundene Fakten.</dd><dt>Regeln</dt><dd>einmal, 600 ms; Werte als Text im Dokument, nicht nur im Bild.</dd></dl></div>
+    <div class="buehne b8" data-abspielen>
+      <svg viewBox="0 0 520 220" role="img" aria-labelledby="b8t"><title id="b8t">Werkstück mit zwei Massen: Breite 420 mm, Schichtdicke 120 µm (Musterwerte)</title>
+        <rect x="60" y="70" width="400" height="90" fill="#d9d4cc"/><rect x="60" y="64" width="400" height="6" fill="#6b7f95"/>
+        <g class="mass"><line pathLength="1" x1="60" y1="190" x2="460" y2="190"/><line pathLength="1" x1="60" y1="182" x2="60" y2="198"/><line pathLength="1" x1="460" y1="182" x2="460" y2="198"/><text x="232" y="212">420 mm</text>
+          <line pathLength="1" x1="470" y1="64" x2="500" y2="40"/><text x="420" y="34">120 µm</text></g></svg>
+      <p class="etikett">Musterwerte, nicht aus einem Betrieb</p>
+      <button class="knopf leise neu-abspielen" type="button" data-neu>Nochmals</button></div>
+  </section>
+
+  <section class="baustein" id="b9" data-baustein="B9">
+    <div><p class="etikett">B9 · statisch · T4</p><h2>Der Ablauf in drei Spalten mit Haarlinien</h2><span class="urteil traegt">trägt, wenn echt</span>
+      <dl><dt>Braucht</dt><dd>drei echte Schritte mit Frist und zuständiger Person (Angebotsblatt).</dd><dt>Statt</dt><dd>drei Karten mit Icon und Schatten (Vorlagen-Signal).</dd></dl></div>
+    <div class="buehne"><ol class="b9"><li><b>01</b>Sie melden sich mit Name und Telefon.</li><li><b>02</b>Wir messen bei Ihnen vor Ort.</li><li><b>03</b>Sie erhalten die Offerte mit Datum.</li></ol>
+      <p class="etikett">Mustertext, Fristen nur mit Freigabe</p></div>
+  </section>
+
+  <section class="baustein" id="b10" data-baustein="B10">
+    <div><p class="etikett">B10 · Bedienung · ohne JavaScript</p><h2>Fragen, die sich öffnen</h2><span class="urteil traegt">trägt, wenn echt</span>
+      <dl><dt>Braucht</dt><dd>Fragen, die die Kundschaft wirklich stellt (Kundenangaben Teil 3, «Worte der Kundschaft»).</dd><dt>Regeln</dt><dd><code>details</code> und <code>summary</code>: Tastatur und Screenreader gehen ohne Zusatz; kein Federn, kein Nachschwingen.</dd></dl></div>
+    <div class="buehne b10">
+      <details><summary>Zahlt die Versicherung?</summary><p>Mustertext: Das hängt von der Police ab. Wir klären es mit Ihnen, bevor gearbeitet wird.</p></details>
+      <details><summary>Wie lange dauert es?</summary><p>Mustertext: Das sagen wir nach der Besichtigung, mit Datum.</p></details>
+    </div>
+  </section>
+
+  <section class="baustein b11" id="b11" data-baustein="B11">
+    <div><p class="etikett">B11 · Bedienung · Handy</p><h2>Das Menü kommt als Blatt von unten</h2><span class="urteil idee">nur mit Idee</span>
+      <dl><dt>Braucht</dt><dd>einen Grund aus der Idee (Schublade, Werkzeugwagen). Sonst bleibt das Menü konventionell.</dd><dt>Regeln</dt><dd><code>dialog</code> mit <code>showModal()</code>: Fokus, Escape und Hintergrund sind eingebaut; 240 ms; ohne JavaScript ist die Navigation als Liste im Fuss da.</dd></dl></div>
+    <div class="buehne">
+      <button class="knopf" type="button" data-menue>Menü</button>
+      <dialog data-blatt aria-label="Menü"><nav><a href="#b1">Leistungen</a><a href="#b9">Ablauf</a><a href="#b3">Zeiten und Anfahrt</a></nav>
+        <form method="dialog"><button class="knopf leise" style="margin-top:16px">Schliessen</button></form></dialog>
+    </div>
+  </section>
+</main>
+<script>
+// Nur Verhalten; der Inhalt steht im HTML.
+const ruhig = matchMedia("(prefers-reduced-motion: reduce)").matches;
+document.querySelectorAll("[data-abspielen]").forEach((b) => {
+  if (ruhig) return;
+  const start = () => { b.classList.remove("laeuft"); void b.offsetWidth; b.classList.add("laeuft"); };
+  new IntersectionObserver((e, o) => { if (e[0].isIntersecting) { start(); o.disconnect(); } }, { threshold: 0.4 }).observe(b);
+  const n = b.querySelector("[data-neu]"); if (n) n.addEventListener("click", start);
+});
+document.querySelectorAll("[data-neu]").forEach((n) => { if (ruhig) n.hidden = true; });
+// B3: Zustand aus den Zeiten (Muster). In einem Projekt mit der Kalenderprüfung aus P6.
+(() => { const el = document.querySelector("[data-jetzt]"); const d = new Date(); const t = d.getDay(), m = d.getHours() * 60 + d.getMinutes();
+  const offen = t >= 1 && t <= 5 && ((m >= 450 && m < 720) || (m >= 795 && m < 1050)); const wort = offen ? "OFFEN" : (t >= 1 && t <= 5 && m >= 720 && m < 795) ? "PAUSE" : "ZU";
+  el.innerHTML = [...wort].map((c) => `<span>${c}</span>`).join(""); })();
+// B4: Laufband nur mit Bewegung und mit Pause
+(() => { const band = document.querySelector(".b4-band"), spur = band.querySelector(".b4-spur"), k = document.querySelector("[data-pause]");
+  if (ruhig) { k.hidden = true; return; } spur.classList.add("laeuft-endlos"); spur.setAttribute("data-endlos", "");
+  k.addEventListener("click", () => { const p = band.dataset.pausiert !== "true"; band.dataset.pausiert = p; k.setAttribute("aria-pressed", p); k.textContent = p ? "Laufband weiter" : "Laufband anhalten"; }); })();
+// B5: aktiver Eintrag folgt Zeiger und Fokus
+(() => { const bild = document.querySelector("[data-bild]"); document.querySelectorAll("[data-liste] a").forEach((a) => { const an = () => { document.querySelectorAll("[data-liste] a").forEach((x) => x.removeAttribute("aria-current")); a.setAttribute("aria-current", "true"); bild.style.setProperty("--b5-farbe", a.dataset.farbe); };
+  a.addEventListener("mouseenter", an); a.addEventListener("focus", an); }); })();
+// B7: Regler
+document.querySelectorAll("[data-vergleich]").forEach((v) => { const r = v.querySelector("[data-regler]"), f = v.querySelector(".b7"); const set = () => f.style.setProperty("--pos", r.value + "%"); r.addEventListener("input", set); set(); });
+// B11: Blatt
+(() => { const k = document.querySelector("[data-menue]"), d = document.querySelector("[data-blatt]"); k.addEventListener("click", () => d.showModal()); })();
+</script>
+</body>
+</html>
