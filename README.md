@@ -75,3 +75,63 @@ Nicht gedacht für App-Oberflächen (Dashboards, Einstellungen, Formular-Strecke
 - Schwellen mit `[Annahme]` sind nicht kalibriert.
 - Die Rechtsteile sind keine Rechtsauskunft.
 - Ob die Grundsätze mehr Anfragen bringen, zeigt erst eine Messung nach dem Livegang (Messplan in `referenzen/conversion.md`).
+
+## Zweiter Skill: text-uni
+
+`text-uni` regelt, **was** auf der Website steht: Inhalt, Wortlaut, Suche und Technik. `design-uni` regelt, wie es aussieht und ob Besucher ans Ziel kommen. Beide Skills sind zusammen gedacht: Text-Uni liefert Antwort-Plan, Texte und Ziele, design-uni baut daraus die Gestaltung. Bei Lesbarkeit und Recht gilt der strengere Grundsatz.
+
+Der Skill ist ein Lehrgang in vier Semestern mit 404 prüfbaren Grundsätzen, je mit ID und Herkunft:
+
+- **Schreiben, das man versteht:** Verständlichkeit, Satz und Wort, Lesen am Bildschirm, Schweizer Hochdeutsch, KI-Klang.
+- **Text, der verkauft:** Angebot und Botschaft, Worte der Kundschaft, Überschrift und Knopf, Belege, Recht in Werbetexten.
+- **Google-Suche:** Grundlagen, Suchabsicht und Antwort-Plan, Titel und Beschreibung, lokale Suche und Profil, Messen mit Search Console.
+- **KI-Suche und Technik:** wie KI-Dienste Quellen wählen, zitierfähig schreiben, robots.txt, Sitemap, Statuscodes, Umzug einer Website.
+
+### Inhalt
+
+```
+skills/text-uni/
+├── SKILL.md                 Verfahren in neun Schritten mit Prüfpunkten T0 bis T8
+├── referenzen/
+│   ├── semester1/           V, W, L, CH, K   und die Prüfung «Welcher Text ist klarer?»
+│   ├── semester2/           A, KW, U, B, R   und die Prüfung «Würden Sie hier anrufen?»
+│   ├── semester3/           G, Q, S, P, M    und der Snippet-Test
+│   ├── semester4/           KQ, ZS, TI, CL   und der KI-Zitat-Test mit Technik-Probe
+│   └── abgleich-menschen.md Grundsätze gegen Daten von Menschen; wann Modell-Urteilen zu trauen ist
+└── werkzeuge/
+    ├── slop-de.js           Floskel-Werkzeug für deutsche Texte (Node, ohne Abhängigkeiten)
+    └── slop-de.json         Liste mit 63 Einträgen, je mit Begründung und besserer Variante
+```
+
+### Installation
+
+Wie bei design-uni den Ordner `skills/text-uni/` kopieren, am besten beide Skills zusammen:
+
+- **für ein Projekt:**
+  ```
+  mkdir -p .claude/skills && cp -R pfad/zu/design-uni/skills/text-uni .claude/skills/
+  ```
+- **für alle Projekte:**
+  ```
+  mkdir -p ~/.claude/skills && cp -R pfad/zu/design-uni/skills/text-uni ~/.claude/skills/
+  ```
+
+Aufrufen lässt er sich auch direkt mit `/text-uni`.
+
+### Werkzeug
+
+`slop-de.js` braucht Node.js 18 oder neuer. Es liest den sichtbaren Text von HTML-Seiten und meldet Floskeln, KI-Muster, Eszett und leere Knöpfe mit Zeile.
+
+```
+node .claude/skills/text-uni/werkzeuge/slop-de.js pfad/zur/website
+node .claude/skills/text-uni/werkzeuge/slop-de.js .claude/skills/text-uni/referenzen/semester1/ki-klang.md
+```
+
+Exit-Code 0 heisst: kein FEHLER. Mit `--streng` zählen auch Warnungen, mit `--json <pfad>` gibt es alle Treffer als Datei.
+
+### Grenzen von text-uni
+
+- Alle vier Semesterprüfungen sind Modell-Urteile: Sprachmodelle haben bewertet, keine Menschen.
+- Klickwirkung und die Auswahl der Quellen durch KI-Dienste sind nicht geprüft.
+- Ausser `slop-de.js` gibt es kein Werkzeug; Faktenabgleich, Snippet-Test und Zitat-Test laufen von Hand oder mit eigenem Skript.
+- Die Rechtsteile sind keine Rechtsauskunft.
