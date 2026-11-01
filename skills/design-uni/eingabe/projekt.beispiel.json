@@ -1,0 +1,46 @@
+{
+  "_hinweis": "Vorlage für werkzeuge/pruefen.cjs. Erfundener Übungsbetrieb, Musterwerte. Pfade relativ zu dieser Datei. Was fehlt, prüft das Werkzeug nicht und meldet es als offen.",
+  "name": "Schreinerei Muster AG (Übung)",
+  "site": "site",
+  "seiten": ["index", "kuechen", "moebel", "kontakt", "anfrage", "impressum", "datenschutz", "404"],
+  "seitenOhneKontakt": ["404", "impressum", "datenschutz"],
+  "telefon": ["071 555 00 00"],
+  "landesvorwahl": "+41",
+  "telefonImMenueReicht": false,
+  "hauptaktion": {
+    "text": "Anfrage senden",
+    "selektor": "header a[href=\"anfrage.html\"]",
+    "href": "anfrage.html",
+    "fest": true,
+    "ausnahmen": ["404"]
+  },
+  "formular": {
+    "seite": "anfrage.html",
+    "selektor": "#anfrage",
+    "senden": "#senden",
+    "bestaetigung": "#bestaetigung:not([hidden])",
+    "felder": [3, 5],
+    "pflicht": 2,
+    "verantwortlich": "Schreinerei Muster AG",
+    "fuellen": { "#name": "Test Person", "#telefon": "079 000 00 00" }
+  },
+  "kalender": {
+    "seite": "index.html",
+    "selektor": "[data-status]",
+    "faelle": [
+      ["Fr 17.30", "2026-11-06T17:30:00+01:00", "geschlossen"],
+      ["Sa 10.00", "2026-11-07T10:00:00+01:00", "Montag"],
+      ["So 22.40", "2026-11-08T22:40:00+01:00", "Montag"]
+    ]
+  },
+  "text": { "anrede": "Sie", "eszett": false, "guillemets": true, "gedankenstriche": false, "uhrzeitMitPunkt": true },
+  "jsonld": { "typ": "HomeAndConstructionBusiness" },
+  "vorschau": true,
+  "zahlen": {
+    "071 555 00 00": "Musterwert",
+    "9000": "PLZ, Musterwert",
+    "1998": "Gründung, Handelsregister (Musterwert)",
+    "7.30": "Öffnungszeiten",
+    "17.30": "Öffnungszeiten"
+  }
+}

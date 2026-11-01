@@ -15,7 +15,12 @@ Er entstand aus einer Reihe blinder Tests (erste Bildschirme, Bewegung, ganze We
 ```
 skills/design-uni/
 ├── SKILL.md                 Verfahren in elf Schritten mit Prüfpunkten P0–P8
+├── eingabe/
+│   ├── kundenangaben.md     Blatt für die Angaben des Kunden: das, woraus jede Website entsteht
+│   └── projekt.beispiel.json  Vorlage für pruefen.cjs (Telefon, Hauptaktion, Formular, Kalender, Zahlen)
 ├── referenzen/              Wissen, nach Thema; SKILL.md verlinkt dorthin
+│   ├── techniken.md         14 Techniken statt Looks, aus 25 vermessenen Vorbildern
+│   ├── vorbilder-gemessen.md  Band der Vorbilder, Vorlagen-Signale, Methode, Grenzen
 │   ├── geschmack.md         was premium ausmacht, 60-Sekunden-Prüfung, Billig-Muster
 │   ├── richtung.md          Richtungsblatt, eine grosse Entscheidung, Komponenten aus der Idee
 │   ├── abstand.md           Register, Achsen, Bauteile, Sperren, Modell-Standard
@@ -29,7 +34,11 @@ skills/design-uni/
 │   └── nie-liste.md         verboten · nie als Voreinstellung · trotzdem erlaubt
 └── werkzeuge/
     ├── kunde.cjs            Handy-Simulator für Kunden-Agenten (Playwright)
-    └── selbsttest/          Prüfseite mit drei eingebauten Fehlern für kunde.cjs
+    ├── selbsttest/          Prüfseite mit drei eingebauten Fehlern für kunde.cjs
+    ├── pruefen.cjs          maschinelle Prüfungen P6/T7 für jedes Projekt, gesteuert über projekt.json, mit Selbsttest
+    ├── vermessen.cjs        misst eine Website wie die Vorbilder (Schrift, Bild, Knöpfe, Raster, Bauteile, Bewegung)
+    ├── vergleichen.cjs      vergleicht eine Messung mit dem Band der Vorbilder, meldet Vorlagen-Signale
+    └── vorbilder-band.json  Band aus 25 Vorbildern (Stand November 2026)
 ```
 
 ## Installation
@@ -56,6 +65,19 @@ node .claude/skills/design-uni/werkzeuge/kunde.cjs \
 ```
 
 Das erwartete Protokoll steht in `referenzen/kunden-agenten.md`, Teil 2.
+
+**Ablauf mit einem neuen Kunden**
+
+1. `eingabe/kundenangaben.md` kopieren und mit dem Betrieb ausfüllen (★ = Pflicht). Logo und Fotos in einen Ordner.
+2. Claude mit dem Skill beauftragen: «Baue die Website aus diesen Kundenangaben.» Der Skill liest das Blatt, sucht die Richtung, wählt Techniken und baut eine Vorschau.
+3. Prüfen ohne Bewerter: `projekt.json` nach der Vorlage anlegen, dann
+   ```
+   node .claude/skills/design-uni/werkzeuge/pruefen.cjs projekt.json --selbsttest
+   node .claude/skills/design-uni/werkzeuge/pruefen.cjs projekt.json
+   node .claude/skills/design-uni/werkzeuge/vermessen.cjs site --name kunde --aus pruefung --bilder
+   node .claude/skills/design-uni/werkzeuge/vergleichen.cjs pruefung/kunde.json
+   ```
+4. Blinde Bewerter und Kunden-Agenten laufen über Unteragenten (SKILL.md Schritt 9).
 
 ## Wann der Skill greift
 

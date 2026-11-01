@@ -1,6 +1,6 @@
 ---
 name: design-uni
-description: Verfahren, um Websites und Landingpages auf Agentur-Niveau zu bauen oder zu prüfen, die zugleich Anfragen, Anrufe und Buchungen bringen. Nutzen, wenn eine Website, Landingpage, Startseite oder ein erster Bildschirm gestaltet, umgebaut oder beurteilt werden soll, wenn etwas «generisch», «nach Vorlage» oder «nach KI» aussieht, oder wenn blind getestet werden soll, ob eine Seite premium wirkt und ob Besucher ans Ziel kommen. Eine grosse Entscheidung aus dem Betrieb statt Branchenvorlage, blinde Bewerter statt Selbstbewertung, Kunden-Agenten am Handy, maschinelle Prüfungen. Statisches HTML, CSS, JS oder jeder andere Stack. Nicht für App-Oberflächen wie Dashboards oder Einstellungen.
+description: Verfahren, um Websites und Landingpages auf Agentur-Niveau zu bauen oder zu prüfen, die zugleich Anfragen, Anrufe und Buchungen bringen. Nutzen, wenn eine Website, Landingpage, Startseite oder ein erster Bildschirm gestaltet, umgebaut oder beurteilt werden soll, wenn etwas «generisch», «nach Vorlage» oder «nach KI» aussieht, oder wenn blind getestet werden soll, ob eine Seite premium wirkt und ob Besucher ans Ziel kommen. Eine grosse Entscheidung aus dem Betrieb statt Branchenvorlage, blinde Bewerter statt Selbstbewertung, Kunden-Agenten am Handy, maschinelle Prüfungen. Eingabe sind die Angaben des Kunden auf einem Blatt, das der Skill mitbringt. Statisches HTML, CSS, JS oder jeder andere Stack. Nicht für App-Oberflächen wie Dashboards oder Einstellungen.
 ---
 
 # Design-Uni: Websites auf Agentur-Niveau, die konvertieren
@@ -24,7 +24,10 @@ Merksatz: *Die Gestaltung entscheidet, wie etwas aussieht; das Angebot entscheid
 | Thema | Datei |
 |---|---|
 | Was premium ausmacht, 60-Sekunden-Prüfung | [geschmack.md](referenzen/geschmack.md) |
+| **Eingabe:** Blatt für die Kundenangaben, Vorlage für die Werkzeuge | [eingabe/kundenangaben.md](eingabe/kundenangaben.md) · [eingabe/projekt.beispiel.json](eingabe/projekt.beispiel.json) |
 | Richtungsblatt, eine grosse Entscheidung, Ableitung, Komponenten aus der Idee | [richtung.md](referenzen/richtung.md) |
+| Techniken statt Looks: wie Vorbilder die Idee sichtbar machen | [techniken.md](referenzen/techniken.md) |
+| Vorbilder, gemessen: Band aus 25 Websites, Vorlagen-Signale | [vorbilder-gemessen.md](referenzen/vorbilder-gemessen.md) |
 | Abstand zum eigenen Durchschnitt (Register, Achsen, Bauteile, Sperren) | [abstand.md](referenzen/abstand.md) |
 | Typografie · Komposition · Farbe und Bild · Bewegung | [typografie.md](referenzen/typografie.md) · [komposition.md](referenzen/komposition.md) · [farbe-bild.md](referenzen/farbe-bild.md) · [bewegung.md](referenzen/bewegung.md) |
 | Angebot, Vertrauen, Formulare, Prüflisten A/P/H, Messplan | [conversion.md](referenzen/conversion.md) |
@@ -47,10 +50,17 @@ Merksatz: *Die Gestaltung entscheidet, wie etwas aussieht; das Angebot entscheid
 8. **Barrierefreiheit nach WCAG 2.2 AA** ist Boden: Kontrast, Fokus, Tastatur, Reduced Motion, alles ohne JavaScript lesbar, Tippziele ≥ 44 × 44 px für Hauptaktionen.
 9. **Nichts von fremden Hosts**, wenn es sich vermeiden lässt: Schriften lokal, keine eingebetteten Karten, kein Tracking mit Cookies.
 
+## Eingabe: die Kundenangaben
+
+Der Skill ist für jeden Betrieb derselbe; was ihn zu **dieser** Website macht, steht im ausgefüllten Blatt [eingabe/kundenangaben.md](eingabe/kundenangaben.md) und im Ordner mit Logo und Fotos. Nichts aus einem früheren Projekt (Farben, Schriften, Texte, Bauteile) wird übernommen; geteilt werden nur Verfahren, Techniken und Werkzeuge.
+
+- **Liegt kein ausgefülltes Blatt vor,** legst du es aus der Vorlage an, füllst vor, was öffentliche Quellen belegen (jede Zeile mit Quelle), und gibst es dem Auftraggeber zurück. Gebaut wird erst, wenn alle ★-Fragen beantwortet oder als Lücke bestätigt sind.
+- **Aus dem Blatt entstehen** `entscheide.md`, `fakten.md` und `projekt.json` (für [werkzeuge/pruefen.cjs](werkzeuge/pruefen.cjs), Vorlage [eingabe/projekt.beispiel.json](eingabe/projekt.beispiel.json)).
+
 ## Schritt 1 · Lesen
 
-1. Entscheide des Auftraggebers in eine Liste `entscheide.md` übertragen, mit Quelle.
-2. Fakten (z. B. `fakten.md`), Briefing, Bilder mit Herkunft und Rechten.
+1. Entscheide des Auftraggebers aus den Kundenangaben (Teil 5) in eine Liste `entscheide.md` übertragen, mit Quelle.
+2. Fakten (`fakten.md` aus Teil 2), Briefing, Bilder mit Herkunft und Rechten; `projekt.json` für die Werkzeuge.
 3. Das **Abstandsregister**: die letzten drei Websites desselben Studios oder Projekts und alle Einträge «im Bau». Gibt es keine, gilt die Liste des Modell-Standards in [abstand.md](referenzen/abstand.md) als Register.
 4. Bei Bedarf die Branche aus [branchen/](referenzen/branchen/handwerk-auto-bau.md), aber **nur als Boden** (Erwartung der Gattung, Fototag, «Nie»-Liste), nie für Schrift, Farbe oder Raster. Die Branchenrezepte selbst waren die Quelle des Hausrezepts.
 5. **Material prüfen:** Gibt es das Logo als Vektordatei und eigens gemachte Fotos? Ohne sie liegt die Decke im blinden Test bei etwa 6 bis 7 von 10 `[Annahme, aus Tests]`. Das gehört dem Auftraggeber gesagt, bevor gebaut wird, nicht erst danach.
@@ -59,7 +69,7 @@ Merksatz: *Die Gestaltung entscheidet, wie etwas aussieht; das Angebot entscheid
 
 ## Schritt 2 · Gespräch: Richtungsblatt und Angebotsblatt
 
-Du schreibst die Fragen; das Gespräch mit dem Betrieb führt ein Mensch, ausser der Auftraggeber sagt etwas anderes. Jede Antwort wird markiert: `[Fakt · Quelle, Datum]`, `[Annahme]` oder `[Lücke]`.
+Die Fragen stehen im Blatt [eingabe/kundenangaben.md](eingabe/kundenangaben.md); du ergänzt sie um das, was dieser Betrieb braucht. Das Gespräch mit dem Betrieb führt ein Mensch, ausser der Auftraggeber sagt etwas anderes. Jede Antwort wird markiert: `[Fakt · Quelle, Datum]`, `[Annahme]` oder `[Lücke]`.
 
 **Richtungsblatt** (Fragen in [richtung.md](referenzen/richtung.md) Teil 1): Ort, Material, Werkzeug, Dokumente, Rhythmus, Geschichte, Ton, Kundschaft und Lage, Erwartung, Gegenbild, Regler, Belege und Bilder. **Gefragt wird nach Nomen, nicht nach Adjektiven:** «modern» sagt jeder, «Schreinerdreieck» nur dieser Betrieb.
 
@@ -106,6 +116,7 @@ Ablauf im Detail: [richtung.md](referenzen/richtung.md) Teil 2.
 ## Schritt 4 · Ableitung und Tokens
 
 - **Ableitungskette:** Für Schrift, Grund, Raster, Titelmuster, Knopf, Bildschnitt und Bewegung je ein «weil»-Satz, der auf die Entscheidung zeigt. Eine Wahl ohne diesen Satz ist eine Voreinstellung und fliegt raus.
+- **Techniken:** eine tragende und höchstens zwei stützende aus [techniken.md](referenzen/techniken.md), passend zur Form der Idee und zum Material (ohne eigene Fotos trägt Schrift oder Fakten, kein Bild). Je ein «weil»-Satz; ins Register. Eine tragende Technik der letzten zwei Websites ist gesperrt.
 - **Tokens** als JSON (W3C Design Tokens, Format 2025.10) mit **Namen aus dem Betrieb** (`--bleistift`, `--fahrplan-zeile`, nicht `--accent`). Zwischen Projekten geteilt sind nur funktionale Tokens: Fokus, Abstand, Fehler. Wer Werte vom letzten Projekt kopiert, sieht es an den falschen Namen.
 - **Bewegung: keine oder eine.** Sie zeigt einen echten Handgriff oder ein echtes Material, ist unter 1 s fertig oder steuerbar und hält keinen Inhalt zurück. Rückmeldungen im Interface 100–300 ms. Was länger als 5 s von selbst läuft, bekommt eine Pause. Ein Entscheid «statisch» geht vor ([bewegung.md](referenzen/bewegung.md)).
 - **Farbe** mit der Pipette aus dem eigenen Foto oder Material. Die Palette ist blind kaum ein Hebel; entscheide sie schnell und investiere in Komposition und Bild ([lektionen.md](referenzen/lektionen.md)).
@@ -144,6 +155,12 @@ Für jede Einstiegsseite (Start, jede Leistung, Notfall, Kontakt) zuerst der Tex
 
 Bauen: Desktop 1440 × 900 und Handy 390 × 844, mit allen Fakten. Das Handy bekommt eine eigene Form der Idee, keine gestapelte Desktop-Fassung. Vorher selbst die 60-Sekunden-Prüfung aus [geschmack.md](referenzen/geschmack.md) Teil 2 und den Unschärfe-Test (10 px) machen; das ist Handwerk, kein Urteil.
 
+**Vor P4, maschinell:** `node werkzeuge/vermessen.cjs <ordner> --name <projekt> --aus pruefung --bilder` und `node werkzeuge/vergleichen.cjs pruefung/<projekt>.json` ([vorbilder-gemessen.md](referenzen/vorbilder-gemessen.md)).
+- **Vorlagen-Signale:** 0, oder jedes mit einem «weil»-Satz aus dem Betrieb in der Ableitungskette. `[Annahme]`
+- **Lage im Band:** Jedes Mass unter p25 oder über p75 steht im Bericht, mit Grund. Das Band ist kein Ziel; es zeigt, wo die Seite von den Vorbildern abweicht.
+- **Idee im Bild:** Am Bildschirmfoto ohne Text (Text unscharf) ist die tragende Technik zu sehen. Wenn nicht, zurück zu Schritt 4 (L7).
+Das ersetzt keinen blinden Test; es spart einen, der sicher durchfällt.
+
 **P4 · erster Bildschirm (blind), drei Tests** ([blindtest.md](referenzen/blindtest.md)):
 - **Bildtest:** beide Bilder zwischen fremde Referenzen und eine Falle, **nur eine Fassung pro Satz**. Schwelle: Mittel ≥ 7,5 und ≥ 4 von 6 «Agentur», beide Modelle einzeln ausgewiesen.
 - **Geschwister-Test:** neben den ersten Bildschirmen der letzten drei eigenen Websites und drei fremden. Schwelle: höchstens 1 von 6 ordnet es dem eigenen Studio zu.
@@ -163,7 +180,7 @@ Liegt die Kritik nach zwei Runden überwiegend beim Material (Logo, Fotos), meld
 
 Gebaut werden alle Seiten, das Formular und die Zustände: Fehler, Bestätigung, 404, Menü offen, leeres Formular, und bei zustandsabhängigen Seiten (Tag/Nacht, Saison) jeder Zustand über die URL. Jede Unterseite hat einen eigenen Star aus ihrem Inhalt. Das Verhalten bleibt konventionell (Beschriftung über dem Feld, Fehler am Feld, Fokus sichtbar); die Idee lebt in Farbe, Schrift, Linie, Zeichen und Ton.
 
-**P6 · maschinell (alle Bedingungen erfüllt):**
+**P6 · maschinell (alle Bedingungen erfüllt).** Werkzeug: `node werkzeuge/pruefen.cjs projekt.json`, vorher einmal mit `--selbsttest` (es muss alle eingebauten Fehler finden). Was in `projekt.json` fehlt, meldet es als «nicht geprüft», nie als bestanden.
 
 | Prüfung | Wie | Schwelle |
 |---|---|---|
@@ -224,7 +241,7 @@ Menschen (Auftraggeber, Zielgruppe) bewerten mit, wenn sie Zeit haben; ihre Stim
 - **Zusagen-Blatt** für das Gespräch mit dem Betrieb: jede Zusage, jeder Preis, jedes Datum mit «stimmt / ändern / streichen», zuständiger Person und Stellvertretung.
 - **`LIESMICH.md`:** Stand; Lücken; jeder Prüfpunkt mit Zahlen und Bewertern; was **nicht** geprüft ist (echte Geräte, Safari, Menschen, Juristen). Ein Prüfpunkt, der nicht lief, heisst «nicht gelaufen», nie «bestanden».
 - **`messplan.md`** nach [conversion.md](referenzen/conversion.md) Teil 7: Zählpunkte, Ausgangswerte oder Lücken, Ziel- und Warnwerte als `[Annahme]`, Strichliste für den Betrieb.
-- **Register:** Eintrag von «im Bau» auf «gebaut», mit den gemessenen Achsen und Bauteilen.
+- **Register:** Eintrag von «im Bau» auf «gebaut», mit den gemessenen Achsen, Bauteilen und Techniken.
 - **Lektion:** Abweichungen, Messwerte, Werkzeugfehler, im Format von [lektionen.md](referenzen/lektionen.md).
 - Nichts veröffentlichen, nichts mergen, nichts an den Betrieb senden ohne Freigabe.
 

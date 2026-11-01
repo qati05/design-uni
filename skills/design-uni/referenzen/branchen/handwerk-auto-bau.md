@@ -19,7 +19,7 @@
 
 ## 3. Vorbilder (öffentlich, nur Analyse)
 
-In den Galerien fand sich keine einzige Handwerks-, Garagen- oder Baufirma auf Spitzenniveau. Die brauchbaren Vorbilder zeigen **Herstellung, Messung oder Gebrauch**:
+Eine erste Suche in Galerien fand keine Handwerks-, Garagen- oder Baufirma auf Spitzenniveau; die zweite (November 2026, [../vorbilder-gemessen.md](../vorbilder-gemessen.md)) fand einige. Die brauchbaren Vorbilder zeigen **Herstellung, Messung oder Gebrauch**:
 
 | Vorbild | Was taugt |
 |---|---|
@@ -33,6 +33,11 @@ In den Galerien fand sich keine einzige Handwerks-, Garagen- oder Baufirma auf S
 | dhk Architects | Fakten im Fliesstext («established in 1998») statt Zähler; Menschen bei der Arbeit. |
 | Phive (Fitness) | Laut in einer einzigen Haltung, zwei Farben, eine kondensierte Schrift: Vorbild für eine laute Garage. |
 | Din Tai Fung | Makro des Handwerks; Öffnungszeit und Telefon auf der Startseite. |
+| ESR (Carrosserie, Australien, Porsche-zertifiziert) | Das Zertifikat als grosser Absatz mit Satz statt Badge, dazu ein Foto des zertifizierten Gebäudes mit Schild; Leistungen als Liste 01 bis 06 mit Haarlinien; Marken als grosse Wortliste, ein Eintrag aktiv. Techniken T5, T6, T7. |
+| Rennsport (Restaurierungs-Werkstatt) | Der Name über die ganze Breite im ersten Bildschirm und im Fuss; ein Innenraum-Foto als Hero; Öffnungszeiten, Anschrift und Telefon im Fuss gesetzt wie ein Kopf. T1, T13. |
+| Onetech (Lackier- und Beschichtungstechnik) | Freigestellte Spritzpistole auf dunklem Grund, eine Signalfarbe aus dem Werkzeug als Fläche; Leistungen als grosse nummerierte Liste. T12, T7. |
+| Digital Metal (Metallguss) | Das Bauteil mit echten Werten am Bild (Volumen, Fläche, Werkstoff), technische Tabelle statt Werbetext. T9, T4. |
+| Tekt (Modulhäuser) · Storey (Architekten) | Ein randloses Foto, Text klein in der ruhigen Zone; Ablauf als 01 bis 06; Formular als Tabelle mit Haarlinien und Auswahl statt Freitext. T2, T4. |
 
 **Hauptregel der Übersetzung:** Vom Konzern das **System** übernehmen (eine Lichtregel, ein Zeichensystem aus der Werkstoffwelt), nie den **Effekt** (3D, Video, Intro). Genau beim Effekt scheitern die Preisträger am Bild.
 

@@ -62,6 +62,23 @@ Was die blinden Tests, Kunden-Agenten und Prüfrunden gelehrt haben, mit Zahlen.
 
 **L25 · Prüfer brauchen die Entscheide und die Messwerte.** Prüfer, denen die Entscheide des Auftraggebers fehlten, schlugen Verbotenes vor (Speicherung auf dem Gerät, Animation auf Knöpfen) und nahmen es später zurück. Drei Prüfer nannten für dasselbe Element drei Grössen (7, 11, 14 px), weil sie selbst rechneten. Die zweite Runde berichtigte sechs Fakten der ersten. → Entscheidliste und gemessene Werte jedem Prüfer mitgeben.
 
+## Vorbilder
+
+**L26 · 2026-11-01 · Spitzen-Websites zeigen wenige, grosse Dinge.**
+- Beobachtung: 25 Vorbilder aus Galerien, gemessen mit `vermessen.cjs` ([vorbilder-gemessen.md](vorbilder-gemessen.md)): im ersten Bildschirm Median 39 Wörter, 0 knopfartige Elemente, 95 % Bild oder Video; 19 von 25 ohne Karten, 16 ohne Schatten, 20 mit ein oder zwei Schriftfamilien. Eine Probe, die blind bei 6,33 und 6,50 durchfiel, lag bei 97 Wörtern, 26 % Bild, 56 % Leerfläche und 22 Icons.
+- Folgerung: Vorlagen-Signale und Lage im Band maschinell vor P4 (SKILL.md Schritt 6). Beobachten, ob Seiten im Band blind besser abschneiden.
+- Grund: Ein Mass, das vor dem Bildtest anschlägt, spart einen Testlauf, der sicher durchfällt.
+
+**L27 · 2026-11-01 · Techniken wandern besser als Looks.**
+- Beobachtung: Die Vorbilder unterscheiden sich in Farbe und Schrift stark, wiederholen aber wenige Handgriffe: Name als Bild (7 von 25), Etikett und Aussage (9), ein randloses Bild (16), sichtbares Raster (7), Fuss als Bühne (6).
+- Folgerung: Zwischen Projekten werden Techniken geteilt, nie Werte ([techniken.md](techniken.md)); die tragende Technik rotiert über das Register.
+- Grund: Ein Look wurde in den Tests zum Hausstil (L2, L12); eine Technik füllt sich jedes Mal mit dem Inhalt des Betriebs.
+
+**L28 · 2026-11-01 · Fakten können die Gestaltung sein.**
+- Beobachtung: Unter 25 Vorbildern zeigt nur eine Website eines lokalen Betriebs Zeiten, Anschrift und Telefon im ersten Bildschirm; sie setzt sie als Spaltenkopf mit Haarlinien statt als Kasten.
+- Folgerung: Für KMU mit Anruf oder Besuch als Hauptaktion T3 «Die Fakten sind der Kopf» prüfen, bevor ein Faktenkasten neben dem Hero entsteht. Beobachten, nicht blind geprüft.
+- Grund: Bedienung (Zeiten in Daumenreichweite) und Anmutung widersprachen sich in der Probe; diese Technik löst beides mit einem Element.
+
 ## Format für neue Lektionen
 
 ```

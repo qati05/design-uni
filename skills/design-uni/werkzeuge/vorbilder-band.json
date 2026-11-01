@@ -1,0 +1,267 @@
+{
+ "stand": "2026-11-01",
+ "n": 25,
+ "quellen": [
+  "https://www.decimals.co/",
+  "https://eladiodieste.com/",
+  "https://digitalmetal.io/",
+  "https://www.esrbespoke.au/",
+  "https://www.etched.com/",
+  "https://www.harvesthall.io/",
+  "https://www.infinitemachine.com/",
+  "https://northeasttomato.com/",
+  "https://objectandarchive.com/",
+  "https://onetech-tools.com/",
+  "https://pixelflakes.com/",
+  "https://www.redwoodmaterials.com/",
+  "https://911rennsport.co.uk/",
+  "https://slantis.com/",
+  "https://www.storeyarchitecture.co.uk/",
+  "https://studioagriculture.co/",
+  "https://tekt.com.au/",
+  "https://telhaclarke.com.au/",
+  "https://www.thisjanuary.com/",
+  "https://www.turionspace.com/",
+  "https://unitedcarriers.com/",
+  "https://wattspet.com/",
+  "https://wine-diplomacy.ro/",
+  "https://www.wrk-timepieces.com/",
+  "https://www.yummygum.com/"
+ ],
+ "masse": {
+  "familien": {
+   "name": "Schriftfamilien (≥ 5 % der Zeichen)",
+   "n": 25,
+   "p25": 2,
+   "median": 2,
+   "p75": 2,
+   "min": 1,
+   "max": 4
+  },
+  "starZuFliess": {
+   "name": "Star ÷ Fliesstext (Desktop)",
+   "n": 25,
+   "p25": 2.5,
+   "median": 3.5,
+   "p75": 5.9,
+   "min": 1,
+   "max": 15.2
+  },
+  "starBreite": {
+   "name": "Breite des Stars (Anteil Bildschirm)",
+   "n": 25,
+   "p25": 0.11,
+   "median": 0.44,
+   "p75": 0.66,
+   "min": 0.03,
+   "max": 1
+  },
+  "wortmarke": {
+   "name": "Wortmarke ≥ 50 % breit",
+   "n": 25,
+   "p25": 0,
+   "median": 0,
+   "p75": 0,
+   "min": 0,
+   "max": 1
+  },
+  "stufen": {
+   "name": "Schriftgrössen (≥ 1 % der Zeichen)",
+   "n": 25,
+   "p25": 5,
+   "median": 7,
+   "p75": 9,
+   "min": 4,
+   "max": 10
+  },
+  "versal": {
+   "name": "Anteil Versalien",
+   "n": 25,
+   "p25": 0.03,
+   "median": 0.06,
+   "p75": 0.22,
+   "min": 0,
+   "max": 0.711
+  },
+  "mono": {
+   "name": "Anteil Mono-Schrift",
+   "n": 25,
+   "p25": 0,
+   "median": 0,
+   "p75": 0.03,
+   "min": 0,
+   "max": 0.589
+  },
+  "fliess": {
+   "name": "Fliesstext px",
+   "n": 25,
+   "p25": 14,
+   "median": 16,
+   "p75": 16,
+   "min": 12,
+   "max": 20
+  },
+  "woerter": {
+   "name": "Wörter im ersten Bildschirm (Desktop)",
+   "n": 25,
+   "p25": 19,
+   "median": 39,
+   "p75": 111,
+   "min": 4,
+   "max": 306
+  },
+  "medien": {
+   "name": "Bild/Video im ersten Bildschirm (Anteil)",
+   "n": 25,
+   "p25": 0.47,
+   "median": 0.95,
+   "p75": 1,
+   "min": 0,
+   "max": 1
+  },
+  "textAufMedien": {
+   "name": "Text auf Bild (Anteil)",
+   "n": 25,
+   "p25": 0,
+   "median": 0.05,
+   "p75": 0.09,
+   "min": 0,
+   "max": 0.22
+  },
+  "leer": {
+   "name": "Leerfläche im ersten Bildschirm",
+   "n": 25,
+   "p25": 0,
+   "median": 0.03,
+   "p75": 0.44,
+   "min": 0,
+   "max": 0.98
+  },
+  "knoepfe": {
+   "name": "Knopfartige Elemente im ersten Bildschirm (Desktop)",
+   "n": 25,
+   "p25": 0,
+   "median": 0,
+   "p75": 1,
+   "min": 0,
+   "max": 5
+  },
+  "handlungen": {
+   "name": "Links und Knöpfe im ersten Bildschirm",
+   "n": 25,
+   "p25": 5,
+   "median": 7,
+   "p75": 9,
+   "min": 0,
+   "max": 15
+  },
+  "radienArten": {
+   "name": "Arten von Eckenradien",
+   "n": 25,
+   "p25": 0,
+   "median": 1,
+   "p75": 3,
+   "min": 0,
+   "max": 7
+  },
+  "schatten": {
+   "name": "Elemente mit Schatten",
+   "n": 25,
+   "p25": 0,
+   "median": 0,
+   "p75": 1,
+   "min": 0,
+   "max": 22
+  },
+  "karten": {
+   "name": "Karten (Fläche + Radius + Text)",
+   "n": 25,
+   "p25": 0,
+   "median": 0,
+   "p75": 0,
+   "min": 0,
+   "max": 26
+  },
+  "icons": {
+   "name": "Kleine Icons (≤ 48 px)",
+   "n": 25,
+   "p25": 1,
+   "median": 5,
+   "p75": 12,
+   "min": 0,
+   "max": 29
+  },
+  "disziplin": {
+   "name": "Text auf den 4 häufigsten linken Kanten",
+   "n": 25,
+   "p25": 0.49,
+   "median": 0.71,
+   "p75": 0.76,
+   "min": 0.22,
+   "max": 1
+  },
+  "hoehe": {
+   "name": "Seitenhöhe in Bildschirmen",
+   "n": 25,
+   "p25": 7.7,
+   "median": 8.4,
+   "p75": 15.6,
+   "min": 1,
+   "max": 31.4
+  },
+  "bibliotheken": {
+   "name": "Bewegungs-Bibliotheken",
+   "n": 25,
+   "p25": 1,
+   "median": 1,
+   "p75": 2,
+   "min": 0,
+   "max": 5
+  },
+  "dunkel": {
+   "name": "Dunkler Grund",
+   "n": 25,
+   "p25": 0,
+   "median": 0,
+   "p75": 1,
+   "min": 0,
+   "max": 1
+  },
+  "handyWoerter": {
+   "name": "Wörter im ersten Bildschirm (Handy)",
+   "n": 25,
+   "p25": 18,
+   "median": 30,
+   "p75": 77,
+   "min": 7,
+   "max": 184
+  },
+  "handyStarZuFliess": {
+   "name": "Star ÷ Fliesstext (Handy)",
+   "n": 25,
+   "p25": 1.4,
+   "median": 2.2,
+   "p75": 2.8,
+   "min": 1,
+   "max": 8.8
+  },
+  "handyKnoepfe": {
+   "name": "Knopfartige Elemente im ersten Bildschirm (Handy)",
+   "n": 25,
+   "p25": 0,
+   "median": 0,
+   "p75": 1,
+   "min": 0,
+   "max": 3
+  },
+  "handyMedien": {
+   "name": "Bild/Video im ersten Bildschirm (Handy)",
+   "n": 25,
+   "p25": 0.47,
+   "median": 0.91,
+   "p75": 1,
+   "min": 0,
+   "max": 1
+  }
+ }
+}
