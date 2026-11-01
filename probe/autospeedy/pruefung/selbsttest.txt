@@ -1,0 +1,8 @@
+SELBSTTEST (eingebaut: kaputter tel-Link, Kontrast #BBB, fehlender CTA, Gedankenstrich und Klammer, falsches «morgen»):
+  OK  P6 Telefon-Links 1440: gefunden
+  OK  P6 Kontrast aus der Kaskade 1440: gefunden
+  OK  E7 CTA «Schaden melden» fest sichtbar 1440: gefunden
+  OK  T7/K11 Keine Gedankenstriche im sichtbaren Text: gefunden
+  OK  P6 Klammern: keine eckigen Klammern im sichtbaren Text: gefunden
+  OK  P6 Kalender (Fr 17.30, Sa 10.00, So 22.40, Mittag, Sommerzeit, Gerät in anderer Zeitzone): gefunden
+Selbsttest bestanden: Das Werkzeug findet alle eingebauten Fehler.

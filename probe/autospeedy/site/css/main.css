@@ -1,0 +1,241 @@
+/* Auto Speedy AG: Vorschau. Richtung «Die Abdeckkante». Tokens: ../../tokens.json */
+@font-face { font-family: "Big Shoulders Display"; font-weight: 800; font-style: normal; font-display: swap; src: url("../schriften/bigshoulders-800.woff2") format("woff2"); }
+@font-face { font-family: "Big Shoulders Display"; font-weight: 700; font-style: normal; font-display: swap; src: url("../schriften/bigshoulders-700.woff2") format("woff2"); }
+@font-face { font-family: "Public Sans"; font-weight: 400; font-style: normal; font-display: swap; src: url("../schriften/publicsans-400.woff2") format("woff2"); }
+@font-face { font-family: "Public Sans"; font-weight: 600; font-style: normal; font-display: swap; src: url("../schriften/publicsans-600.woff2") format("woff2"); }
+@font-face { font-family: "Public Sans"; font-weight: 700; font-style: normal; font-display: swap; src: url("../schriften/publicsans-700.woff2") format("woff2"); }
+
+[hidden] { display: none !important; }
+
+:root {
+  color-scheme: light;
+  --fueller: #EEF0F0;
+  --kabinenwand: #FFFFFF;
+  --fueller-tief: #D3D6D7;
+  --schwarzlack: #121416;
+  --abdeckband: #96C734;
+  --hallenwand: #4D5659;
+  --fehler: #B3261E;
+  --fokus: #121416;
+  --kante: 10px;
+  --kante-fein: 4px;
+  --daumen: 48px;
+  --spalte: 38rem;
+  --rand: clamp(16px, 4vw, 40px);
+  --luft-s: 0.75rem;
+  --luft-m: 1.5rem;
+  --luft-l: 3rem;
+  --luft-xl: clamp(3.5rem, 8vw, 6rem);
+  --titel: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --text: "Public Sans", Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-padding-top: 6rem; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--fueller); color: var(--schwarzlack);
+  font: 400 1.0625rem/1.55 var(--text); font-variant-numeric: tabular-nums;
+  overflow-x: clip;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+a:hover { text-decoration-color: var(--abdeckband); text-decoration-thickness: 4px; }
+:focus-visible { outline: 3px solid var(--fokus); outline-offset: 2px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.nowrap { white-space: nowrap; }
+.rahmen { width: min(100% - 2 * var(--rand), 72rem); margin-inline: auto; }
+.spalte { max-width: var(--spalte); }
+
+.sprung { position: absolute; left: var(--rand); top: -4rem; background: var(--schwarzlack); color: #fff; padding: 0.75rem 1rem; z-index: 50; }
+.sprung:focus { top: 0.5rem; }
+
+/* Titel */
+h1, h2, h3 { font-family: var(--titel); font-weight: 800; line-height: 1; letter-spacing: 0; margin: 0 0 var(--luft-s); text-wrap: balance; }
+h1 { font-size: clamp(2.75rem, 9vw, 5.25rem); }
+h2 { font-size: clamp(2rem, 5.2vw, 3.25rem); }
+h3 { font-size: 1.5rem; font-weight: 700; }
+p { margin: 0 0 1em; }
+.lead { font-size: clamp(1.125rem, 2.2vw, 1.375rem); line-height: 1.45; max-width: 34rem; }
+.klein { font-size: 0.9375rem; color: var(--hallenwand); }
+
+/* Kopf: heller Streifen, fest, mit Schadenmeldung auf jeder Seite (E7) */
+.kopf { position: sticky; top: 0; z-index: 30; background: var(--kabinenwand); border-bottom: var(--kante-fein) solid var(--abdeckband); }
+.kopf-innen { display: flex; align-items: center; gap: 0.5rem; min-height: 64px; padding-block: 8px; }
+.marke { display: block; flex: none; }
+.marke img { height: 40px; width: auto; }
+.nav-desktop { display: none; margin-left: auto; }
+.nav-desktop ul, .menue-liste ul { list-style: none; margin: 0; padding: 0; }
+.nav-desktop ul { display: flex; gap: 0.25rem; align-items: center; }
+.nav-desktop a { display: inline-flex; align-items: center; min-height: var(--daumen); padding: 0 0.55rem; white-space: nowrap; font-weight: 600; text-decoration: none; }
+.nav-desktop a:hover { background: var(--fueller); }
+.nav-desktop a[aria-current="page"] { box-shadow: inset 0 calc(-1 * var(--kante-fein)) 0 var(--abdeckband); }
+.etikett-link { border: 2px solid var(--schwarzlack); }
+.kopf-aktionen { display: flex; gap: 0.5rem; margin-left: auto; align-items: center; }
+.nav-desktop + .kopf-aktionen { margin-left: 0.5rem; }
+
+/* Knöpfe */
+.knopf {
+  white-space: nowrap;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: var(--daumen); min-width: var(--daumen); padding: 0 1.1rem;
+  font: 700 1rem/1.2 var(--text); text-decoration: none; cursor: pointer;
+  background: var(--abdeckband); color: var(--schwarzlack);
+  border: 0; border-bottom: 4px solid var(--schwarzlack); border-radius: 0;
+}
+.knopf:hover { background: #A5D544; text-decoration: none; }
+.knopf-leise { background: var(--kabinenwand); border: 2px solid var(--schwarzlack); border-bottom-width: 2px; }
+.knopf-leise:hover { background: var(--fueller); }
+.knopf-gross { min-height: 56px; font-size: 1.125rem; padding: 0 1.5rem; }
+.knopf[disabled] { opacity: 0.6; cursor: progress; }
+.knopf svg { flex: none; }
+.kopf .knopf-leise { padding: 0; width: var(--daumen); }
+
+/* Menü am Handy (details, funktioniert ohne JavaScript) */
+.menue { position: static; }
+.menue > summary { list-style: none; display: inline-flex; align-items: center; justify-content: center; min-height: var(--daumen); padding: 0 0.9rem; font-weight: 700; background: var(--abdeckband); border-bottom: 4px solid var(--schwarzlack); cursor: pointer; }
+.menue > summary::-webkit-details-marker { display: none; }
+.menue-liste { position: absolute; left: 0; right: 0; top: 100%; background: var(--kabinenwand); border-bottom: var(--kante-fein) solid var(--schwarzlack); box-shadow: 0 12px 24px rgba(18, 20, 22, 0.12); }
+.menue-liste a { display: flex; align-items: center; min-height: 56px; padding: 0 var(--rand); border-left: var(--kante) solid var(--abdeckband); border-top: 1px solid var(--fueller-tief); font-weight: 600; font-size: 1.125rem; text-decoration: none; }
+.menue-liste a[aria-current="page"] { background: var(--fueller); }
+.menue-liste li:first-child a { border-top: 0; }
+
+/* Abschnitte und Kante */
+.abschnitt { padding-block: var(--luft-xl) 0; }
+.abschnitt-kante::before { content: ""; display: block; width: min(100%, 12rem); height: var(--kante); background: var(--abdeckband); margin-bottom: var(--luft-m); }
+.flaeche { background: var(--kabinenwand); padding-block: var(--luft-l); margin-top: var(--luft-xl); }
+.flaeche .abschnitt { padding-top: 0; }
+
+/* Hero */
+.hero { padding-top: clamp(2rem, 6vw, 4.5rem); }
+.hero h1 { max-width: 16ch; margin-bottom: var(--luft-m); }
+.hero-start h1 { font-size: clamp(3.25rem, 12vw, 7.5rem); max-width: 12ch; }
+.hero .lead { margin-bottom: var(--luft-m); }
+.aktionen { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-block: var(--luft-m); }
+.bild { margin: 0; background: var(--kabinenwand); }
+.bild img { width: 100%; }
+.bild-kante { border-top: var(--kante) solid var(--abdeckband); }
+.bild figcaption { padding: 0.5rem 0 0; font-size: 0.875rem; color: var(--hallenwand); }
+.bild-rechts { margin-right: calc((100% - 100vw) / 2); }
+.hero .bild { margin-top: var(--luft-l); }
+.hero .bild img { aspect-ratio: 4 / 3; object-fit: cover; }
+.kante-zug { transform-origin: left center; }
+
+/* Etikett (Band mit Schrift) */
+.etikett { display: inline-block; background: var(--abdeckband); color: var(--schwarzlack); font-weight: 700; padding: 0.2em 0.65em; }
+.status { font-weight: 600; margin-bottom: var(--luft-s); }
+
+/* Tabellen und Zeilen */
+table.zeiten { border-collapse: collapse; width: 100%; max-width: 34rem; background: var(--kabinenwand); border-top: var(--kante) solid var(--abdeckband); }
+table.zeiten th, table.zeiten td { text-align: left; padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--fueller-tief); vertical-align: top; font-weight: 400; }
+table.zeiten th { font-weight: 600; width: 40%; }
+.zeilen { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.zeilen > li { background: var(--kabinenwand); border-left: var(--kante) solid var(--abdeckband); }
+.zeilen a, .zeilen .zeile { display: grid; grid-template-columns: 1fr auto; gap: 0.25rem 1rem; align-items: center; padding: 0.9rem 1rem; text-decoration: none; min-height: 64px; }
+.zeilen a:hover { background: var(--fueller); }
+.zeilen strong { font-size: 1.125rem; }
+.zeilen .pfeil { font-weight: 700; font-size: 1.25rem; }
+.zeilen .zusatz { grid-column: 1; color: var(--hallenwand); font-size: 0.9375rem; }
+.liste-punkte { margin: 0 0 1em; padding-left: 1.2em; }
+.liste-punkte li { margin-bottom: 0.35em; padding-left: 0.2em; }
+.liste-punkte li::marker { content: "▪  "; color: var(--schwarzlack); }
+
+.raster { display: grid; gap: var(--luft-m); }
+.paar { display: grid; gap: var(--luft-m); align-items: start; }
+
+/* Bewertungen */
+.bewertung { display: grid; gap: var(--luft-m); }
+.bew-kopf { background: var(--kabinenwand); border-top: var(--kante) solid var(--abdeckband); padding: var(--luft-m); }
+.bew-zahl { font: 800 5rem/0.9 var(--titel); }
+.sterne { display: inline-flex; gap: 2px; vertical-align: middle; }
+.sterne svg { width: 22px; height: 22px; }
+.balken { display: grid; grid-template-columns: 5.2rem 1fr 2rem; gap: 0.5rem; align-items: center; margin-block: 0.25rem; font-size: 0.9375rem; }
+.balken .spur { height: 10px; background: var(--fueller-tief); }
+.balken .fuell { display: block; height: 100%; background: var(--schwarzlack); width: var(--w); }
+.karten { display: grid; gap: var(--luft-s); margin: 0; padding: 0; list-style: none; }
+.karte { background: var(--kabinenwand); border-left: var(--kante) solid var(--abdeckband); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.karte blockquote { margin: 0; font-size: 1.0625rem; }
+.karte .quelle { font-size: 0.875rem; color: var(--hallenwand); }
+.marke-offen { align-self: flex-start; font-size: 0.8125rem; font-weight: 600; border: 2px solid var(--schwarzlack); padding: 0.1em 0.5em; background: var(--fueller); }
+
+/* Formular */
+.formular { max-width: 34rem; display: grid; gap: 0.25rem; }
+.feld { display: grid; gap: 0.35rem; }
+.feld label, .feld legend { font-weight: 600; }
+.feld .hilfe { font-size: 0.9375rem; color: var(--hallenwand); margin: 0; }
+.feld input[type="text"], .feld input[type="tel"], .feld textarea {
+  width: 100%; min-height: var(--daumen); padding: 0.6rem 0.75rem; font: inherit; color: inherit;
+  background: var(--kabinenwand); border: 2px solid var(--schwarzlack); border-radius: 0;
+}
+.feld textarea { min-height: 7rem; resize: vertical; }
+.feld .fehler { min-height: 1.5rem; line-height: 1.5rem; margin: 0; color: var(--fehler); font-weight: 600; font-size: 0.9375rem; border-left: 0 solid var(--fehler); }
+.feld.ist-fehler input, .feld.ist-fehler textarea { border-color: var(--fehler); border-left-width: 8px; }
+.feld.ist-fehler .fehler { border-left-width: 4px; padding-left: 0.5rem; }
+fieldset.feld { border: 0; padding: 0; margin: 0; min-width: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip { position: relative; }
+.chip input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.chip span { display: inline-flex; align-items: center; min-height: var(--daumen); padding: 0 1rem; border: 2px solid var(--schwarzlack); background: var(--kabinenwand); font-weight: 600; }
+.chip input:checked + span { background: var(--abdeckband); border-bottom-width: 4px; }
+.chip input:focus-visible + span { outline: 3px solid var(--fokus); outline-offset: 2px; }
+.haken { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.75rem 0.9rem; background: var(--kabinenwand); border-left: var(--kante) solid var(--abdeckband); }
+.haken input { width: 28px; height: 28px; margin: 0.1rem 0 0; flex: none; accent-color: var(--schwarzlack); }
+.haken label { font-weight: 600; }
+.nur-tesla { display: none; }
+.formular.ist-tesla .nur-tesla { display: grid; }
+.formular.ist-tesla .nur-eigen { display: none; }
+.formular:has(#tesla:checked) .nur-tesla { display: grid; }
+.formular:has(#tesla:checked) .nur-eigen { display: none; }
+.sendebereich { display: grid; gap: 0.5rem; margin-top: 0.5rem; }
+.rueckmeldung { min-height: 1.5rem; margin: 0; font-weight: 600; }
+.bestaetigung { background: var(--kabinenwand); border-top: var(--kante) solid var(--abdeckband); padding: var(--luft-m); max-width: 34rem; }
+.datenschutz-satz { font-size: 0.9375rem; color: var(--hallenwand); margin: 0; }
+
+/* Abschluss und Fuss */
+.abschluss { background: var(--kabinenwand); border-top: var(--kante) solid var(--abdeckband); margin-top: var(--luft-xl); padding-block: var(--luft-l); }
+.abschluss h2 { max-width: 16ch; }
+.fuss { background: var(--schwarzlack); color: #fff; margin-top: 0; padding-block: var(--luft-l); font-size: 0.9375rem; }
+.fuss a { color: #fff; }
+.fuss a:hover { text-decoration-color: var(--abdeckband); }
+.fuss-raster { display: grid; gap: var(--luft-m); }
+.fuss h2 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #fff; }
+.fuss ul { list-style: none; margin: 0; padding: 0; }
+.fuss li { margin-bottom: 0.4rem; }
+.fuss .schriftfeld { border-top: var(--kante-fein) solid var(--abdeckband); padding-top: 1rem; margin-top: var(--luft-m); color: #D3D6D7; }
+.vorschau { background: var(--fueller-tief); font-size: 0.875rem; padding: 0.5rem 0; }
+
+.team dl { margin: 0; display: grid; gap: 0.25rem 1rem; }
+.team dt { font-weight: 700; }
+.team dd { margin: 0 0 0.6rem; color: var(--hallenwand); }
+.luecke { background: var(--kabinenwand); border-left: var(--kante) solid var(--fueller-tief); padding: 0.8rem 1rem; max-width: var(--spalte); }
+
+@media (min-width: 720px) {
+  .raster-2 { grid-template-columns: 1fr 1fr; }
+  .raster-3 { grid-template-columns: repeat(3, 1fr); }
+  .paar { grid-template-columns: 1fr 1fr; gap: var(--luft-l); }
+  .hero .bild img { aspect-ratio: 16 / 7; }
+  .fuss-raster { grid-template-columns: 1.4fr 1fr 1fr; }
+  .bewertung { grid-template-columns: 20rem 1fr; align-items: start; }
+  .team dl { grid-template-columns: 15rem 1fr; }
+  .team dd { margin: 0; }
+}
+@media (min-width: 1100px) {
+  .nav-desktop { display: block; }
+  .menue { display: none; }
+  .marke img { height: 46px; }
+}
+@media (max-width: 1099px) {
+  .kopf .knopf-text { font-size: 0.9375rem; padding-inline: 0.8rem; }
+}
+@media (max-width: 420px) {
+  .marke img { height: 34px; }
+  .kopf-innen { gap: 0.35rem; }
+  .kopf .knopf-text { padding-inline: 0.6rem; font-size: 0.875rem; }
+  .menue > summary { padding: 0 0.7rem; }
+}
+
+/* Die eine Bewegung: das Band wird gelegt */
+@media (prefers-reduced-motion: no-preference) {
+  .kante-zug { animation: legen 420ms ease-out both; }
+  @keyframes legen { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+}
+@media print { .kopf, .abschluss { display: none; } }

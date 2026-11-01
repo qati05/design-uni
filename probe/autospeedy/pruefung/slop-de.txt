@@ -1,0 +1,17 @@
+404.html                     Fehler 0  Warnungen 0
+betrieb.html                 Fehler 0  Warnungen 0
+carrosserie.html             Fehler 0  Warnungen 0
+datenschutz.html             Fehler 0  Warnungen 0
+felgen-folierung.html        Fehler 0  Warnungen 0
+impressum.html               Fehler 0  Warnungen 0
+index.html                   Fehler 0  Warnungen 2
+  - WARNUNG Z.76 [professionell] «professionell»: …araturen verständlich und arbeitet sehr professionell. Termine werden eingehalten und man füh…
+  - WARNUNG Z.76 [preis-leistung] «faire Preise»: …durch schnelle, zuverlässige Arbeit und faire Preise. Das Team ist freundlich, erklärt Repar…
+kontakt.html                 Fehler 0  Warnungen 0
+lackiererei.html             Fehler 0  Warnungen 0
+occasionen.html              Fehler 0  Warnungen 0
+schaden-melden.html          Fehler 0  Warnungen 0
+tesla.html                   Fehler 0  Warnungen 0
+Dateien: 12
+Fehler: 0
+Warnungen: 2

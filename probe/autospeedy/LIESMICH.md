@@ -1,0 +1,92 @@
+# Auto Speedy AG: Probe mit design-uni und text-uni
+
+Stand: 1. November 2026 · Branch `claude/text-uni-und-probe` · **Vorschau, nicht veröffentlicht, nichts gemergt.**
+
+## Kurz
+
+- **Gebaut:** 12 statische Seiten ([site/](site/)), hell, mit lokalen Schriften, ohne Cookies, ohne fremde Hosts, ohne Tracking. Vorschau öffnen: `python3 -m http.server --directory site` und `http://localhost:8000/`.
+- **Alles aus öffentlichen Quellen:** [QUELLEN.md](QUELLEN.md), [fakten.md](fakten.md). Erfunden ist nichts; was fehlt, steht in [luecken.md](luecken.md) (20 Lücken).
+- **Kundenwunsch umgesetzt** (E6 bis E9): hell · auf **jeder** Seite fester Knopf «Schaden melden» · eigene **Tesla-Seite** mit Modellwahl und Tesla-Referenz im Formular · «sauber, informativ, simple to use»: Formular mit 2 Pflichtfeldern · **Google-Bewertungskarten** als statische Karten (kein Widget) · das Formular schreibt **nur eine E-Mail**.
+- **Maschinell geprüft:** 50 Prüfungen, **0 Fehler**; das Prüfwerkzeug hat seinen Selbsttest bestanden. Floskel-Werkzeug des Skills: **0 Fehler, 2 Warnungen** (beide in einem Kundenzitat).
+- **Nicht gelaufen:** alle blinden Tests und die Kunden-Agenten (keine Unteragenten gestartet), Lighthouse, echte Geräte, Menschen, Juristen. Siehe unten.
+- **Nicht freigabefähig, solange:** die Einwilligung für die drei Bewertungs-Zitate fehlt (P13 sperrt) und die Zusagen im [zusagen-blatt.md](zusagen-blatt.md) nicht bestätigt sind.
+
+## Die Idee: Die Abdeckkante
+
+Eine grosse Entscheidung aus dem Betrieb, nicht aus der Branche: das **grüne Abdeckband**, das auf den Fotos des Betriebs an Türen, Radhäusern und Stossstangen klebt (Pipette `#96C734`). Wo das Band liegt, endet das eine und beginnt das andere. Es eröffnet jeden Abschnitt, begrenzt die Bilder an einer Seite, markiert die Listenzeilen und ist die Farbe des **einzigen** Hauptknopfs. Titel der Startseite: «Erst die Kante. Dann der Lack.» Ableitung, Alternativen und Risiko: [richtung.md](richtung.md).
+
+**Ehrliches Risiko:** Die Idee stützt sich auf Fotos des Betriebs, nicht auf eine Leistung, die nur dieser Betrieb hat. Ob sie blind trägt, ist **nicht geprüft** (P1).
+
+## Seiten
+
+`index` · `carrosserie` (mit `#dellen`) · `lackiererei` · `felgen-folierung` · `occasionen` · `betrieb` · `kontakt` · **`tesla`** · **`schaden-melden`** · `impressum` · `datenschutz` · `404`. Antwort-Plan: [antwort-plan.md](antwort-plan.md).
+
+Das Formular auf `schaden-melden`: Kästchen «Der Fall kommt von Tesla» (oder `?tesla=1`, `&modell=Model%20Y`) → statt «Fahrzeug» erscheinen **Auswahl-Chips** Model 3, Model Y, Model S, Model X, anderes Modell und das freiwillige Feld Tesla-Referenz. Name und Telefon sind Pflicht. Ein Tipp auf «Schaden melden und E-Mail öffnen» öffnet das E-Mail-Programm mit vorbereiteter Nachricht an `info@autospeedy.ch` (Betreff «Schadenmeldung», bei Tesla «Schadenmeldung Tesla Model Y»). **Gesendet ist erst, wenn die Person im Mail-Programm sendet**; die Seite sagt das so. Ohne JavaScript bleibt das Formular ein `mailto:`-Formular.
+
+## Prüfpunkte
+
+Legende: **bestanden** = Schwelle erreicht (Selbstauskunft vermerkt) · **nicht gelaufen** · **teilweise**.
+
+### design-uni
+
+| Punkt | Ergebnis | Zahlen, Bewerter, Bemerkung |
+|---|---|---|
+| P0 Vollständigkeit | teilweise | 21 Nomen, 6 nach dem Sieben; Hauptaktion festgelegt (E7). **Kein Gespräch** mit dem Betrieb; Zusagen ohne zuständige Person ([zusagen-blatt.md](zusagen-blatt.md)). |
+| P1 Richtung (blind) | **nicht gelaufen** | Keine Unteragenten. Die Wahl der Richtung ist meine Vorwahl, kein Urteil. Der Skill hält an dieser Stelle an; ich habe gebaut, weil der Auftrag es verlangt (siehe [AUFTRAG.md](AUFTRAG.md)). |
+| P2 Abstand | teilweise | **8 von 8** Achsen anders, **5 von 7** Bauteile anders (Selbstauskunft gegen den beschriebenen Standard, gemessen an der eigenen Seite). Creme-Sperre: bestanden (Farbton 197°). **ΔE_OK zu Creme 0,015, Schwelle 0,06: durchgefallen**; Ausnahme mit Entscheid E6 und Foto-Beleg ([register.md](register.md)). Geschwister-Test: nicht gelaufen. |
+| P3 Prüflisten A, P, H | Selbstauskunft, nicht blind | **A:** 7 Ja, 4 «Lücke des Betriebs» (Frist, Preis, Angebotsname, «allein entscheiden»), 3 Nein (Titel der Startseite allein, 5-Sekunden-Test nicht gelaufen, Zusagen nicht freigegeben). **Schwelle 11 nur mit den Lücken erreicht.** **P:** 12 Ja, **P13 Nein** (Zitate ohne Einwilligung): **Deckel, Seite gesperrt**. **H:** 13 Ja, 1 Lücke, 1 nicht gemessen (LCP): Schwelle 13 knapp erreicht. |
+| P4 Erster Bildschirm (blind) | **nicht gelaufen** | Bildtest, Geschwister-Test, 5-Sekunden-Test brauchen 6 Bewerter. |
+| P5 Startseite mit der einen Bewegung | teilweise | **maschinell bestanden:** Reduced Motion 0 Animationen; nach 3 s laufen 0 Animationen; nur `transform`. Nicht gemessen: Titel ≤ 1,0 s lesbar. **Blind nicht gelaufen.** |
+| P6 Alle Seiten, Formular, Zustände | **bestanden** (maschinell) | **50 Prüfungen, 0 Fehler** ([pruefung/p6-t7.json](pruefung/p6-t7.json)): Telefon-Links, Zählpunkte, CTA fest sichtbar bei 1440 und 390 px, Kontrast aus der Kaskade (alle sichtbaren Texte), Verdeckung, Überlauf bei 360/390/1440, keine fremden Hosts, 0 Cookies, 0 Speichereinträge, ohne JavaScript lesbar, Formular (2 Pflichtfelder, 5 Felder), Fehler am Feld ohne Verschiebung des Knopfs, Rückmeldung 85 ms, Doppelsenden gesperrt, Kalender 9 Fälle. **Nicht gelaufen:** Lighthouse, axe, Tastaturdurchgang von Hand, Klickpfad-Skript (Anruf und CTA sind in jedem ersten Bildschirm), Route im Menü. |
+| P7 Kunden-Agenten | **nicht gelaufen** | Keine Unteragenten; das Werkzeug `kunde.cjs` wurde nicht gebraucht. |
+| P8 Ganze Website (blind) | **nicht gelaufen** | |
+
+Was der Selbsttest zeigt: [pruefung/selbsttest.txt](pruefung/selbsttest.txt). Das Prüfskript fand alle 6 eingebauten Fehler (kaputter `tel:`-Link, Kontrast `#BBB`, fehlender CTA, Gedankenstrich, eckige Klammer, falsches «morgen»). Es hatte beim ersten Lauf **drei eigene Fehler** (erlaubte Guillemets, das Wort «am», Listen als Sätze gezählt); sie sind behoben. Zwei Funde waren echt und sind in der Seite behoben: die Fehlermeldung am Telefonfeld verschob den Senden-Knopf um 22 px, und ein Satz hatte 28 Wörter.
+
+### text-uni
+
+| Punkt | Ergebnis | Zahlen, Bemerkung |
+|---|---|---|
+| T0 Unterlagen | **nicht erfüllt** | 16 Kundenworte statt 30; keine Autovervollständigung, keine Fragen am Telefon; nur Google und local.ch ([kundenworte.md](kundenworte.md)). Drei Mitbewerber notiert. |
+| T1 Antwort-Plan | bestanden (von Hand) | 10 Seiten mit je einer Hauptabsicht, kein Begriff auf zwei Seiten, keine Ortsseiten. **Alle Begriffe `[Annahme]`.** |
+| T2 Botschaft (blind) | **nicht gelaufen** | |
+| T3 Text | teilweise | Satzlänge im Fliesstext im Mittel **7,5 Wörter**, längster 20 (Grenzen 15 und 25: bestanden). Floskel-Werkzeug **0 Fehler**, 2 Warnungen (`professionell`, `faire Preise`), beide im wörtlichen Kundenzitat Januar 2026, nicht im Text des Betriebs. Listen A, P, H: siehe P3. **Unlauter-Probe:** Die Karten ohne Einwilligung verletzen SLK B.7; sonst nach eigener Prüfung keine Verstösse (keine Superlative, keine Preise, keine Knappheit). |
+| T4 Blind gegen die Konkurrenz | **nicht gelaufen** | (lief auch im Skill noch nie) |
+| T5 Snippet-Test | **nicht gelaufen** | |
+| T6 KI-Zitat-Test | **nicht gelaufen** | |
+| T7 Technik und Text (maschinell) | **bestanden** | 0 Fehler: Eszett, eine Anrede, Guillemets, keine Gedankenstriche, Uhrzeit mit Punkt, Telefonform, Titel 40 bis 60 und Beschreibung 110 bis 155 Zeichen auf allen 12 Seiten, ein `h1`, keine Sprünge, Alt-Text und Mass an allen Bildern, `noindex`, `robots.txt`, keine toten Links, `LocalBusiness` gleich der sichtbaren Seite und ohne Bewertung, **Faktenabgleich** (jede Zahl im Text steht in [fakten.md](fakten.md); eigenes Skript, nicht das Werkzeug des Skills). **Nicht prüfbar offline:** TI14, TI15, TI32, Index in Google und Bing, Weiterleitungen ([livegang.md](livegang.md)). |
+| T8 Ziele und Messplan | **nicht bestanden** | Ziele Z1 bis Z8 sind prüfbar (6 davon vom Skript geprüft). Der Messplan fehlt in einem Punkt von M11: **Ausgangswerte** (nur der Betrieb hat sie). [messplan.md](messplan.md). |
+
+## Befunde an den Skills (Nebenertrag der Probe)
+
+1. **ΔE-Schwelle bei hellen Seiten** (design-uni, abstand.md Teil 2, Prüfung 3): Jede helle Seite liegt unter 0,06 zum Creme-Standard. Die Prüfung müsste für helle Gründe an Farbton und Sättigung gehen.
+2. **Konflikt zwischen Kundenwunsch und Nie-Liste:** «Telefon und Hauptaktion je zweimal im selben Bildschirm» ist in der Nie-Liste unter «nie als Voreinstellung»; der Kunde verlangt aber einen CTA auf jeder Seite. Die Seite hat einen festen Kopf (CTA und Telefon) und im Hero beides nochmals. Ausnahme durch E7.
+3. **Fehlermeldungen und Knopf** (conversion.md Teil 4 verlangt eine Fehlerzusammenfassung oben und zugleich, dass der Senden-Knopf nicht wandert): Beides geht nur, wenn die Zusammenfassung **unter** dem Knopf steht oder Platz reserviert ist. Die Probe löst es mit einer reservierten Zeile je Feld und der Zusammenfassung unter dem Knopf.
+4. **T0 (30 Kundenworte)** ist bei einem Betrieb mit 15 Bewertungstexten ohne Gespräch nicht zu erfüllen. Der Skill sagt nicht, was dann gilt; die Probe baute weiter und markierte alles `[Annahme]`.
+5. **Skill-Halt ohne Unteragenten** (P1) und Auftrag «baue die Website» widersprechen sich. Ich habe dem Auftrag den Vorrang gegeben und das offen gesagt.
+6. **Der Betrieb verletzt auf der eigenen Website** nach der Rechtsbasis der Skills mehrere Grundsätze («Beste Preise garantiert!», Superlative, «jahrzehntelange Erfahrung» gegen Handelsregister 2016). Sie wurden **nicht** übernommen ([fakten.md](fakten.md), Teil 8).
+
+## Was nicht geprüft ist
+
+Echte Geräte (iOS Safari, Android); Menschen als Besucher; Juristinnen und Juristen (Impressum, Datenschutz, UWG, SLK B.7, FMG 45c sind offen); Lighthouse und axe; Tastatur- und Screenreader-Durchgang von Hand; Ladezeit im Feld; ob `mailto:` auf allen Geräten des Kunden das richtige Programm öffnet (auf Handys ohne Mail-Konto öffnet sich nichts: Das Formular nennt dafür die Adresse und die Nummer); ob Tesla-Weiterleitungen auf die richtige Adresse zeigen; **ob der Betrieb Tesla-Partner ist** (Aussage des Auftraggebers, kein Nachweis).
+
+## Offene Entscheide (Auftraggeber oder Betrieb)
+
+1. Zitate: Einwilligung einholen oder streichen (Z18 bis Z20).
+2. Zusagen Z1 bis Z17 bestätigen ([zusagen-blatt.md](zusagen-blatt.md)).
+3. Blinde Tests nachholen? Dafür braucht es Unteragenten: P1, P4, P5, P8, T2, T4 bis T6 und P7 (rund 24 plus 6 Läufe, siehe `Kosten und Dauer` im Skill). Ich habe sie nicht gestartet, weil der Auftrag es nicht sagt.
+4. Fototag nach `branchen/handwerk-auto-bau.md` Teil 4 und Logo als Vektor (L16).
+5. Formularweg: `mailto:` oder Endpunkt mit Foto-Anhang.
+
+## Wiederholen
+
+```bash
+node werkzeuge/bauen.cjs                      # Seiten neu erzeugen
+node werkzeuge/pruefen.cjs --json pruefung/p6-t7.json   # 50 maschinelle Prüfungen
+node werkzeuge/pruefen.cjs --selbsttest       # Prüfwerkzeug an Kopie mit Fehlern
+node werkzeuge/register-messen.cjs            # Achsen und OKLCH
+node ../../skills/text-uni/werkzeuge/slop-de.js site   # Floskel-Werkzeug des Skills
+python3 -I werkzeuge/bilder-aufbereiten.py <arbeitsordner> site/bilder   # Bilder neu aufbereiten
+```
+
+Playwright (`require("playwright")`) wird vorausgesetzt.

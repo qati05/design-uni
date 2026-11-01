@@ -1,0 +1,66 @@
+{
+  "gemessen": {
+    "h1": {
+      "fontFamily": "\"Big Shoulders Display\", \"Arial Narrow\", sans-serif",
+      "fontWeight": "800",
+      "fontStyle": "normal",
+      "fontSize": "120px"
+    },
+    "h1kursiv": 0,
+    "body": {
+      "backgroundColor": "rgb(238, 240, 240)",
+      "fontFamily": "\"Public Sans\", Arial, sans-serif",
+      "fontVariantNumeric": "tabular-nums"
+    },
+    "knopf": {
+      "backgroundColor": "rgb(150, 199, 52)",
+      "borderRadius": "0px",
+      "color": "rgb(18, 20, 22)"
+    },
+    "knopfLeise": {
+      "backgroundColor": "rgb(255, 255, 255)",
+      "borderRadius": "0px",
+      "borderTopWidth": "2px"
+    },
+    "tabelle": {
+      "fontFamily": "\"Public Sans\", Arial, sans-serif",
+      "fontVariantNumeric": "tabular-nums"
+    },
+    "bild": {
+      "aspectRatio": "16 / 7",
+      "objectFit": "cover"
+    },
+    "animation": {
+      "animationName": "legen",
+      "animationDuration": "0.42s"
+    }
+  },
+  "grund": {
+    "hex": "#EEF0F0",
+    "oklch": {
+      "L": 0.9536143220027435,
+      "C": 0.0021409523392083175,
+      "h": 197.12084811211648
+    }
+  },
+  "kabinenwand": {
+    "L": 0.9999999934735462,
+    "C": 3.7273995535192846e-8,
+    "h": 89.87556309590241
+  },
+  "band": {
+    "L": 0.7682257855664772,
+    "C": 0.17735010446515206,
+    "h": 126.62945983482064
+  },
+  "deltaE": {
+    "zuCreme": 0.014784725408114522,
+    "zuWeiss": 0.04643505402208521,
+    "wandZuCreme": 0.047659238442647904
+  },
+  "cremeZone": {
+    "L": 0.9543267643208673,
+    "C": 0.013614703150303888,
+    "h": 78.26252706569113
+  }
+}

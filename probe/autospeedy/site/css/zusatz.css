@@ -1,0 +1,19 @@
+/* Ergänzungen zu main.css */
+.kante-bar { height: var(--kante); background: var(--abdeckband); }
+.bild.bild-kante { border-top: 0; }
+.kopf .tel-zahl { display: none; }
+@media (min-width: 1180px) {
+  .kopf .knopf-leise { width: auto; padding: 0 1rem; }
+  .kopf .tel-zahl { display: inline; font-weight: 700; }
+}
+.paar > * { min-width: 0; }
+.flaeche .luecke { background: var(--fueller); }
+.hero .luecke { margin-block: var(--luft-s); }
+.raster { align-items: start; }
+.raster .bild { background: transparent; }
+.raster .bild img { aspect-ratio: 4 / 5; object-fit: cover; }
+.raster .bild figcaption { padding-inline: 0; }
+
+.fakten-zeile { list-style: none; margin: 0 0 var(--luft-m); padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.fakten-zeile li { background: var(--kabinenwand); border-left: 6px solid var(--abdeckband); padding: 0.4rem 0.8rem; font-weight: 600; font-size: 0.9375rem; }
+main > section:last-child:not(.abschluss) { padding-bottom: var(--luft-xl); }

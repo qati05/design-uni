@@ -1,0 +1,103 @@
+{
+  "ziel": "/home/user/design-uni/probe/autospeedy/site",
+  "zeit": "2026-11-01T21:33:39.071Z",
+  "listeVersion": 1,
+  "erlaubt": [],
+  "dateien": [
+    {
+      "datei": "404.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "betrieb.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "carrosserie.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "datenschutz.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "felgen-folierung.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "impressum.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "index.html",
+      "fehler": 0,
+      "warnungen": 2,
+      "treffer": [
+        {
+          "id": "professionell",
+          "art": "floskel",
+          "stufe": "WARNUNG",
+          "zeile": 76,
+          "fund": "professionell",
+          "kontext": "…araturen verständlich und arbeitet sehr professionell. Termine werden eingehalten und man füh…",
+          "warum": "Erwartet man ohnehin.",
+          "besser": "Zeigen, woran man es merkt: «schriftliche Offerte mit Fixpreis»."
+        },
+        {
+          "id": "preis-leistung",
+          "art": "floskel",
+          "stufe": "WARNUNG",
+          "zeile": 76,
+          "fund": "faire Preise",
+          "kontext": "…durch schnelle, zuverlässige Arbeit und faire Preise. Das Team ist freundlich, erklärt Repar…",
+          "warum": "Ohne Preis unprüfbar.",
+          "besser": "Einen Richtpreis nennen: «ab CHF 85 pro Stunde»."
+        }
+      ]
+    },
+    {
+      "datei": "kontakt.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "lackiererei.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "occasionen.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "schaden-melden.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "tesla.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    }
+  ],
+  "fehler": 0,
+  "warnungen": 2
+}

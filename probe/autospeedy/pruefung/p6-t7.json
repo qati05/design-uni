@@ -1,0 +1,255 @@
+{
+  "datum": "2026-11-01",
+  "ergebnisse": [
+    {
+      "id": "P6 Telefon-Links 1440",
+      "ok": true,
+      "detail": "alle tel-Links international, Text gleich Ziel, in jedem ersten Bildschirm"
+    },
+    {
+      "id": "P6 Zählpunkte 1440",
+      "ok": true,
+      "detail": "100 % der tel-, mailto- und Karten-Links tragen data-zaehl und data-ort"
+    },
+    {
+      "id": "E7 CTA «Schaden melden» fest sichtbar 1440",
+      "ok": true,
+      "detail": "auf allen 11 Seiten im festen Kopf, nach dem Scrollen, ≥ 44 px"
+    },
+    {
+      "id": "E8 Tesla im Kopf oder Menü 1440",
+      "ok": true,
+      "detail": "Link auf jeder Seite im Kopf (Desktop) oder im Menü (Handy)"
+    },
+    {
+      "id": "P6 Kontrast aus der Kaskade 1440",
+      "ok": true,
+      "detail": "alle sichtbaren Texte erreichen 4,5:1 (gross 3:1) gegen den tatsächlichen Grund"
+    },
+    {
+      "id": "P6 Verdeckung 1440",
+      "ok": true,
+      "detail": "0 Knöpfe und Felder verdeckt (Mitte und Ecken, nach Scrollen)"
+    },
+    {
+      "id": "P6 Kein Überlauf 1440",
+      "ok": true,
+      "detail": "kein horizontales Scrollen"
+    },
+    {
+      "id": "P6 Boden: nichts von fremden Hosts 1440",
+      "ok": true,
+      "detail": "alle Anfragen gleiche Herkunft"
+    },
+    {
+      "id": "P6 Boden: keine Cookies, nichts im Speicher 1440",
+      "ok": true,
+      "detail": "Cookies 0, Speichereinträge 0"
+    },
+    {
+      "id": "P6 Telefon-Links 390",
+      "ok": true,
+      "detail": "alle tel-Links international, Text gleich Ziel, in jedem ersten Bildschirm"
+    },
+    {
+      "id": "P6 Zählpunkte 390",
+      "ok": true,
+      "detail": "100 % der tel-, mailto- und Karten-Links tragen data-zaehl und data-ort"
+    },
+    {
+      "id": "E7 CTA «Schaden melden» fest sichtbar 390",
+      "ok": true,
+      "detail": "auf allen 11 Seiten im festen Kopf, nach dem Scrollen, ≥ 44 px"
+    },
+    {
+      "id": "E8 Tesla im Kopf oder Menü 390",
+      "ok": true,
+      "detail": "Link auf jeder Seite im Kopf (Desktop) oder im Menü (Handy)"
+    },
+    {
+      "id": "P6 Kontrast aus der Kaskade 390",
+      "ok": true,
+      "detail": "alle sichtbaren Texte erreichen 4,5:1 (gross 3:1) gegen den tatsächlichen Grund"
+    },
+    {
+      "id": "P6 Verdeckung 390",
+      "ok": true,
+      "detail": "0 Knöpfe und Felder verdeckt (Mitte und Ecken, nach Scrollen)"
+    },
+    {
+      "id": "P6 Kein Überlauf 390",
+      "ok": true,
+      "detail": "kein horizontales Scrollen"
+    },
+    {
+      "id": "P6 Boden: nichts von fremden Hosts 390",
+      "ok": true,
+      "detail": "alle Anfragen gleiche Herkunft"
+    },
+    {
+      "id": "P6 Boden: keine Cookies, nichts im Speicher 390",
+      "ok": true,
+      "detail": "Cookies 0, Speichereinträge 0"
+    },
+    {
+      "id": "P6 Kein Überlauf 360 px",
+      "ok": true,
+      "detail": "alle Seiten"
+    },
+    {
+      "id": "P6 Formular: sichtbare Felder 3 bis 5",
+      "ok": true,
+      "detail": "5 Felder (Standard); Pflicht 2"
+    },
+    {
+      "id": "P6 Formular: Pflichtfelder höchstens 4, hier 2",
+      "ok": true,
+      "detail": "2"
+    },
+    {
+      "id": "P6 Formular: Beschriftung über jedem Feld, 0 Platzhalter, nichts vorangekreuzt",
+      "ok": true,
+      "detail": "ohne Label 0, Platzhalter 0, vorangekreuzt 0"
+    },
+    {
+      "id": "P6 Formular: Zweck und Verantwortlicher am Knopf",
+      "ok": true,
+      "detail": "Satz unter dem Knopf"
+    },
+    {
+      "id": "H8 Telefonfeld öffnet die Zifferntastatur",
+      "ok": true,
+      "detail": "tel/tel/tel"
+    },
+    {
+      "id": "P6 Fehler am Feld, Senden-Knopf bleibt stehen",
+      "ok": true,
+      "detail": "Name: «Name fehlt. Bitte Namen eintragen.» Telefon: «Telefon fehlt. Bitte Nummer eintragen.» Verschiebung 0 px"
+    },
+    {
+      "id": "P6 Zusammenfassung unter dem Knopf nennt die Felder",
+      "ok": true,
+      "detail": "2 Angaben fehlen: Name, Telefon."
+    },
+    {
+      "id": "U16 zwei verschiedene Telefon-Meldungen",
+      "ok": true,
+      "detail": "leer: «Telefon fehlt. Bitte Nummer eintragen.» / Format: «Telefon prüfen: mindestens 9 Ziffern.»"
+    },
+    {
+      "id": "P6 Rückmeldung ≤ 300 ms, doppeltes Senden gesperrt",
+      "ok": true,
+      "detail": "84 ms (inkl. Klick), Knopf gesperrt: true"
+    },
+    {
+      "id": "E8 Tesla-Vorwahl über die URL (Kästchen, Modell, Chips, Referenz)",
+      "ok": true,
+      "detail": "{\"tesla\":true,\"modell\":\"Model Y\",\"chips\":5,\"eigen\":false,\"ref\":true,\"felder\":10}"
+    },
+    {
+      "id": "P6 Kalender (Fr 17.30, Sa 10.00, So 22.40, Mittag, Sommerzeit, Gerät in anderer Zeitzone)",
+      "ok": true,
+      "detail": "9 Fälle richtig; nie «morgen»; jede Frist mit Wochentag"
+    },
+    {
+      "id": "P6 Boden: ohne JavaScript ist aller Inhalt da (Nummern, Zeiten, Formular als E-Mail-Link)",
+      "ok": true,
+      "detail": "12 Seiten geprüft"
+    },
+    {
+      "id": "P5 Reduced Motion: Summe der Wege 0",
+      "ok": true,
+      "detail": "Animationen 0, animation-name none"
+    },
+    {
+      "id": "P5 Nach 3 s laufen 0 Animationen",
+      "ok": true,
+      "detail": "0 laufend"
+    },
+    {
+      "id": "T7/CH1 Eszett 0",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "id": "T7/CH4 Eine Anrede (nur «Sie»)",
+      "ok": true,
+      "detail": "0 du-Formen"
+    },
+    {
+      "id": "T7/CH5 Guillemets, keine geraden oder deutschen Anführungszeichen",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "id": "T7/K11 Keine Gedankenstriche im sichtbaren Text",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "id": "T7/CH11 Uhrzeit mit Punkt, kein 24-Stunden-Doppelpunkt",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "id": "T7/CH12 Telefon national sichtbar, kein +41 im Text",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "id": "P6 Klammern: keine eckigen Klammern im sichtbaren Text",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "id": "T7/S15 Genau ein h1, keine Sprünge in der Gliederung",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "id": "T7/S20, TI35 Bilder mit Alt-Text und Mass",
+      "ok": true,
+      "detail": "alle Bilder"
+    },
+    {
+      "id": "T7/S1,S3,S9,S12 Titel 40 bis 60, Beschreibung 110 bis 155 Zeichen",
+      "ok": true,
+      "detail": "12 Seiten"
+    },
+    {
+      "id": "T7/TI9 Vorschau: noindex auf jeder Seite, kein canonical",
+      "ok": true,
+      "detail": "12 Seiten"
+    },
+    {
+      "id": "T3/W1 Sätze im Fliesstext im Mittel ≤ 15 Wörter",
+      "ok": true,
+      "detail": "7.5 Wörter im Mittel über 152 Sätze; längster: 20 Wörter (betrieb: Auto Speedy nennt sich zertifizierter Partner für Karosserie und Lack von Tesla )"
+    },
+    {
+      "id": "T3/W2 Kein Satz über 25 Wörter",
+      "ok": true,
+      "detail": "längster 20"
+    },
+    {
+      "id": "T7/TI3 Vorschau: robots.txt sperrt alles, keine Sitemap",
+      "ok": true,
+      "detail": "User-agent: * | Disallow: /"
+    },
+    {
+      "id": "T7/TI17 Keine toten internen Links oder Bilder",
+      "ok": true,
+      "detail": "0"
+    },
+    {
+      "id": "T7/S23-S25 LocalBusiness gültig, gleich der sichtbaren Seite, ohne eigene Bewertung",
+      "ok": true,
+      "detail": "AutoBodyShop, +41717558861, ohne Bewertung"
+    },
+    {
+      "id": "T7 Faktenabgleich: jede Zahl im Text steht in fakten.md",
+      "ok": true,
+      "detail": "alle Zahlen belegt (eigenes Skript, nicht das Werkzeug aus dem Skill)"
+    }
+  ]
+}

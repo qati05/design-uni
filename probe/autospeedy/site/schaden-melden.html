@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schaden melden in zwei Angaben | Auto Speedy Altstätten</title>
+<meta name="description" content="Schaden bei Auto Speedy in Altstätten melden: Name und Telefon genügen, alles andere ist freiwillig. Auch für Tesla-Fälle mit Modellwahl und Referenz.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<link rel="preload" href="schriften/bigshoulders-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="schriften/publicsans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="bilder/logo-wirbel-s.png" type="image/png">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/zusatz.css">
+<script src="js/main.js" defer></script>
+</head>
+<body>
+<a class="sprung" href="#inhalt">Zum Inhalt springen</a>
+<div class="vorschau"><div class="rahmen">Vorschau zur Freigabe, nicht veröffentlicht. Stand 1. November 2026.</div></div>
+<header class="kopf">
+<div class="rahmen kopf-innen">
+<a class="marke" href="index.html" aria-label="Auto Speedy AG, zur Startseite"><img src="bilder/logo-wirbel-s.png" width="66" height="40" alt="Auto Speedy AG"></a>
+<nav class="nav-desktop" aria-label="Hauptmenü"><ul><li><a href="carrosserie.html">Carrosserie</a></li><li><a href="lackiererei.html">Lackiererei</a></li><li><a href="felgen-folierung.html">Felgen und Folierung</a></li><li><a href="occasionen.html">Occasionen</a></li><li><a href="betrieb.html">Betrieb</a></li><li><a href="kontakt.html">Kontakt</a></li><li><a class="etikett-link" href="tesla.html" data-ort="kopf">Tesla</a></li></ul></nav>
+<div class="kopf-aktionen">
+<a class="knopf knopf-text" href="schaden-melden.html" data-zaehl="anfrage" data-ort="kopf">Schaden melden</a>
+<a class="knopf knopf-leise" href="tel:+41717558861" data-zaehl="anruf" data-ort="kopf"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg><span class="sr">Anrufen: 071 755 88 61</span><span class="tel-zahl nowrap" aria-hidden="true">071 755 88 61</span></a>
+<details class="menue"><summary>Menü<span class="sr"> öffnen</span></summary>
+<nav class="menue-liste" aria-label="Menü"><ul><li><a href="index.html">Start</a></li><li><a href="carrosserie.html">Carrosserie</a></li><li><a href="lackiererei.html">Lackiererei</a></li><li><a href="felgen-folierung.html">Felgen und Folierung</a></li><li><a href="occasionen.html">Occasionen</a></li><li><a href="betrieb.html">Betrieb</a></li><li><a href="kontakt.html">Kontakt</a></li><li><a href="tesla.html" data-ort="menue">Tesla-Schaden</a></li></ul></nav></details>
+</div>
+</div>
+</header>
+<main id="inhalt">
+<section class="hero"><div class="rahmen">
+<h1>Schaden melden</h1>
+<p class="lead">Name und Telefon genügen. Alles andere ist freiwillig.</p>
+<p class="spalte"><strong>Unfall mit Verletzten?</strong> Rufen Sie zuerst 144 oder 117 an.</p>
+</div></section>
+
+<section class="abschnitt"><div class="rahmen"><div class="paar">
+<div>
+<form id="schadenformular" class="formular" action="mailto:info@autospeedy.ch?subject=Schadenmeldung" method="post" enctype="text/plain" novalidate>
+<div class="haken"><input type="checkbox" id="tesla" name="tesla" value="ja"><label for="tesla">Der Fall kommt von Tesla</label></div>
+<div class="feld"><label for="name">Name <span aria-hidden="true">*</span></label><input type="text" id="name" name="name" autocomplete="name" required aria-describedby="name-fehler"><p class="fehler" id="name-fehler" role="alert"></p></div>
+<div class="feld"><label for="telefon">Telefon <span aria-hidden="true">*</span></label><input type="tel" id="telefon" name="telefon" autocomplete="tel" inputmode="tel" required aria-describedby="telefon-hilfe telefon-fehler"><p class="hilfe" id="telefon-hilfe">Für den Rückruf. Beispiel: 079 123 45 67.</p><p class="fehler" id="telefon-fehler" role="alert"></p></div>
+<div class="feld nur-eigen"><label for="fahrzeug">Fahrzeug (freiwillig)</label><input type="text" id="fahrzeug" name="fahrzeug" autocomplete="off" aria-describedby="fahrzeug-hilfe"><p class="hilfe" id="fahrzeug-hilfe">Marke und Modell, zum Beispiel VW Golf.</p></div>
+<fieldset class="feld nur-tesla"><legend>Tesla-Modell (freiwillig)</legend><div class="chips">
+<label class="chip"><input type="radio" name="tesla-modell" value="Model 3"><span>Model 3</span></label><label class="chip"><input type="radio" name="tesla-modell" value="Model Y"><span>Model Y</span></label><label class="chip"><input type="radio" name="tesla-modell" value="Model S"><span>Model S</span></label><label class="chip"><input type="radio" name="tesla-modell" value="Model X"><span>Model X</span></label><label class="chip"><input type="radio" name="tesla-modell" value="anderes Modell"><span>anderes Modell</span></label>
+</div></fieldset>
+<div class="feld nur-tesla"><label for="referenz">Tesla-Referenz (freiwillig)</label><input type="text" id="referenz" name="referenz" autocomplete="off" aria-describedby="referenz-hilfe"><p class="hilfe" id="referenz-hilfe">Die Nummer, die Sie von Tesla erhalten haben.</p></div>
+<div class="feld"><label for="was">Was ist passiert? (freiwillig)</label><textarea id="was" name="was" rows="4"></textarea></div>
+<div class="sendebereich">
+<button class="knopf knopf-gross" type="submit" id="senden">Schaden melden und E-Mail öffnen</button>
+<p class="rueckmeldung" id="rueckmeldung" role="status" aria-live="polite"></p>
+<p class="datenschutz-satz">Die E-Mail öffnet sich vorbereitet. Gesendet ist sie erst, wenn Sie in Ihrem E-Mail-Programm auf «Senden» tippen. Wir verwenden Ihre Angaben nur für diese Schadenmeldung. Verantwortlich: Auto Speedy AG, Alte Landstrasse 63, 9450 Altstätten. Mehr in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+</div>
+</form>
+<div class="bestaetigung" id="bestaetigung" hidden tabindex="-1">
+<p><span class="etikett">Vorbereitet</span></p>
+<p><strong>Ihre E-Mail ist vorbereitet.</strong> Gesendet ist sie erst, wenn Sie in Ihrem E-Mail-Programm auf «Senden» tippen.</p>
+<p id="bestaetigung-zusammenfassung" class="klein"></p>
+<p>Hat sich nichts geöffnet? Schreiben Sie an <a href="mailto:info@autospeedy.ch" data-zaehl="mail" data-ort="bestaetigung">info@autospeedy.ch</a> oder rufen Sie <a href="tel:+41717558861" data-zaehl="anruf" data-ort="bestaetigung"><span class="nowrap">071 755 88 61</span></a> an.</p>
+</div>
+</div>
+<aside aria-labelledby="danach-titel"><h2 id="danach-titel">So geht es danach weiter</h2>
+<ol class="liste-punkte spalte" style="list-style:decimal">
+<li>Sie melden den Schaden mit Name und Telefon.</li>
+<li>Der Betrieb meldet sich bei Ihnen.</li>
+<li>Die Schadensabwicklung mit der Versicherung erledigt Auto Speedy für Sie.</li>
+</ol>
+<p class="luecke">Wie schnell sich der Betrieb meldet, tragen wir hier ein, sobald er es festgelegt hat.</p>
+<p class="klein">Fotos des Schadens können Sie an die E-Mail anhängen.</p>
+</aside>
+</div></div></section>
+
+</main>
+<footer class="fuss"><div class="rahmen">
+<div class="fuss-raster">
+<div><h2>Auto Speedy AG</h2><p>Alte Landstrasse 63<br>9450 Altstätten<br><a href="https://www.google.com/maps/search/?api=1&query=Auto+Speedy+AG%2C+Alte+Landstrasse+63%2C+9450+Altst%C3%A4tten&query_place_id=ChIJfWvlb90Xm0cRkco0yhXSEAk" data-zaehl="route" data-ort="fuss">Route öffnen</a></p></div>
+<div><h2>Erreichbar</h2><ul><li><a href="tel:+41717558861" data-zaehl="anruf" data-ort="fuss"><span class="nowrap">071 755 88 61</span></a></li><li><a href="tel:+41766154441" data-zaehl="anruf" data-ort="fuss"><span class="nowrap">076 615 44 41</span></a></li><li><a href="mailto:info@autospeedy.ch" data-zaehl="mail" data-ort="fuss">info@autospeedy.ch</a></li></ul><p>Montag bis Donnerstag 7.30 Uhr bis 17.30 Uhr<br>Freitag 7.30 Uhr bis 17.15 Uhr<br>mittags 12.00 Uhr bis 13.15 Uhr zu</p></div>
+<div><h2>Seiten</h2><ul><li><a href="carrosserie.html">Carrosserie</a></li><li><a href="lackiererei.html">Lackiererei</a></li><li><a href="felgen-folierung.html">Felgen und Folierung</a></li><li><a href="occasionen.html">Occasionen</a></li><li><a href="betrieb.html">Betrieb</a></li><li><a href="kontakt.html">Kontakt</a></li><li><a href="tesla.html">Tesla</a></li><li><a href="schaden-melden.html">Schaden melden</a></li><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li></ul></div>
+</div>
+<p class="schriftfeld">Auto Speedy AG · UID CHE-221.907.243 · Altstätten. Fotos von der bisherigen Website des Betriebs. Tesla ist eine Marke von Tesla, Inc.</p>
+</div></footer>
+</body>
+</html>
