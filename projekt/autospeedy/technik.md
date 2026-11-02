@@ -39,3 +39,6 @@ Umlackieren: View Transitions (Stufe 2) mit CSS-Maske, `public/js/lack.js` rund 
 | **C · E-Mail** | öffnet das E-Mail-Programm mit fertiger Nachricht; Fotos dort anhängen | gebaut; auch der Weg ohne JavaScript |
 Fehlerfall A: Hinweis auf WhatsApp, E-Mail und Telefon. Doppeltes Senden gesperrt.
 **Vor dem Einschalten von A:** Mail-Dienst wählen (Sitz Schweiz oder EU), `MAIL_*` am Hoster setzen, `formularEndpunkt` in `bau.json`, Datenschutzerklärung ergänzen (Mail-Dienst, Fotos als Anhang), Anfragekette mit dem Betrieb.
+
+## Änderung 02.11.2026: E-Mail-Weg entfernt (Studio)
+Weg C («Per E-Mail senden») ist weg: Weg A geht ohnehin als E-Mail an den Betrieb. Es bleiben **A · Website** und **B · WhatsApp**. Ohne JavaScript bleibt das Formular über `mailto` als einziger Rückfall (sonst gäbe es ohne Skript keinen Weg). Fehlerfall A verweist auf WhatsApp und Telefon.

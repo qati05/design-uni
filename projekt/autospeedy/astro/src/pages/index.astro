@@ -18,9 +18,9 @@ const arten = (artenDaten as any).arten;
 <svg class="schwung" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 18 C 60 4, 150 2, 236 10" pathLength="1"/></svg>
     <h1>{h1}</h1>
     <ul class="fakten">
-      <li><b aria-hidden="true">1</b><span>{b.strasse}, {b.plz} {b.ort}</span></li>
-      <li><b aria-hidden="true">2</b><span>Mo bis Do 7.30 bis 12.00 und 13.15 bis 17.30 Uhr, Fr bis 17.15 Uhr</span></li>
-      <li><b aria-hidden="true">3</b><span>Die Abwicklung mit Ihrer Versicherung übernehmen wir.</span></li>
+      <li><b>Adresse</b><span>{b.strasse}, {b.plz} {b.ort}</span></li>
+      <li><b>Zeiten</b><span>Mo bis Do 7.30 bis 12.00 und 13.15 bis 17.30 Uhr, Fr bis 17.15 Uhr</span></li>
+      <li><b>Versicherung</b><span>Die Abwicklung mit Ihrer Versicherung übernehmen wir.</span></li>
     </ul>
     <a class="tesla-band" href="/tesla/" data-zaehl="tesla" data-ort="start"><span class="tesla-band__marke">Tesla Approved Body Shop</span><span>Sie fahren einen Tesla? Hier entlang</span></a>
   </div>
@@ -32,12 +32,12 @@ const arten = (artenDaten as any).arten;
 <section class="band band--weiss schnellstart" aria-labelledby="schnell-titel">
   <div class="schnellstart__kopf">
     <h2 id="schnell-titel" class="band__titel">Was ist passiert?</h2>
-    <ol class="schnellstart__weg"><li><b>1</b> Antippen, was passiert ist</li><li><b>2</b> Fotos machen</li><li><b>3</b> Name und Telefon, senden</li></ol>
+    <p class="schnellstart__weg">Antippen, Fotos machen, Name und Telefon: fertig.</p>
   </div>
   <ul class="arten arten--start">
     {arten.map((a: any) => <li><a class="art" href={`/schaden-melden/?art=${a.id}`} data-zaehl="schnellstart" data-ort="start"><span class="art__name">{a.name}</span><span class="art__hilfe">{a.hilfe}</span></a></li>)}
   </ul>
-  <p class="schnellstart__wege">Senden Sie die Meldung hier auf der Website, per WhatsApp oder per E-Mail. Oder rufen Sie an: <Tel ort="schnellstart" />.</p>
+  <p class="schnellstart__wege">Senden Sie die Meldung hier auf der Website oder per WhatsApp. Oder rufen Sie an: <Tel ort="schnellstart" />.</p>
 </section>
 
 <section class="band band--nacht" aria-labelledby="ablauf-titel">

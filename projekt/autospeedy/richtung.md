@@ -71,3 +71,14 @@ Boden gemessen: Reduced Motion 0 Animationen; nach 5 s läuft nichts; `h1` und T
 - Startseite: Schnellstart «Was ist passiert?» mit sieben grossen Knöpfen im Lackverlauf (Parkschaden, Unfall, Hagel, Kratzer oder Lack, Scheibe, Felge, Etwas anderes) und dem Weg 1 · 2 · 3; ein Tipp öffnet die Meldung bei Schritt 2.
 - Meldung: ein Schritt pro Bildschirm mit Fortschritt 1 2 3, Zurück ohne Datenverlust; Foto-Schritt mit grossem Kamera-Feld und Vorschau; Schritt 3 mit Zusammenfassung «Hagel · 2 Fotos», Kontakt, Tesla-Häkchen, drei Sende-Knöpfen in Rangfolge (Website blau, WhatsApp grün, E-Mail als Rahmen); Bestätigung mit Fotos.
 - Der beschriftete Schadenplan bleibt als freiwillige Hilfe in Schritt 1; das grosse Auto ist von der Startseite entfernt. Die Wörter der Schadenarten sind `[Annahme]` (keine Kundenworte gesammelt) und gehören im Gespräch geprüft.
+
+## UI-Durchsicht 02.11.2026 (Auftrag: clean und ästhetisch)
+Befunde und Änderungen:
+1. Zu viele Nummernfolgen (Fakten 1 2 3, Schnellstart 1 2 3, Formular 1 2 3, Ablauf 01 02 03): Fakten tragen jetzt Beschriftungen (Adresse, Zeiten, Versicherung), der Schnellstart eine ruhige Zeile; Nummern bleiben nur, wo es eine echte Reihenfolge gibt (Formular, Ablauf).
+2. Tesla-Abzeichen: Glanzstreifen machte «Approved Body Shop» unscharf; jetzt ohne Glanz.
+3. Team: Überschriften «Administration» und «Annahme» liefen zusammen; Spalten breiter.
+4. Schadenmeldung: Hauptaktion auf der eigenen Seite nicht doppelt (Leiste unten nur Telefon); am Handy Einleitung knapp, Schritt 1 im ersten Bildschirm.
+5. Sende-Knöpfe: Website gefüllt, WhatsApp als ruhiger grüner Rahmen; E-Mail-Weg entfernt.
+6. Occasionen: Knopftext kürzer, eine Zeile am Handy.
+7. Datenschutzerklärung beschreibt jetzt Website-Versand und WhatsApp (Entwurf, Lücke Mail-Dienst, Rechtsprüfung nötig).
+Geprüft: Kontrast aller Seiten hell und dunkel, Handy und Desktop: 0 Befunde. Blind bewertet: nicht gelaufen.

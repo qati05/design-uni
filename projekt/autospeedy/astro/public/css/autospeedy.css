@@ -693,3 +693,33 @@ header { background: var(--kopf-grund); }
 .rapport__kopf { flex-wrap: wrap; }
 .rapport__kopf h2 { overflow-wrap: anywhere; }
 @media (max-width: 860px) { .rapport__kopf { padding: 14px 16px; gap: 10px; } .rapport__kopf img { height: 32px; } .rapport__kopf h2 { font-size: 24px; } .rapport__fotos { grid-template-columns: repeat(3, 1fr); } }
+
+/* ===== UI-Durchsicht 02.11.2026: ruhiger, klarer ===== */
+/* Fakten im ersten Bildschirm: Beschriftung statt Nummern (keine Reihenfolge) */
+.fakten li { grid-template-columns: 104px 1fr; align-items: baseline; }
+.fakten b { display: block; width: auto; height: auto; border-radius: 0; background: none; color: var(--gebotsblau-dunkel); font: 600 12.5px/1.2 var(--text); letter-spacing: .08em; text-transform: uppercase; }
+@media (max-width: 860px) { .fakten li { grid-template-columns: 92px 1fr; } }
+/* Schnellstart: eine ruhige Zeile statt zweiter Nummernfolge */
+.schnellstart__weg { display: block; margin: 0; font-weight: 400; color: var(--hallengrau); }
+/* Tesla-Abzeichen: ohne Glanzstreifen, damit die kleine Schrift klar bleibt */
+.nav-tesla { background-image: var(--schild) !important; }
+/* Team: Spalten breit genug, damit Titel nicht zusammenlaufen */
+.team { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px 48px; }
+/* Hauptaktion auf ihrer eigenen Seite nicht doppelt anbieten */
+header .aktionen .knopf[aria-current="page"] { display: none; }
+@media (max-width: 860px) { header .aktionen:has(.knopf[aria-current="page"]) { grid-template-columns: 1fr; } }
+/* Sende-Wege: Website gefüllt, WhatsApp als ruhiger Rahmen */
+.weg--b { background: transparent; color: #17633e; box-shadow: inset 0 0 0 2px #1f7a4d; }
+.weg--b:hover { background: #e9f6ef; }
+@media (prefers-color-scheme: dark) { :root:not([data-lack="hell"]) .weg--b { color: #7fd8a8; box-shadow: inset 0 0 0 2px #3fae74; } :root:not([data-lack="hell"]) .weg--b:hover { background: #12301f; } }
+:root[data-lack="dunkel"] .weg--b { color: #7fd8a8; box-shadow: inset 0 0 0 2px #3fae74; }
+:root[data-lack="dunkel"] .weg--b:hover { background: #12301f; }
+/* Schadenmeldung am Handy: Einleitung knapp, Schritt 1 im ersten Bildschirm */
+@media (max-width: 860px) {
+  .formularseite__kopf { gap: 10px; padding-bottom: 40px; }
+  .formularseite__kopf .idee--klein { font-size: 32px; }
+  .formularseite__kopf > p:not(.idee):not(.formularseite__tel) { display: none; }
+  .formularseite__kopf .schwung { width: 110px; }
+}
+.schnellstart__kopf { display: grid; justify-content: start; gap: 8px; }
+@media (max-width: 860px) { .fakten li { grid-template-columns: 112px 1fr; } .fakten b { font-size: 11.5px; letter-spacing: .06em; } }

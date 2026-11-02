@@ -1,7 +1,7 @@
 ---
 // Schadenmeldung «in drei Tipps»: 1 Was ist passiert, 2 Fotos, 3 Kontakt; dann drei Wege zum Senden:
 //   A Website (Server-Endpunkt mit Fotos; in der Vorschau ohne Endpunkt nur vorgeführt, ehrlich beschriftet),
-//   B WhatsApp (fertige Nachricht, Fotos hängt man dort an), C E-Mail-Programm (mailto).
+//   B WhatsApp (fertige Nachricht, Fotos hängt man dort an). Den E-Mail-Weg gibt es nur noch ohne JavaScript (Studio, 02.11.2026).
 // Ohne JavaScript: ein Formular über mailto, alle Schritte untereinander, ohne Fotos.
 import Seite from "../layouts/Seite.astro";
 import Tel from "../components/Tel.astro";
@@ -70,7 +70,6 @@ const wa = b.whatsapp;
       <button class="knopf knopf--gross weg weg--a" type="button" data-senden="website" data-zaehl="schaden-website">Hier auf der Website senden<small data-weg-a-hilfe>Mit Fotos, ohne weitere App</small></button>
       <button class="knopf knopf--gross weg weg--b" type="button" data-senden="whatsapp" data-zaehl="schaden-whatsapp">Per WhatsApp senden<small>Fotos hängen Sie in WhatsApp an</small></button>
       {wa && !wa.bestaetigt && <Luecke>Lücke: Ob Auto Speedy WhatsApp auf {wa.anzeige} nutzt, bestätigt der Betrieb noch.</Luecke>}
-      <button class="knopf knopf--gross weg weg--c" type="button" data-senden="mail" data-zaehl="schaden-mail">Per E-Mail senden<small>Öffnet Ihr E-Mail-Programm</small></button>
       <p class="hilfe">Verantwortlich: {b.name}. Ihre Angaben dienen nur der Bearbeitung Ihrer Meldung.</p>
     </div>
     <noscript><button class="knopf knopf--gross" type="submit">Meldung im E-Mail-Programm öffnen</button><p class="hilfe">Fotos hängen Sie in Ihrem E-Mail-Programm an.</p></noscript>

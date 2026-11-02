@@ -1,5 +1,5 @@
 /* Schadenmeldung «in drei Tipps». Schritte 1 bis 3, Fotos im Browser verkleinert (JPEG, längste Seite 1600 px),
-   drei Wege: A Website (POST an den Endpunkt; ohne Endpunkt in der Vorschau nur vorgeführt), B WhatsApp, C E-Mail.
+   zwei Wege: A Website (POST an den Endpunkt; ohne Endpunkt in der Vorschau nur vorgeführt), B WhatsApp.
    «Angekommen» nur bei Antwort 200 des Servers. Keine Cookies, nichts im Speicher des Geräts.
    Ohne JavaScript bleibt ein normales Formular über mailto. */
 (function () {
@@ -136,12 +136,6 @@
         bestaetige("Meldung für WhatsApp", "WhatsApp ist geöffnet. Gesendet ist die Nachricht erst, wenn Sie dort auf Senden tippen. Fotos hängen Sie in WhatsApp an.", wa);
         return;
       }
-      if (weg === "mail") {
-        var m = "mailto:" + f.dataset.mail + "?subject=" + encodeURIComponent("Schadenmeldung: " + art() + (tesla() ? " (Tesla)" : "")) + "&body=" + encodeURIComponent(text);
-        location.href = m;
-        bestaetige("Meldung für Ihr E-Mail-Programm", "Ihr E-Mail-Programm öffnet sich. Gesendet ist die Meldung erst, wenn Sie dort auf Senden tippen. Fotos hängen Sie dort an.", m);
-        return;
-      }
       var ep = f.dataset.endpunkt;
       if (!ep) {
         bestaetige("Schadenmeldung (Vorschau)", "Vorschau: Auf der fertigen Website käme die Meldung jetzt mit " + (fotos.length === 1 ? "1 Foto" : fotos.length + " Fotos") + " bei Auto Speedy an. In dieser Vorschau wird nichts gesendet.", null);
@@ -156,7 +150,7 @@
       fetch(ep, { method: "POST", body: daten })
         .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
         .then(function () { melde(""); bestaetige("Schadenmeldung angekommen", "Angekommen bei Auto Speedy. Wir melden uns bei Ihnen.", null); })
-        .catch(function () { melde("Das Senden hat nicht geklappt. Bitte versuchen Sie WhatsApp oder E-Mail, oder rufen Sie uns an: 071 755 88 61."); })
+        .catch(function () { melde("Das Senden hat nicht geklappt. Bitte senden Sie die Meldung per WhatsApp oder rufen Sie uns an: 071 755 88 61."); })
         .then(function () { sendet = false; });
     });
   });
