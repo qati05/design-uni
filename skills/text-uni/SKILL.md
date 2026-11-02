@@ -288,9 +288,9 @@ Lies: [messen-search-console.md](referenzen/semester3/messen-search-console.md) 
 
 Danach übergibt web-uni (WP7) und design-uni liefert ab.
 
-## Livegang (web-uni führt aus)
+## Livegang (web-uni, WP9)
 
-Nach Freigabe setzt web-uni um, was text-uni regelt: `noindex` der Vorschau weg; `robots.txt` (TI1 bis TI5); Sitemap (TI11 bis TI14); `canonical` (S28); Weiterleitungen (TI19 bis TI24); Einreichen bei Google und Bing (TI14, TI15); Nachprüfung nach 1, 4 und 12 Wochen (TI29).
+Nach Freigabe setzt web-uni in WP9 um, was text-uni regelt: `noindex` der Vorschau weg; `robots.txt` (TI1 bis TI5); Sitemap (TI11 bis TI14); `canonical` (S28); Weiterleitungen (TI19 bis TI24); Einreichen bei Google und Bing (TI14, TI15); Nachprüfung nach 1, 4 und 12 Wochen (TI29).
 
 ## Zusammenspiel
 
@@ -299,7 +299,7 @@ Die verbindlichen Regeln für alle drei Skills stehen in [zusammenspiel.md](../d
 - **Rangfolge:** Recht, Entscheide des Betriebs, Hausentscheide des Studios, Regeln der Skills. Jedes Thema hat genau einen Besitzer; die anderen verweisen und wiederholen keine Schwelle.
 - **text-uni besitzt:** `fakten.md`, Kundenworte, Suchbegriffe, Antwort-Plan; den Wortlaut aller Texte, auch Knöpfe, Formular- und Fehlertexte; Angebot und Vertrauen als Inhalt; Werberecht (UWG, PBV, Heilmittel, Berufsrecht) und den Wortlaut von Impressum und Datenschutzerklärung; die Regeln für Suche, `robots.txt`, Sitemap, `canonical` und Umzug; `messplan.md`.
 - **design-uni besitzt:** Eingang und `entscheide.md`, Gestaltung, Bewegung, Bedienung und Barrierefreiheit mit ihren Schwellen (Zeilenlänge, Messbreiten, Zahl der Formularfelder), alle Bewerter-Regeln, `LIESMICH.md`. text-uni gibt ihr Ziele, kein Layout.
-- **web-uni besitzt:** Stack und Hoster, Budgets für Ladezeit, JavaScript und Bilder, fremde Hosts und Cookies, Formular-Backend und Zählendpunkt, die Testumgebung für den einen Prüflauf, Livegang und Übergabe.
+- **web-uni besitzt:** Stack und Hoster, Budgets für Ladezeit, JavaScript und Bilder, fremde Hosts und Cookies, Formular-Backend und Zählendpunkt, die Testumgebung für den einen Prüflauf, Übergabe (WP7) und Livegang (WP9).
 - **Werberecht:** Die R-Grundsätze gelten in allen drei Skills (Entscheid 9). Bei der Ansprache gilt A13 statt einer Zählregel (LA Frage 8).
 - **Sonst entscheidet kein Skill über den anderen**, sondern ein Test mit Menschen (WP6) oder Zahlen nach dem Livegang. Modell-Urteile wie DP7 sind Vorfilter.
 

@@ -7,7 +7,9 @@
    Aufruf:  node pruefen.cjs <projekt.json> [--selbsttest] [--json <ausgabe.json>]
    --selbsttest  prüft eine Kopie mit eingebauten Fehlern; das Werkzeug gilt nur als brauchbar, wenn es alle findet.
 
-   Was fehlt in projekt.json, wird übersprungen und als «nicht geprüft» gemeldet, nie als bestanden. */
+   Was fehlt in projekt.json, wird übersprungen und als «nicht geprüft» gemeldet, nie als bestanden.
+   Seiten: «seiten» in projekt.json, sonst alle *.html im Ordner, auch in Unterordnern. Eine Seite «kontakt» ist
+   kontakt.html oder kontakt/index.html (Verzeichnisformat, z. B. aus Astro); Links wie «/kontakt/» werden aufgelöst. */
 "use strict";
 const { chromium } = require("playwright");
 const fs = require("fs");
@@ -23,7 +25,18 @@ const JSONPFAD = args.includes("--json") ? args[args.indexOf("--json") + 1] : nu
 const P = JSON.parse(fs.readFileSync(PROJEKTDATEI, "utf8"));
 const BASISORDNER = path.dirname(path.resolve(PROJEKTDATEI));
 const WURZEL = path.resolve(BASISORDNER, P.site || "site");
-const SEITEN = P.seiten || fs.readdirSync(WURZEL).filter((f) => f.endsWith(".html")).map((f) => f.replace(/\.html$/, ""));
+// Seiten finden: flach (kontakt.html) oder im Verzeichnisformat (kontakt/index.html); Kennung ohne «.html» und ohne «/index»
+function findeSeiten(dir) {
+  const aus = [];
+  const geh = (d) => { for (const e of fs.readdirSync(d, { withFileTypes: true })) { if (e.name.startsWith(".") || e.name === "node_modules") continue; const f = path.join(d, e.name); if (e.isDirectory()) geh(f); else if (e.name.endsWith(".html")) aus.push(path.relative(dir, f).split(path.sep).join("/")); } };
+  geh(dir);
+  return aus.map((r) => (r === "index.html" ? "index" : r.replace(/\/index\.html$/, "").replace(/\.html$/, ""))).sort();
+}
+const datei = (ordner, s) => { const flach = path.join(ordner, s + ".html"); if (fs.existsSync(flach)) return flach; const verz = path.join(ordner, s, "index.html"); return fs.existsSync(verz) ? verz : flach; };
+const seitenPfad = (s) => { const f = datei(WURZEL, s); return path.relative(WURZEL, f).split(path.sep).join("/").replace(/(^|\/)index\.html$/, (m, a) => (a ? "/" : "index.html")); };
+// Link → Datei: «/a/», «a/», «/a», «a.html», relativ zur Seite oder zur Wurzel
+const ziel = (ordner, seitenDatei, u) => { const basis = u.startsWith("/") ? ordner : path.dirname(seitenDatei); let f = path.join(basis, decodeURIComponent(u.replace(/^\//, ""))); if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, "index.html"); else if (!fs.existsSync(f) && !path.extname(f) && fs.existsSync(f + ".html")) f += ".html"; return f; };
+const SEITEN = P.seiten || findeSeiten(WURZEL);
 const OHNE_KONTAKT = new Set(P.seitenOhneKontakt || ["404", "impressum", "datenschutz"]);
 const TEL = (P.telefon || []).map((t) => t.replace(/\D/g, "")); // national, z. B. 0717558861
 const VORWAHL = P.landesvorwahl || "+41";
@@ -83,7 +96,7 @@ async function pruefe(base) {
     const p = await ctx.newPage();
     const tel = [], zaehl = [], kontr = [], verd = [], ueberlauf = [], cta = [], textUeberBild = [], doppel = [];
     for (const s of SEITEN) {
-      await p.goto(`${base}/${s}.html`, { waitUntil: "load" });
+      await p.goto(`${base}/${seitenPfad(s)}`, { waitUntil: "load" });
       await p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 500) { scrollTo(0, y); await new Promise((x) => setTimeout(x, 30)); } scrollTo(0, 0); });
       // Telefon: international, ohne (0), Text zeigt dieselbe Nummer, im ersten Bildschirm
       const links = await p.$$eval('a[href^="tel:"]', (as) => as.map((a) => ({ href: a.getAttribute("href"), text: a.textContent.replace(/\D/g, "") })));
@@ -138,7 +151,7 @@ async function pruefe(base) {
   }
 
   { const ctx = await b.newContext({ viewport: { width: 360, height: 740 }, isMobile: true, hasTouch: true }); const p = await ctx.newPage(); const bad = [];
-    for (const s of SEITEN) { await p.goto(`${base}/${s}.html`); const ue = await p.evaluate(() => document.documentElement.scrollWidth - innerWidth); if (ue > 0) bad.push(`${s}: ${ue}px`); }
+    for (const s of SEITEN) { await p.goto(`${base}/${seitenPfad(s)}`); const ue = await p.evaluate(() => document.documentElement.scrollWidth - innerWidth); if (ue > 0) bad.push(`${s}: ${ue}px`); }
     r("DP6 Kein Überlauf 360 px", bad.length === 0, bad.join(" | ") || `${SEITEN.length} Seiten`); await ctx.close(); }
 
   // Formular
@@ -195,7 +208,7 @@ async function pruefe(base) {
 
   // Ohne JavaScript, Reduced Motion, Pause ab 5 s (Entscheid 12; keine Mengenregel)
   { const ctx = await b.newContext({ javaScriptEnabled: false }); const p = await ctx.newPage(); const bad = [];
-    for (const s of SEITEN) { await p.goto(`${base}/${s}.html`); const t = await sichtbarerText(p); if (!OHNE_KONTAKT.has(s) && !enthaeltTelefon(t)) bad.push(s); if (t.length < 80) bad.push(`${s}: fast leer`); }
+    for (const s of SEITEN) { await p.goto(`${base}/${seitenPfad(s)}`); const t = await sichtbarerText(p); if (!OHNE_KONTAKT.has(s) && !enthaeltTelefon(t)) bad.push(s); if (t.length < 80) bad.push(`${s}: fast leer`); }
     r("DP6 Boden: ohne JavaScript ist der Inhalt da (Text, Telefon)", bad.length === 0, bad.join(", ") || `${SEITEN.length} Seiten`); await ctx.close(); }
   { const ctx = await b.newContext({ reducedMotion: "reduce" }); const p = await ctx.newPage(); await p.goto(`${base}/index.html`); await warte(500); const n = await p.evaluate(() => document.getAnimations().filter((a) => a.playState === "running").length);
     r("DP5 Reduced Motion: keine laufende Animation", n === 0, `${n} laufend`); await ctx.close(); }
@@ -210,7 +223,7 @@ async function pruefe(base) {
 
 /* ---------- Text und Technik aus den HTML-Dateien (T7) ---------- */
 function textPruefung(ordner) {
-  const html = (s) => fs.readFileSync(path.join(ordner, s + ".html"), "utf8");
+  const html = (s) => fs.readFileSync(datei(ordner, s), "utf8");
   const vis = (h) => h.replace(/<(script|style|svg|head)\b[\s\S]*?<\/\1>/gi, " ").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ");
   const ohneZitat = (h) => h.replace(/<blockquote[\s\S]*?<\/blockquote>/g, " ");
   const T = P.text || {};
@@ -264,7 +277,7 @@ function textPruefung(ordner) {
   const rob = path.join(ordner, "robots.txt");
   if (P.vorschau !== false) { const rt = fs.existsSync(rob) ? fs.readFileSync(rob, "utf8") : ""; const sperrt = /^\s*Disallow:\s*\/\s*$/m.test(rt); const sitemap = fs.existsSync(path.join(ordner, "sitemap.xml"));
     r("TP7/TI8 Vorschau: robots.txt sperrt nicht (kein «Disallow: /»), keine Sitemap (Entscheid 4)", !sperrt && !sitemap, (rt ? rt.trim().replace(/\n/g, " | ") : "keine robots.txt") + (sitemap ? " · sitemap.xml vorhanden" : "")); }
-  const tot = []; for (const s of SEITEN) { for (const m of html(s).matchAll(/(?:href|src)="([^"#?]+)(?:[?#][^"]*)?"/g)) { const u = m[1]; if (/^(https?:|mailto:|tel:|\/\/|data:)/.test(u)) continue; if (!fs.existsSync(path.join(ordner, u.replace(/^\//, "")))) tot.push(`${s}: ${u}`); } }
+  const tot = []; for (const s of SEITEN) { for (const m of html(s).matchAll(/(?:href|src)="([^"#?]+)(?:[?#][^"]*)?"/g)) { const u = m[1]; if (/^(https?:|mailto:|tel:|\/\/|data:)/.test(u)) continue; if (!fs.existsSync(ziel(ordner, datei(ordner, s), u))) tot.push(`${s}: ${u}`); } }
   r("DP6 Keine toten internen Links oder Bilder", tot.length === 0, tot.join(" | ") || "0");
   // Strukturierte Daten: Typ, Telefon und Strasse gleich der sichtbaren Seite, keine eigene Bewertung
   if (P.jsonld && P.jsonld.typ) {
@@ -285,7 +298,7 @@ function textPruefung(ordner) {
 function baueFehlerEin(tmp) {
   const eingebaut = [];
   const seiten = SEITEN.filter((s) => s !== "404");
-  const lies = (s) => fs.readFileSync(path.join(tmp, s + ".html"), "utf8"), schreib = (s, h) => fs.writeFileSync(path.join(tmp, s + ".html"), h);
+  const lies = (s) => fs.readFileSync(datei(tmp, s), "utf8"), schreib = (s, h) => fs.writeFileSync(datei(tmp, s), h);
   // 1 kaputter tel-Link
   const sTel = seiten.find((s) => /href="tel:\+/.test(lies(s)));
   if (sTel) { schreib(sTel, lies(sTel).replace(/href="tel:\+(\d+)"/, 'href="tel:0$1"')); eingebaut.push("DP6 Telefon-Links 1440"); }
@@ -309,19 +322,35 @@ function baueFehlerEin(tmp) {
   if (P.hauptaktion && P.hauptaktion.href && !P.hauptaktion.mehrfach) { schreib(sK, lies(sK).replace(/(<body\b[^>]*>)/, `$1<a href="${P.hauptaktion.href}" style="display:block;padding:12px">${P.hauptaktion.text || "Hauptaktion"}</a>`)); eingebaut.push("DP6 Hauptaktion höchstens einmal im ersten Bildschirm 1440"); }
   // 9 Pflichtfeld mit Sternchen (U11, zusammenspiel.md Teil 4: falsch)
   const F = P.formular;
-  if (F && F.seite && F.selektor && fs.existsSync(path.join(tmp, F.seite))) { const fp = path.join(tmp, F.seite), fh = fs.readFileSync(fp, "utf8"); const neu = fh.replace(/<\/label>/, " *</label>"); if (neu !== fh) { fs.writeFileSync(fp, neu); eingebaut.push("DP6 Formular: höchstens 4 Pflichtfelder, freiwillige mit «(freiwillig)», kein Sternchen"); } }
+  const fSeite = F && F.seite ? ziel(tmp, path.join(tmp, "index.html"), F.seite) : null;
+  if (F && F.selektor && fSeite && fs.existsSync(fSeite)) { const fp = fSeite, fh = fs.readFileSync(fp, "utf8"); const neu = fh.replace(/<\/label>/, " *</label>"); if (neu !== fh) { fs.writeFileSync(fp, neu); eingebaut.push("DP6 Formular: höchstens 4 Pflichtfelder, freiwillige mit «(freiwillig)», kein Sternchen"); } }
+  // 10 Verzeichnisformat: Link auf eine echte Ordnerseite gilt nicht als tot, Link auf einen fehlenden Ordner schon
+  fs.mkdirSync(path.join(tmp, "selbsttest-ordner"), { recursive: true });
+  fs.writeFileSync(path.join(tmp, "selbsttest-ordner", "index.html"), "<!doctype html><title>Selbsttest</title><main><p>Selbsttest</p></main>");
+  schreib(sT, lies(sT).replace(/<\/main>/, '<p><a href="/selbsttest-ordner/">Ordner</a> <a href="selbsttest-ordner/">Ordner relativ</a> <a href="/fehlt-ordner/">fehlt</a></p></main>'));
+  eingebaut.push("DP6 Keine toten internen Links oder Bilder");
   return eingebaut;
 }
 
 (async () => {
-  let ordner = WURZEL, tmp, soll = [];
-  if (SELBST) { tmp = fs.mkdtempSync(path.join(os.tmpdir(), "pruefen-selbst-")); fs.cpSync(WURZEL, tmp, { recursive: true }); soll = baueFehlerEin(tmp); ordner = tmp; }
+  let ordner = WURZEL, tmp, soll = [], sauber = [];
+  if (SELBST) {
+    const srv0 = await server(WURZEL);
+    try { await pruefe(`http://localhost:${srv0.address().port}`); textPruefung(WURZEL); } finally { srv0.close(); }
+    sauber = erg.splice(0, erg.length); tmp = fs.mkdtempSync(path.join(os.tmpdir(), "pruefen-selbst-")); fs.cpSync(WURZEL, tmp, { recursive: true }); soll = baueFehlerEin(tmp); ordner = tmp; }
   const srv = await server(ordner);
   try { await pruefe(`http://localhost:${srv.address().port}`); textPruefung(ordner); } finally { srv.close(); }
   if (SELBST) {
     console.log("SELBSTTEST, eingebaute Fehler:");
     let alle = true;
-    for (const id of soll) { const f = erg.find((x) => x.id === id && x.ok === false); alle = alle && !!f; console.log(`  ${f ? "OK   " : "FEHLT"} ${id}`); }
+    for (const id of soll) {
+      const f = erg.find((x) => x.id === id && x.ok === false), v = sauber.find((x) => x.id === id);
+      const neu = !!f && (!v || v.ok !== false || String(v.detail) !== String(f.detail));
+      alle = alle && neu; console.log(`  ${neu ? "OK   " : "FEHLT"} ${id}${f && !neu ? " (fiel schon ohne eingebauten Fehler gleich aus)" : ""}`);
+    }
+    const tl = erg.find((x) => x.id === "DP6 Keine toten internen Links oder Bilder");
+    const ordnerOk = findeSeiten(tmp).includes("selbsttest-ordner") && tl && /fehlt-ordner/.test(tl.detail) && !/selbsttest-ordner/.test(tl.detail);
+    alle = alle && ordnerOk; console.log(`  ${ordnerOk ? "OK   " : "FEHLT"} Verzeichnisformat: Seite selbsttest-ordner/index.html gefunden, «/selbsttest-ordner/» aufgelöst, «/fehlt-ordner/» als tot gemeldet`);
     console.log(alle ? "Selbsttest bestanden: Das Werkzeug findet alle eingebauten Fehler." : "Selbsttest NICHT bestanden: zuerst das Werkzeug reparieren.");
     fs.rmSync(tmp, { recursive: true, force: true }); process.exit(alle ? 0 : 1);
   }
