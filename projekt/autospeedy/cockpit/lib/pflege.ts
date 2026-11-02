@@ -15,6 +15,8 @@ export const HINWEIS_LINKS: readonly { wert: string; text: string }[] = [
   { wert: "/team/", text: "Team" },
 ];
 
+/** Teamfoto: Startbilder der Website, Demo-Upload (data:), oder öffentlicher Supabase-Bucket «teamfotos». */
+export const fotoSchema = z.string().max(2_800_000).regex(/^(\/bilder\/team\/[a-z0-9-]{2,80}\.webp|data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+|https:\/\/[a-z0-9-]+\.supabase\.co\/storage\/v1\/object\/public\/teamfotos\/[A-Za-z0-9._-]{8,120})$/, "Foto ungültig");
 const fenster = z.object({ von: uhrzeit, bis: uhrzeit }).strict().refine((f) => minuten(f.von) < minuten(f.bis), "«bis» muss nach «von» liegen");
 export const pflegeSchema = z.object({
   hinweis: z.object({ aktiv: z.boolean(), text: text(120), link: z.enum(LINKS) }).strict()
@@ -30,7 +32,7 @@ export const pflegeSchema = z.object({
   }).strict().refine((a) => a.geschlossen || (a.von && a.bis && minuten(a.von) < minuten(a.bis)), "Offen braucht «von» und «bis»")).max(40),
   team: z.array(z.object({
     name: text(40).min(2),
-    leute: z.array(z.object({ name: text(80).min(2), rolle: text(80) }).strict()).max(30),
+    leute: z.array(z.object({ name: text(80).min(2), rolle: text(80), foto: fotoSchema.optional(), email: z.email("Mail-Adresse ungültig").max(120).optional() }).strict()).max(30),
   }).strict()).max(12),
 }).strict();
 export type Pflege = z.infer<typeof pflegeSchema>;
@@ -65,12 +67,13 @@ export function pflegeAusFormular(form: FormData, alt: Pflege): z.ZodSafeParseRe
   }
   ausnahmen.sort((a, b) => a.datum.localeCompare(b.datum));
   const team = alt.team.map((g, gi) => {
-    const leute: { name: string; rolle: string }[] = [];
+    const leute: { name: string; rolle: string; foto?: string; email?: string }[] = [];
     for (let pi = 0; pi < 31; pi++) {
       if (!form.has(`team.${gi}.p.${pi}.name`) || an(`team.${gi}.p.${pi}.weg`)) continue;
       const name = w(`team.${gi}.p.${pi}.name`), rolle = w(`team.${gi}.p.${pi}.rolle`);
       if (!name && !rolle) continue;
-      leute.push({ name, rolle });
+      const foto = an(`team.${gi}.p.${pi}.fotoweg`) ? "" : w(`team.${gi}.p.${pi}.foto`), email = w(`team.${gi}.p.${pi}.email`);
+      leute.push({ name, rolle, ...(foto ? { foto } : {}), ...(email ? { email } : {}) });
     }
     return { name: g.name, leute };
   });

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { holeBackend } from "@/lib/backend.server";
 import { log } from "@/lib/log";
 import { pflegeAusFormular, pflegeFehler, zeitenZeile } from "@/lib/pflege";
+import { FOTO_MAX, fotoTyp } from "@/lib/foto";
 
 export type PflegeZustand = { ok?: boolean; meldung?: string };
 
@@ -22,6 +23,19 @@ export async function pflegeSpeichern(_v: PflegeZustand, form: FormData): Promis
   const s = await b.sitzung();
   if (!s || s.aal !== "aal2" || !s.mitglied) { log({ aktion: "pflege", status: "abgelehnt" }); return { meldung: "Bitte neu anmelden." }; }
   const alt = await b.pflegeLesen();
+  // Neue Teamfotos: prüfen, speichern, Adresse ins Formular übernehmen
+  for (const [k, v] of [...form.entries()]) {
+    const m = /^team\.(\d{1,2})\.p\.(\d{1,2})\.fotoneu$/.exec(k);
+    if (!m || typeof v === "string" || v.size === 0) continue;
+    if (v.size > FOTO_MAX) return { meldung: "Ein Foto ist zu gross (höchstens 1,5 MB)." };
+    const bytes = new Uint8Array(await v.arrayBuffer());
+    const typ = fotoTyp(bytes);
+    if (!typ) return { meldung: "Bitte ein Foto als JPG, PNG oder WebP wählen." };
+    const url = await b.teamFotoSpeichern(bytes, typ);
+    if (!url) return { meldung: "Foto hochladen hat nicht geklappt. Bitte nochmals versuchen." };
+    form.set(`team.${m[1]}.p.${m[2]}.foto`, url);
+    form.delete(`team.${m[1]}.p.${m[2]}.fotoweg`);
+  }
   const r = pflegeAusFormular(form, alt.daten);
   if (!r.success) return { meldung: pflegeFehler(r.error) };
   const ok = await b.pflegeSpeichern(r.data);

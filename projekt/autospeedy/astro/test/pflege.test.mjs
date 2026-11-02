@@ -21,3 +21,20 @@ test("Pflege aus dem Cockpit: schreibt pflege.json und team.json in der Form der
   assert.equal(p.hinweis.aktiv, true); assert.equal(p.zeiten[0].fenster[0].von, "7.30"); assert.equal(t.gruppen[0].leute[0].name, "A B");
   fs.rmSync(o, { recursive: true });
 });
+
+test("Teamfotos aus dem Cockpit: werden heruntergeladen, fremde Adressen fallen weg", async () => {
+  const o = fs.mkdtempSync(path.join(os.tmpdir(), "fotos-"));
+  const { fotosHolen } = await import("../bau/pflege-holen.mjs");
+  const d = { team: [{ name: "A", leute: [
+    { name: "Eins", rolle: "", foto: "https://abcd.supabase.co/storage/v1/object/public/teamfotos/1234abcd-1111.webp" },
+    { name: "Zwei", rolle: "", foto: "https://boese.example/x.webp" },
+    { name: "Drei", rolle: "", foto: "/bilder/team/anna-meier.webp" },
+  ] }] };
+  const holen = async () => new Response(new Uint8Array([82, 73, 70, 70]), { headers: { "content-type": "image/webp" } });
+  await fotosHolen(d, o, holen);
+  assert.equal(d.team[0].leute[0].foto, "/bilder/team/cockpit-1234abcd-1111.webp");
+  assert.ok(fs.existsSync(path.join(o, "cockpit-1234abcd-1111.webp")));
+  assert.equal(d.team[0].leute[1].foto, undefined);
+  assert.equal(d.team[0].leute[2].foto, "/bilder/team/anna-meier.webp");
+  fs.rmSync(o, { recursive: true });
+});

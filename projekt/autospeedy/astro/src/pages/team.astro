@@ -10,10 +10,24 @@ const gruppen = (teamDaten as any).gruppen;
   <p>Von der Annahme bis zum Finish: So ist das Team von Auto Speedy aufgeteilt.</p>
 </SeitenKopf>
 <div class="seite seite--breit">
-  <div class="team">
-    {gruppen.map((g: any) => <section><h2>{g.name}</h2><ul>{g.leute.map((p: any) => <li><strong>{p.name}</strong><span>{p.rolle}</span></li>)}</ul></section>)}
+  <div class="teamkarten">
+    {gruppen.filter((g: any) => g.leute.length).map((g: any) => (
+      <section>
+        <h2>{g.name}</h2>
+        <ul>
+          {g.leute.map((p: any) => (
+            <li>
+              {p.foto ? <img src={p.foto} width="320" height="320" loading="lazy" decoding="async" alt={`Porträt ${p.name.replace(/ «.*»/, "")}`} /> : <span class="teamkarten__leer" aria-hidden="true">{p.name.split(" ").map((w: string) => w[0]).slice(0, 2).join("")}</span>}
+              <span class="teamkarten__rolle">{p.rolle}</span>
+              <strong>{p.name}</strong>
+              {p.email ? <a href={`mailto:${p.email}`}>{p.email}</a> : null}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
   </div>
-  <p data-luecke>Lücke: Namen und Rollen stammen von der bisherigen Website. Ob alle mit Namen und Foto auf der neuen Website stehen möchten, klärt der Betrieb.</p>
+  <p data-luecke>Lücke: Namen und Rollen stammen von der bisherigen Website. Namen, Rollen, Porträts und Mail-Adressen stammen von der bisherigen Website. Ob alle so auf der neuen Website stehen möchten, klärt der Betrieb.</p>
   <div class="galerie galerie--vier">
     <Foto name="team-buero" alt="Mitarbeiter am Schreibtisch im Büro" sizes="(max-width: 860px) 50vw, 25vw" />
     <Foto name="team-politur" alt="Mitarbeiter poliert das Heck eines roten Cabrios" sizes="(max-width: 860px) 50vw, 25vw" />

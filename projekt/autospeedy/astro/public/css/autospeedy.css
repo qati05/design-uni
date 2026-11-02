@@ -775,3 +775,14 @@ header .aktionen .knopf[aria-current="page"] { display: none; }
   .melden__weiter { position: sticky; bottom: calc(72px + env(safe-area-inset-bottom, 0px)); z-index: 6; padding: 10px 0; margin: 0 -18px -18px; padding-inline: 18px; background: var(--kabinenlicht); border-top: 1px solid var(--blech); }
   .weg--a { position: sticky; bottom: calc(72px + env(safe-area-inset-bottom, 0px)); z-index: 6; box-shadow: 0 -10px 0 var(--kabinenlicht), 0 6px 0 var(--kabinenlicht); }
 }
+/* Team wie auf der bisherigen Website: Porträt, Rolle, Name, Mail. Gepflegt im Cockpit. */
+.teamkarten section { margin-top: 32px; }
+.teamkarten h2 { font-size: 26px; margin: 0 0 14px; }
+.teamkarten ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; }
+.teamkarten li { display: grid; gap: 4px; align-content: start; }
+.teamkarten img, .teamkarten__leer { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--blech); margin-bottom: 8px; background: var(--tafel, #fff); }
+.teamkarten__leer { display: grid; place-items: center; font: italic 700 48px/1 var(--titel, sans-serif); color: var(--hallengrau); }
+.teamkarten__rolle { font-size: 15px; color: var(--hallengrau); }
+.teamkarten strong { font-size: 19px; }
+.teamkarten a { font-size: 15px; overflow-wrap: anywhere; }
+@media (max-width: 520px) { .teamkarten ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }

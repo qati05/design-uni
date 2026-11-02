@@ -51,6 +51,19 @@ async function mailSchritt(b, c, an){ await c.goto(C+'/login'); await c.fill('#e
  await h.screenshot({path:S+'/e2e3/5-pflege-gespeichert.png'});
  await h.reload(); ok(/Fr 7.30 bis 12.00 und 13.15 bis 16.00 Uhr/.test(await h.textContent('main')) && (await h.inputValue('[name="aus.0.name"]'))==='Heiligabend' && await h.isChecked('[name="hinweis.aktiv"]'),'nach Neuladen: neue Zeit, Heiligabend, Hinweis an');
  ok(/zuletzt geändert.*werkstatt@autospeedy.example/i.test(await h.textContent('main')),'wer zuletzt geändert hat, steht dabei');
+ // Teamfotos
+ await h.click('summary:has-text("Team auf der Website")');
+ ok(await h.getAttribute('img[alt="Foto Lea Schlegel"]','src')==='/bilder/team/lea-schlegel.webp' && await h.evaluate(()=>[...document.querySelectorAll('.fotofeld img')].every(i=>i.complete&&i.naturalWidth>0)),'Team: Porträts von der bisherigen Website im Cockpit');
+ await h.setInputFiles('[name="team.1.p.0.fotoneu"]',S+'/testfotos/a.jpg'); await h.waitForTimeout(600);
+ ok((await h.getAttribute('img[alt="Foto Lea Schlegel"]','src')).startsWith('blob:'),'neues Foto: Vorschau sofort, im Browser verkleinert');
+ await h.setInputFiles('[name="team.0.p.0.fotoneu"]',{name:'kein-bild.jpg',mimeType:'image/jpeg',buffer:Buffer.from('<svg onload=alert(1)>')}); await h.waitForTimeout(400);
+ ok(/lässt sich nicht lesen/.test(await h.textContent('.fotofeld')),'kein Bild (getarnt als .jpg): abgewiesen');
+ await h.click('button:has-text("Person hinzufügen") >> nth=1'); await h.fill('[name="team.1.p.2.name"]','Neue Person (Test)'); await h.fill('[name="team.1.p.2.rolle"]','Lernende');
+ await h.setInputFiles('[name="team.1.p.2.fotoneu"]',S+'/testfotos/b.jpg'); await h.waitForTimeout(600);
+ await h.click('button:has-text("Speichern")'); await h.waitForSelector('.ok-text'); await h.reload(); await h.click('summary:has-text("Team auf der Website")');
+ const lea=await h.getAttribute('img[alt="Foto Lea Schlegel"]','src'), neu=await h.getAttribute('img[alt="Foto Neue Person (Test)"]','src');
+ ok(lea.startsWith('data:image/webp') && neu.startsWith('data:image/webp') && lea.length<200000,'nach Speichern: beide Fotos gespeichert, klein (WebP, '+Math.round(lea.length/1024)+' KB)');
+ await h.evaluate(()=>document.querySelector('.team-gruppe:nth-of-type(2)').scrollIntoView()); await h.waitForTimeout(300); await h.screenshot({path:S+'/e2e3/7-team-fotos.png'});
  // Geräte
  await h.goto(C+'/geraete'); ok(/letztes Gerät/.test(await h.textContent('main')),'Geräte: das letzte Gerät lässt sich nicht entfernen');
  await h.screenshot({path:S+'/e2e3/6-geraete.png'});

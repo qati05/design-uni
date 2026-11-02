@@ -82,3 +82,22 @@ describe("App-Dateien sind ohne Login erreichbar, alles andere nicht", () => {
   it("Manifest, Service Worker, Offline-Seite, Symbole", async () => { for (const p of ["/manifest.webmanifest", "/sw.js", "/offline.html", "/icon-192.png"]) expect(await entscheideZugang(p, ohne)).toEqual({ art: "weiter" }); });
   it("Pflege und Geräte nur mit Login", async () => { for (const p of ["/pflege", "/geraete"]) expect(await entscheideZugang(p, ohne)).toEqual({ art: "login" }); });
 });
+
+describe("Teamfotos", async () => {
+  const { fotoTyp } = await import("../lib/foto");
+  const { fotoSchema } = await import("../lib/pflege");
+  it("erkennt Bilder an den ersten Bytes, nicht am Namen", () => {
+    expect(fotoTyp(new Uint8Array([0xff, 0xd8, 0xff, 0xe0]))).toBe("image/jpeg");
+    expect(fotoTyp(new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0, 0, 0, 0, 0]))).toBe("image/png");
+    expect(fotoTyp(new Uint8Array([...Buffer.from("RIFF0000WEBPVP8 ")]))).toBe("image/webp");
+    expect(fotoTyp(new Uint8Array([...Buffer.from("<svg onload=alert(1)>")]))).toBeNull();
+  });
+  it("nur erlaubte Foto-Adressen", () => {
+    expect(fotoSchema.safeParse("/bilder/team/anna-meier.webp").success).toBe(true);
+    expect(fotoSchema.safeParse("https://abcd.supabase.co/storage/v1/object/public/teamfotos/1234abcd.webp").success).toBe(true);
+    expect(fotoSchema.safeParse("data:image/webp;base64,UklGRg==").success).toBe(true);
+    expect(fotoSchema.safeParse("https://boese.example/x.webp").success).toBe(false);
+    expect(fotoSchema.safeParse("javascript:alert(1)").success).toBe(false);
+    expect(fotoSchema.safeParse("data:image/svg+xml;base64,PHN2Zz4=").success).toBe(false);
+  });
+});

@@ -129,5 +129,7 @@ export const demoBackend: Backend = {
     speicher().pflege = { daten: structuredClone(p), geaendert: new Date().toISOString(), von: d?.email ?? null };
     return true;
   },
+  // Demo: Foto bleibt im Speicher (als data:-Adresse in der Pflege), nichts verlässt den Rechner.
+  async teamFotoSpeichern(bytes, typ) { return `data:${typ};base64,${Buffer.from(bytes).toString("base64")}`; },
   async audit(e: AuditEintrag) { speicher().audit.unshift({ zeit: new Date().toISOString(), ...e }); },
 };

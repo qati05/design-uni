@@ -41,6 +41,8 @@ export interface Backend {
   /** Pflege der Website (Zeiten, Ausnahmen, Hinweis, Team). */
   pflegeLesen(): Promise<PflegeStand>;
   pflegeSpeichern(p: Pflege): Promise<boolean>;
+  /** Speichert ein geprüftes Teamfoto und gibt die Adresse zurück, die in der Pflege steht. */
+  teamFotoSpeichern(bytes: Uint8Array, typ: "image/jpeg" | "image/png" | "image/webp"): Promise<string | null>;
 }
 
 export function istDemo(): boolean {

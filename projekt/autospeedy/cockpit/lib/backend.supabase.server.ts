@@ -141,6 +141,13 @@ export const supabaseBackend: Backend = {
     const { error } = await (await sb()).rpc("pflege_speichern", { p_daten: p });
     return !error;
   },
+  async teamFotoSpeichern(bytes, typ) {
+    const c = await sb();
+    const pfad = `${crypto.randomUUID()}.${typ === "image/jpeg" ? "jpg" : typ.slice(6)}`;
+    const { error } = await c.storage.from("teamfotos").upload(pfad, bytes, { contentType: typ, upsert: false });
+    if (error) return null;
+    return c.storage.from("teamfotos").getPublicUrl(pfad).data.publicUrl;
+  },
   async abmelden() { await (await sb()).auth.signOut(); },
   async meldungen() {
     const c = await sb();

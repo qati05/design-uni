@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import { HINWEIS_LINKS, type Pflege } from "@/lib/pflege";
 import { pflegeSpeichern, type PflegeZustand } from "./aktionen";
+import { FotoFeld } from "./FotoFeld";
 
 const ZEIT = { inputMode: "decimal" as const, pattern: "([01]?[0-9]|2[0-3])\\.[0-5][0-9]", placeholder: "7.30", maxLength: 5, size: 5 };
 
@@ -66,9 +67,11 @@ export function PflegeFormular({ daten }: { daten: Pflege }) {
             <h3>{g.name}</h3>
             {[...g.leute, ...Array.from({ length: neueLeute[gi] ?? 0 }, () => null)].map((p, pi) => (
               <div className="zeile-person" key={pi}>
+                <FotoFeld name={`team.${gi}.p.${pi}`} foto={p?.foto} person={p?.name ?? "neue Person"} />
                 <input aria-label={`${g.name}: Name`} name={`team.${gi}.p.${pi}.name`} defaultValue={p?.name ?? ""} placeholder="Vorname Name" maxLength={80} />
                 <input aria-label={`${g.name}: Aufgabe`} name={`team.${gi}.p.${pi}.rolle`} defaultValue={p?.rolle ?? ""} placeholder="Aufgabe" maxLength={80} />
-                {pi < g.leute.length ? <label className="schalter"><input type="checkbox" name={`team.${gi}.p.${pi}.weg`} /> entfernen</label> : null}
+                <input aria-label={`${g.name}: Mail (freiwillig)`} type="email" name={`team.${gi}.p.${pi}.email`} defaultValue={p?.email ?? ""} placeholder="Mail (freiwillig)" maxLength={120} />
+                {pi < g.leute.length ? <label className="schalter"><input type="checkbox" name={`team.${gi}.p.${pi}.weg`} /> Person entfernen</label> : null}
               </div>
             ))}
             <button type="button" className="knopf leise" onClick={() => setNeueLeute((l) => l.map((n, k) => (k === gi ? n + 1 : n)))}>Person hinzufügen</button>

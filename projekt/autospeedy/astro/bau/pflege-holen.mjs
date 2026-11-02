@@ -14,6 +14,28 @@ export function pruefe(d) {
   return Boolean(ok);
 }
 
+const BILDER = path.join(path.dirname(new URL(import.meta.url).pathname), "..", "public", "bilder", "team");
+const FOTO_URL = /^https:\/\/[a-z0-9-]+\.supabase\.co\/storage\/v1\/object\/public\/teamfotos\/([A-Za-z0-9._-]{8,120})$/;
+
+/** Teamfotos aus dem Cockpit herunterladen und selbst ausliefern: Besucher der Website fragen nie bei Supabase an. */
+export async function fotosHolen(d, ordner = BILDER, holen = fetch) {
+  fs.mkdirSync(ordner, { recursive: true });
+  for (const g of d.team) for (const p of g.leute) {
+    if (!p.foto) continue;
+    if (/^\/bilder\/team\/[a-z0-9-]+\.webp$/.test(p.foto)) continue;
+    const m = FOTO_URL.exec(p.foto);
+    if (!m) { delete p.foto; continue; }
+    const r = await holen(p.foto, { signal: AbortSignal.timeout(10000) });
+    const typ = r.headers.get("content-type") || "";
+    const endung = { "image/webp": "webp", "image/jpeg": "jpg", "image/png": "png" }[typ];
+    if (!r.ok || !endung) { delete p.foto; continue; }
+    const datei = `cockpit-${m[1].replace(/\.[a-z]+$/, "").toLowerCase().replace(/[^a-z0-9-]/g, "")}.${endung}`;
+    fs.writeFileSync(path.join(ordner, datei), Buffer.from(await r.arrayBuffer()));
+    p.foto = `/bilder/team/${datei}`;
+  }
+  return d;
+}
+
 export function schreibe(d, ordner = ORDNER) {
   const hin = "Kommt aus dem Cockpit (Website pflegen). Hier nicht von Hand ändern.";
   fs.writeFileSync(path.join(ordner, "pflege.json"), JSON.stringify({ _hinweis: hin, hinweis: d.hinweis, zeiten: d.zeiten, ausnahmen: d.ausnahmen }, null, 2) + "\n");
@@ -28,6 +50,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const d = r.ok ? await r.json() : null;
   if (d === null) { console.log("pflege-holen: im Cockpit noch nichts gespeichert, Pflege aus dem Repo bleibt."); process.exit(0); }
   if (!pruefe(d)) { console.error("pflege-holen: Antwort hat nicht die erwartete Form, Bau abgebrochen."); process.exit(1); }
+  await fotosHolen(d);
   schreibe(d);
   console.log("pflege-holen: Pflege aus dem Cockpit übernommen.");
 }

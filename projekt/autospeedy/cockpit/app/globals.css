@@ -119,3 +119,12 @@ table.zahlen th { width: 44%; font-weight: 600; }
 .team[open] { display: grid; gap: 10px; }
 /* «geschlossen» braucht keine Zeiten: Felder erst bei «andere Zeit» */
 .zeile-aus:has(select option[value="zu"]:checked) input[name$=".von"], .zeile-aus:has(select option[value="zu"]:checked) input[name$=".bis"] { display: none; }
+.fotofeld { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; width: 100%; }
+.fotofeld img, .fotofeld__leer { width: 72px; height: 72px; object-fit: cover; border: 1px solid var(--linie); }
+.fotofeld__leer { display: grid; place-items: center; font-size: 12px; color: var(--leise); background: var(--grund); }
+.knopf.klein { min-height: 44px; font-size: 13px; padding: 0 12px; }
+.unsichtbar { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+.knopf:has(.unsichtbar:focus-visible) { outline: 3px solid var(--blau); outline-offset: 2px; }
+.zeile-person { padding: 14px 0; }
+.pflege input[type=email] { flex: 1 1 200px; }
+.schalter { white-space: nowrap; }

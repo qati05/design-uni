@@ -64,4 +64,15 @@ set role anon;
 select pg_temp.erwarte((select (public.pflege_oeffentlich() -> 'hinweis' ->> 'aktiv')::boolean::int)::bigint, 1, 'Website-Bau liest Pflege über pflege_oeffentlich');
 reset role;
 select pg_temp.erwarte((select count(*) from public.audit_log where aktion = 'pflege'), 1, 'Pflege protokolliert');
+-- Teamfotos: nur Mitglied mit aal2 lädt hoch
+grant insert on storage.objects to authenticated;
+set role authenticated; set test.uid = '11111111-1111-1111-1111-111111111111'; set test.aal = 'aal2';
+insert into storage.objects (bucket_id, name) values ('teamfotos', 'a.webp');
+select pg_temp.erwarte(1, 1, 'Mitglied mit aal2 lädt Teamfoto hoch');
+set test.aal = 'aal1';
+do $$ begin insert into storage.objects (bucket_id, name) values ('teamfotos', 'b.webp'); raise exception 'aal1 lädt hoch'; exception when insufficient_privilege then raise notice 'ok  nur Mail-Code (aal1) lädt kein Teamfoto hoch'; end $$;
+set test.uid = '22222222-2222-2222-2222-222222222222'; set test.aal = 'aal2';
+do $$ begin insert into storage.objects (bucket_id, name) values ('teamfotos', 'c.webp'); raise exception 'Fremder lädt hoch'; exception when insufficient_privilege then raise notice 'ok  Nicht-Mitglied lädt kein Teamfoto hoch'; end $$;
+do $$ begin insert into storage.objects (bucket_id, name) values ('schadenfotos', 'd.jpg'); raise exception 'Schadenfoto hochgeladen'; exception when insufficient_privilege then raise notice 'ok  in den Schadenfoto-Bucket lädt niemand vom Cockpit hoch'; end $$;
+reset role;
 \echo RAUCHPROBE GRÜN
