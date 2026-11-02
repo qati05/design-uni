@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Auto Speedy: Ihr System im Hintergrund</title>
+<style>
+@font-face { font-family: "Barlow"; font-weight: 400; src: url("FONT400") format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 600; src: url("FONT600") format("woff2"); }
+@font-face { font-family: "Barlow Semi Condensed"; font-weight: 700; src: url("FONT700") format("woff2"); }
+:root { --tinte: #14202a; --leise: #4a585d; --linie: #dde3e7; --blau: #1566b8; --blau-dunkel: #0f4f94; --blau-hell: #e8f1fb; --baby: #c4e0f8; --gruen: #1f7a4d; --titel: "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--tinte); font: 400 18px/1.5 Barlow, Arial, sans-serif; background: linear-gradient(162deg, #fff 0%, #eaf4fd 40%, #c4e0f8 100%) fixed; }
+main { max-width: 1100px; margin: 0 auto; padding: 48px 32px 64px; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--titel); font-weight: 700; font-style: italic; text-transform: uppercase; line-height: 1.05; margin: 0; }
+h1 { font-size: 56px; } h2 { font-size: 32px; margin-bottom: 14px; } h3 { font-size: 22px; }
+.kopf { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+.kopf p { margin: 10px 0 0; color: var(--leise); font-size: 21px; max-width: 700px; }
+.kopf img { width: 200px; height: auto; }
+.dienste { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.karte { background: #fff; border: 1px solid var(--linie); padding: 20px 22px; display: grid; gap: 8px; align-content: start; }
+.karte .wer { font: 700 14px/1 Barlow, Arial, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--blau-dunkel); }
+.karte ul { margin: 4px 0 0; padding-left: 20px; }
+.karte p { margin: 0; color: var(--leise); }
+.leise { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.leise .karte { background: rgba(255, 255, 255, .6); }
+table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--linie); }
+th, td { padding: 12px 16px; border-bottom: 1px solid var(--linie); text-align: left; vertical-align: top; }
+th { font-weight: 600; }
+td.betrag { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 600; }
+tr.summe td, tr.summe th { background: var(--blau-hell); font-size: 20px; }
+.fuss { font-size: 14px; color: var(--leise); margin: 10px 0 0; }
+.zahlen { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.zahl { background: linear-gradient(162deg, #fff 0%, #eaf4fd 50%, #c4e0f8 100%); border: 1px solid var(--baby); padding: 16px; }
+.zahl b { display: block; font: italic 700 22px/1.1 var(--titel); text-transform: uppercase; margin-bottom: 4px; }
+.liste { margin: 0; padding-left: 22px; display: grid; gap: 6px; }
+.offen { border-left: 6px solid var(--blau); padding-left: 20px; }
+.marke { font-size: 13px; color: var(--leise); }
+@media print { body { background: #fff; } main { padding: 24px; gap: 28px; } .karte, table, .zahl { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="kopf">
+    <div><h1>Ihr System im Hintergrund</h1><p>Was hinter der Website und dem Cockpit läuft, was es pro Monat kostet und was das Cockpit für Sie zählt. Bewusst mit wenigen Diensten.</p></div>
+    <img src="LOGO" alt="Auto Speedy AG">
+  </div>
+
+  <section>
+    <h2>Drei Dienste, sonst nichts Neues</h2>
+    <div class="dienste">
+      <div class="karte"><span class="wer">Cloudflare</span><h3>Website und Cockpit</h3><ul><li>zeigt autospeedy.ch</li><li>nimmt Schadenmeldungen an</li><li>betreibt Ihr Cockpit</li><li>verwaltet die Adresse autospeedy.ch</li></ul></div>
+      <div class="karte"><span class="wer">Supabase</span><h3>Daten und Login</h3><ul><li>Meldungen, Fotos, Notizen</li><li>Anmeldung Ihres Teams</li><li>Server in Zürich</li><li>Schadenfotos privat, nur für Ihr Team</li></ul></div>
+      <div class="karte"><span class="wer">Brevo</span><h3>Mailversand</h3><ul><li>Anmelde-Code für das Cockpit</li><li>Hinweis «Neue Schadenmeldung» an Sie</li></ul><p>Nötig, weil Microsoft den Versand aus Programmen über normale Postfächer ab Ende 2026 schrittweise abschaltet.</p></div>
+    </div>
+    <div class="leise" style="margin-top:16px">
+      <div class="karte"><span class="wer">Bleibt wie heute</span><p>Ihr Postfach info@autospeedy.ch (Microsoft 365), Ihr WhatsApp auf dem Geschäftshandy, Ihr Google-Profil für Bewertungen. Dafür braucht es nichts Neues.</p></div>
+      <div class="karte"><span class="wer">Fällt weg</span><p>Wix: Heute liegen Website und Adresse bei Wix. Nach dem Umzug brauchen Sie Wix nicht mehr. Was Sie heute dafür bezahlen, wissen wir nicht.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Laufende Kosten pro Monat</h2>
+    <table>
+      <thead><tr><th>Dienst</th><th>Wofür</th><th>Preis</th></tr></thead>
+      <tbody>
+        <tr><th>Supabase Pro</th><td>Daten, Fotos, Login. Läuft dauernd, Server in Zürich. (Die Gratis-Stufe schaltet nach einer Woche ohne Betrieb ab, darum Pro.)</td><td class="betrag">USD 25</td></tr>
+        <tr><th>Cloudflare</th><td>Website, Formular, Cockpit, Adresse. Gratis-Stufe: 100'000 Anfragen pro Tag. Falls das Cockpit mehr braucht: Workers Paid.</td><td class="betrag">USD 0 bis 5</td></tr>
+        <tr><th>Brevo</th><td>Mailversand. Gratis bis 300 Mails pro Tag; Sie brauchen ein paar pro Tag.</td><td class="betrag">USD 0</td></tr>
+        <tr class="summe"><th>Total</th><td>etwa CHF 20 bis 25 pro Monat [Annahme: 1 USD ≈ CHF 0.80]</td><td class="betrag">USD 25 bis 30</td></tr>
+      </tbody>
+    </table>
+    <p class="fuss">Preise von supabase.com/pricing, developers.cloudflare.com (Pages und Workers) und brevo.com/pricing, gelesen am 2. November 2026. Ohne Domain-Gebühr (besteht schon) und ohne unsere Arbeit.</p>
+  </section>
+
+  <section>
+    <h2>Was das Cockpit für Sie zählt</h2>
+    <div class="zahlen">
+      <div class="zahl"><b>Anfragen über die Website</b>Schadenmeldungen und Rückruf-Bitten</div>
+      <div class="zahl"><b>Davon Aufträge</b>sobald Sie eine Meldung auf «Auftrag» setzen</div>
+      <div class="zahl"><b>Abschlussquote</b>Aufträge von allen entschiedenen Anfragen</div>
+      <div class="zahl"><b>Tipps auf die Nummer</b>wie oft jemand auf «Anrufen» tippt</div>
+    </div>
+    <p class="fuss">Gezählt ohne Cookies und ohne Kennung. Anrufe selbst und WhatsApp-Nachrichten laufen über Ihr Telefon und sind nicht in den Zahlen. Je genauer Sie den Status setzen, desto genauer die Zahl der Aufträge.</p>
+  </section>
+
+  <section>
+    <h2>Sicher und nach Schweizer Datenschutz</h2>
+    <ul class="liste">
+      <li>Daten auf Servern in Zürich.</li>
+      <li>Anmelden nur Ihr Team: Code per Mail, dann Fingerabdruck oder Gesicht. Keine Passwörter.</li>
+      <li>Die Hinweis-Mail enthält keinen Namen und keine Telefonnummer, diese stehen nur im Cockpit.</li>
+      <li>Jede Änderung im Cockpit wird mit Person und Zeit festgehalten.</li>
+      <li>Meldungen werden nach einer Frist gelöscht. Vorschlag: 365 Tage, Sie entscheiden.</li>
+    </ul>
+  </section>
+
+  <section class="offen">
+    <h2>Noch zu klären</h2>
+    <ul class="liste">
+      <li>Wer im Team bekommt ein Cockpit-Konto?</li>
+      <li>Ihre WhatsApp-Nummer für Kunden: 076 615 44 41?</li>
+      <li>Zugang zu Wix, damit wir die Adresse autospeedy.ch umziehen können.</li>
+      <li>Löschfrist für Meldungen.</li>
+      <li>Von uns vor dem Start: Login mit Fingerabdruck mit Ihren Handys testen. Die Technik dafür ist bei Supabase noch neu; falls sie nicht genügt, gibt es einen gleich einfachen Ersatz, der ebenfalls ohne Zusatz-App auskommt.</li>
+    </ul>
+  </section>
+  <p class="marke">Vorschlag vom 2. November 2026. Nichts davon ist eingerichtet oder bestellt.</p>
+</main>
+</body>
+</html>

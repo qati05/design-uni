@@ -45,3 +45,11 @@ Weg C («Per E-Mail senden») ist weg: Weg A geht ohnehin als E-Mail an den Betr
 
 ## Partikel-Kacheln
 Zwei PNG-Kacheln, je rund 75 KB, auf jeder Seite geladen (gecacht); innerhalb des Bild-Budgets (WP5, Richtwert je Datei ≤ 200 KB). Eine kleinere Fassung (Palette, 8 Bit) ist möglich, falls Lighthouse es verlangt.
+
+## Betrieb: Dienste und offene technische Punkte (Stand 02.11.2026, intern)
+Kundenfassung: `vorschau/auto-speedy-backend-vorschlag.html` (und `.pdf`). Quellen gelesen am 02.11.2026.
+- Dienste: Cloudflare (Website, Functions, Cockpit, DNS), Supabase Pro Zürich `eu-central-2` (USD 25/Mt.), Brevo Free (300 Mails/Tag). [Fakt · supabase.com/pricing, developers.cloudflare.com, brevo.com/pricing, 02.11.2026]
+- DNS und Website liegen heute bei Wix (NS ns4/ns5.wixdns.net); Mail bei Microsoft 365 (MX autospeedy-ch.mail.protection.outlook.com). [Fakt · dns.google, 02.11.2026]
+- Microsoft schaltet SMTP AUTH (Basic) ab Ende Dezember 2026 standardmässig ab, endgültig 2. Hälfte 2027; Supabase-SMTP kennt nur Benutzer/Passwort → eigener Mailversand (Brevo). [Fakt · Microsoft Exchange Team Blog, Update 27.01.2026]
+- **Risiko Fingerabdruck:** Die Supabase-MFA-Doku nennt nur TOTP und Telefon; Passkeys gibt es als Beta-Login (`experimental: { passkey: true }`). Die `mfa.webauthn`-Typen in supabase-js 2.117.3 sind da, der Server-Teil ist nicht dokumentiert. Vor dem Start mit echtem Projekt testen. Plan B ohne Zusatz-App: Fingerabdruck selbst prüfen (`lib/webauthn-pruefung.ts`, getestet) und Datenzugriff nur über den Server; Plan C: Authenticator-App (sicher, aber eine App mehr). [Entscheid offen · Studio]
+- **Risiko Cockpit auf Cloudflare:** OpenNext `@opennextjs/cloudflare` 1.20.15 unterstützt Next 16, aber keine Node-Middleware; `proxy.ts` läuft heute als Node. Vor dem Start prüfen; sonst Proxy anpassen. [Fakt · opennext.js.org/cloudflare, 02.11.2026]
