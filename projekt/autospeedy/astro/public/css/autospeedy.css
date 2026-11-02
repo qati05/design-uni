@@ -747,3 +747,10 @@ header .aktionen .knopf[aria-current="page"] { display: none; }
 :root[data-lack="dunkel"] { --flocken-deckkraft: .6; }
 .art::before { opacity: calc(var(--flocken-deckkraft) * .6); }
 .abschluss::before { opacity: .45; }
+
+/* Saison-Hinweis (vom Betrieb im Pflege-Editor ein- und ausgeschaltet), z. B. Hagel */
+.saison { margin: 0; background-color: #1566b8; background-image: var(--schild); text-align: center; }
+.saison a { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 6px var(--rand); color: #fff; font: italic 700 18px/1.2 var(--titel); text-transform: uppercase; letter-spacing: .02em; text-decoration: none; }
+.saison a:hover span { transform: translateX(3px); }
+.saison span { transition: transform 150ms ease; }
+@media (prefers-reduced-motion: reduce) { .saison span { transition: none; } }

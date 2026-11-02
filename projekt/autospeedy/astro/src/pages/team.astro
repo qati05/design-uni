@@ -2,13 +2,8 @@
 import Seite from "../layouts/Seite.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
 import Foto from "../components/Foto.astro";
-const gruppen = [
-  { name: "Administration", leute: [["Shpejtim Pirku «Speedy»", "Geschäftsführer"]] },
-  { name: "Annahme", leute: [["Lea Schlegel", "HR-Assistentin"], ["Martyna Skweres", "Kauffrau EBA in Ausbildung"]] },
-  { name: "Carrosserie", leute: [["Arsim Selmani", "Teamleiter Carrosserie-Spengler, Hagel- und Dellendrücken"], ["Dragan Tejic", "Carrosserie-Spengler, Schweisstechniker"], ["Enes Rushiti", "Carrosserie-Spengler"]] },
-  { name: "Lackiererei", leute: [["Sheref Kamili", "Carrosserie-Lackierer"], ["Fabio Cezza", "Carrosserie-Lackierer"], ["Anna Meier", "Carrosserie-Lackiererin EFZ in Ausbildung"]] },
-  { name: "Aufbereitung und Finish", leute: [["Armend Nuhii", "Aufbereiter, Finisher"]] },
-];
+import teamDaten from "../content/team.json";
+const gruppen = (teamDaten as any).gruppen;
 ---
 <Seite seite="team" eigeneH1>
 <SeitenKopf seite="team" idee="Zehn Leute, fünf Bereiche." foto="team-kabine" alt="Mitarbeiter in der Lackierkabine neben einer abgeklebten Fahrzeugtür">
@@ -16,7 +11,7 @@ const gruppen = [
 </SeitenKopf>
 <div class="seite seite--breit">
   <div class="team">
-    {gruppen.map((g) => <section><h2>{g.name}</h2><ul>{g.leute.map(([n, r]) => <li><strong>{n}</strong><span>{r}</span></li>)}</ul></section>)}
+    {gruppen.map((g: any) => <section><h2>{g.name}</h2><ul>{g.leute.map((p: any) => <li><strong>{p.name}</strong><span>{p.rolle}</span></li>)}</ul></section>)}
   </div>
   <p data-luecke>Lücke: Namen und Rollen stammen von der bisherigen Website. Ob alle mit Namen und Foto auf der neuen Website stehen möchten, klärt der Betrieb.</p>
   <div class="galerie galerie--vier">

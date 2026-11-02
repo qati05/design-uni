@@ -4,7 +4,7 @@
 // Im Gerüst darf die Beschreibung noch fehlen (HINWEIS); dann fehlt das Meta-Tag statt eines leeren.
 // Slot «idee»: der grosse Satz aus der Idee steht über der h1 und ist keine Überschrift (zusammenspiel Entscheid 2).
 // Vorschau: noindex, kein canonical. Livegang: canonical auf die eigene Adresse (text-uni S28).
-import { betrieb as b, texte, bau, vorschau, seite as lies } from "../../bau/daten.mjs";
+import { betrieb as b, texte, bau, vorschau, seite as lies, pflege } from "../../bau/daten.mjs";
 import Kopf from "../components/Kopf.astro";
 import Fuss from "../components/Fuss.astro";
 import Abschluss from "../components/Abschluss.astro";
@@ -61,6 +61,7 @@ const daten = { zeiten, ausnahmen, status: texte.mikrotexte.status };
 <body>
 <a class="sprung" href="#inhalt">{texte.mikrotexte.sprunglink}</a>
 {vorschau && <p data-vorschau>{texte.mikrotexte.vorschauHinweis}</p>}
+{pflege?.hinweis?.aktiv && pflege.hinweis.text && <p class="saison"><a href={pflege.hinweis.link || "/schaden-melden/"} data-zaehl="saison" data-ort="band">{pflege.hinweis.text} <span aria-hidden="true">→</span></a></p>}
 <Kopf aktiv={Astro.url.pathname} />
 <main id="inhalt">
 <slot name="idee" />

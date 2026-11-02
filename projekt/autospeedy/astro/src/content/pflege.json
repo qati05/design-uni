@@ -1,0 +1,50 @@
+{
+  "_hinweis": "Wird vom Betrieb im Pflege-Editor (/admin/) geändert. Der Bau macht daraus die Zeiten in betrieb.json-Form. Quelle der Startwerte: fakten.md F3.",
+  "hinweis": {
+    "aktiv": false,
+    "text": "Hagel? Melden Sie den Schaden jetzt mit Fotos.",
+    "link": "/schaden-melden/?art=hagel"
+  },
+  "zeiten": [
+    {
+      "tage": "Montag bis Donnerstag",
+      "kurz": "Mo bis Do",
+      "wochentage": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday"
+      ],
+      "geschlossen": false,
+      "fenster": [
+        {
+          "von": "7.30",
+          "bis": "12.00"
+        },
+        {
+          "von": "13.15",
+          "bis": "17.30"
+        }
+      ]
+    },
+    {
+      "tage": "Freitag",
+      "kurz": "Fr",
+      "wochentage": [
+        "Friday"
+      ],
+      "geschlossen": false,
+      "fenster": [
+        {
+          "von": "7.30",
+          "bis": "12.00"
+        },
+        {
+          "von": "13.15",
+          "bis": "17.15"
+        }
+      ]
+    }
+  ],
+  "ausnahmen": []
+}

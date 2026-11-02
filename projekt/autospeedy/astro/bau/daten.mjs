@@ -36,7 +36,18 @@ function leere(wert, pfad, aus) {
   return aus;
 }
 
-export const betrieb = lies("betrieb.json");
+// Pflege durch den Betrieb (Decap CMS, /admin/): pflege.json ersetzt Zeiten und Ausnahmen aus betrieb.json, falls vorhanden.
+const pflegeDatei = path.join(ORDNER, "pflege.json");
+export const pflege = fs.existsSync(pflegeDatei) ? JSON.parse(fs.readFileSync(pflegeDatei, "utf8")) : null;
+function mitPflege(b, p) {
+  if (!p) return b;
+  const zeiten = (p.zeiten || []).map((z) => z.geschlossen ? { tage: z.tage, kurz: z.kurz, zu: true } : { tage: z.tage, kurz: z.kurz, ld: z.wochentage, fenster: (z.fenster || []).map((f) => [f.von, f.bis]) });
+  const ausnahmen = (p.ausnahmen || []).map((a) => a.geschlossen ? { name: a.name, datum: String(a.datum).slice(0, 10), zu: true } : { name: a.name, datum: String(a.datum).slice(0, 10), fenster: [[a.von, a.bis]] });
+  return { ...b, zeiten: zeiten.length ? zeiten : b.zeiten, ausnahmen: ausnahmen.length ? ausnahmen : b.ausnahmen };
+}
+export const betrieb = mitPflege(lies("betrieb.json"), pflege);
+/** Eine Zeile für den ersten Bildschirm, z. B. «Mo bis Do 7.30 bis 12.00 und 13.15 bis 17.30 Uhr, Fr 7.30 bis …». */
+export const zeitenKurz = betrieb.zeiten.filter((z) => z.fenster).map((z) => `${z.kurz || z.tage} ${z.fenster.map(([v, b]) => `${v} bis ${b}`).join(" und ")} Uhr`).join(", ");
 export const texte = lies("texte.json");
 export const bau = lies("bau.json");
 export const vorschau = bau.vorschau !== false;

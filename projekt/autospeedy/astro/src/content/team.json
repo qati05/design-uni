@@ -1,0 +1,70 @@
+{
+  "_hinweis": "Wird vom Betrieb im Pflege-Editor (/admin/) geändert. Namen nur mit Einverständnis der Personen (rechte.md).",
+  "gruppen": [
+    {
+      "name": "Administration",
+      "leute": [
+        {
+          "name": "Shpejtim Pirku «Speedy»",
+          "rolle": "Geschäftsführer"
+        }
+      ]
+    },
+    {
+      "name": "Annahme",
+      "leute": [
+        {
+          "name": "Lea Schlegel",
+          "rolle": "HR-Assistentin"
+        },
+        {
+          "name": "Martyna Skweres",
+          "rolle": "Kauffrau EBA in Ausbildung"
+        }
+      ]
+    },
+    {
+      "name": "Carrosserie",
+      "leute": [
+        {
+          "name": "Arsim Selmani",
+          "rolle": "Teamleiter Carrosserie-Spengler, Hagel- und Dellendrücken"
+        },
+        {
+          "name": "Dragan Tejic",
+          "rolle": "Carrosserie-Spengler, Schweisstechniker"
+        },
+        {
+          "name": "Enes Rushiti",
+          "rolle": "Carrosserie-Spengler"
+        }
+      ]
+    },
+    {
+      "name": "Lackiererei",
+      "leute": [
+        {
+          "name": "Sheref Kamili",
+          "rolle": "Carrosserie-Lackierer"
+        },
+        {
+          "name": "Fabio Cezza",
+          "rolle": "Carrosserie-Lackierer"
+        },
+        {
+          "name": "Anna Meier",
+          "rolle": "Carrosserie-Lackiererin EFZ in Ausbildung"
+        }
+      ]
+    },
+    {
+      "name": "Aufbereitung und Finish",
+      "leute": [
+        {
+          "name": "Armend Nuhii",
+          "rolle": "Aufbereiter, Finisher"
+        }
+      ]
+    }
+  ]
+}
