@@ -1,0 +1,77 @@
+/* Rahmen des Demo-Baus (Laptop, ab 1200 px). Das Cockpit selbst nutzt cockpit/app/globals.css. */
+html, body { height: 100%; }
+body { overflow: hidden; display: grid; grid-template-rows: auto auto 1fr; background: var(--lack); }
+.d-band { display: flex; align-items: center; gap: 16px; padding: 8px 20px; background: #fff4e0; border-bottom: 2px solid #e0a640; font-size: 15px; }
+.d-band b { font: italic 700 18px/1 var(--titel); text-transform: uppercase; }
+.d-band span { margin-right: auto; }
+.d-band .knopf { min-height: 36px; font-size: 13px; }
+#d-rundgang { padding: 10px 20px; background: var(--tafel); border-bottom: 1px solid var(--linie); }
+#d-rundgang ol { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; flex-wrap: wrap; }
+#d-rundgang li { display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; font-size: 14px; color: var(--leise); border: 1px solid var(--linie); background: var(--grund); }
+#d-rundgang .nr { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--linie); color: var(--tinte); font-weight: 700; font-size: 13px; }
+#d-rundgang li.jetzt { color: var(--tinte); font-weight: 600; border-color: var(--blau); background: var(--blau-hell); }
+#d-rundgang li.jetzt .nr { background: var(--blau); color: #fff; }
+#d-rundgang li.fertig .nr { background: var(--gruen); color: #fff; }
+.d-buehne { display: grid; grid-template-columns: 440px minmax(0, 1fr); gap: 24px; padding: 18px 24px; min-height: 0; }
+.d-titel { font-size: 18px; margin: 0 0 8px; color: var(--blau-dunkel); }
+.d-kunde, .d-betrieb { display: grid; grid-template-rows: auto 1fr; min-height: 0; }
+.d-handy { justify-self: center; width: 410px; height: 100%; max-height: 860px; padding: 12px 10px; background: #14202a; border-radius: 36px; box-shadow: 0 20px 50px rgba(20, 32, 42, .25); }
+.d-handy iframe { display: block; width: 390px; height: 100%; border: 0; border-radius: 26px; background: #fff; }
+.d-betrieb__rahmen { display: grid; grid-template-rows: auto 1fr; min-height: 0; background: var(--tafel); border: 1px solid var(--linie); box-shadow: 0 20px 50px rgba(20, 32, 42, .12); }
+.d-reiter { display: flex; gap: 0; border-bottom: 2px solid var(--baby); background: var(--grund); }
+.d-reiter button { position: relative; display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 20px; border: 0; background: transparent; font: 600 16px/1 var(--text); color: var(--tinte); cursor: pointer; }
+.d-reiter button[aria-selected="true"] { background: var(--tafel); box-shadow: inset 0 -3px 0 var(--blau); }
+.d-zahl { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--rot); color: #fff; font-size: 13px; display: inline-grid; place-items: center; }
+.d-reiter button.klingelt { animation: klingel .6s ease-out 2; }
+@keyframes klingel { 30% { background: var(--blau-hell); } }
+#d-fenster { overflow: auto; min-height: 0; position: relative; }
+#d-fenster .kopf { position: sticky; top: 0; }
+#d-fenster .kopf-nav button { padding: 8px 12px; font: 600 17px/1 var(--text); border: 0; background: none; color: var(--tinte); cursor: pointer; min-height: 44px; }
+#d-fenster .kopf-nav button[aria-current="page"] { box-shadow: inset 0 -3px 0 var(--blau); }
+#d-fenster .reiter button { padding: 8px 12px; border: 1px solid var(--linie); background: var(--tafel); font: 600 15px/1 var(--text); cursor: pointer; min-height: 40px; }
+#d-fenster .reiter button[aria-current="page"] { background: var(--tinte); color: #fff; border-color: var(--tinte); }
+#d-fenster button.zeile { width: 100%; text-align: left; font: inherit; cursor: pointer; }
+.zeile.d-neu { animation: neu 1.4s ease-out; }
+@keyframes neu { from { background: var(--blau-hell); } }
+.d-textknopf { border: 0; background: none; padding: 0; font: inherit; color: var(--blau-dunkel); text-decoration: underline; cursor: pointer; }
+.d-leer { color: var(--leise); padding: 24px; margin: 0; }
+.d-postfach { display: grid; grid-template-rows: auto 1fr; height: 100%; }
+.d-postfach__kopf { display: flex; gap: 12px; align-items: baseline; padding: 12px 20px; border-bottom: 1px solid var(--linie); }
+.d-postfach__inhalt { display: grid; grid-template-columns: 340px 1fr; min-height: 0; }
+.d-mails { list-style: none; margin: 0; padding: 0; border-right: 1px solid var(--linie); overflow: auto; }
+.d-mail { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; width: 100%; padding: 12px 16px; border: 0; border-bottom: 1px solid var(--linie); background: var(--tafel); text-align: left; font: inherit; cursor: pointer; }
+.d-mail.ungelesen { border-left: 4px solid var(--blau); }
+.d-mail.ungelesen .d-mail__betreff { font-weight: 700; }
+.d-mail.offen { background: var(--blau-hell); }
+.d-mail__von { font-size: 14px; color: var(--leise); }
+.d-mail__zeit { font-size: 13px; color: var(--leise); }
+.d-mail__betreff { grid-column: 1 / -1; }
+.d-lesen { padding: 20px 24px; display: grid; gap: 12px; align-content: start; overflow: auto; }
+.d-lesen h2 { font-size: 26px; }
+.d-lesen pre { margin: 0; font: 400 17px/1.5 var(--text); white-space: pre-wrap; }
+.d-lesen .knopf { justify-self: start; }
+.d-code { font: 700 40px/1 var(--text); letter-spacing: .2em; margin: 0; }
+.d-wa { display: grid; grid-template-rows: auto 1fr auto; height: 100%; background: #efe7dd; }
+.d-wa__kopf { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: #1f7a4d; color: #fff; }
+.d-wa__verlauf { overflow: auto; padding: 16px 20px; display: grid; gap: 10px; align-content: start; }
+.d-wa__blase { max-width: 70%; padding: 10px 12px; background: #fff; box-shadow: 0 1px 1px rgba(0, 0, 0, .1); }
+.d-wa__blase.betrieb { justify-self: end; background: #dcf2d6; }
+.d-wa__blase p { margin: 0; white-space: pre-wrap; }
+.d-wa__zeit { display: block; text-align: right; font-size: 12px; color: var(--leise); }
+.d-wa__fotos { display: flex; gap: 6px; margin-bottom: 6px; }
+.d-wa__fotos img { width: 120px; height: 120px; object-fit: cover; }
+.d-wa__fuss { margin: 0; padding: 10px 20px; font-size: 14px; color: var(--leise); background: var(--tafel); }
+.d-balken { width: 50%; }
+.d-balken span { display: block; height: 12px; width: var(--w); background: var(--blau); }
+#d-toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 12px); z-index: 50; max-width: 640px; padding: 12px 18px; background: var(--tinte); color: #fff; font-weight: 600; opacity: 0; transition: .2s; pointer-events: none; }
+#d-toast.an { opacity: 1; transform: translate(-50%, 0); }
+#d-finger { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; background: rgba(20, 32, 42, .45); }
+#d-finger[hidden] { display: none; }
+.d-finger__karte { display: grid; justify-items: center; gap: 12px; padding: 28px 40px; background: #fff; text-align: center; }
+.d-finger__karte svg { width: 64px; height: 64px; color: var(--blau); animation: puls 1s ease-in-out infinite; }
+#d-finger.fertig svg { color: var(--gruen); animation: none; }
+#d-finger.fertig .d-finger__text::after { content: " ✓"; }
+@keyframes puls { 50% { transform: scale(1.08); opacity: .7; } }
+.knopf.gross svg { flex: none; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+@media (max-width: 1199px) { .d-buehne { grid-template-columns: 1fr; overflow: auto; } body { overflow: auto; } .d-handy { height: 760px; } }

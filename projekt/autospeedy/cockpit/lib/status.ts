@@ -56,3 +56,10 @@ export function kennzahlen(liste: Meldung[], jetzt = Date.now()): Kennzahlen {
     aelterAls2hNeu: zaehl((m) => m.status === "neu" && jetzt - Date.parse(m.erstellt) > 2 * 3600e3),
   };
 }
+
+/** Was die Website gebracht hat: Anfragen über die Website (Formular und Rückruf) und wie viele davon Aufträge wurden. */
+export function websiteZahlen(m: Meldung[]): { anfragen: number; auftraege: number; quote: number | null; rueckrufe: number } {
+  const web = m.filter((x) => x.quelle === "website");
+  const k = kennzahlen(web);
+  return { anfragen: web.length, auftraege: k.auftraege, quote: k.quote, rueckrufe: web.filter((x) => x.art === "Rückruf").length };
+}

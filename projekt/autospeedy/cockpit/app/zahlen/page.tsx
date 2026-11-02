@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { holeBackend } from "@/lib/backend.server";
-import { kennzahlen } from "@/lib/status";
+import { websiteZahlen } from "@/lib/status";
 import { zusammenfassen } from "@/lib/zahlen";
 import { Kopf } from "../_teile/Kopf";
 
@@ -13,7 +13,7 @@ export default async function Zahlen() {
   const tage = 30;
   const [zeilen, meldungen] = await Promise.all([b.zahlen(tage), b.meldungen()]);
   const ab = Date.now() - tage * 864e5;
-  const k = kennzahlen(meldungen.filter((m) => Date.parse(m.erstellt) >= ab));
+  const k = websiteZahlen(meldungen.filter((m) => Date.parse(m.erstellt) >= ab));
   const liste = zusammenfassen(zeilen);
   const max = Math.max(1, ...liste.map((l) => l.summe));
   return (
@@ -23,10 +23,11 @@ export default async function Zahlen() {
         <h1>Zahlen der letzten {tage} Tage</h1>
         {b.art === "demo" ? <p className="hinweis">Demo: Die Zählung enthält Beispielwerte und Ihre eigenen Tipps in der Website-Vorschau.</p> : null}
         <div className="kennzahlen">
-          <div className="kennzahl"><b>{k.gesamt}</b><span>Meldungen und Rückrufe</span></div>
-          <div className="kennzahl"><b>{k.auftraege}</b><span>davon zum Auftrag geworden</span></div>
-          <div className="kennzahl"><b>{k.quote === null ? "–" : `${k.quote} %`}</b><span>Abschlussquote</span></div>
+          <div className="kennzahl"><b>{k.anfragen}</b><span>Anfragen über die Website ({k.rueckrufe} davon Rückrufe)</span></div>
+          <div className="kennzahl"><b>{k.auftraege}</b><span>davon Aufträge</span></div>
+          <div className="kennzahl"><b>{k.quote === null ? "–" : `${k.quote} %`}</b><span>Abschlussquote (Aufträge von allen entschiedenen)</span></div>
         </div>
+        <p className="unterzeile">WhatsApp-Meldungen laufen über das Geschäftshandy und sind hier nicht dabei. Anrufe zählt die Website nicht, nur Tipps auf die Nummer (unten).</p>
         <h2>Was Besucher auf der Website antippen</h2>
         <p className="unterzeile">Gezählt ohne Cookies und ohne Kennung: nur Tag, Knopf und Ort auf der Seite.</p>
         <table className="zahlen">

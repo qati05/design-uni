@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { entscheideZugang } from "../lib/zugang";
-import { kennzahlen, naechsteSchritte, type Meldung } from "../lib/status";
+import { kennzahlen, naechsteSchritte, websiteZahlen, type Meldung } from "../lib/status";
 import { totp, totpPruefen } from "../lib/totp";
 import { meldungEingangSchema, sichererPfad, statusSchema } from "../lib/validierung";
 import { sitzungLesen, sitzungSignieren } from "../lib/demo-speicher";
@@ -23,6 +23,10 @@ describe("Status und Kennzahlen", () => {
   it("Quote aus entschiedenen Meldungen", () => { const k = kennzahlen([m("auftrag"), m("erledigt"), m("verloren"), m("neu"), m("offerte")]); expect(k).toMatchObject({ gesamt: 5, neu: 1, offen: 1, auftraege: 2, quote: 67 }); });
   it("ohne Entscheide keine Quote", () => { expect(kennzahlen([m("neu")]).quote).toBeNull(); });
   it("neue Meldungen älter als 2 Stunden werden gezählt", () => { expect(kennzahlen([m("neu", 200), m("neu", 30)]).aelterAls2hNeu).toBe(1); });
+  it("Website-Zahlen: nur Anfragen über die Website, Aufträge daraus", () => {
+    const w = (status: Meldung["status"], quelle: Meldung["quelle"] = "website", art = "Hagel") => ({ ...m(status), quelle, art });
+    expect(websiteZahlen([w("auftrag"), w("erledigt", "website", "Rückruf"), w("verloren"), w("auftrag", "whatsapp"), w("neu", "telefon")])).toEqual({ anfragen: 3, auftraege: 2, quote: 67, rueckrufe: 1 });
+  });
   it("nur erlaubte Schritte", () => { expect(naechsteSchritte("neu")).toEqual(["zurueckgerufen", "verloren"]); expect(naechsteSchritte("erledigt")).not.toContain("neu"); });
 });
 
