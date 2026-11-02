@@ -1,0 +1,5 @@
+/* Nur Technik, kein Aussehen: versteckter Text für Bildschirmleser und der Sprunglink, der beim Fokus erscheint.
+   Form, Farben, Schrift und Abstände kommen im Projekt aus den Tokens der Richtung (design-uni) in eine eigene Datei. */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.sprung:not(:focus) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

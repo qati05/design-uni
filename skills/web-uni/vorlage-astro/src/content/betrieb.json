@@ -1,0 +1,19 @@
+{
+  "_hinweis": "Fakten des Betriebs, jede mit Quelle in fakten.md (text-uni). \"\" = Pflicht, noch leer: der Bau bricht ab. null = freiwillig und bewusst weggelassen.",
+  "name": "",
+  "strasse": "",
+  "plz": "",
+  "ort": "",
+  "kanton": null,
+  "land": "",
+  "typ": "",
+  "mail": "",
+  "tel": { "anzeige": "", "e164": "" },
+  "geo": null,
+  "route": null,
+  "ausnahmen": null,
+  "_ausnahmen": "Freiwillig. Feiertage und Betriebsferien, je mit Quelle in fakten.md: [{ \"name\": \"\", \"datum\": \"JJJJ-MM-TT\", \"zu\": true }] oder mit \"fenster\" statt \"zu\". Ein Eintrag ersetzt die Wochenzeiten dieses Tages; vergangene zeigt der Bau nicht.",
+  "zeiten": [
+    { "_form": "Ein Eintrag je Tagesgruppe. Geschlossene Tage: \"zu\": true statt \"fenster\". ld: Wochentage nach schema.org (Monday bis Sunday).", "tage": "", "ld": [""], "fenster": [["", ""]] }
+  ]
+}

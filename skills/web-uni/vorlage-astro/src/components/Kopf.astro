@@ -1,0 +1,20 @@
+---
+// Gerüst ohne eigenes Aussehen: Name mit Link zur Startseite, Menü mit Knopf, Hauptaktion, Telefon.
+// Form aus der Richtung (design-uni), Text aus text-uni. Ob der Kopf fest steht, entscheidet design-uni (Entscheid 6).
+import { betrieb as b, texte as t } from "../../bau/daten.mjs";
+import Hauptaktion from "./Hauptaktion.astro";
+import Tel from "./Tel.astro";
+const { aktiv = "" } = Astro.props;
+const cur = (p: string) => (aktiv === p ? "page" : undefined);
+---
+<header>
+<a href="/" aria-current={cur("/")}>{b.name}</a>
+<nav aria-label={t.mikrotexte.navName}>
+<details>
+<summary>{t.mikrotexte.menueKnopf}</summary>
+<ul>{t.navigation.map((n: any) => <li><a href={n.pfad} aria-current={cur(n.pfad)}>{n.text}</a></li>)}</ul>
+</details>
+</nav>
+<Hauptaktion ort="kopf" />
+<Tel ort="kopf" />
+</header>

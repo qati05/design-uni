@@ -1,0 +1,14 @@
+---
+import Seite from "../layouts/Seite.astro";
+import Status from "../components/Status.astro";
+import Zeiten from "../components/Zeiten.astro";
+import Tel from "../components/Tel.astro";
+import Mail from "../components/Mail.astro";
+import Route from "../components/Route.astro";
+---
+<Seite seite="kontakt" jsonld>
+<p><Tel ort="kontakt" /><br><Mail ort="kontakt" /></p>
+<Status />
+<Zeiten />
+<Route ort="kontakt" />
+</Seite>
