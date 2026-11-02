@@ -1,3 +1,26 @@
+# Auto Speedy AG: Case Study, Stand 02.11.2026
+
+**Nichts ist live, nichts ist deployt, nichts ging an den Betrieb.** Alles liegt nur im Branch `claude/autospeedy-bau`.
+
+## Was gebaut ist (Überblick)
+| Teil | Wo | Stand |
+|---|---|---|
+| Website (Astro, statisch), 14 Seiten inkl. Tesla, Flotten, Bewerten | `astro/` | gebaut, Prüfläufe grün |
+| Schadenmeldung in 3 Tipps, Rückruf in einem Schritt, Senden über Website oder WhatsApp | `astro/src/pages/schaden-melden.astro`, `components/Rueckruf.astro` | gebaut, Ende-zu-Ende grün |
+| Serverfunktionen: Meldung + Fotos ins Cockpit (Supabase), Hinweis-Mail ohne Personendaten, Zählung ohne Cookies | `astro/functions/api/schaden.js`, `zaehl.js` | gebaut, 15 Tests grün, **nicht deployt** |
+| Werkstatt-Cockpit (Next.js, Muster qati05/medaur): Mail-Code + Authenticator, Meldungen, Status bis Auftrag, Notizen, «Bewertung erbitten», Zahlen | `cockpit/` | gebaut, 16 Tests, Rauchprobe 18 Regeln gegen Postgres 16, Ende-zu-Ende grün, **nicht deployt**, Demo-Modus |
+| Pflege-Editor (Decap CMS): Öffnungszeiten, Feiertage, Saison-Hinweis, Team | `astro/public/admin/`, `src/content/pflege.json`, `team.json`, `PFLEGE.md` | gebaut, lokal durchgespielt |
+| AutoScout24-Widget, lädt erst nach Klick | `astro/src/components/FremdInhalt.astro` | gebaut, Widget-Code fehlt (Lücke) |
+| Skizze für das Gespräch | Excalidraw im Chat; Video und Bilder in `vorschau/` | fertig |
+
+## Noch vom Betrieb nötig
+WhatsApp ja/nein und Nummer · Rückruf-Zeit und wer Meldungen liest · Google-Link «Rezension schreiben» · AutoScout24-Widget-Code · Logo als Vektordatei · Rechte an Fotos und Einwilligung des Teams · Samstag, Feiertage, Ferien · Löschfrist für Meldungen · Konditionen für Firmenkunden, Ersatzwagen.
+
+## Vor dem echten Betrieb (Freigabe des Studios)
+Supabase-Projekt (Region Zürich) und Migration · Mail-Dienst mit SPF/DKIM/DMARC · Hoster und Domain · Datenschutzerklärung nachführen (Supabase, Mail-Dienst, AutoScout24) und Rechtsprüfung · Pflege-Login für Laien prüfen. Details: `cockpit/LIESMICH.md`, `technik.md`, `PFLEGE.md`.
+
+---
+
 # Auto Speedy AG: Vorschau, Stand 02.11.2026
 
 **Nichts ist live, nichts ist freigegeben, nichts ging an den Betrieb.** Die Vorschau liegt nur in diesem Branch.
