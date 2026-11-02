@@ -16,8 +16,10 @@
   var MAX = 6, aktuell = 1, sendet = false;
 
   function melde(t) { rueck.hidden = !t; rueck.textContent = t || ""; }
+  var gezaehlt = {};
+  function trichter(n) { if (!window.__zaehl) { if (document.readyState !== "complete") window.addEventListener("load", function () { trichter(n); }, { once: true }); return; } if (!gezaehlt[n]) { gezaehlt[n] = true; window.__zaehl("trichter-" + n, "schaden"); } }
   function zeige(n, fokus) {
-    aktuell = n;
+    aktuell = n; trichter(n);
     schritte.forEach(function (s) { s.hidden = Number(s.dataset.schritt) !== n; });
     anzeige.forEach(function (a) { var i = Number(a.dataset.anzeige); a.classList.toggle("ist-jetzt", i === n); a.classList.toggle("ist-fertig", i < n); if (i === n) a.setAttribute("aria-current", "step"); else a.removeAttribute("aria-current"); });
     melde("");
@@ -107,6 +109,7 @@
     if (!art()) { zeige(1); melde("Bitte wählen Sie, was passiert ist."); return false; }
     var fehlt = ["name", "telefon"].filter(function (n) { return !wert(n); });
     if (fehlt.length) { melde("Bitte geben Sie " + (fehlt.length === 2 ? "Name und Telefon" : fehlt[0] === "name" ? "Ihren Namen" : "Ihre Telefonnummer") + " an."); f.elements[fehlt[0]].focus(); return false; }
+    if (wert("email") && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(wert("email"))) { melde("Bitte prüfen Sie die Mail-Adresse oder lassen Sie das Feld leer."); f.elements.email.focus(); return false; }
     return !wert("website");
   }
   function bestaetige(titel, stand, link) {
@@ -143,7 +146,7 @@
       }
       var daten = new FormData();
       daten.append("art", art()); daten.append("name", wert("name")); daten.append("telefon", wert("telefon"));
-      daten.append("bemerkung", wert("bemerkung")); daten.append("website", wert("website")); if (tesla()) daten.append("tesla", "ja");
+      daten.append("bemerkung", wert("bemerkung")); if (wert("email")) daten.append("email", wert("email")); daten.append("website", wert("website")); if (tesla()) daten.append("tesla", "ja");
       gewaehlt().forEach(function (s) { daten.append("stelle", s); });
       fotos.forEach(function (x, i) { daten.append("foto", x.blob, "schaden-" + (i + 1) + ".jpg"); });
       sendet = true; melde("Ihre Meldung wird gesendet …");

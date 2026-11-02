@@ -5,7 +5,7 @@
 export type Zugang = { art: "weiter" } | { art: "login" } | { art: "mfa" } | { art: "mfa_einrichten" } | { art: "verboten" };
 
 export const OEFFENTLICHE_PFADE = ["/login", "/403", "/favicon.ico", "/robots.txt", "/demo/postfach", "/manifest.webmanifest", "/sw.js", "/offline.html", "/apple-touch-icon.png", "/icon-192.png", "/icon-512.png", "/icon-maskable-512.png"];
-export const OEFFENTLICHE_PRAEFIXE = ["/api/meldung", "/api/zaehl", "/bilder/", "/fonts/"];
+export const OEFFENTLICHE_PRAEFIXE = ["/api/meldung", "/api/zaehl", "/api/versand", "/auftrag/", "/bilder/", "/fonts/"];
 export const MFA_PFADE = ["/mfa", "/mfa/einrichten"];
 
 export function istOeffentlich(pfad: string): boolean {

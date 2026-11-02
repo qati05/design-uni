@@ -12,7 +12,7 @@
 // Prüft Pflichtfelder, Längen, Herkunft, Grösse, Bildtyp und Spamschutz (Honigtopf «website»).
 
 const ARTEN = ["Parkschaden", "Unfall", "Hagel", "Kratzer oder Lack", "Scheibe", "Felge", "Etwas anderes", "Rückruf"];
-const GRENZEN = { bemerkung: 3000, name: 120, telefon: 40, stelle: 40, stellen: 12, fotos: 6, fotoBytes: 2.5e6, gesamt: 16e6 };
+const GRENZEN = { email: 254, bemerkung: 3000, name: 120, telefon: 40, stelle: 40, stellen: 12, fotos: 6, fotoBytes: 2.5e6, gesamt: 16e6 };
 
 function antwort(status, daten) {
   return new Response(JSON.stringify(daten), { status, headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" } });
@@ -22,12 +22,13 @@ const text = (v) => (typeof v === "string" ? v.trim() : "");
 export function pruefe(e) {
   const fehler = [];
   const d = {
-    art: text(e.art), name: text(e.name), telefon: text(e.telefon), bemerkung: text(e.bemerkung),
+    art: text(e.art), name: text(e.name), telefon: text(e.telefon), email: text(e.email).toLowerCase(), bemerkung: text(e.bemerkung),
     tesla: e.tesla === "ja", stellen: (e.stellen || []).map(text).filter(Boolean), website: text(e.website), fotos: e.fotos || [],
   };
   if (!ARTEN.includes(d.art)) fehler.push("art");
   if (!d.name || d.name.length > GRENZEN.name) fehler.push("name");
   if (!/^[+0-9 ()./-]{6,40}$/.test(d.telefon)) fehler.push("telefon");
+  if (d.email && (d.email.length > GRENZEN.email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email))) fehler.push("email");
   if (d.bemerkung.length > GRENZEN.bemerkung) fehler.push("bemerkung");
   if (d.stellen.length > GRENZEN.stellen || d.stellen.some((s) => s.length > GRENZEN.stelle)) fehler.push("stellen");
   if (d.fotos.length > GRENZEN.fotos || d.fotos.some((f) => f.type !== "image/jpeg" || f.size > GRENZEN.fotoBytes || f.size === 0)) fehler.push("fotos");
@@ -45,6 +46,7 @@ export function mailText(d) {
     `Bemerkung: ${d.bemerkung || "keine"}`,
     `Name: ${d.name}`,
     `Telefon: ${d.telefon}`,
+    `Mail: ${d.email || "nicht angegeben"}`,
   ].join("\n");
 }
 
@@ -65,7 +67,7 @@ async function supabase(env, pfad, opt) {
 export async function insCockpit(env, d) {
   const r = await supabase(env, "/rest/v1/meldungen", {
     method: "POST", headers: { "Content-Type": "application/json", Prefer: "return=representation" },
-    body: JSON.stringify({ art: d.art, tesla: d.tesla, stellen: d.stellen, bemerkung: d.bemerkung, name: d.name, telefon: d.telefon, quelle: "website" }),
+    body: JSON.stringify({ art: d.art, tesla: d.tesla, stellen: d.stellen, bemerkung: d.bemerkung, name: d.name, telefon: d.telefon, email: d.email || null, quelle: "website" }),
   });
   const [{ id }] = await r.json();
   const zeilen = [];
@@ -78,9 +80,22 @@ export async function insCockpit(env, d) {
   return id;
 }
 
+/** Bestätigung an den Kunden, nur wenn er freiwillig seine Mail angegeben hat. Ohne Inhalt der Meldung. */
+export function bestaetigungText(d) {
+  const vorname = d.name.split(/\s+/)[0] || "";
+  return [`Guten Tag ${vorname}`.trim(), "", `Ihre Schadenmeldung (${d.art}) ist bei Auto Speedy angekommen. Wir melden uns bei Ihnen, in der Regel telefonisch.`,
+    "", "Dringend? Rufen Sie uns an: 071 755 88 61.", "", "Freundliche Grüsse", "Auto Speedy AG", "",
+    "Sie erhalten diese Mail, weil Sie Ihre Mail-Adresse angegeben haben. Wenn Ihr Auto fertig ist, bitten wir Sie einmal um eine Bewertung."].join("\n");
+}
+async function bestaetigen(env, d) {
+  if (!d.email) return;
+  try { await fetch(env.MAIL_ENDPUNKT, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.MAIL_SCHLUESSEL}` }, body: JSON.stringify({ an: d.email, betreff: "Ihre Schadenmeldung bei Auto Speedy", text: bestaetigungText(d), anhaenge: [] }) }); } catch { /* still */ }
+}
+
 /** Hinweis an den Betrieb ohne Personendaten. */
 export function hinweisText(d, id, cockpit) {
   return [`Eine neue Schadenmeldung ist eingegangen: ${d.art}${d.tesla ? " (Tesla)" : ""}, ${d.fotos.length} Foto${d.fotos.length === 1 ? "" : "s"}.`,
+    `Stellen am Auto: ${d.stellen.join(", ") || "nicht angegeben"}. Mail vom Kunden: ${d.email ? "angegeben" : "keine"}.`,
     `Ansehen und zurückrufen im Cockpit: ${cockpit || "(Cockpit-Adresse fehlt)"}/meldung/${id}`, "", "Name und Telefon stehen aus Datenschutzgründen nur im Cockpit."].join("\n");
 }
 
@@ -94,7 +109,7 @@ export async function onRequestPost({ request, env }) {
   try { form = await request.formData(); } catch { return antwort(400, { ok: false, fehler: ["format"] }); }
   const fotos = form.getAll("foto").filter((f) => typeof f === "object" && f !== null);
   const { daten, fehler } = pruefe({
-    art: form.get("art"), name: form.get("name"), telefon: form.get("telefon"), bemerkung: form.get("bemerkung") || "",
+    art: form.get("art"), name: form.get("name"), telefon: form.get("telefon"), email: form.get("email") || "", bemerkung: form.get("bemerkung") || "",
     tesla: form.get("tesla"), stellen: form.getAll("stelle"), website: form.get("website") || "", fotos,
   });
   if (daten.website) return antwort(200, { ok: true }); // Honigtopf: still annehmen, nichts senden
@@ -105,6 +120,7 @@ export async function onRequestPost({ request, env }) {
     if (env.MAIL_ENDPUNKT && env.MAIL_SCHLUESSEL && env.MAIL_AN) {
       // Die Meldung ist gespeichert; fällt nur der Hinweis aus, gilt sie trotzdem als angekommen (das Cockpit zeigt sie).
       try { await fetch(env.MAIL_ENDPUNKT, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.MAIL_SCHLUESSEL}` }, body: JSON.stringify({ an: env.MAIL_AN, betreff: `Neue Schadenmeldung: ${daten.art}${daten.tesla ? " (Tesla)" : ""}`, text: hinweisText(daten, id, env.COCKPIT_URL), anhaenge: [] }) }); } catch { /* still */ }
+      await bestaetigen(env, daten);
     }
     return antwort(200, { ok: true });
   }
@@ -117,5 +133,6 @@ export async function onRequestPost({ request, env }) {
     body: JSON.stringify({ an: env.MAIL_AN, betreff: `Schadenmeldung: ${daten.art}${daten.tesla ? " (Tesla)" : ""}`, text: mailText(daten), anhaenge }),
   });
   if (!r.ok) return antwort(502, { ok: false, fehler: ["mail"] });
+  await bestaetigen(env, daten);
   return antwort(200, { ok: true });
 }

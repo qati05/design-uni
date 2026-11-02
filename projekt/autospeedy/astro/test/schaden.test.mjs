@@ -89,3 +89,16 @@ test("Cockpit: Speichern scheitert -> 502, keine Hinweis-Mail", () => mitSupabas
 test("Cockpit: Hinweis-Mail scheitert -> trotzdem 200 (Meldung ist gespeichert)", () => mitSupabase(async () => {
   const r = await onRequestPost({ request: anfrage(formular()), env: envCockpit }); assert.equal(r.status, 200);
 }, { fehlerBei: "mail.example" }));
+test("Mail freiwillig: gültig wird mitgeschickt, ungültig gibt 422", () => mitMail(200, async (a) => {
+  assert.equal((await onRequestPost({ request: anfrage(formular({ email: "Kunde@Beispiel.ch" })), env })).status, 200);
+  assert.match(JSON.parse(a[0].opt.body).text, /Mail: kunde@beispiel\.ch/);
+  const r = await onRequestPost({ request: anfrage(formular({ email: "kein-mail" })), env });
+  assert.equal(r.status, 422); assert.deepEqual((await r.json()).fehler, ["email"]);
+  assert.deepEqual(pruefe({ art: "Hagel", name: "A", telefon: "071 555 00 00" }).fehler, []);
+}));
+test("mit Mail des Kunden: zweite Mail als Bestätigung an ihn, ohne Inhalt der Meldung", () => mitMail(200, async (a) => {
+  await onRequestPost({ request: anfrage(formular({ email: "kunde@beispiel.ch", bemerkung: "geheim" })), env });
+  assert.equal(a.length, 2);
+  const b = JSON.parse(a[1].opt.body);
+  assert.equal(b.an, "kunde@beispiel.ch"); assert.match(b.text, /angekommen/); assert.doesNotMatch(b.text, /geheim/);
+}));

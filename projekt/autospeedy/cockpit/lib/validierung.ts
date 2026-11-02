@@ -16,6 +16,7 @@ export const meldungEingangSchema = z.object({
   art: z.enum(ARTEN),
   name: z.string().trim().min(1).max(120),
   telefon: z.string().trim().regex(/^[+0-9 ()./-]{6,40}$/),
+  email: z.string().trim().toLowerCase().max(254).regex(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/).optional(),
   bemerkung: z.string().trim().max(3000).default(""),
   tesla: z.boolean().default(false),
   stellen: z.array(z.string().trim().min(1).max(40)).max(12).default([]),

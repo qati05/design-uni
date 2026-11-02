@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   try { form = await req.formData(); } catch { return NextResponse.json({ ok: false, fehler: ["format"] }, { status: 400, headers: h }); }
   if (String(form.get("website") ?? "")) return NextResponse.json({ ok: true }, { headers: h });
   const r = meldungEingangSchema.safeParse({
-    art: form.get("art"), name: form.get("name"), telefon: form.get("telefon"), bemerkung: String(form.get("bemerkung") ?? ""),
+    art: form.get("art"), name: form.get("name"), telefon: form.get("telefon"), email: String(form.get("email") ?? "") || undefined, bemerkung: String(form.get("bemerkung") ?? ""),
     tesla: form.get("tesla") === "ja", stellen: form.getAll("stelle").map(String),
   });
   const fotos = form.getAll("foto").filter((f): f is File => typeof f === "object");
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
   }
   const id = neueId();
   const bilder = await Promise.all(fotos.map(async (f) => ({ id: neueId(), url: "data:image/jpeg;base64," + Buffer.from(await f.arrayBuffer()).toString("base64") })));
-  speicher().meldungen.unshift({ id, erstellt: new Date().toISOString(), ...r.data, quelle: "website", status: "neu", notiz: "", fotos: bilder });
+  speicher().meldungen.unshift({ id, erstellt: new Date().toISOString(), ...r.data, email: r.data.email ?? null, quelle: "website", status: "neu", notiz: "", fotos: bilder });
   // Hinweis-Mail an den Betrieb ohne Personendaten: Daten bleiben im Cockpit.
   postfachSchreiben("werkstatt@autospeedy.example", `Neue Schadenmeldung: ${r.data.art}${r.data.tesla ? " (Tesla)" : ""}`,
     `Eine neue Meldung ist eingegangen: ${r.data.art}, ${bilder.length} Foto${bilder.length === 1 ? "" : "s"}.\nAnsehen und zurückrufen im Cockpit: http://localhost:4400/meldung/${id}\n\nAus Datenschutzgründen stehen Name und Telefon nur im Cockpit.`);

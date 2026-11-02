@@ -38,6 +38,10 @@ export type Meldung = {
   notiz: string;
   fotos: { id: string; url: string }[];
   beispiel?: boolean;
+  /** Freiwillig vom Kunden angegeben: für Bestätigung und einmal die Bitte um Bewertung. */
+  email?: string | null;
+  bewertungFaellig?: string | null;
+  bewertungGesendet?: string | null;
 };
 
 export type Kennzahlen = { gesamt: number; neu: number; offen: number; auftraege: number; quote: number | null; aelterAls2hNeu: number };

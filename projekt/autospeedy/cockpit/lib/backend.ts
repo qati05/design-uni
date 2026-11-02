@@ -15,6 +15,8 @@ export type Rp = { rpId: string; origin: string };
 export type PasskeyStart = { status: "bereit"; vorgang: string; art: "create" | "request"; optionen: Record<string, unknown> } | { status: "kein_faktor" | "nicht_erlaubt" | "fehler" };
 export type PasskeyAntwort = { status: "ok" | "falsch" | "fehler" };
 export type Geraet = { id: string; name: string };
+export type AuftragAnsicht = { art: string; tesla: boolean; erstellt: string; mitMail: boolean };
+export type BewertungFaellig = { id: string; email: string; name: string };
 export type AuditEintrag = { aktion: string; ergebnis: "ok" | "abgelehnt" | "fehler"; ziel?: string };
 
 export interface Backend {
@@ -38,6 +40,13 @@ export interface Backend {
   audit(e: AuditEintrag): Promise<void>;
   /** Zählung der letzten Tage: je Tag, Punkt und Ort die Anzahl. */
   zahlen(tage: number): Promise<Zaehlzeile[]>;
+  /** Auftrag erledigt per Mail-Link: Token erzeugen (Mitglied), ansehen und einlösen (ohne Login, nur mit Token). */
+  auftragLink(id: string): Promise<string | null>;
+  auftragAnsehen(token: string): Promise<AuftragAnsicht | null>;
+  auftragErledigt(token: string): Promise<boolean>;
+  /** Versand der Bewertungs-Mails (Zeitplan, mit Geheimnis): fällige holen, Fehlschläge zurücklegen. */
+  bewertungenAbholen(geheimnis: string): Promise<BewertungFaellig[] | null>;
+  bewertungZuruecklegen(geheimnis: string, id: string): Promise<void>;
   /** Pflege der Website (Zeiten, Ausnahmen, Hinweis, Team). */
   pflegeLesen(): Promise<PflegeStand>;
   pflegeSpeichern(p: Pflege): Promise<boolean>;

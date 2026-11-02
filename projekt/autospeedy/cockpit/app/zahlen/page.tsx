@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { holeBackend } from "@/lib/backend.server";
 import { websiteZahlen } from "@/lib/status";
-import { zusammenfassen } from "@/lib/zahlen";
+import { trichter, zusammenfassen } from "@/lib/zahlen";
 import { Kopf } from "../_teile/Kopf";
 
 // Zahlen statt Gefühl: was auf der Website angetippt wird, neben Meldungen und Aufträgen (letzte 30 Tage).
@@ -28,6 +28,15 @@ export default async function Zahlen() {
           <div className="kennzahl"><b>{k.quote === null ? "–" : `${k.quote} %`}</b><span>Abschlussquote (Aufträge von allen entschiedenen)</span></div>
         </div>
         <p className="unterzeile">WhatsApp-Meldungen laufen über das Geschäftshandy und sind hier nicht dabei. Anrufe zählt die Website nicht, nur Tipps auf die Nummer (unten).</p>
+        <h2>Schadenmeldung Schritt für Schritt</h2>
+        <p className="unterzeile">Wo Leute aufgeben. Fällt ein Schritt stark ab, ist er zu schwer.</p>
+        <table className="zahlen">
+          <tbody>
+            {trichter(zeilen).map((t) => (
+              <tr key={t.name}><th scope="row">{t.name}</th><td className="balken"><svg viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true"><rect width={Math.max(1, t.anteil ?? 0)} height="12" /></svg></td><td className="zahl">{t.anzahl}{t.anteil !== null ? ` · ${t.anteil} %` : ""}</td></tr>
+            ))}
+          </tbody>
+        </table>
         <h2>Was Besucher auf der Website antippen</h2>
         <p className="unterzeile">Gezählt ohne Cookies und ohne Kennung: nur Tag, Knopf und Ort auf der Seite.</p>
         <table className="zahlen">

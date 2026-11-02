@@ -101,3 +101,27 @@ describe("Teamfotos", async () => {
     expect(fotoSchema.safeParse("data:image/svg+xml;base64,PHN2Zz4=").success).toBe(false);
   });
 });
+
+describe("Auftrag erledigt und Bewertung", async () => {
+  const { auftragMail, bewertungMail } = await import("../lib/mailtexte");
+  const { trichter } = await import("../lib/zahlen");
+  it("Auftrags-Mail: Link, ohne Personendaten, sagt ob Bewertungs-Mail kommt", () => {
+    const a = auftragMail({ art: "Hagel", tesla: true, link: "https://cockpit.example/auftrag/abc", mitMail: true });
+    expect(a.betreff).toContain("Hagel (Tesla)"); expect(a.text).toContain("https://cockpit.example/auftrag/abc"); expect(a.text).toContain("24 Stunden");
+    expect(auftragMail({ art: "Felge", tesla: false, link: "x", mitMail: false }).text).toContain("WhatsApp");
+  });
+  it("Bewertungs-Mail: Vorname, Link auf /bewerten/, sagt warum sie kommt", () => {
+    const b = bewertungMail({ name: "Peter Muster", website: "https://www.autospeedy.ch/" });
+    expect(b.text).toMatch(/^Guten Tag Peter\n/); expect(b.text).toContain("https://www.autospeedy.ch/bewerten/"); expect(b.text).toContain("einmal");
+  });
+  it("Trichter: Anteil vom ersten Schritt", () => {
+    const z = (punkt: string, anzahl: number) => ({ tag: "2026-11-02", punkt, ort: "schaden", anzahl });
+    expect(trichter([z("trichter-1", 10), z("trichter-2", 6), z("trichter-3", 5), z("meldung-gesendet", 3), z("schaden-whatsapp", 1)]).map((t) => t.anteil)).toEqual([100, 60, 50, 40]);
+    expect(trichter([])[0]!.anteil).toBeNull();
+  });
+  it("Mail-Link und Versand sind ohne Login erreichbar (geschützt durch Token bzw. Geheimnis)", async () => {
+    const ohne = { hatSitzung: false, nutzerId: async () => null, stufe: async () => ({ aktuell: null, naechste: null }), istMitglied: async () => false };
+    expect(await entscheideZugang("/auftrag/" + "a".repeat(64), ohne)).toEqual({ art: "weiter" });
+    expect(await entscheideZugang("/api/versand", ohne)).toEqual({ art: "weiter" });
+  });
+});

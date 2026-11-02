@@ -13,11 +13,12 @@ export const DEMO_SITZUNG_SEKUNDEN = 60 * 60 * 24 * 30;
 export type PostfachMail = { id: string; zeit: string; an: string; betreff: string; text: string };
 type Speicher = { codes: Map<string, { code: string; bis: number; versuche: number }>; meldungen: Meldung[]; postfach: PostfachMail[]; audit: { zeit: string; aktion: string; ergebnis: string; ziel?: string }[]; anfragen: number[]; zaehlung: Map<string, number>;
   passkeys: Map<string, PasskeyGespeichert[]>; vorgaenge: Map<string, { uid: string; zweck: "anmelden" | "einrichten"; challenge: string; bis: number; name: string }>;
-  pflege: { daten: Pflege; geaendert: string | null; von: string | null } };
+  pflege: { daten: Pflege; geaendert: string | null; von: string | null };
+  auftragTokens: Map<string, { id: string; bis: number }>; zeitVersatz: number };
 
 const g = globalThis as unknown as { __asDemo?: Speicher };
 export function speicher(): Speicher {
-  if (!g.__asDemo) g.__asDemo = { codes: new Map(), meldungen: beispielMeldungen(), postfach: [], audit: [], anfragen: [], zaehlung: beispielZaehlung(), passkeys: new Map(), vorgaenge: new Map(), pflege: { daten: startPflege(), geaendert: null, von: null } };
+  if (!g.__asDemo) g.__asDemo = { codes: new Map(), meldungen: beispielMeldungen(), postfach: [], audit: [], anfragen: [], zaehlung: beispielZaehlung(), passkeys: new Map(), vorgaenge: new Map(), pflege: { daten: startPflege(), geaendert: null, von: null }, auftragTokens: new Map(), zeitVersatz: 0 };
   return g.__asDemo;
 }
 
@@ -26,6 +27,9 @@ function startPflege(): Pflege {
   void _quelle;
   return structuredClone(d) as Pflege;
 }
+
+/** Demo-Uhr: «24 Stunden vorspulen» verschiebt sie, damit man die Bewertungs-Mail sofort sieht. */
+export function demoJetzt(): number { return Date.now() + speicher().zeitVersatz; }
 
 export function neueId(): string {
   return randomBytes(9).toString("base64url");
@@ -62,7 +66,7 @@ function beispielMeldungen(): Meldung[] {
   return [
     b({ id: "beispiel01", erstellt: vor(25), art: "Hagel", tesla: true, stellen: ["Dach", "Motorhaube"], bemerkung: "BEISPIEL: Hagel gestern Abend.", name: "Beispiel Kundin A", telefon: "071 555 00 01", status: "neu" }),
     b({ id: "beispiel02", erstellt: vor(190), art: "Parkschaden", tesla: false, stellen: ["Heck-Stossstange"], bemerkung: "BEISPIEL", name: "Beispiel Kunde B", telefon: "071 555 00 02", status: "neu" }),
-    b({ id: "beispiel03", erstellt: vor(60 * 26), art: "Unfall", tesla: false, stellen: ["Seite links vorne"], bemerkung: "BEISPIEL", name: "Beispiel Kunde C", telefon: "071 555 00 03", status: "offerte", notiz: "Offerte an Versicherung (Beispiel)" }),
+    b({ id: "beispiel03", erstellt: vor(60 * 26), art: "Unfall", tesla: false, stellen: ["Seite links vorne"], bemerkung: "BEISPIEL", name: "Beispiel Kunde C", telefon: "071 555 00 03", status: "offerte", notiz: "Offerte an Versicherung (Beispiel)", email: "kunde.c@beispiel.example" }),
     b({ id: "beispiel04", erstellt: vor(60 * 50), art: "Kratzer oder Lack", tesla: false, stellen: [], bemerkung: "BEISPIEL", name: "Beispiel Kundin D", telefon: "071 555 00 04", status: "auftrag" }),
     b({ id: "beispiel05", erstellt: vor(60 * 98), art: "Felge", tesla: false, stellen: ["Felgen"], bemerkung: "BEISPIEL", name: "Beispiel Kunde E", telefon: "071 555 00 05", status: "verloren" }),
     b({ id: "beispiel06", erstellt: vor(60 * 120), art: "Scheibe", tesla: true, stellen: ["Frontscheibe"], bemerkung: "BEISPIEL", name: "Beispiel Kunde F", telefon: "071 555 00 06", status: "erledigt", quelle: "whatsapp" }),
@@ -76,7 +80,7 @@ export function postfachSchreiben(an: string, betreff: string, text: string) {
 /** Beispiel-Zählung der letzten 14 Tage (Demo, als Beispiel gekennzeichnet im Cockpit). Schlüssel «tag|punkt|ort». */
 function beispielZaehlung(): Map<string, number> {
   const m = new Map<string, number>();
-  const muster: [string, string, number][] = [["anruf", "kopf", 4], ["anruf", "abschluss", 1], ["schnellstart", "start", 3], ["meldung-gesendet", "website", 1], ["schaden-whatsapp", "schaden", 1], ["tesla", "start", 1], ["rueckruf-occasionen", "occasionen", 0]];
+  const muster: [string, string, number][] = [["anruf", "kopf", 4], ["anruf", "abschluss", 1], ["schnellstart", "start", 3], ["meldung-gesendet", "website", 1], ["schaden-whatsapp", "schaden", 1], ["tesla", "start", 1], ["rueckruf-occasionen", "occasionen", 0], ["trichter-1", "schaden", 5], ["trichter-2", "schaden", 3], ["trichter-3", "schaden", 2]];
   for (let d = 13; d >= 0; d--) {
     const tag = new Date(Date.now() - d * 864e5).toISOString().slice(0, 10);
     muster.forEach(([p, o, basis], i) => { const n = Math.max(0, basis + ((d * 7 + i * 3) % 3) - 1); if (n) m.set(`${tag}|${p}|${o}`, n); });

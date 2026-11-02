@@ -2,12 +2,24 @@ import "server-only";
 import { cookies } from "next/headers";
 import { randomBytes } from "node:crypto";
 import type { Backend, CodeAntwort, Einrichten, SitzungsStand, TotpAntwort, AuditEintrag, PasskeyStart, PasskeyAntwort } from "./backend";
-import { DEMO_COOKIE, DEMO_MITGLIED, DEMO_SITZUNG_SEKUNDEN, neueId, postfachSchreiben, sechsZiffern, sitzungLesen, sitzungSignieren, speicher } from "./demo-speicher";
-import type { Status } from "./status";
+import { DEMO_COOKIE, DEMO_MITGLIED, DEMO_SITZUNG_SEKUNDEN, demoJetzt, neueId, postfachSchreiben, sechsZiffern, sitzungLesen, sitzungSignieren, speicher } from "./demo-speicher";
+import type { Meldung, Status } from "./status";
+import { createHash } from "node:crypto";
 import { anmeldungPruefen, registrierungPruefen, ERLAUBTE_ALGORITHMEN } from "./webauthn-pruefung";
 import { COOKIE_GRUNDLAGE, haerte } from "./cookies";
 
 const MITGLIEDER = [DEMO_MITGLIED.email];
+export const DEMO_VERSAND_GEHEIMNIS = () => process.env.VERSAND_GEHEIMNIS || "demo-versand-nur-lokal";
+const hash = (t: string) => createHash("sha256").update(t).digest("hex");
+
+/** Wie der Datenbank-Trigger (Migration 20261102030000): Bewertung 24 h nach «erledigt» planen, Token nur bei «Auftrag». */
+function statusAendern(m: Meldung, status: Status) {
+  const vorher = m.status;
+  m.status = status;
+  if (status === "erledigt" && vorher !== "erledigt" && m.email && !m.bewertungGesendet) m.bewertungFaellig = new Date(demoJetzt() + 24 * 3600e3).toISOString();
+  else if (status !== "erledigt" && !m.bewertungGesendet) m.bewertungFaellig = null;
+  if (status !== "auftrag") for (const [k, v] of speicher().auftragTokens) if (v.id === m.id) speicher().auftragTokens.delete(k);
+}
 function hatGeraet(uid: string) { return (speicher().passkeys.get(uid) ?? []).length > 0; }
 const ZWEITES_KONTO = "fremd@beispiel.example"; // Demo: Konto ohne Mitgliedschaft -> 403
 
@@ -114,7 +126,41 @@ export const demoBackend: Backend = {
   async meldungen() { return [...speicher().meldungen].sort((a, b) => b.erstellt.localeCompare(a.erstellt)); },
   async meldung(id) { return speicher().meldungen.find((m) => m.id === id) ?? null; },
   async statusSetzen(id, status: Status) {
-    const m = speicher().meldungen.find((x) => x.id === id); if (!m) return false; m.status = status; return true;
+    const m = speicher().meldungen.find((x) => x.id === id); if (!m) return false; statusAendern(m, status); return true;
+  },
+  async auftragLink(id) {
+    const m = speicher().meldungen.find((x) => x.id === id);
+    if (!m || m.status !== "auftrag") return null;
+    const token = randomBytes(32).toString("hex");
+    speicher().auftragTokens.set(hash(token), { id, bis: demoJetzt() + 60 * 864e5 });
+    return token;
+  },
+  async auftragAnsehen(token) {
+    if (!/^[0-9a-f]{64}$/.test(token)) return null;
+    const t = speicher().auftragTokens.get(hash(token));
+    const m = t && t.bis > demoJetzt() ? speicher().meldungen.find((x) => x.id === t.id && x.status === "auftrag") : undefined;
+    return m ? { art: m.art, tesla: m.tesla, erstellt: m.erstellt, mitMail: !!m.email } : null;
+  },
+  async auftragErledigt(token) {
+    if (!/^[0-9a-f]{64}$/.test(token)) return false;
+    const t = speicher().auftragTokens.get(hash(token));
+    const m = t && t.bis > demoJetzt() ? speicher().meldungen.find((x) => x.id === t.id && x.status === "auftrag") : undefined;
+    if (!m) return false;
+    statusAendern(m, "erledigt");
+    speicher().audit.unshift({ zeit: new Date().toISOString(), aktion: "auftrag_erledigt_link", ergebnis: "ok", ziel: m.id });
+    return true;
+  },
+  async bewertungenAbholen(geheimnis) {
+    if (geheimnis !== DEMO_VERSAND_GEHEIMNIS()) return null;
+    const jetzt = demoJetzt();
+    const faellig = speicher().meldungen.filter((m) => m.status === "erledigt" && m.email && m.bewertungFaellig && !m.bewertungGesendet && Date.parse(m.bewertungFaellig) <= jetzt);
+    for (const m of faellig) m.bewertungGesendet = new Date(jetzt).toISOString();
+    return faellig.map((m) => ({ id: m.id, email: m.email!, name: m.name }));
+  },
+  async bewertungZuruecklegen(geheimnis, id) {
+    if (geheimnis !== DEMO_VERSAND_GEHEIMNIS()) return;
+    const m = speicher().meldungen.find((x) => x.id === id && x.status === "erledigt");
+    if (m) { m.bewertungGesendet = null; m.bewertungFaellig = new Date(demoJetzt() + 3600e3).toISOString(); }
   },
   async notizSetzen(id, notiz) {
     const m = speicher().meldungen.find((x) => x.id === id); if (!m) return false; m.notiz = notiz; return true;

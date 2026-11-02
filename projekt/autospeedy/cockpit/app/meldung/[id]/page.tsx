@@ -32,6 +32,7 @@ export default async function MeldungSeite({ params }: { params: Promise<{ id: s
             <dl>
               <dt>Name</dt><dd>{m.name}</dd>
               <dt>Telefon</dt><dd>{m.telefon}</dd>
+              <dt>Mail</dt><dd>{m.email || "nicht angegeben"}</dd>
               <dt>Stellen am Auto</dt><dd>{m.stellen.join(", ") || "nicht angegeben"}</dd>
               <dt>Bemerkung</dt><dd>{m.bemerkung || "keine"}</dd>
             </dl>
@@ -53,6 +54,7 @@ export default async function MeldungSeite({ params }: { params: Promise<{ id: s
                 </form>
               ))}
             </div>
+            <p className="hinweis abstand-oben">{m.bewertungGesendet ? `Bitte um Bewertung per Mail gesendet ${wann(m.bewertungGesendet)}.` : m.bewertungFaellig ? `Bitte um Bewertung per Mail geplant: ${new Intl.DateTimeFormat("de-CH", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Zurich" }).format(new Date(m.bewertungFaellig))}.` : m.email ? "Bei «Erledigt» geht 24 Stunden später einmal die Bitte um Bewertung per Mail an den Kunden." : "Keine Mail vom Kunden: Bewertung bei «Erledigt» per WhatsApp erbitten."}</p>
             <form action={notizSetzen} className="formular abstand-oben">
               <input type="hidden" name="id" value={m.id} />
               <label htmlFor="notiz">Notiz (nur intern)</label>

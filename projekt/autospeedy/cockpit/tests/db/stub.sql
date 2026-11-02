@@ -1,11 +1,11 @@
 -- Nur für die lokale Rauchprobe: ahmt Supabase-Rollen, auth und storage nach (Muster qati05/medaur tests/db/stub.sql). Nie auf Supabase ausführen.
-create extension if not exists pgcrypto;
+create schema extensions; create extension if not exists pgcrypto with schema extensions;
 create role anon nologin; create role authenticated nologin; create role service_role nologin bypassrls;
 create schema auth;
 create table auth.users (id uuid primary key);
 create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('test.uid', true), '')::uuid $$;
 create function auth.jwt() returns jsonb language sql stable as $$ select jsonb_build_object('aal', coalesce(nullif(current_setting('test.aal', true), ''), 'aal1')) $$;
-grant usage on schema auth, public to anon, authenticated, service_role;
+grant usage on schema auth, public, extensions to anon, authenticated, service_role;
 grant execute on function auth.uid(), auth.jwt() to anon, authenticated, service_role;
 alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
 alter default privileges in schema public grant all on sequences to anon, authenticated, service_role;

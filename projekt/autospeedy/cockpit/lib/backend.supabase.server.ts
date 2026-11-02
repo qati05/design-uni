@@ -1,7 +1,8 @@
 import "server-only";
 import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
 import { cookies, headers } from "next/headers";
-import type { AuditEintrag, Backend, Zaehlzeile, CodeAntwort, Einrichten, SitzungsStand, TotpAntwort, PasskeyStart, PasskeyAntwort, Rp } from "./backend";
+import type { AuftragAnsicht, BewertungFaellig, AuditEintrag, Backend, Zaehlzeile, CodeAntwort, Einrichten, SitzungsStand, TotpAntwort, PasskeyStart, PasskeyAntwort, Rp } from "./backend";
 import { pflegeSchema } from "./pflege";
 import pflegeStart from "./pflege-start.json";
 import { COOKIE_GRUNDLAGE, haerte } from "./cookies";
@@ -25,7 +26,7 @@ async function sb() {
   });
 }
 
-type Zeile = { id: string; erstellt: string; art: string; tesla: boolean; stellen: string[]; bemerkung: string; name: string; telefon: string; quelle: Meldung["quelle"]; status: Status; notiz: string; meldung_fotos: { id: string; pfad: string }[] };
+type Zeile = { id: string; erstellt: string; art: string; tesla: boolean; stellen: string[]; bemerkung: string; name: string; telefon: string; quelle: Meldung["quelle"]; status: Status; notiz: string; email: string | null; bewertung_faellig: string | null; bewertung_gesendet: string | null; meldung_fotos: { id: string; pfad: string }[] };
 
 async function mitFotos(client: Awaited<ReturnType<typeof sb>>, zeilen: Zeile[]): Promise<Meldung[]> {
   const pfade = zeilen.flatMap((z) => z.meldung_fotos.map((f) => f.pfad));
@@ -34,7 +35,7 @@ async function mitFotos(client: Awaited<ReturnType<typeof sb>>, zeilen: Zeile[])
     const { data } = await client.storage.from("schadenfotos").createSignedUrls(pfade, 600); // 10 Minuten gültig
     for (const d of data ?? []) if (d.path && d.signedUrl) urls.set(d.path, d.signedUrl);
   }
-  return zeilen.map(({ meldung_fotos, ...z }) => ({ ...z, fotos: meldung_fotos.flatMap((f) => (urls.get(f.pfad) ? [{ id: f.id, url: urls.get(f.pfad)! }] : [])) }));
+  return zeilen.map(({ meldung_fotos, bewertung_faellig, bewertung_gesendet, ...z }) => ({ ...z, bewertungFaellig: bewertung_faellig, bewertungGesendet: bewertung_gesendet, fotos: meldung_fotos.flatMap((f) => (urls.get(f.pfad) ? [{ id: f.id, url: urls.get(f.pfad)! }] : [])) }));
 }
 
 // Fingerabdruck/Gesicht als zweiter Faktor (Supabase MFA «webauthn»). supabase-js macht die Zeremonie im Browser
@@ -58,7 +59,13 @@ async function webauthnChallenge(faktorId: string, rp: Rp): Promise<PasskeyStart
   return { status: "bereit", vorgang: `${faktorId}.${id}.${w.type}`, art: w.type, optionen: w.credential_options.publicKey };
 }
 
-const SPALTEN = "id, erstellt, art, tesla, stellen, bemerkung, name, telefon, quelle, status, notiz, meldung_fotos(id, pfad)";
+const SPALTEN = "id, erstellt, art, tesla, stellen, bemerkung, name, telefon, quelle, status, notiz, email, bewertung_faellig, bewertung_gesendet, meldung_fotos(id, pfad)";
+
+/** Ohne Sitzung (Mail-Link, Zeitplan): nur der öffentliche Schlüssel; die Datenbankfunktionen prüfen Token bzw. Geheimnis. */
+function ohneSitzung() {
+  const { url, anonKey } = oeffentlich();
+  return createClient(url, anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
+}
 
 export const supabaseBackend: Backend = {
   art: "supabase",
@@ -130,6 +137,26 @@ export const supabaseBackend: Backend = {
     if ((data?.webauthn ?? []).length <= 1 || !uuid.test(id)) return false; // das letzte Gerät bleibt
     const { error } = await c.auth.mfa.unenroll({ factorId: id });
     return !error;
+  },
+  async auftragLink(id) {
+    const { data, error } = await (await sb()).rpc("auftrag_link_erzeugen", { p_id: id });
+    return error || typeof data !== "string" ? null : data;
+  },
+  async auftragAnsehen(token): Promise<AuftragAnsicht | null> {
+    const { data } = await ohneSitzung().rpc("auftrag_link_ansehen", { p_token: token });
+    const z = (data as { art: string; tesla: boolean; erstellt: string; mit_mail: boolean }[] | null)?.[0];
+    return z ? { art: z.art, tesla: z.tesla, erstellt: z.erstellt, mitMail: z.mit_mail } : null;
+  },
+  async auftragErledigt(token) {
+    const { data, error } = await ohneSitzung().rpc("auftrag_erledigt_mit_token", { p_token: token });
+    return !error && data === true;
+  },
+  async bewertungenAbholen(geheimnis): Promise<BewertungFaellig[] | null> {
+    const { data, error } = await ohneSitzung().rpc("bewertungen_abholen", { p_geheimnis: geheimnis, p_max: 20 });
+    return error ? null : (data as BewertungFaellig[]);
+  },
+  async bewertungZuruecklegen(geheimnis, id) {
+    await ohneSitzung().rpc("bewertung_zuruecklegen", { p_geheimnis: geheimnis, p_id: id });
   },
   async pflegeLesen() {
     const { data } = await (await sb()).from("pflege").select("daten, geaendert, geaendert_von").eq("id", 1).maybeSingle();
