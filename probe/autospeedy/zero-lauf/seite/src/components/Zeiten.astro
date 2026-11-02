@@ -1,0 +1,9 @@
+---
+// Öffnungszeiten, nur aus content/betrieb.json. Tabellenziffern, Wochentag in der Zeile.
+import b from "../content/betrieb.json";
+---
+<table class="zeiten"><caption class="sr">Öffnungszeiten</caption><tbody>
+{b.zeiten.map((z) => (
+  <tr><th scope="row">{z.tage}</th><td>{z.zu ? "geschlossen" : z.fenster!.map(([v, e]) => `${v} bis ${e} Uhr`).join(" und ")}</td></tr>
+))}
+</tbody></table>

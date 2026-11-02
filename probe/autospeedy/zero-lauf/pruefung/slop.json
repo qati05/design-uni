@@ -1,0 +1,90 @@
+{
+  "ziel": "/tmp/claude-0/-home-user-design-uni/f49574a3-8c21-5602-84fa-63f12ebb08c9/scratchpad/zero-lauf/ergebnis/seite/dist",
+  "zeit": "2026-11-02T06:35:00.986Z",
+  "listeVersion": 1,
+  "erlaubt": [],
+  "dateien": [
+    {
+      "datei": "404.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "datenschutz.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "impressum.html",
+      "fehler": 0,
+      "warnungen": 1,
+      "treffer": [
+        {
+          "id": "mehrwert",
+          "art": "floskel",
+          "stufe": "WARNUNG",
+          "zeile": 55,
+          "fund": "Mehrwertsteuernummer",
+          "kontext": "…26). Sie sind nicht juristisch geprüft. Mehrwertsteuernummer und Hosting-Anbieter fehlen. Schaden ge…",
+          "warum": "Sagt nicht, welcher Wert.",
+          "besser": "Den Wert nennen: Zeit, Geld, Risiko: «spart Ihnen den zweiten Termin»."
+        }
+      ]
+    },
+    {
+      "datei": "index.html",
+      "fehler": 0,
+      "warnungen": 2,
+      "treffer": [
+        {
+          "id": "professionell",
+          "art": "floskel",
+          "stufe": "WARNUNG",
+          "zeile": 91,
+          "fund": "professionell",
+          "kontext": "…araturen verständlich und arbeitet sehr professionell. Termine werden eingehalten und man füh…",
+          "warum": "Erwartet man ohnehin.",
+          "besser": "Zeigen, woran man es merkt: «schriftliche Offerte mit Fixpreis»."
+        },
+        {
+          "id": "preis-leistung",
+          "art": "floskel",
+          "stufe": "WARNUNG",
+          "zeile": 91,
+          "fund": "faire Preise",
+          "kontext": "…durch schnelle, zuverlässige Arbeit und faire Preise. Das Team ist freundlich, erklärt Repar…",
+          "warum": "Ohne Preis unprüfbar.",
+          "besser": "Einen Richtpreis nennen: «ab CHF 85 pro Stunde»."
+        }
+      ]
+    },
+    {
+      "datei": "kontakt.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "leistungen.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "schadenmeldung.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    },
+    {
+      "datei": "tesla.html",
+      "fehler": 0,
+      "warnungen": 0,
+      "treffer": []
+    }
+  ],
+  "fehler": 0,
+  "warnungen": 3
+}

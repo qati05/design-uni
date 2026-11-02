@@ -1,0 +1,15 @@
+Seite: /index.html
+Protokoll:
+  ANRUF AUSGELÖST: tel:+4152 · WARNUNG: Nummer «+4152» sieht nicht wählbar aus
+  getippt: Termin anfragen (a)
+  gefüllt: Name
+  gefüllt: Telefon
+  VERDECKT: «Anfrage senden» liegt unter div.leiste «Notfall? 052 555 00 00»; der Tipp trifft das obere Element
+Sichtbar jetzt:
+  label: Name *
+  input: Testperson Muster
+  label: Telefon *
+  input: 079 555 12 34
+  button: Anfrage senden
+  a: 052 555 00 00
+Bild: ergebnis/akte/kunden-skript/selbsttest.png

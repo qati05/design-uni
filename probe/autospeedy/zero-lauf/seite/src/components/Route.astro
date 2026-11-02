@@ -1,0 +1,6 @@
+---
+// Anschrift öffnet die Karten-App (Link, keine eingebettete Karte, kein fremder Host beim Laden).
+import b from "../content/betrieb.json";
+const { ort, text, klasse = "" } = Astro.props;
+---
+<a class={klasse} href={b.links.route} data-zaehl="route" data-ort={ort} rel="noopener">{text ?? "Route zur Alten Landstrasse 63 öffnen"}</a>

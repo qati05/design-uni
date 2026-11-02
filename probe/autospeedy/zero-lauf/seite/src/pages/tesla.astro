@@ -1,0 +1,41 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Kreis from "../components/Kreis.astro";
+import Meldeformular from "../components/Meldeformular.astro";
+import Tel from "../components/Tel.astro";
+import Status from "../components/Status.astro";
+import Freigabe from "../components/Freigabe.astro";
+---
+<Seite title="Tesla-Schaden melden in Altstätten | Auto Speedy AG" desc="Tesla beschädigt? Modell wählen, Namen und Telefon nennen: Ihr E-Mail-Programm öffnet die Meldung an Auto Speedy in Altstätten." aktiv="tesla.html" ohneAbschluss klasse="meldung tesla">
+<section class="seitenkopf" aria-labelledby="titel"><div class="rahmen">
+<h1 id="titel"><span class="ueber">Tesla-Schäden in Altstätten<span class="sr">. </span></span><span class="titel-gross">Wählen Sie Ihr <span class="kreis-wort">Modell.<Kreis /></span></span></h1>
+<p class="lead">Auto Speedy AG ist Tesla Approved Body Shop und nimmt Fälle entgegen, die Tesla weiterleitet. Sie wählen das Modell, nennen Namen und Telefon und senden die Meldung per E-Mail.</p>
+<p class="hero-tel">Lieber anrufen? <Tel ort="tesla-kopf" /></p>
+</div></section>
+<section class="abschnitt melde-raster"><div class="rahmen melde-spalten">
+<div class="melde-haupt" id="formular">
+<Meldeformular variante="tesla" />
+</div>
+<aside class="melde-seite" aria-label="Weitere Wege">
+<div class="platzhalter" role="img" aria-label="Platzhalter für ein Foto eines Teslas in der Werkstatt"><Kreis klasse="platz-kreis" /><p>Platzhalter: Hier steht ein Foto eines Teslas in der Werkstatt, sobald der Betrieb eines liefert.</p></div>
+<h2>Lieber anrufen?</h2>
+<p class="gross-tel"><Tel ort="tesla" /></p>
+<Status klasse="status-satz" />
+<h2>Kein Tesla?</h2>
+<p><a class="pfeil-link" href="schadenmeldung.html" data-ort="tesla">Zur allgemeinen Schadenmeldung</a></p>
+<h2>Was nach der Meldung geschieht</h2>
+<ol class="schritte">
+<li>Sie wählen das Modell und nennen Namen und Telefon.</li>
+<li>Ihr E-Mail-Programm öffnet die fertige Meldung, Sie senden sie ab.</li>
+<li>Nach dem Absenden liegt die Meldung im Postfach {b.mail}.</li>
+</ol>
+<p class="luecke">Wann und wie wir antworten, legt der Betrieb noch fest. Eine Frist nennen wir deshalb nicht.</p>
+</aside>
+</div>
+<div class="rahmen"><Freigabe titel="Offen vor dem Livegang: Tesla">
+<p>Die Bezeichnung «Tesla Approved Body Shop» und die Weiterleitungen von Tesla sind Angaben des Betriebs. Ein Nachweis von Tesla liegt nicht vor, eine Schweizer Liste der Partner war nicht abrufbar. Vor dem Livegang braucht es den Nachweis und die Erlaubnis von Tesla zur Nennung.</p>
+<p>Die vier Modelle sind die Modelle von Tesla, die im Handel sind. Der Betrieb muss bestätigen, welche er repariert. Wie Tesla Fälle weiterleitet und welche Angaben Tesla dazu braucht, ist nicht bekannt. Es gibt kein Tesla-Logo und kein Tesla-Foto, weil keines vorliegt und Drittlogos nicht erlaubt sind.</p>
+</Freigabe></div>
+</section>
+</Seite>

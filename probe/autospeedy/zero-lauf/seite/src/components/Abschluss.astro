@@ -1,0 +1,14 @@
+---
+// Schluss-Handlung jeder Seite (der Fuss als zweiter erster Bildschirm): die eine Handlung, der Anruf, ein wahrer Satz gegen die Sorge.
+import Hauptaktion from "./Hauptaktion.astro";
+import Tel from "./Tel.astro";
+const { ort = "abschluss" } = Astro.props;
+---
+<section class="abschluss" aria-labelledby="abschluss-titel"><div class="rahmen abschluss-innen">
+<h2 id="abschluss-titel">Schaden gefunden? <span class="kreis-wort">Melden Sie ihn hier.</span></h2>
+<div class="abschluss-handlung">
+<Hauptaktion ort={ort} gross />
+<p class="abschluss-tel">Oder anrufen: <Tel ort={ort} /></p>
+<p class="klein leise">Drei Angaben genügen: Fahrzeug, Name, Telefon. Ihre Meldung geht nur per E-Mail an uns. Auf dieser Seite wird nichts gespeichert.</p>
+</div>
+</div></section>

@@ -1,0 +1,6 @@
+---
+// Die eine Handlung der Seite: Schaden melden (Entscheid E1). Knopf mit Kreis (Marine-Fläche, schwarzer Zweitkreis dahinter).
+import b from "../content/betrieb.json";
+const { ort, gross = false, text, href, aktuell = false } = Astro.props;
+---
+<a class={`knopf-kreis${gross ? " knopf-gross" : ""}`} href={href ?? b.hauptaktion.href} data-zaehl="anfrage" data-ort={ort} aria-current={aktuell ? "page" : undefined}><span class="knopf-text">{text ?? b.hauptaktion.text}</span></a>

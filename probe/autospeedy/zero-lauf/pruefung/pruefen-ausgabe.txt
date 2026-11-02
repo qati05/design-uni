@@ -1,0 +1,92 @@
+OK     P6 Telefon-Links 1440
+         alle tel-Links international, Text gleich Ziel, Nummer aus projekt.json, im ersten Bildschirm
+OK     P6 Zählpunkte 1440
+         100 % der tel-, mailto- und Karten-Links tragen data-zaehl und data-ort
+OK     P6 Hauptaktion fest sichtbar 1440
+         «Schaden melden» auf allen Seiten nach dem Scrollen, ≥ 44 px
+OK     P6 Kontrast aus der Kaskade 1440
+         alle sichtbaren Texte erreichen 4,5:1 (gross 3:1)
+OK     P6 Verdeckung 1440
+         0 Knöpfe und Felder verdeckt
+OK     P6 Kein Überlauf 1440
+         kein horizontales Scrollen
+OK     P6 Boden: nichts von fremden Hosts 1440
+         alle Anfragen gleiche Herkunft
+OK     P6 Boden: keine Cookies, nichts im Speicher 1440
+         Cookies 0, Speichereinträge 0
+OK     P6 Telefon-Links 390
+         alle tel-Links international, Text gleich Ziel, Nummer aus projekt.json, im ersten Bildschirm
+OK     P6 Zählpunkte 390
+         100 % der tel-, mailto- und Karten-Links tragen data-zaehl und data-ort
+OK     P6 Hauptaktion fest sichtbar 390
+         «Schaden melden» auf allen Seiten nach dem Scrollen, ≥ 44 px
+OK     P6 Kontrast aus der Kaskade 390
+         alle sichtbaren Texte erreichen 4,5:1 (gross 3:1)
+OK     P6 Verdeckung 390
+         0 Knöpfe und Felder verdeckt
+OK     P6 Kein Überlauf 390
+         kein horizontales Scrollen
+OK     P6 Boden: nichts von fremden Hosts 390
+         alle Anfragen gleiche Herkunft
+OK     P6 Boden: keine Cookies, nichts im Speicher 390
+         Cookies 0, Speichereinträge 0
+OK     P6 Kein Überlauf 360 px
+         8 Seiten
+OK     P6 Formular: sichtbare Felder 3 bis 5
+         4 Felder; Pflicht 3
+OK     P6 Formular: Pflichtfelder 3
+         3
+OK     P6 Formular: Beschriftung an jedem Feld, 0 Platzhalter, nichts vorangekreuzt
+         ohne Label 0, Platzhalter 0, vorangekreuzt 0
+OK     P6 Formular: Verantwortlicher am Knopf genannt
+         Auto Speedy AG
+OK     H8 Telefonfeld öffnet die Zifferntastatur
+         type=tel
+OK     P6 Leeres Senden: Fehler am Feld, Senden-Knopf bleibt stehen
+         3 Felder markiert, Verschiebung 0 px
+OK     P6 Rückmeldung ≤ 300 ms, doppeltes Senden gesperrt
+         87 ms (inkl. Klick), Knopf gesperrt: true
+OK     P6 Kalender (Fr 17.30, Fr 17.10, Sa 10.00, So 22.40, Mo 12.30; Gerät in anderer Zeitzone)
+         5 Fälle richtig; nie «morgen»
+OK     P6 Boden: ohne JavaScript ist der Inhalt da (Text, Telefon)
+         8 Seiten
+OK     P5 Reduced Motion: keine laufende Animation
+         0 laufend
+OK     P5 Nach 3 s laufen 0 Animationen (endlose nur mit Pause-Knopf)
+         0 laufend, 0 endlos, Pause-Knopf: false
+OK     T7/CH1 Eszett 0
+         0
+OK     T7/CH4 Eine Anrede (nur «Sie»)
+         0
+OK     T7/CH5 Guillemets, keine geraden oder deutschen Anführungszeichen
+         0
+OK     T7/K11 Keine Gedankenstriche im sichtbaren Text
+         0
+OK     T7/CH11 Uhrzeit mit Punkt
+         0
+OK     T7/CH12 Telefon national sichtbar, kein +41 im Text
+         0
+OK     P6 Klammern: keine eckigen Klammern im sichtbaren Text
+         0
+OK     T7/S15 Genau ein h1, keine Sprünge in der Gliederung
+         0
+OK     T7/S20 Bilder mit Alt-Attribut und Mass
+         alle Bilder
+OK     T7/S1 Titel 40 bis 60, Beschreibung 110 bis 155 Zeichen
+         8 Seiten
+OK     T7/TI9 Vorschau: noindex, kein canonical
+         8 Seiten
+OK     T3/W1 Sätze im Fliesstext im Mittel ≤ 15 Wörter
+         8.2 im Mittel über 189 Sätze; längster 24 (index: Vor dem Livegang braucht es den Nachweis und die Erlaubnis zur Nennung. . 4,8 vo)
+OK     T3/W2 Kein Satz über 25 Wörter
+         längster 24
+OK     T7/TI3 Vorschau: robots.txt sperrt alles, keine Sitemap
+         User-agent: * | Disallow: /
+OK     T7/TI17 Keine toten internen Links oder Bilder
+         0
+OK     T7/S23 LocalBusiness gültig, gleich der sichtbaren Seite, ohne eigene Bewertung
+         AutoBodyShop, +41717558861, ohne Bewertung
+OK     T7 Faktenabgleich: jede Zahl (ab 3 Stellen) steht mit Quelle in projekt.json
+         alle belegt
+
+45 Prüfungen, 0 Fehler, 0 nicht geprüft

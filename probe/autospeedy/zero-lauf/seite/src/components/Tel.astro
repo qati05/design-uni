@@ -1,0 +1,7 @@
+---
+// Telefonnummer als Link (tel:+41…, sichtbar national). nummer=1 Festnetz, nummer=2 Mobil.
+import b from "../content/betrieb.json";
+const { ort, nummer = 1, klasse = "", zusatz = "" } = Astro.props;
+const t = nummer === 2 ? b.tel2 : b.tel1;
+---
+<a class={`tel ${klasse}`.trim()} href={t.href} data-zaehl="anruf" data-ort={ort}>{zusatz && <span class="sr">{zusatz} </span>}<span class="nowrap">{t.zeige}</span></a>

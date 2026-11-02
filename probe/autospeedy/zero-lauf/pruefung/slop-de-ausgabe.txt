@@ -1,0 +1,14 @@
+404.html                     Fehler 0  Warnungen 0
+datenschutz.html             Fehler 0  Warnungen 0
+impressum.html               Fehler 0  Warnungen 1
+  - WARNUNG Z.55 [mehrwert] «Mehrwertsteuernummer»: …26). Sie sind nicht juristisch geprüft. Mehrwertsteuernummer und Hosting-Anbieter fehlen. Schaden ge…
+index.html                   Fehler 0  Warnungen 2
+  - WARNUNG Z.91 [professionell] «professionell»: …araturen verständlich und arbeitet sehr professionell. Termine werden eingehalten und man füh…
+  - WARNUNG Z.91 [preis-leistung] «faire Preise»: …durch schnelle, zuverlässige Arbeit und faire Preise. Das Team ist freundlich, erklärt Repar…
+kontakt.html                 Fehler 0  Warnungen 0
+leistungen.html              Fehler 0  Warnungen 0
+schadenmeldung.html          Fehler 0  Warnungen 0
+tesla.html                   Fehler 0  Warnungen 0
+Dateien: 8
+Fehler: 0
+Warnungen: 3

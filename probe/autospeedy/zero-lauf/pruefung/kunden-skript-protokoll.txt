@@ -1,0 +1,73 @@
+== 1 Hauptanfrage (Einstieg leistungen.html)
+Seite: /schadenmeldung.html
+Protokoll:
+  getippt: Schaden melden (a)
+  gefüllt: Fahrzeug, Marke und Modell
+  gefüllt: Name
+  gefüllt: Telefon
+  getippt: Schaden per E-Mail melden (button)
+Sichtbar jetzt:
+  a: Schaden melden
+  summary: Menü öffnen oder schliessen
+  a: Datenschutz
+  button: Schaden per E-Mail melden
+  a: info@autospeedy.ch
+  a: 071 755 88 61
+  a: Route zur Alte Landstrasse 63 öffnen
+  button: Meldung ändern
+Bild: ergebnis/akte/kunden-skript/aufgabe1.png
+== 2 Eilfall (Einstieg kontakt.html)
+Seite: /kontakt.html
+Protokoll:
+  ANRUF AUSGELÖST: tel:+41717558861
+Sichtbar jetzt:
+  a: Zum Inhalt springen
+  a: Schaden melden
+  summary: Menü öffnen oder schliessen
+  a: Festnetz: 071 755 88 61
+  a: Route in der Karten-App öffnen
+  a: 071 755 88 61
+  a: 076 615 44 41
+  a: info@autospeedy.ch
+Bild: ergebnis/akte/kunden-skript/aufgabe2.png
+== 2b Eilfall (Einstieg leistungen.html)
+Seite: /leistungen.html
+Protokoll:
+  ANRUF AUSGELÖST: tel:+41717558861
+Sichtbar jetzt:
+  a: Zum Inhalt springen
+  a: Schaden melden
+  summary: Menü öffnen oder schliessen
+  a: 071 755 88 61
+Bild: ergebnis/akte/kunden-skript/aufgabe2b.png
+== 3 Route (Einstieg schadenmeldung.html)
+Seite: /schadenmeldung.html
+Protokoll:
+  gescrollt 2000
+  ROUTE GEÖFFNET: https://www.google.com/maps/dir/?api=1&destination=Alte+Landstrasse+63%2C+9450+Altst%C3%A4tten
+Sichtbar jetzt:
+  a: Schaden melden
+  summary: Menü öffnen oder schliessen
+  a: Route öffnen
+  a: 071 755 88 61
+  a: 076 615 44 41
+  a: info@autospeedy.ch
+Bild: ergebnis/akte/kunden-skript/aufgabe3.png
+== 4 Tesla (Einstieg index.html)
+Seite: /tesla.html
+Protokoll:
+  getippt: Tesla (a)
+  gewählt: Model Y
+  gefüllt: Name
+  gefüllt: Telefon
+  getippt: Schaden per E-Mail melden (button)
+Sichtbar jetzt:
+  a: Schaden melden
+  summary: Menü öffnen oder schliessen
+  a: Datenschutz
+  button: Schaden per E-Mail melden
+  a: info@autospeedy.ch
+  a: 071 755 88 61
+  a: Route zur Alte Landstrasse 63 öffnen
+  button: Meldung ändern
+Bild: ergebnis/akte/kunden-skript/aufgabe4.png

@@ -1,0 +1,78 @@
+---
+// Das Meldeformular (Entscheide E1, E5, E7): drei Pflichtangaben, ein freiwilliges Feld, kein Backend. Es schreibt nur eine E-Mail (mailto:).
+// variante «allgemein»: Fahrzeug als Text. Variante «tesla»: Modell als Auswahl grosser Wörter, dazu der Weg zu uns (freiwillig).
+import b from "../content/betrieb.json";
+import Kreis from "./Kreis.astro";
+const { variante = "allgemein" } = Astro.props;
+const modelle = [...b.tesla.modelle, "Anderes Tesla-Modell"];
+const slug = (m: string) => m.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-$/, "");
+const tesla = variante === "tesla";
+---
+<div class="melde-block" data-variante={variante}>
+<form id="anfrage" class="melde" method="post" action={`mailto:${b.mail}?subject=Schadenmeldung`} enctype="text/plain" data-variante={variante} data-mail={b.mail}>
+<p class="pflicht-hinweis">Mit <span class="stern" aria-hidden="true">*</span><span class="sr">Stern</span> markierte Angaben sind Pflicht.</p>
+
+{tesla ? (
+<fieldset class="feld modelle" data-feld="fahrzeug">
+<legend>Welches Tesla-Modell ist es? <span class="stern" aria-hidden="true">*</span></legend>
+<div class="modell-liste">
+{modelle.map((m) => (
+  <div class="modell"><input type="radio" name="Fahrzeug" id={`modell-${slug(m)}`} value={m.startsWith("Anderes") ? "Anderes Tesla-Modell" : `Tesla ${m}`} required aria-describedby="info-fahrzeug"><label for={`modell-${slug(m)}`}><span class="modell-wort">{m}</span><Kreis klasse="modell-kreis" /></label></div>
+))}
+</div>
+<p class="info" id="info-fahrzeug" data-hilfe="Das Modell steht im Fahrzeugausweis."><span>Das Modell steht im Fahrzeugausweis.</span></p>
+</fieldset>
+) : (
+<div class="feld" data-feld="fahrzeug">
+<label for="fahrzeug">Fahrzeug, Marke und Modell <span class="stern" aria-hidden="true">*</span></label>
+<input id="fahrzeug" name="Fahrzeug" type="text" required autocomplete="off" aria-describedby="info-fahrzeug">
+<p class="info" id="info-fahrzeug" data-hilfe="Zum Beispiel: VW Golf."><span>Zum Beispiel: VW Golf. Fahren Sie einen Tesla? <a href="tesla.html">Dort wählen Sie das Modell.</a></span></p>
+</div>
+)}
+
+<div class="feld" data-feld="name">
+<label for="name">Name <span class="stern" aria-hidden="true">*</span></label>
+<input id="name" name="Name" type="text" required autocomplete="name" aria-describedby="info-name">
+<p class="info" id="info-name" data-hilfe="Vor- und Nachname."><span>Vor- und Nachname.</span></p>
+</div>
+
+<div class="feld" data-feld="telefon">
+<label for="telefon">Telefon <span class="stern" aria-hidden="true">*</span></label>
+<input id="telefon" name="Telefon" type="tel" inputmode="tel" required autocomplete="tel" aria-describedby="info-telefon">
+<p class="info" id="info-telefon" data-hilfe="Damit wir Sie bei Rückfragen erreichen."><span>Damit wir Sie bei Rückfragen erreichen.</span></p>
+</div>
+
+<div class="feld" data-feld="schaden">
+<label for="schaden">Was ist passiert? (freiwillig)</label>
+<textarea id="schaden" name="Schaden" rows="3" aria-describedby="info-schaden"></textarea>
+<p class="info" id="info-schaden" data-hilfe="Wo am Fahrzeug ist der Schaden? Fotos hängen Sie danach im E-Mail an."><span>Wo am Fahrzeug ist der Schaden? Fotos hängen Sie danach im E-Mail an.</span></p>
+</div>
+
+{tesla && (
+<fieldset class="feld weg" data-feld="weg">
+<legend>Wie kommen Sie zu uns? (freiwillig)</legend>
+<div class="weg-liste">
+<div class="weg-option"><input type="radio" name="Weg zu uns" id="weg-direkt" value="direkt"><label for="weg-direkt">Direkt</label></div>
+<div class="weg-option"><input type="radio" name="Weg zu uns" id="weg-tesla" value="Weiterleitung von Tesla"><label for="weg-tesla">Tesla hat mich weitergeleitet</label></div>
+</div>
+</fieldset>
+)}
+
+<p class="datenschutz-satz">Wir verwenden Ihre Angaben nur, um Ihre Meldung zu beantworten. Verantwortlich: {b.name}, {b.ort}. Mehr im <a href="datenschutz.html">Datenschutz</a>.</p>
+
+<div class="senden-zeile">
+<button type="submit" id="senden" class="knopf-kreis knopf-gross"><span class="knopf-text">Schaden per E-Mail melden</span></button>
+</div>
+<p class="erwartung">Danach öffnet sich Ihr E-Mail-Programm mit der fertigen Meldung. Sie senden sie von dort an {b.name}.</p>
+<p class="melde-status" id="melde-status" role="status" aria-live="polite"></p>
+</form>
+
+<section id="bestaetigung" class="bestaetigung" hidden tabindex="-1" aria-labelledby="best-titel">
+
+<h2 id="best-titel">Ihre Meldung ist <span class="kreis-wort">vorbereitet.<Kreis /></span></h2>
+<p><strong>Ihr E-Mail-Programm öffnet sich mit der fertigen Meldung.</strong> Erst wenn Sie dort auf «Senden» tippen, ist sie bei {b.name} angekommen.</p>
+<p>Fotos vom Schaden hängen Sie in der E-Mail an.</p>
+<p>Öffnet sich nichts? Schreiben Sie an <a href={`mailto:${b.mail}`} data-zaehl="mail" data-ort="bestaetigung">{b.mail}</a> oder rufen Sie an: <a href={b.tel1.href} data-zaehl="anruf" data-ort="bestaetigung"><span class="nowrap">{b.tel1.zeige}</span></a>. <a href={b.links.route} data-zaehl="route" data-ort="bestaetigung" rel="noopener">Route zur Alten Landstrasse 63 öffnen</a>.</p>
+<p><button type="button" class="knopf-text-link" id="aendern">Meldung ändern</button></p>
+</section>
+</div>

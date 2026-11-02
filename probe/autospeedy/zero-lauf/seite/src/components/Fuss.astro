@@ -1,0 +1,15 @@
+---
+import b from "../content/betrieb.json";
+import Tel from "./Tel.astro";
+import Mail from "./Mail.astro";
+import Route from "./Route.astro";
+import Zeiten from "./Zeiten.astro";
+---
+<footer class="fuss"><div class="rahmen">
+<div class="fuss-raster">
+<div class="fuss-marke"><img src="logo/logo.png" width="469" height="162" alt={b.name} loading="lazy"><p>{b.name}<br>{b.strasse}<br>{b.plz} {b.ort}</p><p><Route ort="fuss" text="Route öffnen" /></p></div>
+<div><h2>Erreichbar</h2><ul class="fuss-liste"><li>Festnetz <Tel ort="fuss" /></li><li>Mobil <Tel ort="fuss" nummer={2} /></li><li><Mail ort="fuss" /></li></ul><Zeiten /></div>
+<div><h2>Seiten</h2><ul class="fuss-liste"><li><a href="schadenmeldung.html">Schaden melden</a></li>{b.nav.map(([h, t]) => <li><a href={h}>{t}</a></li>)}<li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li></ul></div>
+</div>
+<p class="fuss-zeile">{b.name}, im Handelsregister eingetragen seit November 2016, {b.uid}.</p>
+</div></footer>

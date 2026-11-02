@@ -1,0 +1,5 @@
+---
+// Sichtbare Lücke als ausgeschriebener Satz (design-uni Grundregel 2). Keine Klammern, keine erfundenen Werte.
+const { klasse = "" } = Astro.props;
+---
+<p class={`luecke${klasse ? " " + klasse : ""}`}><slot /></p>

@@ -1,0 +1,327 @@
+{
+ "hinweis": "Abgeschrieben aus den Berichten der Bewerter (je Bewerter: Bildnummer -> [Klasse, Note]); Schlüssel in schluessel-*.json",
+ "modell": {
+  "r1": "Opus",
+  "r2": "Opus",
+  "r3": "Opus",
+  "r4": "Sonnet",
+  "r5": "Sonnet",
+  "r6": "Sonnet"
+ },
+ "neu": {
+  "r1": {
+   "01": [
+    "Agentur",
+    9
+   ],
+   "02": [
+    "Vorlage",
+    1
+   ],
+   "03": [
+    "Agentur",
+    7
+   ],
+   "04": [
+    "Vorlage",
+    3
+   ],
+   "05": [
+    "Agentur",
+    7
+   ],
+   "06": [
+    "Vorlage",
+    3
+   ]
+  },
+  "r2": {
+   "01": [
+    "Agentur",
+    9
+   ],
+   "02": [
+    "Vorlage",
+    3
+   ],
+   "03": [
+    "Agentur",
+    7
+   ],
+   "04": [
+    "Vorlage",
+    1
+   ],
+   "05": [
+    "Vorlage",
+    3
+   ],
+   "06": [
+    "Agentur",
+    8
+   ]
+  },
+  "r3": {
+   "01": [
+    "Agentur",
+    9
+   ],
+   "02": [
+    "Agentur",
+    6
+   ],
+   "03": [
+    "Agentur",
+    7
+   ],
+   "04": [
+    "Vorlage",
+    1
+   ],
+   "05": [
+    "Vorlage",
+    3
+   ],
+   "06": [
+    "Vorlage",
+    3
+   ]
+  },
+  "r4": {
+   "01": [
+    "Agentur",
+    8
+   ],
+   "02": [
+    "Agentur",
+    8
+   ],
+   "03": [
+    "solide",
+    6
+   ],
+   "04": [
+    "Vorlage",
+    3
+   ],
+   "05": [
+    "solide",
+    4
+   ],
+   "06": [
+    "Vorlage",
+    1
+   ]
+  },
+  "r5": {
+   "01": [
+    "Vorlage",
+    3
+   ],
+   "02": [
+    "Agentur",
+    7
+   ],
+   "03": [
+    "Vorlage",
+    1
+   ],
+   "04": [
+    "Agentur",
+    9
+   ],
+   "05": [
+    "solide",
+    6
+   ],
+   "06": [
+    "Vorlage",
+    3
+   ]
+  },
+  "r6": {
+   "01": [
+    "Agentur",
+    8
+   ],
+   "02": [
+    "Vorlage",
+    3
+   ],
+   "03": [
+    "Agentur",
+    7
+   ],
+   "04": [
+    "solide",
+    4
+   ],
+   "05": [
+    "solide",
+    7
+   ],
+   "06": [
+    "Vorlage",
+    1
+   ]
+  }
+ },
+ "alt": {
+  "r1": {
+   "01": [
+    "Agentur",
+    7
+   ],
+   "02": [
+    "Agentur",
+    9
+   ],
+   "03": [
+    "Vorlage",
+    3
+   ],
+   "04": [
+    "solide",
+    7
+   ],
+   "05": [
+    "Vorlage",
+    1
+   ],
+   "06": [
+    "Vorlage",
+    3
+   ]
+  },
+  "r2": {
+   "01": [
+    "Vorlage",
+    1
+   ],
+   "02": [
+    "Vorlage",
+    3
+   ],
+   "03": [
+    "Agentur",
+    9
+   ],
+   "04": [
+    "solide",
+    6
+   ],
+   "05": [
+    "Vorlage",
+    3
+   ],
+   "06": [
+    "Agentur",
+    8
+   ]
+  },
+  "r3": {
+   "01": [
+    "Vorlage",
+    3
+   ],
+   "02": [
+    "Agentur",
+    8
+   ],
+   "03": [
+    "Vorlage",
+    2
+   ],
+   "04": [
+    "solide",
+    6
+   ],
+   "05": [
+    "Agentur",
+    9
+   ],
+   "06": [
+    "Vorlage",
+    1
+   ]
+  },
+  "r4": {
+   "01": [
+    "Vorlage",
+    1
+   ],
+   "02": [
+    "solide",
+    3
+   ],
+   "03": [
+    "Vorlage",
+    3
+   ],
+   "04": [
+    "Agentur",
+    9
+   ],
+   "05": [
+    "Agentur",
+    7
+   ],
+   "06": [
+    "solide",
+    6
+   ]
+  },
+  "r5": {
+   "01": [
+    "Agentur",
+    9
+   ],
+   "02": [
+    "solide",
+    4
+   ],
+   "03": [
+    "Vorlage",
+    1
+   ],
+   "04": [
+    "solide",
+    3
+   ],
+   "05": [
+    "Agentur",
+    6
+   ],
+   "06": [
+    "solide",
+    5
+   ]
+  },
+  "r6": {
+   "01": [
+    "Agentur",
+    7
+   ],
+   "02": [
+    "Vorlage",
+    1
+   ],
+   "03": [
+    "solide",
+    4
+   ],
+   "04": [
+    "Agentur",
+    7
+   ],
+   "05": [
+    "Agentur",
+    9
+   ],
+   "06": [
+    "solide",
+    3
+   ]
+  }
+ }
+}

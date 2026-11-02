@@ -1,0 +1,39 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Tel from "../components/Tel.astro";
+import Mail from "../components/Mail.astro";
+import Route from "../components/Route.astro";
+import Zeiten from "../components/Zeiten.astro";
+import Status from "../components/Status.astro";
+import Bild from "../components/Bild.astro";
+import Freigabe from "../components/Freigabe.astro";
+---
+<Seite title="Kontakt und Anfahrt, Alte Landstrasse 63 | Auto Speedy AG" desc="Telefon, E-Mail, Öffnungszeiten und Route zu Auto Speedy, Carrosserie und Autolackiererei an der Alten Landstrasse 63 in Altstätten." aktiv="kontakt.html" jsonld klasse="kontakt">
+<section class="seitenkopf" aria-labelledby="titel"><div class="rahmen">
+<h1 id="titel"><span class="ueber">Kontakt zu Auto Speedy in Altstätten<span class="sr">. </span></span><span class="titel-gross">So erreichen Sie uns.</span></h1>
+<p class="gross-tel gross-tel-seite"><Tel ort="kontakt-hero" zusatz="Festnetz:" /></p>
+<Status klasse="status-satz" />
+</div></section>
+
+<section class="abschnitt kontakt-raster"><div class="rahmen kontakt-spalten">
+<div>
+<h2>Anschrift</h2>
+<p class="adresse">{b.name}<br>{b.strasse}<br>{b.plz} {b.ort}</p>
+<p><Route ort="kontakt" text="Route in der Karten-App öffnen" klasse="pfeil-link" /></p>
+<h2>Telefon und E-Mail</h2>
+<p>Festnetz <Tel ort="kontakt" /><br>Mobil <Tel ort="kontakt" nummer={2} /><br>E-Mail <Mail ort="kontakt" /></p>
+</div>
+<div>
+<h2>Öffnungszeiten</h2>
+<Zeiten />
+<p class="klein leise">Stand 1. November 2026, laut Website des Betriebs. Zu Feiertagen und Betriebsferien liegen keine Angaben vor.</p>
+</div>
+<Bild name="halle-schild" klasse="kontakt-bild" sizes="(min-width: 900px) 30vw, 100vw" alt="Hallengebäude mit dem Schild von Auto Speedy, davor ein Land Rover in Mattfolie" caption="Die Halle an der Alten Landstrasse 63." />
+</div></section>
+<section class="abschnitt"><div class="rahmen spalte-eng">
+<Freigabe titel="Offen vor dem Livegang: Kontakt">
+<p>Freitag: Die Website des Betriebs nennt 17.15 Uhr, local.ch und search.ch nennen 17.30 Uhr. Die Seite folgt der Website. Der Betrieb muss es bestätigen. Zur Mobilnummer vermerkt search.ch «keine Werbung». Ein Notfall- oder Pikettdienst ist nicht belegt, darum steht keiner auf der Seite.</p>
+</Freigabe>
+</div></section>
+</Seite>

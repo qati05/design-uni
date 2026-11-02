@@ -1,0 +1,85 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Bild from "../components/Bild.astro";
+import Tel from "../components/Tel.astro";
+import Freigabe from "../components/Freigabe.astro";
+---
+<Seite title="Carrosserie, Lack und Felgen in Altstätten | Auto Speedy AG" desc="Unfallreparatur, Lackierung, Alufelgen, Folierung und Autohandel bei Auto Speedy an der Alten Landstrasse 63 in Altstätten. Schaden melden." aktiv="leistungen.html" klasse="leistungen">
+<section class="seitenkopf" aria-labelledby="titel"><div class="rahmen">
+<h1 id="titel"><span class="ueber">Leistungen von Auto Speedy in Altstätten<span class="sr">. </span></span><span class="titel-gross">Blech, Lack, Felge, Folie.</span></h1>
+<p class="lead">Wir reparieren Karosserieschäden, lackieren Fahrzeuge und arbeiten an Alufelgen. Die Schadenabwicklung mit der Versicherung erledigen wir für Sie.</p>
+<p class="hero-tel">Fragen? Rufen Sie an: <Tel ort="leistungen-kopf" /></p>
+</div></section>
+
+<section class="abschnitt leistung" aria-labelledby="carr"><div class="rahmen leistung-raster">
+<div class="leistung-text">
+<h2 id="carr">Carrosserie: vom Blechschaden bis zum Chassis.</h2>
+<ul class="ring-liste">
+<li>Unfallreparatur, von kleinen Blechschäden bis zu grösseren Chassisschäden</li>
+<li>Stossstangenreparatur</li>
+<li>Hagelschäden und Dellendrücken</li>
+<li>Rostreparatur</li>
+<li>Schweissarbeiten</li>
+<li>Scheibenwechsel und Scheibenreparatur</li>
+</ul>
+<p>Laut Carrosserie Suisse ist Auto Speedy Scheibenkonzept-Partner. Repariert werden Personenwagen, Nutzfahrzeuge und Anhänger, Oldtimer und Youngtimer sowie Wohnmobile und Wohnwagen.</p>
+</div>
+<Bild name="hebebuehne" sizes="(min-width: 900px) 46vw, 100vw" alt="Schwarzer Audi auf der Hebebühne in der Werkstatt, Vorderwagen zerlegt" caption="Frontschaden: Der Audi steht auf der Hebebühne." />
+</div></section>
+
+<section class="abschnitt leistung umgekehrt" aria-labelledby="lack"><div class="rahmen leistung-raster">
+<div class="leistung-text">
+<h2 id="lack">Lackierung: vom Kratzer bis zur Neulackierung.</h2>
+<ul class="ring-liste">
+<li>einfache Lackschäden</li>
+<li>komplette Neulackierung</li>
+<li>Versicherungsfälle</li>
+<li>Restaurationen</li>
+<li>Aufpolieren und Fahrzeugaufbereitung</li>
+<li>Lackieren aller Gegenstände</li>
+</ul>
+</div>
+<div class="bilder-paar">
+<Bild name="lackkante" sizes="(min-width: 900px) 22vw, 50vw" alt="Rote Lackfläche mit weisser Kante, mit Kreppband und Folie abgeklebt" caption="Lackkante rot und weiss, abgeklebt." />
+<Bild name="metallic" sizes="(min-width: 900px) 22vw, 50vw" alt="Blau schimmernde Metallic-Lackfläche mit matter Kante an einem Fahrzeug" caption="Metallic-Blau neben matter Fläche." />
+</div>
+</div></section>
+
+<section class="abschnitt leistung" aria-labelledby="felge"><div class="rahmen leistung-raster">
+<div class="leistung-text">
+<h2 id="felge">Alufelgen und Folierung.</h2>
+<p>Auf den Fotos sehen Sie Felgen mit Bordsteinschaden, eine Felge in Gold, eine in Pink und ein Fahrzeug unter Folie.</p>
+<p class="luecke">Zum Umfang und zum Ablauf von Alufelgen und Folierung liegen noch keine Angaben des Betriebs vor. Bitte rufen Sie an: <Tel ort="leistungen" />.</p>
+</div>
+<div class="bilder-raster">
+<Bild name="felge-gold" sizes="(min-width: 900px) 20vw, 50vw" alt="Goldene Speichenfelge mit polierter Aussenkante auf einem Ständer" />
+<Bild name="felge-pink" sizes="(min-width: 900px) 20vw, 50vw" alt="Pink pulverbeschichtete Felge auf dem Gitterrost in der Lackierkabine" />
+<Bild name="felge-maske" sizes="(min-width: 900px) 20vw, 50vw" alt="Felge mit blau abgeklebtem Rand in der Werkstatt" />
+<Bild name="kabine-folie" sizes="(min-width: 900px) 20vw, 50vw" alt="Land Rover Defender in der Kabine, halb mit schwarzer Folie bezogen" />
+</div>
+</div></section>
+
+<section class="abschnitt leistung umgekehrt" aria-labelledby="handel"><div class="rahmen leistung-raster">
+<div class="leistung-text">
+<h2 id="handel">Autohandel: Ankauf und Verkauf.</h2>
+<ul class="ring-liste">
+<li>Autoankauf</li>
+<li>Verkauf von Occasionen</li>
+<li>Leasing</li>
+<li>technische Beratung</li>
+</ul>
+<p><a class="pfeil-link" href={b.links.occasionen} data-ort="leistungen" rel="noopener">Occasionen bei AutoScout24 ansehen</a></p>
+</div>
+<Bild name="halle" sizes="(min-width: 900px) 46vw, 100vw" alt="Mehrere Fahrzeuge in einer Reihe vor der Halle von Auto Speedy" caption="Fahrzeuge vor der Halle." />
+</div></section>
+
+<section class="abschnitt" aria-labelledby="ausb"><div class="rahmen spalte-eng">
+<h2 id="ausb">Auto Speedy bildet aus.</h2>
+<p>Laut Carrosserie Suisse bildet Auto Speedy Carrosseriespengler/-innen EFZ und Carrosserielackierer/-innen EFZ aus. Zurzeit lernen eine Carrosserielackiererin EFZ und eine Kauffrau EBA im Betrieb, Stand 1. November 2026.</p>
+<p class="luecke">Namen und Fotos des Teams zeigen wir, sobald alle einverstanden sind.</p>
+<Freigabe titel="Offen vor dem Livegang: Leistungen">
+<p>Alle Leistungen stammen von der Website des Betriebs und aus dem Verzeichnis von Carrosserie Suisse. Die Aussage zur Versicherung ist eine Angabe des Betriebs und braucht seine Freigabe. Preise, Fristen, Original-Ersatzteile und Garantien stehen nicht auf der Seite, weil nichts freigegeben ist. Die Fahrzeuge auf den Fotos gehören Kundschaft: Die Rechte an den Bildern sind nicht geklärt.</p>
+</Freigabe>
+</div></section>
+</Seite>

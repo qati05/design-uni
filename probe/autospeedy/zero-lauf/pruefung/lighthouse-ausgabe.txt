@@ -1,0 +1,7 @@
+index-1.json Leistung 100 Zugang 100 BP 100 SEO 66 LCP 1226 TBT 16 CLS 0.001 JS KB 7.9
+index-2.json Leistung 100 Zugang 100 BP 100 SEO 66 LCP 1205 TBT 0 CLS 0.003 JS KB 7.9
+index-3.json Leistung 100 Zugang 100 BP 100 SEO 66 LCP 1208 TBT 0 CLS 0.002 JS KB 7.9
+kontakt-1.json Leistung 100 Zugang 100  SEO - LCP 1056 TBT 0 CLS 0.015 JS KB 7.9
+leistungen-1.json Leistung 100 Zugang 100  SEO - LCP 1059 TBT 0 CLS 0.001 JS KB 7.9
+schadenmeldung-1.json Leistung 100 Zugang 100  SEO - LCP 1056 TBT 41 CLS 0.003 JS KB 7.9
+tesla-1.json Leistung 100 Zugang 100  SEO - LCP 1204 TBT 0 CLS 0.002 JS KB 7.9

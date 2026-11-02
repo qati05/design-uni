@@ -1,0 +1,75 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Kreis from "../components/Kreis.astro";
+import Hauptaktion from "../components/Hauptaktion.astro";
+import Status from "../components/Status.astro";
+import Zeiten from "../components/Zeiten.astro";
+import Tel from "../components/Tel.astro";
+import Mail from "../components/Mail.astro";
+import Route from "../components/Route.astro";
+import Bild from "../components/Bild.astro";
+import Bewertungen from "../components/Bewertungen.astro";
+import Freigabe from "../components/Freigabe.astro";
+---
+<Seite title="Karosserieschaden melden in Altstätten | Auto Speedy AG" desc="Carrosserie und Autolackiererei an der Alten Landstrasse 63 in Altstätten. Schaden melden mit drei Angaben, Tesla-Modell wählbar, Anrufen möglich." aktiv="index.html" jsonld klasse="start">
+
+<section class="hero" aria-labelledby="titel">
+<div class="hero-text">
+<h1 id="titel"><span class="ueber">Carrosserie und Autolackiererei in Altstätten<span class="sr">. </span></span><span class="titel-gross">Zeigen Sie uns <span class="zeile2">den <span class="kreis-wort">Schaden.<Kreis zeichnen /></span></span></span></h1>
+<p class="lead">Karosserieschaden, Lackschaden, Stossstange oder Felge: Nennen Sie Fahrzeug, Namen und Telefonnummer. Ihre Meldung kommt als E-Mail zu uns.</p>
+<div class="hero-handlung">
+<Hauptaktion ort="hero" gross />
+<p class="hero-tel">Oder anrufen: <Tel ort="hero" /></p>
+</div>
+<p class="fakten">Wir sind an der <Route ort="hero" text="Alten Landstrasse 63 in Altstätten" />. <Status klasse="status-satz" /> Google Maps: {b.bewertung.schnitt} von 5 bei {b.bewertung.anzahl} Bewertungen.</p>
+</div>
+<Bild name="schaden-kreis" klasse="hero-bild" sizes="(min-width: 900px) 34vw, 100vw" lazy={false} fetch alt="Aluminiumfelge mit Randschaden, der Schaden ist mit blauem Stift eingekreist" />
+</section>
+
+<section class="abschnitt schaeden" aria-labelledby="schaeden-titel"><div class="rahmen">
+<div class="schaeden-text">
+<h2 id="schaeden-titel">Diese Schäden reparieren und lackieren wir.</h2>
+<ul class="ring-liste">
+<li>Karosserieschäden, vom kleinen Blechschaden bis zum Chassisschaden</li>
+<li>Lackschäden, vom Kratzer bis zur kompletten Neulackierung</li>
+<li>Stossstangen und Rost</li>
+<li>Hagelschäden und Dellen</li>
+<li>Scheiben wechseln oder reparieren</li>
+<li>Alufelgen und Folierung</li>
+</ul>
+<p>Die Schadenabwicklung mit der Versicherung erledigen wir für Sie.</p>
+<p><a class="pfeil-link" href="leistungen.html" data-ort="schaeden">Alle Leistungen ansehen</a></p>
+</div>
+<div class="schaeden-bilder">
+<Bild name="hebebuehne" klasse="b-gross" sizes="(min-width: 900px) 40vw, 100vw" alt="Schwarzer Audi auf der Hebebühne in der Werkstatt, Vorderwagen zerlegt" caption="Frontschaden: Der Audi steht auf der Hebebühne." />
+<Bild name="felge-randschaden" klasse="b-klein" sizes="(min-width: 900px) 26vw, 70vw" alt="Poliertes Alurad mit abgeschliffenem Bordsteinschaden am Felgenrand" caption="Bordsteinschaden am Felgenrand." />
+</div>
+</div></section>
+
+<section class="abschnitt tesla-tuer" aria-labelledby="tesla-titel"><div class="rahmen">
+<h2 id="tesla-titel">Tesla-Schäden melden Sie mit Ihrem Modell.</h2>
+<p class="spalte">Auto Speedy AG ist Tesla Approved Body Shop und nimmt Fälle entgegen, die Tesla weiterleitet. Wählen Sie Ihr Modell, dann nennen Sie Namen und Telefonnummer.</p>
+<ul class="modell-links">{b.tesla.modelle.map((m) => <li><a href={`tesla.html#modell-${m.toLowerCase().replace(/ /g, "-")}`} data-ort="tesla-tuer"><span>{m}</span><Kreis klasse="modell-kreis" /></a></li>)}</ul>
+<Freigabe titel="Offen vor dem Livegang: Tesla">
+<p>Die Bezeichnung «Tesla Approved Body Shop» ist eine Angabe des Betriebs. Ein Nachweis von Tesla liegt nicht vor. Vor dem Livegang braucht es den Nachweis und die Erlaubnis zur Nennung.</p>
+</Freigabe>
+</div></section>
+
+<Bewertungen ort="start" />
+
+<section class="abschnitt wo" aria-labelledby="wo-titel"><div class="rahmen">
+<div class="wo-text">
+<h2 id="wo-titel">So finden Sie uns.</h2>
+<p class="adresse">{b.name}<br>{b.strasse}<br>{b.plz} {b.ort}</p>
+<p><Route ort="start" text="Route in der Karten-App öffnen" klasse="pfeil-link" /></p>
+<Zeiten />
+<Status klasse="status-satz" />
+<p>Telefon <Tel ort="start" />, E-Mail <Mail ort="start" />.</p>
+<Freigabe titel="Offen vor dem Livegang: Zeiten">
+<p>Freitag steht auf der Website des Betriebs bis 17.15 Uhr, in local.ch und search.ch bis 17.30 Uhr. Hier gilt die Website. Feiertage und Betriebsferien sind nicht bekannt, darum sagt der Status immer «laut Öffnungszeiten».</p>
+</Freigabe>
+</div>
+<Bild name="halle-schild" klasse="wo-bild" sizes="(min-width: 900px) 46vw, 100vw" alt="Hallengebäude mit dem Schild von Auto Speedy, davor ein Land Rover in Mattfolie" caption="Die Halle an der Alten Landstrasse 63." />
+</div></section>
+</Seite>

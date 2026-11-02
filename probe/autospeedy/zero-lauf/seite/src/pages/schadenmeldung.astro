@@ -1,0 +1,40 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Kreis from "../components/Kreis.astro";
+import Meldeformular from "../components/Meldeformular.astro";
+import Status from "../components/Status.astro";
+import Tel from "../components/Tel.astro";
+import Route from "../components/Route.astro";
+import Freigabe from "../components/Freigabe.astro";
+---
+<Seite title="Schaden melden: drei Angaben genügen | Auto Speedy AG" desc="Schaden am Auto melden bei Auto Speedy in Altstätten: Fahrzeug, Name und Telefon genügen. Ihr E-Mail-Programm öffnet die fertige Meldung." aktiv="schadenmeldung.html" ohneAbschluss klasse="meldung">
+<section class="seitenkopf" aria-labelledby="titel"><div class="rahmen">
+<h1 id="titel"><span class="ueber">Schadenmeldung an Auto Speedy in Altstätten<span class="sr">. </span></span><span class="titel-gross">Melden Sie den <span class="kreis-wort">Schaden.<Kreis /></span></span></h1>
+<p class="lead">Drei Angaben genügen: Fahrzeug, Name und Telefon. Fotos hängen Sie danach im E-Mail an.</p>
+<p class="hero-tel">Lieber anrufen? <Tel ort="schadenmeldung-kopf" /></p>
+</div></section>
+<section class="abschnitt melde-raster"><div class="rahmen melde-spalten">
+<div class="melde-haupt" id="formular">
+<Meldeformular />
+</div>
+<aside class="melde-seite" aria-label="Weitere Wege">
+<h2>Lieber anrufen?</h2>
+<p class="gross-tel"><Tel ort="meldung" /></p>
+<Status klasse="status-satz" />
+<h2>Fahren Sie einen Tesla?</h2>
+<p><a class="pfeil-link" href="tesla.html" data-ort="meldung">Hier wählen Sie das Modell</a></p>
+<h2>Was nach der Meldung geschieht</h2>
+<ol class="schritte">
+<li>Sie nennen Fahrzeug, Namen und Telefon.</li>
+<li>Ihr E-Mail-Programm öffnet die fertige Meldung, Sie senden sie ab.</li>
+<li>Nach dem Absenden liegt die Meldung im Postfach {b.mail}.</li>
+</ol>
+<p class="luecke">Wann und wie wir antworten, legt der Betrieb noch fest. Eine Frist nennen wir deshalb nicht. Bei Eile rufen Sie an.</p>
+</aside>
+</div>
+<div class="rahmen"><Freigabe titel="Offen vor dem Livegang: Antwort und Foto-Anhang">
+<p>Eine Antwortfrist und eine zuständige Person sind nicht freigegeben, darum steht keine Frist auf der Seite. Das Formular schreibt nur eine E-Mail, Fotos kann es nicht mitschicken. Soll das Formular Fotos annehmen, braucht es einen Server.</p>
+</Freigabe></div>
+</section>
+</Seite>

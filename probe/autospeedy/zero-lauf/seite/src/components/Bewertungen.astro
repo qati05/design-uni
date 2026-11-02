@@ -1,0 +1,23 @@
+---
+// Google-Bewertungen als Karten (Entscheid E6), kein fremdes Widget, nichts wird von Google geladen.
+// Schnitt mit Anzahl, Plattform und Stand-Datum (B4, R8). Die drei Zitate sind wörtlich; die Einwilligung der Verfasser ist offen (Freigabe-Notiz).
+import b from "../content/betrieb.json";
+import karten from "../content/bewertungen.json";
+import Freigabe from "./Freigabe.astro";
+const stern = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg>';
+const { ort = "bewertungen" } = Astro.props;
+---
+<section class="abschnitt bewertungen" aria-labelledby="bew-titel"><div class="rahmen">
+<div class="bew-kopf">
+<h2 id="bew-titel">So bewerten uns Kundinnen und Kunden.</h2>
+<p class="bew-summe"><span class="bew-zahl">{b.bewertung.schnitt}</span> <span class="bew-von">von 5 Sternen bei {b.bewertung.anzahl} Bewertungen auf Google Maps, Stand {b.bewertung.stand}.</span></p>
+<p class="klein leise">Verteilung: {b.bewertung.verteilung}. Der Betrieb hat bisher keine Bewertung beantwortet.</p>
+</div>
+<ul class="karten">{(karten as any[]).map((k) => (
+  <li class="karte"><p class="sterne"><span role="img" aria-label={`${k.sterne} von 5 Sternen`} set:html={stern.repeat(k.sterne)}></span></p><blockquote><p>«{k.text}»</p></blockquote><p class="quelle">{k.plattform}, {k.monat}</p></li>
+))}</ul>
+<p class="bew-link"><a href={b.bewertung.link} data-zaehl="bewertung" data-ort={ort} rel="noopener">Alle Bewertungen auf Google Maps lesen</a></p>
+<Freigabe titel="Offen vor dem Livegang: Bewertungen">
+<p>Die drei Karten geben öffentliche Google-Bewertungen wörtlich wieder, ohne Namen. Die Einwilligung der Verfasser fehlt noch. Ohne sie werden die Karten entfernt und nur Schnitt, Anzahl und Link bleiben.</p>
+</Freigabe>
+</div></section>

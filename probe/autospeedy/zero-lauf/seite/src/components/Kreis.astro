@@ -1,0 +1,9 @@
+---
+// Der Kreis: mit der Hand gezogen, in Logo-Marine. Eine Form, aus dem Foto des Felgenschadens (foto-06) und den zwei Schwüngen des Logos.
+// zeichnen=true: der Strich zieht sich einmal in 0,9 s (die eine Bewegung der Seite, nur auf der Startseite). Ohne CSS-Animation
+// (Reduced Motion, ohne JS) steht er fertig da. Der gezeichnete Kreis hat ein Seitenverhältnis von 5:1 (Wort «Schaden.»), die übrigen dehnen sich.
+const { zeichnen = false, klasse = "" } = Astro.props;
+---
+{zeichnen
+  ? <svg class={`kreis kreis-zeichnen ${klasse}`.trim()} viewBox="0 0 500 100" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M70 24C140 4 370 0 438 18C498 36 490 84 392 93C318 101 142 100 78 88C14 76 6 34 52 16C96 2 186-2 262 4"/></svg>
+  : <svg class={`kreis ${klasse}`.trim()} viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path vector-effect="non-scaling-stroke" d="M28 36C58 6 156 4 184 30C210 54 160 94 98 94C38 94 2 72 12 44C22 20 84 8 132 10"/></svg>}

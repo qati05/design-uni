@@ -1,0 +1,18 @@
+{
+  "name": "auto-speedy-vorschau",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "tokens": "node scripts/tokens.mjs",
+    "bilder": "python3 scripts/bilder.py",
+    "dev": "astro dev",
+    "build": "node scripts/tokens.mjs && astro build"
+  },
+  "dependencies": {
+    "astro": "7.4.4"
+  },
+  "devDependencies": {
+    "@fontsource/barlow": "^5.3.0",
+    "@fontsource/barlow-condensed": "^5.3.0"
+  }
+}

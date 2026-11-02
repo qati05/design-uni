@@ -1,0 +1,315 @@
+{
+ "name": "speedy",
+ "url": "../seite/dist",
+ "gemessenAm": "2026-11-02",
+ "desktop": {
+  "viewport": [
+   1440,
+   900
+  ],
+  "seitenhoeheBildschirme": 6.1,
+  "schrift": {
+   "familien": [
+    [
+     "Barlow",
+     0.92
+    ],
+    [
+     "Barlow Condensed",
+     0.08
+    ]
+   ],
+   "familienAb5Prozent": 2,
+   "fliesstextPx": 15,
+   "groesstePx": 144,
+   "stufenAb1Prozent": 10,
+   "versalAnteil": 0,
+   "monoAnteil": 0,
+   "kursivTitel": 0
+  },
+  "star": {
+   "text": "Zeigen Sie uns",
+   "px": 135,
+   "gewicht": 800,
+   "familie": "Barlow Condensed",
+   "versal": false,
+   "kursiv": false,
+   "laufweiteEm": -0.014,
+   "zeilenhoehe": 0.92,
+   "anteilBreite": 0.48,
+   "mitteX": 0.28,
+   "obenY": 0.18
+  },
+  "wortmarke": {
+   "anteilBreite": 0.36,
+   "hoehePx": 160,
+   "obenY": 0.33
+  },
+  "starZuFliess": 9,
+  "h1": {
+   "text": "Carrosserie und Autolackiererei in Altstätten. Zeigen Sie uns den Schaden.",
+   "px": 36
+  },
+  "erster": {
+   "woerter": 78,
+   "medienAnteil": 0.32,
+   "textAufMedien": 0,
+   "leerAnteil": 0.45,
+   "flaechen": [
+    [
+     "#e8edf3",
+     0.613
+    ],
+    [
+     "medium",
+     0.323
+    ],
+    [
+     "#26374e",
+     0.064
+    ]
+   ],
+   "handlungen": 9,
+   "knoepfe": 2,
+   "knopfTexte": [
+    "Schaden melden",
+    "Schaden melden"
+   ],
+   "navLinks": 6
+  },
+  "farbe": {
+   "grundSeite": "#e8edf3",
+   "textfarben": [
+    [
+     "#0f131b",
+     0.645
+    ],
+    [
+     "#46505f",
+     0.273
+    ],
+    [
+     "#26374e",
+     0.06
+    ],
+    [
+     "#e8edf3",
+     0.011
+    ],
+    [
+     "#ffffff",
+     0.011
+    ]
+   ]
+  },
+  "bauteile": {
+   "radien": {
+    "6": 6,
+    "pille": 3
+   },
+   "schattenElemente": 0,
+   "karten": 4,
+   "kleineIcons": 15
+  },
+  "raster": {
+   "kantenTop": [
+    [
+     56,
+     0.33
+    ],
+    [
+     80,
+     0.27
+    ],
+    [
+     528,
+     0.09
+    ],
+    [
+     88,
+     0.06
+    ],
+    [
+     576,
+     0.04
+    ],
+    [
+     976,
+     0.02
+    ]
+   ],
+   "disziplinTop4": 0.75
+  },
+  "bilder": {
+   "anzahl": 4,
+   "randlos": 0,
+   "formate": {
+    "hoch": 2,
+    "quer-4:3": 2
+   }
+  },
+  "bewegung": {
+   "bibliotheken": [],
+   "laufendeAnimationen": 0,
+   "autoplayVideos": 0,
+   "laufendNach4s": 0
+  },
+  "plattform": "anderes",
+  "kekse": null
+ },
+ "handy": {
+  "viewport": [
+   390,
+   844
+  ],
+  "seitenhoeheBildschirme": 9,
+  "schrift": {
+   "familien": [
+    [
+     "Barlow",
+     0.917
+    ],
+    [
+     "Barlow Condensed",
+     0.083
+    ]
+   ],
+   "familienAb5Prozent": 2,
+   "fliesstextPx": 15,
+   "groesstePx": 72,
+   "stufenAb1Prozent": 10,
+   "versalAnteil": 0,
+   "monoAnteil": 0,
+   "kursivTitel": 0
+  },
+  "star": {
+   "text": "Zeigen Sie uns",
+   "px": 59,
+   "gewicht": 800,
+   "familie": "Barlow Condensed",
+   "versal": false,
+   "kursiv": false,
+   "laufweiteEm": -0.014,
+   "zeilenhoehe": 0.92,
+   "anteilBreite": 0.77,
+   "mitteX": 0.42,
+   "obenY": 0.19
+  },
+  "wortmarke": {
+   "anteilBreite": 0.57,
+   "hoehePx": 69,
+   "obenY": 0.26
+  },
+  "starZuFliess": 3.9,
+  "h1": {
+   "text": "Carrosserie und Autolackiererei in Altstätten. Zeigen Sie uns den Schaden.",
+   "px": 36
+  },
+  "erster": {
+   "woerter": 81,
+   "medienAnteil": 0.06,
+   "textAufMedien": 0,
+   "leerAnteil": 0.4,
+   "flaechen": [
+    [
+     "#e8edf3",
+     0.838
+    ],
+    [
+     "#26374e",
+     0.1
+    ],
+    [
+     "medium",
+     0.063
+    ]
+   ],
+   "handlungen": 5,
+   "knoepfe": 2,
+   "knopfTexte": [
+    "Schaden melden",
+    "Schaden melden"
+   ],
+   "navLinks": 8
+  },
+  "farbe": {
+   "grundSeite": "#e8edf3",
+   "textfarben": [
+    [
+     "#0f131b",
+     0.642
+    ],
+    [
+     "#46505f",
+     0.272
+    ],
+    [
+     "#26374e",
+     0.064
+    ],
+    [
+     "#e8edf3",
+     0.011
+    ],
+    [
+     "#ffffff",
+     0.011
+    ]
+   ]
+  },
+  "bauteile": {
+   "radien": {
+    "6": 6,
+    "pille": 4
+   },
+   "schattenElemente": 0,
+   "karten": 0,
+   "kleineIcons": 15
+  },
+  "raster": {
+   "kantenTop": [
+    [
+     16,
+     0.45
+    ],
+    [
+     40,
+     0.39
+    ],
+    [
+     48,
+     0.06
+    ],
+    [
+     216,
+     0.05
+    ],
+    [
+     72,
+     0.02
+    ],
+    [
+     200,
+     0.01
+    ]
+   ],
+   "disziplinTop4": 0.94
+  },
+  "bilder": {
+   "anzahl": 4,
+   "randlos": 0,
+   "formate": {
+    "hoch": 2,
+    "quer-4:3": 2
+   }
+  },
+  "bewegung": {
+   "bibliotheken": [],
+   "laufendeAnimationen": 0,
+   "autoplayVideos": 0,
+   "laufendNach4s": 0
+  },
+  "plattform": "anderes",
+  "kekse": null
+ }
+}

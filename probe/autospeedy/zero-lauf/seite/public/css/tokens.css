@@ -1,0 +1,39 @@
+/* ERZEUGT aus src/tokens/tokens.json durch scripts/tokens.mjs. Nicht von Hand ändern. */
+:root {
+  --farbe-kabine: #e8edf3;
+  --farbe-kabinenlicht: #f5f7fa;
+  --farbe-tinte: #0f131b;
+  --farbe-leise: #46505f;
+  --farbe-marine: #26374e;
+  --farbe-marine-tief: #182638;
+  --farbe-schwung-grau: #b8b8c0;
+  --farbe-fuge: #c1c9d4;
+  --farbe-feldrand: #6b7686;
+  --farbe-boden-blau: #c7d3e6;
+  --farbe-fehler: #a3261c;
+  --schrift-titel: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --schrift-text: Barlow, Arial, sans-serif;
+  --schrift-klein: 0.9375rem;
+  --schrift-fliess: 1.125rem;
+  --schrift-lead: 1.5rem;
+  --schrift-h3: 2rem;
+  --schrift-h2: clamp(2.5rem, 5.2vw, 4.5rem);
+  --schrift-titel-gross: clamp(3.9rem, 10.4vw, 9.6rem);
+  --abstand-a1: 0.25rem;
+  --abstand-a2: 0.5rem;
+  --abstand-a3: 0.75rem;
+  --abstand-a4: 1rem;
+  --abstand-a5: 1.5rem;
+  --abstand-a6: 2rem;
+  --abstand-a7: 3rem;
+  --abstand-a8: 4.5rem;
+  --abstand-a9: 7rem;
+  --radius-feld: 6px;
+  --radius-kreis: 999px;
+  --bewegung-schnell: 150ms;
+  --bewegung-rueckmeldung: 200ms;
+  --bewegung-kreis-zeichnen: 900ms;
+  --bewegung-aus: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --funktional-fokus-breite: 3px;
+  --funktional-tippziel: 44px;
+}

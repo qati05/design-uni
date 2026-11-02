@@ -1,0 +1,5 @@
+---
+// Notiz für den Auftraggeber: was vor dem Livegang geklärt sein muss. Nur in der Vorschau sichtbar, nie Teil des Seitentexts.
+const { titel = "Offen vor dem Livegang" } = Astro.props;
+---
+<aside class="freigabe" aria-label={titel}><p class="freigabe-titel">{titel}</p><div class="freigabe-text"><slot /></div></aside>

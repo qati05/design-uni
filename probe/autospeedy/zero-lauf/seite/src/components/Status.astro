@@ -1,0 +1,7 @@
+---
+// Satz zum Öffnungsstatus. Ohne Skript steht die Zeitenzeile; das Skript ersetzt sie nach Zürcher Zeit (nie «morgen», immer Wochentag).
+import b from "../content/betrieb.json";
+const text = b.zeiten.filter((z) => z.fenster).map((z) => `${z.tage} ${z.fenster!.map(([v, e]) => `${v} bis ${e} Uhr`).join(" und ")}`).join(", ") + ".";
+const { klasse = "" } = Astro.props;
+---
+<p class={`status ${klasse}`.trim()} data-status>Offen {text}</p>

@@ -1,0 +1,12 @@
+---
+// Foto mit Pflichtangaben: Alt-Text, Breite, Höhe, mehrere Breiten (srcset). Mass und Breiten stehen in content/bilder.json (erzeugt von scripts/bilder.py).
+import masse from "../content/bilder.json";
+const { name, alt, caption, klasse = "", sizes = "100vw", lazy = true, fetch = false, breite } = Astro.props;
+const m = (masse as any)[name];
+if (!m) throw new Error(`Bild unbekannt: ${name}`);
+if (!alt || alt.split(/\s+/).length < 5) throw new Error(`Alt-Text zu kurz bei ${name}`);
+const breiten: number[] = m.breiten;
+const srcset = breiten.map((w) => `bilder/${name}-${w}.webp ${w}w`).join(", ");
+const gross = breiten[Math.min(1, breiten.length - 1)];
+---
+<figure class={`bild ${klasse}`.trim()}><img src={`bilder/${name}-${gross}.webp`} srcset={srcset} sizes={sizes} alt={alt} width={m.w} height={m.h} loading={lazy ? "lazy" : undefined} fetchpriority={fetch ? "high" : undefined} decoding="async">{caption && <figcaption>{caption}</figcaption>}</figure>

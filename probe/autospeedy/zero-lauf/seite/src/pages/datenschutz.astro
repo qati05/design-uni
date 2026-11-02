@@ -1,0 +1,24 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Mail from "../components/Mail.astro";
+import Freigabe from "../components/Freigabe.astro";
+---
+<Seite title="Datenschutz: was diese Seite speichert | Auto Speedy AG" desc="Diese Seite setzt keine Cookies, lädt nichts von fremden Servern und speichert nichts. Die Schadenmeldung geht nur per E-Mail an Auto Speedy." aktiv="datenschutz.html" klasse="text-seite">
+<section class="seitenkopf" aria-labelledby="titel"><div class="rahmen">
+<h1 id="titel"><span class="titel-gross titel-mittel">Datenschutz.</span></h1>
+</div></section>
+<section class="abschnitt"><div class="rahmen spalte-eng">
+<h2>Verantwortlich</h2>
+<p>{b.name}, {b.strasse}, {b.plz} {b.ort}. E-Mail: <Mail ort="datenschutz" />.</p>
+<h2>Was diese Seite tut</h2>
+<p>Die Seite setzt keine Cookies. Sie speichert nichts auf Ihrem Gerät. Schriften und Bilder liegen auf demselben Server wie die Seite. Es werden keine Zählung, kein Profil und keine Werbung eingesetzt.</p>
+<h2>Die Schadenmeldung</h2>
+<p>Das Formular sendet nichts selbst. Es bereitet eine E-Mail vor und öffnet Ihr E-Mail-Programm. Erst wenn Sie dort auf «Senden» tippen, gelangen Fahrzeug, Name, Telefon und Ihre Beschreibung an {b.mail}. Wir verwenden die Angaben nur, um Ihre Meldung zu beantworten.</p>
+<h2>Links zu anderen Anbietern</h2>
+<p>Die Route, die Bewertungen auf Google Maps und die Occasionen bei AutoScout24 sind einfache Links. Erst wenn Sie darauf tippen, verlassen Sie diese Seite. Dann gelten die Regeln des jeweiligen Anbieters.</p>
+<Freigabe titel="Offen vor dem Livegang: Datenschutz">
+<p>Dieser Text ist ein Entwurf und nicht juristisch geprüft. Offen sind der Hosting-Anbieter und sein Standort. Offen ist auch die Aufbewahrungsdauer der E-Mails. Zudem ist offen, ob eine spätere Zählung der Tipps auf Telefon- und Routenlinks unter Art. 45c FMG fällt. Heute zählt nichts.</p>
+</Freigabe>
+</div></section>
+</Seite>

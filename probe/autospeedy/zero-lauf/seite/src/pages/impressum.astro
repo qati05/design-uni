@@ -1,0 +1,25 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Tel from "../components/Tel.astro";
+import Mail from "../components/Mail.astro";
+import Freigabe from "../components/Freigabe.astro";
+---
+<Seite title="Impressum der Auto Speedy AG in Altstätten | Auto Speedy" desc="Impressum von Auto Speedy AG, Alte Landstrasse 63, 9450 Altstätten: Firma, Sitz, Unternehmens-Identifikationsnummer und Kontakt." aktiv="impressum.html" klasse="text-seite">
+<section class="seitenkopf" aria-labelledby="titel"><div class="rahmen">
+<h1 id="titel"><span class="titel-gross titel-mittel">Impressum.</span></h1>
+</div></section>
+<section class="abschnitt"><div class="rahmen spalte-eng">
+<h2>Firma</h2>
+<p>{b.name}<br>{b.strasse}<br>{b.plz} {b.ort}</p>
+<p>Aktiengesellschaft mit Sitz in {b.ort} SG. Unternehmens-Identifikationsnummer {b.uid}. Eingetragen im Handelsregister am 16. November 2016.</p>
+<p>Zweck laut Handelsregister: Betrieb einer Carrosserie, Autospenglerei und Autolackiererei sowie Autohandel.</p>
+<h2>Kontakt</h2>
+<p>Telefon <Tel ort="impressum" />, E-Mail <Mail ort="impressum" />.</p>
+<h2>Vertretung</h2>
+<p>Im Handelsregister ist Shpejtim Pirku als Mitglied des Verwaltungsrates mit Einzelunterschrift eingetragen.</p>
+<Freigabe titel="Offen vor dem Livegang: Impressum">
+<p>Die Angaben stammen aus Registerauszügen von help.ch und unternehmensindex.ch (Stand 1. November 2026). Sie sind nicht juristisch geprüft. Mehrwertsteuernummer und Hosting-Anbieter fehlen.</p>
+</Freigabe>
+</div></section>
+</Seite>

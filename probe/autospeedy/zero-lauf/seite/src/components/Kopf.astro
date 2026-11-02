@@ -1,0 +1,26 @@
+---
+// Kopf, fest oben: Logo, Hauptmenü, Telefon (ab 1100 px), die eine Handlung «Schaden melden» (auf jeder Seite, jedem Gerät: Entscheid E1) und das Handy-Menü.
+import b from "../content/betrieb.json";
+import Tel from "./Tel.astro";
+import Hauptaktion from "./Hauptaktion.astro";
+import Route from "./Route.astro";
+const { aktiv = "" } = Astro.props;
+const cur = (h: string) => (aktiv === h ? "page" : undefined);
+---
+<header class="kopf">
+<div class="kopf-innen">
+<a class="marke" href="index.html"><img src="logo/logo.png" width="469" height="162" alt={`${b.name}, zur Startseite`}></a>
+<nav class="nav-desktop" aria-label="Hauptmenü"><ul>{b.nav.map(([h, t]) => <li><a href={h} aria-current={cur(h)}>{t}</a></li>)}</ul></nav>
+<div class="kopf-aktionen">
+<Tel ort="kopf" klasse="kopf-tel" zusatz="Anrufen:" />
+<Hauptaktion ort="kopf" aktuell={aktiv === "schadenmeldung.html"} />
+<details class="menue"><summary aria-label="Menü"><span class="menue-ring" aria-hidden="true"><span></span><span></span></span><span class="sr">Menü öffnen oder schliessen</span></summary>
+<div class="menue-panel"><nav aria-label="Menü"><ul>
+<li><a href="index.html" aria-current={cur("index.html")}>Start</a></li>
+{b.nav.map(([h, t]) => <li><a href={h} aria-current={cur(h)}>{t}</a></li>)}
+</ul></nav>
+<p class="menue-fakten"><Tel ort="menue" zusatz="Anrufen:" /><br><Route ort="menue" text="Route öffnen" /></p></div>
+</details>
+</div>
+</div>
+</header>
