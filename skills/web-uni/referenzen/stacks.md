@@ -62,34 +62,34 @@ Hinweise `[Annahme]`: (1) **eine Adresse, ein Stack**; die Grenze liegt an der A
 
 ### D · Baukasten oder CMS (Webflow, Wix, Squarespace, Framer, WordPress, Shopify) `[nicht gebaut]`
 
-Zahlen `[gelesen]` aus der Recherche vom 02.11.2026; Quellen mit Nummer in [stack-wahl.md](stack-wahl.md), Liste am Ende.
+Zahlen `[gelesen]` aus der Recherche vom 02.11.2026; Quellen WQ1 bis WQ89 in [stack-wahl.md](stack-wahl.md), Liste am Ende.
 
-- **Marktanteile:** WordPress 39,5 % aller Websites und 58,2 % der Sites mit erkanntem CMS (S8). Unter .ch-Sites mit erkanntem CMS: WordPress 50,8 %, Wix 9,1 %, Shopify 4,1 % (S9); Wix ist unter .ch fast doppelt so häufig wie im Weltschnitt (S10). Headless-CMS je unter 0,1 % (S8), weil sie im HTML kaum Spuren hinterlassen `[Annahme]`. Rund 60 % der WordPress-Sites nutzen einen Page Builder, Elementor 43 % (S11).
+- **Marktanteile:** WordPress 39,5 % aller Websites und 58,2 % der Sites mit erkanntem CMS (WQ8). Unter .ch-Sites mit erkanntem CMS: WordPress 50,8 %, Wix 9,1 %, Shopify 4,1 % (WQ9); Wix ist unter .ch fast doppelt so häufig wie im Weltschnitt (WQ10). Headless-CMS je unter 0,1 % (WQ8), weil sie im HTML kaum Spuren hinterlassen `[Annahme]`. Rund 60 % der WordPress-Sites nutzen einen Page Builder, Elementor 43 % (WQ11).
 - **Feldwerte (CrUX, mobil, September 2026), Anteil mit allen drei CWV gut:**
 
 | Stack | global | Besucher aus CH | Lighthouse Median global | Quelle |
 |---|---|---|---|---|
-| Wix | 81 % | 93 % | 61 | S3, S4 |
-| Webflow | 71 % | 83 % | 63 | S3, S4 |
-| Framer | 71 % | 74 % | 67 | S2, S4 |
-| Squarespace | 71 % | 86 % | 30 | S3, S4 |
-| WordPress | 48 % | 70 % | 43 | S1, S4 |
-| zum Vergleich: Astro | 71 % | 83 % | 70 | S1, S4 |
-| zum Vergleich: Next.js | 36 % | 55 % | 53 | S1, S4 |
+| Wix | 81 % | 93 % | 61 | WQ3, WQ4 |
+| Webflow | 71 % | 83 % | 63 | WQ3, WQ4 |
+| Framer | 71 % | 74 % | 67 | WQ2, WQ4 |
+| Squarespace | 71 % | 86 % | 30 | WQ3, WQ4 |
+| WordPress | 48 % | 70 % | 43 | WQ1, WQ4 |
+| zum Vergleich: Astro | 71 % | 83 % | 70 | WQ1, WQ4 |
+| zum Vergleich: Next.js | 36 % | 55 % | 53 | WQ1, WQ4 |
 
 Korrelation, keine Ursache: Baukästen tragen oft einfachere Seiten, und der Anbieter optimiert Bilder und Caching zentral `[Annahme]`. Die CH-Werte messen Besucher, nicht Schweizer Websites.
 
-- **Lock-in:** Wix geschlossen, die Website muss auf Wix laufen (S17). Squarespace nur Teilexport als WordPress-XML, ohne Shop, Stile, eigenes CSS (S18). Webflow: Code-Export nur mit bezahltem Workspace, ohne CMS-Funktion, Formulare, Suche und Zusatzsprachen (S14). Framer: zwei Hilfeseiten widersprechen sich (S15, S16). WordPress offen (WXR-Export), Layouts aus Page Buildern bleiben am Plugin (S19, `[Annahme]` für die Bindung).
-- **Standort:** Webflow, Framer, Squarespace und Wix hosten in den USA, Framer auch in Europa und Asien-Pazifik, Wix auch in Irland (S50 bis S54); Swiss-U.S. Data Privacy Framework seit 15.09.2024 für zertifizierte Anbieter (S55).
+- **Lock-in:** Wix geschlossen, die Website muss auf Wix laufen (WQ17). Squarespace nur Teilexport als WordPress-XML, ohne Shop, Stile, eigenes CSS (WQ18). Webflow: Code-Export nur mit bezahltem Workspace, ohne CMS-Funktion, Formulare, Suche und Zusatzsprachen (WQ14). Framer: zwei Hilfeseiten widersprechen sich (WQ15, WQ16). WordPress offen (WXR-Export), Layouts aus Page Buildern bleiben am Plugin (WQ19, `[Annahme]` für die Bindung).
+- **Standort:** Webflow, Framer, Squarespace und Wix hosten in den USA, Framer auch in Europa und Asien-Pazifik, Wix auch in Irland (WQ50 bis WQ54); Swiss-U.S. Data Privacy Framework seit 15.09.2024 für zertifizierte Anbieter (WQ55).
 - Stärken `[Annahme]`: der Betrieb pflegt selbst, Formulare, Buchung und Zahlung als Baustein, wenig Betriebsaufwand, hoher Boden im Feld (Tabelle oben).
 - Schwächen `[Annahme]`: Gestaltungsspielraum begrenzt, Anbieterbindung, laufende Kosten je Sitz und Sprache (stack-wahl.md, Situation 9), oft Fremd-Skripte.
 - **Der Auftritt der Probe lag vorher auf Wix** (`probe/autospeedy/fakten.md`). Die Bewertung dieses Zustands ist nicht Teil der Messungen.
 
 #### Shops in Klasse D `[nicht gebaut]`
 
-- **Verbreitung bei Besuchern aus der Schweiz** (Origins im Tech Report): Shopify 4'646, WooCommerce 2'918, Wix eCommerce 1'332, Magento 787, PrestaShop 570, Shopware 523, Squarespace Commerce 467 (S6).
-- **Feldwerte, alle drei CWV gut, global und CH:** Shopware 84 % und 85 %, Wix eCommerce 79 % und 93 %, Shopify 76 % und 81 %, Squarespace Commerce 71 % und 86 %, PrestaShop 61 % und 79 %, Magento 45 % und 58 %, WooCommerce 39 % und 59 % (S5, S6). Shopify headless mit Hydrogen 50 % bei 1'534 Origins (S7).
-- **Lock-in:** Shopify teilweise: Produkte und Kunden als CSV, Kundenpasswörter nicht, das Theme läuft nur auf Shopify (S28, S29; Theme `[Annahme]`). Wix: kein Umzug zu einem anderen Hoster (S17). WooCommerce und Shopware: Code und Datenbank beim Betreiber `[Annahme]`.
+- **Verbreitung bei Besuchern aus der Schweiz** (Origins im Tech Report): Shopify 4'646, WooCommerce 2'918, Wix eCommerce 1'332, Magento 787, PrestaShop 570, Shopware 523, Squarespace Commerce 467 (WQ6).
+- **Feldwerte, alle drei CWV gut, global und CH:** Shopware 84 % und 85 %, Wix eCommerce 79 % und 93 %, Shopify 76 % und 81 %, Squarespace Commerce 71 % und 86 %, PrestaShop 61 % und 79 %, Magento 45 % und 58 %, WooCommerce 39 % und 59 % (WQ5, WQ6). Shopify headless mit Hydrogen 50 % bei 1'534 Origins (WQ7).
+- **Lock-in:** Shopify teilweise: Produkte und Kunden als CSV, Kundenpasswörter nicht, das Theme läuft nur auf Shopify (WQ28, WQ29; Theme `[Annahme]`). Wix: kein Umzug zu einem anderen Hoster (WQ17). WooCommerce und Shopware: Code und Datenbank beim Betreiber `[Annahme]`.
 - **TWINT, MWST, PBV, UWG lit. s, Widerruf, Versand:** [stack-wahl.md](stack-wahl.md), Teil 6; Wortlaut und Recht bei text-uni.
 
 ### E · Erlebnis-Zuschlag (WebGL, WebGPU, Video, grosse Animation)
