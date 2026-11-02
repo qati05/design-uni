@@ -10,7 +10,7 @@ Stand 1. November 2026. Versionen `[gelesen · npm-Registry, 2026-11-01]`; **vor
 | React | 19.3.1 | `[gebaut und gemessen]` im Next-Spike |
 | three | 0.187.0 | `[gebaut und gemessen]` |
 | @react-three/fiber | 9.8.2 | `[gebaut und gemessen]` |
-| Astro | 7.4.4 | `[nicht gebaut]` |
+| Astro | 7.4.4 | `[gebaut und gemessen]` nur als 1:1-Übernahme der Startseite, ohne Komponenten und CMS |
 | SvelteKit | 3.1.1 | `[nicht gebaut]` |
 | GSAP | 3.15.0 | `[nicht gebaut]` |
 | Motion | 14.9.0 | `[nicht gebaut]` |
@@ -30,9 +30,9 @@ Stand 1. November 2026. Versionen `[gelesen · npm-Registry, 2026-11-01]`; **vor
 - Wann: bis etwa 15 Seiten, seltene Änderungen durch einen Entwickler oder eine Agentur, Geschwindigkeit ist Argument.
 - Wann nicht: der Betrieb will Preise, Fotos oder Texte selbst ändern, ohne Entwickler.
 
-### B · Statischer Generator mit Inhaltsdateien (Astro, Eleventy, …) `[nicht gebaut]`
+### B · Statischer Generator mit Inhaltsdateien (Astro, Eleventy, …) `[Astro: gebaut und gemessen, nur 1:1-Übernahme]`
 
-- Aussage aus Quellen `[gelesen]`: wenig bis kein JS standardmässig, Inhalte in Markdown oder CMS, Inseln für Interaktives. Ob das in diesem Repo auch so misst: **offen**. Als Nächstes zu bauen und mit `next` und `statisch` zu vergleichen.
+- Aussage aus Quellen `[gelesen]`: wenig bis kein JS standardmässig, Inhalte in Markdown oder CMS, Inseln für Interaktives. In diesem Repo gemessen: bei statischer Ausgabe gleich schnell wie handgeschriebenes HTML (Score 96, 3,6 KB JS, messungen.md). **Offen:** Nutzen für die Pflege (Komponenten, Inhaltsdateien, Git-CMS wie Keystatic, Decap, Tina) und Verhalten mit interaktiven Inseln.
 - Wann (Annahme): mehr Seiten oder Inhalte, die wiederkehren (Occasionen, Team, Beiträge), oder ein CMS im Hintergrund.
 
 ### C · React-Framework (Next.js App Router) `[gebaut und gemessen, nur statischer Export]`

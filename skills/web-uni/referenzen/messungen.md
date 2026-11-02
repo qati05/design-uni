@@ -8,6 +8,7 @@ Stand 1. November 2026. Quelle der Bauten: `probe/autospeedy/stack-spikes/`. All
 |---|---|---|
 | `statisch` | Startseite der Probe Auto Speedy, handgeschriebenes HTML/CSS, 3,6 KB JS | `probe/autospeedy/site/` |
 | `next` | **dieselbe** Seite in Next.js 16.4.3 (statischer Export, React 19.3.1); der Seiteninhalt wird als fertiges HTML über `dangerouslySetInnerHTML` eingesetzt, CSS und Bilder identisch | `stack-spikes/next-app`, Route `/` |
+| `astro` | **dieselbe** Startseite in Astro 7.4.4 (statische Ausgabe, kein Framework-JS, Seite 1:1 als `index.astro`), CSS, JS und Bilder identisch | `stack-spikes/astro-app` |
 | `next3d` | wie `next`, dazu eine 3D-Szene (three 0.187.0, @react-three/fiber 9.8.2): **Foto zuerst**, Szene erst im Leerlauf und nur ohne `prefers-reduced-motion` und mit WebGL2 | Route `/dreid` |
 
 ## Ergebnis (Median)
@@ -15,12 +16,15 @@ Stand 1. November 2026. Quelle der Bauten: `probe/autospeedy/stack-spikes/`. All
 | | Score | FCP | LCP | TBT | CLS | JS (komprimiert) | Gesamtgewicht |
 |---|---|---|---|---|---|---|---|
 | `statisch` | **97** | 909 ms | 2645 ms | 0 ms | 0 | **3,6 KB** | 320 KB |
+| `astro` | 96 | – | 2709 ms | 0 ms | 0 | 3,6 KB | 320 KB |
 | `next` | 89 | 718 ms | 3619 ms | 133 ms | 0 | 137,3 KB | 460 KB |
 | `next3d` | 60 | 711 ms | 3614 ms | **3366 ms** | 0 | 377,8 KB | 700 KB |
 
 Einzelläufe Score: statisch 97/96/97, next 89/89/89, next3d 64/60/60. LCP next3d: 3019/3614/3615 ms.
 
 `[gebaut und gemessen · 2026-11-01]`
+
+**Astro:** Median aus 3 Läufen, gleiche Bedingungen. Das Ergebnis ist praktisch gleich wie beim handgeschriebenen HTML (Score 96 gegen 96 bis 97, 3,6 KB JS, gleiches Gewicht). Das beweist nur, dass Astro **bei statischer Ausgabe nichts kostet**. Es beweist **nicht** den Nutzen für die Pflege (Komponenten, Inhaltsdateien, CMS): Die Seite wurde unverändert übernommen, ohne Komponenten und ohne Inhaltsdatei. `[gebaut und gemessen · 2026-11-01]`
 
 ## Was daraus folgt, und was nicht
 
