@@ -1,20 +1,27 @@
 ---
-// Schadenmeldung (Hauptaktion). Kein Server-Endpunkt: Übergabe an das E-Mail-Programm, ehrliche Rückmeldung (zusammenspiel Teil 7).
+// Schadenmeldung mit Schadenplan und Schadenrapport. Zwei Wege (zusammenspiel Teil 7):
+//   bau.formularEndpunkt gesetzt: POST an den Endpunkt, «angekommen» nur bei Antwort 200.
+//   sonst: Übergabe an das E-Mail-Programm, ehrlicher Text, nie «gesendet».
 import Seite from "../layouts/Seite.astro";
 import Tel from "../components/Tel.astro";
-import { betrieb as b, seite as lies } from "../../bau/daten.mjs";
+import Schadenplan from "../components/Schadenplan.astro";
+import stellenDaten from "../content/stellen.json";
+import { betrieb as b, bau, seite as lies } from "../../bau/daten.mjs";
 const h1 = lies("schaden-melden").h1;
+const stellen = (stellenDaten as any).stellen;
+const endpunkt = bau.formularEndpunkt || "";
 ---
 <Seite seite="schaden-melden" eigeneH1 abschluss={false}>
 <div class="formularseite">
 <div class="formularseite__kopf">
   <p class="idee idee--klein">Schaden passiert. Jetzt melden.</p>
-<svg class="schwung" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 18 C 60 4, 150 2, 236 10" pathLength="1"/></svg>
+  <svg class="schwung" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 18 C 60 4, 150 2, 236 10" pathLength="1"/></svg>
   <h1>{h1}</h1>
-  <p>Beschreiben Sie kurz, was passiert ist. Die Abwicklung mit Ihrer Versicherung übernehmen wir.</p>
+  <p>Zeigen Sie uns die Stelle am Auto und beschreiben Sie kurz, was passiert ist. Die Abwicklung mit Ihrer Versicherung übernehmen wir.</p>
   <p class="formularseite__tel">Lieber sprechen? <Tel ort="schaden" /></p>
 </div>
-<form id="schaden-form" action={`mailto:${b.mail}?subject=Schadenmeldung`} method="post" enctype="text/plain" data-zaehl-start="schaden-start" data-zaehl-ende="schaden-ende">
+<div class="formularseite__rechts">
+<form id="schaden-form" action={endpunkt || `mailto:${b.mail}?subject=Schadenmeldung`} method="post" enctype={endpunkt ? "application/x-www-form-urlencoded" : "text/plain"} data-endpunkt={endpunkt} data-mail={b.mail} data-zaehl-start="schaden-start" data-zaehl-ende="schaden-ende">
   <p class="hilfe">Felder mit «(Pflicht)» brauchen wir, um Sie zu erreichen.</p>
   <fieldset>
     <legend>1 · Ihr Fahrzeug (Pflicht)</legend>
@@ -23,32 +30,40 @@ const h1 = lies("schaden-melden").h1;
       <label><input type="radio" name="Fahrzeug" value="Andere Marke" required> Andere Marke</label>
     </div>
   </fieldset>
-  <fieldset>
-    <legend>2 · Art des Schadens (freiwillig)</legend>
-    <div class="wahl">
-      <label><input type="radio" name="Schadenart" value="Unfall oder Blechschaden"> Unfall, Blech</label>
-      <label><input type="radio" name="Schadenart" value="Hagel oder Delle"> Hagel, Delle</label>
-      <label><input type="radio" name="Schadenart" value="Kratzer oder Lack"> Kratzer, Lack</label>
-      <label><input type="radio" name="Schadenart" value="Scheibe"> Scheibe</label>
-      <label><input type="radio" name="Schadenart" value="Felge"> Felge</label>
+  <fieldset class="stellenwahl">
+    <legend>2 · Wo ist der Schaden? (freiwillig)</legend>
+    <p class="hilfe">Tippen Sie aufs Auto oder wählen Sie unten. Mehrere Stellen sind möglich.</p>
+    <div class="stellenwahl__inhalt">
+      <div class="stellenwahl__auto" data-nur-js hidden><Schadenplan modus="wahl" titel="Auto von oben mit den gewählten Stellen" /></div>
+      <div class="wahl wahl--stellen">
+        {stellen.map((s: any) => <label><input type="checkbox" name="Stelle" value={s.name} data-stelle={s.id}> {s.name}</label>)}
+      </div>
     </div>
   </fieldset>
-  <div><label for="f-schaden">3 · Was ist passiert? (Pflicht)</label><textarea id="f-schaden" name="Beschreibung" required></textarea><p class="hilfe">Zum Beispiel: Parkschaden hinten links, Stossstange eingedrückt.</p></div>
+  <div><label for="f-schaden">3 · Was ist passiert? (Pflicht)</label><textarea id="f-schaden" name="Beschreibung" required></textarea><p class="hilfe">Zum Beispiel: Parkschaden, Stossstange hinten links eingedrückt.</p></div>
   <div><label for="f-name">4 · Name (Pflicht)</label><input id="f-name" name="Name" type="text" autocomplete="name" required></div>
   <div><label for="f-tel">5 · Telefon (Pflicht)</label><input id="f-tel" name="Telefon" type="tel" autocomplete="tel" required><p class="hilfe">Damit wir Sie für Rückfragen erreichen.</p></div>
-  <button class="knopf knopf--gross" type="submit">Meldung im E-Mail-Programm öffnen</button>
-  <p class="hilfe">Verantwortlich: {b.name}. Ihre Angaben dienen nur der Bearbeitung Ihrer Meldung. Fotos vom Schaden hängen Sie in Ihrem E-Mail-Programm an. Gesendet ist die Meldung erst, wenn Sie dort auf Senden tippen.</p>
+  <div class="honig" aria-hidden="true"><label for="f-web">Bitte leer lassen</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+  <button class="knopf knopf--gross" type="submit">{endpunkt ? "Schadenrapport senden" : "Schadenrapport erstellen"}</button>
+  <p class="hilfe">Verantwortlich: {b.name}. Ihre Angaben dienen nur der Bearbeitung Ihrer Meldung.{endpunkt ? "" : " Fotos vom Schaden hängen Sie in Ihrem E-Mail-Programm an."}</p>
   <p data-rueckmeldung hidden role="status"></p>
 </form>
+
+<article class="rapport" data-rapport hidden aria-labelledby="rapport-titel" tabindex="-1">
+  <header class="rapport__kopf"><img src="/bilder/logo-96.webp" width="135" height="48" alt=""><div><h2 id="rapport-titel">Schadenrapport</h2><p data-r-datum></p></div></header>
+  <div class="rapport__inhalt">
+    <div class="rapport__auto" data-r-auto></div>
+    <dl>
+      <dt>Fahrzeug</dt><dd data-r-fahrzeug></dd>
+      <dt>Stellen</dt><dd data-r-stellen></dd>
+      <dt>Was ist passiert?</dt><dd data-r-text></dd>
+      <dt>Kontakt</dt><dd data-r-kontakt></dd>
+    </dl>
+  </div>
+  <p class="rapport__stand" data-r-stand></p>
+  <div class="rapport__aktionen"><a class="knopf" data-r-mail href="#">Im E-Mail-Programm öffnen</a><button class="knopf knopf--zweit" type="button" data-r-zurueck>Angaben ändern</button></div>
+</article>
+</div>
 </div>
 </Seite>
-<script is:inline>
-(function () {
-  var f = document.getElementById("schaden-form"); if (!f) return;
-  if (new URLSearchParams(location.search).get("fahrzeug") === "tesla") { var r = f.querySelector('input[value="Tesla"]'); if (r) r.checked = true; }
-  f.addEventListener("submit", function () {
-    var r = f.querySelector("[data-rueckmeldung]"); r.hidden = false;
-    r.textContent = "Ihr E-Mail-Programm öffnet sich mit Ihrer Meldung. Gesendet ist sie erst, wenn Sie dort auf Senden tippen. Öffnet sich nichts, rufen Sie uns an: 071 755 88 61.";
-  });
-})();
-</script>
+<script is:inline src="/js/schaden.js" defer></script>

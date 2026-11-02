@@ -47,3 +47,10 @@ Boden gemessen: Reduced Motion 0 Animationen; nach 5 s läuft nichts; `h1` und T
 - Bleibt: schräger Schnitt (Logo-Schwung), Bewegungen GB6, GB1, GB5, kursive Titel.
 - Wunsch 3 «hell und übersichtlich» ist damit wieder voll erfüllt.
 - Kontrast (gerechnet, dunkelste Stelle Babyblau `#b9dbf7`): Schrift `#14202a` 11,5:1; Blau `#0f4f94` 5,7:1; Weiss auf Schild-Blau 5,8:1 bis 8,2:1. Messung aller Seiten: 0 unter Soll.
+
+## Signatur «Schadenplan» (Auftrag Studio, 02.11.2026: «eine spezielle Art, die es als die Auto-Speedy-Website macht»)
+- **Die eine grosse Entscheidung (System):** Das Auto von oben, Blech für Blech, mit Spaltmassen in Navy wie am echten Fahrzeug. Jedes Blech ist im Lackverlauf lackiert; die Stelle unter dem Finger wird Schild-Blau. Der Plan ist zugleich die Hauptaktion (Wunsch 1: Schadenmeldung immer möglich) und das Erkennungszeichen.
+- **Wo:** Startseite «Wo hat es Ihr Auto erwischt?» (jede Stelle ist ein Link zur Meldung mit dieser Stelle; Feld daneben zeigt Stelle und passende Leistung aus fakten.md); Schadenmeldung Schritt 2 (Stellen an- und abwählen, synchron mit Kästchen); Schadenrapport nach dem Absenden mit dem Auto und den markierten Stellen.
+- **Tauschtest:** Ein Coiffeur oder Schreiner kann ihn nicht haben; eine andere Carrosserie könnte ihn bauen, aber die Farben, der Lackverlauf und der Schwung gehören Auto Speedy. Blind nicht geprüft.
+- **Zwölf Stellen** mit Leistungen nur aus fakten.md (F5, F6, F16). Keine Fristen, keine Preise.
+- **Boden:** ohne JavaScript sind die Stellen Links und die Kästchen ein normales Formular; Tastatur: jede Stelle mit Fokus erreichbar; Bildschirmleser lesen «Motorhaube: Schaden hier melden»; Reduced Motion ohne Übergänge.

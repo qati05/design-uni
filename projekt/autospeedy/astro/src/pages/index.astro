@@ -6,15 +6,11 @@ import Zeiten from "../components/Zeiten.astro";
 import Route from "../components/Route.astro";
 import Tel from "../components/Tel.astro";
 import Mail from "../components/Mail.astro";
+import Schadenplan from "../components/Schadenplan.astro";
+import stellenDaten from "../content/stellen.json";
 import { betrieb as b, seite as lies } from "../../bau/daten.mjs";
 const h1 = lies("index").h1;
-const wege = [
-  { nr: "01", titel: "Unfall oder Blechschaden", text: "Vom kleinen Blechschaden bis zum Chassisschaden.", pfad: "/carrosserie/", foto: "hebebuehne", alt: "Schwarzer Audi mit abgebauter Front auf der Hebebühne" },
-  { nr: "02", titel: "Hagel oder Delle", text: "Dellendrücken und Hagelschäden.", pfad: "/carrosserie/#hagel", foto: "dellen", alt: "Mitarbeiter drückt eine Delle an einem weissen Auto" },
-  { nr: "03", titel: "Kratzer oder Lackschaden", text: "Von einfachen Lackschäden bis zur Neulackierung.", pfad: "/lackiererei/", foto: "lackierkabine", alt: "Lackierer in der Lackierkabine, Fahrzeugteile abgeklebt" },
-  { nr: "04", titel: "Felge beschädigt", text: "Arbeiten an Alufelgen, Bilder aus der Werkstatt.", pfad: "/felgen-folierung/", foto: "felge-markiert", alt: "Alufelge mit blau markiertem Schaden am Felgenrand" },
-  { nr: "05", titel: "Tesla beschädigt", text: "Auto Speedy ist Tesla Approved Body Shop.", pfad: "/tesla/", foto: "werkstatt", alt: "Helle Werkstatthalle mit Fahrzeug und Messgerät" },
-];
+const stellen = (stellenDaten as any).stellen;
 ---
 <Seite seite="index" jsonld eigeneH1>
 <div class="start">
@@ -34,11 +30,20 @@ const wege = [
   </figure>
 </div>
 
-<section class="band band--weiss" aria-labelledby="wege-titel">
-  <h2 id="wege-titel" class="band__titel">Was ist passiert?</h2>
-  <ul class="wege">
-    {wege.map((w) => <li><a href={w.pfad}><Foto name={w.foto} alt={w.alt} sizes="(max-width: 860px) 50vw, 20vw" /><span class="wege__nr">{w.nr}</span><span class="wege__titel">{w.titel}</span><span class="wege__text">{w.text}</span></a></li>)}
-  </ul>
+<section class="band band--weiss planband" aria-labelledby="plan-titel">
+  <div class="planband__text">
+    <h2 id="plan-titel" class="band__titel">Wo hat es Ihr Auto erwischt?</h2>
+    <p>Tippen Sie auf die Stelle. Wir öffnen die Schadenmeldung mit dieser Stelle schon ausgewählt.</p>
+    <div class="planband__info" aria-live="polite" data-plan-info>
+      <p class="planband__stelle" data-info-name>Stelle wählen</p>
+      <p data-info-leistung>Vom Kratzer an der Stossstange bis zum Hagel auf dem Dach.</p>
+      <a class="knopf" href="/schaden-melden/" data-info-link data-zaehl="anfrage" data-ort="schadenplan">Schaden melden</a>
+    </div>
+    <ul class="planband__liste">
+      {stellen.map((s: any) => <li><a href={`/schaden-melden/?stelle=${s.id}`}>{s.name}</a></li>)}
+    </ul>
+  </div>
+  <div class="planband__auto"><Schadenplan modus="links" titel="Auto von oben: Stelle des Schadens antippen" /></div>
 </section>
 
 <section class="band band--nacht" aria-labelledby="ablauf-titel">
@@ -85,3 +90,18 @@ const wege = [
   </div>
 </section>
 </Seite>
+<script is:inline>
+(function () {
+  var info = document.querySelector("[data-plan-info]"); if (!info) return;
+  var name = info.querySelector("[data-info-name]"), leis = info.querySelector("[data-info-leistung]"), link = info.querySelector("[data-info-link]");
+  [].forEach.call(document.querySelectorAll('.plan--links .plan__stelle'), function (a) {
+    function an() {
+      [].forEach.call(document.querySelectorAll('.plan--links .plan__stelle'), function (x) { x.classList.remove("ist-aktiv"); });
+      a.classList.add("ist-aktiv");
+      name.textContent = a.dataset.name; leis.textContent = a.dataset.leistung;
+      link.href = a.getAttribute("href"); link.textContent = a.dataset.name + ": Schaden melden";
+    }
+    a.addEventListener("mouseenter", an); a.addEventListener("focus", an);
+  });
+})();
+</script>

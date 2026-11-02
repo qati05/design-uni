@@ -21,3 +21,9 @@
 
 ## Bewegung (WP3)
 GB6, GB1, GB5: Stufe 1, nur CSS (`clip-path`, `stroke-dashoffset`, Farbe), 0 KB JavaScript. Rückfall: ohne Animation steht alles offen; unter Reduced Motion aus. LCP: das Startfoto wird 900 ms lang aufgedeckt, das kann den gemessenen LCP verschieben; Lighthouse nicht gelaufen.
+
+## Formular-Backend (WP4) · gebaut, getestet, **nicht deployt**
+- `functions/api/schaden.js`: Cloudflare Pages Function, `POST /api/schaden`, JSON. Prüft Fahrzeug, Beschreibung, Name, Telefon, Stellen (Längen, Format), Herkunft (`ERLAUBTE_HERKUNFT`), Grösse (10 KB), Spamschutz mit Honigtopf «website». Speichert nichts; leitet an einen Mail-Dienst weiter (`MAIL_ENDPUNKT`, `MAIL_SCHLUESSEL`, `MAIL_AN`). Fehlt die Einrichtung, antwortet sie 503, nie «angekommen».
+- Tests: `npm test`, 9 von 9 grün (Erfolg, Pflichtfelder, Honigtopf, fremde Herkunft, Format, Grösse, nicht eingerichtet, Mail-Dienst fällt aus, Telefon/Stellen) `[gebaut und gemessen · 02.11.2026]`. Ohne Netz, Mail-Dienst simuliert.
+- Frontend (`public/js/schaden.js`): mit `bau.json formularEndpunkt` POST und «angekommen» nur bei 200; sonst Rapport und Übergabe an das E-Mail-Programm. Doppeltes Senden gesperrt.
+- **Offen vor dem Einschalten:** Mail-Dienst wählen (Sitz Schweiz oder EU bevorzugt), Datenschutzerklärung ergänzen (text-uni CL3), Anfragekette mit dem Betrieb (wer liest, wann), Foto-Upload (braucht Speicher und Löschfrist, darum noch nicht gebaut).

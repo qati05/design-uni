@@ -1,0 +1,22 @@
+---
+// Signatur von Auto Speedy: das Auto von oben, Blech für Blech mit Spaltmass.
+// modus «links»: jede Stelle ist ein Link zur Schadenmeldung mit dieser Stelle (geht ohne JavaScript).
+// modus «wahl»: Stellen schalten die Kästchen im Formular (nur mit JavaScript sichtbar; die Kästchen gehen immer).
+import daten from "../content/stellen.json";
+const { modus = "links", titel } = Astro.props;
+const stellen = (daten as any).stellen;
+---
+<svg class={`plan plan--${modus}`} viewBox="0 0 240 440" role={modus === "links" ? "group" : "img"} aria-label={titel} data-plan={modus}>
+  <defs>
+    <linearGradient id={`lack-${modus}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#e6f2fc"/><stop offset="1" stop-color="#c4e0f8"/></linearGradient>
+    <linearGradient id={`schild-${modus}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1566b8"/><stop offset="1" stop-color="#0f4f94"/></linearGradient>
+  </defs>
+  <rect class="plan__karosse" x="20" y="16" width="200" height="408" rx="46"/>
+  {stellen.map((s: any) => {
+    const formen = s.form.map(([x, y, w, h, r]: number[]) => <rect x={x} y={y} width={w} height={h} rx={r}/>);
+    return modus === "links"
+      ? <a href={`/schaden-melden/?stelle=${s.id}`} class="plan__stelle" data-stelle={s.id} data-name={s.name} data-leistung={s.leistung} data-pfad={s.pfad} aria-label={`${s.name}: Schaden hier melden`} data-zaehl="schadenplan" data-ort="start"><title>{s.name}</title>{formen}</a>
+      : <g class="plan__stelle" data-stelle={s.id} aria-hidden="true">{formen}</g>;
+  })}
+  <path class="plan__pfeil" d="M120 2 l-7 10 h14 z" aria-hidden="true"/>
+</svg>

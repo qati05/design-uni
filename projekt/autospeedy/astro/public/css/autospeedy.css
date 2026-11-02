@@ -409,3 +409,67 @@ header { border-bottom: 2px solid var(--nacht); }
 .abschluss { background-color: #1566b8; background-image: var(--glanz), var(--schild); }
 form { box-shadow: 0 0 0 2px var(--gebotsblau), 12px 12px 0 var(--babyblau-tief); }
 header { border-bottom: 2px solid var(--babyblau-tief); }
+
+/* ===== Signatur: der Schadenplan. Auto von oben, Blech für Blech; die Fugen sind Spaltmasse wie am echten Auto.
+   Blech im Lackverlauf, Stelle unter dem Finger Babyblau, gewählte Stelle Schild-Blau. */
+.plan { display: block; width: 100%; max-width: 300px; height: auto; margin-inline: auto; overflow: visible; }
+.plan__karosse { fill: var(--nacht); }
+.plan__stelle rect { fill: url(#lack-links); stroke: var(--nacht); stroke-width: 1.5; transition: fill 160ms ease; }
+.plan--wahl .plan__stelle rect { fill: url(#lack-wahl); cursor: pointer; }
+.plan__stelle[data-stelle="felgen"] rect { stroke-width: 2; }
+.plan__pfeil { fill: var(--gebotsblau); }
+.plan--links .plan__stelle:hover rect, .plan--links .plan__stelle:focus-visible rect, .plan--links .plan__stelle.ist-aktiv rect { fill: url(#schild-links); }
+.plan--links .plan__stelle:focus-visible { outline: none; }
+.plan--links .plan__stelle:focus-visible rect { stroke: var(--gebotsblau); stroke-width: 4; }
+.plan--wahl .plan__stelle:hover rect { fill: #a9d2f5; }
+.plan--wahl .plan__stelle.ist-gewaehlt rect { fill: url(#schild-wahl); }
+
+.planband { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+.planband__text > p { max-width: 46ch; margin: 0 0 20px; }
+.planband__info { display: grid; gap: 8px; justify-items: start; padding: 20px 22px; background-color: #dcedfb; background-image: var(--glanz), var(--lack); border-left: 6px solid var(--gebotsblau); max-width: 460px; }
+.planband__info p { margin: 0; }
+.planband__stelle { font: italic 700 30px/1.05 var(--titel); text-transform: uppercase; color: var(--gebotsblau-dunkel); }
+.planband__liste { display: flex; flex-wrap: wrap; gap: 4px 6px; margin: 24px 0 0; padding: 0; list-style: none; max-width: 520px; }
+.planband__liste a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 10px; font-size: 15px; color: var(--gebotsblau-dunkel); border: 1px solid var(--babyblau-tief); background: var(--lackweiss); text-decoration: none; }
+.planband__liste a:hover { background: var(--babyblau); }
+.planband__auto { padding: 12px; }
+.planband__auto .plan { max-width: 340px; filter: drop-shadow(14px 18px 0 rgba(21,102,184,.12)); }
+
+/* Formular: Stellenwahl mit Plan */
+.formularseite__rechts { min-width: 0; }
+.stellenwahl__inhalt { display: grid; grid-template-columns: 180px 1fr; gap: 20px; align-items: start; }
+.stellenwahl__auto .plan { max-width: 180px; }
+.wahl--stellen label { min-height: 44px; font-size: 15px; padding: 0 10px; }
+.honig { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* Schadenrapport */
+.rapport { margin: clamp(32px, 5vw, 72px) var(--rand); max-width: 640px; background: var(--lackweiss); box-shadow: 0 0 0 2px var(--gebotsblau), 12px 12px 0 var(--babyblau-tief); outline: none; }
+.rapport__kopf { position: static; display: flex; align-items: center; gap: 18px; min-height: 0; padding: 18px 22px; background-color: #dcedfb; background-image: var(--glanz), var(--lack-quer); border-bottom: 2px solid var(--gebotsblau); }
+.rapport__kopf img { height: 40px; width: auto; }
+.rapport__kopf h2 { margin: 0; font-size: 30px; font-style: italic; }
+.rapport__kopf p { margin: 2px 0 0; font-size: 15px; color: var(--hallengrau); }
+.rapport__inhalt { display: grid; grid-template-columns: 140px 1fr; gap: 24px; padding: 22px; }
+.rapport__auto .plan { max-width: 140px; }
+.rapport dl { margin: 0; display: grid; gap: 4px; }
+.rapport dt { font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: .04em; color: var(--gebotsblau-dunkel); margin-top: 8px; }
+.rapport dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.rapport__stand { margin: 0 22px; padding: 12px 14px; border-left: 4px solid var(--gebotsblau); background: var(--gebotsblau-hell); }
+.rapport__aktionen { display: flex; flex-wrap: wrap; gap: 12px; padding: 22px; }
+.knopf--zweit { background: transparent; color: var(--gebotsblau-dunkel); box-shadow: inset 0 0 0 2px var(--gebotsblau); }
+.knopf--zweit:hover { background: var(--gebotsblau-hell); }
+
+@media (max-width: 860px) {
+  .planband { grid-template-columns: 1fr; }
+  .planband__auto { order: -1; }
+  .planband__auto .plan { max-width: 250px; }
+  .stellenwahl__inhalt { grid-template-columns: 1fr; }
+  .stellenwahl__auto .plan { max-width: 220px; }
+  .rapport { margin: 24px var(--rand) 40px; }
+  .rapport__inhalt { grid-template-columns: 1fr; }
+  .rapport__auto .plan { max-width: 160px; margin: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .plan__stelle rect { transition: none; } }
+/* Rapport: eigene Füllung, weil die Verläufe im ausgeblendeten Formular nicht gezeichnet werden */
+.rapport .plan__stelle rect { fill: #eaf4fd; }
+.rapport .plan__stelle.ist-gewaehlt rect { fill: var(--gebotsblau); }
+.rapport { scroll-margin-top: calc(var(--kopf-h) + 16px); }
