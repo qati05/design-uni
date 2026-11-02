@@ -1,6 +1,6 @@
 # Lektionen aus den Tests
 
-Was die blinden Tests, Kunden-Agenten und Prüfrunden gelehrt haben, mit Zahlen. Bewerter waren immer sechs Sprachmodelle auf zwei Modellfamilien, ohne Projektkontext; Noten 1–10. Wo «[Annahme]» steht, ist die Folgerung nicht eigens geprüft.
+Was die blinden Tests, Kunden-Agenten und Prüfrunden gelehrt haben, mit Zahlen. Bewerter waren immer sechs Sprachmodelle auf zwei Modellfamilien, ohne Projektkontext; Noten 1–10. Wo «[Annahme]» steht, ist die Folgerung nicht eigens geprüft. Alle Noten hier sind **Modell-Urteile** (Entscheid 1, [zusammenspiel.md](zusammenspiel.md)): Sie zeigen eine Richtung, belegen aber keine Wirkung auf Menschen. Regeln, die nur auf ihnen beruhen, sind seit 02.11.2026 Hinweise (Entscheid 13). Kennungen: DL1 ff.; web-uni führt eigene Lektionen (WL).
 
 ## Geschmack und Richtung
 
@@ -36,7 +36,7 @@ Was die blinden Tests, Kunden-Agenten und Prüfrunden gelehrt haben, mit Zahlen.
 
 ## Bewegung
 
-**DL15 · Nur echte Bewegung zählt.** Hobel-Clip und Schnur unter einem Wort: +1,0 und +1,17, einstimmig «trägt». Allgemeines Hereingleiten, Laufweite, gezogene Linie: 0 bis −0,17. Ein starkes Plakat verlor animiert (−0,33). Ein Zoom, der Öffnungszeiten drei Bildschirme zurückhielt, spaltete die Modelle (8,7 gegen 6,7). Pause-Knopf und ruhige Fassung wurden gelobt.
+**DL15 · Nur echte Bewegung zählt.** Hobel-Clip und Schnur unter einem Wort: +1,0 und +1,17, einstimmig «trägt». Allgemeines Hereingleiten, Laufweite, gezogene Linie: 0 bis −0,17. Ein starkes Plakat verlor animiert (−0,33). Ein Zoom, der Öffnungszeiten drei Bildschirme zurückhielt, spaltete die Modelle (8,7 gegen 6,7). Pause-Knopf und ruhige Fassung wurden gelobt. *Modell-Urteil; die Regel «keine oder eine Bewegung», die darauf beruhte, ist seit 02.11.2026 aufgehoben (Entscheid 12). Die Beobachtung bleibt als Hinweis.*
 
 ## Testaufbau
 
@@ -67,6 +67,7 @@ Was die blinden Tests, Kunden-Agenten und Prüfrunden gelehrt haben, mit Zahlen.
 **DL26 · 2026-11-01 · Spitzen-Websites zeigen wenige, grosse Dinge.**
 - Beobachtung: 25 Vorbilder aus Galerien, gemessen mit `vermessen.cjs` ([vorbilder-gemessen.md](vorbilder-gemessen.md)): im ersten Bildschirm Median 39 Wörter, 0 knopfartige Elemente, 95 % Bild oder Video; 19 von 25 ohne Karten, 16 ohne Schatten, 20 mit ein oder zwei Schriftfamilien. Eine Probe, die blind bei 6,33 und 6,50 durchfiel, lag bei 97 Wörtern, 26 % Bild, 56 % Leerfläche und 22 Icons.
 - Folgerung: Vorlagen-Signale und Lage im Band maschinell vor DP4 (SKILL.md Schritt 6). Beobachten, ob Seiten im Band blind besser abschneiden.
+- Nachtrag 2026-11-02 (Entscheid 3): Der erste Bildschirm zeigt eine grosse Sache plus eine Faktenzeile mit Leistung, Ort, Telefon und Hauptaktion, zusammen höchstens etwa 60 Wörter `[Annahme]`. Die Faktenzeile ist kein Vorlagen-Signal. Die 60 Wörter liegen über dem Median der Vorbilder (39) und unter der Probe (97); ob das trägt, zeigt der Bildtest.
 - Grund: Ein Mass, das vor dem Bildtest anschlägt, spart einen Testlauf, der sicher durchfällt.
 
 **DL27 · 2026-11-01 · Techniken wandern besser als Looks.**
@@ -82,8 +83,8 @@ Was die blinden Tests, Kunden-Agenten und Prüfrunden gelehrt haben, mit Zahlen.
 ## Format für neue Lektionen
 
 ```
-### L<n> · <Datum> · <Thema>
-- Beobachtung: was geschah, mit Zahl und Quelle (Datei, Messung, Test).
+### DL<n> · <Datum> · <Thema>
+- Beobachtung: was geschah, mit Zahl und Quelle (Datei, Messung, Test); Modell-Urteil oder Menschen-Daten.
 - Folgerung: Vorschlag als Regel, oder «beobachten».
 - Grund: warum, in einem Satz.
 ```

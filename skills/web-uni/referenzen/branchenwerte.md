@@ -63,7 +63,7 @@ Weitere Erkennungen ohne Messung (nur Startseite geladen): bmw.ch und amag.ch **
 
 1. **Die Vermutung «grosse Seiten sind nicht statisch» stimmt.** In der Stichprobe: Angular, Next.js, Adobe Experience Manager, Sitecore, Wix. Keine einzige erkannte Konzernseite war von Hand geschriebenes HTML.
 2. **Sie sind deshalb nicht schneller.** Im Labor schnitten drei der vier gemessenen Konzernseiten (Migros 35, SBB 33, Swisscom 42) schlechter ab als die heutige Wix-Seite von Auto Speedy (81). Konzerne wählen den Stack nach **Organisation** (viele Redakteure, viele Sprachen, Freigaben, Anbindung an Datenbanken, Verträge, Teams), nicht nach der Ladezeit.
-3. **Der Stack folgt dem Betrieb, nicht dem Prestige.** Das Kriterium «Wer pflegt? Wie viele Seiten? Welche Sprachen? Welche Systeme?» (SKILL.md, Schritt 0 Punkt 6) ist genau das, was die Konzerne treibt. Für Auto Speedy (12 Seiten, 1 Sprache, kaum Änderungen) fällt die Antwort anders aus.
+3. **Der Stack folgt dem Betrieb, nicht dem Prestige.** Das Kriterium «Wer pflegt? Wie viele Seiten? Welche Sprachen? Welche Systeme?» ([SKILL.md](../SKILL.md), Schritt 0, Antwort 4) ist genau das, was die Konzerne treibt. Für Auto Speedy (12 Seiten, 1 Sprache, kaum Änderungen) fällt die Antwort anders aus.
 4. **Wo die Konzerne mehr haben, was Auto Speedy nicht braucht:** Redaktionssystem mit Freigabe, Mehrsprachigkeit, Personalisierung, Konten, Shop. Das ist der Grund für die Stacks, nicht ein Qualitätsvorsprung.
 5. **Wo die Messlatte liegt:** Ein UBS-Wert von 82 im Labor und Barrierefreiheit 100 zeigt, dass auch Konzerne mit Adobe Experience Manager sehr gut sein können. Die Technik setzt nur die Grundlage; Gewicht und Sorgfalt entscheiden.
 

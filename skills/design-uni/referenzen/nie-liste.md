@@ -1,6 +1,6 @@
 # Nie-Liste
 
-Zwei Stufen. **Verboten** sperrt die Seite, unabhängig von allen Noten (Deckel in DP3). **Nie als Voreinstellung** begrenzt das Urteil auf «solide» und ist nur erlaubt, wenn es aus dem Betrieb begründet ist und die Ausnahme in einem Satz im Bericht steht.
+Zwei Stufen (Entscheid 13, [zusammenspiel.md](zusammenspiel.md)). **Verboten** schützt Recht, Barrierefreiheit oder den Betrieb und sperrt die Seite, unabhängig von allen Noten (Deckel in DP3). **Nie als Voreinstellung** stammt aus Modell-Urteilen und Geschmack: Es ist ein **Hinweis** und sperrt nichts. Kommt es vor, steht der Grund aus dem Betrieb oder der Wunsch des Kunden in einem Satz im Bericht.
 
 ## 1. Verboten
 
@@ -18,10 +18,11 @@ Zwei Stufen. **Verboten** sperrt die Seite, unabhängig von allen Noten (Deckel 
 - Erkennbare Personen ohne Einverständnis; erkennbare Patienten, Kundinnen, Akten.
 - Bilder ohne Nutzungsrechte.
 - Eine Telefonnummer, die nirgendwohin wählt; ein Formular, das nicht abschickt.
+- Bewegung unter dem Boden (Entscheid 12): Ladebildschirm, Tor oder Intro, das Inhalt zurückhält; was länger als 5 s von selbst läuft, ohne Pause (auch ein Laufband); keine ruhige Fassung bei «Bewegung reduzieren»; Inhalt nur mit JavaScript.
 
 Länderspezifisch: [recht-schweiz.md](recht-schweiz.md) für Gestaltung und Material; für Inhalte (Preise, Superlative, Stimmen, Werbung) die Grundsätze R von text-uni.
 
-## 2. Nie als Voreinstellung
+## 2. Nie als Voreinstellung (Hinweis)
 
 **Erster Eindruck**
 - Ladebildschirm, Zähler, Intro, Eingangstor, Popup, Chat-Knopf, Newsletter-Overlay, Exit-Popup über dem Inhalt.
@@ -60,8 +61,8 @@ Länderspezifisch: [recht-schweiz.md](recht-schweiz.md) für Gestaltung und Mate
 - Jeder Abschnitt gleitet beim Scrollen von unten herein.
 - Bibliothekseffekte: Partikel, Glitch, Cursor-Kreis, magnetische Knöpfe, Text-Verwürfeln.
 - Karten heben sich beim Hover mit Schatten, Bilder zoomen auf 105–110 %.
-- Verändertes Scroll-Tempo, lange gepinnte Strecken, horizontales Scrollen beim Lesen.
-- Fertige Abschnitte aus Baukästen (3D-Bildwände, Karussells, gekapertes Scrollen) und gekaufte Hintergründe (Verläufe, Aurora, Shader), übernommen statt aus der Idee gebaut ([bausteine.md](bausteine.md)).
+- Horizontales Scrollen beim Lesen. Verändertes Scroll-Tempo und gepinnte Strecken nur, wenn die Idee oder der Wunsch sie braucht und der Text lesbar bleibt (Entscheid 12).
+- Fertige Abschnitte aus Baukästen (3D-Bildwände, Karussells, gekapertes Scrollen), ohne Grund aus der Idee oder dem Wunsch und gekaufte Hintergründe (Verläufe, Aurora, Shader), übernommen statt aus der Idee gebaut ([bausteine.md](bausteine.md)).
 
 **Modell-Standard** (siehe [abstand.md](abstand.md) Teil 4)
 - Creme-Grund, Serifentitel mit kursivem Wort, Versal-Labels mit Werten, gefüllter Knopf plus unterstrichener Telefonlink, Text links / Bild rechts, Mono-Ziffern, 1-px-Linienraster, rote Fehlerbox mit Linkliste, Dunkelblau mit Gelb, Zierlinien.

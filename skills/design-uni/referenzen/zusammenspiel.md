@@ -52,7 +52,7 @@ Getroffen am 2. November 2026 `[Entscheid · Studio]`, nach dem Abgleich der dre
 10. **Fremde Inhalte erst nach Klick** (CL3) gilt vor TI34. Fremde Skripte nur mit Grund und erst nach Einwilligung oder Klick.
 11. **Messung.** Nach 8 Wochen ein Zwischenstand für die Suche, mit «zu wenig Daten» als möglichem Ergebnis. Das Urteil über Anfragen fällt nach 3 Monaten.
 12. **Bewegung ohne Mengenregel** `[Entscheid · Studio, 02.11.2026]`. Die Regel «keine oder eine Bewegung» fällt weg, ebenso Voreinstellungen wie «glattes Scrollen aus». Bewegung gibt es so viel, wie die Idee des Betriebs oder der Wunsch des Kunden braucht. Es bleibt nur der Boden: `prefers-reduced-motion` wird respektiert; aller Inhalt ist ohne Bewegung und ohne JavaScript erreichbar; keine Bewegung hält Inhalt zurück; was länger als 5 s von selbst läuft, lässt sich pausieren (WCAG 2.2.2); die Kosten stehen im Kostenblatt (web-uni WP3). Ob eine Bewegung wirkt, zeigt der Bildtest als Vorfilter und ein Test mit Menschen.
-13. **Weniger Regeln.** Eine Regel bleibt nur, wenn sie Recht, Barrierefreiheit, eine Entscheidung des Betriebs oder einen Befund mit Menschen-Daten schützt. Regeln, die nur aus Modell-Urteilen oder aus Geschmack stammen, werden zu Hinweisen und sperren nichts.
+13. **Weniger Regeln.** Eine Regel bleibt nur, wenn sie Recht, Barrierefreiheit, eine Entscheidung des Betriebs oder einen Befund mit Menschen-Daten oder eigener Messung schützt. Regeln, die nur aus Modell-Urteilen oder aus Geschmack stammen, werden zu Hinweisen und sperren nichts.
 
 ## 4. Eine Schwelle je Sache
 
@@ -82,7 +82,7 @@ Jede Kennung ist in allen drei Skills eindeutig. Querverweise nennen immer die v
 | design-uni | Prüflisten A, P, H | **LA1 ff., LP1 ff., LH1 ff.** (früher A 1, P 1, H 1) |
 | text-uni | Prüfpunkte | **TP0 bis TP8** (früher T0 bis T8) |
 | text-uni | Grundsätze | unverändert: V, W, L, CH, K, A, KW, U, B, R, G, S, P, Q, M, KQ, TI, ZS, CL |
-| web-uni | Prüfpunkte | **WP0 bis WP8** (früher V0 bis V8) |
+| web-uni | Prüfpunkte | **WP0 bis WP9** (früher V0 bis V8; WP9 Livegang ist neu) |
 | web-uni | Lektionen | **WL1 ff.** (früher W1 ff.) |
 
 Die Probe unter `probe/autospeedy/` ist ein abgeschlossener Lauf und behält die alten Kennungen.
@@ -109,6 +109,6 @@ Jeder Schritt nennt das Tor. Fällt ein Tor, geht es zum Schritt zurück, der da
 16. **TP8 Messplan** (text-uni, ein Dokument).
 17. **WP7 Betrieb und Übergabe** (web-uni): Anfragekette bestätigt, Zugänge, Pflegehandbuch, Weiterleitungsliste.
 18. **Abliefern** (design-uni Schritt 11, WP8): ein `LIESMICH.md`, Zusagen-Blatt, Register, Lektionen.
-19. **Livegang nach Freigabe** (web-uni): `noindex` weg, `robots.txt`, Sitemap, `canonical`, Weiterleitungen, Einreichen, Nachprüfung nach 1, 4 und 12 Wochen.
+19. **WP9 Livegang nach Freigabe** (web-uni): `noindex` weg, `robots.txt`, Sitemap, `canonical`, Weiterleitungen, Einreichen, Nachprüfung nach 1, 4 und 12 Wochen.
 
 **Ohne Unteragenten:** Alle Bewerter-Tore heissen «nicht gelaufen». Gebaut wird trotzdem, wenn der Auftraggeber es will, und der Bericht sagt das oben.

@@ -28,6 +28,7 @@ design-uni arbeitet mit **text-uni** und **web-uni**. Jedes Thema hat genau eine
 - Die Schritte laufen der Reihe nach. Jeder endet mit einem **Prüfpunkt (DP0 bis DP8)**.
 - **Fällt ein Prüfpunkt durch, geht es einen Schritt zurück, nie zwei vor.** Fällt DP4 zweimal durch, geht es zurück zu DP1: Dann war die Idee falsch und nicht die Ausführung. Fällt das Tor eines anderen Skills, geht es zu dem Schritt zurück, der das fehlende Ergebnis liefert, auch über Skillgrenzen.
 - **Modell-Urteile sind ein Vorfilter** (Entscheid 1): Jeder Prüfpunkt, der Gefallen, «Agentur», Vertrauen oder «würde anfragen» mit Sprachmodellen misst, heisst «Modell-Urteil, Vorfilter». Durchfallen heisst überarbeiten. Bestehen heisst «Modell-Urteil bestanden», nicht «belegt». Belegt ist eine Wirkung erst durch einen Test mit Menschen oder durch Zahlen nach dem Livegang.
+- **Regel oder Hinweis** (Entscheid 13): Eine Regel sperrt nur, wenn sie Recht, Barrierefreiheit, eine Entscheidung des Betriebs oder einen Befund mit Menschen-Daten schützt. Was nur aus Modell-Urteilen oder Geschmack stammt, ist ein **Hinweis**: Er sperrt nichts; wer abweicht, nennt den Grund im Bericht.
 - Schwellen mit `[Annahme]` sind nicht kalibriert. Wer abweicht, schreibt die Abweichung in den Bericht.
 - Details stehen in `referenzen/`. Lies dort nach, wenn ein Schritt darauf zeigt; lies nicht alles vorab.
 
@@ -40,7 +41,7 @@ design-uni arbeitet mit **text-uni** und **web-uni**. Jedes Thema hat genau eine
 | Techniken statt Looks: wie Vorbilder die Idee sichtbar machen | [techniken.md](referenzen/techniken.md) |
 | Vorbilder, gemessen: Band aus 25 Websites, Vorlagen-Signale | [vorbilder-gemessen.md](referenzen/vorbilder-gemessen.md) |
 | Bausteine: Muster aus Baukästen, eigene Umsetzungen in der Galerie | [bausteine.md](referenzen/bausteine.md) · [galerie/index.html](galerie/index.html) |
-| Abstand zum eigenen Durchschnitt (Register, Achsen, Bauteile, Sperren) | [abstand.md](referenzen/abstand.md) |
+| Abstand zum eigenen Durchschnitt (Register, Achsen, Bauteile, Richtwerte) | [abstand.md](referenzen/abstand.md) |
 | Typografie · Komposition · Farbe und Bild · Bewegung (mit der Tabelle für Dauer und Pause) | [typografie.md](referenzen/typografie.md) · [komposition.md](referenzen/komposition.md) · [farbe-bild.md](referenzen/farbe-bild.md) · [bewegung.md](referenzen/bewegung.md) |
 | Angebot, Vertrauen, Formular, Prüflisten LA, LP, LH, Zählpunkte | [conversion.md](referenzen/conversion.md) |
 | Wenn in der Schweiz: was Gestaltung und Material betrifft (Rest: text-uni R) | [recht-schweiz.md](referenzen/recht-schweiz.md) |
@@ -137,25 +138,25 @@ Ablauf im Detail: [richtung.md](referenzen/richtung.md) Teil 2.
 ## Schritt 4 · Ableitung und Tokens
 
 - **Ableitungskette:** Für Schrift, Grund, Raster, Titelmuster, Knopf, Bildschnitt und Bewegung je ein «weil»-Satz, der auf die Entscheidung zeigt. Eine Wahl ohne diesen Satz ist eine Voreinstellung und fliegt raus.
-- **Techniken:** eine tragende und höchstens zwei stützende aus [techniken.md](referenzen/techniken.md), passend zur Form der Idee und zum Material (ohne eigene Fotos trägt Schrift oder Fakten, kein Bild). Je ein «weil»-Satz; ins Register. Eine tragende Technik der letzten zwei Websites ist gesperrt.
+- **Techniken:** eine tragende und höchstens zwei stützende aus [techniken.md](referenzen/techniken.md), passend zur Form der Idee und zum Material (ohne eigene Fotos trägt Schrift oder Fakten, kein Bild). Je ein «weil»-Satz; ins Register. Hinweis: Eine tragende Technik der letzten zwei Websites besser nicht wieder als tragende.
 - **Tokens** als JSON (W3C Design Tokens, Format 2025.10) mit **Namen aus dem Betrieb** (`--bleistift`, `--fahrplan-zeile`, nicht `--accent`). Zwischen Projekten geteilt sind nur funktionale Tokens: Fokus, Abstand, Fehler. Wer Werte vom letzten Projekt kopiert, sieht es an den falschen Namen. Das CSS daraus erzeugt web-uni.
-- **Bewegung: keine oder eine.** Umsetzungen stehen in der [Galerie](galerie/index.html) ([bausteine.md](referenzen/bausteine.md)); fertige Abschnitte aus Baukästen werden nicht übernommen. Sie zeigt einen echten Handgriff oder ein echtes Material und hält keinen Inhalt zurück. Dauer und Pause nach der Tabelle in [bewegung.md](referenzen/bewegung.md) Teil 2. Ein Entscheid «statisch» geht vor.
+- **Bewegung: so viel, wie die Idee oder der Wunsch des Kunden braucht** (Entscheid 12). Es gibt keine Mengenregel, nur den Boden in [bewegung.md](referenzen/bewegung.md) Teil 2: Reduced Motion respektiert, aller Inhalt ohne Bewegung und ohne JavaScript erreichbar, keine Bewegung hält Inhalt zurück, was länger als 5 s von selbst läuft, lässt sich pausieren, die Kosten stehen im Kostenblatt von web-uni. Dauern sind Richtwerte. Umsetzungen stehen in der [Galerie](galerie/index.html) ([bausteine.md](referenzen/bausteine.md)). Ein Entscheid «statisch» geht vor.
 - **Farbe** mit der Pipette aus dem eigenen Foto oder Material. Die Palette ist blind kaum ein Hebel; entscheide sie schnell und investiere in Komposition und Bild ([lektionen.md](referenzen/lektionen.md)).
 - **Schwache Fotos:** eine feste Bearbeitung für die ganze Serie als Skript (Lichtregel, z. B. Zweiton, Kontrastkurve, Körnung), und Schrift und Bild komponiert statt nebeneinander. Das hob blind 6,00 auf 7,17 mit denselben Handyfotos ([farbe-bild.md](referenzen/farbe-bild.md)).
 
-**DP2 · Abstand (maschinell, wo möglich; sonst im Bericht als «Selbstauskunft» markiert)** nach [abstand.md](referenzen/abstand.md):
+**DP2 · Abstand (Hinweis; maschinell, wo möglich, sonst im Bericht als «Selbstauskunft» markiert)** nach [abstand.md](referenzen/abstand.md). Die Werte stammen aus Modell-Urteilen; nach Entscheid 13 sperren sie nicht. Jede Abweichung steht mit Grund im Bericht; ob der Abstand reicht, zeigt der Geschwister-Test in DP4 als Vorfilter.
 
-| Prüfung | Schwelle `[Annahme]` |
+| Prüfung | Richtwert `[Annahme]` |
 |---|---|
 | 8 Achsen (Titelschrift, Grundfarbe, Hero-Typ, Titelmuster, Primäraktion, Schrift der Fakten, Bildschnitt, Bewegung) | ≥ 6 von 8 anders als jede der letzten drei Websites und jeder Eintrag «im Bau» |
-| Creme-Sperre (OKLCH L 0,93–0,97, C ≤ 0,035, h 60–95) | gesperrt als Seitengrund und für Flächen ab 20 % des Bildschirms, ausser das eigene Foto liefert den Ton |
-| Titelschrift | gesperrt, wenn in derselben Branche schon 1 von 15 oder insgesamt 3 von 15 letzten Entwürfen |
+| Creme-Zone (OKLCH L 0,93–0,97, C ≤ 0,035, h 60–95) | nicht als Seitengrund und nicht für Flächen ab 20 % des Bildschirms, ausser das eigene Foto liefert den Ton |
+| Titelschrift | nicht wieder, wenn in derselben Branche schon 1 von 15 oder insgesamt 3 von 15 letzten Entwürfen |
 | Bauteile (Menü-Knopf, Leiste unten, Fehlerbox, Auswahl-Chips, Datenschrift, Linienraster, Mikrotexte) | ≥ 4 von 7 sichtbar anders als bei den letzten drei |
-| Bewegung | ja oder nein entschieden, mit «weil»-Satz |
+| Bewegung | entschieden (welche, wie viel), mit «weil»-Satz |
 
-Sperren laufen nach drei Websites aus, sonst wird das Gegenteil zur nächsten Vorlage.
+Diese Richtwerte laufen nach drei Websites aus, sonst wird das Gegenteil zur nächsten Vorlage.
 
-**→ web-uni WP3** (Bewegungstechnik und Kostenblatt, nur wenn Bewegung «ja»). **→ text-uni TP2** (Botschaft blind, nur Text), mit dem Abgleich: Der Satz aus der Idee und der erste Satz von text-uni widersprechen sich nicht. **← text-uni:** die Ziele an die Gestaltung, **vor** Schritt 5.
+**→ web-uni WP3** (Bewegungstechnik und Kostenblatt, sobald es Bewegung gibt). **→ text-uni TP2** (Botschaft blind, nur Text), mit dem Abgleich: Der Satz aus der Idee und der erste Satz von text-uni widersprechen sich nicht. **← text-uni:** die Ziele an die Gestaltung, **vor** Schritt 5.
 
 ## Schritt 5 · Inhalt vor Gestalt
 
@@ -197,13 +198,14 @@ Das ersetzt keinen blinden Test; es spart einen, der sicher durchfällt.
 
 Liegt die Kritik nach zwei Runden überwiegend beim Material (Logo, Fotos), meldest du das dem Auftraggeber, statt weiter an der Gestaltung zu drehen.
 
-## Schritt 7 · Startseite mit der einen Bewegung
+## Schritt 7 · Startseite mit Bewegung
 
 **← web-uni WP3:** Technik und Kosten der Bewegung sind entschieden.
 
 **DP5 · Startseite:** Bildfolge und Video nach [bewegung.md](referenzen/bewegung.md) Teil 6, je für Desktop, Handy und die ruhige Fassung.
 - **Blind (Modell-Urteil, Vorfilter):** Mittel ≥ 7,5; die Bewegung stört höchstens 1 von 6.
-- **Maschinell:** die Grenzen aus der Tabelle in [bewegung.md](referenzen/bewegung.md) Teil 2 (Titel lesbar, Ende des Moments, Pause); animiert werden nur Transform, Deckkraft oder Farbe; unter Reduced Motion ist die Summe der Wege 0 px; ohne JavaScript ist aller Inhalt da.
+- **Maschinell (Boden nach Entscheid 12):** unter Reduced Motion laufen 0 Animationen und die Summe der Wege ist 0 px; was nach 5 s noch von selbst läuft, hat einen Pause-Knopf; Titel und Fakten des ersten Bildschirms sind nach ≤ 1,0 s lesbar; ohne JavaScript ist aller Inhalt da.
+- **Mit Menschen:** Ob die Bewegung wirkt, zeigt erst der Menschentest (Schritt 10).
 - **Erreichbarkeit:** Telefon und Öffnungszeiten am Handy höchstens einen Daumenstrich entfernt.
 - **Bewegung nach einer Handlung** (z. B. beim Absenden) wird eigens aufgenommen; Bildfolgen sehen sie nie.
 

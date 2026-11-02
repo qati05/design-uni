@@ -1,6 +1,6 @@
 # Bewegung und 3D: Leiter, Browserstand, Kostenblatt
 
-Stand 1. November 2026. Kennzeichen: `[gebaut und gemessen]`, `[gelesen]`, `[Annahme]`, `[nicht gebaut]`.
+Stand 2. November 2026. Kennzeichen: `[gebaut und gemessen]`, `[gelesen]`, `[Annahme]`, `[nicht gebaut]`.
 
 ## Browserstand
 
@@ -13,7 +13,15 @@ Stand 1. November 2026. Kennzeichen: `[gebaut und gemessen]`, `[gelesen]`, `[Ann
 
 Folgerung: CSS-Scroll-Animationen und View Transitions sind als **Verbesserung** brauchbar (ohne Unterstützung bleibt die Seite lesbar). WebGPU nur mit WebGL-Rückfall.
 
+## Wer was entscheidet
+
+- **Ob und welche Bewegung:** design-uni in DP2, so viel, wie die Idee des Betriebs oder der Wunsch braucht. Eine Mengenregel gibt es nicht, auch keine Stufengrenze je Klasse (zusammenspiel Entscheid 12).
+- **Womit und was es kostet:** web-uni in WP3, mit Kostenblatt und den Budgets aus WP5.
+- **Wunsch des Betriebs** nach einer Bewegung, die DP2 nicht vorsieht: Entscheid des Betriebs, geht nach der Rangfolge vor ([SKILL.md](../SKILL.md), Schritt 3).
+
 ## Die Leiter
+
+Die Leiter ordnet Techniken nach Kosten. Sie sagt, was eine Bewegung kostet, nicht, ob sie erlaubt ist. Gewählt wird je Bewegung die Technik, die sie mit den geringsten Kosten trägt.
 
 | Stufe | Technik | Was es kostet | Status |
 |---|---|---|---|
@@ -27,15 +35,26 @@ Folgerung: CSS-Scroll-Animationen und View Transitions sind als **Verbesserung**
 
 Die Gewichte von Stufe 1 bis 4 und 6 sind Schätzungen aus Erfahrung und **nicht** in diesem Repo gemessen. Wer sie braucht, baut vorher den Spike und trägt die Messung in [messungen.md](messungen.md) ein.
 
-## Regeln
+## Boden (zusammenspiel Entscheid 12)
 
-1. **Zweck vor Technik.** Jede Bewegung beantwortet: Was zeigt sie, das Text und Foto nicht zeigen? Antwort «es sieht modern aus» genügt nicht.
-2. **Foto zuerst.** Das LCP-Element bleibt ein Bild oder Text. Die Szene wird nach dem Laden eingesetzt, ohne das Bild zu verschieben (feste Fläche, `aspect-ratio`).
-3. **Abschalter.** `prefers-reduced-motion: reduce` → keine automatische Bewegung. Kein WebGL2 → Foto bleibt. Ideal zusätzlich: Sparmodus oder schwache GPU erkennen und Szene nicht starten `[Annahme, nicht gebaut]`.
-4. **Kein Inhalt hinter Bewegung.** Nichts, was gelesen werden muss, erscheint erst durch Scrollen oder Klicken auf eine Animation.
-5. **Kein Scroll-Kapern.** Sanftes Scrollen (Lenis) verändert das Gefühl von Tastatur, Anker und Suche; nur mit Test auf Tastatur und Screenreader.
-6. **Budget.** Zusätzliches JS vor dem LCP ≤ 100 KB, nach dem LCP in der Szene im Kostenblatt genannt ([SKILL.md](../SKILL.md) V5).
-7. **Wirkung blind prüfen**, mit und ohne Bewegung.
+Diese Regeln schützen Barrierefreiheit und gelten für jede Bewegung:
+
+1. **`prefers-reduced-motion: reduce`** → nichts läuft von selbst.
+2. **Inhalt ohne Bewegung und ohne JavaScript.** Ohne WebGL2 bleibt das Foto.
+3. **Kein Inhalt hinter Bewegung.** Nichts, was gelesen werden muss, erscheint erst durch Scrollen oder Klicken auf eine Animation.
+4. **Pause ab 5 s.** Was länger als 5 s von selbst läuft, lässt sich anhalten (WCAG 2.2.2).
+5. **Sanftes Scrollen** (Lenis) ist erlaubt, wenn Tastatur, Anker und Suche im Browser weiter funktionieren und es unter reduzierter Bewegung aus ist; Test mit Tastatur und Bildschirmleser.
+
+## Regeln aus eigener Messung
+
+6. **Foto zuerst.** Das LCP-Element bleibt ein Bild oder Text. Die Szene wird nach dem Laden eingesetzt, ohne das Bild zu verschieben (feste Fläche, `aspect-ratio`). Gemessen: LCP mit Szene gleich wie ohne (Muster unten).
+7. **Budget.** Schwellen und Richtwerte in [SKILL.md](../SKILL.md), WP5; Zusatz-JS einer Szene steht im Kostenblatt.
+
+## Hinweise
+
+- **Zweck nennen.** Jede Bewegung sagt im Kostenblatt, was sie zeigt. Das hilft beim Entscheid des Betriebs; es sperrt nichts.
+- **Energie:** Sparmodus oder schwache GPU erkennen und die Szene nicht starten `[Annahme, nicht gebaut]`.
+- **Wirkung:** Bildtest als Vorfilter, dann Test mit Menschen (WP6), je mit und ohne Bewegung.
 
 ## Muster Foto zuerst, Szene im Leerlauf `[gebaut und gemessen]`
 
@@ -47,9 +66,12 @@ const Szene = dynamic(() => import("./Szene.js"), { ssr: false });
 
 Quelle: `probe/autospeedy/stack-spikes/next-app/components/HeroSzene.js`. Ergebnis: LCP unverändert gegenüber `next` (3614 ms gegen 3619 ms), Blockierzeit danach 3,4 s im Labor (messungen.md).
 
-## Kostenblatt für den Kunden (Vorlage)
+## Kostenblatt (Vorlage)
+
+Ein Entwurf. Er geht erst an den Betrieb, wenn das Studio ihn freigegeben hat ([betrieb.md](betrieb.md), Teil 10).
 
 ```
+ENTWURF, nicht an den Kunden
 Bewegung/3D: <Name>
 Zweck: <was sie zeigt>
 Stufe: <0 bis 6>
@@ -59,12 +81,13 @@ Ohne Bewegung fehlt: <was>
 Rückfall: <Foto / Standbild>
 Nicht getestet: <echte Geräte / Feldwerte>
 Pflege: <wer ersetzt das Modell, wenn das Auto wechselt?>
-Entscheid des Kunden (Datum): <ja / nein / mit Änderung>
+Freigabe Studio (Person, Datum): <…>
+Entscheid des Betriebs (Person, Datum): <ja / nein / mit Änderung>
 ```
 
 ## 3D-Besonderheiten (Annahmen, vor Bau prüfen)
 
 - **Modelle:** glTF/GLB, komprimiert (Draco oder Meshopt), Texturen als KTX2 `[nicht gebaut]`.
-- **Pflege:** Wer liefert das Modell, wer ersetzt es? Ein Fahrzeugmodell des Herstellers hat Lizenzbedingungen; bei Marken wie Tesla ist die Nutzung vorab zu klären (Probe: `livegang.md` L8).
+- **Pflege:** Wer liefert das Modell, wer ersetzt es? Ein Fahrzeugmodell des Herstellers hat Lizenzbedingungen; bei Marken wie Tesla ist die Nutzung vorab zu klären (Probe: `probe/autospeedy/livegang.md`).
 - **Barrierefreiheit:** Canvas bekommt `aria-hidden`, wenn es nur Schmuck ist, sonst eine Textalternative.
 - **Akku und Wärme:** Rendern pausieren, wenn die Szene nicht sichtbar ist (IntersectionObserver) `[nicht gebaut]`.

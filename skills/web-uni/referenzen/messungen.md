@@ -39,9 +39,9 @@ Nicht gesichert:
 - **Wie viel der 3,4 s TBT auf echten Handys anfallen.** Software-Darstellung im Container übertreibt das Zeichnen der Szene; auf einer echten GPU ist die Blockierung vermutlich kleiner. Das ist eine **Annahme**, keine Messung. Zahlen von echten Geräten (iOS Safari, ein Mittelklasse-Android) fehlen.
 - **Warum `next` einen späteren LCP hat** (Hydration, Reihenfolge der Ressourcen, anderes Laden des Bildes). Die Ursache wurde nicht untersucht. Dass es am Rahmen liegt, ist die naheliegende Lesart, keine bewiesene.
 - **Bildrate** (FPS) der Szene: nicht gemessen.
-- **Wirkung auf Besucher:** nicht gemessen. Ob eine Szene mehr Anfragen bringt, ist offen (design-uni P5/P8 oder Menschentest).
+- **Wirkung auf Besucher:** nicht gemessen. Ob eine Szene mehr Anfragen bringt, ist offen (design-uni DP5 und DP8 als Vorfilter, belegt erst mit Menschen in WP6).
 - **Eine einzige, kleine Szene** (ein Modell, ein Licht). Eine echte Fahrzeugszene mit Modell (glTF) und Texturen liegt deutlich höher.
-- **Andere Stacks** (Astro, SvelteKit, Eleventy, Baukasten, GSAP, CSS Scroll-driven, WebGPU): **nicht gebaut**, also hier kein Urteil.
+- **Andere Stacks** (SvelteKit, Eleventy, Baukasten, GSAP, CSS Scroll-driven, WebGPU): **nicht gebaut**, also hier kein Urteil. Astro nur als 1:1-Übernahme (oben); die Astro-Vorlage ist gebaut, aber nicht gemessen.
 
 ## Befehle zum Nachmachen
 

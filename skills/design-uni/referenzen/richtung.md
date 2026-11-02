@@ -60,7 +60,7 @@ Ein wörtlicher Satz des Inhabers aus dem Feld «Ton» zählt wie ein Inventar-N
 - Titelmuster, weil …
 - Knopf, weil …
 - Bildschnitt, weil …
-- Bewegung (keine oder eine), weil …
+- Bewegung (welche und wie viel), weil …
 
 ### Beispiele an erfundenen Übungsbetrieben
 
@@ -108,7 +108,7 @@ Alle Betriebe sind erfunden; sie zeigen, wie aus dem Inventar eine Entscheidung 
 | Bestätigung | Wie bestätigt der Betrieb? | Dreieck schliesst sich, Antwortfrist in Tagen | Stempel «Eingegangen [Datum]» | Billett entwertet, Zeit der Antwort |
 | 404 | Was geht im Betrieb verloren? | «Dieses Brett ist nicht im Lager.» | «Ordner nicht im Regal.» | «Dieser Kurs fährt nicht.» |
 | Fusszeile | Was steht am Ende eines Dokuments? | Werkplan-Schriftfeld | Rückseite des Ordners | Fahrplan-Fussnoten |
-| Bewegung (keine oder eine) | Welcher Handgriff ist echt? | Dreieck wird gezeichnet | Register gleitet heraus | Zeile klappt um wie eine Fallblattanzeige |
+| Bewegung | Welcher Handgriff ist echt? | Dreieck wird gezeichnet | Register gleitet heraus | Zeile klappt um wie eine Fallblattanzeige |
 
 Zwei Grenzen: Die Fehlermeldung nennt immer zuerst das Feld und was zu tun ist; das Wortspiel kommt danach. Eine Metapher, die die Bedienung erschwert (Ordner muss aufgeklappt werden, um Text zu lesen), fliegt raus.
 

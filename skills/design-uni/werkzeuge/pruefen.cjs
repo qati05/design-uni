@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-/* Maschinelle Prüfungen einer Vorschau (design-uni DP6, DP5 maschinell; text-uni TP7).
+/* Maschinelle Prüfungen einer Vorschau (design-uni DP6, DP5 maschinell; text-uni TP7, TP3 teilweise).
+   Ein Teil des gemeinsamen Prüflaufs DP6 + TP7 + WP4 + WP5 (skills/design-uni/referenzen/zusammenspiel.md Teil 6).
+   Kennungen: DPn = design-uni, TPn/<Grundsatz> = text-uni (z. B. TP7/S3), LHn = Prüfliste LH in conversion.md.
    Allgemein: Alles Projektbezogene steht in projekt.json (Vorlage: ../eingabe/projekt.beispiel.json).
 
    Aufruf:  node pruefen.cjs <projekt.json> [--selbsttest] [--json <ausgabe.json>]
@@ -79,7 +81,7 @@ async function pruefe(base) {
     const fremd = new Set();
     ctx.on("request", (rq) => { const u = new URL(rq.url()); if (u.origin !== new URL(base).origin && u.protocol.startsWith("http")) fremd.add(u.origin); });
     const p = await ctx.newPage();
-    const tel = [], zaehl = [], kontr = [], verd = [], ueberlauf = [], cta = [], textUeberBild = [];
+    const tel = [], zaehl = [], kontr = [], verd = [], ueberlauf = [], cta = [], textUeberBild = [], doppel = [];
     for (const s of SEITEN) {
       await p.goto(`${base}/${s}.html`, { waitUntil: "load" });
       await p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 500) { scrollTo(0, y); await new Promise((x) => setTimeout(x, 30)); } scrollTo(0, 0); });
@@ -99,6 +101,12 @@ async function pruefe(base) {
       // Zählpunkte
       const ohne = await p.$$eval('a[href^="tel:"], a[href^="mailto:"], a[href*="maps"]', (as) => as.filter((a) => !a.hasAttribute("data-zaehl") || !a.hasAttribute("data-ort")).map((a) => a.getAttribute("href")));
       ohne.forEach((h) => zaehl.push(`${s}: ${h}`));
+      // Hauptaktion höchstens einmal im ersten Bildschirm (Entscheid 6); «mehrfach: true» nur mit Entscheid des Betriebs
+      if (HA && HA.href && !HA.mehrfach && !(HA.ausnahmen || ["404"]).includes(s)) {
+        await p.evaluate(() => { document.documentElement.style.scrollBehavior = "auto"; scrollTo(0, 0); });
+        const n = await p.$$eval(`a[href="${HA.href}"]`, (as) => as.filter((a) => { const q = a.getBoundingClientRect(); return q.width > 0 && q.height > 0 && q.bottom > 0 && q.top < innerHeight && getComputedStyle(a).visibility !== "hidden" && !a.closest("[hidden]"); }).length);
+        if (n > 1) doppel.push(`${s}: ${n}×`);
+      }
       // Hauptaktion fest sichtbar, auch nach dem Scrollen
       if (HA && HA.selektor && HA.fest && !(HA.ausnahmen || ["404"]).includes(s)) {
         await p.evaluate(() => scrollTo(0, 1200));
@@ -118,6 +126,7 @@ async function pruefe(base) {
     if (TEL.length) r(`DP6 Telefon-Links ${vname}`, tel.length === 0, tel.join(" | ") || "alle tel-Links international, Text gleich Ziel, Nummer aus projekt.json, im ersten Bildschirm");
     else nichtGeprueft(`DP6 Telefon-Links ${vname}`, "keine Nummer in projekt.json");
     r(`DP6 Zählpunkte ${vname}`, zaehl.length === 0, zaehl.join(" | ") || "100 % der tel-, mailto- und Karten-Links tragen data-zaehl und data-ort");
+    if (HA && HA.href && !HA.mehrfach) r(`DP6 Hauptaktion höchstens einmal im ersten Bildschirm ${vname}`, doppel.length === 0, doppel.join(" | ") || "fester Kopf und Faktenzeile tragen sie zusammen einmal (Entscheid 6)");
     if (HA && HA.fest) r(`DP6 Hauptaktion fest sichtbar ${vname}`, cta.length === 0, cta.join(" | ") || `«${HA.text || HA.selektor}» auf allen Seiten nach dem Scrollen, ≥ 44 px`);
     r(`DP6 Kontrast aus der Kaskade ${vname}`, kontr.length === 0, (kontr.join(" | ") || "alle sichtbaren Texte erreichen 4,5:1 (gross 3:1)") + (textUeberBild.length ? ` · Text über Bild nicht gemessen (von Auge prüfen): ${textUeberBild.join(", ")}` : ""));
     r(`DP6 Verdeckung ${vname}`, verd.length === 0, verd.join(" | ") || "0 Knöpfe und Felder verdeckt");
@@ -146,9 +155,12 @@ async function pruefe(base) {
     const [fmin, fmax] = F.felder || [3, 5];
     r(`DP6 Formular: sichtbare Felder ${fmin} bis ${fmax}`, felder >= fmin && felder <= fmax, `${felder} Felder; Pflicht ${pflicht}`);
     if (F.pflicht != null) r(`DP6 Formular: Pflichtfelder ${F.pflicht}`, pflicht === F.pflicht, `${pflicht}`);
+    const marken = await p.$$eval(sel, (es) => es.filter((e) => e.offsetWidth || e.offsetHeight).map((e) => { const l = (e.id && document.querySelector(`label[for="${e.id}"]`)) || e.closest("label"); const t = l ? l.textContent : ""; return { pflicht: e.required || e.getAttribute("aria-required") === "true", stern: /\*/.test(t), frei: /\(freiwillig\)/.test(t), name: e.name || e.id }; }));
+    const ohneFrei = marken.filter((m) => !m.pflicht && !m.frei).map((m) => m.name), mitStern = marken.filter((m) => m.stern).map((m) => m.name);
+    r("DP6 Formular: höchstens 4 Pflichtfelder, freiwillige mit «(freiwillig)», kein Sternchen", pflicht <= 4 && ohneFrei.length === 0 && mitStern.length === 0, `Pflicht ${pflicht}; freiwillig ohne «(freiwillig)»: ${ohneFrei.join(",") || 0}; mit Sternchen: ${mitStern.join(",") || 0}`);
     r("DP6 Formular: Beschriftung an jedem Feld, 0 Platzhalter, nichts vorangekreuzt", ohneLabel.length === 0 && platzhalter === 0 && vorgekreuzt === 0, `ohne Label ${ohneLabel.join(",") || 0}, Platzhalter ${platzhalter}, vorangekreuzt ${vorgekreuzt}`);
     if (F.verantwortlich) { const t = await sichtbarerText(p); r("DP6 Formular: Verantwortlicher am Knopf genannt", t.includes(F.verantwortlich), F.verantwortlich); }
-    const tf = await p.$(`${F.selektor} input[type=tel]`); r("LH8 Telefonfeld öffnet die Zifferntastatur", !!tf || !(F.fuellen && Object.values(F.fuellen).some((v) => /^0\d/.test(v))), tf ? "type=tel" : "kein Feld type=tel");
+    const tf = await p.$(`${F.selektor} input[type=tel]`); r("DP6 Formular: Telefonfeld öffnet die Zifferntastatur (LH8)", !!tf || !(F.fuellen && Object.values(F.fuellen).some((v) => /^0\d/.test(v))), tf ? "type=tel" : "kein Feld type=tel");
     if (F.senden) {
       const vor = await p.$eval(F.senden, (e) => e.getBoundingClientRect().top + scrollY);
       await p.click(F.senden); await warte(150);
@@ -181,17 +193,17 @@ async function pruefe(base) {
     r(`DP6 Kalender (${K.faelle.map((f) => f[0]).join(", ")}; Gerät in anderer Zeitzone)`, bad.length === 0, bad.join(" | ") || `${K.faelle.length} Fälle richtig; nie «morgen»`);
   } else nichtGeprueft("DP6 Kalender", "kein kalender in projekt.json (nur nötig, wenn die Seite Zustände nach Uhrzeit zeigt)");
 
-  // Ohne JavaScript, Reduced Motion, Bewegung nach 3 s
+  // Ohne JavaScript, Reduced Motion, Pause ab 5 s (Entscheid 12; keine Mengenregel)
   { const ctx = await b.newContext({ javaScriptEnabled: false }); const p = await ctx.newPage(); const bad = [];
     for (const s of SEITEN) { await p.goto(`${base}/${s}.html`); const t = await sichtbarerText(p); if (!OHNE_KONTAKT.has(s) && !enthaeltTelefon(t)) bad.push(s); if (t.length < 80) bad.push(`${s}: fast leer`); }
     r("DP6 Boden: ohne JavaScript ist der Inhalt da (Text, Telefon)", bad.length === 0, bad.join(", ") || `${SEITEN.length} Seiten`); await ctx.close(); }
   { const ctx = await b.newContext({ reducedMotion: "reduce" }); const p = await ctx.newPage(); await p.goto(`${base}/index.html`); await warte(500); const n = await p.evaluate(() => document.getAnimations().filter((a) => a.playState === "running").length);
     r("DP5 Reduced Motion: keine laufende Animation", n === 0, `${n} laufend`); await ctx.close(); }
-  { const ctx = await b.newContext({ reducedMotion: "no-preference" }); const p = await ctx.newPage(); await p.goto(`${base}/index.html`); await warte(3200);
-    const n = await p.evaluate(() => document.getAnimations().filter((a) => a.playState === "running" && a.effect && a.effect.getTiming().iterations !== Infinity).length);
-    const endlos = await p.evaluate(() => document.getAnimations().filter((a) => a.playState === "running" && a.effect && a.effect.getTiming().iterations === Infinity).length);
+  { const ctx = await b.newContext({ reducedMotion: "no-preference" }); const p = await ctx.newPage(); await p.goto(`${base}/index.html`); await warte(5200);
+    const n = await p.evaluate(() => document.getAnimations().filter((a) => a.playState === "running").length);
+    const video = await p.evaluate(() => [...document.querySelectorAll("video")].filter((v) => !v.paused).length);
     const pause = await p.$('[data-pause], button[aria-label*="ause" i]');
-    r("DP5 Nach 3 s laufen 0 Animationen (endlose nur mit Pause-Knopf)", n === 0 && (endlos === 0 || !!pause), `${n} laufend, ${endlos} endlos, Pause-Knopf: ${!!pause}`); await ctx.close(); }
+    r("DP5 Was nach 5 s noch von selbst läuft, hat einen Pause-Knopf (WCAG 2.2.2)", (n === 0 && video === 0) || !!pause, `${n} Animationen, ${video} Videos laufend, Pause-Knopf: ${!!pause}`); await ctx.close(); }
 
   await b.close();
 }
@@ -202,7 +214,9 @@ function textPruefung(ordner) {
   const vis = (h) => h.replace(/<(script|style|svg|head)\b[\s\S]*?<\/\1>/gi, " ").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ");
   const ohneZitat = (h) => h.replace(/<blockquote[\s\S]*?<\/blockquote>/g, " ");
   const T = P.text || {};
-  const bad = { sz: [], anrede: [], gerade: [], strich: [], uhr: [], klammer: [], tel: [], h: [], img: [], satz: [], titel: [], noindex: [], canon: [] };
+  const bad = { sz: [], anrede: [], gerade: [], strich: [], uhr: [], klammer: [], tel: [], h: [], img: [], satz: [], titel: [], noindex: [], canon: [] }, warn = { titel: [] };
+  const kopfzeilen = fs.existsSync(path.join(ordner, "_headers")) ? fs.readFileSync(path.join(ordner, "_headers"), "utf8") : "";
+  const noindexKopf = /X-Robots-Tag:\s*noindex/i.test(kopfzeilen);
   let wortSumme = 0, saetze = 0, maxSatz = 0, maxWo = "";
   for (const s of SEITEN) {
     const h = html(s), t = vis(h), tb = vis(ohneZitat(h));
@@ -213,13 +227,16 @@ function textPruefung(ordner) {
     if (T.gedankenstriche === false && (/[–—]/.test(t) || / - /.test(t))) bad.strich.push(s);
     if (T.uhrzeitMitPunkt !== false && (/\b\d{1,2}:\d{2}\b/.test(t) || /\d\s?(am|pm)\b/i.test(t))) bad.uhr.push(s);
     if (/\[[^\]]*\]/.test(t)) bad.klammer.push(s);
-    if (/\+41|0041|\(0\)/.test(t)) bad.tel.push(s);
+    // CH12 national «071 555 00 00» oder CH13 international «+41 71 555 00 00»; nie «0041», nie «(0)»
+    if (/0041|\(0\)/.test(t) || [...t.matchAll(/\+41[\d\s]*/g)].some((m) => !/^\+41 \d{2} \d{3} \d{2} \d{2}\s*$/.test(m[0]))) bad.tel.push(s);
     const ueb = [...h.matchAll(/<h([1-6])[ >]/g)].map((m) => +m[1]); for (let i = 1; i < ueb.length; i++) if (ueb[i] - ueb[i - 1] > 1) bad.h.push(`${s}: h${ueb[i - 1]}→h${ueb[i]}`);
     if (ueb.filter((x) => x === 1).length !== 1) bad.h.push(`${s}: h1 ≠ 1`);
     for (const m of h.matchAll(/<img\b[^>]*>/g)) { if (!/ alt="[^"]*"/.test(m[0]) || !/ width="\d+"/.test(m[0]) || !/ height="\d+"/.test(m[0])) bad.img.push(`${s}: ${m[0].slice(0, 60)}`); }
     const ti = (h.match(/<title>([^<]*)<\/title>/) || [])[1] || ""; const de = (h.match(/name="description" content="([^"]*)"/) || [])[1] || "";
-    if (ti.length < 40 || ti.length > 60 || de.length < 110 || de.length > 155) bad.titel.push(`${s}: Titel ${ti.length}, Beschreibung ${de.length}`);
-    if (P.vorschau !== false && !/name="robots" content="noindex/.test(h)) bad.noindex.push(s);
+    // S3: 40 bis 60, über 65 Fehler, sonst Warnung; S12: Beschreibung 110 bis 155
+    if (ti.length > 65 || de.length < 110 || de.length > 155) bad.titel.push(`${s}: Titel ${ti.length}, Beschreibung ${de.length}`);
+    else if (ti.length < 40 || ti.length > 60) warn.titel.push(`${s}: Titel ${ti.length} (Warnung)`);
+    if (P.vorschau !== false && !noindexKopf && !/name="robots" content="noindex/.test(h)) bad.noindex.push(s);
     if (P.vorschau !== false && /rel="canonical"/.test(h)) bad.canon.push(s);
     const hauptM = h.match(/<main[\s\S]*?<\/main>/); const haupt = hauptM ? ohneZitat(hauptM[0]) : "";
     const absaetze = [...haupt.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map((m) => m[1].replace(/<br\s*\/?>/g, ". "));
@@ -231,20 +248,24 @@ function textPruefung(ordner) {
   if (T.guillemets !== false) r("TP7/CH5 Guillemets, keine geraden oder deutschen Anführungszeichen", bad.gerade.length === 0, bad.gerade.join(", ") || "0");
   if (T.gedankenstriche === false) r("TP7/K11 Keine Gedankenstriche im sichtbaren Text", bad.strich.length === 0, bad.strich.join(", ") || "0");
   if (T.uhrzeitMitPunkt !== false) r("TP7/CH11 Uhrzeit mit Punkt", bad.uhr.length === 0, bad.uhr.join(", ") || "0");
-  r("TP7/CH12 Telefon national sichtbar, kein +41 im Text", bad.tel.length === 0, bad.tel.join(", ") || "0");
+  r("TP7/CH12/CH13 Telefon sichtbar national oder «+41 xx xxx xx xx», kein 0041, kein (0)", bad.tel.length === 0, bad.tel.join(", ") || "0");
   r("DP6 Klammern: keine eckigen Klammern im sichtbaren Text", bad.klammer.length === 0, bad.klammer.join(", ") || "0");
   r("TP7/S15 Genau ein h1, keine Sprünge in der Gliederung", bad.h.length === 0, bad.h.join(" | ") || "0");
-  r("TP7/S20 Bilder mit Alt-Attribut und Mass", bad.img.length === 0, bad.img.join(" | ") || "alle Bilder");
-  r("TP7/S1 Titel 40 bis 60, Beschreibung 110 bis 155 Zeichen", bad.titel.length === 0, bad.titel.join(" | ") || `${SEITEN.length} Seiten`);
-  if (P.vorschau !== false) r("TP7/TI9 Vorschau: noindex, kein canonical", bad.noindex.length === 0 && bad.canon.length === 0, [...bad.noindex, ...bad.canon].join(", ") || `${SEITEN.length} Seiten`);
+  r("TP7/S20/TI33 Bilder mit Alt-Attribut, width und height", bad.img.length === 0, bad.img.join(" | ") || "alle Bilder");
+  r("TP7/S3/S12 Titel höchstens 65 Zeichen (Ziel 40 bis 60), Beschreibung 110 bis 155", bad.titel.length === 0, [...bad.titel, ...warn.titel].join(" | ") || `${SEITEN.length} Seiten`);
+  if (P.vorschau !== false) {
+    r("TP7/TI10 Vorschau: noindex per Meta oder X-Robots-Tag (Entscheid 4)", bad.noindex.length === 0, bad.noindex.join(", ") || (noindexKopf ? "X-Robots-Tag in _headers" : `Meta auf ${SEITEN.length} Seiten`));
+    r("DP6 Vorschau: kein canonical", bad.canon.length === 0, bad.canon.join(", ") || `${SEITEN.length} Seiten`);
+  }
   if (saetze) {
     r("TP3/W1 Sätze im Fliesstext im Mittel ≤ 15 Wörter", wortSumme / saetze <= 15, `${(wortSumme / saetze).toFixed(1)} im Mittel über ${saetze} Sätze; längster ${maxSatz} (${maxWo})`);
     r("TP3/W2 Kein Satz über 25 Wörter", bad.satz.length === 0, bad.satz.join(" | ") || `längster ${maxSatz}`);
   }
   const rob = path.join(ordner, "robots.txt");
-  if (P.vorschau !== false) r("TP7/TI3 Vorschau: robots.txt sperrt alles, keine Sitemap", fs.existsSync(rob) && /Disallow: \/\s*$/m.test(fs.readFileSync(rob, "utf8")) && !fs.existsSync(path.join(ordner, "sitemap.xml")), fs.existsSync(rob) ? fs.readFileSync(rob, "utf8").trim().replace(/\n/g, " | ") : "robots.txt fehlt");
+  if (P.vorschau !== false) { const rt = fs.existsSync(rob) ? fs.readFileSync(rob, "utf8") : ""; const sperrt = /^\s*Disallow:\s*\/\s*$/m.test(rt); const sitemap = fs.existsSync(path.join(ordner, "sitemap.xml"));
+    r("TP7/TI8 Vorschau: robots.txt sperrt nicht (kein «Disallow: /»), keine Sitemap (Entscheid 4)", !sperrt && !sitemap, (rt ? rt.trim().replace(/\n/g, " | ") : "keine robots.txt") + (sitemap ? " · sitemap.xml vorhanden" : "")); }
   const tot = []; for (const s of SEITEN) { for (const m of html(s).matchAll(/(?:href|src)="([^"#?]+)(?:[?#][^"]*)?"/g)) { const u = m[1]; if (/^(https?:|mailto:|tel:|\/\/|data:)/.test(u)) continue; if (!fs.existsSync(path.join(ordner, u.replace(/^\//, "")))) tot.push(`${s}: ${u}`); } }
-  r("TP7/TI17 Keine toten internen Links oder Bilder", tot.length === 0, tot.join(" | ") || "0");
+  r("DP6 Keine toten internen Links oder Bilder", tot.length === 0, tot.join(" | ") || "0");
   // Strukturierte Daten: Typ, Telefon und Strasse gleich der sichtbaren Seite, keine eigene Bewertung
   if (P.jsonld && P.jsonld.typ) {
     const ld = html("index").match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/); let ok = false, d = "fehlt";
@@ -256,8 +277,8 @@ function textPruefung(ordner) {
     const erlaubt = Object.keys(P.zahlen).concat(P.telefon || []);
     const unbek = new Set();
     for (const s of SEITEN) { const t = vis(html(s)); for (const m of t.matchAll(/\d[\d.,'’]*\d|\d/g)) { const z = m[0]; if (/^\d{1,2}$/.test(z) || /^0\d{2}$/.test(z)) continue; /* ein- und zweistellig, Vorwahlen */ if (!erlaubt.some((k) => k === z || k.includes(z))) unbek.add(`${s}: ${z}`); } }
-    r("T7 Faktenabgleich: jede Zahl (ab 3 Stellen) steht mit Quelle in projekt.json", unbek.size === 0, [...unbek].slice(0, 30).join(" | ") || "alle belegt");
-  } else nichtGeprueft("T7 Faktenabgleich", "keine zahlen in projekt.json");
+    r("TP7/R1 Faktenabgleich: jede Zahl (ab 3 Stellen) steht mit Quelle in projekt.json", unbek.size === 0, [...unbek].slice(0, 30).join(" | ") || "alle belegt");
+  } else nichtGeprueft("TP7/R1 Faktenabgleich", "keine zahlen in projekt.json");
 }
 
 /* ---------- Selbsttest: allgemeine eingebaute Fehler ---------- */
@@ -279,7 +300,16 @@ function baueFehlerEin(tmp) {
     schreib(sH, lies(sH).replace(re, "")); eingebaut.push("DP6 Hauptaktion fest sichtbar 1440");
   }
   // 5 Bild ohne Mass
-  schreib(sK, lies(sK).replace(/<\/main>/, '<img src="fehlt-absichtlich.jpg" alt=""></main>')); eingebaut.push("TP7/S20 Bilder mit Alt-Attribut und Mass");
+  schreib(sK, lies(sK).replace(/<\/main>/, '<img src="fehlt-absichtlich.jpg" alt=""></main>')); eingebaut.push("TP7/S20/TI33 Bilder mit Alt-Attribut, width und height");
+  // 6 Vorschau mit «Disallow: /» (Entscheid 4: falsch)
+  if (P.vorschau !== false) { fs.writeFileSync(path.join(tmp, "robots.txt"), "User-agent: *\nDisallow: /\n"); eingebaut.push("TP7/TI8 Vorschau: robots.txt sperrt nicht (kein «Disallow: /»), keine Sitemap (Entscheid 4)"); }
+  // 7 Telefon mit 0041 im sichtbaren Text (CH13: falsch)
+  schreib(sT, lies(sT).replace(/<\/main>/, "<p>Telefon 0041 71 555 00 00</p></main>")); eingebaut.push("TP7/CH12/CH13 Telefon sichtbar national oder «+41 xx xxx xx xx», kein 0041, kein (0)");
+  // 8 Hauptaktion doppelt im ersten Bildschirm (Entscheid 6)
+  if (P.hauptaktion && P.hauptaktion.href && !P.hauptaktion.mehrfach) { schreib(sK, lies(sK).replace(/(<body\b[^>]*>)/, `$1<a href="${P.hauptaktion.href}" style="display:block;padding:12px">${P.hauptaktion.text || "Hauptaktion"}</a>`)); eingebaut.push("DP6 Hauptaktion höchstens einmal im ersten Bildschirm 1440"); }
+  // 9 Pflichtfeld mit Sternchen (U11, zusammenspiel.md Teil 4: falsch)
+  const F = P.formular;
+  if (F && F.seite && F.selektor && fs.existsSync(path.join(tmp, F.seite))) { const fp = path.join(tmp, F.seite), fh = fs.readFileSync(fp, "utf8"); const neu = fh.replace(/<\/label>/, " *</label>"); if (neu !== fh) { fs.writeFileSync(fp, neu); eingebaut.push("DP6 Formular: höchstens 4 Pflichtfelder, freiwillige mit «(freiwillig)», kein Sternchen"); } }
   return eingebaut;
 }
 

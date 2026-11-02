@@ -40,4 +40,4 @@ Dann: Fakten in `betrieb.json`, Wortlaut in `texte.json`, Seiten nach dem Antwor
 - **Kein Formular mit Server** `[nicht gebaut]`. Bis es gebaut ist, führt die Hauptaktion auf `tel:` oder `mailto:`, Wortlaut aus text-uni ([betrieb.md](../referenzen/betrieb.md)).
 - **Keine Mehrsprachigkeit** `[nicht gebaut]`: eine Sprache aus `bau.json`, kein `hreflang`.
 - **Keine Feiertage** im Öffnungsstatus `[nicht gebaut]`.
-- **Nicht gemessen und nicht blind geprüft.** Gebaut mit Testdaten am 02.11.2026; Messung und Wirkung stehen aus.
+- **Nicht gemessen und nicht blind geprüft.** Gebaut am 02.11.2026 mit Testdaten, über die Programmschnittstelle von Astro, weil der Container Node 22.22.0 hatte (WL11). Messung und Wirkung stehen aus.

@@ -1,5 +1,5 @@
 // Prüft die Galerie der Bausteine: ohne JavaScript lesbar, still unter «Bewegung reduzieren»,
-// nach 3 s keine endliche Animation mehr, endlose nur mit Pause-Knopf, Kontrast aus der Kaskade, kein fremder Host.
+// was nach 5 s noch läuft, nur mit Pause-Knopf (WCAG 2.2.2, Entscheid 12), Kontrast aus der Kaskade, kein fremder Host.
 // Aufruf: node pruefen-galerie.cjs [--bilder ordner]
 "use strict";
 const { chromium } = require("playwright");
@@ -20,16 +20,15 @@ const erg = []; const r = (id, ok, d) => erg.push({ id, ok: !!ok, d });
     await p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { scrollTo(0, y); await new Promise((x) => setTimeout(x, 60)); } });
     const n = await p.evaluate(() => document.getAnimations().length);
     r("Bewegung reduzieren: 0 Animationen nach dem Durchscrollen", n === 0, `${n}`); await c.close(); }
-  // 3 normale Bewegung, nach 3 s
+  // 3 normale Bewegung, nach 5 s
   { const c = await b.newContext({ viewport: { width: 1440, height: 900 } }); const p = await c.newPage(); const fremd = new Set();
     p.on("request", (q) => { if (!q.url().startsWith("file:")) fremd.add(q.url()); });
     await p.goto(url);
     await p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { scrollTo(0, y); await new Promise((x) => setTimeout(x, 60)); } });
-    await p.waitForTimeout(3200);
-    const a = await p.evaluate(() => { const l = document.getAnimations().filter((x) => x.playState === "running"); return { endlich: l.filter((x) => x.effect.getTiming().iterations !== Infinity).length, endlos: l.filter((x) => x.effect.getTiming().iterations === Infinity).map((x) => x.effect.target.closest("[data-baustein]").dataset.baustein) }; });
+    await p.waitForTimeout(5200);
+    const a = await p.evaluate(() => { const l = document.getAnimations().filter((x) => x.playState === "running"); return { laufend: [...new Set(l.map((x) => { const z = x.effect && x.effect.target && x.effect.target.closest("[data-baustein]"); return z ? z.dataset.baustein : "ausserhalb"; }))] }; });
     const pausen = await p.$$eval("[data-pause]", (k) => k.map((x) => x.closest("[data-baustein]").dataset.baustein));
-    r("nach 3 s laufen 0 endliche Animationen", a.endlich === 0, `${a.endlich}`);
-    r("endlose Animationen nur mit Pause-Knopf", a.endlos.every((x) => pausen.includes(x)), `endlos in ${a.endlos.join(",") || "keinem"}, Pause in ${pausen.join(",")}`);
+    r("was nach 5 s noch läuft, hat einen Pause-Knopf", a.laufend.every((x) => pausen.includes(x)), `laufend in ${a.laufend.join(",") || "keinem"}, Pause in ${pausen.join(",")}`);
     await p.click("[data-pause]"); const ps = await p.evaluate(() => document.getAnimations().filter((x) => x.playState === "running").length);
     r("Pause hält das Laufband an", ps === 0, `${ps} laufend nach Pause`);
     r("nichts von fremden Hosts", fremd.size === 0, [...fremd].join(" ") || "0");

@@ -96,7 +96,7 @@ Die Liste entstand aus der Vermessung von 25 Vorbildern ([vorbilder-gemessen.md]
 - **Gesehen:** 3 von 25 (Wine Diplomacy: nächster Anlass; Northeast Tomato: Produkte; watts).
 - **Was:** ein Band mit wechselndem, gepflegtem Inhalt (nächster Termin, Saison, Pikettdienst).
 - **Voraussetzung:** jemand pflegt den Inhalt (Kundenangaben «Pflege»).
-- **Bauen:** zählt als **die eine Bewegung** (SKILL.md Schritt 4); Pause-Knopf, unter Reduced Motion still; ohne Pflege nicht bauen.
+- **Bauen:** Pause-Knopf (läuft länger als 5 s), unter Reduced Motion still ([bewegung.md](bewegung.md) Teil 2); ohne Pflege nicht bauen.
 - **Gefahr:** Ein Laufband mit Werbewörtern ist die Conversion-Vorlage.
 
 ### TK11 · Die Palette als Streifen aus dem Material

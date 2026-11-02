@@ -4,9 +4,9 @@ Baukästen für Bewegung und Komponenten liefern fertige Abschnitte. Für design
 
 - **Muster lernen, selbst bauen.** Kein Code und keine Bilder aus Baukästen in eine Kundenseite; jede Umsetzung ist eigener Code ohne Bibliothek, mit Farben und Schrift aus den Tokens des Betriebs.
 - **Jeder Baustein dient einer Technik** ([techniken.md](techniken.md)) und hat einen «weil»-Satz aus dem Betrieb. Sonst ist er Dekoration.
-- **Bewegung bleibt: keine oder eine** (SKILL.md Schritt 4, [bewegung.md](bewegung.md)). Ein Baustein mit Bewegung **ist** die eine Bewegung.
+- **Bewegung ohne Mengenregel** (Entscheid 12): so viel, wie die Idee oder der Wunsch braucht, mit dem Boden aus [bewegung.md](bewegung.md) Teil 2. Mehrere Bausteine mit Bewegung sind erlaubt; einer davon sollte die Hauptsache sein (Hinweis).
 
-Die eigenen Umsetzungen stehen in der **Galerie** [../galerie/index.html](../galerie/index.html), geprüft mit [../galerie/pruefen-galerie.cjs](../galerie/pruefen-galerie.cjs) (ohne JavaScript lesbar, still unter «Bewegung reduzieren», nach 3 s keine Animation, endlose nur mit Pause, Kontrast, 44 px am Handy).
+Die eigenen Umsetzungen stehen in der **Galerie** [../galerie/index.html](../galerie/index.html), geprüft mit [../galerie/pruefen-galerie.cjs](../galerie/pruefen-galerie.cjs) (ohne JavaScript lesbar, still unter «Bewegung reduzieren», was länger als 5 s läuft, nur mit Pause, Kontrast, 44 px am Handy).
 
 ## 1. Die Galerie: elf Bausteine
 
@@ -55,7 +55,7 @@ Technik: React plus Framer Motion. Eine statische KMU-Seite braucht dafür kein 
 ## 3. Prüfen, bevor ein Baustein in ein Projekt geht
 
 1. Welche Technik trägt er, und wie lautet der «weil»-Satz aus dem Betrieb?
-2. Ist er die eine Bewegung der Website? Wenn es schon eine gibt: weglassen.
+2. Braucht die Idee oder der Wunsch diese Bewegung, und steht sie im Kostenblatt von web-uni?
 3. Ohne JavaScript lesbar, unter «Bewegung reduzieren» still, fertig nach der Tabelle in [bewegung.md](bewegung.md) Teil 2 oder mit Pause?
 4. Sieht er anders aus als bei den letzten drei Websites (Bauteile im Register)?
 5. Läuft `pruefen.cjs` des Projekts danach weiter ohne Fehler?

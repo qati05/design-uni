@@ -38,9 +38,9 @@ Die verbindlichen Regeln für alle drei Skills stehen in [zusammenspiel.md](../d
 1. **Rangfolge statt Bauchgefühl.** Recht, dann Entscheide des Betriebs, dann Hausentscheide des Studios, dann die Regeln dieses Skills (zusammenspiel Teil 1). Entscheide stehen mit Datum und Person in `entscheide.md` (design-uni).
 2. **Der Wunsch des Betriebs geht vor, mit offenem Preis.** Will der Betrieb mehr Technik, als die Regeln vorsehen, wird sie gebaut, wenn die Kosten benannt sind: Gewicht in KB, Auswirkung auf LCP und TBT, Pflege, Geräte, die es nicht tragen. Der Betrieb entscheidet mit dem Kostenblatt.
 3. **Kosten an den Kunden sind Entwürfe.** Kostenblatt, Stunden und laufende Kosten gehen erst nach Freigabe durch das Studio an den Betrieb.
-4. **Inhalt zuerst.** Alle Inhalte, Telefon und Anfrage funktionieren ohne JavaScript und ohne WebGL. Bewegung und 3D sind Verbesserung, kein Träger.
-5. **Foto zuerst, Szene später.** Das LCP-Element ist ein Bild oder Text. Szenen laden nach dem LCP, nur mit Bewegung erlaubt und Technik vorhanden.
-6. **`prefers-reduced-motion` und Energie.** Unter reduzierter Bewegung läuft nichts von selbst; bei schwacher Grafik oder Sparmodus startet keine Szene.
+4. **Boden für Bewegung** (zusammenspiel Entscheid 12; Barrierefreiheit): Aller Inhalt, Telefon und Anfrage funktionieren ohne Bewegung, ohne JavaScript und ohne WebGL; keine Bewegung hält Inhalt zurück; unter `prefers-reduced-motion` läuft nichts von selbst; was länger als 5 s von selbst läuft, lässt sich pausieren (WCAG 2.2.2). Darüber gibt es keine Mengenregel: Bewegung gibt es so viel, wie die Idee oder der Wunsch braucht.
+5. **Foto zuerst, Szene später.** Das LCP-Element ist ein Bild oder Text; Szenen laden nach dem LCP. Grund: eigene Messung, der LCP blieb mit Szene gleich ([messungen.md](referenzen/messungen.md)).
+6. **Hinweis Energie:** Bei schwacher Grafik oder Sparmodus die Szene nicht starten `[Annahme, nicht gebaut]`.
 7. **Alles vom eigenen Host.** Schriften, Skripte, Bilder und Modelle liegen auf dem eigenen Server. Fremde Inhalte laden erst nach Klick (text-uni CL3); fremde Skripte nur mit Grund und erst nach Einwilligung oder Klick (zusammenspiel Entscheid 10). Keine Cookies ohne Entscheid. Einzelheiten: [betrieb.md](referenzen/betrieb.md).
 8. **Messen, bevor man behauptet.** Eine Technik gilt als «gut» erst nach WP5 und, wo es um Wirkung geht, nach WP6.
 9. **Organisation vor Millisekunden.** Aus einem Besucher wird eine Anfrage durch Verständlichkeit, Vertrauen und einen kurzen Weg; aus der Anfrage ein Auftrag durch das, was im Betrieb danach geschieht. Ladezeit ist eine **Schwelle** (WP5), kein Wettbewerb. Jeder Stack-Entscheid braucht mindestens einen Grund aus der Organisation (Pflege, Abläufe, Anfragekette).
@@ -87,7 +87,7 @@ Läuft nach TP1. **Ist Bewegung oder 3D Kern des Wunsches, läuft WP2 erst nach 
 - **Statisches HTML (Klasse A):** erlaubt, wenn nichts verloren geht, das heisst: so wenige wiederkehrende Werte, dass eine Datenquelle nichts spart, und kein Bedarf an Bauprüfungen über das Prüfskript hinaus.
 - **Next.js (Klasse C):** nur bei Konten, Anmeldung, Shop, Buchung oder stark dynamischen Daten; im Spike +133 KB JS und rund 1 s später LCP bei gleichem Inhalt.
 - **Baukasten (Klasse D):** wenn der Betrieb ihn schon hat oder ausdrücklich verlangt, oder ganz ohne Entwickler pflegen will und das gesagt hat. Ein solcher Wunsch ist ein Entscheid des Betriebs und geht dem Hausentscheid vor.
-- **Kombinationen:** eine Seite, ein Stack; die Grenze liegt an der Adresse ([stacks.md](referenzen/stacks.md), «Zwei Stacks zusammen»).
+- **Kombinationen** (Hinweis `[Annahme]`): eine Seite, ein Stack; die Grenze liegt an der Adresse ([stacks.md](referenzen/stacks.md), «Zwei Stacks zusammen»).
 
 Die Begründung steht in `technik.md` im Projekt:
 
@@ -104,11 +104,11 @@ Der Hoster muss können, was text-uni für Suche und Umzug verlangt: eigene 404 
 
 ## Schritt 3 · Bewegungstechnik und Kostenblatt
 
-**Ob und welche Bewegung** entscheidet design-uni in DP2. web-uni entscheidet nur, **womit** und **was es kostet**. Übergabe **DP2 → WP3**: design-uni nennt die Bewegung (oder «keine»), web-uni wählt die niedrigste Stufe der Leiter, die sie trägt ([animation-3d.md](referenzen/animation-3d.md)):
+**Ob und welche Bewegung** entscheidet design-uni in DP2, nach dem, was die Idee des Betriebs oder der Wunsch braucht; eine Mengenregel gibt es nicht (zusammenspiel Entscheid 12). web-uni entscheidet nur, **womit** und **was es kostet**. Übergabe **DP2 → WP3**: design-uni nennt die Bewegungen, web-uni wählt je Bewegung die Technik, die sie mit den geringsten Kosten trägt ([animation-3d.md](referenzen/animation-3d.md)). Die Leiter ordnet nach Kosten; sie begrenzt nichts:
 
-| Stufe | Technik | Gewicht | Wann |
+| Stufe | Technik | Gewicht | Typisch für |
 |---|---|---|---|
-| 0 | keine | 0 | DP2 sagt «keine» |
+| 0 | keine | 0 | die Idee braucht keine |
 | 1 | CSS-Übergänge, `animation-timeline` | 0 KB JS `[Annahme]` | die Bewegung geht mit CSS |
 | 2 | View Transitions | 0 bis 2 KB `[Annahme]` | Seitenwechsel sollen zusammenhängen |
 | 3 | GSAP, Motion, Lenis | 20 bis 90 KB JS `[Annahme]` | Abläufe, die CSS nicht kann |
@@ -116,11 +116,11 @@ Der Hoster muss können, was text-uni für Suche und Umzug verlangt: eigene 404 
 | 5 | WebGL: three.js, React Three Fiber | +240 KB JS, 3,4 s TBT im Labor ohne GPU `[gebaut und gemessen]` | das Produkt ist 3D |
 | 6 | WebGPU mit WebGL-Rückfall | wie 5 plus Pfade | nur bei Rechenlast |
 
-**Wunsch nach mehr Bewegung:** Will der Betrieb mehr, als DP2 vorsieht, gilt die Rangfolge: Der Wunsch ist ein Entscheid des Betriebs und geht den Regeln von design-uni vor, sobald er mit dem Kostenblatt in `entscheide.md` steht. Ab Stufe 4 braucht dieser Entscheid das Kostenblatt, nachdem das Studio es freigegeben hat.
+**Wunsch des Betriebs:** Will der Betrieb eine Bewegung, die DP2 nicht vorsieht, ist das ein Entscheid des Betriebs und geht nach der Rangfolge vor. Reisst eine Bewegung die Schwellen in WP5, entscheidet der Betrieb mit dem Kostenblatt, nachdem das Studio es freigegeben hat; der Entscheid steht in `entscheide.md`.
 
-Je Bewegung im Abschnitt «Bewegung» von `technik.md`: Stufe, was sie zeigt, Kosten (KB, LCP, TBT), was ohne sie fehlt, Rückfall, Abschalter.
+Je Bewegung im Abschnitt «Bewegung» von `technik.md`: Stufe, was sie zeigt, Kosten (KB, LCP, TBT), Rückfall, Abschalter, Pause.
 
-**WP3 · Technik und Kosten benannt:** jede Bewegung aus DP2 hat Stufe, Kostenblatt (Entwurf) und Rückfall; keine Bewegung hält Inhalt zurück; ohne JS und ohne WebGL ist alles da.
+**WP3 · Technik und Kosten benannt:** jede Bewegung aus DP2 und aus Entscheiden des Betriebs hat Stufe, Kostenblatt (Entwurf) und Rückfall; der Boden aus Grundregel 4 ist erfüllt.
 
 ## Schritt 4 · Gerüst und Bau
 
@@ -146,23 +146,24 @@ Stackspezifisch: [stacks.md](referenzen/stacks.md).
 
 Alle maschinellen Prüfungen laufen **einmal am selben Stand**: DP6 (design-uni, `pruefen.cjs`), TP7 (text-uni, `slop-de.js` und Technik), WP4 und WP5 (Bau und Messung); dazu TP5 und TP6. Ablauf und Befehle: [pruefumgebung.md](referenzen/pruefumgebung.md).
 
-**Budgets** (web-uni ist Besitzer; die anderen Skills verweisen hierher). Gemessen mobil, mit Komprimierung, drei Läufe, Median:
+**Budgets** (web-uni ist Besitzer; die anderen Skills verweisen hierher). Gemessen mobil, mit Komprimierung, drei Läufe, Median. **Schwellen** sperren: Was darüber liegt, wird behoben oder vom Betrieb mit Kostenblatt entschieden. **Richtwerte** sind Hinweise ohne eigenen Beleg (zusammenspiel Entscheid 13): Sie helfen, die Schwellen zu halten, und eine Überschreitung steht nur mit Grund im Bericht.
 
-| Kennzahl | Schwelle | Herkunft |
+| Kennzahl | Wert | Art und Herkunft |
 |---|---|---|
-| Lighthouse Leistung (mobil, simuliert) | ≥ 90; darüber wird nicht weiter optimiert | zusammenspiel Teil 4 |
-| LCP | ≤ 2,5 s | `[gelesen · web.dev, Schwelle «gut» am 75. Perzentil]`; im Labor nur Hinweis |
-| INP (Feld), TBT als Laborersatz | INP ≤ 200 ms `[gelesen · web.dev]`; TBT ≤ 200 ms | TBT: `[Annahme]` |
-| CLS | ≤ 0,1 | `[gelesen · web.dev]` |
-| JavaScript vor dem LCP, komprimiert | ≤ 100 KB | `[Annahme]` |
-| JavaScript gesamt, komprimiert, normale Seite | ≤ 170 KB | `[Annahme]` |
-| Zusatz-JS einer 3D-Szene nach dem LCP | im Kostenblatt, ≤ 600 KB | `[Annahme]` |
-| HTML je Seite | ≤ 100 KB | `[Annahme, wie text-uni TI34]` |
-| Bild, je ausgelieferte Variante | ≤ 200 KB | `[Annahme, wie text-uni TI33]` |
-| Ausnahme: randloses oder LCP-Bild, grösste Variante (ab 1440 px bei 2×) | ≤ 400 KB | `[Annahme]` |
-| Bilder beim ersten Aufruf, mobil | ≤ 1 MB | `[Annahme]`; Median-Startseite lädt 1059 KB Bilder `[gelesen · Web Almanac 2025]` |
-| Schriften gesamt | ≤ 100 KB | `[Annahme]`; Median 139 KB `[gelesen · Web Almanac 2025]` |
-| Fremde Herkunft, Cookies | 0 | Grundregel 7; geprüft in DP6 |
+| Lighthouse Leistung (mobil, simuliert) | ≥ 90; darüber wird nicht weiter optimiert | Schwelle, zusammenspiel Teil 4 |
+| LCP | ≤ 2,5 s | Schwelle `[gelesen · web.dev, «gut» am 75. Perzentil]`; im Labor nur Hinweis |
+| INP (Feld) | ≤ 200 ms | Schwelle `[gelesen · web.dev]` |
+| CLS | ≤ 0,1 | Schwelle `[gelesen · web.dev]` |
+| Fremde Herkunft, Cookies | 0 | Schwelle, Grundregel 7 (DSG, Entscheid 10); geprüft in DP6 |
+| TBT im Labor (Ersatz für INP) | ≤ 200 ms | Richtwert `[Annahme]` |
+| JavaScript vor dem LCP, komprimiert | ≤ 100 KB | Richtwert `[Annahme]` |
+| JavaScript gesamt, komprimiert, normale Seite | ≤ 170 KB | Richtwert `[Annahme]`; im Spike lag Next.js bei 137 KB und 3619 ms LCP `[gebaut und gemessen]` |
+| Zusatz-JS einer 3D-Szene nach dem LCP | im Kostenblatt, ≤ 600 KB | Richtwert `[Annahme]` |
+| HTML je Seite | ≤ 100 KB | Richtwert `[Annahme, bisher in text-uni TI34]` |
+| Bild, je ausgelieferte Variante | ≤ 200 KB | Richtwert `[Annahme, bisher in text-uni TI33]` |
+| randloses oder LCP-Bild, grösste Variante (ab 1440 px bei 2×) | ≤ 400 KB | Richtwert `[Annahme]` |
+| Bilder beim ersten Aufruf, mobil | ≤ 1 MB | Richtwert `[Annahme]`; Median-Startseite lädt 1059 KB Bilder `[gelesen · Web Almanac 2025]` |
+| Schriften gesamt | ≤ 100 KB | Richtwert `[Annahme]`; Median 139 KB `[gelesen · Web Almanac 2025]` |
 
 - **Score ersetzt die Einzelwerte nicht.** Die gemessene Probe hatte Score 97 und LCP 2645 ms im Labor. Liegt ein Laborwert über der Schwelle, steht er mit Grund im Bericht; den Ausschlag geben Feldwerte nach dem Livegang.
 - **Tempo ist Schwelle, nicht Ziel.** Liegt alles innerhalb der Schwellen, geht Aufwand in Verständlichkeit, Vertrauen und die Anfragekette. Die Belege für Ladezeit und Umsatz sind Fallstudien von Herstellern und korrelativ ([branchenwerte.md](referenzen/branchenwerte.md)).
