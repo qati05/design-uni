@@ -37,4 +37,12 @@ do $$ begin delete from public.audit_log; raise exception 'Audit löschbar'; exc
 update public.meldungen set erstellt = now() - interval '400 days' where id = 'm1';
 select pg_temp.erwarte(public.meldungen_aufraeumen(), 1, 'Meldung nach Frist gelöscht');
 select pg_temp.erwarte((select count(*) from public.meldung_fotos), 0, 'Fotozeilen mitgelöscht');
+-- Zählung: nur service_role zählt, Mitglied mit aal2 liest, anon nichts
+set role service_role; select public.zaehlen('anruf', 'kopf'); select public.zaehlen('anruf', 'kopf'); reset role;
+select pg_temp.erwarte((select anzahl from public.zaehlung where punkt = 'anruf')::bigint, 2, 'Zählung addiert');
+set role authenticated; set test.uid = '11111111-1111-1111-1111-111111111111'; set test.aal = 'aal2';
+select pg_temp.erwarte((select count(*) from public.zaehlung), 1, 'Mitglied liest Zählung');
+do $$ begin perform public.zaehlen('anruf', 'kopf'); raise exception 'authenticated durfte zählen'; exception when insufficient_privilege then raise notice 'ok  nur die Website-Funktion zählt'; end $$;
+reset role;
+do $$ begin insert into public.zaehlung (punkt, ort) values ('<b>', 'x'); raise exception 'ungültiger Punkt'; exception when check_violation then raise notice 'ok  ungültiger Zählpunkt abgewiesen'; end $$;
 \echo RAUCHPROBE GRÜN

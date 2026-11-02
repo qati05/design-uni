@@ -757,8 +757,21 @@ header .aktionen .knopf[aria-current="page"] { display: none; }
 
 /* Fremder Inhalt nach Klick (Occasionen-Widget) */
 .fremd { margin: 8px 0 32px; }
-.fremd__platz { display: grid; gap: 12px; justify-items: start; padding: clamp(20px, 3vw, 32px); background-color: #e2f0fc; background-image: var(--lack); border: 2px solid var(--babyblau-tief); }
+.fremd__platz { display: grid; gap: 12px; justify-items: start; padding: clamp(20px, 3vw, 32px); background-color: var(--tafel); background-image: var(--lack); border: 2px solid var(--babyblau-tief); }
 .fremd__platz p { margin: 0; max-width: 64ch; }
 .fremd__titel { font: italic 700 26px/1.1 var(--titel); text-transform: uppercase; }
 .fremd__datenschutz { font-size: 15px; color: var(--hallengrau); }
 .fremd.ist-geladen .fremd__platz { display: none; }
+
+/* Rückruf in einem Schritt */
+.rueckruf { gap: 14px; max-width: 720px; margin: 8px 0 32px; }
+.rueckruf__titel { margin: 0; font: italic 700 26px/1.1 var(--titel); text-transform: uppercase; }
+.rueckruf__text { margin: 0; color: var(--hallengrau); }
+.rueckruf__felder { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 860px) { .rueckruf__felder { grid-template-columns: 1fr; } }
+.bewerten { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+/* Schadenmeldung am Handy: Weiter und Senden immer unter dem Daumen (über der Leiste unten) */
+@media (max-width: 860px) {
+  .melden__weiter { position: sticky; bottom: calc(72px + env(safe-area-inset-bottom, 0px)); z-index: 6; padding: 10px 0; margin: 0 -18px -18px; padding-inline: 18px; background: var(--kabinenlicht); border-top: 1px solid var(--blech); }
+  .weg--a { position: sticky; bottom: calc(72px + env(safe-area-inset-bottom, 0px)); z-index: 6; box-shadow: 0 -10px 0 var(--kabinenlicht), 0 6px 0 var(--kabinenlicht); }
+}

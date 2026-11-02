@@ -6,6 +6,7 @@ export type SitzungsStand = { userId: string; email: string; aal: "aal1" | "aal2
 export type CodeAntwort = { status: "gesendet" | "zu_viele" | "fehler" };
 export type TotpAntwort = { status: "ok" | "falsch" | "kein_faktor" | "ungueltig" };
 export type Einrichten = { status: "bereit"; faktorId: string; geheimnis: string; qr: string | null } | { status: "vorhanden" | "fehler" };
+export type Zaehlzeile = { tag: string; punkt: string; ort: string; anzahl: number };
 export type AuditEintrag = { aktion: string; ergebnis: "ok" | "abgelehnt" | "fehler"; ziel?: string };
 
 export interface Backend {
@@ -22,6 +23,8 @@ export interface Backend {
   statusSetzen(id: string, status: Status): Promise<boolean>;
   notizSetzen(id: string, notiz: string): Promise<boolean>;
   audit(e: AuditEintrag): Promise<void>;
+  /** Zählung der letzten Tage: je Tag, Punkt und Ort die Anzahl. */
+  zahlen(tage: number): Promise<Zaehlzeile[]>;
 }
 
 export function istDemo(): boolean {

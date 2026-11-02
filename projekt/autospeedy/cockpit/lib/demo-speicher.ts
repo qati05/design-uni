@@ -8,11 +8,11 @@ export const DEMO_TOTP_GEHEIMNIS = "JBSWY3DPEHPK3PXPAUTOSPEED"; // nur Demo, öf
 export const DEMO_COOKIE = "as_demo_sitzung";
 
 export type PostfachMail = { id: string; zeit: string; an: string; betreff: string; text: string };
-type Speicher = { codes: Map<string, { code: string; bis: number; versuche: number }>; meldungen: Meldung[]; postfach: PostfachMail[]; audit: { zeit: string; aktion: string; ergebnis: string; ziel?: string }[]; anfragen: number[] };
+type Speicher = { codes: Map<string, { code: string; bis: number; versuche: number }>; meldungen: Meldung[]; postfach: PostfachMail[]; audit: { zeit: string; aktion: string; ergebnis: string; ziel?: string }[]; anfragen: number[]; zaehlung: Map<string, number> };
 
 const g = globalThis as unknown as { __asDemo?: Speicher };
 export function speicher(): Speicher {
-  if (!g.__asDemo) g.__asDemo = { codes: new Map(), meldungen: beispielMeldungen(), postfach: [], audit: [], anfragen: [] };
+  if (!g.__asDemo) g.__asDemo = { codes: new Map(), meldungen: beispielMeldungen(), postfach: [], audit: [], anfragen: [], zaehlung: beispielZaehlung() };
   return g.__asDemo;
 }
 
@@ -60,4 +60,19 @@ function beispielMeldungen(): Meldung[] {
 
 export function postfachSchreiben(an: string, betreff: string, text: string) {
   speicher().postfach.unshift({ id: neueId(), zeit: new Date().toISOString(), an, betreff, text });
+}
+
+/** Beispiel-Zählung der letzten 14 Tage (Demo, als Beispiel gekennzeichnet im Cockpit). Schlüssel «tag|punkt|ort». */
+function beispielZaehlung(): Map<string, number> {
+  const m = new Map<string, number>();
+  const muster: [string, string, number][] = [["anruf", "kopf", 4], ["anruf", "abschluss", 1], ["schnellstart", "start", 3], ["meldung-gesendet", "website", 1], ["schaden-whatsapp", "schaden", 1], ["tesla", "start", 1], ["rueckruf-occasionen", "occasionen", 0]];
+  for (let d = 13; d >= 0; d--) {
+    const tag = new Date(Date.now() - d * 864e5).toISOString().slice(0, 10);
+    muster.forEach(([p, o, basis], i) => { const n = Math.max(0, basis + ((d * 7 + i * 3) % 3) - 1); if (n) m.set(`${tag}|${p}|${o}`, n); });
+  }
+  return m;
+}
+export function demoZaehlen(punkt: string, ort: string) {
+  const k = `${new Date().toISOString().slice(0, 10)}|${punkt}|${ort}`;
+  const z = speicher().zaehlung; z.set(k, (z.get(k) ?? 0) + 1);
 }

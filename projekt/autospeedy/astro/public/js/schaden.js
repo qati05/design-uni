@@ -149,7 +149,7 @@
       sendet = true; melde("Ihre Meldung wird gesendet …");
       fetch(ep, { method: "POST", body: daten })
         .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-        .then(function () { melde(""); bestaetige("Schadenmeldung angekommen", "Angekommen bei Auto Speedy. Wir melden uns bei Ihnen.", null); })
+        .then(function () { if (window.__zaehl) window.__zaehl("meldung-gesendet", "website"); melde(""); bestaetige("Schadenmeldung angekommen", "Angekommen bei Auto Speedy. Wir melden uns bei Ihnen.", null); })
         .catch(function () { melde("Das Senden hat nicht geklappt. Bitte senden Sie die Meldung per WhatsApp oder rufen Sie uns an: 071 755 88 61."); })
         .then(function () { sendet = false; });
     });

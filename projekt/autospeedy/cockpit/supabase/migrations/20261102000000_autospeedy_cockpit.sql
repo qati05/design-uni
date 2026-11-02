@@ -22,7 +22,7 @@ create table public.meldungen (
   id          text primary key default replace(gen_random_uuid()::text, '-', ''),
   erstellt    timestamptz not null default now(),
   aktualisiert timestamptz not null default now(),
-  art         text not null check (art in ('Parkschaden','Unfall','Hagel','Kratzer oder Lack','Scheibe','Felge','Etwas anderes')),
+  art         text not null check (art in ('Parkschaden','Unfall','Hagel','Kratzer oder Lack','Scheibe','Felge','Etwas anderes','Rückruf')),
   tesla       boolean not null default false,
   stellen     text[] not null default '{}' check (cardinality(stellen) <= 12),
   bemerkung   text not null default '' check (length(bemerkung) <= 3000),
@@ -103,3 +103,23 @@ create function public.meldungen_aufraeumen() returns integer language sql secur
   with weg as (delete from public.meldungen where erstellt < now() - interval '365 days' returning 1) select count(*)::integer from weg;
 $$;
 revoke all on function public.meldungen_aufraeumen() from public, anon, authenticated;
+
+-- Zählung ohne Cookies (Website-Funktion /api/zaehl mit service_role): nur Tag, Punkt, Ort, Anzahl. Keine IP, keine Kennung.
+create table public.zaehlung (
+  tag    date not null default (now() at time zone 'Europe/Zurich')::date,
+  punkt  text not null check (punkt ~ '^[a-z0-9-]{2,40}$'),
+  ort    text not null check (ort ~ '^[a-z0-9-]{2,40}$'),
+  anzahl integer not null default 0 check (anzahl >= 0),
+  primary key (tag, punkt, ort)
+);
+alter table public.zaehlung enable row level security;
+revoke all on public.zaehlung from anon, authenticated;
+grant select on public.zaehlung to authenticated;
+create policy mitglied_liest_zaehlung on public.zaehlung for select to authenticated using (public.ist_mitglied());
+create function public.zaehlen(p_punkt text, p_ort text) returns void
+language sql security definer set search_path = '' as $$
+  insert into public.zaehlung (punkt, ort, anzahl) values (p_punkt, p_ort, 1)
+  on conflict (tag, punkt, ort) do update set anzahl = public.zaehlung.anzahl + 1;
+$$;
+revoke all on function public.zaehlen(text, text) from public, anon, authenticated;
+grant execute on function public.zaehlen(text, text) to service_role;

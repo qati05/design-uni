@@ -16,6 +16,8 @@ export default async function MeldungSeite({ params }: { params: Promise<{ id: s
   const m = await b.meldung(id);
   if (!m) notFound();
   const nummer = e164(m.telefon);
+  const website = process.env.WEBSITE_URL || "https://www.autospeedy.ch";
+  const bewertung = nummer && m.status === "erledigt" ? `https://wa.me/${nummer.slice(1)}?text=${encodeURIComponent(`Guten Tag ${m.name}, danke für Ihren Auftrag bei Auto Speedy. Über eine kurze Bewertung freuen wir uns: ${website}/bewerten/`)}` : null;
   const wa = nummer ? `https://wa.me/${nummer.slice(1)}?text=${encodeURIComponent(`Guten Tag ${m.name}, hier ist Auto Speedy wegen Ihrer Schadenmeldung (${m.art}).`)}` : null;
   return (
     <>
@@ -36,8 +38,9 @@ export default async function MeldungSeite({ params }: { params: Promise<{ id: s
             <div className="aktionen">
               {nummer ? <a className="knopf" href={`tel:${nummer}`}>Anrufen</a> : null}
               {wa ? <a className="knopf gruen" href={wa} target="_blank" rel="noopener noreferrer">WhatsApp</a> : null}
+              {bewertung ? <a className="knopf leise" href={bewertung} target="_blank" rel="noopener noreferrer">Bewertung erbitten</a> : null}
             </div>
-            <h2 style={{ marginTop: 18 }}>Fotos ({m.fotos.length})</h2>
+            <h2 className="abstand-oben">Fotos ({m.fotos.length})</h2>
             {m.fotos.length ? <div className="fotos">{m.fotos.map((f, i) => <a key={f.id} href={f.url} target="_blank" rel="noopener noreferrer"><img src={f.url} alt={`Foto ${i + 1} vom Schaden`} /></a>)}</div> : <p className="unterzeile">Keine Fotos geschickt.</p>}
           </section>
           <section className="karte lack">
@@ -50,7 +53,7 @@ export default async function MeldungSeite({ params }: { params: Promise<{ id: s
                 </form>
               ))}
             </div>
-            <form action={notizSetzen} className="formular" style={{ marginTop: 18 }}>
+            <form action={notizSetzen} className="formular abstand-oben">
               <input type="hidden" name="id" value={m.id} />
               <label htmlFor="notiz">Notiz (nur intern)</label>
               <textarea id="notiz" name="notiz" rows={4} defaultValue={m.notiz} maxLength={2000} />

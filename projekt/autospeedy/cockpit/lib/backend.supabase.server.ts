@@ -1,7 +1,7 @@
 import "server-only";
 import { createServerClient } from "@supabase/ssr";
 import { cookies, headers } from "next/headers";
-import type { AuditEintrag, Backend, CodeAntwort, Einrichten, SitzungsStand, TotpAntwort } from "./backend";
+import type { AuditEintrag, Backend, Zaehlzeile, CodeAntwort, Einrichten, SitzungsStand, TotpAntwort } from "./backend";
 import { COOKIE_GRUNDLAGE, haerte } from "./cookies";
 import type { Meldung, Status } from "./status";
 
@@ -95,6 +95,12 @@ export const supabaseBackend: Backend = {
   async notizSetzen(id, notiz) {
     const { error } = await (await sb()).rpc("meldung_notiz_setzen", { p_id: id, p_notiz: notiz });
     return !error;
+  },
+  async zahlen(tage): Promise<Zaehlzeile[]> {
+    const ab = new Date(Date.now() - tage * 864e5).toISOString().slice(0, 10);
+    const { data, error } = await (await sb()).from("zaehlung").select("tag, punkt, ort, anzahl").gte("tag", ab);
+    if (error) throw new Error("Zählung nicht gelesen");
+    return (data ?? []) as Zaehlzeile[];
   },
   async audit(e: AuditEintrag) {
     const h = await headers();

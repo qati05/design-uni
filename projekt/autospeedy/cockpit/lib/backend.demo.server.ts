@@ -67,5 +67,9 @@ export const demoBackend: Backend = {
   async notizSetzen(id, notiz) {
     const m = speicher().meldungen.find((x) => x.id === id); if (!m) return false; m.notiz = notiz; return true;
   },
+  async zahlen(tage) {
+    const ab = new Date(Date.now() - tage * 864e5).toISOString().slice(0, 10);
+    return [...speicher().zaehlung.entries()].map(([k, anzahl]) => { const [tag, punkt, ort] = k.split("|") as [string, string, string]; return { tag, punkt, ort, anzahl }; }).filter((z) => z.tag >= ab);
+  },
   async audit(e: AuditEintrag) { speicher().audit.unshift({ zeit: new Date().toISOString(), ...e }); },
 };

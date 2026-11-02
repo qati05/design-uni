@@ -11,7 +11,7 @@
 // Nimmt multipart/form-data an. Fotos gehen als Anhang mit der Mail; die Funktion speichert nichts.
 // Prüft Pflichtfelder, Längen, Herkunft, Grösse, Bildtyp und Spamschutz (Honigtopf «website»).
 
-const ARTEN = ["Parkschaden", "Unfall", "Hagel", "Kratzer oder Lack", "Scheibe", "Felge", "Etwas anderes"];
+const ARTEN = ["Parkschaden", "Unfall", "Hagel", "Kratzer oder Lack", "Scheibe", "Felge", "Etwas anderes", "Rückruf"];
 const GRENZEN = { bemerkung: 3000, name: 120, telefon: 40, stelle: 40, stellen: 12, fotos: 6, fotoBytes: 2.5e6, gesamt: 16e6 };
 
 function antwort(status, daten) {

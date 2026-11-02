@@ -66,5 +66,10 @@
     "liste": "https://www.autoscout24.ch/de/s/seller-67678",
     "widget": null
   },
-  "_occasionen": "liste = Händlerseite auf AutoScout24 (F16). widget = Einbettung, die AutoScout24 dem Betrieb gibt: {\"art\": \"iframe\", \"src\": \"https://…\", \"hoehe\": 900} oder {\"art\": \"skript\", \"src\": \"https://…\"}. null = noch nicht vorhanden (Lücke). Lädt erst nach Klick (web-uni WP5, text-uni CL3)."
+  "_occasionen": "liste = Händlerseite auf AutoScout24 (F16). widget = Einbettung, die AutoScout24 dem Betrieb gibt: {\"art\": \"iframe\", \"src\": \"https://…\", \"hoehe\": 900} oder {\"art\": \"skript\", \"src\": \"https://…\"}. null = noch nicht vorhanden (Lücke). Lädt erst nach Klick (web-uni WP5, text-uni CL3).",
+  "bewertungen": {
+    "google": null,
+    "facebook": "https://www.facebook.com/p/Auto-Speedy-AG-100063662106540/"
+  },
+  "_bewertungen": "google = Link «Rezension schreiben» aus dem Google-Unternehmensprofil des Betriebs (Lücke). facebook = öffentliche Seite des Betriebs (Suchtreffer, fakten.md F11)."
 }

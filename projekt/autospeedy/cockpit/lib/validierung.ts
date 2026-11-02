@@ -11,7 +11,7 @@ export const statusSchema = z.object({ id: idSchema, status: z.enum(STATUS) }).s
 export const notizSchema = z.object({ id: idSchema, notiz: z.string().max(2000, "Notiz höchstens 2000 Zeichen").regex(ohneSteuerzeichen, "Notiz enthält Steuerzeichen") }).strict();
 
 // Meldung von der Website (gleiche Regeln wie functions/api/schaden.js der Website)
-export const ARTEN = ["Parkschaden", "Unfall", "Hagel", "Kratzer oder Lack", "Scheibe", "Felge", "Etwas anderes"] as const;
+export const ARTEN = ["Parkschaden", "Unfall", "Hagel", "Kratzer oder Lack", "Scheibe", "Felge", "Etwas anderes", "Rückruf"] as const;
 export const meldungEingangSchema = z.object({
   art: z.enum(ARTEN),
   name: z.string().trim().min(1).max(120),

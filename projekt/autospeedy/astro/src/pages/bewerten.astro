@@ -1,0 +1,17 @@
+---
+// Seite für die Bitte um eine Bewertung nach der Reparatur (Link im Cockpit, per WhatsApp; später als QR-Code auf der Rechnung).
+// Keine eigenen Sterne, keine gekauften Bewertungen (text-uni B, R); nur Links zu den Plattformen des Betriebs.
+import Seite from "../layouts/Seite.astro";
+import { betrieb as b } from "../../bau/daten.mjs";
+const bw = b.bewertungen || {};
+---
+<Seite seite="bewerten" abschluss={false} indexierbar={false}>
+<div class="seite">
+  <p>Danke, dass Sie Ihr Auto zu uns gebracht haben. Eine kurze Bewertung hilft anderen Autofahrerinnen und Autofahrern in der Region bei der Wahl ihrer Carrosserie.</p>
+  <div class="bewerten">
+    {bw.google ? <a class="knopf knopf--gross" href={bw.google} rel="noopener" target="_blank" data-zaehl="bewertung-google" data-ort="bewerten">Auf Google bewerten</a> : <p data-luecke>Lücke: Den Link «Rezension schreiben» aus dem Google-Unternehmensprofil trägt der Betrieb ein.</p>}
+    {bw.facebook && <a class="knopf knopf--zweit" href={bw.facebook} rel="noopener" target="_blank" data-zaehl="bewertung-facebook" data-ort="bewerten">Auf Facebook empfehlen</a>}
+  </div>
+  <p class="quelle">Etwas hat nicht gepasst? Sagen Sie es uns direkt: 071 755 88 61.</p>
+</div>
+</Seite>

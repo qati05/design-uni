@@ -5,6 +5,7 @@ import Zeiten from "../components/Zeiten.astro";
 import Tel from "../components/Tel.astro";
 import Mail from "../components/Mail.astro";
 import Route from "../components/Route.astro";
+import Rueckruf from "../components/Rueckruf.astro";
 import { betrieb as b } from "../../bau/daten.mjs";
 ---
 <Seite seite="kontakt" jsonld eigeneH1>
@@ -14,6 +15,7 @@ import { betrieb as b } from "../../bau/daten.mjs";
   <p><Route ort="kontakt" /></p>
 </SeitenKopf>
 <div class="seite">
+  <Rueckruf ort="kontakt" titel="Lieber zurückgerufen werden?" text="Hinterlassen Sie Name und Telefon. Wir melden uns." anliegen={["Allgemein"]} />
   <h2>Öffnungszeiten</h2>
   <Zeiten />
   <p data-luecke>Lücke: Zu Samstag, Feiertagen, Betriebsferien und einem Notfalldienst fand das Studio keine Angabe des Betriebs.</p>

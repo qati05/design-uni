@@ -21,6 +21,11 @@
       "gruppe": "Leistungen"
     },
     {
+      "pfad": "/flotten/",
+      "text": "Für Firmen und Flotten",
+      "gruppe": "Leistungen"
+    },
+    {
       "pfad": "/tesla/",
       "text": "Tesla",
       "marke": "Approved Body Shop"
@@ -136,6 +141,16 @@
       "titel": "Team der Carrosserie Auto Speedy in Altstätten SG",
       "beschreibung": "",
       "h1": "Das Team von Auto Speedy in Altstätten"
+    },
+    "flotten": {
+      "titel": "Carrosserie für Firmen und Flotten in Altstätten | Auto Speedy",
+      "beschreibung": "",
+      "h1": "Carrosserie für Firmen und Flotten in Altstätten SG"
+    },
+    "bewerten": {
+      "titel": "Bewertung abgeben | Auto Speedy AG, Carrosserie Altstätten",
+      "beschreibung": "",
+      "h1": "Wie war Ihre Reparatur bei Auto Speedy?"
     }
   }
 }

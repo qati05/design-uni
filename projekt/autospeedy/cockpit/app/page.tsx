@@ -40,7 +40,7 @@ export default async function Uebersicht({ searchParams }: { searchParams: Promi
                   {m.tesla ? <span className="pille tesla">Tesla</span> : null}{" "}
                   {m.beispiel ? <span className="pille beispiel">Beispiel</span> : null}
                   <br />
-                  <span className="meta">{wann(m.erstellt)} · {m.name} · {m.stellen.join(", ") || "Stelle nicht angegeben"} · {m.fotos.length} Foto{m.fotos.length === 1 ? "" : "s"} · über {m.quelle === "website" ? "Website" : m.quelle === "whatsapp" ? "WhatsApp" : "Telefon"}</span>
+                  <span className="meta">{wann(m.erstellt)} · {m.name} · {m.art === "Rückruf" ? m.bemerkung : m.stellen.join(", ") || "Stelle nicht angegeben"} · {m.fotos.length} Foto{m.fotos.length === 1 ? "" : "s"} · über {m.quelle === "website" ? "Website" : m.quelle === "whatsapp" ? "WhatsApp" : "Telefon"}</span>
                   {m.status === "neu" && Date.now() - Date.parse(m.erstellt) > 2 * 3600e3 ? <><br /><span className="alt">Wartet seit mehr als 2 Stunden auf einen Rückruf</span></> : null}
                 </span>
                 <span className={`pille st-${m.status}`}>{STATUS_NAME[m.status]}</span>

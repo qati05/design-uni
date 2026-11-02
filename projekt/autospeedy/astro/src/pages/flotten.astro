@@ -1,0 +1,32 @@
+---
+// Seite für Firmen, Flotten und Garagen (B2B). Nur Belegtes (fakten.md F5, F8, F12); Konditionen sind Lücken.
+import Seite from "../layouts/Seite.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Rueckruf from "../components/Rueckruf.astro";
+---
+<Seite seite="flotten" eigeneH1>
+<SeitenKopf seite="flotten" idee="Firmenautos zurück auf die Strasse." foto="transporter" alt="Weiss-roter Transporter mit offener Front in der Halle">
+  <p>Für Garagen, Leasingfirmen und Betriebe mit eigenen Fahrzeugen: Carrosserie und Lack für Personenwagen und Nutzfahrzeuge, mit Schadenabwicklung über die Versicherung.</p>
+</SeitenKopf>
+<div class="seite seite--breit">
+  <div class="leistung">
+    <div>
+      <h2>Was wir für Flotten machen</h2>
+      <ul class="liste">
+        <li>Personenwagen, Nutzfahrzeuge und Anhänger unter und über 3,5 t</li>
+        <li>Unfall-, Hagel- und Lackschäden nach Herstellervorgaben</li>
+        <li>ausschliesslich Original-Ersatzteile</li>
+        <li>Schadenabwicklung mit der Versicherung</li>
+      </ul>
+      <p class="quelle">Fahrzeugklassen laut Branchenverzeichnis von Carrosserie Suisse.</p>
+    </div>
+    <div>
+      <h2>Zertifizierte K + L Partner von</h2>
+      <ul class="liste"><li>Tesla (Approved Body Shop)</li><li>AMAG</li><li>Land Rover</li><li>Ayvens</li></ul>
+      <p class="quelle">Laut der bisherigen Website des Betriebs.</p>
+    </div>
+  </div>
+  <p data-luecke>Lücke: Ansprechperson für Firmenkunden, Ersatzwagen, Abholung und Rückgabe, Rahmenkonditionen. Ergänzt der Betrieb.</p>
+  <Rueckruf ort="flotten" titel="Rückruf für Firmenkunden" text="Sagen Sie uns, worum es geht. Wir rufen Sie zurück." anliegen={["Flotte oder Firmenfahrzeuge", "Garage oder Händler", "Leasing"]} />
+</div>
+</Seite>

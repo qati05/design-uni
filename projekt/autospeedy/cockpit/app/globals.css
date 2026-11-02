@@ -73,3 +73,14 @@ input.code { font: 600 28px/1 var(--text); letter-spacing: .3em; text-align: cen
 .authenticator { text-align: center; padding: 28px; }
 .authenticator .code { font: 700 52px/1 var(--text); letter-spacing: .15em; margin: 10px 0; }
 @media (max-width: 760px) { .detail { grid-template-columns: 1fr; } .zeile { grid-template-columns: 1fr; } }
+.kopf-nav { display: flex; gap: 4px; margin-right: auto; }
+.kopf-nav a { padding: 8px 12px; font-weight: 600; text-decoration: none; color: var(--tinte); }
+.kopf-nav a[aria-current="page"] { box-shadow: inset 0 -3px 0 var(--blau); }
+.kopf .titel { margin-right: 12px; }
+table.zahlen { width: 100%; border-collapse: collapse; margin: 10px 0 24px; background: var(--tafel); }
+table.zahlen th, table.zahlen td { padding: 10px 12px; border-bottom: 1px solid var(--linie); text-align: left; font-weight: 400; }
+table.zahlen th { width: 44%; font-weight: 600; }
+.balken svg { display: block; width: 100%; height: 12px; }
+.balken rect { fill: var(--blau); }
+.abstand-oben { margin-top: 18px; }
+.zahl { width: 70px; text-align: right !important; font-variant-numeric: tabular-nums; font-weight: 700 !important; }

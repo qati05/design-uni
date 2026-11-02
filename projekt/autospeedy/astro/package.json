@@ -7,7 +7,7 @@
     "build": "astro build",
     "bau:abgabe": "STUFE=abgabe astro build",
     "bau:test": "DATEN=test astro build",
-    "test": "node --test test/schaden.test.mjs"
+    "test": "node --test test/schaden.test.mjs test/zaehl.test.mjs"
   },
   "dependencies": {
     "astro": "7.4.1"
