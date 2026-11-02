@@ -1,0 +1,38 @@
+{
+  "_hinweis": "Wortlaut-ENTWURF (text-uni), noch nicht freigegeben. Nur Aussagen, die in ../../../fakten.md belegt sind.",
+  "hauptaktion": { "text": "Schaden melden", "ziel": "/kontakt/" },
+  "navigation": [{ "pfad": "/kontakt/", "text": "Kontakt" }],
+  "fuss": [{ "pfad": "/impressum/", "text": "Impressum" }, { "pfad": "/datenschutz/", "text": "Datenschutz" }],
+  "mikrotexte": {
+    "sprunglink": "Zum Inhalt springen",
+    "vorschauHinweis": "Vorschau für ein Gespräch mit dem Betrieb. Nicht veröffentlicht, nicht freigegeben.",
+    "navName": "Hauptmenü",
+    "startseite": "Zur Startseite",
+    "menueKnopf": "Menü",
+    "route": "Route anzeigen",
+    "abschluss": { "titel": "Schaden melden", "text": "Beschreiben Sie den Schaden. Wir melden uns bei Ihnen." },
+    "zeiten": { "fenster": "{von} bis {bis} Uhr", "trenner": " und ", "geschlossen": "geschlossen" },
+    "status": {
+      "ohneSkript": "Öffnungszeiten siehe Kontakt.",
+      "offen": "Jetzt offen, bis {bis} Uhr.",
+      "zuHeute": "Jetzt geschlossen, heute ab {ab} Uhr offen.",
+      "zuTag": "Jetzt geschlossen, {tag} ab {ab} Uhr offen.",
+      "zu": "Jetzt geschlossen."
+    }
+  },
+  "seiten": {
+    "index": {
+      "titel": "Carrosserie und Spritzwerk in Altstätten SG | Auto Speedy",
+      "beschreibung": "",
+      "h1": "Carrosserie und Spritzwerk in Altstätten SG"
+    },
+    "kontakt": {
+      "titel": "Schaden melden in Altstätten SG | Auto Speedy AG",
+      "beschreibung": "",
+      "h1": "Schaden melden bei Auto Speedy in Altstätten"
+    },
+    "impressum": { "titel": "", "beschreibung": "", "h1": "" },
+    "datenschutz": { "titel": "", "beschreibung": "", "h1": "" },
+    "404": { "titel": "Seite nicht gefunden | Auto Speedy AG Altstätten", "beschreibung": "", "h1": "Diese Seite gibt es nicht" }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "_hinweis": "Technik. vorschau true: noindex, keine Sitemap, kein canonical. Erst nach Freigabe durch den Betrieb oder das Studio auf false (web-uni Livegang, WP9); dann sind adresse, kiTraining und crawlerListeGeprueft Pflicht. stufe «geruest»: fehlende spätere Texte (Beschreibung, Rechtsseiten) sind HINWEIS; «abgabe» (oder STUFE=abgabe beim Bau): FEHLER. Der Livegang prüft immer wie «abgabe».",
+  "vorschau": true,
+  "stufe": "geruest",
+  "sprache": "de-CH",
+  "adresse": "",
+  "kiTraining": {
+    "entscheid": "",
+    "datum": ""
+  },
+  "crawlerListeGeprueft": "",
+  "pagesProjekt": null
+}

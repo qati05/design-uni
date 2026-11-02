@@ -1,0 +1,5 @@
+---
+import { betrieb as b } from "../../bau/daten.mjs";
+const { ort } = Astro.props;
+---
+<a class="tel" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort={ort}>{b.tel.anzeige}</a>

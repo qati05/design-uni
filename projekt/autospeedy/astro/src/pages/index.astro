@@ -1,0 +1,25 @@
+---
+// Erster Bildschirm (Entwurf): eine grosse Sache (Foto der Halle), Faktenzeile, Schaden melden und Telefon im Kopf.
+// Wortlaut-Entwurf nach fakten.md; nichts hier ist freigegeben.
+import Seite from "../layouts/Seite.astro";
+import { betrieb as b, texte as t, seite as lies } from "../../bau/daten.mjs";
+const h1 = lies("index").h1;
+---
+<Seite seite="index" jsonld eigeneH1 abschluss={false}>
+<div class="start">
+  <div class="start__text">
+    <p class="idee">Vom Kratzer bis zum Blechschaden.</p>
+    <h1>{h1}</h1>
+    <ul class="fakten">
+      <li><b aria-hidden="true">1</b><span>{b.strasse}, {b.plz} {b.ort}</span></li>
+      <li><b aria-hidden="true">2</b><span>Montag bis Donnerstag 7.30 bis 12.00 und 13.15 bis 17.30 Uhr, Freitag bis 17.15 Uhr</span></li>
+      <li><b aria-hidden="true">3</b><span>Die Schadenabwicklung mit Ihrer Versicherung übernehmen wir.</span></li>
+    </ul>
+    <p><a class="knopf knopf--zweit" href="/kontakt/?fahrzeug=tesla" data-zaehl="anfrage-tesla" data-ort="start">Sie fahren einen Tesla? Hier melden</a></p>
+  </div>
+  <figure class="start__bild">
+    <img src="/bilder/halle-1600.webp" srcset="/bilder/halle-640.webp 640w, /bilder/halle-1024.webp 1024w, /bilder/halle-1600.webp 1600w" sizes="(max-width: 860px) 100vw, 58vw" width="1600" height="1067" alt="Helle Werkstatthalle: ein schwarzer Audi auf der Hebebühne mit abgebauter Frontpartie, rechts Werkzeugwagen und Messgeräte" fetchpriority="high" decoding="async">
+    <figcaption>Halle der Auto Speedy AG, Foto von der Website des Betriebs</figcaption>
+  </figure>
+</div>
+</Seite>

@@ -1,0 +1,19 @@
+{
+  "_hinweis": "Fakten des Betriebs, jede mit Quelle in ../../../fakten.md. Stand der Quellen: 02.11.2026.",
+  "name": "Auto Speedy AG",
+  "strasse": "Alte Landstrasse 63",
+  "plz": "9450",
+  "ort": "Altstätten",
+  "kanton": "SG",
+  "land": "CH",
+  "typ": "AutoBodyShop",
+  "mail": "info@autospeedy.ch",
+  "tel": { "anzeige": "071 755 88 61", "e164": "+41717558861" },
+  "geo": null,
+  "route": null,
+  "ausnahmen": null,
+  "zeiten": [
+    { "tage": "Montag bis Donnerstag", "ld": ["Monday", "Tuesday", "Wednesday", "Thursday"], "fenster": [["7.30", "12.00"], ["13.15", "17.30"]] },
+    { "tage": "Freitag", "ld": ["Friday"], "fenster": [["7.30", "12.00"], ["13.15", "17.15"]] }
+  ]
+}

@@ -1,0 +1,8 @@
+---
+// Echte 404 (text-uni TI17): kein canonical, nicht in der Sitemap, Links auf Startseite und Kontakt.
+import Seite from "../layouts/Seite.astro";
+import { texte as t } from "../../bau/daten.mjs";
+---
+<Seite seite="404" abschluss={false} indexierbar={false}>
+<ul><li><a href="/">{t.mikrotexte.startseite}</a></li>{t.navigation.map((n: any) => <li><a href={n.pfad}>{n.text}</a></li>)}</ul>
+</Seite>

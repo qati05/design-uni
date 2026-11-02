@@ -1,0 +1,13 @@
+---
+// Öffnungszeiten als Tabelle, nur aus betrieb.json; Wortlaut der Zeile aus texte.json.
+// Ausnahmen (Feiertage, Betriebsferien) aus betrieb.json «ausnahmen», je mit Bezeichnung aus fakten.md und Datum.
+import { betrieb as b, texte as t, bau } from "../../bau/daten.mjs";
+const w = t.mikrotexte.zeiten;
+const datum = new Intl.DateTimeFormat(bau.sprache, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+const heute = new Date().toISOString().slice(0, 10); // vergangene Ausnahmen zeigt der Bau nicht
+const zeile = (z: any) => z.zu ? w.geschlossen : z.fenster.map(([von, bis]: string[]) => w.fenster.replace("{von}", von).replace("{bis}", bis)).join(w.trenner);
+---
+<table><tbody>
+{b.zeiten.map((z: any) => <tr><th scope="row">{z.tage}</th><td>{zeile(z)}</td></tr>)}
+{(b.ausnahmen || []).filter((a: any) => a.datum >= heute).sort((x: any, y: any) => (x.datum < y.datum ? -1 : 1)).map((a: any) => <tr><th scope="row">{a.name}, <time datetime={a.datum}>{datum.format(new Date(a.datum + "T00:00:00Z"))}</time></th><td>{zeile(a)}</td></tr>)}
+</tbody></table>

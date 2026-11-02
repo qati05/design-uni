@@ -1,0 +1,49 @@
+---
+// Kontakt mit Schadenmeldung (Entwurf). Kein Server-Endpunkt: Das Formular übergibt an das E-Mail-Programm (zusammenspiel Teil 7).
+import Seite from "../layouts/Seite.astro";
+import Zeiten from "../components/Zeiten.astro";
+import Tel from "../components/Tel.astro";
+import Mail from "../components/Mail.astro";
+import Luecke from "../components/Luecke.astro";
+import { betrieb as b } from "../../bau/daten.mjs";
+---
+<Seite seite="kontakt" jsonld abschluss={false}>
+<div class="seite">
+<h2 id="schaden">Schaden beschreiben</h2>
+<form id="schaden-form" action={`mailto:${b.mail}`} method="post" enctype="text/plain" data-zaehl-start="schaden-start" data-zaehl-ende="schaden-ende">
+  <p class="hilfe">Pflichtfelder tragen «(Pflicht)». Alle anderen Angaben sind freiwillig.</p>
+  <fieldset>
+    <legend>Ihr Fahrzeug (Pflicht)</legend>
+    <div class="wahl">
+      <label><input type="radio" name="Fahrzeug" value="Tesla" required> Tesla</label>
+      <label><input type="radio" name="Fahrzeug" value="Andere Marke" required> Andere Marke</label>
+    </div>
+  </fieldset>
+  <div><label for="f-schaden">Was ist passiert? (Pflicht)</label><textarea id="f-schaden" name="Schaden" required></textarea></div>
+  <div><label for="f-name">Name (Pflicht)</label><input id="f-name" name="Name" type="text" autocomplete="name" required></div>
+  <div><label for="f-tel">Telefon (Pflicht)</label><input id="f-tel" name="Telefon" type="tel" autocomplete="tel" required></div>
+  <button class="knopf" type="submit">Meldung im E-Mail-Programm öffnen</button>
+  <p class="hilfe">Verantwortlich ist die {b.name}. Ihre Angaben dienen nur der Antwort auf Ihre Meldung. Sie gehen erst weg, wenn Sie in Ihrem E-Mail-Programm auf Senden tippen.</p>
+  <p data-rueckmeldung hidden role="status"></p>
+</form>
+<Luecke>Fotos vom Schaden lassen sich in dieser Vorschau noch nicht anhängen. Ob und wie das beim Betrieb möglich ist, klären wir mit dem Betrieb.</Luecke>
+
+<h2>Anschrift und Telefon</h2>
+<p>{b.name}<br>{b.strasse}<br>{b.plz} {b.ort}</p>
+<p><Tel ort="kontakt" /><br><Mail ort="kontakt" /></p>
+<h2>Öffnungszeiten</h2>
+<Zeiten />
+<Luecke>Samstag, Sonntag, Feiertage und Betriebsferien: Dazu fand das Studio keine Angabe des Betriebs.</Luecke>
+</div>
+</Seite>
+<script is:inline>
+(function () {
+  var f = document.getElementById("schaden-form"); if (!f) return;
+  var m = new URLSearchParams(location.search).get("fahrzeug");
+  if (m === "tesla") { var r = f.querySelector('input[value="Tesla"]'); if (r) r.checked = true; }
+  f.addEventListener("submit", function () {
+    var r = f.querySelector("[data-rueckmeldung]"); r.hidden = false;
+    r.textContent = "Ihr E-Mail-Programm öffnet sich mit Ihrer Meldung. Gesendet ist sie erst, wenn Sie dort auf Senden tippen. Öffnet sich nichts, rufen Sie an.";
+  });
+})();
+</script>
