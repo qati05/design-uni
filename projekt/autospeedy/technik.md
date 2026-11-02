@@ -30,3 +30,12 @@ GB6, GB1, GB5: Stufe 1, nur CSS (`clip-path`, `stroke-dashoffset`, Farbe), 0 KB 
 
 ## Bewegung, Ergänzung
 Umlackieren: View Transitions (Stufe 2) mit CSS-Maske, `public/js/lack.js` rund 2 KB; Firefox und ältere Browser wechseln ohne Bewegung. Schadenplan-Perspektive: CSS-Transform, statisch. Kein zusätzliches JavaScript-Paket.
+
+## Schadenmeldung «in drei Tipps» mit drei Wegen (Auftrag Studio, 02.11.2026: «alle 3 Wege, so haben alle ihre Möglichkeit»)
+| Weg | Was geschieht | Stand |
+|---|---|---|
+| **A · Website** | `POST /api/schaden` (multipart) mit Art, Kontakt, Tesla, Stellen, Bemerkung und bis zu 6 Fotos; die Fotos verkleinert der Browser (JPEG, längste Seite 1600 px, im Test 2 Fotos = 439 KB); die Funktion hängt sie an die Mail, **speichert nichts** (kein Foto-Speicher, keine Löschfrist nötig). «Angekommen» nur bei Antwort 200. | gebaut; `npm test` 10 von 10; Ende-zu-Ende mit echter Browser-Anfrage durch die echte Funktion (`test/ende-zu-ende.mjs`): Status 200, Mail mit 2 Anhängen. **Nicht deployt.** In der Vorschau ohne Endpunkt nur vorgeführt, ehrlich beschriftet. |
+| **B · WhatsApp** | öffnet `wa.me/41766154441` mit fertiger Nachricht; Fotos hängt man in WhatsApp an | gebaut; Nummer ist die Mobilnummer der Website, **WhatsApp-Nutzung nicht belegt**: sichtbare Lücke, bis der Betrieb bestätigt (`betrieb.json whatsapp.bestaetigt`) |
+| **C · E-Mail** | öffnet das E-Mail-Programm mit fertiger Nachricht; Fotos dort anhängen | gebaut; auch der Weg ohne JavaScript |
+Fehlerfall A: Hinweis auf WhatsApp, E-Mail und Telefon. Doppeltes Senden gesperrt.
+**Vor dem Einschalten von A:** Mail-Dienst wählen (Sitz Schweiz oder EU), `MAIL_*` am Hoster setzen, `formularEndpunkt` in `bau.json`, Datenschutzerklärung ergänzen (Mail-Dienst, Fotos als Anhang), Anfragekette mit dem Betrieb.

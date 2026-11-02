@@ -18,3 +18,5 @@
 - Logo statt Name oben links; ganze Vorschau; Tesla Approved Body Shop bestätigt; bessere Bildwahl.
 - Gestaltung «aggressiver, wie ein Yin und Yang» → Richtung B (richtung.md). Spannung zu Wunsch 3 «hell» im Gespräch mit dem Betrieb klären.
 - Studio, 02.11.2026: Kontrast nicht Schwarz-Weiss und nicht Navy-Flächen, sondern Farbverlauf Richtung Lackierung, Weiss und Babyblau → Richtung D (richtung.md).
+- Studio, 02.11.2026: Schadenmeldung vereinfachen, «in drei Tipps» (Art, Fotos, Kontakt); alle drei Wege (Website, WhatsApp, E-Mail). Der Schadenplan ist nicht mehr Pflicht, sondern freiwillig in Schritt 1 («Stelle am Auto genauer zeigen»); auf der Startseite ersetzt durch den Schnellstart mit sieben Schadenarten.
+- **Zur Freigabe durch das Studio (Abweichung vom Hausentscheid «3 bis 5 Felder»):** sichtbar sind fünf Felder (Art, Fotos, Name, Telefon, Bemerkung) plus das Häkchen «Es ist ein Tesla» (Wunsch 2) und die zugeklappte, freiwillige Stellenwahl. Pflicht sind nur drei (Art, Name, Telefon). Grund: Tesla schnell erkennbar und Stelle für Genauigkeit, ohne Pflicht.

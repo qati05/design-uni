@@ -55,5 +55,11 @@
   "mobil": {
     "anzeige": "076 615 44 41",
     "e164": "+41766154441"
-  }
+  },
+  "whatsapp": {
+    "nummer": "41766154441",
+    "anzeige": "076 615 44 41",
+    "bestaetigt": false
+  },
+  "_whatsapp": "Nummer = Mobilnummer von autospeedy.ch (F2). Ob der Betrieb darüber WhatsApp nutzt, ist NICHT belegt: bestaetigt false zeigt neben dem Knopf eine sichtbare Lücke."
 }

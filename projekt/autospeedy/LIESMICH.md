@@ -7,7 +7,10 @@
 - `vorschau/bildschirme/`: Bildschirmfotos jeder Seite, Desktop 1440×900 (`-d`) und Handy 390×844 (`-m`), Startseite auch ganz (`-voll`).
 - Quellcode: `astro/` (Astro 7.4.1, statisch). `cd astro && npm install && npm run build`, dann `dist/` mit einem lokalen Server öffnen.
 
-## Signatur: der Schadenplan
+## Schadenmeldung «in drei Tipps» (aktuell)
+1 Was ist passiert (sieben Knöpfe) · 2 Fotos · 3 Kontakt, dann senden auf drei Wegen: Website (mit Fotos; Serverfunktion gebaut und getestet, nicht deployt, in der Vorschau nur vorgeführt), WhatsApp (Nummer vom Betrieb zu bestätigen), E-Mail. Details: technik.md. Der Schadenplan ist jetzt eine freiwillige Hilfe in Schritt 1.
+
+## Signatur: der Schadenplan (bisher)
 Das Auto von oben, Blech für Blech mit Spaltmass: Auf der Startseite tippt man die Stelle an und landet in der Schadenmeldung mit dieser Stelle; im Formular wählt man Stellen am Auto; nach dem Absenden entsteht ein Schadenrapport mit Auto und Stellen. Details: richtung.md. Formular-Backend gebaut und getestet, nicht deployt: technik.md.
 
 ## Dunkel lackiert
@@ -52,7 +55,8 @@ Start · Schaden melden · Tesla · Carrosserie · Lackiererei · Felgen und Fol
 | Einzeldatei: Klickpfad Start → Tesla → Schaden melden mit Tesla vorgewählt, Formular-Rückmeldung | läuft (Playwright, Handy) |
 | Schadenplan: Stelle antippen → Formular mit Stelle, Umschalten im Plan, leer absenden, Rapport (Desktop, Handy, Einzeldatei) | läuft |
 | Ohne JavaScript: Plan als Links, Formular mit Kästchen über mailto | läuft |
-| Formular-Backend `npm test` | 9 von 9 grün; nicht deployt |
+| Formular-Backend `npm test` | 10 von 10 grün; Ende-zu-Ende mit echter Browser-Anfrage: 200, Mail mit 2 Foto-Anhängen; nicht deployt |
+| Meldung in drei Tipps: Startseite → Art → 2 Fotos → Kontakt → Website / WhatsApp / E-Mail, Fehlerfall Server, Handy und Desktop, Einzeldatei, ohne JavaScript | läuft |
 | Bewegung: Reduced Motion 0 Animationen, nach 5 s nichts laufend | gemessen |
 | Dunkel lackiert: Kontrast aller Seiten, Umlackieren per System und Knopf, Reduced Motion ohne Bewegung | gemessen, 0 Befunde |
 | Navigation: Leistungen auf und zu (Klick daneben, Escape), Tesla-Abzeichen Desktop und Handy | läuft |

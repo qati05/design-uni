@@ -6,11 +6,10 @@ import Zeiten from "../components/Zeiten.astro";
 import Route from "../components/Route.astro";
 import Tel from "../components/Tel.astro";
 import Mail from "../components/Mail.astro";
-import Schadenplan from "../components/Schadenplan.astro";
-import stellenDaten from "../content/stellen.json";
+import artenDaten from "../content/arten.json";
 import { betrieb as b, seite as lies } from "../../bau/daten.mjs";
 const h1 = lies("index").h1;
-const stellen = (stellenDaten as any).stellen;
+const arten = (artenDaten as any).arten;
 ---
 <Seite seite="index" jsonld eigeneH1>
 <div class="start">
@@ -30,20 +29,15 @@ const stellen = (stellenDaten as any).stellen;
   </figure>
 </div>
 
-<section class="band band--weiss planband" aria-labelledby="plan-titel">
-  <div class="planband__text">
-    <h2 id="plan-titel" class="band__titel">Wo hat es Ihr Auto erwischt?</h2>
-    <p>Tippen Sie auf die Stelle. Wir öffnen die Schadenmeldung mit dieser Stelle schon ausgewählt.</p>
-    <div class="planband__info" aria-live="polite" data-plan-info>
-      <p class="planband__stelle" data-info-name>Stelle wählen</p>
-      <p data-info-leistung>Vom Kratzer an der Stossstange bis zum Hagel auf dem Dach.</p>
-      <a class="knopf" href="/schaden-melden/" data-info-link data-zaehl="anfrage" data-ort="schadenplan">Schaden melden</a>
-    </div>
-    <ul class="planband__liste">
-      {stellen.map((s: any) => <li><a href={`/schaden-melden/?stelle=${s.id}`}>{s.name}</a></li>)}
-    </ul>
+<section class="band band--weiss schnellstart" aria-labelledby="schnell-titel">
+  <div class="schnellstart__kopf">
+    <h2 id="schnell-titel" class="band__titel">Was ist passiert?</h2>
+    <ol class="schnellstart__weg"><li><b>1</b> Antippen, was passiert ist</li><li><b>2</b> Fotos machen</li><li><b>3</b> Name und Telefon, senden</li></ol>
   </div>
-  <div class="planband__auto"><Schadenplan modus="links" titel="Auto von oben: Stelle des Schadens antippen" /></div>
+  <ul class="arten arten--start">
+    {arten.map((a: any) => <li><a class="art" href={`/schaden-melden/?art=${a.id}`} data-zaehl="schnellstart" data-ort="start"><span class="art__name">{a.name}</span><span class="art__hilfe">{a.hilfe}</span></a></li>)}
+  </ul>
+  <p class="schnellstart__wege">Senden Sie die Meldung hier auf der Website, per WhatsApp oder per E-Mail. Oder rufen Sie an: <Tel ort="schnellstart" />.</p>
 </section>
 
 <section class="band band--nacht" aria-labelledby="ablauf-titel">
@@ -90,18 +84,3 @@ const stellen = (stellenDaten as any).stellen;
   </div>
 </section>
 </Seite>
-<script is:inline>
-(function () {
-  var info = document.querySelector("[data-plan-info]"); if (!info) return;
-  var name = info.querySelector("[data-info-name]"), leis = info.querySelector("[data-info-leistung]"), link = info.querySelector("[data-info-link]");
-  [].forEach.call(document.querySelectorAll('.plan--links .plan__stelle'), function (a) {
-    function an() {
-      [].forEach.call(document.querySelectorAll('.plan--links .plan__stelle'), function (x) { x.classList.remove("ist-aktiv"); });
-      a.classList.add("ist-aktiv");
-      name.textContent = a.dataset.name; leis.textContent = a.dataset.leistung;
-      link.href = a.getAttribute("href"); link.textContent = a.dataset.name + ": Schaden melden";
-    }
-    a.addEventListener("mouseenter", an); a.addEventListener("focus", an);
-  });
-})();
-</script>

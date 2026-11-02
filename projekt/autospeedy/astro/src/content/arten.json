@@ -1,0 +1,12 @@
+{
+  "_hinweis": "Schritt 1 der Schadenmeldung: was passiert ist, in Worten der Kundschaft [Annahme, Kundenworte fehlen: text-uni KW1]. Leistungen aus fakten.md (F5, F6, F16). Reihenfolge und Auswahl im Gespräch mit dem Betrieb prüfen.",
+  "arten": [
+    { "id": "parkschaden", "name": "Parkschaden", "hilfe": "Delle oder Kratzer beim Parkieren" },
+    { "id": "unfall", "name": "Unfall", "hilfe": "Blechschaden bis Chassisschaden" },
+    { "id": "hagel", "name": "Hagel", "hilfe": "Dellen auf Dach und Haube" },
+    { "id": "lack", "name": "Kratzer oder Lack", "hilfe": "Lackschaden, Steinschlag im Lack" },
+    { "id": "scheibe", "name": "Scheibe", "hilfe": "Riss oder Steinschlag" },
+    { "id": "felge", "name": "Felge", "hilfe": "Randstein, Kratzer an der Felge" },
+    { "id": "anderes", "name": "Etwas anderes", "hilfe": "Beschreiben Sie es im letzten Schritt" }
+  ]
+}
