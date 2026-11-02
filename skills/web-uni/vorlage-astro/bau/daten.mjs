@@ -1,13 +1,21 @@
 // Eine Quelle für alle Angaben der Website, mit Prüfung beim Bau.
-// Liest betrieb.json (Fakten), texte.json (Wortlaut aus text-uni) und bau.json (Technik, Schalter «vorschau»)
+// Liest betrieb.json (Fakten), texte.json (Wortlaut aus text-uni) und bau.json (Technik, Schalter «vorschau» und «stufe»)
 // aus dem Ordner DATEN (Vorgabe: src/content). Regel für jedes Feld:
-//   ""    Pflichtfeld, noch nicht gefüllt: der Bau bricht ab und nennt das Feld.
+//   ""    Pflichtfeld, noch nicht gefüllt: FEHLER, der Bau bricht ab und nennt das Feld.
 //   null  freiwillig und bewusst weggelassen: die Seite zeigt nichts dafür.
-//   []    leere Liste in einem Pflichtfeld: der Bau bricht ab.
+//   []    leere Liste in einem Pflichtfeld: FEHLER.
+// Zwei Stufen (zusammenspiel Teil 7, «Gerüst und Vorschau»):
+//   stufe «geruest»: Gerüst und Vorschau während des Baus. Texte, die erst später entstehen (Beschreibung je Seite,
+//                    Rechtsseiten Impressum und Datenschutz, Länge der Beschreibung), sind HINWEIS; der Bau läuft weiter.
+//   stufe «abgabe»:  Prüflauf vor der Abgabe (Abfolge Schritt 13: DP6, TP7, WP4, WP5) und Livegang. Dieselben Texte sind FEHLER.
+//   Livegang (vorschau false) prüft immer wie «abgabe». Die Umgebungsvariable STUFE geht bau.json vor.
+// Immer FEHLER, in jeder Stufe: leere Fakten in betrieb.json (Name, Telefon, Anschrift …), falsche Formate,
+// leerer Wortlaut ausserhalb der Seiten, und je Seite (ausser Rechtsseiten) Titel und h1: Sie kommen als Entwurf aus text-uni TP2.
 import fs from "node:fs";
 import path from "node:path";
 
 const ORDNER = path.resolve(process.cwd(), process.env.DATEN || "src/content");
+export const RECHTSSEITEN = ["impressum", "datenschutz"];
 
 function lies(name) {
   const datei = path.join(ORDNER, name);
@@ -15,7 +23,7 @@ function lies(name) {
   return JSON.parse(fs.readFileSync(datei, "utf8"));
 }
 
-// Sammelt leere Pflichtfelder ("" und []) in einem Objekt; Schlüssel mit «_» sind Hinweise.
+// Sammelt leere Pflichtfelder ("" und []) in einem Objekt; Schlüssel mit «_» sind Hinweise für Menschen.
 function leere(wert, pfad, aus) {
   if (wert === "") aus.push(pfad);
   else if (Array.isArray(wert)) {
@@ -31,19 +39,31 @@ export const betrieb = lies("betrieb.json");
 export const texte = lies("texte.json");
 export const bau = lies("bau.json");
 export const vorschau = bau.vorschau !== false;
+export const stufe = vorschau ? (process.env.STUFE || bau.stufe || "geruest") : "abgabe";
+export const streng = stufe === "abgabe";
 
 const fehler = [];
-const warnung = [];
+const hinweis = [];
 const melde = (datei, liste) => { if (liste.length) fehler.push(`${datei}: ${liste.join(", ")}`); };
+// Spätere Texte: im Gerüst HINWEIS, in der Abgabe und im Livegang FEHLER.
+const spaeter = (text) => (streng ? fehler : hinweis).push(text);
+
+if (!["geruest", "abgabe"].includes(stufe)) fehler.push(`bau.json oder STUFE: stufe «${stufe}» ist «geruest» oder «abgabe»`);
 
 melde("betrieb.json", leere(betrieb, "", []));
-melde("texte.json", leere(texte, "", []));
+const { seiten: _seiten, ...texteOhneSeiten } = texte;
+melde("texte.json", leere(texteOhneSeiten, "", []));
 if (!vorschau) melde("bau.json (nötig für den Livegang)", leere({ adresse: bau.adresse, kiTraining: bau.kiTraining, crawlerListeGeprueft: bau.crawlerListeGeprueft }, "", []));
 
 // Formate, die ein Werkzeug prüfen kann.
 const tel = betrieb.tel || {};
 if (tel.e164 && !/^\+\d{8,15}$/.test(tel.e164)) fehler.push(`betrieb.json: tel.e164 «${tel.e164}» ist nicht im Format +41…`);
 if (betrieb.mail && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(betrieb.mail)) fehler.push(`betrieb.json: mail «${betrieb.mail}» ist keine Adresse`);
+for (const [i, a] of (betrieb.ausnahmen || []).entries()) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(a.datum || "")) fehler.push(`betrieb.json: ausnahmen[${i}].datum «${a.datum}» ist JJJJ-MM-TT`);
+  if (!a.zu && !Array.isArray(a.fenster)) fehler.push(`betrieb.json: ausnahmen[${i}] braucht "zu": true oder "fenster"`);
+  if (!a.name) fehler.push(`betrieb.json: ausnahmen[${i}].name fehlt (Bezeichnung aus fakten.md)`);
+}
 const ziel = texte.hauptaktion && texte.hauptaktion.ziel;
 if (ziel && !/^(\/([a-z0-9-]+\/)*|tel:\+\d+|mailto:\S+)$/.test(ziel)) fehler.push(`texte.json: hauptaktion.ziel «${ziel}» muss /pfad/ (mit Schrägstrich am Ende), tel: oder mailto: sein`);
 const st = (texte.mikrotexte && texte.mikrotexte.status) || {};
@@ -59,28 +79,46 @@ if (!vorschau && /^\d{4}-\d{2}-\d{2}$/.test(bau.crawlerListeGeprueft || "")) {
   if (alter > 183) fehler.push(`bau.json: crawlerListeGeprueft ist ${Math.round(alter)} Tage alt, höchstens 183 (text-uni TI6)`);
 }
 
-// Titel und Beschreibung je Seite: Schwellen von text-uni (S1, S3, S12).
+// Seiten: Titel und h1 als Entwurf aus text-uni TP2 (immer Pflicht); Beschreibung und Rechtsseiten entstehen später
+// (text-uni Schritt 7 und 10, Abfolge Schritt 13). Schwellen von text-uni (S1, S3, S12).
 const titel = new Map();
-for (const [seite, s] of Object.entries(texte.seiten || {})) {
-  if (seite.startsWith("_") || !s) continue;
+for (const [name, s] of Object.entries(texte.seiten || {})) {
+  if (name.startsWith("_")) continue;
+  if (!s) { fehler.push(`texte.json: seiten.${name} ist leer`); continue; }
+  const recht = RECHTSSEITEN.includes(name);
   const t = s.titel || "", d = s.beschreibung || "";
-  if (t) {
-    if (t.length > 65) fehler.push(`Seite ${seite}: Titel ${t.length} Zeichen, über 65 ist ein Fehler (S3): ${t}`);
-    else if (t.length < 30) warnung.push(`Seite ${seite}: Titel ${t.length} Zeichen, unter 30 (S3)`);
-    else if (t.length < 40 || t.length > 60) warnung.push(`Seite ${seite}: Titel ${t.length} Zeichen, Ziel 40 bis 60 (S3)`);
-    if (titel.has(t)) fehler.push(`Seite ${seite}: gleicher Titel wie ${titel.get(t)} (S1)`);
-    titel.set(t, seite);
+  for (const feld of ["titel", "h1"]) {
+    if (s[feld] !== "") continue;
+    if (recht) spaeter(`Seite ${name}: ${feld} fehlt (Rechtsseite, text-uni Schritt 10)`);
+    else fehler.push(`Seite ${name}: ${feld} fehlt (Entwurf aus text-uni TP2)`);
   }
-  if (d && (d.length < 110 || d.length > 155)) fehler.push(`Seite ${seite}: Beschreibung ${d.length} Zeichen, verlangt 110 bis 155 (S12)`);
+  if (s.beschreibung === "") spaeter(`Seite ${name}: Beschreibung fehlt (text-uni S12, kommt beim Bau aller Seiten)`);
+  if (t) {
+    if (t.length > 65) spaeter(`Seite ${name}: Titel ${t.length} Zeichen, über 65 (S3): ${t}`);
+    else if (t.length < 40 || t.length > 60) hinweis.push(`Seite ${name}: Titel ${t.length} Zeichen, Ziel 40 bis 60 (S3)`);
+    if (titel.has(t)) spaeter(`Seite ${name}: gleicher Titel wie ${titel.get(t)} (S1)`);
+    titel.set(t, name);
+  }
+  if (d && (d.length < 110 || d.length > 155)) spaeter(`Seite ${name}: Beschreibung ${d.length} Zeichen, verlangt 110 bis 155 (S12)`);
 }
 
-for (const w of warnung) console.warn(`[vorlage] Warnung: ${w}`);
+// Meldet einen Befund, der erst nach dem Bau feststeht (bau/dateien.mjs), nach derselben Stufe.
+export function meldeSpaeter(text) {
+  if (streng) throw new Error(`Bau abgebrochen (Stufe abgabe). FEHLER:\n  ${text}`);
+  console.warn(`[vorlage] HINWEIS: ${text}`);
+}
+
+// Astro lädt diese Datei mehrmals (Konfiguration, Seiten); gemeldet wird einmal je Bau.
+const erstesMal = !globalThis.__vorlageGemeldet;
+globalThis.__vorlageGemeldet = true;
+if (erstesMal) for (const h of hinweis) console.warn(`[vorlage] HINWEIS: ${h}`);
 if (fehler.length) {
   throw new Error(
-    "Bau abgebrochen. Leere Pflichtfelder oder falsche Formate:\n  " + fehler.join("\n  ") +
+    `Bau abgebrochen (Stufe ${stufe}). FEHLER:\n  ` + fehler.join("\n  ") +
     `\nOrdner: ${ORDNER}\nFakten kommen aus fakten.md, Wortlaut aus text-uni. "" heisst Pflicht, null heisst bewusst weggelassen.`
   );
 }
+if (erstesMal) console.warn(`[vorlage] Stufe ${stufe}: 0 FEHLER, ${hinweis.length} HINWEIS${streng ? "" : " (spätere Texte sind im Gerüst nur HINWEIS; vor der Abgabe mit STUFE=abgabe bauen)"}`);
 
 // Seite nach Schlüssel in texte.json; fehlt sie, bricht der Bau ab.
 export function seite(name) {

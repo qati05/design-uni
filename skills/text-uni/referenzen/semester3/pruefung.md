@@ -70,5 +70,5 @@ Stand 01.11.2026 · Der Prüfauftrag ist nicht Teil dieses Skills · Echte Treff
 
 1. **Echte Ergebnisseite nachbauen:** mit Kartenblock, Sternen und einer KI-Übersicht, und den eigenen Treffer auf realistischen Plätzen (6 bis 10). Dann misst der Test, ob der Text gegen Platz und Kästen ankommt.
 2. **Zwei gute Treffer gegeneinander**, gleiche Fakten, nur der Titel anders (Preis vorne gegen Frist vorne, mit und ohne Ort), damit eine Rangfolge entsteht.
-3. **Ein Test mit Menschen**, wenigstens 10 Personen, dieselben Ergebnisseiten, um die Modell-Bewerter zu eichen.
+3. **Ein Test mit Menschen** mit denselben Ergebnisseiten, um die Modell-Bewerter zu eichen. Zahl der Personen und Ablauf nur nach [blindtest.md](../../../design-uni/referenzen/blindtest.md), Teil 6.
 4. **Nach dem ersten Livegang** Klickrate je Seite aus der Search Console mit dem Testurteil vergleichen (M-Grundsätze).

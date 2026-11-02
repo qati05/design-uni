@@ -1,13 +1,15 @@
 // Slop-Prüfung für deutsche Texte von Schweizer KMU-Websites: Floskeln, KI-typische Muster und generische Knöpfe.
 // Liest nur den sichtbaren Text (ohne script, style, Kommentare und Tags) und meldet Treffer je Datei mit Zeile und Kontext.
-// Aufruf: node werkzeuge/slop-de.js <ordner|datei> [--json <pfad>] [--streng] [--erlauben=id1,id2] [--liste=<slop-de.json>]
+// Aufruf: node werkzeuge/slop-de.js <ordner|datei> [--json <pfad>] [--streng] [--prueflauf] [--erlauben=id1,id2] [--liste=<slop-de.json>]
 //   Ordner: alle .html/.htm darin, auch in Unterordnern (ohne node_modules und Ordner mit Punkt). Eine Datei: jede Endung.
 //   --json <pfad>     schreibt alle Treffer als JSON (für eigene Auswertungen)
 //   --streng          auch Warnungen führen zu Exit-Code 1
+//   --prueflauf       für den gemeinsamen Prüflauf (TP7/K1): jeder Treffer ist ein HINWEIS, Exit-Code 0 (K1 sperrt nicht,
+//                     Entscheid 13 und zusammenspiel.md Teil 7); keine HTML-Datei heisst «nicht geprüft». Nicht mit --streng.
 //   --erlauben=a,b    diese Einträge der Liste auslassen (z. B. sz bei einem Kunden in Deutschland)
 // Liste: werkzeuge/slop-de.json; Begründung und bessere Variante stehen je Eintrag in «warum» und «besser».
 // Hintergrund und Abgleich mit der Forschung: referenzen/semester1/ki-klang.md, Teil 6.
-// Exit-Code: 0 = kein FEHLER, 1 = mindestens ein FEHLER (mit --streng auch eine WARNUNG), 2 = falscher Aufruf.
+// Exit-Code: 0 = kein FEHLER, 1 = mindestens ein FEHLER (mit --streng auch eine WARNUNG), 2 = falscher Aufruf; mit --prueflauf 0 oder 2.
 // Stufe FEHLER mit belegbar=true wird zu WARNUNG, wenn im selben Satz eine Zahl steht: dann prüft ein Mensch, ob der Beleg trägt.
 'use strict';
 const fs = require('fs'), path = require('path');
@@ -191,7 +193,7 @@ function schalter(argv, mitWert) {
 function main(argv, log = console.log) {
   const { pos, opt } = schalter(argv, ['json', 'erlauben', 'liste']);
   const ziel = pos[0];
-  if (!ziel || !fs.existsSync(ziel) || opt.json === true) { console.error('Aufruf: node werkzeuge/slop-de.js <ordner|datei> [--json <pfad>] [--streng] [--erlauben=id1,id2]'); return 2; }
+  if (!ziel || !fs.existsSync(ziel) || opt.json === true || (opt.prueflauf && opt.streng)) { console.error('Aufruf: node werkzeuge/slop-de.js <ordner|datei> [--json <pfad>] [--streng | --prueflauf] [--erlauben=id1,id2]'); return 2; }
   let liste;
   try { liste = listeLaden(typeof opt.liste === 'string' ? opt.liste : LISTE); } catch (e) { console.error('Liste nicht lesbar: ' + e.message); return 2; }
   const erlauben = typeof opt.erlauben === 'string' ? opt.erlauben.split(',').map((s) => s.trim()).filter(Boolean) : [];
@@ -199,7 +201,12 @@ function main(argv, log = console.log) {
   if (unbekannt.length) { console.error('Unbekannte Einträge bei --erlauben: ' + unbekannt.join(', ')); return 2; }
   const r = pruefePfad(ziel, { liste, erlauben, log });
   if (!r.dateien.length) log('Hinweis: keine HTML-Datei gefunden, nichts geprüft.');
+  if (opt.prueflauf) {
+    r.prueflauf = { kennung: 'TP7/K1', stufe: r.dateien.length ? 'HINWEIS' : 'nicht geprüft', hinweise: r.fehler + r.warnungen };
+    log(`Prüflauf TP7/K1: ${r.dateien.length ? (r.fehler + r.warnungen) + ' HINWEIS (sperrt nicht, Entscheid 13)' : 'nicht geprüft'}`);
+  }
   if (typeof opt.json === 'string') { fs.mkdirSync(path.dirname(path.resolve(opt.json)), { recursive: true }); fs.writeFileSync(opt.json, JSON.stringify(r, null, 2), 'utf8'); }
+  if (opt.prueflauf) return 0;
   return r.fehler > 0 || (opt.streng && r.warnungen > 0) ? 1 : 0;
 }
 

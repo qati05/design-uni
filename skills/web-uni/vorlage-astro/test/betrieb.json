@@ -14,6 +14,23 @@
   },
   "geo": null,
   "route": null,
+  "ausnahmen": [
+    {
+      "name": "TEST Feiertag",
+      "datum": "2026-12-25",
+      "zu": true
+    },
+    {
+      "name": "TEST kurzer Tag",
+      "datum": "2026-12-24",
+      "fenster": [
+        [
+          "8.00",
+          "12.00"
+        ]
+      ]
+    }
+  ],
   "zeiten": [
     {
       "tage": "TEST Tage 1 bis 5",

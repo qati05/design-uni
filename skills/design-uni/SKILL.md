@@ -17,7 +17,7 @@ Merksatz: *Die Gestaltung entscheidet, wie etwas aussieht; das Angebot entscheid
 ## Zusammenspiel
 
 design-uni arbeitet mit **text-uni** und **web-uni**. Jedes Thema hat genau einen Besitzer; die verbindlichen Entscheide stehen in [zusammenspiel.md](referenzen/zusammenspiel.md).
-- **design-uni:** Kundenangaben-Blatt und Eingangstor, Richtung, Gestaltung, Bedienung und Barrierefreiheit mit allen Schwellen, Bewegung (ob und welche), Bilder und Rechte, alle Bewerter, Kunden-Agenten und Menschentests, Bericht.
+- **design-uni:** Kundenangaben-Blatt und Eingangstor, Richtung, Gestaltung, Bedienung und Barrierefreiheit mit allen Schwellen (auch «Inhalt ohne JavaScript»), Bewegung (ob und welche), Bilder und Rechte, alle Bewerter, Kunden-Agenten und Menschentests, Bericht.
 - **text-uni:** Fakten, Kundenworte, Suchbegriffe, Wortlaut aller Texte, Angebot und Belege als Inhalt, Recht für Inhalte (UWG, PBV), Suche, Messplan.
 - **web-uni:** Stack und Hoster, Budgets (Ladezeit, Lighthouse), fremde Hosts und Datenschutz-Technik, Formular-Backend, Testumgebung, Livegang, Pflege, Kosten.
 - **Rangfolge:** Recht, dann Entscheide des Betriebs, dann Hausentscheide des Studios, dann die Regeln der Skills.
@@ -28,7 +28,8 @@ design-uni arbeitet mit **text-uni** und **web-uni**. Jedes Thema hat genau eine
 - Die Schritte laufen der Reihe nach. Jeder endet mit einem **Prüfpunkt (DP0 bis DP8)**.
 - **Fällt ein Prüfpunkt durch, geht es einen Schritt zurück, nie zwei vor.** Fällt DP4 zweimal durch, geht es zurück zu DP1: Dann war die Idee falsch und nicht die Ausführung. Fällt das Tor eines anderen Skills, geht es zu dem Schritt zurück, der das fehlende Ergebnis liefert, auch über Skillgrenzen.
 - **Modell-Urteile sind ein Vorfilter** (Entscheid 1): Jeder Prüfpunkt, der Gefallen, «Agentur», Vertrauen oder «würde anfragen» mit Sprachmodellen misst, heisst «Modell-Urteil, Vorfilter». Durchfallen heisst überarbeiten. Bestehen heisst «Modell-Urteil bestanden», nicht «belegt». Belegt ist eine Wirkung erst durch einen Test mit Menschen oder durch Zahlen nach dem Livegang.
-- **Regel oder Hinweis** (Entscheid 13): Eine Regel sperrt nur, wenn sie Recht, Barrierefreiheit, eine Entscheidung des Betriebs oder einen Befund mit Menschen-Daten schützt. Was nur aus Modell-Urteilen oder Geschmack stammt, ist ein **Hinweis**: Er sperrt nichts; wer abweicht, nennt den Grund im Bericht.
+- **Regel oder Hinweis** (Entscheid 13): Eine Regel sperrt nur, wenn sie Recht, Barrierefreiheit, eine Entscheidung des Betriebs oder des Studios, einen Befund mit Menschen-Daten oder eine eigene Messung schützt. Was nur aus Modell-Urteilen, Annahmen oder Geschmack stammt, ist ein **Hinweis**: Er sperrt nichts; wer abweicht, nennt den Grund im Bericht. Hinweise tragen den Satz «`[Annahme]`, sperrt nicht (Entscheid 13)» oder stehen in einer Spalte «Stufe».
+- **Jede Sperre einmal** ([zusammenspiel.md](referenzen/zusammenspiel.md) Teil 7): Jede Prüfung hat eine Kennung und einen Besitzer und läuft einmal. Was text-uni oder web-uni besitzt, steht hier nur als Verweis. Werkzeuge melden FEHLER (sperrt), HINWEIS (sperrt nicht) oder «nicht geprüft»; Exit-Code 1 nur bei FEHLER.
 - Schwellen mit `[Annahme]` sind nicht kalibriert. Wer abweicht, schreibt die Abweichung in den Bericht.
 - Details stehen in `referenzen/`. Lies dort nach, wenn ein Schritt darauf zeigt; lies nicht alles vorab.
 
@@ -60,14 +61,14 @@ design-uni arbeitet mit **text-uni** und **web-uni**. Jedes Thema hat genau eine
 5. **Bilder, Logo und Schriften nur mit Rechten**, erkennbare Personen und Zitate mit Namen nur mit Einwilligung (geprüft in DP0). Keine KI-Bilder des echten Betriebs, seiner Menschen oder Produkte als Beleg.
 6. **Keine Kundendaten und keine Schlüssel ins Repository** (Anfragen, Offerten, Verträge, Zugänge, Personendaten, Einwilligungen mit Namen).
 7. **Selbstbewertung zählt nie.** Jedes Urteil über Geschmack kommt von blinden Bewertern, als Vorfilter, oder von Menschen.
-8. **Barrierefreiheit nach WCAG 2.2 AA** ist Boden: Kontrast, Fokus, Tastatur, Reduced Motion, alles ohne JavaScript lesbar, Tippziele ≥ 44 × 44 px für Hauptaktionen, Zeilenlänge im Fliesstext 50 bis 75 Zeichen, nie über 80.
+8. **Barrierefreiheit nach WCAG 2.2 AA** ist Boden: Kontrast, Fokus, Tastatur, Reduced Motion, alles ohne JavaScript lesbar, Tippziele ≥ 44 × 44 px für Hauptaktionen, Zeilenlänge im Fliesstext nie über 80 Zeichen (sperrt). Am Desktop sind 50 bis 75 Zeichen das Ziel, als Hinweis; am Handy gilt nur «nie über 80».
 9. **Nichts von fremden Hosts ohne Not.** Wie Schriften, Karten, Zählung und Einbettungen technisch gelöst werden, regelt web-uni.
 
 ## Eingabe: die Kundenangaben
 
 Der Skill ist für jeden Betrieb derselbe; was ihn zu **dieser** Website macht, steht im ausgefüllten Blatt [eingabe/kundenangaben.md](eingabe/kundenangaben.md) und im Ordner mit Logo und Fotos. Es gibt **ein** Blatt für alle drei Skills: Teil 1 bis 5 für die Gestaltung, Teil 6 für text-uni, Teil 7 für web-uni. Nichts aus einem früheren Projekt (Farben, Schriften, Texte, Bauteile) wird übernommen; geteilt werden nur Verfahren, Techniken und Werkzeuge.
 
-- **Liegt kein ausgefülltes Blatt vor,** legst du es aus der Vorlage an, füllst vor, was öffentliche Quellen belegen (jede Zeile mit Quelle), und gibst es dem Auftraggeber zurück. Gebaut wird erst, wenn das Eingangstor DP0 besteht.
+- **Liegt kein ausgefülltes Blatt vor,** legst du es aus der Vorlage an, füllst vor, was öffentliche Quellen belegen (jede Zeile mit Quelle), und gibst es dem Auftraggeber zurück. Gebaut wird erst, wenn das Eingangstor DP0 + TP0 + WP0 besteht.
 - **Aus dem Blatt entstehen** `entscheide.md`, `projekt.json` (für [werkzeuge/pruefen.cjs](werkzeuge/pruefen.cjs), Vorlage [eingabe/projekt.beispiel.json](eingabe/projekt.beispiel.json)) und die Rechte-Liste. `fakten.md` und die Kundenworte führt text-uni.
 
 ## Schritt 1 · Lesen
@@ -97,15 +98,15 @@ Die Fragen stehen im Blatt [eingabe/kundenangaben.md](eingabe/kundenangaben.md);
 - jede Zusage (Frist, Garantie, Gratisleistung) mit zuständiger Person und Stellvertretung
 - was gepflegt werden muss (Termine, Saison) und wer es pflegt
 
-**DP0 = TP0 = WP0 · Eingang (ein Tor für alle drei Skills, einmal geprüft):**
-- alle ★-Fragen des Blatts, auch in Teil 6 und 7, beantwortet oder als Lücke bestätigt;
-- mindestens **12 Nomen**, die man fotografieren oder anfassen kann;
-- Hauptaktion festgelegt;
-- jede Zusage mit zuständiger Person;
-- **Rechte:** Die Rechte-Liste nennt für jedes Bild, das Logo und jede Schrift ein Nutzungsrecht und für jede erkennbare Person und jedes Zitat mit Namen eine Einwilligung. **Ohne Recht wird mit diesem Material nicht gebaut;** an seiner Stelle steht eine Lücke;
-- dazu die Punkte, die text-uni in TP0 und web-uni in WP0 prüfen (dort beschrieben).
+**DP0 + TP0 + WP0 · Eingang (ein Tor mit drei Teilen, einmal geprüft; das Ergebnis steht im `LIESMICH.md`):**
+- Sperrt: alle ★-Fragen des Blatts, auch in Teil 6 und 7, beantwortet oder als Lücke bestätigt;
+- Sperrt: Hauptaktion festgelegt;
+- Sperrt: jede Zusage mit zuständiger Person;
+- Sperrt (Recht): Die Rechte-Liste nennt für jedes Bild, das Logo und jede Schrift ein Nutzungsrecht und für jede erkennbare Person und jedes Zitat mit Namen eine Einwilligung. **Ohne Recht wird mit diesem Material nicht gebaut;** an seiner Stelle steht eine Lücke;
+- Hinweis: mindestens **12 Nomen**, die man fotografieren oder anfassen kann; `[Annahme]`, sperrt nicht (Entscheid 13);
+- dazu die Teile, die text-uni in TP0 und web-uni in WP0 prüfen (dort beschrieben).
 
-Fehlt etwas, fragst du nach und baust nicht. Das Sieben der Nomen gehört zu DP1.
+Fehlt etwas, das sperrt, fragst du nach und baust nicht. Fehlen Nomen, fragst du nach und nennst die Lücke im Bericht. Das Sieben der Nomen gehört zu DP1.
 
 **→ web-uni WP1** (Klassen) und **→ text-uni TP1** (Antwort-Plan mit Seitenliste). Gebaut wird keine Seite ausserhalb des Antwort-Plans.
 
@@ -113,7 +114,7 @@ Fehlt etwas, fragst du nach und baust nicht. Das Sieben der Nomen gehört zu DP1
 
 Ablauf im Detail: [richtung.md](referenzen/richtung.md) Teil 2.
 
-1. **Sieben:** Jedes Nomen streichen, das auch ein Mitbewerber im Umkreis von 20 km hat. Bleiben weniger als drei, die weder Name noch Ort sind, geht es zurück ins Gespräch.
+1. **Sieben:** Jedes Nomen streichen, das auch ein Mitbewerber im Umkreis von 20 km hat. Bleiben weniger als drei, die weder Name noch Ort sind, geht es in der Regel zurück ins Gespräch; wer trotzdem weitergeht, nennt den Grund im Bericht (Hinweis, DP1).
 2. **Only-ness-Satz:** «[Name] ist der einzige [Gattung] in [Ort], der [konkret].» Tauschtest: Name eines Mitbewerbers einsetzen. Passt der Satz noch, ist er falsch. Er muss an **mindestens zwei Ankern** scheitern, darunter ein Eigennomen aus dem Inventar.
 3. **Drei Kandidaten aus drei Quellen:** je einer aus Ort, aus Material oder Werkzeug, aus Dokument oder Rhythmus. Form: «Die Website ist ein [Gegenstand des Betriebs].»
 4. **Die eine grosse Entscheidung** in genau einer Form: **ein Wort, ein Bild, eine Fläche oder Farbe, ein System** (Linie, Zeichen, Formular, das sich wiederholt). Prüfungen:
@@ -128,12 +129,12 @@ Ablauf im Detail: [richtung.md](referenzen/richtung.md) Teil 2.
 7. **Eintrag ins Register vor dem Bau:** Grundfarbe, Titelschrift und Klasse, Hero-Typ, Knopfform, Schrift der Fakten, Status «im Bau». So prüfen parallele Bauten gegeneinander.
 
 **DP1 · Richtung (Sieben maschinell, dann blind; Modell-Urteil, Vorfilter):**
-- **Sieben:** Nach dem Sieben bleiben mindestens **3 Nomen**, die weder Name noch Ort sind.
+- **Sieben (Hinweis):** Nach dem Sieben bleiben mindestens **3 Nomen**, die weder Name noch Ort sind; `[Annahme]`, sperrt nicht (Entscheid 13).
 - **Blind:** Die drei Collagen werden gemischt mit drei Collagen oder ersten Bildschirmen der letzten drei eigenen Websites und zwei fremden. Sechs Bewerter ([blindtest.md](referenzen/blindtest.md)) beantworten: «Welche gehören zum selben Studio?» und «Welcher Betrieb ist das, und was ist die Idee?»
 - **Gewählt** wird die Collage mit der höchsten Trefferquote beim Betrieb und der geringsten Zuordnung zum eigenen Studio. Eine Richtung gilt erst als gefunden, wenn ein blinder Bewerter sie aus dem Bild nacherzählen kann.
 - **Danach** fragst du den Auftraggeber mit Optionen (gewählte Collage, die zweite, neu ansetzen), je mit einem Satz, was dann passiert. Ohne Antwort baust du nicht weiter.
 
-**→ web-uni WP2** (Stack und Hoster). Ist Bewegung oder 3D Kern des Wunsches, läuft WP2 erst jetzt, nach DP1.
+**→ web-uni WP2** (Stack und Hoster), in der gemeinsamen Abfolge immer nach DP1 (Schritt 5).
 
 ## Schritt 4 · Ableitung und Tokens
 
@@ -156,7 +157,7 @@ Ablauf im Detail: [richtung.md](referenzen/richtung.md) Teil 2.
 
 Diese Richtwerte laufen nach drei Websites aus, sonst wird das Gegenteil zur nächsten Vorlage.
 
-**→ web-uni WP3** (Bewegungstechnik und Kostenblatt, sobald es Bewegung gibt). **→ text-uni TP2** (Botschaft blind, nur Text), mit dem Abgleich: Der Satz aus der Idee und der erste Satz von text-uni widersprechen sich nicht. **← text-uni:** die Ziele an die Gestaltung, **vor** Schritt 5.
+**→ web-uni WP3** (Bewegungstechnik und Kostenblatt, sobald es Bewegung gibt). **→ text-uni TP2** (Botschaft blind, nur Text; liefert erster Satz, `h1`-Etikett und `<title>` als Entwurf), mit dem Abgleich: Der Satz aus der Idee und der erste Satz von text-uni widersprechen sich nicht. Den Fünf-Sekunden-Test am Bild macht design-uni später in DP4. **← text-uni:** die Ziele an die Gestaltung, **vor** Schritt 5.
 
 ## Schritt 5 · Inhalt vor Gestalt
 
@@ -170,10 +171,8 @@ Für jede Einstiegsseite (Start, jede Leistung, Notfall, Kontakt) zuerst der Tex
 - **Lücken** als ausgeschriebener Satz, nie als Klammer auf der fertigen Vorschau.
 
 **DP3 = TP3 · Prüflisten** ([conversion.md](referenzen/conversion.md) Teil 5), in einem Lauf mit text-uni, am Text und an der Skizze:
-- **LA** Angebot und Botschaft: ≥ 11 von 14
-- **LP** Psychologie, Vertrauen, Recht: ≥ 11 von 15
-- **LH** Handwerk und Forschung: ≥ 9 von 10 (fünf Fragen sind erst am Bau prüfbar und laufen in DP6)
-- Alle drei `[Annahme]`. Fehlt ein Punkt nur, weil beim Betrieb ein Beleg fehlt, zählt er als «Lücke des Betriebs» und blockiert nicht.
+- **Hinweis:** die Punktschwellen **LA** Angebot und Botschaft ≥ 11 von 14, **LP** Psychologie, Vertrauen, Recht ≥ 11 von 15, **LH** Handwerk und Forschung ≥ 9 von 10 (fünf Fragen sind erst am Bau prüfbar und laufen in DP6). `[Annahme]`, sperrt nicht (Entscheid 13). Was fehlt, wird überarbeitet oder mit Grund im Bericht genannt; fehlt ein Punkt nur, weil beim Betrieb ein Beleg fehlt, heisst er «Lücke des Betriebs».
+- **Sperrt:** ein Nein bei LP13 oder LP14 (Recht); die Sperre gehört zur Unlauter-Probe von text-uni TP3 und wird nicht zweimal gezählt. LP15 sperrt im Prüflauf als DP6 Formular.
 - **Deckel:** Ein einziger Verstoss gegen die [nie-liste.md](referenzen/nie-liste.md) (Teil «verboten») sperrt die Seite, unabhängig von den Punkten.
 
 **→ text-uni TP4** (blind gegen die Konkurrenz, nur Text).
@@ -184,7 +183,7 @@ Für jede Einstiegsseite (Start, jede Leistung, Notfall, Kontakt) zuerst der Tex
 
 **Was im ersten Bildschirm steht (Entscheid 3):** **eine grosse Sache** (Bild oder Idee) und **eine Faktenzeile** mit Leistung, Ort, Telefon und Hauptaktion. Zusammen höchstens etwa **60 Wörter** `[Annahme]`. Preise, Fristen und Ablauf folgen direkt darunter. Trägt ein fester Kopf Hauptaktion und Telefon, ist er Teil der Faktenzeile; jede Aktion steht im Bildschirm nur einmal (Entscheid 6). Ob das trägt, zeigt der Bildtest.
 
-**Vor DP4, maschinell:** `node werkzeuge/vermessen.cjs <ordner> --name <projekt> --aus pruefung --bilder` und `node werkzeuge/vergleichen.cjs pruefung/<projekt>.json` ([vorbilder-gemessen.md](referenzen/vorbilder-gemessen.md)).
+**Vor DP4, maschinell (Hinweise, sperren nicht; Entscheid 13):** `node werkzeuge/vermessen.cjs <ordner> --name <projekt> --aus pruefung --bilder` und `node werkzeuge/vergleichen.cjs pruefung/<projekt>.json` ([vorbilder-gemessen.md](referenzen/vorbilder-gemessen.md)).
 - **Vorlagen-Signale:** 0, oder jedes mit einem «weil»-Satz aus dem Betrieb in der Ableitungskette. Die Faktenzeile ist kein Vorlagen-Signal. `[Annahme]`
 - **Wörter:** höchstens etwa 60 im ersten Bildschirm, Desktop und Handy `[Annahme]`.
 - **Lage im Band:** Jedes Mass unter p25 oder über p75 steht im Bericht, mit Grund. Das Band ist kein Ziel; es zeigt, wo die Seite von den Vorbildern abweicht.
@@ -194,7 +193,7 @@ Das ersetzt keinen blinden Test; es spart einen, der sicher durchfällt.
 **DP4 · erster Bildschirm (blind; Modell-Urteil, Vorfilter), drei Tests** ([blindtest.md](referenzen/blindtest.md)):
 - **Bildtest:** beide Bilder zwischen fremde Referenzen und eine Falle, **nur eine Fassung pro Satz**. Schwelle: Mittel ≥ 7,5 und ≥ 4 von 6 «Agentur», beide Modelle einzeln ausgewiesen.
 - **Geschwister-Test:** neben den ersten Bildschirmen der letzten drei eigenen Websites und drei fremden. Schwelle: höchstens 1 von 6 ordnet es dem eigenen Studio zu.
-- **Fünf-Sekunden-Test:** drei Bewerter sehen das Bild 5 s und sagen: Was wird angeboten, wo, und was tue ich jetzt? Schwelle: 3 von 3 richtig. Er läuft in derselben Runde wie der Fünf-Sekunden-Test von text-uni (TP2), mit getrennten Sätzen.
+- **Fünf-Sekunden-Test:** drei Bewerter sehen das Bild 5 s und sagen: Was wird angeboten, wo, und was tue ich jetzt? Schwelle: 3 von 3 richtig. Der Test am Bild gehört zu DP4. text-uni prüft in TP2 nur den Text, früher in der Abfolge (Schritt 7); die beiden laufen nicht in derselben Runde.
 
 Liegt die Kritik nach zwei Runden überwiegend beim Material (Logo, Fotos), meldest du das dem Auftraggeber, statt weiter an der Gestaltung zu drehen.
 
@@ -204,7 +203,7 @@ Liegt die Kritik nach zwei Runden überwiegend beim Material (Logo, Fotos), meld
 
 **DP5 · Startseite:** Bildfolge und Video nach [bewegung.md](referenzen/bewegung.md) Teil 6, je für Desktop, Handy und die ruhige Fassung.
 - **Blind (Modell-Urteil, Vorfilter):** Mittel ≥ 7,5; die Bewegung stört höchstens 1 von 6.
-- **Maschinell (Boden nach Entscheid 12):** unter Reduced Motion laufen 0 Animationen und die Summe der Wege ist 0 px; was nach 5 s noch von selbst läuft, hat einen Pause-Knopf; Titel und Fakten des ersten Bildschirms sind nach ≤ 1,0 s lesbar; ohne JavaScript ist aller Inhalt da.
+- **Maschinell (Boden nach Entscheid 12, sperrt):** unter Reduced Motion laufen 0 Animationen und die Summe der Wege ist 0 px; was nach 5 s noch von selbst läuft, hat einen Pause-Knopf; `h1` und Telefon des ersten Bildschirms sind nach ≤ 1,0 s lesbar (Zeitpunkt `[Annahme]`). Alle drei prüft `pruefen.cjs` mit der Kennung DP5, im Prüflauf. Fakten ausser dem Telefon prüfst du am Bildschirmfoto nach 1,0 s von Hand. Inhalt ohne JavaScript: DP6 Boden.
 - **Mit Menschen:** Ob die Bewegung wirkt, zeigt erst der Menschentest (Schritt 10).
 - **Erreichbarkeit:** Telefon und Öffnungszeiten am Handy höchstens einen Daumenstrich entfernt.
 - **Bewegung nach einer Handlung** (z. B. beim Absenden) wird eigens aufgenommen; Bildfolgen sehen sie nie.
@@ -213,28 +212,35 @@ Liegt die Kritik nach zwei Runden überwiegend beim Material (Logo, Fotos), meld
 
 Gebaut werden alle Seiten aus dem Antwort-Plan, das Formular und die Zustände: Fehler, Bestätigung, 404, Menü offen, leeres Formular, und bei zustandsabhängigen Seiten (Tag/Nacht, Saison) jeder Zustand über die URL. Jede Unterseite hat einen eigenen Star aus ihrem Inhalt. Das Verhalten bleibt konventionell (Beschriftung über dem Feld, Fehler am Feld, Fokus sichtbar); die Idee lebt in Farbe, Schrift, Linie, Zeichen und Ton. Titel, Beschreibung, strukturierte Daten und Zitierfähigkeit kommen von text-uni, Formular-Backend und Zählendpunkt von web-uni.
 
+**Formular ohne Backend** ([zusammenspiel.md](referenzen/zusammenspiel.md) Teil 7): Solange web-uni keinen Server-Endpunkt gebaut hat, zeigt das Formular nach dem Tipp sofort eine sichtbare Rückmeldung im Browser, und der Text sagt ehrlich, was geschieht (z. B. «Ihr E-Mail-Programm öffnet sich»; Wortlaut: text-uni). «Gesendet» heisst es erst mit Endpunkt. In `projekt.json` steht dann `"endpunkt": false`.
+
 **Ein Prüflauf: DP6 + TP7 + WP4 + WP5**, dazu TP5 und TP6. Die Testumgebung stellt web-uni.
 
-**DP6 · maschinell (alle Bedingungen erfüllt).** Werkzeug: `node werkzeuge/pruefen.cjs projekt.json`, vorher einmal mit `--selbsttest` (es muss alle eingebauten Fehler finden). Was in `projekt.json` fehlt, meldet es als «nicht geprüft», nie als bestanden. Hier laufen auch die Fragen der Prüflisten, die erst am Bau prüfbar sind (tote Links, Routen, Feldfehler; [conversion.md](referenzen/conversion.md) Teil 5).
+**DP6 · maschinell.** Werkzeug: `node werkzeuge/pruefen.cjs projekt.json`, vorher einmal mit `--selbsttest` (es muss alle eingebauten Fehler finden, jeden mit der richtigen Stufe). Es meldet je Prüfung **FEHLER** (sperrt), **HINWEIS** (sperrt nicht) oder «nicht geprüft» und endet nur bei FEHLER mit Exit-Code 1 ([zusammenspiel.md](referenzen/zusammenspiel.md) Teil 7). Was in `projekt.json` fehlt, heisst «nicht geprüft», nie bestanden. Jede Prüfung trägt genau eine Kennung, die ihres Besitzers: DP5 und DP6 für design-uni, `TP7/…` für text-uni, WP5 für web-uni. DP6 besteht, wenn keine Zeile mit «sperrt» einen FEHLER hat. Hier laufen auch die Fragen der Prüflisten, die erst am Bau prüfbar sind (tote Links, Routen, Feldfehler; [conversion.md](referenzen/conversion.md) Teil 5).
 
-| Prüfung | Wie | Schwelle |
-|---|---|---|
-| Telefon-Links | jeder `a[href^="tel:"]` im internationalen Format ohne «(0)» und ohne Leerzeichen (z. B. `tel:+41…` mit 9 Ziffern nach der Landesvorwahl); Nummer stimmt mit der Faktenliste; sichtbar steht dieselbe Nummer national (`071 555 00 00`) oder als `+41 71 555 00 00` (text-uni CH12, CH13) | 0 Fehler; auf jeder Seite ≥ 1, in ≤ 1 Tipp erreichbar |
-| Routen-Links | Link auf eine Karten-URL mit der Anschrift aus der Faktenliste; keine eingebettete Karte | 0 Fehler; ≥ 1 auf Kontakt, im Menü, in der Bestätigung |
-| Kontrast aus der Kaskade | `getComputedStyle` jedes sichtbaren Textes gegen den tatsächlich darunterliegenden Grund, bei 1440 und 390 px, in allen Zuständen, mit Hover und Fokus. **Nicht aus Token-Paaren**: Die übersehen Spezifitätskonflikte | Text ≥ 4,5:1, gross ≥ 3:1; Fokusrahmen und Feldränder ≥ 3:1; 0 unter Soll |
-| Zeilenlänge | Zeichen je Zeile im Fliesstext, bei 1440 und 390 px (noch nicht in `pruefen.cjs`; von Hand oder mit eigenem Skript) | 50 bis 75 Zeichen, nie über 80 |
-| Verdeckung | `elementFromPoint` an Mitte und Ecken jedes Knopfs, nach dem Scrollen zum Knopf und nach einer ausgelösten Feldprüfung | 0 Knöpfe unter einer festen Leiste; der Senden-Knopf verschiebt sich durch eine Fehlermeldung nicht |
-| Hauptaktion | fester Kopf mit Hauptaktion und Telefon plus Abschluss am Seitenende erlaubt; im selben Bildschirm jede Aktion höchstens einmal (Entscheid 6) | 0 Doppel im ersten Bildschirm, ausser ein Entscheid des Betriebs sagt «überall» |
-| Rückmeldung | Zeit vom Tipp auf «Senden» bis zur sichtbaren Bestätigung oder Fehlermeldung | ≤ 300 ms `[Annahme]`; doppeltes Senden gesperrt |
-| Kalender | Seite mit simuliertem Datum laden: Fr 17.30, Sa 10.00, So 22.40, Feiertag | kein falsches «morgen» oder «heute»; jede Frist nennt den Wochentag; kein Rückruf schneller als die freigegebene Frist |
-| Formular | Felder zählen, Beschriftungen lesen | 3 bis 5 Felder, eines davon «Name»; höchstens 4 Pflicht; freiwillige Felder tragen «(freiwillig)», kein Sternchen; Zweck und Verantwortlicher am Knopf; nichts vorangekreuzt. Wortlaut: text-uni U10 bis U21 |
-| Klickpfade | Skript am Handy, kürzester Weg | Anruf ≤ 1 Tipp, Route ≤ 2, Anfrage ≤ 3 Bildschirme |
-| Tote Links | jeder interne Link und jedes Bild | 0 |
-| Zählpunkte | jeder `tel:`-, Routen- und `mailto:`-Link trägt `data-zaehl` und `data-ort`; das Formular trägt Start und Ende (für den Messplan von text-uni) | 100 %; keine Cookies, nichts auf dem Gerät gespeichert |
-| Boden | axe oder gleichwertig; Tastatur; JS aus; Reduced Motion; kein Überlauf bei 360 px; keine fremden Hosts | 0 Fehler. Ladezeit, LCP und Lighthouse: Budgets in web-uni (WP5) |
-| Versteckt bleibt versteckt | `[hidden] { display: none !important }` als erste Regel; Prüfung, dass nichts mit `hidden` sichtbar ist | 0 |
-| Klammern | Suche nach eckigen Klammern in der Testkopie | 0 (siehe Schritt 9) |
-| Vorschau (Entscheid 4) | `noindex` per Meta oder `X-Robots-Tag`; `robots.txt` sperrt **nicht** (kein `Disallow: /`); keine Sitemap; kein `canonical` | 0 Fehler |
+| Prüfung | Wie | Schwelle | Stufe |
+|---|---|---|---|
+| Telefon-Links | jeder `a[href^="tel:"]` wählbar (nur Ziffern, ohne «(0)» und ohne Leerzeichen); Nummer stimmt mit der Faktenliste; Linktext zeigt dieselbe Nummer. Format `tel:+41` mit 9 Ziffern (TP7/CH14) und sichtbares Format (TP7/CH12, CH13): text-uni, Hinweis | 0 Fehler; auf jeder Seite ≥ 1 im ersten Bildschirm, in ≤ 1 Tipp erreichbar | sperrt (Fakt nach text-uni R1; Hauptaktion) |
+| Routen-Links | Link auf eine Karten-URL mit der Anschrift aus der Faktenliste (von Hand); eine eingebettete Karte ist fremde Herkunft (WP5) | ≥ 1 auf Kontakt, im Menü, in der Bestätigung | Hinweis (LH4) |
+| Kontrast aus der Kaskade | `getComputedStyle` jedes sichtbaren Textes gegen den tatsächlich darunterliegenden Grund, bei 1440 und 390 px, in allen Zuständen, mit Hover und Fokus. **Nicht aus Token-Paaren**: Die übersehen Spezifitätskonflikte | Text ≥ 4,5:1, gross ≥ 3:1; Fokusrahmen und Feldränder ≥ 3:1; 0 unter Soll | sperrt (Barrierefreiheit) |
+| Zeilenlänge | Zeichen je gerenderter Zeile in `main p` und `main li`, bei 1440 und 390 px | nie über 80 Zeichen, Desktop und Handy | sperrt (Barrierefreiheit) |
+| | dieselbe Messung, Median je Absatz ab drei Zeilen, nur bei 1440 px | 50 bis 75 Zeichen | Hinweis: `[Annahme]`, sperrt nicht (Entscheid 13) |
+| Verdeckung | `elementFromPoint` an Mitte und Ecken jedes Knopfs, nach dem Scrollen zum Knopf und nach einer ausgelösten Feldprüfung | 0 Knöpfe unter einer festen Leiste; der Senden-Knopf verschiebt sich durch eine Fehlermeldung nicht | sperrt (Barrierefreiheit) |
+| Hauptaktion | fester Kopf mit Hauptaktion und Telefon plus Abschluss am Seitenende erlaubt; im selben Bildschirm jede Aktion höchstens einmal; ein fester Knopf bleibt nach dem Scrollen sichtbar | 0 Doppel im ersten Bildschirm, ausser ein Entscheid des Betriebs sagt «überall»; Tippziel ≥ 44 × 44 px | sperrt (Entscheid 6; Tippziele) |
+| Rückmeldung | nach dem Tipp auf «Senden» eine sichtbare Bestätigung oder Fehlermeldung im Browser; der Text sagt ehrlich, was geschieht; ohne Server-Endpunkt nie «gesendet» (Formular ohne Backend, oben) | sofort sichtbar; 0 Behauptungen «gesendet» ohne Endpunkt | sperrt (zusammenspiel Teil 7) |
+| | Zeit vom Tipp bis zur Rückmeldung; doppeltes Senden gesperrt | ≤ 300 ms | Hinweis: `[Annahme]`, sperrt nicht (Entscheid 13) |
+| Kalender | Seite mit simuliertem Datum laden: Fr 17.30, Sa 10.00, So 22.40, Feiertag | kein falsches «morgen» oder «heute»; jede Frist nennt den Wochentag; kein Rückruf schneller als die freigegebene Frist | sperrt (falsche Frist ist eine falsche Zusage, Grundregel 3) |
+| Formular (Anzahl) | Felder zählen | 3 bis 5 Felder, eines davon «Name»; höchstens 4 Pflicht; nichts vorangekreuzt; Zweck und Verantwortlicher am Knopf | sperrt (Hausentscheid, zusammenspiel Teil 4; DSG) |
+| Formular (Wortlaut) | Beschriftung an jedem Feld, 0 Platzhalter (TP7/U10); freiwillige Felder mit «(freiwillig)», ein Sternchen für Pflicht nur mit Erklärung über dem Formular (TP7/U11); Wortlaut U10 bis U21 | Verweis: text-uni TP7 | sperrt dort, nicht hier |
+| Klickpfade | Skript am Handy, kürzester Weg | Anruf ≤ 1 Tipp, Route ≤ 2, Anfrage ≤ 3 Bildschirme | Hinweis: `[Annahme]`, sperrt nicht (Entscheid 13) |
+| Tote Links | jeder interne Link und jedes Bild | 0 | sperrt |
+| Bilder | jedes `img` hat ein `alt`-Attribut (leer bei Schmuck). Wortlaut des Alt-Texts (S20) und Mass (TI33): text-uni, Hinweis | 0 ohne `alt` | sperrt (Barrierefreiheit) |
+| Zählpunkte | jeder `tel:`-, Routen- und `mailto:`-Link trägt `data-zaehl` und `data-ort`; das Formular trägt Start und Ende (für den Messplan von text-uni) | 100 % | Hinweis |
+| Boden | axe oder gleichwertig; Tastatur und Fokus; **Inhalt ohne JavaScript** (Besitzer design-uni; text-uni TI31 und web-uni verweisen); kein Überlauf bei 360, 390 und 1440 px; Reduced Motion und Pause ab 5 s laufen mit (Kennung DP5) | 0 Fehler | sperrt (Barrierefreiheit, Entscheid 12) |
+| Versteckt bleibt versteckt | `[hidden] { display: none !important }` als erste Regel; Prüfung, dass nichts mit `hidden` sichtbar ist | 0 | sperrt (Barrierefreiheit) |
+| Klammern | Suche nach eckigen Klammern und Platzhaltern in der Testkopie | 0 (siehe Schritt 9) | sperrt (Grundregel 2) |
+
+**Nur Verweis, hier nicht ein zweites Mal gezählt:** Vorschau mit `noindex`, `robots.txt` ohne `Disallow: /`, keine Sitemap: text-uni TP7/TI8 (Entscheid 4, sperrt; `canonical` als TP7/S28, Hinweis). Fremde Hosts, Cookies, nichts auf dem Gerät gespeichert: web-uni WP5 (sperrt). Ladezeit, LCP und Lighthouse: Budgets in web-uni WP5. `pruefen.cjs` misst diese Punkte mit, unter der Kennung ihres Besitzers.
 
 ## Schritt 9 · Kunden-Agenten und blinde Bewerter
 

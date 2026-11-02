@@ -2,7 +2,7 @@
 
 Stand 01.11.2026 · Text-Uni, Semester 3 «Google-Suche».
 
-> **Worum es geht:** Wie man die Berichte der Google Search Console liest, was die Zahlen bedeuten und was sie nicht sagen. Welche Zahlen das Unternehmensprofil liefert. Wie ein Messplan vor dem Livegang aussieht, damit nach 8 Wochen ein Vergleich möglich ist. Und wer die Daten sehen darf.
+> **Worum es geht:** Wie man die Berichte der Google Search Console liest, was die Zahlen bedeuten und was sie nicht sagen. Welche Zahlen das Unternehmensprofil liefert. Wie ein Messplan vor dem Livegang aussieht, damit nach 8 Wochen ein Zwischenstand und nach 3 Monaten ein Urteil möglich sind, und wie das Dokument `messplan.md` aufgebaut ist (9.4). Und wer die Daten sehen darf.
 >
 > **Gelesen am 01.11.2026, online** (Nummern wie in «Quellen» am Ende):
 > M-Q1 Was sind Impressionen, Position und Klicks? (ganz gelesen) · M-Q2 Leistungsbericht, Übersicht · M-Q3 Leistungsbericht, Filter und Vergleiche · M-Q4 Search Central Blog, Filter und Grenzen der Leistungsdaten, 2022 · M-Q5 Search Central Blog, 16 Monate Daten, 2018 · M-Q6 Search Central Blog, Ansicht «24 Stunden», 2024 · M-Q7 Search Console API, Abfrage · M-Q8 Bericht zur Seitenindexierung · M-Q9 Bericht Core Web Vitals · M-Q10 Sitemaps-Bericht · M-Q11 URL-Prüfung · M-Q12 Rückgänge im Suchverkehr untersuchen · M-Q13 Inhaber, Nutzer und Berechtigungen · M-Q14 Leistung des Unternehmensprofils.
@@ -154,7 +154,7 @@ Ohne Ausgangswerte gibt es keinen Vergleich. Der Messplan entsteht **vor** dem L
 
 | Punkt | Inhalt | Beispiel Schreinerei Muster |
 |---|---|---|
-| Ziel | eine Zahl, die der Betrieb wirklich will | Anfragen für Einbauschränke |
+| Erfolgsmass | eine Zahl, die der Betrieb wirklich will; nicht zu verwechseln mit der Hauptaktion (design-uni) und den Zielen an die Gestaltung | Anfragen für Einbauschränke |
 | Begriffe | 5 bis 10 Suchbegriffe aus dem Antwort-Plan, je mit Zielseite | «Schreiner Musterdorf» → Startseite; «Einbauschrank nach Mass» → /einbauschrank |
 | Ausgangswerte Website | je Begriff und Seite Impressionen, Klicks, CTR, Position der letzten 3 Monate; 16 Monate als Datei sichern | aus dem Export, Datei mit Datum |
 | Ausgangswerte Profil | Aufrufe, Anrufe, Routen, Website-Klicks der letzten 3 Monate | aus der Profil-Statistik |
@@ -179,6 +179,44 @@ Ohne Ausgangswerte gibt es keinen Vergleich. Der Messplan entsteht **vor** dem L
 - Vergleich immer zweifach: gegen den Zeitraum davor und gegen dasselbe Zeitfenster im Vorjahr. `[Fakt · M-Q12 empfiehlt Vorjahr; Regel: Annahme]`
 - Wörter wie «Erfolg» oder «Durchbruch» nur mit Zahl; «zu wenig Daten», wo es so ist. `[Annahme; Verweis B1]`
 - Ursache und Zusammenhang getrennt: «Klicks stiegen um 18 nach dem Livegang» ist ein Fakt; «wegen der neuen Texte» ist eine Annahme, solange Saison und Updates nicht ausgeschlossen sind. `[Annahme]`
+
+### 9.4 Messplan-Dokument
+
+Teil von TP8. Es gibt **ein** Dokument, `messplan.md`, und es gehört text-uni. Die Zählpunkte auf der Seite (`data-zaehl`, `data-ort`, Start und Ende des Formulars) und ihre Ereignis-Tabelle liefert design-uni als Beitrag ([conversion.md](../../../design-uni/referenzen/conversion.md), Teil 7, geprüft in DP6). Den Zählendpunkt und die cookielose Technik liefert web-uni. Inhalt und Lesart stehen hier. `[Verweis · zusammenspiel.md, Teil 2; übernommen aus design-uni conversion.md Teil 7 am 02.11.2026]`
+
+**Aufbau von `messplan.md`:**
+
+1. Die Punkte aus 9.1, mit Datum.
+2. Zählpunkte je Seite (Beitrag design-uni) und Zählendpunkt (Beitrag web-uni). Fehlt der Zählendpunkt, steht dort «nicht gebaut», und die betroffenen Zeilen heissen «nicht messbar».
+3. Die eigene Zählung im Betrieb (unten).
+4. Die Warnwerte (unten).
+5. Die Termine: Zwischenstand Suche nach 8 Wochen, Urteil über Anfragen nach 3 Monaten (M13).
+6. Ein Änderungslog: Datum und Art jeder Änderung an Website, Profil und Angebot.
+
+**Eigene Zählung im Betrieb:** acht Wochen Strichliste «Wie sind Sie auf uns gekommen?» (Website, Suche, Empfehlung, Stammkunde), nur Zahlen, keine Namen (M19). Ausgangswerte vor dem Livegang erfragen oder als Lücke führen. `[übernommen aus design-uni conversion.md Teil 7]`
+
+**Warnwerte** `[Annahme]`, am eigenen Verlauf, nicht an fremden Benchmarks. Die 6,6 Prozent von Unbounce stammen von bezahlten US-Landingpages. `[Fakt · Unbounce, Benchmark Q4 2024, laut design-uni conversion.md; hier nicht nachgelesen]`
+
+| Kennzahl | Warnwert (sofort prüfen) |
+|---|---|
+| Formular gesendet ÷ begonnen | unter 40 % bei ≥ 10 begonnenen, oder 0 gesendet in 14 Tagen bei ≥ 5 begonnenen |
+| Anruf-Tipps je Woche | 0 bei ≥ 50 Handy-Besuchen (Link kaputt?) |
+| Seitenaufrufe je Woche | Rückgang über 50 % |
+| Technik täglich | `tel:`-Nummer ≠ `fakten.md`; Testsendung kommt nicht an |
+
+«Gesendet» gibt es erst mit einem Server-Endpunkt. Ohne Endpunkt heisst die erste Zeile «nicht messbar»; gezählt wird dann nur der Tipp auf den Knopf, und der ist keine Anfrage. `[Verweis · zusammenspiel.md, Teil 7]`
+
+**Kleine Zahlen ehrlich lesen.** Die Grenzen in M3 gelten für Zahlen aus Search Console. Für Anfragen gilt:
+
+1. **Raten mit Band:** 6 Anfragen bei 200 Besuchen sind nicht «3 %», sondern 1,4 bis 6,4 % (Wilson, 95 %); 12 von 400: 1,7 bis 5,2 %.
+2. **Zählungen haben ein Band:** 8 Anfragen im Monat sind mit 3,5 bis 15,8 vereinbar, 12 mit 6,2 bis 21,0 (Poisson, 95 %).
+3. **Zählung statt Prozent vergleichen:** 8 → 12 ist Zufall (p ≈ 0,25), 6 → 12 noch vereinbar (p ≈ 0,12); erst etwa eine Verdoppelung ab 10 (10 → 20, p ≈ 0,05) ist ein Zeichen.
+4. **Gleiche Zeiträume,** Saison beachten (8.6); das Änderungslog führen.
+5. **Drei Monate vor, drei Monate nach dem Livegang** für das Urteil über Anfragen; nach 8 Wochen nur ein Zwischenstand für die Suche (M13, Entscheid 11); vorher kein Urteil, ausser bei Warnwerten.
+6. **Mikro vor Makro:** mehr Formularstarts bei gleich vielen Abschlüssen zeigen Reibung im Formular.
+7. **Keine A/B-Tests bei kleinen Betrieben:** Für +30 % bei 3 % Grundrate braucht es rund 12 900 Besuche, über zwei Jahre bei 500 im Monat. Stattdessen: Heuristik; Menschentest mit 5 bis 10 Personen (Ablauf nur in [blindtest.md](../../../design-uni/referenzen/blindtest.md), Teil 6); Kunden-Agenten mit Aufgaben (design-uni DP7); Fünf-Sekunden-Test (design-uni DP4); eine Frage nach dem Absenden («Was hätte Sie fast davon abgehalten?»); grosse Änderungen auf einmal.
+
+`[Annahme, Rechnung; übernommen aus design-uni conversion.md Teil 7; nachgerechnet am 02.11.2026: Wilson-Intervall 95 %, exakte Poisson-Grenzen 95 %, p einseitig aus dem Binomialtest der beiden Zählungen, Fallzahl für 80 % Power bei 5 % Fehler]`
 
 ---
 
@@ -216,8 +254,9 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 **Messplan**
 
-- **M11 Messplan vor dem Livegang.** Er liegt vor dem Livegang vor und enthält: Ziel, 5 bis 10 Begriffe mit Zielseite, Ausgangswerte Website und Profil der letzten 3 Monate, eigene Zählung der Anfragen (M14) mit Zählpunkten (design-uni) und Zählendpunkt (web-uni), Datum des Zwischenstands Suche und des Urteils über Anfragen (M13). Fehlt ein Punkt, ist TP8 nicht bestanden. `[Annahme; Verweis SKILL.md, Prüfpunkt TP8]`
+- **M11 Messplan vor dem Livegang.** Er liegt vor dem Livegang vor und enthält: Erfolgsmass, 5 bis 10 Begriffe mit Zielseite, Ausgangswerte Website und Profil der letzten 3 Monate, eigene Zählung der Anfragen (M14) mit Zählpunkten (design-uni) und Zählendpunkt (web-uni), Datum des Zwischenstands Suche und des Urteils über Anfragen (M13); Aufbau nach 9.4. In TP8 sperren nur das Dokument, die eigene Zählung und die zwei Termine (Entscheid 11); fehlt ein anderer Punkt, ist das ein Hinweis. `[Annahme; Verweis SKILL.md, Prüfpunkt TP8]`
   Geändert am 02.11.2026: Zählpunkte, Zählendpunkt und die zwei Termine aus M13 ergänzt (Entscheid 11). `[Entscheid · Studio, 02.11.2026]`
+  Geändert am 02.11.2026: Nicht mehr jeder fehlende Punkt sperrt TP8, nur Dokument, eigene Zählung und Termine (Entscheid 13). «Ziel» heisst «Erfolgsmass», damit es nicht mit der Hauptaktion oder den Zielen an die Gestaltung verwechselt wird; Aufbau, Strichliste, Warnwerte und Lesart kleiner Zahlen stehen in 9.4 (aus design-uni übernommen, zusammenspiel.md Teil 2). `[Entscheid · Studio, 02.11.2026]`
 - **M12 16 Monate gesichert.** Vor dem Livegang ist ein Export der letzten 16 Monate mit Datum gespeichert, beim Betrieb, nicht im Repo. `[Fakt · M-Q5: 16 Monate; Rest: Annahme]`
 - **M13 Zwischenstand nach 8 Wochen, Urteil nach 3 Monaten.** Beide Daten stehen fest im Plan. Nach 8 Wochen gibt es einen Zwischenstand für die Suche; «zu wenig Daten» ist ein mögliches Ergebnis (M3). Das Urteil über Anfragen fällt nach 3 Monaten, nicht früher. Der Bericht vergleicht gegen den Zeitraum davor und gegen dasselbe Fenster im Vorjahr. `[Fakt · M-Q12 empfiehlt Vorjahr; 8 Wochen: Lehrplan der Text-Uni, D3; 3 Monate: Entscheid · Studio, 02.11.2026]`
   Geändert am 02.11.2026: Die Auswertung nach 8 Wochen ist nur noch ein Zwischenstand für die Suche; das Urteil über Anfragen fällt nach 3 Monaten (Entscheid 11 in [zusammenspiel.md](../../../design-uni/referenzen/zusammenspiel.md)). `[Entscheid · Studio, 02.11.2026]`

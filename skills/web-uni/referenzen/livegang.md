@@ -1,6 +1,6 @@
 # Livegang (Schritt 9, WP9)
 
-Stand 2. November 2026. Die Regeln für `robots.txt`, Sitemap, `canonical`, Weiterleitungen und Umzug besitzt text-uni (Semester 4, [technik-crawlen-indexieren.md](../../text-uni/referenzen/semester4/technik-crawlen-indexieren.md), TI1 bis TI30; Semester 3, S28). web-uni setzt sie am Hoster um. Ein Livegang mit dieser Liste ist noch nie gelaufen `[nicht gebaut]`; die Vorlage erzeugt die Dateien `[gebaut · 02.11.2026, mit Testdaten]`.
+Stand 2. November 2026. Die Regeln für `robots.txt`, Sitemap, `canonical`, Weiterleitungen und Umzug besitzt text-uni (Semester 4, [technik-crawlen-indexieren.md](../../text-uni/referenzen/semester4/technik-crawlen-indexieren.md), TI1 bis TI30; Semester 3, S28). Die Vorschau-Regel (`noindex`, `robots.txt` ohne Sperre) besitzt text-uni ebenfalls (TP7/TI8, TI10). web-uni setzt alle diese Regeln in der Vorlage und am Hoster um. Ein Livegang mit dieser Liste ist noch nie gelaufen `[nicht gebaut]`; die Vorlage erzeugt die Dateien `[gebaut · 02.11.2026, mit Testdaten]`.
 
 ## Vorher
 
@@ -13,7 +13,7 @@ Stand 2. November 2026. Die Regeln für `robots.txt`, Sitemap, `canonical`, Weit
 
 | Nr. | Schritt | Regel | Prüfen |
 |---|---|---|---|
-| 1 | `bau.json`: `vorschau` auf `false`; `adresse` (`https://host`), `kiTraining` nach Entscheid des Betriebs, `crawlerListeGeprueft`, bei Cloudflare Pages `pagesProjekt` | TI5, TI6, TI10 | Bau läuft ohne Fehler |
+| 1 | `bau.json`: `vorschau` auf `false` (die Vorlage prüft dann wie in der Stufe `abgabe`); `adresse` (`https://host`), `kiTraining` nach Entscheid des Betriebs, `crawlerListeGeprueft`, bei Cloudflare Pages `pagesProjekt` | TI5, TI6, TI10 | Bau läuft ohne Fehler |
 | 2 | Bau: `robots.txt` ohne Sperre der Seiten, mit `Sitemap:`; `sitemap.xml` ohne 404; `canonical` auf sich selbst; kein `noindex` | TI1 bis TI4, TI8, TI11, TI12, S28 | Dateien in `dist/` lesen; Prüflauf mit `vorschau: false` |
 | 3 | Weiterleitungen am Hoster, jede Zeile mit `301`, Parameter über Funktion oder Domain-Regel | TI20 bis TI23 | Nachbildung offline, dann `curl -sI` je Zeile |
 | 4 | Domain verbinden, HTTPS, eine Hostvariante | TI25, TI35, [betrieb.md](betrieb.md) Teil 2 | `curl -sI http://…` und die andere `www`-Variante leiten mit einem Sprung weiter |

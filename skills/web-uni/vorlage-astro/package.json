@@ -5,12 +5,13 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "bau:abgabe": "STUFE=abgabe astro build",
     "bau:test": "DATEN=test astro build"
   },
   "dependencies": {
-    "astro": "7.4.4"
+    "astro": "7.4.1"
   },
   "engines": {
-    "node": ">=22.23.4"
+    "node": ">=22.22.0"
   }
 }

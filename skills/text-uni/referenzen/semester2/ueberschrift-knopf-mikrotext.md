@@ -27,7 +27,7 @@ Stand 01.11.2026 · Text-Uni, Semester 2 «Text, der verkauft».
 - **Beschriftung (Label):** der sichtbare Name eines Feldes, zum Beispiel «Telefon». Sie bleibt stehen, auch wenn man tippt. `[Fakt · W3C, WCAG 2.2, SC 3.3.2]`
 - **Platzhalter:** grauer Text im leeren Feld, der beim Tippen verschwindet. `[Fakt · Sherwin, 2014]`
 - **Hilfetext:** ein kurzer Satz zwischen Beschriftung und Feld, der beim Ausfüllen hilft. `[Fakt · GOV.UK, Textfeld]`
-- **Bestätigung:** die Seite oder Meldung nach dem Absenden. Sie sagt, dass etwas angekommen ist und was jetzt geschieht. `[Fakt · GOV.UK, Bestätigungsseiten]`
+- **Bestätigung:** die Seite oder Meldung nach dem Absenden. Sie sagt, dass etwas angekommen ist und was jetzt geschieht. `[Fakt · GOV.UK, Bestätigungsseiten]` «Angekommen» darf sie erst sagen, wenn ein Server-Endpunkt den Eingang bestätigt; sonst sagt sie, was tatsächlich geschieht (U18). `[Verweis · zusammenspiel.md, Teil 7]`
 
 ---
 
@@ -94,7 +94,7 @@ Stand 01.11.2026 · Text-Uni, Semester 2 «Text, der verkauft».
 - **Baymard (Online-Handel):** In Tests, bei denen nur die freiwilligen Felder markiert waren, liessen 32 % der Personen ein Pflichtfeld leer und bekamen eine Fehlermeldung. Am Handy hatten 75 % schwere Probleme auf Seiten, die nicht beides klar markierten. Im Vergleich von Shops markierten 2021 nur 14 % beides, 42 % nur Pflichtfelder, 37 % nur freiwillige. Empfehlung: beides ausdrücklich kennzeichnen; ein Hinweis «Alle Felder sind Pflicht» oben genügt nicht. `[Fakt · Baymard, 02.10.2018, Benchmark und Tests 2021]`
 - **NN/g:** Pflichtfelder markieren, auch wenn fast alle Pflicht sind; Sternchen sind bekannt und kurz; freiwillige zusätzlich als «optional» zu kennzeichnen, entlastet. Hinweise oben im Formular werden übersehen. Der Artikel nennt keine Zahlen. `[Fakt · Budiu, NN/g, 16.06.2019]`
 - **GOV.UK** widerspricht beim Sternchen: Pflichtfelder nie mit Sternchen markieren, freiwillige mit «(optional)» in der Beschriftung. Begründung: Man fragt ohnehin nur, was man braucht. `[Fakt · GOV.UK, Frageseiten]`
-- **Folgerung:** Einig sind alle drei darin, dass freiwillige Felder ein Wort in der Beschriftung tragen. Beim Sternchen gilt: Wer es nutzt, erklärt es über dem Formular. Kurze Kontaktformulare haben ohnehin kaum freiwillige Felder; jedes freiwillige Feld ist eine Frage an den Betrieb, ob er es braucht. `[Annahme]`
+- **Folgerung:** Einig sind alle drei darin, dass freiwillige Felder ein Wort in der Beschriftung tragen. Beim Sternchen gilt: Wer es nutzt, erklärt es über dem Formular; ohne Erklärung ist es ein Fehler (U11). Kurze Kontaktformulare haben ohnehin kaum freiwillige Felder; jedes freiwillige Feld ist eine Frage an den Betrieb, ob er es braucht. `[Annahme]`
 
 ### 4.3 Warum wir fragen
 
@@ -161,13 +161,20 @@ Die Telefonnummer im Beispiel ist eine Musternummer im Format nach CH12.
 ### 6.2 Was daraus folgt
 
 - **Ergebnis zuerst, Dank danach oder gar nicht.** «Ihre Anfrage ist bei uns.» statt «Vielen Dank für Ihre Nachricht, wir freuen uns auf Ihre An·frage». Das ist V2 und L1 für die Bestätigung. `[Annahme]`
+- **Ehrlich ohne Server.** Solange kein Server-Endpunkt gebaut ist, ist nichts «bei uns». Der erste Satz sagt, was geschieht, etwa «Ihr E-Mail-Programm öffnet sich mit Ihrer Anfrage. Senden Sie sie dort ab.» `[Verweis · zusammenspiel.md, Teil 7]`
 - **Wer, wann, was.** Name oder Rolle der Person, die sich meldet; Frist mit Wochentag oder Uhrzeit; was sie dann tut (anrufen, Offerte schicken). `[Fakt · GOV.UK, Bestätigungsseiten; Form: Annahme]`
 - **Was tun, wenn es eilt.** Telefonnummer und Zeiten, nach CH11 und CH12.
 - **Die Frist ist eine Zusage.** Dieselbe Frist steht beim Knopf und in der Bestätigung, und der Betrieb hat sie bestätigt. Erfundene Fristen sind erfundene Fakten. `[Annahme]`
 
 ### 6.3 Beispiel: Schreinerei Muster, Musterdorf (erfunden)
 
+Mit Server-Endpunkt:
+
 > Ihre Anfrage für den Einbauschrank ist bei uns. Martina Muster ruft Sie bis Donnerstag, 12 Uhr, an und vereinbart einen Termin zum Ausmessen. Eilt es? Telefon 044 123 45 67, Montag bis Freitag 7.30 bis 17 Uhr.
+
+Ohne Server-Endpunkt, mit `mailto:`:
+
+> Ihr E-Mail-Programm öffnet sich mit Ihrer Anfrage für den Einbauschrank. Senden Sie sie dort ab. Ist Ihre Mail bei uns, ruft Martina Muster Sie bis Donnerstag, 12 Uhr, an. Eilt es? Telefon 044 123 45 67, Montag bis Freitag 7.30 bis 17 Uhr.
 
 ---
 
@@ -195,8 +202,9 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 - **U10 Beschriftung sichtbar.** Jedes Feld hat eine sichtbare Beschriftung; Ziel an die Gestaltung: Sie steht über dem Feld. Platzhalter als Beschriftung, Hinweis oder Beispiel: 0. Werkzeug: `input` und `textarea` ohne zugehöriges `label`, jedes `placeholder`-Attribut ist ein Befund. `[Fakt · Sherwin, 2014; GOV.UK, Textfeld; W3C, SC 3.3.2]`
   Geändert am 02.11.2026: Der Platz der Beschriftung ist ein Ziel an design-uni, keine Regel dieses Skripts. `[Entscheid · Studio, 02.11.2026]`
-- **U11 Freiwillig ist beschriftet.** Jedes freiwillige Feld trägt «(freiwillig)» in der Beschriftung. Wer Pflichtfelder mit Sternchen markiert, erklärt das Zeichen über dem Formular. Ein Hinweis «Alle Felder sind Pflicht» allein genügt nicht. «(freiwillig)» ist der Wortlaut in allen drei Skills, «(optional)» steht nicht. Wie viele Felder es gibt und wie viele Pflicht sind, bestimmt design-uni. `[Fakt · Baymard, 2018: 32 % übersehen Pflichtfelder bei nur freiwilliger Markierung; Budiu, 2019; GOV.UK; Wahl des Worts: Annahme]`
+- **U11 Freiwillig ist beschriftet.** Jedes freiwillige Feld trägt «(freiwillig)» in der Beschriftung. Ein Sternchen für Pflichtfelder ist erlaubt, wenn es über dem Formular erklärt ist (etwa «Felder mit * brauchen wir für die Antwort»); ein Sternchen ohne diese Erklärung ist ein Fehler. Ein Hinweis «Alle Felder sind Pflicht» allein genügt nicht. «(freiwillig)» ist der Wortlaut in allen drei Skills, «(optional)» steht nicht. Wie viele Felder es gibt und wie viele Pflicht sind, bestimmt design-uni. `[Fakt · Baymard, 2018: 32 % übersehen Pflichtfelder bei nur freiwilliger Markierung; Budiu, 2019; GOV.UK; Wahl des Worts: Annahme]`
   Geändert am 02.11.2026: Wortlaut «(freiwillig)» gilt für alle drei Skills; die Zahl der Felder gehört design-uni (Teil 4 in [zusammenspiel.md](../../../design-uni/referenzen/zusammenspiel.md)). `[Entscheid · Studio, 02.11.2026]`
+  Geändert am 02.11.2026: Sternchen ausdrücklich geregelt: erlaubt mit Erklärung über dem Formular, ohne Erklärung ein Fehler. U11 ist der eine Wortlaut für alle drei Skills; geprüft wird er einmal, als TP7/U11 (zusammenspiel.md Teil 4 und 7). `[Entscheid · Studio, 02.11.2026]`
 - **U12 Grund beim Feld.** Jedes Feld für Telefon, Adresse, Geburtsdatum, Gesundheit oder Finanzen hat beim Feld einen Satz, wofür die Angabe gebraucht wird (Ziel an die Gestaltung: direkt darunter). Der Grund ist konkret («für Rückfragen zum Termin»), nicht allgemein («zur Bearbeitung»). Ein Feld ohne echten Grund meldet text-uni an design-uni zum Streichen; die Zahl der Felder bestimmt design-uni. `[Fakt · Baymard, 2020/2025: 39 % ohne Erklärung, 14 % zögern beim Telefon; GOV.UK, Frageseiten; Langer u. a., 1978, laut Zweitquellen; Feldliste: Annahme]` **Testbar im Paar.**
   Geändert am 02.11.2026: Platz des Satzes ist ein Ziel an design-uni; über das Streichen von Feldern entscheidet design-uni. `[Entscheid · Studio, 02.11.2026]`
 - **U13 Hilfetext kurz.** Hilfetext höchstens ein Satz von 15 Wörtern, ohne Link, unter der Beschriftung. Formatbeispiele stehen dort. Werkzeug. `[Fakt · GOV.UK, Frageseiten und Textfeld; Wortgrenze: Annahme nach W1]`
@@ -210,7 +218,8 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 **Bestätigungen**
 
-- **U18 Ergebnis zuerst.** Der erste Satz der Bestätigung sagt, dass die Anfrage angekommen ist, und ist allein verständlich. Dank und Floskeln stehen nicht davor. `[Fakt · W3C, SC 4.1.3 zur Statusmeldung; Reihenfolge: Annahme nach V2]`
+- **U18 Ergebnis zuerst.** Der erste Satz der Bestätigung sagt, was mit der Anfrage geschehen ist, und ist allein verständlich. «Angekommen», «gesendet» oder «bei uns» steht nur, wenn ein Server-Endpunkt den Eingang bestätigt. Ohne Endpunkt sagt der Satz ehrlich, was geschieht, etwa «Ihr E-Mail-Programm öffnet sich». Dank und Floskeln stehen nicht davor. Prüffrage: Stimmt der erste Satz mit dem, was technisch geschieht? `[Fakt · W3C, SC 4.1.3 zur Statusmeldung; Reihenfolge: Annahme nach V2; ohne Endpunkt: Entscheid · Studio, 02.11.2026]`
+  Geändert am 02.11.2026: «angekommen» nur noch mit Server-Endpunkt; ohne Endpunkt ein ehrlicher Satz (Formular ohne Backend, Teil 7 in [zusammenspiel.md](../../../design-uni/referenzen/zusammenspiel.md)). `[Entscheid · Studio, 02.11.2026]`
 - **U19 Wer, wann, was.** Die Bestätigung nennt die Person oder Rolle, die sich meldet, die Frist (Tag oder Uhrzeit) und was dann geschieht, dazu einen Weg für Eiliges. Prüfung: 4 Punkte zählen; unter 3 ist ein Befund. `[Fakt · GOV.UK, Bestätigungsseiten; Zählregel: Annahme]`
 - **U20 Frist ist freigegeben.** Jede Frist in Knopfnähe und Bestätigung ist dieselbe und hat eine Quelle beim Betrieb. Prüffrage: Steht die Frist in den Fakten des Betriebs? `[Annahme; wie CH9 für Preise]`
 

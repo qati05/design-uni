@@ -1,5 +1,6 @@
-// Astro-Integration: schreibt nach dem Bau robots.txt, sitemap.xml und _headers und prüft die internen Links.
-// Schalter: «vorschau» in bau.json.
+// Astro-Integration: schreibt nach dem Bau robots.txt, sitemap.xml und _headers, prüft die internen Links
+// und ob die Rechtsseiten Inhalt haben (Stufe nach bau/daten.mjs: im Gerüst HINWEIS, in der Abgabe FEHLER).
+// Schalter: «vorschau» in bau.json. Die Regeln für Vorschau und robots.txt besitzt text-uni (TP7/TI8, TI10); die Vorlage setzt sie um.
 //   vorschau true:  noindex per X-Robots-Tag (_headers) und Meta; robots.txt sperrt nichts (zusammenspiel Entscheid 4, text-uni TI8); keine Sitemap.
 //   vorschau false: robots.txt nach text-uni TI1 bis TI6, Sitemap nach TI11 und TI12, canonical je Seite (S28, im Layout).
 // _headers hat das Format von Cloudflare Pages. Auf einem anderen Hoster setzt man dieselben Kopfzeilen dort (web-uni referenzen/betrieb.md).
@@ -26,7 +27,7 @@ export default function dateien() {
     name: "vorlage-dateien",
     hooks: {
       "astro:build:done": async ({ dir }) => {
-        const { bau, vorschau } = await import("./daten.mjs");
+        const { bau, vorschau, RECHTSSEITEN, meldeSpaeter } = await import("./daten.mjs");
         const ziel = fileURLToPath(dir);
         const seiten = htmlDateien(ziel);
 
@@ -46,6 +47,15 @@ export default function dateien() {
           }
         }
         if (schlecht.length) throw new Error("Interne Links mit Weiterleitung oder ohne Ziel (text-uni TI24):\n  " + schlecht.join("\n  "));
+
+        // Rechtsseiten: Inhalt in <main> ausser der h1. Wortlaut von text-uni (Schritt 10), Datenliste von web-uni (betrieb.md Teil 6).
+        for (const name of RECHTSSEITEN) {
+          const datei = path.join(ziel, name, "index.html");
+          if (!fs.existsSync(datei)) { meldeSpaeter(`Rechtsseite /${name}/ fehlt`); continue; }
+          const main = (fs.readFileSync(datei, "utf8").match(/<main[^>]*>([\s\S]*?)<\/main>/) || [, ""])[1];
+          const text = main.replace(/<h1[^>]*>[\s\S]*?<\/h1>/, "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+          if (!text) meldeSpaeter(`Rechtsseite /${name}/ hat keinen Inhalt (Wortlaut text-uni, Abfolge Schritt 13)`);
+        }
 
         const kopf = [
           "/*",

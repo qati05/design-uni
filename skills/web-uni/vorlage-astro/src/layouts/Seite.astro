@@ -1,6 +1,8 @@
 ---
 // Rahmen jeder Seite: Kopfdaten, Vorschau-Schalter, strukturierte Daten, Gerüst aus Kopf, Inhalt, Abschluss und Fuss.
 // Titel, Beschreibung und h1 kommen aus texte.json (Schlüssel = Prop «seite»); bau/daten.mjs prüft sie beim Bau (text-uni S1, S3, S12).
+// Im Gerüst darf die Beschreibung noch fehlen (HINWEIS); dann fehlt das Meta-Tag statt eines leeren.
+// Slot «idee»: der grosse Satz aus der Idee steht über der h1 und ist keine Überschrift (zusammenspiel Entscheid 2).
 // Vorschau: noindex, kein canonical. Livegang: canonical auf die eigene Adresse (text-uni S28).
 import { betrieb as b, texte, bau, vorschau, seite as lies } from "../../bau/daten.mjs";
 import Kopf from "../components/Kopf.astro";
@@ -33,7 +35,10 @@ const tagNr: Record<string, number> = { Sunday: 0, Monday: 1, Tuesday: 2, Wednes
 const min = (z: string) => { const [h, m] = z.split("."); return parseInt(h) * 60 + parseInt(m); };
 const zeiten: Record<number, number[][]> = {};
 for (const z of offen) for (const t of z.ld) zeiten[tagNr[t]] = z.fenster.map(([v, e]: string[]) => [min(v), min(e)]);
-const daten = { zeiten, status: texte.mikrotexte.status };
+// Ausnahmen (Feiertage, Betriebsferien) nach Datum: [] = geschlossen, sonst Fenster in Minuten.
+const ausnahmen: Record<string, number[][]> = {};
+for (const a of b.ausnahmen || []) ausnahmen[a.datum] = a.zu ? [] : a.fenster.map(([v, e]: string[]) => [min(v), min(e)]);
+const daten = { zeiten, ausnahmen, status: texte.mikrotexte.status };
 ---
 <!doctype html>
 <html lang={bau.sprache}>
@@ -41,7 +46,7 @@ const daten = { zeiten, status: texte.mikrotexte.status };
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{s.titel}</title>
-<meta name="description" content={s.beschreibung}>
+{s.beschreibung && <meta name="description" content={s.beschreibung}>}
 {robots && <meta name="robots" content={robots}>}
 {canonical && <link rel="canonical" href={canonical}>}
 <link rel="stylesheet" href="/css/technik.css">
@@ -54,7 +59,8 @@ const daten = { zeiten, status: texte.mikrotexte.status };
 {vorschau && <p data-vorschau>{texte.mikrotexte.vorschauHinweis}</p>}
 <Kopf aktiv={Astro.url.pathname} />
 <main id="inhalt">
-<h1>{s.h1}</h1>
+<slot name="idee" />
+{s.h1 && <h1>{s.h1}</h1>}
 <slot />
 {abschluss && <Abschluss />}
 </main>

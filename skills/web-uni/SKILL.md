@@ -13,10 +13,10 @@ Merksatz: *Technik ist gut, wenn der Besucher sie nicht bemerkt, ausser sie ist 
 
 Die verbindlichen Regeln für alle drei Skills stehen in [zusammenspiel.md](../design-uni/referenzen/zusammenspiel.md): Rangfolge, Besitzer je Thema, Entscheide, eine Schwelle je Sache, Kennungen, gemeinsame Abfolge.
 
-- **web-uni besitzt:** Stack, Hoster, Domain, HTTPS, Sicherheit, Sicherungen; Budgets (Ladezeit, Core Web Vitals, JS, Bilder) und die Lighthouse-Schwelle; fremde Hosts, Cookies, DSG-Technik; Formular-Backend, Spamschutz, Zählendpunkt; die Testumgebung für den einen Prüflauf; Livegang, Pflege, Zugänge, Übergabe; Kosten an den Kunden (nur als Entwurf).
-- **web-uni verweist auf design-uni** für Eingabe und `entscheide.md`, Gestaltung, Barrierefreiheit mit Schwellen, Bewegung (ob und welche), Bewerter und Menschentests, `LIESMICH.md`.
-- **web-uni verweist auf text-uni** für Fakten, jeden Wortlaut, Recht für Inhalte, Regeln für `robots.txt`, Sitemap, `canonical`, Weiterleitungen und Umzug (TI1 bis TI30, S28), Messplan.
-- **Kennungen:** Prüfpunkte WP0 bis WP9, Lektionen WL. Fremde Kennungen immer voll: DP, DL, TK, LA, LP, LH (design-uni); TP und die Grundsätze von text-uni (TI, S, M, U, CL …).
+- **web-uni besitzt:** Stack, Hoster, Domain, HTTPS, Sicherheit, Sicherungen; Budgets (Ladezeit, Core Web Vitals, JS, Bilder) und die Lighthouse-Schwelle; fremde Hosts und Cookies (Prüfung WP5), DSG-Technik; Schriften ausliefern (`font-display`); Formular-Backend, Spamschutz, Zählendpunkt; die Testumgebung für den einen Prüflauf; Livegang, Pflege, Zugänge, Übergabe; Kosten an den Kunden (nur als Entwurf).
+- **web-uni verweist auf design-uni** für Eingabe und `entscheide.md`, Gestaltung, Barrierefreiheit mit Schwellen, Inhalt ohne JavaScript (DP6), Bewegung (ob und welche), Bewerter und Menschentests ([blindtest.md](../design-uni/referenzen/blindtest.md)), `LIESMICH.md`.
+- **web-uni verweist auf text-uni** für Fakten, jeden Wortlaut, Recht für Inhalte, die Vorschau-Regel mit `noindex` und `robots.txt` (TP7/TI8, TI10), Regeln für Sitemap, `canonical`, Weiterleitungen und Umzug (TI1 bis TI30, S28), Messplan. web-uni setzt diese Regeln in der Vorlage und am Hoster um.
+- **Kennungen:** Prüfpunkte WP0 bis WP9, Lektionen WL, Quellen der Stack-Wahl WQ1 bis WQ89 ([stack-wahl.md](referenzen/stack-wahl.md)). Fremde Kennungen immer voll: DP, DL, DG…, TK, LA, LP, LH, GB (design-uni); TP und die Grundsätze von text-uni (TI, S, M, U, CL …).
 
 ## Wie man diese Datei liest
 
@@ -38,14 +38,14 @@ Die verbindlichen Regeln für alle drei Skills stehen in [zusammenspiel.md](../d
 1. **Rangfolge statt Bauchgefühl.** Recht, dann Entscheide des Betriebs, dann Hausentscheide des Studios, dann die Regeln dieses Skills (zusammenspiel Teil 1). Entscheide stehen mit Datum und Person in `entscheide.md` (design-uni).
 2. **Der Wunsch des Betriebs geht vor, mit offenem Preis.** Will der Betrieb mehr Technik, als die Regeln vorsehen, wird sie gebaut, wenn die Kosten benannt sind: Gewicht in KB, Auswirkung auf LCP und TBT, Pflege, Geräte, die es nicht tragen. Der Betrieb entscheidet mit dem Kostenblatt.
 3. **Kosten an den Kunden sind Entwürfe.** Kostenblatt, Stunden und laufende Kosten gehen erst nach Freigabe durch das Studio an den Betrieb.
-4. **Boden für Bewegung** (zusammenspiel Entscheid 12; Barrierefreiheit): Aller Inhalt, Telefon und Anfrage funktionieren ohne Bewegung, ohne JavaScript und ohne WebGL; keine Bewegung hält Inhalt zurück; unter `prefers-reduced-motion` läuft nichts von selbst; was länger als 5 s von selbst läuft, lässt sich pausieren (WCAG 2.2.2). Darüber gibt es keine Mengenregel: Bewegung gibt es so viel, wie die Idee oder der Wunsch braucht.
+4. **Boden für Bewegung** (zusammenspiel Entscheid 12): Die Regeln und ihre Prüfung besitzt design-uni (DP6: Inhalt ohne JavaScript, Reduced Motion, Pause ab 5 s). web-uni wählt nur Techniken, die den Boden halten: Inhalt, Telefon und Anfrage gehen auch ohne Bewegung, ohne JavaScript und ohne WebGL. Darüber gibt es keine Mengenregel.
 5. **Foto zuerst, Szene später.** Das LCP-Element ist ein Bild oder Text; Szenen laden nach dem LCP. Grund: eigene Messung, der LCP blieb mit Szene gleich ([messungen.md](referenzen/messungen.md)).
 6. **Hinweis Energie:** Bei schwacher Grafik oder Sparmodus die Szene nicht starten `[Annahme, nicht gebaut]`.
-7. **Alles vom eigenen Host.** Schriften, Skripte, Bilder und Modelle liegen auf dem eigenen Server. Fremde Inhalte laden erst nach Klick (text-uni CL3); fremde Skripte nur mit Grund und erst nach Einwilligung oder Klick (zusammenspiel Entscheid 10). Keine Cookies ohne Entscheid. Einzelheiten: [betrieb.md](referenzen/betrieb.md).
+7. **Alles vom eigenen Host** (Besitzer web-uni, Prüfung WP5). Schriften, Skripte, Bilder und Modelle liegen auf dem eigenen Server; Schriften mit `font-display` nach [betrieb.md](referenzen/betrieb.md) Teil 6. Fremde Inhalte laden erst nach Klick (text-uni CL3); fremde Skripte nur mit Grund und erst nach Einwilligung oder Klick (zusammenspiel Entscheid 10). Keine Cookies ohne Entscheid. design-uni (DP6) und text-uni (TP7) verweisen auf WP5 und zählen die Prüfung nicht noch einmal.
 8. **Messen, bevor man behauptet.** Eine Technik gilt als «gut» erst nach WP5 und, wo es um Wirkung geht, nach WP6.
 9. **Organisation vor Millisekunden.** Aus einem Besucher wird eine Anfrage durch Verständlichkeit, Vertrauen und einen kurzen Weg; aus der Anfrage ein Auftrag durch das, was im Betrieb danach geschieht. Ladezeit ist eine **Schwelle** (WP5), kein Wettbewerb. Jeder Stack-Entscheid braucht mindestens einen Grund aus der Organisation (Pflege, Abläufe, Anfragekette).
 10. **Der Betrieb muss es pflegen können.** Ist die Antwort auf «Wer ändert die Öffnungszeiten?» «nur ein Entwickler», ist das ein Kostenpunkt und steht im Kostenblatt.
-11. **Nichts geht live ohne Freigabe.** Gebaut wird eine Vorschau: `noindex` per `X-Robots-Tag` oder Meta, wo möglich mit Zugangsschutz; `robots.txt` sperrt sie **nicht** (zusammenspiel Entscheid 4). Live geht es nur über Schritt 9.
+11. **Nichts geht live ohne Freigabe.** Gebaut wird eine Vorschau. Die Regel besitzt text-uni (TP7/TI8, TI10; zusammenspiel Entscheid 4): `noindex` per `X-Robots-Tag` oder Meta, wo möglich mit Zugangsschutz, `robots.txt` sperrt sie nicht. web-uni setzt sie um (Vorlage, Hoster). Live geht es nur über Schritt 9.
 
 ## Schritt 0 · Eingang
 
@@ -60,7 +60,13 @@ Ein Gespräch, ein Blatt: Die Fragen von web-uni stehen im **Kundenangaben-Blatt
 7. **Bestand:** alte Adressen und Sitemap (für TI19), Domain und ihr Halter, Konten (Hoster, Search Console, Unternehmensprofil, E-Mail).
 8. **Anfragekette** als Entwurf: wo kommt eine Anfrage an, wer liest sie wann, wie schnell kommt die Antwort, was folgt.
 
-**WP0 · Teil web-uni vollständig:** alle acht Antworten da oder als Lücke bestätigt; der Wunsch als Satz festgehalten. WP0 läuft einmal zusammen mit DP0 und TP0 (gemeinsames Tor, zusammenspiel Teil 6, Schritt 1).
+Die Frage «Messung» im Blatt beantwortet der Betrieb für den Messplan (text-uni TP8); web-uni braucht daraus nur, ob ein Zählendpunkt nötig ist.
+
+**WP0 · Teil web-uni vollständig:**
+- Sperrt: die ★-Fragen des Blatts in Teil 7 (Geräte, Funktionen, Anfragekette) beantwortet oder als Lücke bestätigt (ohne sie gibt es keine Klasse und keinen Stack).
+- Hinweis: die übrigen Antworten (Wunsch, Pflege, Budget, Daten, Bestand) als `[Fakt]`, `[Annahme]` oder `[Lücke]`; der Wunsch als Satz festgehalten.
+
+WP0 läuft einmal zusammen mit DP0 und TP0 (gemeinsames Tor, zusammenspiel Teil 6, Schritt 1).
 
 ## Schritt 1 · Fähigkeiten und Klassen
 
@@ -80,7 +86,7 @@ Danach: TP1 Antwort-Plan (text-uni) legt die Seitenliste fest; gebaut wird keine
 
 ## Schritt 2 · Stack und Hoster
 
-Läuft nach TP1. **Ist Bewegung oder 3D Kern des Wunsches, läuft WP2 erst nach DP1** (Richtung), weil Klasse E an der Richtung hängt.
+Läuft nach TP1 und DP1 (zusammenspiel Teil 6, Schritt 5), weil Klasse E und die Kosten der Bewegung an der Richtung hängen.
 
 **Entscheidhilfe:** [stack-wahl.md](referenzen/stack-wahl.md) mit drei Leitfragen (Pflege, Wartung, Mitnahme), Entscheidbaum, Übersicht und neun Situationen. Empfehlung, Gegenentwurf, Kosten und Lock-in für `technik.md` kommen von dort.
 
@@ -128,25 +134,26 @@ Je Bewegung im Abschnitt «Bewegung» von `technik.md`: Stufe, was sie zeigt, Ko
 
 Zwei Teile, getrennt durch Schritte von design-uni und text-uni (zusammenspiel Teil 6, Schritte 11 und 13):
 
-1. **Gerüst** vor DP4: Vorlage kopieren, Fakten und Wortlaut eintragen, Bau läuft. Übergabe **Gerüst → DP4** (erster Bildschirm).
-2. **Bau aller Seiten** nach DP5, mit Titel, Beschreibung, strukturierten Daten und Technik aus text-uni.
+1. **Gerüst** vor DP4: Vorlage kopieren, Fakten und Wortlaut eintragen, Bau läuft in der Stufe `geruest`. `<title>` und `h1` kommen als Entwurf aus text-uni TP2 und sind Pflicht, ebenso Name und Telefon. Texte, die erst später entstehen (Beschreibung je Seite, Impressum, Datenschutzerklärung), meldet der Bau als HINWEIS und baut weiter (zusammenspiel Teil 7). Übergabe **Gerüst → DP4** (erster Bildschirm).
+2. **Bau aller Seiten** nach DP5, mit Titel, Beschreibung, strukturierten Daten, Rechtsseiten und Technik aus text-uni. Ab hier baut die Vorlage in der Stufe `abgabe` (`npm run bau:abgabe`): Dieselben fehlenden Texte sind FEHLER.
 
 Regeln, unabhängig vom Stack:
 
 - **Eine Quelle.** Fakten, Wortlaut und Tokens stehen je an einer Stelle; der Bau erzeugt den Rest (WL4). `tokens.json` (design-uni) erzeugt das CSS.
 - **Adressen ohne Weiterleitung** (text-uni TI24): Links zeigen auf die Adresse, die der Hoster direkt ausliefert. In der Vorlage: Verzeichnisformat, Link `/kontakt/`.
 - **Bilder:** Varianten (`srcset`, `sizes`), moderne Formate, `width` und `height`, das LCP-Bild mit `fetchpriority="high"`, sonst `loading="lazy"`; Metadaten entfernen; Grösse je Variante nach WP5.
-- **Schriften** lokal und als Teilmenge; `font-display` nach design-uni; die Hauptschrift vorladen.
-- **Anfrage:** Formular-Backend ist `[nicht gebaut]`. Bis es gebaut ist, führt die Hauptaktion auf `tel:` oder `mailto:`, Wortlaut aus text-uni ([betrieb.md](referenzen/betrieb.md)).
+- **Schriften:** Welche Schrift, entscheidet design-uni; wie sie ausgeliefert wird, web-uni ([betrieb.md](referenzen/betrieb.md) Teil 6: eigener Host, WOFF2, Teilmenge, `font-display`, Hauptschrift vorladen).
+- **Anfrage:** Formular-Backend ist `[nicht gebaut]`. Bis es gebaut ist, gilt zusammenspiel Teil 7: Die Hauptaktion führt auf `tel:` oder `mailto:`, oder ein Formular übergibt an das E-Mail-Programm; die Rückmeldung erscheint sofort im Browser und sagt ehrlich, was geschieht (zum Beispiel «Ihr E-Mail-Programm öffnet sich»). «Gesendet» heisst es erst mit Endpunkt. Wortlaut aus text-uni ([betrieb.md](referenzen/betrieb.md) Teil 7).
 - **Barrierefreiheit:** Schwellen und Prüfungen bei design-uni; web-uni stellt die Werkzeuge im Prüflauf.
+- **Node und Astro:** Die Vorlage pinnt Astro 7.4.1, die letzte Version für Node 22.22.0, damit `npm install && npm run build` in der Cloud-Umgebung ohne neue Node-Version baut, sobald die Pflichtfelder gefüllt sind (mit Testdaten: `npm run bau:test`). Grund und Grenze: [stacks.md](referenzen/stacks.md), Klasse B.
 
 Stackspezifisch: [stacks.md](referenzen/stacks.md).
 
-**WP4 · Bau:** Vorschau läuft mit `noindex`; Bau ohne Fehler; Fakten, Wortlaut und Tokens aus je einer Quelle; 0 interne Links mit Weiterleitung.
+**WP4 · Bau:** Vorschau läuft mit `noindex` (Regel TP7/TI8, TI10); Bau in der Stufe `abgabe` ohne FEHLER, HINWEIS mit Anzahl im Bericht; Fakten, Wortlaut und Tokens aus je einer Quelle; 0 interne Links mit Weiterleitung.
 
 ## Schritt 5 · Ein Prüflauf und Budgets
 
-Alle maschinellen Prüfungen laufen **einmal am selben Stand**: DP6 (design-uni, `pruefen.cjs`), TP7 (text-uni, `slop-de.js` und Technik), WP4 und WP5 (Bau und Messung); dazu TP5 und TP6. Ablauf und Befehle: [pruefumgebung.md](referenzen/pruefumgebung.md).
+Alle maschinellen Prüfungen laufen **einmal am selben Stand**: DP6 (design-uni, `pruefen.cjs`), TP7 (text-uni, `slop-de.js` und Technik), WP4 und WP5 (Bau und Messung); dazu TP5 und TP6. Jede Prüfung trägt die Kennung ihres Besitzers und zählt einmal; die Werkzeuge melden FEHLER (sperrt), HINWEIS (sperrt nicht) oder «nicht geprüft» (zusammenspiel Teil 7). Ablauf und Befehle: [pruefumgebung.md](referenzen/pruefumgebung.md).
 
 **Budgets** (web-uni ist Besitzer; die anderen Skills verweisen hierher). Gemessen mobil, mit Komprimierung, drei Läufe, Median. **Schwellen** sperren: Was darüber liegt, wird behoben oder vom Betrieb mit Kostenblatt entschieden. **Richtwerte** sind Hinweise ohne eigenen Beleg (zusammenspiel Entscheid 13): Sie helfen, die Schwellen zu halten, und eine Überschreitung steht nur mit Grund im Bericht.
 
@@ -156,7 +163,7 @@ Alle maschinellen Prüfungen laufen **einmal am selben Stand**: DP6 (design-uni,
 | LCP | ≤ 2,5 s | Schwelle `[gelesen · web.dev, «gut» am 75. Perzentil]`; im Labor nur Hinweis |
 | INP (Feld) | ≤ 200 ms | Schwelle `[gelesen · web.dev]` |
 | CLS | ≤ 0,1 | Schwelle `[gelesen · web.dev]` |
-| Fremde Herkunft, Cookies | 0 | Schwelle, Grundregel 7 (DSG, Entscheid 10); geprüft in DP6 |
+| Fremde Herkunft, Cookies | 0 | Schwelle WP5, Besitzer web-uni (Grundregel 7; DSG, Entscheid 10); gemessen im Prüflauf mit `pruefen.cjs` |
 | TBT im Labor (Ersatz für INP) | ≤ 200 ms | Richtwert `[Annahme]` |
 | JavaScript vor dem LCP, komprimiert | ≤ 100 KB | Richtwert `[Annahme]` |
 | JavaScript gesamt, komprimiert, normale Seite | ≤ 170 KB | Richtwert `[Annahme]`; im Spike lag Next.js bei 137 KB und 3619 ms LCP `[gebaut und gemessen]` |
@@ -175,10 +182,7 @@ Alle maschinellen Prüfungen laufen **einmal am selben Stand**: DP6 (design-uni,
 
 ## Schritt 6 · Wirkung mit Menschen
 
-Läuft nach DP7 und DP8 (Kunden-Agenten und ganze Website, Modell-Urteile als Vorfilter). Ablauf, Auswahl, Einwilligung und Auswertung von Menschentests regelt design-uni ([blindtest.md](../design-uni/referenzen/blindtest.md)). web-uni nennt nur, **was** geprüft wird:
-
-- Dieselbe Seite **mit und ohne** die teure Technik (ab Stufe 3 oder Klasse E).
-- Zwei Aufgaben: die Hauptaufgabe und das Auffinden einer Leistung; danach die Fünf-Sekunden-Frage.
+Läuft nach DP7 und DP8 (Kunden-Agenten und ganze Website, Modell-Urteile als Vorfilter). Den Ablauf eines Menschentests (Auswahl, Einwilligung, Aufgaben, Reihenfolge, Auswertung) gibt es nur in [blindtest.md](../design-uni/referenzen/blindtest.md) (design-uni, zusammenspiel Teil 7). web-uni nennt nur, **was** verglichen wird: dieselbe Seite **mit und ohne** die teure Technik (ab Stufe 3 oder Klasse E).
 
 Regel: Eine Technik, die in WP5 teuer und im Menschentest nicht besser ist, fliegt raus, auch wenn der Betrieb sie mochte. Er bekommt die Zahlen, und der Entscheid wird neu getroffen. Ohne Menschentest steht im Bericht «Modell-Urteil bestanden, Wirkung nicht belegt».
 

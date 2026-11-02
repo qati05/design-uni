@@ -15,7 +15,8 @@ Merksatz: *Konkret schlägt leer.* Preis, Frist, Ort, Ablauf und Beleg gewannen 
 
 - Die Schritte folgen der gemeinsamen Abfolge der drei Skills ([zusammenspiel.md](../design-uni/referenzen/zusammenspiel.md), Teil 6). Jeder Schritt endet mit einem **Prüfpunkt (TP0 bis TP8)** oder einer Übergabe.
 - **Fällt ein Prüfpunkt durch, geht es zum Schritt zurück, der das fehlende Ergebnis liefert**, auch wenn dieser Schritt in design-uni oder web-uni liegt. Nie vor.
-- **Sperren oder Hinweis.** Ein Prüfpunkt sperrt nur mit Grundsätzen, die Recht, Barrierefreiheit, einen Entscheid oder einen Befund mit Menschen-Daten tragen. Alles andere ist ein **Hinweis**: Er wird berichtet und, wo möglich, behoben, hält aber nichts auf (Entscheid 13). Bei jedem Prüfpunkt steht, was sperrt.
+- **Sperren oder Hinweis.** Ein Prüfpunkt sperrt nur mit Grundsätzen, die Recht, Barrierefreiheit, eine Entscheidung des Betriebs oder des Studios oder einen Befund mit Menschen-Daten oder eigener Messung tragen. Alles andere ist ein **Hinweis**: Er wird berichtet und, wo möglich, behoben, hält aber nichts auf (Entscheid 13). Bei jedem Prüfpunkt steht, was sperrt.
+- **Jede Prüfung einmal** ([zusammenspiel.md](../design-uni/referenzen/zusammenspiel.md), Teil 7): Jede Prüfung hat eine Kennung und einen Besitzer und läuft einmal im gemeinsamen Prüflauf. Gehört sie design-uni oder web-uni, nennt text-uni nur deren Kennung und zählt sie nicht noch einmal. Werkzeuge melden FEHLER (sperrt), HINWEIS (sperrt nicht) oder «nicht geprüft»; Exit-Code 1 nur bei FEHLER.
 - **Selbstbewertung zählt nie.** Urteile über Wirkung kommen von Menschen (web-uni WP6) oder aus Zahlen nach dem Livegang (TP8). Urteile von Sprachmodellen sind Vorfilter.
 - **Was nicht lief, heisst «nicht gelaufen»**, nie «bestanden».
 - Schwellen mit `[Annahme]` sind nicht kalibriert. Wer abweicht, schreibt die Abweichung in den Bericht.
@@ -47,7 +48,7 @@ Ein Modell-Urteil ist ein Ergebnis, bei dem Sprachmodelle bewertet haben, keine 
 - **Nicht glaubwürdig** bei Überzeugungskraft, «würde eher anfragen» und Klickwirkung. Dort liegen Modelle nahe am Zufall.
 - Modelle **bevorzugen den eigenen Stil und längere Fassungen.** In den Tests schrieb dieselbe Modellfamilie die Texte und bewertete sie.
 
-**Modell-Urteile sind ein Vorfilter** (Entscheid 1). Jeder Prüfpunkt, den Sprachmodelle entscheiden (TP2, TP4, TP5, TP6, dazu K16, ZS19, S29), heisst «Modell-Urteil, Vorfilter». Der Lauf ist Pflicht, wo Unteragenten da sind. Was durchfällt, wird überarbeitet; bestehen heisst «Modell-Urteil bestanden», nicht «belegt». Belegt ist eine Wirkung erst durch einen Test mit Menschen (web-uni WP6) oder durch Zahlen nach dem Livegang (TP8). Beim KI-Zitat-Test mit vorgegebenen Quellen heisst es «Modell-Urteil, Vorfilter, Quellenauswahl übersprungen» (KQ10, ZS20).
+**Modell-Urteile sind ein Vorfilter** (Entscheid 1). Jeder Prüfpunkt, den Sprachmodelle entscheiden (TP2, TP4, TP5, TP6, dazu K16, ZS19, S29), heisst «Modell-Urteil, Vorfilter». Der Lauf ist Pflicht, wo Unteragenten da sind. Was durchfällt, wird überarbeitet; bestehen heisst «Modell-Urteil bestanden», nicht «belegt». Belegt ist eine Wirkung erst durch einen Test mit Menschen (web-uni WP6; Ablauf nur in [blindtest.md](../design-uni/referenzen/blindtest.md), Teil 6) oder durch Zahlen nach dem Livegang (TP8). Beim KI-Zitat-Test mit vorgegebenen Quellen heisst es «Modell-Urteil, Vorfilter, Quellenauswahl übersprungen» (KQ10, ZS20).
 
 **Bewerter-Regeln gehören design-uni.** Zahl und Art der Bewerter, Modelle, Reihenfolge, Fallen, Testkopie und Auswertung stehen in [blindtest.md](../design-uni/referenzen/blindtest.md). text-uni sagt nur, **was** geprüft wird, und liefert die Texte dafür.
 
@@ -60,7 +61,7 @@ Ein Modell-Urteil ist ein Ergebnis, bei dem Sprachmodelle bewertet haben, keine 
 | 3 · Google-Suche | G, S, P, Q, M |
 | 4 · KI-Suche und Technik | KQ, TI, ZS; dazu CL1 bis CL4 |
 
-Die Prüfpunkte dieses Skills heissen **TP0 bis TP8**. Kennungen der Schwester-Skills: in design-uni Prüfpunkte DP0 bis DP8, Lektionen DL, Techniken TK, Prüflisten LA, LP, LH; in web-uni Prüfpunkte WP0 bis WP8, Lektionen WL. Querverweise nennen immer die volle Kennung.
+Die Prüfpunkte dieses Skills heissen **TP0 bis TP8**. Kennungen der Schwester-Skills: in design-uni Prüfpunkte DP0 bis DP8, Lektionen DL, Techniken TK, Prüflisten LA, LP, LH; in web-uni Prüfpunkte WP0 bis WP9, Lektionen WL. Lektionen von text-uni heissen TL ([lektionen.md](referenzen/lektionen.md)). Querverweise nennen immer die volle Kennung.
 
 Achtung bei gleichen Buchstaben: In Semester 1 und 2 sind «S…» und «Q…» Nummern von **Quellen**. In Semester 3 sind S1 bis S34 und Q1 bis Q19 **Grundsätze**. In [checkliste-geprueft.md](referenzen/semester4/checkliste-geprueft.md) sind B1, T1, S1 usw. Punkte der fremden Checkliste, nicht Grundsätze dieses Skills. Quellen tragen sonst einen Bindestrich, etwa `S-Q1` oder `KQ-Q30`.
 
@@ -85,7 +86,8 @@ Gemeinsame Ablagen der drei Skills haben je einen Besitzer. text-uni führt kein
 - **`entscheide.md`** (Besitzer design-uni): Entscheide des Betriebs und Hausentscheide des Studios. text-uni trägt seine Entscheide dort ein.
 - **Kundenangaben-Blatt** (Besitzer design-uni): text-uni stellt seine Fragen im eigenen Teil desselben Blatts.
 - **Text-Akte** (text-uni): Kundenworte, sortiert und gezählt, ohne Personendaten, mit Datum der Löschung der Rohsammlung (KW17); Antwort-Plan (Q1 bis Q6); je Einstiegsseite Bewusstseinsstufe und Suchbegriff (A9), Job-Satz (KW8), Anrede mit Grund (CH4); Ziele an die Gestaltung.
-- **`messplan.md`** (Besitzer text-uni): mit Zählpunkten von design-uni und Zählendpunkt von web-uni (Schritt 12).
+- **`messplan.md`** (Besitzer text-uni): mit Zählpunkten von design-uni und Zählendpunkt von web-uni; Aufbau nach [messen-search-console.md](referenzen/semester3/messen-search-console.md) 9.4 (Schritt 12).
+- **Lektionen** (text-uni): [referenzen/lektionen.md](referenzen/lektionen.md), Kennung TL, Format nach design-uni.
 - **Bericht:** der Teil von text-uni im gemeinsamen `LIESMICH.md` (Besitzer design-uni): jeder Prüfpunkt mit Zahlen, Bewertern und Modell, getrennt nach «sperrt» und «Hinweis»; Abweichungen von Schwellen.
 
 ## Schritt 1 · Eingang: Fakten, Worte der Kundschaft, Suchbegriffe
@@ -121,24 +123,25 @@ Lies: [suchabsicht-und-seitenplan.md](referenzen/semester3/suchabsicht-und-seite
 - Sperrt: Der Plan liegt vor.
 - Hinweis: 0 Begriffe auf zwei Seiten (Q5, S27); jede Seite hat genau eine Hauptabsicht; jede Ortsseite besteht Q13 und Q15. `[Annahme]`
 
-## Schritt 3 · Botschaft und erster Satz
+## Schritt 3 · Botschaft, erster Satz, `h1` und Titel-Entwurf
 
-Läuft nach DP1 (Richtung), WP2 (Stack und Hoster) und DP2 mit WP3 (Abstand, Tokens, Bewegung). Der Satz aus der Idee kommt aus DP1.
+Läuft in Abfolge Schritt 7, nach DP1 (Richtung), WP2 (Stack und Hoster) und DP2 mit WP3 (Abstand, Tokens, Bewegung). Der Satz aus der Idee kommt aus DP1. Ergebnis sind erster Satz, `h1`-Etikett und `<title>` als Entwurf; mit ihnen baut web-uni später das Gerüst (Abfolge Schritt 11).
 
 Lies: [angebot-und-botschaft.md](referenzen/semester2/angebot-und-botschaft.md) Teil 2, 4 und 6; [lesen-am-bildschirm.md](referenzen/semester1/lesen-am-bildschirm.md) Teil 4.
 
 Für jede Seite des Antwort-Plans, zuerst die Einstiegsseiten:
 
 - **Stufe** der Kundschaft festlegen und notieren (A9). Der erste Satz folgt der Stufe (A10): Stufe 1 Name und Kontakt, Stufe 2 Leistung mit Beleg, Stufe 3 Ergebnis, Stufe 4 Problem in den Worten der Suche.
-- **Erster Satz beantwortet die Frage allein:** was, für wen oder wo, und der nächste Schritt (V1, L1, ZS4, S13). Ist der Begriff eine Preisfrage, steht der Preis vorne (Q7). Ist er eine Ja-nein-Frage, beginnt der Satz mit der Antwort (Q8).
+- **Erster Satz beantwortet die Frage allein:** was, für wen oder wo, und der nächste Schritt (V1, L1, ZS4, S13). Ist der Begriff eine Preisfrage, nennt die Beschreibung den Preis, und auf der Seite folgt er direkt unter dem ersten Bildschirm (Q7, Entscheid 3). Ist er eine Ja-nein-Frage, beginnt der Satz mit der Antwort (Q8).
 - **Faktenzeile für den ersten Bildschirm:** Leistung, Ort, Telefon und Hauptaktion; Preis, Frist und Ablauf folgen direkt darunter (L1, Entscheid 3). Sie steht neben der einen grossen Sache aus design-uni.
 - **Lage der Kundschaft zuerst** (A13, KW7), mit dem Wort der Kundschaft (KW6).
 - **Angebotssatz** in den ersten drei Sätzen: Zielgruppe oder Ort, Ergebnis, Zeit, Aufwand; mindestens 3 von 4 (A1).
 - **Haupttitel (`h1`) ist das Etikett:** nennt Leistung und Ort, wählt aus, hat ein prüfbares Detail und höchstens 8 Wörter (A17 bis A20, S6). Der grosse Satz aus der Idee ist keine Überschrift; er muss A17 nicht erfüllen, darf ihm aber nicht widersprechen (Entscheid 2).
+- **`<title>` als Entwurf** je Seite des Antwort-Plans: Leistung und Ort zuerst, Name am Ende, dieselbe Leistung und derselbe Ort wie das `h1` (S2, S3, S6). In Schritt 7 wird er am Bau abgeschlossen. Die Beschreibung entsteht erst dort.
 
-**TP2 · Botschaft (blind, nur Text; Modell-Urteil, Vorfilter).** Fünf-Sekunden-Lesetest je Einstiegsseite, nur Text: Was wird angeboten, wo, und was tue ich jetzt? Schwelle: alle Bewerter richtig (3 von 3). `[Annahme]` Aufbau und Bewerter nach [blindtest.md](../design-uni/referenzen/blindtest.md).
-- Sperrt: der Abgleich nach Entscheid 2: `<title>` und `h1` nennen dieselbe Leistung und denselben Ort (S6); der Satz aus der Idee und der erste Satz widersprechen sich nicht.
-- Hinweis: das Ergebnis des Lesetests. Was durchfällt, wird überarbeitet.
+**TP2 · Botschaft (blind, nur Text; Modell-Urteil, Vorfilter).** Lesetest je Einstiegsseite, nur am Text (erster Satz, `h1`-Etikett, Faktenzeile), ohne Bild: Was wird angeboten, wo, und was tue ich jetzt? Schwelle: alle Bewerter richtig (3 von 3). `[Annahme]` Aufbau und Bewerter nach [blindtest.md](../design-uni/referenzen/blindtest.md). TP2 prüft nur Text. Der Fünf-Sekunden-Test am Bild gehört zu design-uni DP4 und läuft später (Abfolge Schritt 11), in einer eigenen Runde.
+- Sperrt: Erster Satz, `h1`-Etikett und `<title>`-Entwurf liegen je Seite des Antwort-Plans vor, sonst kein Gerüst (Abfolge Schritt 7); der Satz aus der Idee und der erste Satz widersprechen sich nicht (Entscheid 2).
+- Hinweis: das Ergebnis des Lesetests; `<title>`-Entwurf und `h1` nennen dieselbe Leistung und denselben Ort (S6). Sperrend geprüft wird S6 einmal, an den gebauten Seiten in TP7. Was durchfällt, wird überarbeitet.
 
 ## Schritt 4 · Ziele an die Gestaltung (vor dem Bau)
 
@@ -147,7 +150,7 @@ text-uni übergibt Ziele, nicht den Weg dorthin. Die Liste geht an design-uni, *
 Ziele, die immer gelten:
 
 - Hauptaussage und Kontaktweg sind ohne Scrollen sichtbar, in der Faktenzeile (L1, L2). Erster Bildschirm höchstens etwa 60 Wörter `[Annahme]` (Entscheid 3).
-- Fliesstext hat Zeilen, die sich angenehm lesen; Schwelle und Messung nach design-uni (L10). Hervorgehoben sind nur Schlüsselwörter, höchstens eine Stelle je Absatz (L13).
+- Fliesstext hat Zeilen, die sich angenehm lesen; Schwelle und Messung nach design-uni (L10). Hervorgehoben sind nur Schlüsselwörter, sparsam, nie ganze Sätze; wie oft, bestimmt design-uni (L13).
 - Genau ein sichtbares `h1` als Etikett; seine Grösse bestimmt design-uni (S15).
 - Jedes Formularfeld hat seine Beschriftung über dem Feld, der Grund für heikle Angaben steht direkt darunter (U10, U12).
 - Fremde Bewertungen stehen vor oder über eigenen Zitaten; am Ort der Anfrage höchstens zwei Siegel (B7, B10).
@@ -155,7 +158,7 @@ Ziele, die immer gelten:
 
 Dazu je Seite die Fragen, die dort beantwortet werden, etwa «Die Frage ‹Was kostet es?› wird auf dieser Seite beantwortet.»
 
-Kein eigener Prüfpunkt: Die Liste wird in TP3 mitgeprüft, ihre Umsetzung am Bau im gemeinsamen Prüflauf (TP7 mit DP6).
+Kein eigener Prüfpunkt: Die Liste wird in TP3 mitgeprüft. Ihre Umsetzung am Bau prüft design-uni (DP4, DP6); text-uni führt sie in TP7 nur als Hinweis.
 
 ## Schritt 5 · Text nach Semester 1 und 2
 
@@ -178,14 +181,14 @@ Arbeitsweise:
 1. Jede Seite beantwortet die drei häufigsten Fragen und Anlässe der Sammlung (V10, KW5) und jede häufige Sorge, die nächste beim Aufruf (KW10, A6).
 2. Länge folgt der Antwort, nie einer Wortzahl (L16, Q10, G20).
 3. Jede Aussage über die Leistung ist prüfbar: Ding, Ort, Zeit, Zahl oder Person (W22, K2, L15).
-4. Formulartexte: freiwillige Felder tragen «(freiwillig)» (U11); dieser Wortlaut gilt für alle drei Skills. Wie viele Felder es gibt, bestimmt design-uni.
+4. Formulartexte: freiwillige Felder tragen «(freiwillig)»; ein Sternchen für Pflichtfelder nur mit Erklärung über dem Formular, ohne Erklärung ist es ein Fehler (U11). Dieser Wortlaut gilt für alle drei Skills. Wie viele Felder es gibt, bestimmt design-uni. Bestätigungen sagen «angekommen» nur mit Server-Endpunkt; ohne Endpunkt sagt der Text ehrlich, was geschieht, etwa «Ihr E-Mail-Programm öffnet sich» (U18, zusammenspiel Teil 7).
 5. Recht zuletzt noch einmal gesondert: Jede Aussage, die eine offene Rechtsfrage berührt, ist als «Rechtsprüfung nötig» markiert (R24).
 
 **TP3 · Text, zusammen mit DP3 in einem Lauf** am Text und an der Skizze.
 - Sperrt: Unlauter-Probe (A22, R1 bis R24, Recht); jede Aussage über die Leistung hat einen prüfbaren Beleg (K2, B1, W22, Menschen-Daten); der erste Satz oder die Faktenzeile nennt Angebot, Ort und Handlung (L1, Menschen-Daten); die Liste der Ziele aus Schritt 4 liegt vor, 0 Ziele ohne Prüfung (gemeinsame Abfolge).
-- Hinweis: Satzlänge im Mittel höchstens 15 Wörter (W1); über 20 Wörter Warnung, über 25 Fehler (W2); Floskel-Werkzeug ohne FEHLER (K1, siehe Schritt 11).
+- Hinweis: Satzlänge im Mittel höchstens 15 Wörter (W1); über 20 Wörter Warnung, über 25 Fehler (W2), beide Stufen als HINWEIS; Floskel-Werkzeug ohne FEHLER (K1, siehe Schritt 11).
 - Die Prüflisten LA, LP und LH mit ihren Schwellen besitzt design-uni ([conversion.md](../design-uni/referenzen/conversion.md), Teil 5). Für LA Frage 8 («Sie» gegen «wir») zählt text-uni nach A13: Lage der Kundschaft im ersten Absatz, keine Zählregel. Ist design-uni nicht installiert, prüfst du die Grundsätze der Tabelle oben einzeln und berichtest das.
-- Was erst am Bau prüfbar ist (Ladezeit, tote Links, Messplan, Anruf mit einem Tipp, Ziele im ersten Bildschirm), läuft nicht hier, sondern im gemeinsamen Prüflauf bei TP7.
+- Was erst am Bau prüfbar ist (Ladezeit, tote Links, Anruf mit einem Tipp, Ziele im ersten Bildschirm), läuft nicht hier, sondern im gemeinsamen Prüflauf bei DP6 (zusammenspiel Teil 6, Schritt 9). Ob es einen Messplan gibt, prüft TP8.
 
 ## Schritt 6 · Blind gegen die Konkurrenz
 
@@ -198,11 +201,11 @@ Was text-uni in jeden blinden Satz gibt (TP2, TP4, TP5, TP6): Texte ohne Gestalt
 
 ## Schritt 7 · Am Bau: Titel, Beschreibung, Überschriften, strukturierte Daten, Profil
 
-Läuft beim Bau aller Seiten, nach Gerüst (web-uni), DP4 und DP5.
+Läuft beim Bau aller Seiten (Abfolge Schritt 13), nach Gerüst (web-uni), DP4 und DP5. Das Gerüst baut mit `h1` und `<title>`-Entwurf aus TP2. Fehlen dort Texte, die erst hier entstehen (Beschreibung, Rechtsseiten), meldet der Bau einen HINWEIS und baut weiter; vor der Abgabe sperren sie in TP7 (zusammenspiel Teil 7).
 
 Lies: [titel-snippet-struktur.md](referenzen/semester3/titel-snippet-struktur.md) (S1 bis S34), [lokal-und-profil.md](referenzen/semester3/lokal-und-profil.md) (P1 bis P22), [google-grundlagen.md](referenzen/semester3/google-grundlagen.md) (G1 bis G28).
 
-- **Titel** je Seite eigen, Leistung und Ort zuerst, Name am Ende, 40 bis 60 Zeichen (S3), ein prüfbares Detail, kein Wort doppelt, kein Superlativ (S1 bis S8, R2).
+- **Titel:** der Entwurf aus TP2, am Bau abgeschlossen; je Seite eigen, Leistung und Ort zuerst, Name am Ende, 40 bis 60 Zeichen (S3), ein prüfbares Detail, kein Wort doppelt, kein Superlativ (S1 bis S8, R2).
 - **Beschreibung** je wichtiger Seite eigen, mit Leistung, Ort, Detail und nächstem Schritt, 110 bis 155 Zeichen, kein Superlativ (S9 bis S12, R2).
 - **Überschriften:** genau ein sichtbares `<h1>` als Etikett, keine Sprünge, Zwischentitel als Aussage (S15, S16, U1, L6).
 - **Links und Bilder:** Linktext nennt das Ziel (S18, L14); keine verwaiste Seite (S19); Alt-Text beschreibt (S20).
@@ -239,11 +242,11 @@ Lies: [technik-crawlen-indexieren.md](referenzen/semester4/technik-crawlen-index
 - **Sitemap** gültig und gleich den kanonischen 200-Seiten (TI11 bis TI14).
 - **Statuscodes:** echte 404, kein Soft-404; unter 80 Wörtern nur ein Hinweis auf eine leere Seite, kein Wortziel (TI17, TI18).
 - **Umzug:** Weiterleitungsliste vor dem Umzug, genau ein Sprung mit 301, passendes Ziel, Gelöschtes mit 404 oder 410, lange genug behalten, danach nachprüfen (TI19 bis TI30). Die Liste geht an web-uni (WP7).
-- **Seite:** Inhalt ohne JavaScript (TI31); Bilder mit Mass (TI33); Budgets für Ladezeit, JavaScript und Bilder nach web-uni WP5 (TI32 bis TI34); fremde Inhalte erst nach Klick, fremde Skripte nur mit Grund und erst nach Einwilligung oder Klick (CL3, TI34, Entscheid 10); nur HTTPS, Handy zuerst (TI35, TI36); nichts vor dem Inhalt, Grundsatz cookielos (TI37).
+- **Seite:** Inhalt ohne JavaScript (TI31; geprüft einmal in design-uni DP6); Bilder mit Mass (TI33); Budgets für Ladezeit, JavaScript und Bilder nach web-uni WP5 (TI32 bis TI34); fremde Inhalte erst nach Klick, fremde Skripte nur mit Grund und erst nach Einwilligung oder Klick (CL3, TI34, Entscheid 10; geprüft einmal in web-uni WP5); nur HTTPS, Handy zuerst (TI35, TI36); nichts vor dem Inhalt, Grundsatz cookielos (TI37).
 
 ## Schritt 10 · Impressum und Datenschutzerklärung (Wortlaut)
 
-text-uni besitzt den Wortlaut beider Seiten. Welche Daten technisch anfallen (Hoster, Formular-Backend, Zählendpunkt, fremde Dienste), liefert web-uni. Keine Rechtsauskunft.
+Läuft beim Bau aller Seiten (Abfolge Schritt 13). text-uni besitzt den Wortlaut beider Seiten. Welche Daten technisch anfallen (Hoster, Formular-Backend, Zählendpunkt, fremde Dienste), liefert web-uni als Datenliste. Keine Rechtsauskunft.
 
 Lies: [recht-werbung-schweiz.md](referenzen/semester2/recht-werbung-schweiz.md) Teil 2.10, 6 und 6.1, 9.
 
@@ -252,39 +255,42 @@ Lies: [recht-werbung-schweiz.md](referenzen/semester2/recht-werbung-schweiz.md) 
 3. **Kein Vorzug aus Selbstverständlichem:** «Datenschutz nach DSG» ist kein Werbeargument (R3).
 4. Was nicht belegt ist, bleibt eine sichtbare Lücke. Jede offene Frage ist als «Rechtsprüfung nötig» markiert (R24; Teil 9, Frage 11).
 
-Geprüft wird beides als Prüffrage im Prüflauf (TP7). Fehlen die Angaben von web-uni, steht dort «nicht prüfbar».
+Geprüft wird beides einmal, als Prüffrage im Prüflauf (TP7). Fehlen die Seiten im Gerüst oder in der Vorschau, ist das ein HINWEIS; vor der Abgabe ein FEHLER (zusammenspiel Teil 7). Fehlen die Angaben von web-uni, steht dort «nicht prüfbar».
 
 ## Schritt 11 · Ein Prüflauf
 
 Am Bau prüfen alle drei Skills dieselben gebauten Seiten in einem Lauf: **DP6 + TP7 + WP4 + WP5**. Die Testumgebung stellt web-uni; text-uni liefert seine Prüfungen mit eigener Kennung.
 
 ```
-node werkzeuge/slop-de.js <ordner|datei> [--json <pfad>] [--streng] [--erlauben=id1,id2]
+node werkzeuge/slop-de.js <ordner|datei> [--json <pfad>] [--streng | --prueflauf] [--erlauben=id1,id2]
 ```
 
 - Liest den sichtbaren Text von HTML-Seiten, auch `<title>`, und meldet Floskeln, KI-Muster, Eszett und leere Knöpfe mit Zeile.
-- Exit-Code 0 heisst kein FEHLER. Jede WARNUNG ist belegt oder gestrichen (K1).
+- Beim Schreiben: Exit-Code 0 heisst kein FEHLER. Jede WARNUNG ist belegt oder gestrichen (K1).
+- Im gemeinsamen Prüflauf mit `--prueflauf`: Jeder Treffer ist ein HINWEIS unter TP7/K1, Exit-Code 0 (K1 sperrt nicht, Entscheid 13).
 - Jeder Eintrag der Liste [werkzeuge/slop-de.json](werkzeuge/slop-de.json) hat «warum» und «besser». Was die Liste abdeckt und was fehlt: [ki-klang.md](referenzen/semester1/ki-klang.md) Teil 6.
 - **Faktenabgleich:** Jede Zahl, jeder Name, jeder Preis und jede Frist im Text steht in `fakten.md` (R1, B8, ZS15). Ein Werkzeug dafür fehlt noch; der Abgleich läuft mit eigenem Skript oder von Hand und heisst im Bericht so.
 - Die übrigen Werkzeug-Grundsätze zählst du mit eigenem Skript, etwa Satzlänge (W1, W2), Eszett (CH1), Anrede (CH4), Preisform (CH8), Telefon (CH12 bis CH14). Ein fertiges Prüfskript für die TI-Grundsätze gehört nicht zum Skill; schreibe fehlende Prüfungen aus den Grundsätzen, prüfe sie zuerst an einer Kopie mit eingebauten Fehlern ([semester4/pruefung.md](referenzen/semester4/pruefung.md), Teil B) und häng sie in den gemeinsamen Prüflauf.
 
 **TP7 · Technik und Text (maschinell, im gemeinsamen Prüflauf).**
-- Sperrt: 0 Werte, die nicht in `fakten.md` stehen (R1, Recht); R-Prüffragen und Impressum und Datenschutzerklärung nach Schritt 10 (Recht); Vorschau mit `noindex`, ohne `Disallow: /` (TI8, TI10, Entscheid 4); Inhalt ohne JavaScript lesbar (TI31, Entscheid 12); genau ein sichtbares `h1` (S15, Entscheid 2); keine Sprünge in den Überschriften (S16) und jedes Feld mit Beschriftung (U10, beide Barrierefreiheit); «(freiwillig)» an freiwilligen Feldern (U11, Menschen-Daten); 0 fremde Inhalte oder Skripte, die beim Aufruf laden (CL3, TI34, Entscheid 10).
-- Hinweis: alle übrigen TI-Grundsätze mit «Werkzeug», darunter genau ein 301-Sprung je alter Adresse (TI20); Titel- und Beschreibungslänge (S3, S12); das Floskel-Werkzeug (K1); die Ziele an die Gestaltung, gemessen in den Messbreiten von design-uni.
-- Dazu die Fragen aus TP3, die erst am Bau prüfbar sind. Was nur online oder mit Konten des Betriebs prüfbar ist (TI14, TI15, TI32 und die Prüffragen), steht als «nicht prüfbar offline» im Bericht.
+- Sperrt: 0 Werte, die nicht in `fakten.md` stehen (R1, Recht); R-Prüffragen (Recht); Impressum und Datenschutzerklärung da und nach Schritt 10, jeder fremde Dienst in der Datenschutzerklärung genannt (R23, CL3, Recht); Vorschau mit `noindex`, `robots.txt` ohne `Disallow: /`, keine Sitemap und kein `canonical` auf der Vorschau (TP7/TI8, TP7/TI10, Entscheid 4); Titel, Beschreibung und `h1` je Seite da (zusammenspiel Teil 7); genau ein sichtbares `h1`, und `<title>` und `h1` nennen dieselbe Leistung und denselben Ort (S15, S6, Entscheid 2); keine Sprünge in den Überschriften (S16) und jedes Feld mit Beschriftung (U10, beide Barrierefreiheit); «(freiwillig)» an freiwilligen Feldern, ein Sternchen nur mit Erklärung über dem Formular (U11, Menschen-Daten).
+- Hinweis: alle übrigen TI-Grundsätze mit «Werkzeug», darunter genau ein 301-Sprung je alter Adresse (TI20); Titel- und Beschreibungslänge (S3, S12); das Floskel-Werkzeug (TP7/K1); die Ziele an die Gestaltung.
+- Nur verwiesen, nicht noch einmal gezählt: Inhalt ohne JavaScript (DP6, design-uni; TI31 nennt, was für die Suche im HTML stehen muss); fremde Inhalte, Skripte und Hosts (WP5, web-uni; CL3, TI34); Zahl und Lage der Formularfelder (DP6); die Fragen aus TP3, die erst am Bau prüfbar sind (DP6).
+- Was nur online oder mit Konten des Betriebs prüfbar ist (TI14, TI15, TI32 und die Prüffragen), steht als «nicht prüfbar offline» im Bericht.
 
 Danach laufen in design-uni DP7 (Kunden-Agenten) und DP8 (ganze Website), beide als Vorfilter, und in web-uni WP6 (Wirkung mit Menschen).
 
 ## Schritt 12 · Messplan
 
-Lies: [messen-search-console.md](referenzen/semester3/messen-search-console.md) Teil 9 und 10 (M1 bis M19); KQ16, KQ17; TI29.
+Lies: [messen-search-console.md](referenzen/semester3/messen-search-console.md) Teil 9 mit 9.4 «Messplan-Dokument», Teil 10 und 11 (M1 bis M19); KQ16, KQ17; TI29.
 
-1. **`messplan.md` vor dem Livegang** (M11): Ziel; 5 bis 10 Begriffe mit Zielseite; Ausgangswerte von Website und Profil der letzten 3 Monate; eigene Zählung der Anfragen nach Kanal (M14); Zählpunkte auf der Seite (design-uni) und Zählendpunkt (web-uni); Datum des Zwischenstands Suche nach 8 Wochen und des Urteils über Anfragen nach 3 Monaten (M13, Entscheid 11). Export der letzten 16 Monate beim Betrieb, nicht im Repository (M12).
-2. **Bericht später:** Begriffe wie Google sie definiert (M1); kleine Zahlen als «zu wenig Daten» (M3), auch beim Zwischenstand nach 8 Wochen; Ursache nur mit Ausschluss von Saison, Updates und Technik (M15); Zitat ist nicht Klick (KQ17).
+1. **`messplan.md` vor dem Livegang** (M11, Aufbau nach 9.4): Erfolgsmass; 5 bis 10 Begriffe mit Zielseite; Ausgangswerte von Website und Profil der letzten 3 Monate; eigene Zählung der Anfragen nach Kanal (M14); Zählpunkte auf der Seite (design-uni) und Zählendpunkt (web-uni); Datum des Zwischenstands Suche nach 8 Wochen und des Urteils über Anfragen nach 3 Monaten (M13, Entscheid 11). Export der letzten 16 Monate beim Betrieb, nicht im Repository (M12).
+2. **Im Betrieb und am Verlauf** (9.4): acht Wochen Strichliste «Wie sind Sie auf uns gekommen?», nur Zahlen; Warnwerte `[Annahme]` am eigenen Verlauf; ein Änderungslog. «Gesendet» gibt es erst mit Server-Endpunkt (zusammenspiel Teil 7).
+3. **Bericht später:** Begriffe wie Google sie definiert (M1); kleine Zahlen als «zu wenig Daten» (M3), auch beim Zwischenstand nach 8 Wochen; Anfragen mit Band und als Zählung verglichen (9.4); Ursache nur mit Ausschluss von Saison, Updates und Technik (M15); Zitat ist nicht Klick (KQ17).
 
 **TP8 · Messplan.**
 - Sperrt: `messplan.md` liegt vor, mit eigener Zählung der Anfragen und den beiden Terminen aus M13 (Entscheid 11; ohne Zahlen nach dem Livegang ist keine Wirkung belegt, Entscheid 1).
-- Hinweis: die übrigen Punkte von M11.
+- Hinweis: die übrigen Punkte von M11 und 9.4.
 
 Danach übergibt web-uni (WP7) und design-uni liefert ab.
 
@@ -298,35 +304,35 @@ Die verbindlichen Regeln für alle drei Skills stehen in [zusammenspiel.md](../d
 
 - **Rangfolge:** Recht, Entscheide des Betriebs, Hausentscheide des Studios, Regeln der Skills. Jedes Thema hat genau einen Besitzer; die anderen verweisen und wiederholen keine Schwelle.
 - **text-uni besitzt:** `fakten.md`, Kundenworte, Suchbegriffe, Antwort-Plan; den Wortlaut aller Texte, auch Knöpfe, Formular- und Fehlertexte; Angebot und Vertrauen als Inhalt; Werberecht (UWG, PBV, Heilmittel, Berufsrecht) und den Wortlaut von Impressum und Datenschutzerklärung; die Regeln für Suche, `robots.txt`, Sitemap, `canonical` und Umzug; `messplan.md`.
-- **design-uni besitzt:** Eingang und `entscheide.md`, Gestaltung, Bewegung, Bedienung und Barrierefreiheit mit ihren Schwellen (Zeilenlänge, Messbreiten, Zahl der Formularfelder), alle Bewerter-Regeln, `LIESMICH.md`. text-uni gibt ihr Ziele, kein Layout.
+- **design-uni besitzt:** Eingang und `entscheide.md`, Gestaltung, Bewegung, Bedienung und Barrierefreiheit mit ihren Schwellen (Zeilenlänge, Messbreiten, Zahl der Formularfelder, Inhalt ohne JavaScript), alle Bewerter-Regeln, `LIESMICH.md`. text-uni gibt ihr Ziele, kein Layout.
 - **web-uni besitzt:** Stack und Hoster, Budgets für Ladezeit, JavaScript und Bilder, fremde Hosts und Cookies, Formular-Backend und Zählendpunkt, die Testumgebung für den einen Prüflauf, Übergabe (WP7) und Livegang (WP9).
 - **Werberecht:** Die R-Grundsätze gelten in allen drei Skills (Entscheid 9). Bei der Ansprache gilt A13 statt einer Zählregel (LA Frage 8).
 - **Sonst entscheidet kein Skill über den anderen**, sondern ein Test mit Menschen (WP6) oder Zahlen nach dem Livegang. Modell-Urteile wie DP7 sind Vorfilter.
 
 ## Die wichtigsten Regeln
 
-Eine Auswahl. Der volle Wortlaut mit Grenzwert und Herkunft steht im Skript. «Sperrt» steht nur, wo Recht, Barrierefreiheit, ein Entscheid oder ein Befund mit Menschen-Daten die Regel trägt (Entscheid 13); Menschen-Daten nach [abgleich-menschen.md](referenzen/abgleich-menschen.md), Urteil «gestützt». Alles andere ist ein Hinweis.
+Eine Auswahl. Der volle Wortlaut mit Grenzwert und Herkunft steht im Skript. «Sperrt» steht nur, wo Recht, Barrierefreiheit, eine Entscheidung des Betriebs oder des Studios oder ein Befund mit Menschen-Daten oder eigener Messung die Regel trägt (Entscheid 13); Menschen-Daten nach [abgleich-menschen.md](referenzen/abgleich-menschen.md), Urteil «gestützt». Alles andere ist ein Hinweis.
 
 | ID | Regel | Art |
 |---|---|---|
 | R1, B2, B8 | Jede Tatsache hat einen Beleg; Zahlen genau mit Quelle; nichts erfunden. | sperrt (Recht) |
 | R2, R13, R14, R17 | Kein Superlativ ohne Beleg, in Titel und Beschreibung gar keiner; jeder Preis ist Endpreis mit Leistung und Einheit; «ab» nur mit Beispiel; kein Heilversprechen. | sperrt (Recht, Entscheid 9) |
-| R23, CL3 | Impressum mit Firma wie im Handelsregister; fremde Inhalte erst nach Klick, in der Datenschutzerklärung genannt. | sperrt (Recht, Entscheid 10) |
+| R23, CL3 | Impressum mit Firma wie im Handelsregister; jeder fremde Dienst in der Datenschutzerklärung genannt. Dass fremde Inhalte erst nach Klick laden, prüft web-uni WP5. | sperrt (Recht, Entscheid 10) |
 | G2, KQ9 | Keine Zusage zu Rang oder KI-Zitaten. | sperrt (Grundregel 6, Recht) |
 | G21 | Ein Mensch prüft jeden Text mit KI-Anteil auf Fakten, auch die Metadaten. | sperrt (Grundregel 8) |
 | V1, L1, ZS4 | Der erste Satz, im ersten Bildschirm die Faktenzeile, sagt, was angeboten wird, für wen oder wo, und beantwortet die Hauptfrage. | sperrt (Menschen-Daten, L1) |
 | K2, W18, B1 | Jede Eigenschaft hat einen prüfbaren Beleg; steht der Beleg da, fällt das wertende Wort weg. | sperrt (Menschen-Daten) |
 | KW6 | Das Wort der Kundschaft ersetzt das Fachwort. | sperrt (Menschen-Daten) |
 | B4 | Bewertungsschnitt mit Anzahl, Plattform, Stand-Datum. | sperrt (Menschen-Daten) |
-| U11 | Freiwillige Felder tragen «(freiwillig)»; Sternchen werden erklärt. | sperrt (Menschen-Daten) |
+| U11 | Freiwillige Felder tragen «(freiwillig)»; ein Sternchen für Pflicht nur mit Erklärung über dem Formular. | sperrt (Menschen-Daten) |
 | U10, S16 | Jedes Feld hat eine sichtbare Beschriftung; Überschriften ohne Sprung. | sperrt (Barrierefreiheit) |
-| S6, S15 | Genau ein sichtbares `h1` als Etikett; `<title>` und `h1` nennen dieselbe Leistung und denselben Ort. | sperrt (Entscheid 2) |
-| TI8, TI10 | `noindex` nie in der Sitemap und nie per `robots.txt` gesperrt; Vorschau mit `noindex`, ohne `Disallow`. | sperrt (Entscheid 4) |
-| TI31 | Inhalt ohne JavaScript lesbar. | sperrt (Entscheid 12) |
+| S6, S15 | Genau ein sichtbares `h1` als Etikett; `<title>` und `h1` nennen dieselbe Leistung und denselben Ort. | sperrt in TP7 (Entscheid 2); am Entwurf in TP2 Hinweis |
+| TI8, TI10 | `noindex` nie in der Sitemap und nie per `robots.txt` gesperrt; Vorschau mit `noindex`, ohne `Disallow`, ohne Sitemap und `canonical`. | sperrt (Entscheid 4), einmal als TP7/TI8 und TP7/TI10 |
+| TI31 | Inhalt ohne JavaScript lesbar. | sperrt einmal, in design-uni DP6; hier Verweis |
 | M11, M13, M14 | `messplan.md` vor dem Livegang; eigene Zählung der Anfragen; Zwischenstand nach 8 Wochen, Urteil nach 3 Monaten. | sperrt (Entscheid 11) |
 | KW1 | Erst sammeln (Ziel 30 Aussagen, 2 Quellenarten), dann schreiben; sonst bestätigte Lücke und `[Annahme]`. | Hinweis (Entscheid 5) |
-| W1, W2 | Sätze im Mittel höchstens 15 Wörter; über 20 eine Warnung, über 25 ein Fehler. | Hinweis |
-| K1 | Das Floskel-Werkzeug meldet 0 FEHLER; jede WARNUNG ist belegt oder gestrichen. | Hinweis |
+| W1, W2 | Sätze im Mittel höchstens 15 Wörter; über 20 eine Warnung, über 25 ein Fehler, beide als HINWEIS. | Hinweis |
+| K1 | Das Floskel-Werkzeug meldet 0 FEHLER; jede WARNUNG ist belegt oder gestrichen. Im Prüflauf mit `--prueflauf`. | Hinweis |
 | K3 | Ersetzungstest: höchstens ein Satz je Abschnitt bleibt wahr, wenn ein Mitbewerber eingesetzt wird. | Hinweis |
 | K11 | Keine Gedankenstriche als Satzzeichen im Fliesstext. | Hinweis |
 | CH1, CH4 | 0 Eszett. Eine Anrede auf der ganzen Website, Vorgabe «Sie». | Hinweis |
@@ -336,7 +342,7 @@ Eine Auswahl. Der volle Wortlaut mit Grenzwert und Herkunft steht im Skript. «S
 | KW11, KW12 | FAQ als ganze Kundenfrage, Antwort beginnt mit Ja, Nein, Zahl oder Kern; keine erfundene Frage. | Hinweis; die erfundene Frage sperrt nach Grundregel 2 |
 | U1, U6 | Überschrift als Aussage; Knopf mit Verb und Ergebnis. | Hinweis |
 | Q5, S27 | Ein Suchbegriff, eine Seite. | Hinweis |
-| Q7, Q8 | Preisfrage: Preis vorne. Ja-nein-Frage: Antwort im ersten Satz. | Hinweis |
+| Q7, Q8 | Preisfrage: Preis in der Beschreibung und direkt unter dem ersten Bildschirm. Ja-nein-Frage: Antwort im ersten Satz. | Hinweis |
 | S2, S3, S12 | Titel mit Leistung und Ort zuerst, 40 bis 60 Zeichen; Beschreibung 110 bis 155 Zeichen. | Hinweis |
 | S23, S24, S25 | `LocalBusiness` vollständig; keine Selbstbewertung in Daten; Daten nur für Sichtbares. | Hinweis; falsche Werte sperren nach R1 |
 | ZS1, ZS7, ZS13 | Sätze stehen allein; Stand-Datum beim Fakt; je Leistung genau eine gültige Fassung. | Hinweis |
@@ -392,7 +398,7 @@ Soll eine bestehende Seite nur beurteilt werden:
 | [semester3/suchabsicht-und-seitenplan.md](referenzen/semester3/suchabsicht-und-seitenplan.md) | Suchabsicht, Suchbegriffe, Antwort-Plan, Ortsseiten, Top-Seiten-Analyse | Q1 bis Q19 |
 | [semester3/titel-snippet-struktur.md](referenzen/semester3/titel-snippet-struktur.md) | Titel, Beschreibung, Überschriften, Links, Bilder, Adressen, strukturierte Daten, Klickdaten | S1 bis S34 |
 | [semester3/lokal-und-profil.md](referenzen/semester3/lokal-und-profil.md) | Unternehmensprofil, lokale Rangfolge, Bewertungen, Verzeichnisse | P1 bis P22 |
-| [semester3/messen-search-console.md](referenzen/semester3/messen-search-console.md) | Search Console, Profil-Statistik, Messplan, Zugriffsrechte | M1 bis M19 |
+| [semester3/messen-search-console.md](referenzen/semester3/messen-search-console.md) | Search Console, Profil-Statistik, Messplan und Messplan-Dokument (Strichliste, Warnwerte, kleine Zahlen), Zugriffsrechte | M1 bis M19 |
 | [semester3/pruefung.md](referenzen/semester3/pruefung.md) | Snippet-Test (TP5) | Ergebnis je Suche |
 | [semester4/ki-antworten-und-quellen.md](referenzen/semester4/ki-antworten-und-quellen.md) | Wie KI-Dienste Quellen holen, Crawler, Erwähnungen, Studien | KQ1 bis KQ20 |
 | [semester4/zitierfaehig-schreiben.md](referenzen/semester4/zitierfaehig-schreiben.md) | Sätze, die allein stehen, Stand-Datum, Tabellen, eine gültige Fassung | ZS1 bis ZS24 |
@@ -400,6 +406,7 @@ Soll eine bestehende Seite nur beurteilt werden:
 | [semester4/checkliste-geprueft.md](referenzen/semester4/checkliste-geprueft.md) | Fremde KI-Such-Checkliste neben die Grundsätze gelegt | CL1 bis CL4 |
 | [semester4/pruefung.md](referenzen/semester4/pruefung.md) | KI-Zitat-Test (TP6) und Technik-Probe | Ergebnis, Grenzen |
 | [abgleich-menschen.md](referenzen/abgleich-menschen.md) | Grundsätze gegen Daten von Menschen; wann Modell-Urteilen zu trauen ist | Zeilen je ID |
+| [lektionen.md](referenzen/lektionen.md) | Lektionen aus Läufen mit text-uni, im Format von design-uni | TL1 ff. |
 | [werkzeuge/slop-de.js](werkzeuge/slop-de.js), [slop-de.json](werkzeuge/slop-de.json) | Floskel-Werkzeug mit 63 Einträgen | K1, CH1, U6, S18 |
 
 ## Kosten und Dauer `[Annahme]`

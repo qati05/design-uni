@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Vorlage für werkzeuge/pruefen.cjs (DP6, TP7). Erfundener Übungsbetrieb, Musterwerte. Pfade relativ zu dieser Datei. Was fehlt, prüft das Werkzeug nicht und meldet es als offen. Seiten heissen ohne .html; kontakt.html und kontakt/index.html sind beide «kontakt». Fehlt «seiten», sucht das Werkzeug alle Seiten selbst.",
+  "_hinweis": "Vorlage für werkzeuge/pruefen.cjs (DP6, DP5 maschinell, TP7, WP5 fremde Herkunft). Erfundener Übungsbetrieb, Musterwerte. Pfade relativ zu dieser Datei. Das Werkzeug meldet FEHLER (sperrt), HINWEIS (sperrt nicht) oder «nicht geprüft» (zusammenspiel.md Teil 7). Was fehlt, prüft es nicht und meldet es als «nicht geprüft». Seiten heissen ohne .html; kontakt.html und kontakt/index.html sind beide «kontakt». Fehlt «seiten», sucht das Werkzeug alle Seiten selbst.",
   "name": "Schreinerei Muster AG (Übung)",
   "site": "site",
   "seiten": ["index", "kuechen", "moebel", "kontakt", "anfrage", "impressum", "datenschutz", "404"],
@@ -23,9 +23,11 @@
     "bestaetigung": "#bestaetigung:not([hidden])",
     "felder": [3, 5],
     "pflicht": 2,
-    "_felder": "3 bis 5 Felder, höchstens 4 Pflicht; freiwillige Felder mit «(freiwillig)» in der Beschriftung, kein Sternchen (zusammenspiel.md Teil 4)",
+    "_felder": "3 bis 5 Felder, höchstens 4 Pflicht (Anzahl: design-uni, zusammenspiel.md Teil 4); freiwillige Felder mit «(freiwillig)»; ein Sternchen für Pflicht nur, wenn es über dem Formular erklärt ist (Wortlaut: text-uni U11). «pflicht» ist die geplante Zahl und wird nur als Hinweis verglichen.",
     "verantwortlich": "Schreinerei Muster AG",
-    "fuellen": { "#name": "Test Person", "#telefon": "079 000 00 00" }
+    "fuellen": { "#name": "Test Person", "#telefon": "079 000 00 00" },
+    "endpunkt": false,
+    "_endpunkt": "false, solange web-uni keinen Server-Endpunkt gebaut hat: Rückmeldung sofort im Browser, ehrlicher Text (z. B. «Ihr E-Mail-Programm öffnet sich»), nie «gesendet» (zusammenspiel.md Teil 7). Mit Endpunkt dessen Adresse."
   },
   "kalender": {
     "seite": "index.html",
@@ -39,7 +41,8 @@
   "text": { "anrede": "Sie", "eszett": false, "guillemets": true, "gedankenstriche": false, "uhrzeitMitPunkt": true },
   "jsonld": { "typ": "HomeAndConstructionBusiness" },
   "vorschau": true,
-  "_vorschau": "Entscheid 4: noindex per Meta oder X-Robots-Tag in _headers; robots.txt ohne «Disallow: /»; keine Sitemap; kein canonical",
+  "_vorschau": "Entscheid 4: noindex per Meta oder X-Robots-Tag in _headers; robots.txt ohne «Disallow: /»; keine Sitemap (TP7/TI8, sperrt); kein canonical (TP7/S28, Hinweis)",
+  "_zahlen": "Abschrift der Werte aus fakten.md (Quelle, geführt von text-uni), je mit Quelle; ändert sich fakten.md, wird diese Liste nachgeführt.",
   "zahlen": {
     "071 555 00 00": "Musterwert",
     "9000": "PLZ, Musterwert",

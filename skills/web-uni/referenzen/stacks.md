@@ -11,6 +11,7 @@ Stand 1. November 2026. Versionen `[gelesen · npm-Registry, 2026-11-01]`; **vor
 | three | 0.187.0 | `[gebaut und gemessen]` |
 | @react-three/fiber | 9.8.2 | `[gebaut und gemessen]` |
 | Astro | 7.4.4 | `[gebaut und gemessen]` nur als 1:1-Übernahme der Startseite, ohne Komponenten und CMS |
+| Astro in der Vorlage | 7.4.1 (gepinnt) | letzte Version für Node 22.22.0, siehe Klasse B `[gebaut · 02.11.2026]` |
 | SvelteKit | 3.1.1 | `[nicht gebaut]` |
 | GSAP | 3.15.0 | `[nicht gebaut]` |
 | Motion | 14.9.0 | `[nicht gebaut]` |
@@ -49,8 +50,10 @@ Hinweise `[Annahme]`: (1) **eine Adresse, ein Stack**; die Grenze liegt an der A
 
 ### B · Statischer Generator mit Inhaltsdateien (Astro, Eleventy, …) `[Astro: gebaut und gemessen als 1:1-Übernahme; Vorlage gebaut, nicht gemessen]`
 
-- Aussage aus Quellen `[gelesen]`: wenig bis kein JS standardmässig, Inhalte in Markdown oder CMS, Inseln für Interaktives. In diesem Repo gemessen: bei statischer Ausgabe gleich schnell wie handgeschriebenes HTML (Score 96, 3,6 KB JS, messungen.md). Die Vorlage ([../vorlage-astro/](../vorlage-astro/README.md)) hält Fakten und Wortlaut in je einer Datei und bricht den Bau bei leeren Pflichtfeldern ab `[gebaut · 02.11.2026, mit Testdaten]`. **Offen:** Nutzen für Laien (Git-CMS wie Keystatic, Decap, Tina) und Verhalten mit interaktiven Inseln.
+- Aussage aus Quellen `[gelesen]`: wenig bis kein JS standardmässig, Inhalte in Markdown oder CMS, Inseln für Interaktives. In diesem Repo gemessen: bei statischer Ausgabe gleich schnell wie handgeschriebenes HTML (Score 96, 3,6 KB JS, messungen.md). Die Vorlage ([../vorlage-astro/](../vorlage-astro/README.md)) hält Fakten und Wortlaut in je einer Datei und bricht den Bau bei leeren Pflichtfeldern ab; Texte, die erst später entstehen, meldet sie im Gerüst als HINWEIS `[gebaut · 02.11.2026, mit Testdaten]`. **Offen:** Nutzen für Laien (Git-CMS wie Keystatic, Decap, Tina) und Verhalten mit interaktiven Inseln.
 - Wann (Annahme): mehr Seiten oder Inhalte, die wiederkehren (Occasionen, Team, Beiträge), oder ein CMS im Hintergrund.
+- **Version der Vorlage: Astro 7.4.1, gepinnt.** Astro 7.4.1 verlangt Node ≥ 22.22.0, ab 7.4.2 verlangt Astro Node ≥ 22.23.4 `[gelesen · npm-Registry, «engines» der Versionen 7.4.0 bis 7.4.4, Abruf 02.11.2026]`. Die Cloud-Umgebung hat Node 22.22.0 und lädt keine neue Version. Mit 7.4.1 laufen dort `npm install && npm run build` und `npm run bau:test` ohne Umweg `[gebaut · 02.11.2026, Node 22.22.0, npm 10.9.4, Testdaten]`.
+- **Grenze:** 7.4.2 hebt die Mindestversion an, weil die Node-Sicherheitsausgaben vom Oktober 2026 Fehler beheben, die Astro betreffen `[gelesen · Astro CHANGELOG 7.4.2, Abruf 02.11.2026]`. Die Vorlage läuft Node nur beim Bau und für den lokalen Entwicklungsserver; ausgeliefert werden statische Dateien. Dass die Lücken die statische Ausgabe nicht treffen, ist `[Annahme]`. Deshalb: `astro dev` nur lokal, nie mit `--host` in einem fremden Netz; sobald die Umgebung Node ≥ 22.23.4 hat, Astro auf die aktuelle Version heben und `engines` anpassen (WL12).
 
 ### C · React-Framework (Next.js App Router) `[gebaut und gemessen, nur statischer Export]`
 

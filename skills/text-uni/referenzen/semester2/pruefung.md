@@ -62,5 +62,5 @@ Stand 01.11.2026 · Der Prüfauftrag ist nicht Teil dieses Skills · Testtexte, 
 ## Für Semester 3 und den Bachelor `[Vorschlag]`
 
 1. **Zwei gute Fassungen gegeneinander**, damit eine Rangfolge entsteht (z. B. Frage-Überschrift gegen Aussage-Überschrift; U3 ist laut Forschung umstritten).
-2. **Ein Test mit Menschen**, wenigstens 5 bis 10 Personen aus dem Umfeld, gleiche Paare, um die Modell-Bewerter zu eichen.
+2. **Ein Test mit Menschen** mit gleichen Paaren, um die Modell-Bewerter zu eichen. Zahl der Personen und Ablauf nur nach [blindtest.md](../../../design-uni/referenzen/blindtest.md), Teil 6.
 3. **Nähe und Seriosität:** gezielt Paare zu Sie-Ansprache mit und ohne Beleg, um Befund 1 zu prüfen.

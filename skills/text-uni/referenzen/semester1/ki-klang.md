@@ -239,6 +239,7 @@ Regex wie im Werkzeug (Flags i und u). Wo ein Muster selbst eine gemeldete Flosk
 Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenzwerte ohne Studie sind `[Annahme]`.
 
 - **K1** Das bestehende Floskel-Werkzeug meldet 0 FEHLER. Jede WARNUNG ist entweder belegt (Zahl, Name, Norm im selben Satz) oder gestrichen. `[Annahme; Liste beruht auf Praxis, nicht auf Studien]`
+  Geändert am 02.11.2026: K1 ist ein Hinweis (Entscheid 13). Im gemeinsamen Prüflauf läuft das Werkzeug mit `--prueflauf` und meldet jeden Treffer als HINWEIS unter TP7/K1, Exit-Code 0; was davon Recht berührt (R2) oder ein Platzhalter ist, sperrt beim Besitzer (TP7/R2, DP6). `[Entscheid · Studio, 02.11.2026]`
 - **K2** Jede Eigenschaft, die der Betrieb sich zuschreibt, hat im selben oder nächsten Satz einen prüfbaren Beleg: Zahl, Name, Ort, Norm, Zeitpunkt oder Preis. Prüffrage je Adjektiv: «Woran sieht der Leser, dass das stimmt?» Ohne Antwort: streichen. `[Fakt · Morkes, Nielsen, 1997: objektive Fassung 27 % besser; Regel Annahme]`
 - **K3** Ersetzungstest: Pro Abschnitt höchstens ein Satz, der wahr bleibt, wenn man Name und Ort durch einen Mitbewerber der Branche ersetzt. Prüffrage für den Bewerter: Markiere jeden austauschbaren Satz. `[Annahme]`
 - **K4** KI-Wörter (Liste in 3.1 und Vorschläge in 6.4): höchstens eines je 300 Wörter, nie im ersten Satz einer Seite. `[Fakt · Kobak u. a., 2025; Liang u. a., 2024; Reinhart u. a., 2025 für Englisch; deutsche Liste und Grenzwert Annahme]` `[unsicher, siehe Hinweis unter K10]`

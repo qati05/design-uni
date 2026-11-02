@@ -37,7 +37,7 @@ Die Gewichte von Stufe 1 bis 4 und 6 sind Schätzungen aus Erfahrung und **nicht
 
 ## Boden (zusammenspiel Entscheid 12)
 
-Diese Regeln schützen Barrierefreiheit und gelten für jede Bewegung:
+Die Regeln und ihre Prüfung besitzt design-uni ([bewegung.md](../../design-uni/referenzen/bewegung.md) Teil 2; geprüft in DP6, auch «Inhalt ohne JavaScript»). Hier steht nur, was sie für die Technik heissen; jede Technik der Leiter muss sie halten:
 
 1. **`prefers-reduced-motion: reduce`** → nichts läuft von selbst.
 2. **Inhalt ohne Bewegung und ohne JavaScript.** Ohne WebGL2 bleibt das Foto.
@@ -54,7 +54,7 @@ Diese Regeln schützen Barrierefreiheit und gelten für jede Bewegung:
 
 - **Zweck nennen.** Jede Bewegung sagt im Kostenblatt, was sie zeigt. Das hilft beim Entscheid des Betriebs; es sperrt nichts.
 - **Energie:** Sparmodus oder schwache GPU erkennen und die Szene nicht starten `[Annahme, nicht gebaut]`.
-- **Wirkung:** Bildtest als Vorfilter, dann Test mit Menschen (WP6), je mit und ohne Bewegung.
+- **Wirkung:** Bildtest als Vorfilter, dann Test mit Menschen (WP6), je mit und ohne Bewegung; Ablauf nur nach [blindtest.md](../../design-uni/referenzen/blindtest.md).
 
 ## Muster Foto zuerst, Szene im Leerlauf `[gebaut und gemessen]`
 

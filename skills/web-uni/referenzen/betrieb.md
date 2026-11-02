@@ -9,7 +9,7 @@ Der Hoster muss können, was text-uni für Suche und Umzug verlangt:
 | Fähigkeit | Grund | Prüfen |
 |---|---|---|
 | Statische Dateien mit gzip oder Brotli | Messregel ([messungen.md](messungen.md)) | `curl -sI -H 'Accept-Encoding: br' <adresse>` |
-| Vorschau je Änderung, mit `noindex` | zusammenspiel Entscheid 4, text-uni TI10 | `curl -sI <vorschau>` zeigt `X-Robots-Tag: noindex` |
+| Vorschau je Änderung, mit `noindex` | Regel text-uni TP7/TI8, TI10 (zusammenspiel Entscheid 4); web-uni setzt sie um | `curl -sI <vorschau>` zeigt `X-Robots-Tag: noindex` |
 | Eigene 404 mit Status 404 | text-uni TI17 | `curl -sI <adresse>/gibt-es-nicht` |
 | Weiterleitungen mit 301, auch für Parameter | text-uni TI20, TI23 | Weiterleitungsliste online abrufen |
 | Kopfzeilen setzbar | Vorschau, Sicherheit (Teil 3) | `curl -sI` |
@@ -37,7 +37,7 @@ Die Vorlage schreibt `_headers` im Format von Cloudflare Pages `[gebaut · 02.11
 
 | Kopfzeile | Wert | Kennzeichen |
 |---|---|---|
-| `X-Robots-Tag` | `noindex` (nur Vorschau) | zusammenspiel Entscheid 4 |
+| `X-Robots-Tag` | `noindex` (nur Vorschau) | Regel text-uni TP7/TI8, TI10 |
 | `X-Content-Type-Options` | `nosniff` | setzt Cloudflare ohnehin `[gelesen]` |
 | `Referrer-Policy` | `strict-origin-when-cross-origin` | setzt Cloudflare ohnehin `[gelesen]` |
 | `Content-Security-Policy` | `frame-ancestors 'none'` | `[Annahme]`: niemand bettet die Seite ein |
@@ -56,17 +56,27 @@ Eine vollständige Content-Security-Policy (`script-src 'self'` und mehr) ist `[
 
 Schickt die Website oder ein Formular E-Mails im Namen der Domain, braucht die Domain SPF, DKIM und DMARC, sonst landen Anfragen im Spam `[Annahme; Normen SPF RFC 7208, DKIM RFC 6376, DMARC RFC 7489, hier nicht nachgelesen]`. Die Einträge kommen vom Mail-Anbieter des Betriebs. Prüfen: eine Testanfrage an ein fremdes Postfach und den Kopf der Mail lesen (`spf=pass`, `dkim=pass`). Stand: `[nicht gebaut]`.
 
-## 6. Fremde Hosts, Cookies, Datenschutz-Technik (DSG)
+## 6. Fremde Hosts, Cookies, Schriften, Datenschutz-Technik (DSG)
 
-- **Alles vom eigenen Host:** Schriften, Skripte, Bilder, Modelle. Geprüft in DP6 (`pruefen.cjs`: fremde Herkunft 0, Cookies 0, nichts im Speicher).
+Besitzer ist web-uni (zusammenspiel Teil 2). Die Prüfung trägt die Kennung **WP5**; sie läuft einmal im Prüflauf, gemessen mit `pruefen.cjs` (fremde Herkunft 0, Cookies 0, nichts im Speicher). design-uni (DP6) und text-uni (TP7, CL3, TI34) verweisen hierher.
+
+- **Alles vom eigenen Host:** Schriften, Skripte, Bilder, Modelle.
 - **Fremde Inhalte erst nach Klick** (text-uni CL3): Karte, Video, Feed als Link oder Vorschaubild; der fremde Dienst lädt erst beim Klick.
-- **Fremde Skripte** nur mit Grund im Entscheid und erst nach Einwilligung oder Klick (zusammenspiel Entscheid 10). Das gilt vor text-uni TI34, das nur `async` oder `defer` verlangt.
+- **Fremde Skripte** nur mit Grund im Entscheid und erst nach Einwilligung oder Klick (zusammenspiel Entscheid 10). text-uni TI34 verlangt dasselbe: im ausgelieferten HTML 0 Skripte und 0 eingebettete Inhalte von fremden Domains, die beim Aufruf laden.
 - **Keine Cookies**, kein Speicher im Browser, Zählung ohne Cookies. Braucht ein Entscheid doch Cookies, gilt: erst nach Einwilligung, und der Hinweis überlagert nur (text-uni TI37).
+- **Schriften ausliefern:** Welche Schrift, entscheidet design-uni (Typografie); die Auslieferung regelt web-uni. Regel: WOFF2 vom eigenen Host, als Teilmenge der gebrauchten Zeichen; `@font-face` mit `font-display: swap` für Fliesstext und Hauptschrift, damit der Text sofort in der Ersatzschrift steht; die eine Hauptschrift mit `<link rel="preload" as="font" type="font/woff2" crossorigin>` vorladen; Budget «Schriften gesamt» nach WP5. `swap` gibt der Schrift einen äusserst kurzen Block und einen unbegrenzten Tausch, `optional` gar keinen Tausch `[gelesen · MDN «font-display», Abruf 02.11.2026]`. Wahl von `swap` und das Vorladen nur der Hauptschrift: `[Annahme]`; Schriften, die nur schmücken, dürfen `optional` tragen.
 - **Liste für die Datenschutzerklärung:** Hoster und Standort, Weg der Anfrage (Postfach, Server), Aufbewahrung und Löschung, Zählung, jeder fremde Dienst nach Klick. web-uni liefert die Liste, text-uni den Wortlaut.
 
 ## 7. Anfrage, Spamschutz, Zählendpunkt
 
-**Stand: `[nicht gebaut]`.** Bis es gebaut ist, führt die Hauptaktion auf `tel:` oder `mailto:`. Linktext und Hinweis kommen aus text-uni (Wortlaut der Knöpfe und Mikrotexte, U-Grundsätze); die Zählpunkte `data-zaehl` bleiben. Was ein Formular-Backend braucht `[Annahme]`:
+**Stand: `[nicht gebaut]`.** Bis es gebaut ist, gilt zusammenspiel Teil 7 «Formular ohne Backend»:
+
+- Die Hauptaktion führt auf `tel:` oder `mailto:`, oder ein Formular übergibt an das E-Mail-Programm (`mailto:` mit Betreff und Text aus den Feldern).
+- Die Rückmeldung erscheint sofort im Browser und sagt ehrlich, was geschieht, zum Beispiel «Ihr E-Mail-Programm öffnet sich». Ohne JavaScript bleibt der Link `mailto:` mit Telefon daneben.
+- «Gesendet» oder «Anfrage ist bei uns» heisst es erst, wenn ein Endpunkt die Anfrage angenommen hat. Ein Zählpunkt «gesendet am Server» bleibt bis dahin «nicht gebaut».
+- Linktext, Rückmeldung und Hinweis kommen aus text-uni (U-Grundsätze); die Zählpunkte `data-zaehl` bleiben.
+
+Was ein Formular-Backend braucht `[Annahme]`:
 
 1. **Endpunkt beim Hoster** (zum Beispiel eine Funktion des Hosters), ohne fremden Formulardienst.
 2. **Prüfung am Server:** Pflichtfelder, Längen, Typen; Anzahl der Felder nach design-uni, Beschriftung nach text-uni (U10, U11, U12).

@@ -59,10 +59,10 @@ Getroffen am 2. November 2026 `[Entscheid · Studio]`, nach dem Abgleich der dre
 
 | Sache | Schwelle | Besitzer |
 |---|---|---|
-| Satzlänge | über 20 Wörter Warnung, über 25 Fehler (W2) | text-uni |
+| Satzlänge | über 20 Wörter und über 25 Wörter je ein HINWEIS in zwei Stufen (W2) | text-uni |
 | Zeilenlänge | 50 bis 75 Zeichen, nie über 80; am Handy gilt nur «nie über 80» | design-uni |
 | Messbreiten für alle Prüfungen | 1440 × 900 und 390 × 844; Überlauf zusätzlich bei 360 | design-uni |
-| Titel und Beschreibung | 40 bis 60 Zeichen, über 65 Fehler; Beschreibung 110 bis 155 (S3, S12) | text-uni |
+| Titel und Beschreibung | 40 bis 60 Zeichen, über 65 deutlicher HINWEIS; Beschreibung 110 bis 155 (S3, S12); alle als HINWEIS | text-uni |
 | Formular | 3 bis 5 Felder, höchstens 4 Pflicht; freiwillige Felder mit «(freiwillig)»; ein Sternchen für Pflicht nur, wenn es über dem Formular erklärt ist (U11) | design-uni (Anzahl), text-uni (Wortlaut) |
 | JS, Bilder, LCP | Budgets in web-uni (WP5) | web-uni |
 | Lighthouse | Schwelle 90; über der Schwelle wird nicht weiter optimiert | web-uni |
@@ -83,6 +83,7 @@ Jede Kennung ist in allen drei Skills eindeutig. Querverweise nennen immer die v
 | design-uni | Prüflisten A, P, H | **LA1 ff., LP1 ff., LH1 ff.** (früher A 1, P 1, H 1) |
 | design-uni | Bausteine der Galerie | **GB1 bis GB11** (früher B1 bis B11) |
 | text-uni | Prüfpunkte | **TP0 bis TP8** (früher T0 bis T8) |
+| text-uni | Lektionen | **TL1 ff.** |
 | text-uni | Grundsätze | unverändert: V, W, L, CH, K, A, KW, U, B, R, G, S, P, Q, M, KQ, TI, ZS, CL |
 | web-uni | Prüfpunkte | **WP0 bis WP9** (früher V0 bis V8; WP9 Livegang ist neu) |
 | web-uni | Lektionen | **WL1 ff.** (früher W1 ff.) |
@@ -101,7 +102,7 @@ Jeder Schritt nennt das Tor. Fällt ein Tor, geht es zum Schritt zurück, der da
 6. **DP2 Abstand, Tokens, welche Bewegung die Idee braucht** (design-uni) → **WP3 Bewegungstechnik und Kostenblatt** (web-uni).
 7. **TP2 Botschaft** (text-uni), blind, nur Text: erster Satz, `h1`-Etikett und `<title>` als Entwurf. Dazu der Abgleich: Satz aus der Idee und erster Satz widersprechen sich nicht (Entscheid 2). Der Fünf-Sekunden-Test am Bild gehört zu DP4.
 8. **Ziele an die Gestaltung** (text-uni) → design-uni, **vor** dem Bau.
-9. **Text und Inhalt vor Gestalt** → **DP3 = TP3** in einem Lauf. Fragen, die erst am Bau prüfbar sind (Ladezeit, tote Links, Messplan), wandern zu DP6.
+9. **Text und Inhalt vor Gestalt** → **DP3 = TP3** in einem Lauf. Fragen, die erst am Bau prüfbar sind (Ladezeit, tote Links) wandern zu DP6, der Messplan zu TP8.
 10. **TP4 blind gegen die Konkurrenz** (text-uni), zwei Sätze mit denselben Referenzen, je eine eigene Fassung.
 11. **Gerüst** (web-uni) → **DP4 erster Bildschirm** (design-uni), vorher `vermessen.cjs` und `vergleichen.cjs`.
 12. **DP5 Startseite mit Bewegung** (design-uni, braucht WP3).
