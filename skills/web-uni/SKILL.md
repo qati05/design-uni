@@ -82,12 +82,14 @@ Danach: TP1 Antwort-Plan (text-uni) legt die Seitenliste fest; gebaut wird keine
 
 Läuft nach TP1. **Ist Bewegung oder 3D Kern des Wunsches, läuft WP2 erst nach DP1** (Richtung), weil Klasse E an der Richtung hängt.
 
+**Entscheidhilfe:** [stack-wahl.md](referenzen/stack-wahl.md) mit drei Leitfragen (Pflege, Wartung, Mitnahme), Entscheidbaum, Übersicht und neun Situationen. Empfehlung, Gegenentwurf, Kosten und Lock-in für `technik.md` kommen von dort.
+
 **Standard des Studios** `[Hausentscheid · Studio, 02.11.2026]`: **Astro mit statischer Ausgabe**, Gerüst in [vorlage-astro/](vorlage-astro/README.md). Astro ist Standard, weil Pflege und eine Datenquelle gewinnen (Organisation): Jeder Wert steht an einer Stelle (WL4), der Bau prüft Pflichtfelder und Links, Seiten entstehen aus Bauteilen. Bei statischer Ausgabe kostet Astro gegenüber handgeschriebenem HTML nichts Messbares (Score 96 gegen 97, gleiches JS, [messungen.md](referenzen/messungen.md)). Ausnahmen, je mit «Weil»-Satz:
 
 - **Statisches HTML (Klasse A):** erlaubt, wenn nichts verloren geht, das heisst: so wenige wiederkehrende Werte, dass eine Datenquelle nichts spart, und kein Bedarf an Bauprüfungen über das Prüfskript hinaus.
 - **Next.js (Klasse C):** nur bei Konten, Anmeldung, Shop, Buchung oder stark dynamischen Daten; im Spike +133 KB JS und rund 1 s später LCP bei gleichem Inhalt.
 - **Baukasten (Klasse D):** wenn der Betrieb ihn schon hat oder ausdrücklich verlangt, oder ganz ohne Entwickler pflegen will und das gesagt hat. Ein solcher Wunsch ist ein Entscheid des Betriebs und geht dem Hausentscheid vor.
-- **Kombinationen** (Hinweis `[Annahme]`): eine Seite, ein Stack; die Grenze liegt an der Adresse ([stacks.md](referenzen/stacks.md), «Zwei Stacks zusammen»).
+- **Kombinationen** (Hinweis `[Annahme]`): eine Adresse, ein Stack; ein CMS oder eine Shop-API ist kein zweiter Stack ([stack-wahl.md](referenzen/stack-wahl.md), Teil 5).
 
 Die Begründung steht in `technik.md` im Projekt:
 
@@ -214,7 +216,8 @@ Erst nach Freigabe durch den Betrieb oder das Studio, mit Datum in `entscheide.m
 | Datei | Inhalt |
 |---|---|
 | [vorlage-astro/](vorlage-astro/README.md) | Gerüst: Datenquelle, Layout, Bau mit Prüfungen, Vorschau und Livegang per Schalter |
-| [stacks.md](referenzen/stacks.md) | Klassen A bis E, Entscheidbaum, Versionsstand |
+| [stack-wahl.md](referenzen/stack-wahl.md) | Entscheidhilfe für WP2: Leitfragen, Entscheidbaum, neun Situationen, Kombinationen, E-Commerce Schweiz, was das Studio beherrschen muss |
+| [stacks.md](referenzen/stacks.md) | Klassen A bis E mit Marktanteilen und Feldwerten für Baukästen und Shops, Versionsstand |
 | [animation-3d.md](referenzen/animation-3d.md) | Leiter der Bewegung, Browserstand, Rückfälle, Kostenblatt |
 | [betrieb.md](referenzen/betrieb.md) | Hoster, Domain, HTTPS, Kopfzeilen, Sicherungen, E-Mail, Datenschutz-Technik, Formular, Mehrsprachigkeit, Pflege, Zugänge, Kosten |
 | [pruefumgebung.md](referenzen/pruefumgebung.md) | der eine Prüflauf: Bau, `pruefen.cjs`, `slop-de.js`, Messung |
