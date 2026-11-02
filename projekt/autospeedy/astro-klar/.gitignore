@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+public/bilder/
+public/js/schaden.js
+public/js/rueckruf.js
+public/js/zaehl.js

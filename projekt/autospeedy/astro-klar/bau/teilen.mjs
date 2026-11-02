@@ -1,0 +1,10 @@
+// Holt Bilder und Formular-Skripte aus der ersten Linie (../astro/public), damit beide Linien dieselben Fotos und
+// dieselbe Logik nutzen. Die Kopien sind nicht im Git (.gitignore).
+import fs from "node:fs";
+import path from "node:path";
+const hier = path.dirname(new URL(import.meta.url).pathname);
+const quelle = path.join(hier, "..", "..", "astro", "public");
+const ziel = path.join(hier, "..", "public");
+fs.cpSync(path.join(quelle, "bilder"), path.join(ziel, "bilder"), { recursive: true });
+for (const d of ["schaden.js", "rueckruf.js", "zaehl.js"]) fs.copyFileSync(path.join(quelle, "js", d), path.join(ziel, "js", d));
+console.log("teilen: Bilder und Skripte aus ../astro übernommen");

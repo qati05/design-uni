@@ -1,0 +1,11 @@
+---
+import { betrieb as b } from "../../../astro/bau/daten.mjs";
+---
+<footer class="fuss">
+  <div class="fuss__innen">
+    <span>{b.name} · {b.strasse}, {b.plz} {b.ort}</span>
+    <nav aria-label="Fuss">
+      <a href="/schaden-melden/">Schaden melden</a><a href="/kontakt/">Kontakt</a><a href="/bewerten/">Bewerten</a><a href="/impressum/">Impressum</a><a href="/datenschutz/">Datenschutz</a>
+    </nav>
+  </div>
+</footer>
