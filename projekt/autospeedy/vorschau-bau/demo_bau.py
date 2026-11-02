@@ -37,7 +37,7 @@ seite = f'''<!doctype html>
 <style>{css}</style>
 </head>
 <body>
-<div class="d-band"><b>Demo</b><span>So funktioniert Ihr neues System. Nichts wird gesendet, alles bleibt in diesem Browser. Beispiel-Meldungen sind markiert.</span><button type="button" class="knopf leise" id="d-neu">Neu starten</button></div>
+<div class="d-band"><b>Demo</b><span>So funktioniert Ihr neues System. Nichts wird gesendet, alles bleibt in diesem Browser. Beispiel-Meldungen sind markiert.</span><span class="d-uhrzeit">Demo-Uhr: <b id="d-uhr"></b></span><button type="button" class="knopf leise" id="d-vorspulen">24 Std. vorspulen</button><button type="button" class="knopf leise" id="d-neu">Neu starten</button></div>
 <nav id="d-rundgang" aria-label="Rundgang"><ol></ol></nav>
 <div class="d-buehne">
   <section class="d-kunde" aria-label="Kunde"><h2 class="d-titel">Kunde · Handy</h2><div class="d-handy"><iframe id="d-website" title="Website auf dem Handy des Kunden"></iframe></div></section>
@@ -47,6 +47,7 @@ seite = f'''<!doctype html>
         <button type="button" role="tab" data-reiter="postfach">Postfach <span class="d-zahl" hidden></span></button>
         <button type="button" role="tab" data-reiter="whatsapp">WhatsApp <span class="d-zahl" hidden></span></button>
         <button type="button" role="tab" data-reiter="cockpit">Cockpit <span class="d-zahl" hidden></span></button>
+        <button type="button" role="tab" data-reiter="ablauf" class="d-reiter__ablauf">Ablauf im Hintergrund <span class="d-zahl" hidden></span></button>
       </div>
       <div id="d-fenster" role="tabpanel"></div>
     </div>

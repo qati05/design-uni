@@ -23,17 +23,17 @@
   function naechste(s) {
     return { neu: ["zurueckgerufen", "verloren"], zurueckgerufen: ["offerte", "auftrag", "verloren", "neu"], offerte: ["auftrag", "verloren", "zurueckgerufen"], auftrag: ["erledigt", "offerte"], erledigt: ["auftrag"], verloren: ["neu"] }[s];
   }
-  var jetzt = Date.now();
+  var t0 = Date.now();
   var S = {
     login: "aus", code: null,
     reiter: "postfach", seite: "liste", filter: "alle", offen: null,
     mails: [], gelesen: {}, wa: [], waGesehen: 0,
     meldungen: [
-      { id: "b1", erstellt: jetzt - 25 * MIN, art: "Parkschaden", tesla: false, stellen: ["Heck-Stossstange"], bemerkung: "BEISPIEL", name: "Beispiel Kunde A", telefon: "071 555 00 01", quelle: "website", status: "neu", notiz: "", fotos: [], beispiel: true },
-      { id: "b2", erstellt: jetzt - 26 * STD, art: "Unfall", tesla: false, stellen: ["Seite links vorne"], bemerkung: "BEISPIEL", name: "Beispiel Kundin B", telefon: "071 555 00 02", quelle: "website", status: "offerte", notiz: "Offerte an Versicherung (Beispiel)", fotos: [], beispiel: true },
-      { id: "b3", erstellt: jetzt - 50 * STD, art: "Rückruf", tesla: false, stellen: [], bemerkung: "Anliegen: Lackschaden (BEISPIEL)", name: "Beispiel Kunde C", telefon: "071 555 00 03", quelle: "website", status: "auftrag", notiz: "", fotos: [], beispiel: true },
-      { id: "b4", erstellt: jetzt - 98 * STD, art: "Felge", tesla: false, stellen: ["Felgen"], bemerkung: "BEISPIEL", name: "Beispiel Kundin D", telefon: "071 555 00 04", quelle: "website", status: "verloren", notiz: "", fotos: [], beispiel: true },
-      { id: "b5", erstellt: jetzt - 120 * STD, art: "Hagel", tesla: true, stellen: ["Dach", "Motorhaube"], bemerkung: "BEISPIEL", name: "Beispiel Kunde E", telefon: "071 555 00 05", quelle: "website", status: "erledigt", notiz: "", fotos: [], beispiel: true },
+      { id: "b1", erstellt: t0 - 25 * MIN, art: "Parkschaden", tesla: false, stellen: ["Heck-Stossstange"], bemerkung: "BEISPIEL", name: "Beispiel Kunde A", telefon: "071 555 00 01", quelle: "website", status: "neu", notiz: "", fotos: [], beispiel: true },
+      { id: "b2", erstellt: t0 - 26 * STD, art: "Unfall", tesla: false, stellen: ["Seite links vorne"], bemerkung: "BEISPIEL", name: "Beispiel Kundin B", telefon: "071 555 00 02", quelle: "website", status: "offerte", notiz: "Offerte an Versicherung (Beispiel)", fotos: [], beispiel: true, email: "kundin.b@beispiel.example" },
+      { id: "b3", erstellt: t0 - 50 * STD, art: "Rückruf", tesla: false, stellen: [], bemerkung: "Anliegen: Lackschaden (BEISPIEL)", name: "Beispiel Kunde C", telefon: "071 555 00 03", quelle: "website", status: "auftrag", notiz: "", fotos: [], beispiel: true },
+      { id: "b4", erstellt: t0 - 98 * STD, art: "Felge", tesla: false, stellen: ["Felgen"], bemerkung: "BEISPIEL", name: "Beispiel Kundin D", telefon: "071 555 00 04", quelle: "website", status: "verloren", notiz: "", fotos: [], beispiel: true },
+      { id: "b5", erstellt: t0 - 120 * STD, art: "Hagel", tesla: true, stellen: ["Dach", "Motorhaube"], bemerkung: "BEISPIEL", name: "Beispiel Kunde E", telefon: "071 555 00 05", quelle: "website", status: "erledigt", notiz: "", fotos: [], beispiel: true },
     ],
     zaehl: { anruf: 9, whatsapp: 2, bewertung: 1 }, // Beispielwerte der letzten 30 Tage, dazu was in der Demo passiert
     pflege: {
@@ -44,13 +44,18 @@
       ],
     },
     schritte: {},
+    versatz: 0, ablauf: [],
+    punkte: { "trichter-1": 5, "trichter-2": 3, "trichter-3": 2, gesendet: 2 }, // Beispielwerte, dazu was in der Demo passiert
   };
+  function jetzt() { return Date.now() + S.versatz; }
+  function protokoll(wer, text) { S.ablauf.push({ zeit: jetzt(), wer: wer, text: text }); }
   var RUNDGANG = [
-    { id: "melden", text: "Links als Kunde einen Schaden melden" },
+    { id: "melden", text: "Links einen Schaden melden, mit Mail" },
     { id: "mail", text: "Rechts die Mail öffnen" },
     { id: "login", text: "Im Cockpit anmelden" },
-    { id: "erledigt", text: "Meldung bis «Erledigt» führen" },
-    { id: "bewertung", text: "Bewertung erbitten" },
+    { id: "auftrag", text: "Meldung auf «Auftrag» setzen" },
+    { id: "erledigt", text: "In der Mail «erledigt» tippen" },
+    { id: "vorspulen", text: "24 Stunden vorspulen" },
     { id: "pflege", text: "Website ändern" },
     { id: "zahlen", text: "Zahlen ansehen" },
   ];
@@ -58,7 +63,7 @@
 
   // ---------- Hilfen
   function wann(t) {
-    var d = Date.now() - t;
+    var d = jetzt() - t;
     if (d < MIN) return "gerade eben";
     if (d < STD) return "vor " + Math.round(d / MIN) + " Min.";
     if (d < 24 * STD) return "vor " + Math.round(d / STD) + " Std.";
@@ -79,25 +84,37 @@
     if (m.quelle !== "as-website") return;
     if (m.typ === "meldung" || m.typ === "rueckruf") {
       var neu = {
-        id: "d" + Date.now().toString(36), erstellt: Date.now(), art: m.typ === "rueckruf" ? "Rückruf" : m.art, tesla: !!m.tesla, stellen: m.stellen || [],
+        id: "d" + Date.now().toString(36), erstellt: jetzt(), email: m.email || null, art: m.typ === "rueckruf" ? "Rückruf" : m.art, tesla: !!m.tesla, stellen: m.stellen || [],
         bemerkung: m.typ === "rueckruf" ? "Anliegen: " + m.anliegen : (m.bemerkung || ""), name: m.name, telefon: m.telefon, quelle: "website", status: "neu", notiz: "",
         fotos: (m.fotos || []).map(function (b) { return URL.createObjectURL(b); }), aus_demo: true,
       };
       S.meldungen.unshift(neu);
-      S.mails.unshift({ id: "m" + neu.id, zeit: Date.now(), von: "Website autospeedy.ch", betreff: (m.typ === "rueckruf" ? "Neue Rückruf-Bitte" : "Neue Schadenmeldung: " + neu.art + (neu.tesla ? " (Tesla)" : "")),
-        text: (m.typ === "rueckruf" ? "Jemand bittet um Rückruf.\nAnliegen: " + m.anliegen : "Eine neue Schadenmeldung ist eingegangen.\n\nWas: " + neu.art + (neu.tesla ? " (Tesla)" : "") + "\nFotos: " + neu.fotos.length + "\nStellen: " + (neu.stellen.join(", ") || "nicht angegeben")) +
-          "\n\nName und Telefon stehen aus Datenschutzgründen nicht in dieser Mail, nur im Cockpit.", ziel: neu.id });
+      S.mails.unshift({ id: "m" + neu.id, zeit: jetzt(), von: "Website autospeedy.ch", betreff: (m.typ === "rueckruf" ? "Neue Rückruf-Bitte" : "Neue Schadenmeldung: " + neu.art + (neu.tesla ? " (Tesla)" : "")),
+        text: (m.typ === "rueckruf" ? "Jemand bittet um Rückruf.\nAnliegen: " + m.anliegen : "Eine neue Schadenmeldung ist eingegangen.\n\nWas: " + neu.art + (neu.tesla ? " (Tesla)" : "") + "\nFotos: " + neu.fotos.length + "\nStellen am Auto: " + (neu.stellen.join(", ") || "nicht angegeben") + "\nMail vom Kunden: " + (neu.email ? "angegeben" : "keine")) +
+          "\n\nName, Telefon und Fotos stehen aus Datenschutzgründen nicht in dieser Mail, nur im Cockpit.", ziel: neu.id });
+      protokoll("Kunde", (m.typ === "rueckruf" ? "bittet auf der Website um Rückruf." : "sendet die Schadenmeldung auf der Website (" + neu.art + ", " + (neu.fotos.length === 1 ? "1 Foto" : neu.fotos.length + " Fotos") + ")."));
+      protokoll("Website", "prüft die Angaben und speichert sie in der Datenbank in Zürich. Ab jetzt im Cockpit.");
+      protokoll("Mailversand", "schickt den Hinweis an info@autospeedy.ch, ohne Name und Telefon.");
+      if (neu.email) {
+        protokoll("Mailversand", "schickt dem Kunden eine Bestätigung an " + neu.email + ".");
+        setTimeout(function () { anWebsite({ typ: "kundenmail", betreff: "Ihre Schadenmeldung bei Auto Speedy", text: "Guten Tag " + (neu.name.split(/\s+/)[0] || "") + "\n\nIhre Schadenmeldung (" + neu.art + ") ist bei Auto Speedy angekommen. Wir melden uns bei Ihnen, in der Regel telefonisch.\n\nFreundliche Grüsse\nAuto Speedy AG" }); }, 1400);
+      }
+      if (m.typ === "meldung") { S.punkte.gesendet++; }
+      klingel("ablauf");
       geschafft("melden");
       klingel("postfach");
       zeichne();
     }
     if (m.typ === "whatsapp") {
-      S.wa.push({ zeit: Date.now(), von: "kunde", text: m.text, fotos: (m.fotos || []).map(function (b) { return URL.createObjectURL(b); }) });
+      S.wa.push({ zeit: jetzt(), von: "kunde", text: m.text, fotos: (m.fotos || []).map(function (b) { return URL.createObjectURL(b); }) });
+      protokoll("Kunde", "schickt die Meldung per WhatsApp. Sie kommt auf dem Geschäftshandy an, nicht ins Cockpit.");
+      S.punkte.gesendet++;
       geschafft("melden");
       klingel("whatsapp");
       zeichne();
     }
     if (m.typ === "zaehl") {
+      if (/^trichter-\d$/.test(m.punkt)) { S.punkte[m.punkt] = (S.punkte[m.punkt] || 0) + 1; }
       var p = m.punkt === "anruf" ? "anruf" : /whatsapp/.test(m.punkt) ? "whatsapp" : m.punkt === "bewertung-geoeffnet" ? "bewertung" : null;
       if (p) { S.zaehl[p] = (S.zaehl[p] || 0) + 1; if (S.reiter === "cockpit" && S.seite === "zahlen") zeichne(); }
     }
@@ -115,7 +132,8 @@
       var r = b.getAttribute("data-reiter");
       b.setAttribute("aria-selected", r === S.reiter ? "true" : "false");
       var z = b.querySelector(".d-zahl");
-      var n = r === "postfach" ? ungelesen : r === "whatsapp" ? Math.max(0, waNeu) : 0;
+      if (r === "ablauf" && S.reiter === "ablauf") S.ablaufGesehen = S.ablauf.length;
+      var n = r === "postfach" ? ungelesen : r === "whatsapp" ? Math.max(0, waNeu) : r === "ablauf" ? S.ablauf.length - (S.ablaufGesehen || 0) : 0;
       z.textContent = n ? String(n) : ""; z.hidden = !n;
     });
   }
@@ -138,8 +156,41 @@
       h("pre", { text: offen.text }),
       offen.ziel ? h("button", { type: "button", class: "knopf", onclick: function () { S.reiter = "cockpit"; S.nachLogin = offen.ziel; if (S.login === "an") { S.seite = "detail"; S.offen = offen.ziel; } zeichne(); } }, "Im Cockpit öffnen") : null,
       offen.code ? h("p", { class: "d-code", text: offen.code }) : null,
+      offen.auftrag ? auftragKasten(offen) : null,
     ]) : h("article", { class: "d-lesen d-lesen--leer" }, [h("p", { class: "unterzeile", text: "Mail links antippen zum Lesen." })]);
     return h("div", { class: "d-postfach" }, [h("div", { class: "d-postfach__kopf" }, [h("b", { text: "Postfach info@autospeedy.ch" }), h("span", { class: "unterzeile", text: "Ihr bestehendes Mailprogramm" })]), h("div", { class: "d-postfach__inhalt" }, [liste, lesen])]);
+  }
+
+  function auftragKasten(mail) {
+    var m = S.meldungen.filter(function (x) { return x.id === mail.auftrag; })[0];
+    if (mail.erledigt) return h("div", { class: "d-seite" }, [h("p", { class: "ok-text", text: "Erledigt gemeldet. " + (m && m.email ? "Der Kunde bekommt in 24 Stunden einmal die Bitte um eine Bewertung." : "Der Kunde hat keine Mail angegeben: Bewertung im Cockpit per WhatsApp erbitten.") })]);
+    if (!m || m.status !== "auftrag") return h("div", { class: "d-seite" }, [h("p", { class: "unterzeile", text: "Link nicht mehr gültig: Der Auftrag ist schon erledigt oder nicht mehr «Auftrag»." })]);
+    return h("div", { class: "d-seite" }, [
+      h("p", { class: "d-seite__adresse", text: "Tipp auf den Link öffnet: cockpit.autospeedy.ch/auftrag/…" }),
+      h("b", { text: "Auftrag erledigt?" }), h("p", { text: m.art + (m.tesla ? " (Tesla)" : "") + " · eingegangen " + wann(m.erstellt) }),
+      h("button", { type: "button", class: "knopf gross", onclick: function () {
+        if (m.status !== "auftrag") return;
+        mail.erledigt = true;
+        protokoll("Klick in der Mail", "Auftrag «" + m.art + "» als erledigt gemeldet, ohne Anmelden. Der Link gilt nur einmal.");
+        statusSetzen(m, "erledigt");
+        geschafft("erledigt"); zeichne();
+      } }, "Ja, Auftrag ist erledigt"),
+    ]);
+  }
+
+  // ---------- Ablauf: was im Hintergrund passiert ist
+  function ablauf() {
+    var heute = new Date(jetzt()).toDateString();
+    return h("div", { class: "d-ablauf" }, [
+      h("div", { class: "d-postfach__kopf" }, [h("b", { text: "Ablauf" }), h("span", { class: "unterzeile", text: "Was im Hintergrund passiert, in der Reihenfolge. Im Echten sieht das niemand, es läuft einfach." })]),
+      S.ablauf.length ? h("ol", { class: "d-ablauf__liste" }, S.ablauf.map(function (e, i) {
+        var d = new Date(e.zeit);
+        return h("li", { class: i === S.ablauf.length - 1 ? "neu" : "" }, [
+          h("span", { class: "d-ablauf__zeit", text: (d.toDateString() === heute ? "" : new Intl.DateTimeFormat("de-CH", { weekday: "short" }).format(d) + " ") + new Intl.DateTimeFormat("de-CH", { hour: "2-digit", minute: "2-digit" }).format(d) }),
+          h("span", { class: "d-ablauf__wer", "data-wer": e.wer, text: e.wer }), h("span", { text: e.text }),
+        ]);
+      })) : h("p", { class: "d-leer", text: "Noch nichts passiert. Melden Sie links als Kunde einen Schaden." }),
+    ]);
   }
 
   // ---------- WhatsApp (Geschäftshandy)
@@ -244,11 +295,11 @@
       h("div", { class: "detail" }, [
         h("section", { class: "karte" }, [
           h("h2", { text: "Kunde und Schaden" }),
-          h("dl", {}, [h("dt", { text: "Name" }), h("dd", { text: m.name }), h("dt", { text: "Telefon" }), h("dd", { text: m.telefon }), h("dt", { text: "Stellen am Auto" }), h("dd", { text: m.stellen.join(", ") || "nicht angegeben" }), h("dt", { text: "Bemerkung" }), h("dd", { text: m.bemerkung || "keine" })]),
+          h("dl", {}, [h("dt", { text: "Name" }), h("dd", { text: m.name }), h("dt", { text: "Telefon" }), h("dd", { text: m.telefon }), h("dt", { text: "Mail" }), h("dd", { text: m.email || "nicht angegeben" }), h("dt", { text: "Stellen am Auto" }), h("dd", { text: m.stellen.join(", ") || "nicht angegeben" }), h("dt", { text: "Bemerkung" }), h("dd", { text: m.bemerkung || "keine" })]),
           h("div", { class: "aktionen" }, [
             h("button", { type: "button", class: "knopf", onclick: function () { toast("Demo: Ihr Handy würde jetzt " + m.telefon + " anrufen."); } }, "Anrufen"),
             h("button", { type: "button", class: "knopf gruen", onclick: function () { toast("Demo: WhatsApp würde sich öffnen mit «Guten Tag " + m.name + ", hier ist Auto Speedy wegen Ihrer Schadenmeldung (" + m.art + ").»"); } }, "WhatsApp"),
-            m.status === "erledigt" ? h("button", { type: "button", class: "knopf leise d-bewertung", onclick: function () { bewertung(m); } }, "Bewertung erbitten") : null,
+            m.status === "erledigt" && !m.email ? h("button", { type: "button", class: "knopf leise d-bewertung", onclick: function () { bewertung(m); } }, "Bewertung per WhatsApp erbitten") : null,
           ]),
           h("h2", { class: "abstand-oben", text: "Fotos (" + m.fotos.length + ")" }),
           m.fotos.length ? h("div", { class: "fotos" }, m.fotos.map(function (u, i) { return h("img", { src: u, alt: "Foto " + (i + 1) + " vom Schaden" }); })) : h("p", { class: "unterzeile", text: "Keine Fotos geschickt." }),
@@ -256,19 +307,54 @@
         h("section", { class: "karte lack" }, [
           h("h2", { text: "Nächster Schritt" }),
           h("div", { class: "aktionen" }, naechste(m.status).map(function (n) {
-            return h("button", { type: "button", class: n === "verloren" || n === "neu" ? "knopf leise" : "knopf", onclick: function () { m.status = n; if (n === "erledigt" && m.aus_demo) geschafft("erledigt"); zeichne(); } }, n === "neu" ? "Zurück auf Neu" : "→ " + STATUS_NAME[n]);
+            return h("button", { type: "button", class: n === "verloren" || n === "neu" ? "knopf leise" : "knopf", onclick: function () { statusSetzen(m, n); zeichne(); } }, n === "neu" ? "Zurück auf Neu" : "→ " + STATUS_NAME[n]);
           })),
-          m.status === "erledigt" ? h("p", { class: "hinweis abstand-oben", text: "Auftrag erledigt: Jetzt bei «Kunde und Schaden» auf «Bewertung erbitten» tippen. Der Kunde bekommt eine WhatsApp-Nachricht mit dem Link." }) : null,
+          h("p", { class: "hinweis abstand-oben", text: m.bewertungGesendet ? "Bitte um Bewertung per Mail gesendet." : m.bewertungFaellig ? "Bitte um Bewertung per Mail geplant: " + datum(m.bewertungFaellig) + "." : m.email ? "Bei «Erledigt» geht 24 Stunden später einmal die Bitte um Bewertung per Mail an den Kunden." : "Keine Mail vom Kunden: Bei «Erledigt» die Bewertung per WhatsApp erbitten." }),
           h("div", { class: "formular abstand-oben" }, [h("label", { for: "d-notiz", text: "Notiz (nur intern)" }), notiz, h("button", { type: "button", class: "knopf leise", onclick: function () { m.notiz = notiz.value; toast("Notiz gespeichert."); } }, "Notiz speichern")]),
         ]),
       ]),
     ]);
   }
+  function planen(m, vorher) {
+    if (m.status === "erledigt" && vorher !== "erledigt") {
+      if (m.email && !m.bewertungGesendet) { m.bewertungFaellig = jetzt() + 24 * STD; protokoll("Datenbank", "plant die Bitte um Bewertung an " + m.email + " für " + datum(m.bewertungFaellig) + "."); }
+      else if (!m.email) protokoll("Cockpit", "Kunde hat keine Mail angegeben: Bewertung per WhatsApp erbitten.");
+    } else if (m.status !== "erledigt" && !m.bewertungGesendet) m.bewertungFaellig = null;
+  }
+  function statusSetzen(m, n) {
+    var vorher = m.status; m.status = n;
+    protokoll("Cockpit", m.art + ": Status «" + STATUS_NAME[n] + "».");
+    if (n === "auftrag") {
+      S.mails.unshift({ id: "a" + m.id + Date.now(), zeit: jetzt(), von: "Auto Speedy Cockpit", betreff: "Auftrag: " + m.art + (m.tesla ? " (Tesla)" : "") + ". Wenn fertig, hier melden", auftrag: m.id,
+        text: "Ein neuer Auftrag läuft: " + m.art + (m.tesla ? " (Tesla)" : "") + ".\n\nWenn das Auto fertig ist, tippen Sie unten und bestätigen. Ohne Anmelden.\n\n" +
+          (m.email ? "Der Kunde hat seine Mail angegeben: 24 Stunden nach «erledigt» bekommt er einmal die Bitte um eine Bewertung." : "Der Kunde hat keine Mail angegeben: Bitte um Bewertung im Cockpit per WhatsApp.") });
+      protokoll("Mailversand", "schickt info@autospeedy.ch die Auftrags-Mail mit dem Link «erledigt melden».");
+      klingel("postfach"); geschafft("auftrag");
+    }
+    planen(m, vorher);
+  }
+  function datum(t) { return new Intl.DateTimeFormat("de-CH", { weekday: "long", hour: "2-digit", minute: "2-digit" }).format(new Date(t)) + " Uhr"; }
+  function vorspulen() {
+    S.versatz += 24 * STD;
+    protokoll("Demo", "24 Stunden vorgespult.");
+    var faellig = S.meldungen.filter(function (m) { return m.status === "erledigt" && m.email && m.bewertungFaellig && !m.bewertungGesendet && m.bewertungFaellig <= jetzt(); });
+    protokoll("Zeitplan", "prüft alle 15 Minuten, ob eine Bitte um Bewertung fällig ist: " + (faellig.length ? faellig.length + " fällig." : "keine fällig."));
+    faellig.forEach(function (m, i) {
+      m.bewertungGesendet = jetzt();
+      var text = "Guten Tag " + (m.name.split(/\s+/)[0] || "") + "\n\nIhr Auto ist fertig. Danke für Ihr Vertrauen.\nHat alles gepasst? Über eine kurze Bewertung freuen wir uns sehr:\nautospeedy.ch/bewerten/\n\nFreundliche Grüsse\nAuto Speedy AG";
+      protokoll("Mailversand", "schickt die Bitte um Bewertung an " + m.email + ". Jede Bitte geht nur einmal.");
+      if (!m.beispiel) setTimeout(function () { anWebsite({ typ: "kundenmail", betreff: "Danke für Ihren Auftrag bei Auto Speedy", text: text, link: true }); }, 400 + i * 300);
+    });
+    if (faellig.length) { geschafft("vorspulen"); toast("24 Stunden später: Links bekommt der Kunde die Bitte um Bewertung per Mail."); }
+    else toast("Vorgespult. Nichts fällig: Erst eine Meldung mit Mail auf «Erledigt» setzen.");
+    $("#d-uhr").textContent = uhr(); zeichne();
+  }
+  function uhr() { return new Intl.DateTimeFormat("de-CH", { weekday: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(jetzt())); }
   function bewertung(m) {
     var text = "Guten Tag " + m.name + ", danke für Ihren Auftrag bei Auto Speedy. Über eine kurze Bewertung freuen wir uns: autospeedy.ch/bewerten/";
-    S.wa.push({ zeit: Date.now(), von: "betrieb", text: text, fotos: [] });
+    S.wa.push({ zeit: jetzt(), von: "betrieb", text: text, fotos: [] });
     anWebsite({ typ: "bewertung", text: text });
-    geschafft("bewertung");
+    protokoll("Cockpit", "Bitte um Bewertung per WhatsApp an " + m.name + ".");
     toast("Gesendet. Links sieht der Kunde die Nachricht auf seinem Handy.");
   }
   function zahlen() {
@@ -288,6 +374,12 @@
         h("div", { class: "kennzahl" }, [h("b", { text: quote === null ? "–" : quote + " %" }), h("span", { text: "Abschlussquote (Aufträge von allen entschiedenen)" })]),
         h("div", { class: "kennzahl" }, [h("b", { text: String(S.zaehl.anruf) }), h("span", { text: "Tipps auf die Telefonnummer" })]),
       ]),
+      h("h2", { text: "Schadenmeldung Schritt für Schritt" }),
+      h("p", { class: "unterzeile", text: "Wo Leute aufgeben. Fällt ein Schritt stark ab, ist er zu schwer." }),
+      h("table", { class: "zahlen" }, [h("tbody", {}, [["Schadenmeldung geöffnet", "trichter-1"], ["Art gewählt, bei den Fotos", "trichter-2"], ["Bei Name und Telefon", "trichter-3"], ["Abgeschickt (Website oder WhatsApp)", "gesendet"]].map(function (t) {
+        var n = S.punkte[t[1]] || 0, start = S.punkte["trichter-1"] || 1, a = Math.round(n / start * 100);
+        return h("tr", {}, [h("th", { text: t[0] }), h("td", { class: "d-balken" }, [h("span", { style: "--w:" + Math.min(100, a) + "%" })]), h("td", { class: "zahl", text: n + " · " + a + " %" })]);
+      }))]),
       h("h2", { text: "Anfragen nach Art" }),
       h("table", { class: "zahlen" }, [h("tbody", {}, Object.keys(proArt).map(function (k) {
         return h("tr", {}, [h("th", { text: k }), h("td", { class: "d-balken" }, [h("span", { style: "--w:" + Math.round(proArt[k] / max * 100) + "%" })]), h("td", { class: "zahl", text: String(proArt[k]) })]);
@@ -352,11 +444,14 @@
   function zeichne() {
     var f = $("#d-fenster"); var oben = f.scrollTop;
     f.textContent = "";
-    f.appendChild(S.reiter === "postfach" ? postfach() : S.reiter === "whatsapp" ? whatsapp() : cockpit());
+    f.appendChild(S.reiter === "postfach" ? postfach() : S.reiter === "whatsapp" ? whatsapp() : S.reiter === "ablauf" ? ablauf() : cockpit());
     f.scrollTop = S.reiter === "cockpit" && S.seite === S.letzteSeite ? oben : 0; S.letzteSeite = S.seite;
     reiter();
   }
   $("#d-neu").addEventListener("click", function () { location.reload(); });
+  $("#d-vorspulen").addEventListener("click", vorspulen);
+  $("#d-uhr").textContent = uhr();
+  setInterval(function () { $("#d-uhr").textContent = uhr(); }, 30000);
 
   // Website laden: als Blob, damit die Datei ohne Server läuft
   var html = JSON.parse($("#d-website-html").textContent);

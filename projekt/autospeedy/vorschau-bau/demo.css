@@ -75,3 +75,18 @@ body { overflow: hidden; display: grid; grid-template-rows: auto auto 1fr; backg
 .knopf.gross svg { flex: none; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 @media (max-width: 1199px) { .d-buehne { grid-template-columns: 1fr; overflow: auto; } body { overflow: auto; } .d-handy { height: 760px; } }
+.d-band span.d-uhrzeit { margin: 0; font-size: 14px; color: var(--leise); }
+.d-reiter__ablauf { margin-left: auto; }
+.d-reiter__ablauf .d-zahl { background: var(--blau); }
+.d-seite { display: grid; gap: 10px; padding: 16px; border: 2px solid var(--baby); background: var(--grund); max-width: 460px; }
+.d-seite__adresse { margin: 0; font-size: 13px; color: var(--leise); }
+.d-seite p { margin: 0; }
+.d-ablauf { display: grid; grid-template-rows: auto 1fr; height: 100%; }
+.d-ablauf__liste { list-style: none; margin: 0; padding: 12px 20px; display: grid; gap: 0; align-content: start; overflow: auto; }
+.d-ablauf__liste li { display: grid; grid-template-columns: 70px 150px 1fr; gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--linie); }
+.d-ablauf__liste li.neu { animation: neu 1.4s ease-out; }
+.d-ablauf__zeit { font-variant-numeric: tabular-nums; color: var(--leise); font-size: 15px; }
+.d-ablauf__wer { justify-self: start; padding: 3px 9px; font: 700 12px/1.3 var(--text); text-transform: uppercase; letter-spacing: .05em; background: var(--blau-hell); color: var(--blau-dunkel); }
+.d-ablauf__wer[data-wer="Kunde"], .d-ablauf__wer[data-wer="Klick in der Mail"] { background: #e9f6ef; color: #17633e; }
+.d-ablauf__wer[data-wer="Mailversand"] { background: #fff4e0; color: #7a4300; }
+.d-ablauf__wer[data-wer="Demo"] { background: var(--linie); color: var(--tinte); }

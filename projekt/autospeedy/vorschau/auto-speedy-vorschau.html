@@ -985,6 +985,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     <p class="melden__zusammen" data-zusammen data-nur-js hidden></p>
     <div><label for="f-name">Name (Pflicht)</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
     <div><label for="f-tel">Telefon (Pflicht)</label><input id="f-tel" name="telefon" type="tel" autocomplete="tel" required><p class="hilfe">Damit wir Sie zurückrufen können.</p></div>
+    <div><label for="f-mail">Mail (freiwillig)</label><input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254"><p class="hilfe">Für eine Bestätigung und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nichts.</p></div>
     <label class="tesla-wahl"><input type="checkbox" name="tesla" value="ja" data-tesla> Es ist ein Tesla <small>Auto Speedy ist Tesla Approved Body Shop</small></label>
     <div><label for="f-bem">Bemerkung (freiwillig)</label><textarea id="f-bem" name="bemerkung" rows="3"></textarea><p class="hilfe">Zum Beispiel: hinten links, beim Parkieren.</p></div>
     <div class="honig" aria-hidden="true"><label for="f-web">Bitte leer lassen</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
@@ -1481,8 +1482,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <h2>Was diese Website speichert</h2>
 <p>Diese Website setzt keine Cookies und lädt keine Inhalte von fremden Servern. Schriften und Bilder liegen auf dem eigenen Server.</p>
 <h2>Schadenmeldung</h2>
-<p>Senden Sie die Meldung hier auf der Website, gehen Ihre Angaben und Fotos als E-Mail an uns. Die Website speichert sie nicht. Für den Versand nutzen wir einen Mail-Dienst.</p>
-<p data-luecke>Lücke: Name und Sitz des Mail-Dienstes werden hier ergänzt, sobald er gewählt ist. Rechtsprüfung nötig.</p>
+<p>Senden Sie die Meldung hier auf der Website, speichern wir Ihre Angaben und Fotos in unserem Werkstatt-System (Datenbank in Zürich). Nur unser Team sieht sie. Wir erhalten dazu eine kurze Mail ohne Ihren Namen und Ihre Telefonnummer.</p>
+<p>Geben Sie freiwillig Ihre Mail-Adresse an, schicken wir Ihnen eine Bestätigung und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nutzen wir die Adresse nicht.</p>
+<p data-luecke>Lücke: Anbieter und Sitz von Datenbank und Mail-Dienst (Vorschlag: Supabase, Region Zürich; Brevo) sowie die Löschfrist werden ergänzt, sobald sie gewählt sind. Rechtsprüfung nötig.</p>
 <p>Wählen Sie «Per WhatsApp senden», öffnet sich WhatsApp mit Ihrer Nachricht. Gesendet wird erst, wenn Sie dort senden; dann gelten die Datenschutzbestimmungen von WhatsApp.</p>
 <p>Wir nutzen Ihre Angaben nur, um Ihre Meldung zu bearbeiten.</p>
 <h2>Occasionen von AutoScout24</h2>
@@ -1536,8 +1538,10 @@ document.addEventListener('click',function(e){var z=e.target.closest('[data-abfr
   var MAX = 6, aktuell = 1, sendet = false;
 
   function melde(t) { rueck.hidden = !t; rueck.textContent = t || ""; }
+  var gezaehlt = {};
+  function trichter(n) { if (!window.__zaehl) { if (document.readyState !== "complete") window.addEventListener("load", function () { trichter(n); }, { once: true }); return; } if (!gezaehlt[n]) { gezaehlt[n] = true; window.__zaehl("trichter-" + n, "schaden"); } }
   function zeige(n, fokus) {
-    aktuell = n;
+    aktuell = n; trichter(n);
     schritte.forEach(function (s) { s.hidden = Number(s.dataset.schritt) !== n; });
     anzeige.forEach(function (a) { var i = Number(a.dataset.anzeige); a.classList.toggle("ist-jetzt", i === n); a.classList.toggle("ist-fertig", i < n); if (i === n) a.setAttribute("aria-current", "step"); else a.removeAttribute("aria-current"); });
     melde("");
@@ -1627,6 +1631,7 @@ document.addEventListener('click',function(e){var z=e.target.closest('[data-abfr
     if (!art()) { zeige(1); melde("Bitte wählen Sie, was passiert ist."); return false; }
     var fehlt = ["name", "telefon"].filter(function (n) { return !wert(n); });
     if (fehlt.length) { melde("Bitte geben Sie " + (fehlt.length === 2 ? "Name und Telefon" : fehlt[0] === "name" ? "Ihren Namen" : "Ihre Telefonnummer") + " an."); f.elements[fehlt[0]].focus(); return false; }
+    if (wert("email") && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(wert("email"))) { melde("Bitte prüfen Sie die Mail-Adresse oder lassen Sie das Feld leer."); f.elements.email.focus(); return false; }
     return !wert("website");
   }
   function bestaetige(titel, stand, link) {
@@ -1663,7 +1668,7 @@ document.addEventListener('click',function(e){var z=e.target.closest('[data-abfr
       }
       var daten = new FormData();
       daten.append("art", art()); daten.append("name", wert("name")); daten.append("telefon", wert("telefon"));
-      daten.append("bemerkung", wert("bemerkung")); daten.append("website", wert("website")); if (tesla()) daten.append("tesla", "ja");
+      daten.append("bemerkung", wert("bemerkung")); if (wert("email")) daten.append("email", wert("email")); daten.append("website", wert("website")); if (tesla()) daten.append("tesla", "ja");
       gewaehlt().forEach(function (s) { daten.append("stelle", s); });
       fotos.forEach(function (x, i) { daten.append("foto", x.blob, "schaden-" + (i + 1) + ".jpg"); });
       sendet = true; melde("Ihre Meldung wird gesendet …");

@@ -30,7 +30,7 @@ if DEMO:
         assert a in extra, a
         extra=extra.replace(a,b,1)
     ersetze('if (weg === "whatsapp") {','if (weg === "whatsapp" && window.__demo) { window.__demo("whatsapp", { text: text, art: art(), fotos: fotos.map(function (x) { return x.blob; }) }); bestaetige("Meldung per WhatsApp", "Demo: WhatsApp hätte sich geöffnet. Nach Senden erscheint die Nachricht auf dem WhatsApp von Auto Speedy (rechts).", null); return; }\n      if (weg === "whatsapp") {')
-    ersetze('if (!ep) {\n        bestaetige(','if (!ep && window.__demo) { window.__demo("meldung", { art: art(), tesla: tesla(), stellen: gewaehlt(), bemerkung: wert("bemerkung"), name: wert("name"), telefon: wert("telefon"), fotos: fotos.map(function (x) { return x.blob; }) }); bestaetige("Schadenmeldung angekommen", "Angekommen bei Auto Speedy. Wir melden uns bei Ihnen.", null); return; }\n      if (!ep) {\n        bestaetige(')
+    ersetze('if (!ep) {\n        bestaetige(','if (!ep && window.__demo) { window.__demo("meldung", { art: art(), tesla: tesla(), stellen: gewaehlt(), bemerkung: wert("bemerkung"), name: wert("name"), telefon: wert("telefon"), email: wert("email"), fotos: fotos.map(function (x) { return x.blob; }) }); bestaetige("Schadenmeldung angekommen", "Angekommen bei Auto Speedy. Wir melden uns bei Ihnen.", null); return; }\n      if (!ep) {\n        bestaetige(')
     ersetze('if (!ep) { melde(f.dataset.istVorschau','if (!ep && window.__demo) { window.__demo("rueckruf", { name: wert("name"), telefon: wert("telefon"), anliegen: anliegen() }); melde("Angekommen. Wir rufen Sie zurück. Anliegen: " + anliegen() + "."); f.querySelector(\'button[type="submit"]\').disabled = true; return; }\n      if (!ep) { melde(f.dataset.istVorschau')
     extra=haken+'\n'+extra
     vor=''
