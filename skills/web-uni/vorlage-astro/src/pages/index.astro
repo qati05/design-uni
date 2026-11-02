@@ -1,24 +1,8 @@
 ---
-import b from "../content/betrieb.json";
+// Gerüst der Startseite. Inhalt nach dem Antwort-Plan (text-uni TP1), Aufbau nach der Richtung (design-uni).
 import Seite from "../layouts/Seite.astro";
-import Hauptaktion from "../components/Hauptaktion.astro";
 import Status from "../components/Status.astro";
-import Zeiten from "../components/Zeiten.astro";
-import Tel from "../components/Tel.astro";
-import Mail from "../components/Mail.astro";
-import Route from "../components/Route.astro";
-import Bewertungen from "../components/Bewertungen.astro";
 ---
-<Seite title="Muster Garage AG in Musterort, Beispielseite zur Vorlage" desc="Beispielseite der Astro-Vorlage von web-uni: Kopf, Fuss, Zeiten und Kontakt kommen aus einer Datei. Alle Angaben sind Musterwerte, keine echten Fakten." aktiv="index.html" jsonld>
-<section class="hero"><div class="rahmen">
-<h1>Eine Aussage, die dieser Betrieb belegen kann.</h1>
-<p class="lead">Hier steht der erste Satz aus dem Antwort-Plan (text-uni). Er sagt, was der Betrieb tut, für wen und wo.</p>
-<div class="aktionen"><Hauptaktion ort="hero" /></div>
+<Seite seite="index" jsonld>
 <Status />
-</div></section>
-<section class="abschnitt"><div class="rahmen"><div class="paar">
-<div><h2>Zeiten</h2><Zeiten /></div>
-<div><h2>Kontakt</h2><p>{b.strasse}<br>{b.plz} {b.ort}</p><p>Telefon <Tel ort="start" /><br>E-Mail <Mail ort="start" /></p><p><Route ort="start" /></p></div>
-</div></div></section>
-<Bewertungen />
 </Seite>

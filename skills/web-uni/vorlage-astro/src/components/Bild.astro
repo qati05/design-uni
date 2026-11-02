@@ -1,5 +1,7 @@
 ---
-// Foto mit Pflichtangaben: alt, breite, hoehe. lazy=false nur für das erste grosse Bild (fetch=true).
-const { datei, alt, caption, klasse = "", breite, hoehe, lazy = true, fetch = false } = Astro.props;
+// Foto mit Pflichtangaben alt, breite, hoehe. Das LCP-Bild mit lcp=true: ohne lazy, mit fetchpriority="high".
+// Varianten (srcset, sizes) und Budgets: web-uni SKILL.md, WP5.
+const { datei, alt, breite, hoehe, lcp = false, srcset, sizes } = Astro.props;
+if (alt === undefined || !breite || !hoehe) throw new Error(`Bild ${datei}: alt, breite und hoehe sind Pflicht`);
 ---
-<figure class={`bild ${klasse}`.trim()}><img src={`bilder/${datei}`} alt={alt} width={breite} height={hoehe} loading={lazy ? "lazy" : undefined} fetchpriority={fetch ? "high" : undefined} decoding="async">{caption && <figcaption>{caption}</figcaption>}</figure>
+<img src={`/bilder/${datei}`} srcset={srcset} sizes={sizes} alt={alt} width={breite} height={hoehe} loading={lcp ? undefined : "lazy"} fetchpriority={lcp ? "high" : undefined} decoding="async">

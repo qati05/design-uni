@@ -24,7 +24,7 @@
 | **Suchbegriff** | Was jemand in das Suchfeld tippt, z. B. «Maler Winterthur». |
 | **Suchabsicht** | Was die Person mit der Suche erreichen will. Google nennt es «die Absicht hinter deiner Suchanfrage» `[Fakt · Q-Q1, «Bedeutung deiner Suchanfrage»]`. |
 | **Begriffsgruppe** | Suchbegriffe mit derselben Absicht, die dieselbe Seite beantworten kann, z. B. «Coiffeur Basel» und «Friseur Basel». |
-| **Antwort-Plan** | Tabelle: je Begriffsgruppe genau eine Seite, mit Absicht und Kernantwort. Prüfpunkt T1 im Verfahren (SKILL.md). |
+| **Antwort-Plan** | Tabelle: je Begriffsgruppe genau eine Seite, mit Absicht und Kernantwort. Prüfpunkt TP1 im Verfahren (SKILL.md). |
 | **Kannibalisierung** | Zwei eigene Seiten zielen auf dieselbe Begriffsgruppe. Das Wort stammt aus der SEO-Praxis, nicht von Google `[Annahme]`. |
 | **Ortsseite** | Seite für einen Ort, an dem der Betrieb arbeitet, aber nicht unbedingt sitzt. |
 | **Doorway-Seite** | Seite, die nur gebaut ist, um für ähnliche Suchbegriffe zu ranken, und dann weiterleitet `[Fakt · Q-Q4, «Doorway abuse»]`. |
@@ -89,7 +89,7 @@ Reihenfolge nach Aufwand. Jede Quelle liefert Wörter für die Sammlung aus Seme
 
 ### Regel
 
-- **Eine Begriffsgruppe, eine Seite.** Jede Begriffsgruppe hat genau eine Zielseite; jede Seite hat eine Hauptabsicht. Das ist Prüfpunkt T1 im Verfahren (SKILL.md) («0 Begriffe auf zwei Seiten»). `[Annahme; Entscheid im Lehrplan der Text-Uni]`
+- **Eine Begriffsgruppe, eine Seite.** Jede Begriffsgruppe hat genau eine Zielseite; jede Seite hat eine Hauptabsicht. Das ist Prüfpunkt TP1 im Verfahren (SKILL.md) («0 Begriffe auf zwei Seiten»). `[Annahme; Entscheid im Lehrplan der Text-Uni]`
 - **Warum.** Google erkennt sehr ähnliche Seiten und wählt dann selbst, welche es zeigt; eine bevorzugte Seite anzugeben hilft, Signale wie Links auf eine Adresse zu bündeln. `[Fakt · Q-Q6]` Dass zwei eigene Seiten sich gegenseitig Plätze kosten, sagt Google so nicht. `[Annahme]`
 - **Keine Seite nur für ein Wort.** Viele fast gleiche Seiten für ähnliche Anfragen nennt Google Doorway-Missbrauch («substantially similar pages that are closer to search results than a clearly defined, browseable hierarchy»). `[Fakt · Q-Q4]`
 - **Gruppieren nach gleichen Treffern.** Zeigen zwei Begriffe fast dieselben obersten Treffer, deutet die Suchmaschine sie gleich; dann gehören sie auf eine Seite. Beispiel: «Coiffeur Basel» und «Friseur Basel» teilten 7 der obersten 8 Adressen. `[Beobachtung · Q-Q13; Regel Annahme]`
@@ -266,10 +266,10 @@ Jede Regel nennt einen Grenzwert oder eine Prüffrage. «Werkzeug» heisst: Ein 
 
 **Antwort-Plan**
 
-- **Q5 Eine Seite je Begriffsgruppe.** 0 Hauptbegriffe sind zwei Seiten zugewiesen; jede Seite hat genau eine Hauptabsicht. Werkzeug: Duplikate in der Spalte «Zielseite» und im Titel-Hauptbegriff. `[Fakt · Q-Q6 zu ähnlichen Seiten; Regel Annahme; Prüfpunkt T1]`
+- **Q5 Eine Seite je Begriffsgruppe.** 0 Hauptbegriffe sind zwei Seiten zugewiesen; jede Seite hat genau eine Hauptabsicht. Werkzeug: Duplikate in der Spalte «Zielseite» und im Titel-Hauptbegriff. `[Fakt · Q-Q6 zu ähnlichen Seiten; Regel Annahme; Prüfpunkt TP1]`
 - **Q6 Gruppieren nach Treffern.** Zwei Begriffe kommen auf dieselbe Seite, wenn mindestens 6 der obersten 10 Treffer gleich sind; bei höchstens 3 gleichen Treffern bekommen sie eigene Seiten, wenn beide eine eigene Absicht haben. Dazwischen entscheidet die Absicht. Werkzeug: Adressen vergleichen. `[Beobachtung · Q-Q13: Coiffeur/Friseur 7 von 8; Grenzwerte Annahme]`
 - **Q7 Preisfrage, Preis vorne.** Enthält der Hauptbegriff «Kosten», «Preis» oder «güns·tig», nennen Beschreibung und erster Bildschirm der Seite einen Preis oder Richtpreis mit Bedingung (wofür, ab wann). Werkzeug: Betrag mit CHF in Beschreibung und erstem Absatz. `[Beobachtung · Q-Q13: 8 von 15 Beschreibungen bei Preisfragen; Regel Annahme; vgl. A19, CH8, CH9]`
-- **Q8 Frage im Begriff, Antwort im ersten Satz.** Ist der Begriff eine Ja-nein-Frage oder Bedingung («ohne Rezept», «ohne Termin», «am Sonntag»), beginnt der erste Satz der Seite mit der Antwort, und die Beschreibung enthält sie. Bewerter. `[Beobachtung · Q-Q13: 1 von 5; Regel Annahme; vgl. T2, KW11]`
+- **Q8 Frage im Begriff, Antwort im ersten Satz.** Ist der Begriff eine Ja-nein-Frage oder Bedingung («ohne Rezept», «ohne Termin», «am Sonntag»), beginnt der erste Satz der Seite mit der Antwort, und die Beschreibung enthält sie. Bewerter. `[Beobachtung · Q-Q13: 1 von 5; Regel Annahme; vgl. TP2, KW11]`
 - **Q9 Lücke gefüllt.** Jede Seite beantwortet mindestens eine Lücke aus der Notiz zu Q2 mit einem belegten Fakt (Zahl, Frist, Preis, Ablauf). Bewerter mit der Notiz. `[Annahme]`
 - **Q10 Umfang nach Antwort, nicht nach Wortzahl.** Keine Seite hat ein Wortziel. Prüffrage: Beantwortet die Seite die Fragen aus KW5 und die Lücke aus Q9? Seiten unter 150 Wörtern prüft ein Bewerter auf fehlende Antworten. `[Fakt · Q-Q5; Beobachtung · Q-Q13: 110 bis 6800 Wörter oben; Grenzwert Annahme]`
 

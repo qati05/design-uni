@@ -1,10 +1,8 @@
 ---
+// Echte 404 (text-uni TI17): kein canonical, nicht in der Sitemap, Links auf Startseite und Kontakt.
 import Seite from "../layouts/Seite.astro";
-import Zeile from "../components/Zeile.astro";
+import { texte as t } from "../../bau/daten.mjs";
 ---
-<Seite title="Seite nicht gefunden | Muster Garage AG in Musterort" desc="Diese Seite gibt es nicht. Hier finden Sie die Startseite, die Leistungen und den Kontakt der Muster Garage AG in Musterort." ohneAbschluss>
-<section class="hero"><div class="rahmen"><h1>Diese Seite gibt es nicht.</h1><ul class="zeilen">
-<Zeile href="index.html" titel="Zur Startseite" zusatz="Überblick" ort="404" />
-<Zeile href="kontakt.html" titel="Kontakt" zusatz="Telefon, Anschrift, Zeiten" ort="404" />
-</ul></div></section>
+<Seite seite="404" abschluss={false} indexierbar={false}>
+<ul><li><a href="/">{t.mikrotexte.startseite}</a></li>{t.navigation.map((n: any) => <li><a href={n.pfad}>{n.text}</a></li>)}</ul>
 </Seite>

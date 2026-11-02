@@ -1,74 +1,17 @@
 {
-  "_hinweis": "MUSTERWERTE. Nichts hiervon ist ein Betrieb. Beim Einsatz alles durch belegte Angaben ersetzen (Anforderungsblatt, web-uni Schritt 0).",
-  "name": "Muster Garage AG",
-  "strasse": "Musterstrasse 1",
-  "plz": "9999",
-  "ort": "Musterort",
-  "kanton": "SG",
-  "land": "CH",
-  "typ": "AutoBodyShop",
-  "mail": "info@beispiel.invalid",
-  "tel1": {
-    "zeige": "000 000 00 00",
-    "href": "tel:+410000000000",
-    "e164": "+410000000000"
-  },
-  "geo": {
-    "lat": 47.0,
-    "lon": 9.0
-  },
-  "hauptaktion": {
-    "text": "Anfrage senden",
-    "href": "kontakt.html",
-    "ort": "kopf"
-  },
-  "abschluss": {
-    "titel": "Anfrage in zwei Angaben",
-    "text": "Name und Telefon genügen. Wir melden uns."
-  },
+  "_hinweis": "Fakten des Betriebs, jede mit Quelle in fakten.md (text-uni). \"\" = Pflicht, noch leer: der Bau bricht ab. null = freiwillig und bewusst weggelassen.",
+  "name": "",
+  "strasse": "",
+  "plz": "",
+  "ort": "",
+  "kanton": null,
+  "land": "",
+  "typ": "",
+  "mail": "",
+  "tel": { "anzeige": "", "e164": "" },
+  "geo": null,
+  "route": null,
   "zeiten": [
-    {
-      "tage": "Montag bis Freitag",
-      "ld": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday"
-      ],
-      "fenster": [
-        [
-          "8.00",
-          "12.00"
-        ],
-        [
-          "13.00",
-          "17.00"
-        ]
-      ]
-    },
-    {
-      "tage": "Samstag und Sonntag",
-      "zu": true
-    }
-  ],
-  "mittag": {
-    "von": "12.00",
-    "bis": "13.00"
-  },
-  "nav": [
-    [
-      "leistungen.html",
-      "Leistungen"
-    ],
-    [
-      "kontakt.html",
-      "Kontakt"
-    ]
-  ],
-  "dienstAnzahl": 0,
-  "vorschauZeile": "Vorschau zur Freigabe, nicht veröffentlicht.",
-  "links": {
-    "route": "https://www.openstreetmap.org/"
-  }
+    { "_form": "Ein Eintrag je Tagesgruppe. Geschlossene Tage: \"zu\": true statt \"fenster\". ld: Wochentage nach schema.org (Monday bis Sunday).", "tage": "", "ld": [""], "fenster": [["", ""]] }
+  ]
 }

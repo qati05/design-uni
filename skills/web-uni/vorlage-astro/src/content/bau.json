@@ -1,0 +1,9 @@
+{
+  "_hinweis": "Technik. vorschau true: noindex, keine Sitemap, kein canonical. Erst nach Freigabe durch den Betrieb oder das Studio auf false (web-uni Livegang, WP9); dann sind adresse, kiTraining und crawlerListeGeprueft Pflicht.",
+  "vorschau": true,
+  "sprache": "de-CH",
+  "adresse": "",
+  "kiTraining": { "entscheid": "", "datum": "" },
+  "crawlerListeGeprueft": "",
+  "pagesProjekt": null
+}

@@ -1,0 +1,25 @@
+{
+  "_hinweis": "Wortlaut aus text-uni, Platz und Form aus der Richtung (design-uni). Nichts hier ist vorgegeben. \"\" = Pflicht, noch leer: der Bau bricht ab. null = freiwillig.",
+  "hauptaktion": { "text": "", "ziel": "" },
+  "navigation": [{ "pfad": "/kontakt/", "text": "" }],
+  "fuss": [{ "pfad": "/impressum/", "text": "" }, { "pfad": "/datenschutz/", "text": "" }],
+  "mikrotexte": {
+    "sprunglink": "",
+    "vorschauHinweis": "",
+    "navName": "",
+    "startseite": "",
+    "menueKnopf": "",
+    "route": "",
+    "abschluss": { "titel": "", "text": "" },
+    "zeiten": { "fenster": "", "trenner": "", "geschlossen": "" },
+    "status": { "_platzhalter": "offen: {bis}; zuHeute: {ab}; zuTag: {tag} und {ab}", "ohneSkript": "", "offen": "", "zuHeute": "", "zuTag": "", "zu": "" }
+  },
+  "seiten": {
+    "_form": "Ein Eintrag je Seite aus dem Antwort-Plan (text-uni TP1). Titel und Beschreibung nach S3 und S12, h1 nach Entscheid 2 (Leistung und Ort).",
+    "index": { "titel": "", "beschreibung": "", "h1": "" },
+    "kontakt": { "titel": "", "beschreibung": "", "h1": "" },
+    "impressum": { "titel": "", "beschreibung": "", "h1": "" },
+    "datenschutz": { "titel": "", "beschreibung": "", "h1": "" },
+    "404": { "titel": "", "beschreibung": "", "h1": "" }
+  }
+}

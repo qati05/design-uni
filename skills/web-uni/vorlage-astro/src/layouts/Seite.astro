@@ -1,56 +1,62 @@
 ---
-// Rahmen jeder Seite. Prüft Titel- und Beschreibungslänge (text-uni S1, S9, S12) und bricht den Bau bei Verstoss ab.
-import b from "../content/betrieb.json";
+// Rahmen jeder Seite: Kopfdaten, Vorschau-Schalter, strukturierte Daten, Gerüst aus Kopf, Inhalt, Abschluss und Fuss.
+// Titel, Beschreibung und h1 kommen aus texte.json (Schlüssel = Prop «seite»); bau/daten.mjs prüft sie beim Bau (text-uni S1, S3, S12).
+// Vorschau: noindex, kein canonical. Livegang: canonical auf die eigene Adresse (text-uni S28).
+import { betrieb as b, texte, bau, vorschau, seite as lies } from "../../bau/daten.mjs";
 import Kopf from "../components/Kopf.astro";
 import Fuss from "../components/Fuss.astro";
 import Abschluss from "../components/Abschluss.astro";
 
-const { title, desc, aktiv = "", jsonld = false, abschlussOrt = "abschluss", ohneAbschluss = false } = Astro.props;
-if (title.length < 40 || title.length > 60) throw new Error(`Titel ${title.length} Zeichen: ${title}`);
-if (desc.length < 110 || desc.length > 155) throw new Error(`Beschreibung ${desc.length} Zeichen: ${desc}`);
+const { seite, jsonld = false, abschluss = true, indexierbar = true } = Astro.props;
+const s = lies(seite);
+const canonical = !vorschau && indexierbar ? bau.adresse + Astro.url.pathname : null;
+const robots = vorschau || !indexierbar ? "noindex" : null;
 
 const pad = (z: string) => z.replace(".", ":").padStart(5, "0");
-const ld = {
+const offen = b.zeiten.filter((z: any) => z.fenster);
+const ld: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": b.typ,
   name: b.name,
-  address: { "@type": "PostalAddress", streetAddress: b.strasse, postalCode: b.plz, addressLocality: b.ort, addressRegion: b.kanton, addressCountry: b.land },
-  telephone: b.tel1.e164,
+  address: { "@type": "PostalAddress", streetAddress: b.strasse, postalCode: b.plz, addressLocality: b.ort, ...(b.kanton ? { addressRegion: b.kanton } : {}), addressCountry: b.land },
+  telephone: b.tel.e164,
   email: b.mail,
-  geo: { "@type": "GeoCoordinates", latitude: b.geo.lat, longitude: b.geo.lon },
-  openingHoursSpecification: b.zeiten.filter((z) => z.fenster).flatMap((z) => z.fenster!.map(([von, bis]) => ({
-    "@type": "OpeningHoursSpecification", dayOfWeek: z.ld!.length === 1 ? z.ld![0] : z.ld, opens: pad(von), closes: pad(bis),
+  ...(vorschau ? {} : { url: bau.adresse + "/" }),
+  ...(b.geo ? { geo: { "@type": "GeoCoordinates", latitude: b.geo.lat, longitude: b.geo.lon } } : {}),
+  openingHoursSpecification: offen.flatMap((z: any) => z.fenster.map(([von, bis]: string[]) => ({
+    "@type": "OpeningHoursSpecification", dayOfWeek: z.ld.length === 1 ? z.ld[0] : z.ld, opens: pad(von), closes: pad(bis),
   }))),
 };
 
-// Eine Quelle für das Skript: Zeiten (Minuten seit Mitternacht, 1 = Montag) und Adresse für die E-Mail.
-const tagNr: Record<string, number> = { Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6, Sunday: 0 };
+// Eine Quelle für das Skript: Zeiten (Minuten seit Mitternacht, 0 = Sonntag) und Wortlaut des Status.
+const tagNr: Record<string, number> = { Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6 };
 const min = (z: string) => { const [h, m] = z.split("."); return parseInt(h) * 60 + parseInt(m); };
 const zeiten: Record<number, number[][]> = {};
-for (const z of b.zeiten) if (z.fenster) for (const t of z.ld!) zeiten[tagNr[t]] = z.fenster.map(([v, e]) => [min(v), min(e)]);
-const daten = { mail: b.mail, zeiten };
+for (const z of offen) for (const t of z.ld) zeiten[tagNr[t]] = z.fenster.map(([v, e]: string[]) => [min(v), min(e)]);
+const daten = { zeiten, status: texte.mikrotexte.status };
 ---
 <!doctype html>
-<html lang="de-CH">
+<html lang={bau.sprache}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title}</title>
-<meta name="description" content={desc}>
-<meta name="robots" content="noindex, nofollow">
-<meta name="color-scheme" content="light">
-<link rel="stylesheet" href="css/main.css">
+<title>{s.titel}</title>
+<meta name="description" content={s.beschreibung}>
+{robots && <meta name="robots" content={robots}>}
+{canonical && <link rel="canonical" href={canonical}>}
+<link rel="stylesheet" href="/css/technik.css">
 {jsonld && <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)}></script>}
 <script is:inline type="application/json" id="betrieb-daten" set:html={JSON.stringify(daten)}></script>
-<script is:inline src="js/main.js" defer></script>
+<script is:inline src="/js/main.js" defer></script>
 </head>
 <body>
-<a class="sprung" href="#inhalt">Zum Inhalt springen</a>
-<div class="vorschau"><div class="rahmen">{b.vorschauZeile}</div></div>
-<Kopf aktiv={aktiv} />
+<a class="sprung" href="#inhalt">{texte.mikrotexte.sprunglink}</a>
+{vorschau && <p data-vorschau>{texte.mikrotexte.vorschauHinweis}</p>}
+<Kopf aktiv={Astro.url.pathname} />
 <main id="inhalt">
+<h1>{s.h1}</h1>
 <slot />
-{!ohneAbschluss && <Abschluss ort={abschlussOrt} />}
+{abschluss && <Abschluss />}
 </main>
 <Fuss />
 </body>

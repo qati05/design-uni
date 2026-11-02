@@ -1,6 +1,5 @@
 ---
-// Platzhalter-Satz für den Öffnungsstatus; das Skript ersetzt ihn je nach Tageszeit. Ohne Skript bleibt dieser Satz stehen.
-import b from "../content/betrieb.json";
-const u = (z: string) => `${z} Uhr`;
+// Öffnungsstatus. Ohne Skript bleibt der Satz aus texte.json stehen; public/js/main.js ersetzt ihn je nach Uhrzeit.
+import { texte as t } from "../../bau/daten.mjs";
 ---
-<p class="status" data-status>Montag bis Freitag geöffnet, mittags von {u(b.mittag.von)} bis {u(b.mittag.bis)} zu.</p>
+<p data-status>{t.mikrotexte.status.ohneSkript}</p>

@@ -1,5 +1,4 @@
 ---
-import b from "../content/betrieb.json";
 import Seite from "../layouts/Seite.astro";
 import Status from "../components/Status.astro";
 import Zeiten from "../components/Zeiten.astro";
@@ -7,10 +6,9 @@ import Tel from "../components/Tel.astro";
 import Mail from "../components/Mail.astro";
 import Route from "../components/Route.astro";
 ---
-<Seite title="Kontakt, Zeiten und Anfahrt | Muster Garage Musterort" desc="Beispiel für eine Kontaktseite der Vorlage: Telefon, E-Mail, Öffnungszeiten und Route, alles aus einer Datei. Nur Musterwerte, keine echten Angaben." aktiv="kontakt.html" jsonld>
-<section class="hero"><div class="rahmen"><h1>So erreichen Sie uns</h1><p class="lead"><Tel ort="kontakt-hero" /></p></div></section>
-<section class="abschnitt"><div class="rahmen"><div class="paar">
-<div><h2>Zeiten</h2><Status /><Zeiten /></div>
-<div><h2>Anschrift</h2><p><strong>{b.name}<br>{b.strasse}<br>{b.plz} {b.ort}</strong></p><p><Route ort="kontakt" /></p><p>E-Mail: <Mail ort="kontakt" /></p></div>
-</div></div></section>
+<Seite seite="kontakt" jsonld>
+<p><Tel ort="kontakt" /><br><Mail ort="kontakt" /></p>
+<Status />
+<Zeiten />
+<Route ort="kontakt" />
 </Seite>

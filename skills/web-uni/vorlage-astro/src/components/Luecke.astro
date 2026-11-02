@@ -1,5 +1,4 @@
 ---
-// Sichtbare Lücke als Satz (keine erfundenen Fakten).
-const { klasse = "" } = Astro.props;
+// Sichtbare Lücke statt erfundener Fakten. Der Satz kommt aus text-uni; data-luecke macht sie für Prüfungen zählbar.
 ---
-<p class={`luecke${klasse ? " " + klasse : ""}`}><slot /></p>
+<p data-luecke><slot /></p>

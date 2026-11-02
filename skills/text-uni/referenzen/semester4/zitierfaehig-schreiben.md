@@ -325,7 +325,7 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 ## 12. Für die Semesterprüfung
 
-Der KI-Zitat-Test (T6) gibt KI-Such-Agenten 5 echte Quellen und eine eigene Musterseite je Frage. Die Agenten beantworten die Frage nur aus diesen Quellen und nennen bei jeder Angabe die Quelle. Ergebnis ist ein **Modell-Urteil** (S29). Der Test überspringt die Quellenauswahl (ZS20).
+Der KI-Zitat-Test (TP6) gibt KI-Such-Agenten 5 echte Quellen und eine eigene Musterseite je Frage. Die Agenten beantworten die Frage nur aus diesen Quellen und nennen bei jeder Angabe die Quelle. Ergebnis ist ein **Modell-Urteil** (S29). Der Test überspringt die Quellenauswahl (ZS20).
 
 ### 12.1 Checkliste für eine eigene Musterseite
 

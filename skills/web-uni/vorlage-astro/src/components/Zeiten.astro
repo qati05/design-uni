@@ -1,10 +1,9 @@
 ---
-// Öffnungszeiten-Tabelle, nur aus content/betrieb.json.
-import b from "../content/betrieb.json";
-const u = (z: string) => `${z} Uhr`;
+// Öffnungszeiten als Tabelle, nur aus betrieb.json; Wortlaut der Zeile aus texte.json.
+import { betrieb as b, texte as t } from "../../bau/daten.mjs";
+const w = t.mikrotexte.zeiten;
+const zeile = (z: any) => z.zu ? w.geschlossen : z.fenster.map(([von, bis]: string[]) => w.fenster.replace("{von}", von).replace("{bis}", bis)).join(w.trenner);
 ---
-<table class="zeiten"><caption class="sr">Öffnungszeiten</caption><tbody>
-{b.zeiten.map((z) => (
-  <tr><th scope="row">{z.tage}</th><td>{z.zu ? "geschlossen" : z.fenster!.map(([v, bis]) => `${u(v)} bis ${u(bis)}`).join(" und ")}</td></tr>
-))}
+<table><tbody>
+{b.zeiten.map((z: any) => <tr><th scope="row">{z.tage}</th><td>{zeile(z)}</td></tr>)}
 </tbody></table>

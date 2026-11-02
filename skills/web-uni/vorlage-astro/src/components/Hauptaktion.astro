@@ -1,6 +1,7 @@
 ---
-// Der eine Knopf, den die Seite will (Anfrage, Schaden melden, Termin). Text und Ziel stehen in content/betrieb.json.
-import b from "../content/betrieb.json";
-const { ort, extra = "knopf-gross", text, href } = Astro.props;
+// Die Hauptaktion als Link. Text und Ziel aus texte.json; data-zaehl und data-ort sind Zählpunkte (design-uni).
+// Form aus der Richtung (design-uni), Text aus text-uni.
+import { texte as t } from "../../bau/daten.mjs";
+const { ort } = Astro.props;
 ---
-<a class={`knopf ${extra}`} href={href ?? b.hauptaktion.href} data-zaehl="anfrage" data-ort={ort}>{text ?? b.hauptaktion.text}</a>
+<a href={t.hauptaktion.ziel} data-zaehl="anfrage" data-ort={ort}>{t.hauptaktion.text}</a>

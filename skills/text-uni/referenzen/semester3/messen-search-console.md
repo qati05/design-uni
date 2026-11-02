@@ -11,7 +11,7 @@ Stand 01.11.2026 · Text-Uni, Semester 3 «Google-Suche».
 >
 > Herkunft: `[Fakt · Quelle, Datum]`, `[Annahme]`, `[Meinung · Autor]`, `[Vorschlag]`, `[Verweis]`. Was Google über seine Werkzeuge schreibt, ist ein Fakt über das Werkzeug. Was Google über Rangfolge schreibt, steht als **«Absicht laut Google»**.
 
-**Boden aus Semester 1 und 2.** Zahlen genau und mit Quelle (B2). Nichts erfunden (B8). Der Messplan gehört zum Prüfpunkt T8 im Verfahren (SKILL.md). Dieses Skript misst Text nicht direkt; es misst, ob eine Seite gefunden und angeklickt wird.
+**Boden aus Semester 1 und 2.** Zahlen genau und mit Quelle (B2). Nichts erfunden (B8). Der Messplan gehört zum Prüfpunkt TP8 im Verfahren (SKILL.md). Dieses Skript misst Text nicht direkt; es misst, ob eine Seite gefunden und angeklickt wird.
 
 **Abgrenzung.** Wie man Titel und Snippets schreibt, steht in «Titel, Snippet, Struktur». Was Google sonst verlangt, in «Google-Grundlagen». Profil und Bewertungen in «Lokal gefunden werden».
 
@@ -148,7 +148,7 @@ Stand 01.11.2026 · Text-Uni, Semester 3 «Google-Suche».
 
 ## 9. Messplan vor dem Livegang
 
-Ohne Ausgangswerte gibt es keinen Vergleich. Der Messplan entsteht **vor** dem Livegang und ist Teil von T8. `[Annahme; Verweis SKILL.md, Prüfpunkt T8]`
+Ohne Ausgangswerte gibt es keinen Vergleich. Der Messplan entsteht **vor** dem Livegang und ist Teil von TP8. `[Annahme; Verweis SKILL.md, Prüfpunkt TP8]`
 
 ### 9.1 Was hinein gehört
 
@@ -214,7 +214,7 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 **Messplan**
 
-- **M11 Messplan vor dem Livegang.** Er liegt vor dem Livegang vor und enthält: Ziel, 5 bis 10 Begriffe mit Zielseite, Ausgangswerte Website und Profil der letzten 3 Monate, eigene Zählung der Anfragen, Datum der ersten Auswertung. Fehlt ein Punkt, ist T8 nicht bestanden. `[Annahme; Verweis SKILL.md, Prüfpunkt T8]`
+- **M11 Messplan vor dem Livegang.** Er liegt vor dem Livegang vor und enthält: Ziel, 5 bis 10 Begriffe mit Zielseite, Ausgangswerte Website und Profil der letzten 3 Monate, eigene Zählung der Anfragen, Datum der ersten Auswertung. Fehlt ein Punkt, ist TP8 nicht bestanden. `[Annahme; Verweis SKILL.md, Prüfpunkt TP8]`
 - **M12 16 Monate gesichert.** Vor dem Livegang ist ein Export der letzten 16 Monate mit Datum gespeichert, beim Betrieb, nicht im Repo. `[Fakt · M-Q5: 16 Monate; Rest: Annahme]`
 - **M13 Erste Auswertung nach 8 Wochen, fest.** Das Datum steht im Plan. Der Bericht vergleicht gegen den Zeitraum davor und gegen dasselbe Fenster im Vorjahr. `[Fakt · M-Q12 empfiehlt Vorjahr; 8 Wochen: Lehrplan der Text-Uni, D3]`
 - **M14 Eigene Zählung neben Google.** Anfragen nach Kanal zählt der Betrieb selbst, ab dem Ausgangszeitraum. Ohne sie gilt keine Aussage über Wirkung auf Aufträge. `[Annahme, aus 8.7]`

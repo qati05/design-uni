@@ -1,4 +1,4 @@
-# Semester 3 · Prüfung: Snippet-Test (T5)
+# Semester 3 · Prüfung: Snippet-Test (TP5)
 
 Stand 01.11.2026 · Der Prüfauftrag ist nicht Teil dieses Skills · Echte Treffer, eigene Treffer, Bewerterblätter, Schlüssel und Rohantworten liegen nur im Scratchpad der Sitzung, nicht im Repo.
 

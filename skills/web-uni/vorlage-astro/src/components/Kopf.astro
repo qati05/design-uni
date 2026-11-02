@@ -1,22 +1,20 @@
 ---
-// Kopfzeile: Marke, Hauptmenü (mit Aufklappmenü, wenn dienstAnzahl > 0), Hauptaktion, Telefon, Handy-Menü.
-import b from "../content/betrieb.json";
+// Gerüst ohne eigenes Aussehen: Name mit Link zur Startseite, Menü mit Knopf, Hauptaktion, Telefon.
+// Form aus der Richtung (design-uni), Text aus text-uni. Ob der Kopf fest steht, entscheidet design-uni (Entscheid 6).
+import { betrieb as b, texte as t } from "../../bau/daten.mjs";
+import Hauptaktion from "./Hauptaktion.astro";
 import Tel from "./Tel.astro";
 const { aktiv = "" } = Astro.props;
-const dienst = b.nav.slice(0, b.dienstAnzahl);
-const rest = b.nav.slice(b.dienstAnzahl);
-const imDienst = dienst.some(([h]) => h === aktiv);
-const cur = (h: string) => (aktiv === h ? "page" : undefined);
+const cur = (p: string) => (aktiv === p ? "page" : undefined);
 ---
-<header class="kopf">
-<div class="rahmen kopf-innen">
-<a class="marke" href="index.html" aria-label={`${b.name}, zur Startseite`}><span class="marke-text">{b.name}</span></a>
-<nav class="nav-desktop" aria-label="Hauptmenü"><ul>{dienst.length > 0 && <li><details class={`dienst${imDienst ? " ist-aktiv" : ""}`}><summary>Dienstleistungen</summary><ul class="dienst-liste">{dienst.map(([h, t]) => <li><a href={h} aria-current={cur(h)}>{t}</a></li>)}</ul></details></li>}{rest.map(([h, t]) => <li><a href={h} aria-current={cur(h)}>{t}</a></li>)}</ul></nav>
-<div class="kopf-aktionen">
-<a class="knopf knopf-text" href={b.hauptaktion.href} data-zaehl="anfrage" data-ort="kopf">{b.hauptaktion.text}</a>
-<Tel ort="kopf" knopf kopf klasse="knopf knopf-leise" />
-<details class="menue"><summary>Menü<span class="sr"> öffnen</span></summary>
-<nav class="menue-liste" aria-label="Menü"><ul><li><a href="index.html" aria-current={cur("index.html")}>Start</a></li>{b.nav.map(([h, t]) => <li><a href={h} aria-current={cur(h)}>{t}</a></li>)}</ul></nav></details>
-</div>
-</div>
+<header>
+<a href="/" aria-current={cur("/")}>{b.name}</a>
+<nav aria-label={t.mikrotexte.navName}>
+<details>
+<summary>{t.mikrotexte.menueKnopf}</summary>
+<ul>{t.navigation.map((n: any) => <li><a href={n.pfad} aria-current={cur(n.pfad)}>{n.text}</a></li>)}</ul>
+</details>
+</nav>
+<Hauptaktion ort="kopf" />
+<Tel ort="kopf" />
 </header>

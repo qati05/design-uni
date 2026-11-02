@@ -251,7 +251,7 @@ Alle Zeilen: `[Regel laut Google · Quelle in der Zeile]`.
 
 ### 9.2 Was daraus folgt
 
-- **Jeder Suchbegriff hat genau eine Seite** (T1 im Plan). Zwei Seiten zur selben Absicht teilen Links und Klicks und verdrängen sich gegenseitig. `[Regel laut Google · S-Q15; G-Q9; Folge: Annahme]`
+- **Jeder Suchbegriff hat genau eine Seite** (TP1 im Plan). Zwei Seiten zur selben Absicht teilen Links und Klicks und verdrängen sich gegenseitig. `[Regel laut Google · S-Q15; G-Q9; Folge: Annahme]`
 - Jede Seite trägt ein `rel="canonical"` auf sich selbst. Varianten mit Parametern (`?utm_…`) zeigen auf die Hauptadresse. `[Regel laut Google · S-Q14]`
 - `www` und ohne `www`, `http` und `https`: eine Variante, die anderen leiten weiter. `[Regel laut Google · S-Q14; Annahme]`
 - Ortsseiten nur nach G5. `[Verweis]`
@@ -359,7 +359,7 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 **Eine Seite je Absicht**
 
-- **S27 Ein Begriff, eine Seite.** Im Seitenplan hat jeder Suchbegriff genau eine Zielseite; 0 Begriffe auf zwei Seiten. Werkzeug: Seitenplan auswerten (T1). `[Regel laut Google · S-Q15; G-Q9: höchstens zwei Treffer je Website, Deduplizierung]`
+- **S27 Ein Begriff, eine Seite.** Im Seitenplan hat jeder Suchbegriff genau eine Zielseite; 0 Begriffe auf zwei Seiten. Werkzeug: Seitenplan auswerten (TP1). `[Regel laut Google · S-Q15; G-Q9: höchstens zwei Treffer je Website, Deduplizierung]`
 - **S28 Kanonisch auf sich selbst.** Jede indexierbare Seite trägt `rel="canonical"` auf ihre eigene vollständige Adresse. Varianten leiten weiter oder zeigen kanonisch auf die Hauptadresse. Sitemap und `canonical` widersprechen sich nicht. Werkzeug. `[Regel laut Google · S-Q14]`
 
 **Lesen der Klickdaten**
@@ -378,7 +378,7 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 ## 13. Für die Semesterprüfung
 
-Der Snippet-Test (T5) zeigt Such-Agenten echte Treffer und einen eigenen Treffer eines erfundenen Betriebs. Ein Treffer hat drei Teile: Titel, sichtbare Adresse, Beschreibung. Ergebnis ist ein **Modell-Urteil** (S29).
+Der Snippet-Test (TP5) zeigt Such-Agenten echte Treffer und einen eigenen Treffer eines erfundenen Betriebs. Ein Treffer hat drei Teile: Titel, sichtbare Adresse, Beschreibung. Ergebnis ist ein **Modell-Urteil** (S29).
 
 ### 13.1 Checkliste für einen guten Treffer
 

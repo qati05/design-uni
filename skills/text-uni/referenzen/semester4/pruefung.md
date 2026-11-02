@@ -1,4 +1,4 @@
-# Semester 4 · Prüfung: KI-Zitat-Test (T6) und Technik-Probe
+# Semester 4 · Prüfung: KI-Zitat-Test (TP6) und Technik-Probe
 
 Stand 01.11.2026 · Der Prüfauftrag ist nicht Teil dieses Skills · Fragen, echte Quellen, Musterseiten, Bewerterblätter, Schlüssel, Antworten und die Muster-Website liegen nur im Scratchpad der Sitzung, nicht im Repo.
 

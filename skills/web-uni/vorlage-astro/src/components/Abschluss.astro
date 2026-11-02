@@ -1,12 +1,13 @@
 ---
-// Schluss-Handlung am Ende jeder Seite: Hauptaktion und Anruf (nicht vergessen, wenn der Kunde «überall ein CTA» will).
-import b from "../content/betrieb.json";
+// Gerüst ohne eigenes Aussehen: Abschluss am Seitenende mit Hauptaktion und Telefon (zusammenspiel Entscheid 6).
+// Form aus der Richtung (design-uni), Text aus text-uni.
+import { texte as t } from "../../bau/daten.mjs";
 import Hauptaktion from "./Hauptaktion.astro";
 import Tel from "./Tel.astro";
-const { ort = "abschluss" } = Astro.props;
 ---
-<section class="abschluss" aria-labelledby="abschluss-titel"><div class="rahmen">
-<h2 id="abschluss-titel">{b.abschluss.titel}</h2>
-<p class="spalte">{b.abschluss.text}</p>
-<div class="aktionen"><Hauptaktion ort={ort} /> <Tel ort={ort} knopf /></div>
-</div></section>
+<section aria-labelledby="abschluss-titel">
+<h2 id="abschluss-titel">{t.mikrotexte.abschluss.titel}</h2>
+<p>{t.mikrotexte.abschluss.text}</p>
+<Hauptaktion ort="abschluss" />
+<Tel ort="abschluss" />
+</section>

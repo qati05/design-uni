@@ -415,7 +415,7 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 ## 9. Für die Semesterprüfung
 
-Der KI-Zitat-Test (T6) gibt sechs Unteragenten je fünf echte Quellen und eine Musterseite vor. `[Fakt · Prüfauftrag Semester 4]` Dieses Skript zeigt, was der Test **nicht** misst:
+Der KI-Zitat-Test (TP6) gibt sechs Unteragenten je fünf echte Quellen und eine Musterseite vor. `[Fakt · Prüfauftrag Semester 4]` Dieses Skript zeigt, was der Test **nicht** misst:
 
 - **Quellenauswahl:** Ob ein echter Dienst die Musterseite überhaupt holt, hängt am Index (Teil 2). Der Test überspringt das (KQ10).
 - **Fremde Quellen:** Im Test sind die fünf echten Quellen fremde Seiten. Der Vorzug der KI-Suchen für fremde Quellen (Teil 4) ist darum teils abgebildet. Wie viele und welche fremden Seiten ein echter Dienst neben der eigenen holt, misst der Test nicht. `[Annahme]`

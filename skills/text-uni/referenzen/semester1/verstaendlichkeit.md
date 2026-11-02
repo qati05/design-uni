@@ -187,7 +187,8 @@ Jede Regel nennt einen Grenzwert oder eine Prüffrage. «Werkzeug» heisst: ein 
 - **V2** Jeder Abschnitt und jeder Absatz beginnt mit seiner Hauptaussage. Prüffrage: Steht die Hauptaussage im ersten Satz des Abschnitts? [Fakt · Q6 Tipp 4, S. 101]
 - **V3** Jeder Zwischentitel gibt die Hauptaussage des Abschnitts wieder, nicht nur ein Stichwort. Prüffrage: Kann ich aus dem Zwischentitel allein erraten, was im Abschnitt steht? [Fakt · Q6 Tipp 8, S. 101]
 - **V4** Jeder Abschnitt ist ohne die Abschnitte davor verständlich. Prüffrage: Versteht man ihn, wenn man direkt dorthin springt? [Fakt · Q6 Tipp 7, S. 101]
-- **V5** Ein Abschnitt hat einen Kerngedanken. Werkzeug: Abschnitt unter einem Zwischentitel höchstens 120 Wörter. [Fakt zum Kerngedanken · Q6 Tipp 8; Wortzahl: Annahme]
+- **V5** Ein Abschnitt hat einen Kerngedanken. Prüffrage: Nennt der Zwischentitel diesen einen Gedanken? Die Länge prüft das Werkzeug nach L5 (nach höchstens 3 Absätzen oder 200 Wörtern ein Gliederungselement). [Fakt zum Kerngedanken · Q6 Tipp 8; Wortzahl: Annahme, siehe L5]
+  Geändert am 02.11.2026: Die eigene Grenze von 120 Wörtern ist gestrichen; für die Abschnittslänge gilt eine Schwelle, die von L5. Grund: L5 stützt das Problem mit Blickverfolgung an Menschen (Pernice, 2017 und 2019: Textwand begünstigt das F-Muster); die Zahl ist in beiden Grundsätzen eine Annahme, bei V5 ohne weiteren Beleg. `[Entscheid · Studio, 02.11.2026]`
 
 **Einfachheit**
 

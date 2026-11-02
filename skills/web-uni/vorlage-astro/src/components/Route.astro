@@ -1,5 +1,6 @@
 ---
-import b from "../content/betrieb.json";
-const { ort, text } = Astro.props;
+// Link zur Route, nur wenn betrieb.route gesetzt ist (null = weggelassen).
+import { betrieb as b, texte as t } from "../../bau/daten.mjs";
+const { ort } = Astro.props;
 ---
-<a href={b.links.route} data-zaehl="route" data-ort={ort}>{text ?? `Route zu ${b.strasse} öffnen`}</a>
+{b.route && <a href={b.route} data-zaehl="route" data-ort={ort}>{t.mikrotexte.route}</a>}
