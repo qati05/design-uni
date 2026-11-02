@@ -76,7 +76,7 @@ Alle Beispiele erfunden; auf einer echten Seite stehen nur belegte Fakten. Die W
 
 | Element | Schlecht | Gut |
 |---|---|---|
-| Titel | «Herzlich willkommen bei der Malerei Muster AG!» · «Ihr Partner für Qualität und Leidenschaft» | Problem-Stufe: «Ihr Kachelofen raucht? Wir kommen im Fürstenland innert 48 Stunden.» · Produkt-Stufe: «Malerarbeiten in Winterthur. Offerte in drei Arbeitstagen.» |
+| Titel | «Herzlich willkommen bei der Malerei Muster AG!» · Floskeln aus der Liste von `slop-de.js` (text-uni) | Problem-Stufe: «Ihr Kachelofen raucht? Wir kommen im Fürstenland innert 48 Stunden.» · Produkt-Stufe: «Malerarbeiten in Winterthur. Offerte in drei Arbeitstagen.» |
 | Faktenzeile | «Erfahren, zuverlässig, kompetent.» | «Malerarbeiten in Winterthur · 052 555 00 00 · Offerte anfragen» (Leistung, Ort, Telefon, Hauptaktion; in der Form der Idee, nicht als Versal-Zeile) |
 | Aufruf | «Mehr erfahren» · «JETZT KONTAKTIEREN!» · zwei gleich laute Knöpfe | «071 555 00 00 anrufen» · «Termin wählen» · «Rückruf anfordern» · Übergang: «Checkliste: Ist mein Ofen noch sicher? (PDF, 2 Seiten)» |
 | Plan | «Kontaktieren Sie uns, wir melden uns.» | «1. Sie schicken zwei Fotos. 2. Wir rufen innert eines Arbeitstags zurück. 3. Sie erhalten eine Offerte mit Festpreis.» |
@@ -221,4 +221,4 @@ Die folgenden Punkte sind ein **Beitrag an `messplan.md`**; text-uni übernimmt 
 4. **Gleiche Zeiträume,** Saison beachten; ein Änderungslog führen.
 5. **Drei Monate vor, drei Monate nach dem Livegang** für das Urteil über Anfragen; nach 8 Wochen nur ein Zwischenstand für die Suche (Entscheid 11); vorher kein Urteil, ausser Warnwerte.
 6. **Mikro vor Makro:** mehr Formularstarts bei gleich vielen Abschlüssen zeigen Reibung im Formular.
-7. **Keine A/B-Tests bei kleinen Betrieben:** Für +30 % bei 3 % Grundrate braucht es rund 12 900 Besuche, über zwei Jahre bei 500 im Monat. Stattdessen: Heuristik, 3–5 Personen oder Kunden-Agenten mit Aufgaben, Fünf-Sekunden-Test, eine Frage nach dem Absenden («Was hätte Sie fast davon abgehalten?»), grosse Änderungen auf einmal.
+7. **Keine A/B-Tests bei kleinen Betrieben:** Für +30 % bei 3 % Grundrate braucht es rund 12 900 Besuche, über zwei Jahre bei 500 im Monat. Stattdessen: Heuristik, Menschentest mit 5 bis 10 Personen ([blindtest.md](blindtest.md) Teil 6) oder Kunden-Agenten mit Aufgaben, Fünf-Sekunden-Test, eine Frage nach dem Absenden («Was hätte Sie fast davon abgehalten?»), grosse Änderungen auf einmal.

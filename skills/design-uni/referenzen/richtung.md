@@ -51,7 +51,7 @@ Ein wörtlicher Satz des Inhabers aus dem Feld «Ton» zählt wie ein Inventar-N
 
 **Schritt 5 · Drei Grundsätze.** So formuliert, dass auch das Gegenteil vernünftig wäre. «Klar und modern» ist keiner; «Masse statt Adjektive» ist einer [Fakt · Clearleft].
 
-**Schritt 6 · Element-Collage statt Entwurf.** Je Kandidat eine Tafel mit Titel, Knopf, Faktenblock, Bildschnitt, Farbe und einem Satz Text, ohne Seite. Ganze Entwürfe nebeneinander führen zum «Frankencomp» [Fakt · Warren 2012]. Jede Tafel zeigt eine dominante Handlung und ein Bild mit Absicht; sonst sieht ein blinder Bewerter nur Farbe und Kästen, nicht die Idee.
+**Schritt 6 · Element-Collage statt Entwurf.** Je Kandidat eine Tafel mit Titel, Knopf, Faktenblock, Bildschnitt, Farbe und einem Satz Text, ohne Seite. Ganze Entwürfe nebeneinander führen zum «Frankencomp» [Fakt · Warren 2012]. Jede Tafel zeigt eine dominante Handlung und ein Bild mit Absicht; der grosse Titel auf der Tafel ist der Satz aus der Idee, die `h1` mit Leistung und Ort steht klein dabei (Entscheid 2); sonst sieht ein blinder Bewerter nur Farbe und Kästen, nicht die Idee.
 
 **Schritt 7 · Ableitungskette.** Jede Wahl bekommt einen «weil»-Satz, der auf die Entscheidung zeigt. Fehlt er, ist die Wahl eine Voreinstellung und fliegt raus:
 - Schrift, weil …
@@ -72,7 +72,7 @@ Alle Betriebe sind erfunden; sie zeigen, wie aus dem Inventar eine Entscheidung 
 | Treuhandbüro in einer Altstadt mit Lauben | Sandsteinlauben, Bundesordner, Fristen | **Der Ordnerrücken.** Navigation aus beschrifteten Rücken mit Griffloch, jede Lebenslage ein Register | System | Graukarton statt Creme, Registerfarben als einzige Buntheit, schmale Grotesk wie ein Etikettierband |
 | Schreinerei | Schreinerdreieck auf jedem Brett, Werkplan, Eiche | **Das Schreinerdreieck.** Ein Bleistiftdreieck markiert Anfang, Richtung, Zusammengehörigkeit | Zeichen | Bleistiftgrau, Strich als Linie, Dreieck als Listenpunkt, Fokus und Bestätigung |
 | Physiotherapie in einer alten Spinnerei | Halle mit Sheddach, Goniometer, Übungsblatt | **Die Gradzahl.** Beweglichkeit wird in Grad gemessen; die Seite zeigt Bögen und Zahlen | Wort und Zahl | Bogen als Bildmaske, Zahl als Titel, Ablauf als Skala; keine Heilversprechen |
-| Blumenhof | Feld, Wochenstrauss, Anhänger | **Die Kalenderwoche.** «Woche 44» ist der Titel und wechselt jede Woche | Wort | Setzt Pflege voraus; ohne zugesagte Pflege fällt die Idee durch Prüfung 4 |
+| Blumenhof | Feld, Wochenstrauss, Anhänger | **Die Kalenderwoche.** «Woche 44» steht gross und wechselt jede Woche; die `h1` darunter nennt Leistung und Ort (Entscheid 2) | Wort | Setzt Pflege voraus; ohne zugesagte Pflege fällt die Idee durch Prüfung 4 |
 | Hafnerei (Kachelöfen) | Glasur-Mustertafel mit Nummern, Ofenpass, Brennkurve | **Die Glasur-Mustertafel.** Jede Seite trägt eine Glasurprobe mit Nummer | System | Fehlerbox als Glasurprobe, Kacheln als Raster; blind 8,00 |
 | Fahrschule | Lektionenkarte mit Stempelfeldern, «Blick, Blinker, Blick» | **Die Stempelkarte.** Fortschritt als Stempel, Anmeldung als Abriss | System | Menü-Knopf als Stempelring, Fehler als «ungestempeltes Feld»; blind 8,00 |
 | Tierpraxis mit Notfalldienst | Praxisuhr, Tagesplan, Notfall-Dienstplan | **Die Praxisuhr.** Die Seite zeigt, was jetzt gilt (Sprechstunde, Hofbesuch, Notfall) | System | Zustand Tag/Nacht über die URL wählbar; blind 7,83 |
@@ -110,7 +110,7 @@ Alle Betriebe sind erfunden; sie zeigen, wie aus dem Inventar eine Entscheidung 
 | Fusszeile | Was steht am Ende eines Dokuments? | Werkplan-Schriftfeld | Rückseite des Ordners | Fahrplan-Fussnoten |
 | Bewegung | Welcher Handgriff ist echt? | Dreieck wird gezeichnet | Register gleitet heraus | Zeile klappt um wie eine Fallblattanzeige |
 
-Zwei Grenzen: Die Fehlermeldung nennt immer zuerst das Feld und was zu tun ist; das Wortspiel kommt danach. Eine Metapher, die die Bedienung erschwert (Ordner muss aufgeklappt werden, um Text zu lesen), fliegt raus.
+Zwei Grenzen: Die Fehlermeldung nennt immer zuerst das Feld und was zu tun ist; das Wortspiel kommt danach. Die Mikrotexte im Katalog zeigen den Ton; den Wortlaut schreibt text-uni (U). Eine Metapher, die die Bedienung erschwert (Ordner muss aufgeklappt werden, um Text zu lesen), fliegt raus.
 
 ## 4. Was die Richtung im Bild beweisen muss
 

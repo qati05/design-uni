@@ -42,7 +42,7 @@ Getroffen am 2. November 2026 `[Entscheid · Studio]`, nach dem Abgleich der dre
 
 1. **Modell-Urteile sind ein Vorfilter.** Bewerter-Läufe mit Sprachmodellen bleiben Pflicht. Was dort durchfällt, wird überarbeitet. Bestehen heisst «**Modell-Urteil bestanden**», nicht «belegt». Als belegt gilt eine Wirkung erst durch einen Test mit Menschen oder durch Zahlen nach dem Livegang. Das gilt für jeden Prüfpunkt, der Gefallen, Vertrauen oder «würde anfragen» misst.
 2. **Haupttitel: Etikett ist `h1`, die Idee ist gross.** Die `h1` nennt Leistung und Ort (Etikett, kleiner). Der Satz aus der Idee steht gross darüber oder daneben und ist keine Überschrift. Die Regel «`h1` ist die grösste Überschrift» entfällt. Es bleibt: genau eine `h1`, sichtbar, `<title>` und `h1` nennen dieselbe Leistung und denselben Ort.
-3. **Erster Bildschirm: eine grosse Sache plus Faktenzeile.** Eine grosse Sache (Bild oder Idee). Dazu eine schlanke Zeile mit Leistung, Ort, Telefon und Hauptaktion. Höchstens etwa 60 Wörter `[Annahme]`. Preise, Fristen und Ablauf folgen direkt darunter. Ob das trägt, zeigt der Bildtest.
+3. **Erster Bildschirm: eine grosse Sache plus Faktenzeile.** Eine grosse Sache (Bild oder Idee). Dazu eine schlanke Zeile mit Leistung, Ort, Telefon und Hauptaktion. Höchstens etwa 60 Wörter `[Annahme]`. Preise, Fristen und Ablauf folgen direkt darunter. Ob das trägt, zeigt der Bildtest. Ein fester Kopf mit Telefon und Hauptaktion zählt als Teil der Faktenzeile; jede Aktion steht im ersten Bildschirm einmal (Entscheid 6).
 4. **Vorschau ohne `Disallow`.** Die Vorschau trägt `noindex` (Kopfzeile `X-Robots-Tag` oder Meta) und ist, wo möglich, durch Zugang geschützt. `robots.txt` sperrt sie **nicht**, weil Google sonst das `noindex` nicht liest.
 5. **Kundenworte ohne Sackgasse.** Ziel sind 30 wörtliche Aussagen. Sind sie nicht zu bekommen, wird die Lücke bestätigt und es wird weiter geschrieben; Begriffe und Formulierungen gelten dann als `[Annahme]`.
 6. **Hauptaktion mehrfach.** Ein fester Kopf mit Hauptaktion und Telefon plus ein Abschluss am Seitenende ist erlaubt. Im selben Bildschirm steht jede Aktion sonst höchstens einmal. Ein Entscheid des Betriebs («Knopf überall») geht vor.
@@ -59,8 +59,8 @@ Getroffen am 2. November 2026 `[Entscheid · Studio]`, nach dem Abgleich der dre
 | Sache | Schwelle | Besitzer |
 |---|---|---|
 | Satzlänge | über 20 Wörter Warnung, über 25 Fehler (W2) | text-uni |
-| Zeilenlänge | 50 bis 75 Zeichen, nie über 80 | design-uni |
-| Messbreiten für alle Prüfungen | 1440 × 900 und 390 × 844 | design-uni |
+| Zeilenlänge | 50 bis 75 Zeichen, nie über 80; am Handy gilt nur «nie über 80» | design-uni |
+| Messbreiten für alle Prüfungen | 1440 × 900 und 390 × 844; Überlauf zusätzlich bei 360 | design-uni |
 | Titel und Beschreibung | 40 bis 60 Zeichen, über 65 Fehler; Beschreibung 110 bis 155 (S3, S12) | text-uni |
 | Formular | 3 bis 5 Felder, höchstens 4 Pflicht; freiwillige Felder mit «(freiwillig)» | design-uni (Anzahl), text-uni (Wortlaut) |
 | JS, Bilder, LCP | Budgets in web-uni (WP5) | web-uni |
@@ -80,6 +80,7 @@ Jede Kennung ist in allen drei Skills eindeutig. Querverweise nennen immer die v
 | design-uni | Gestaltungs-Grundsätze in typografie, komposition, farbe-bild, bewegung | **DG** mit Dateikürzel: DGT (Typografie), DGK (Komposition), DGF (Farbe und Bild), DGB (Bewegung), z. B. DGB13 (früher G…) |
 | design-uni | Techniken | **TK1 bis TK14** (früher T1 bis T14) |
 | design-uni | Prüflisten A, P, H | **LA1 ff., LP1 ff., LH1 ff.** (früher A 1, P 1, H 1) |
+| design-uni | Bausteine der Galerie | **GB1 bis GB11** (früher B1 bis B11) |
 | text-uni | Prüfpunkte | **TP0 bis TP8** (früher T0 bis T8) |
 | text-uni | Grundsätze | unverändert: V, W, L, CH, K, A, KW, U, B, R, G, S, P, Q, M, KQ, TI, ZS, CL |
 | web-uni | Prüfpunkte | **WP0 bis WP9** (früher V0 bis V8; WP9 Livegang ist neu) |

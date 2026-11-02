@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Vorlage für werkzeuge/pruefen.cjs. Erfundener Übungsbetrieb, Musterwerte. Pfade relativ zu dieser Datei. Was fehlt, prüft das Werkzeug nicht und meldet es als offen.",
+  "_hinweis": "Vorlage für werkzeuge/pruefen.cjs (DP6, TP7). Erfundener Übungsbetrieb, Musterwerte. Pfade relativ zu dieser Datei. Was fehlt, prüft das Werkzeug nicht und meldet es als offen. Seiten heissen ohne .html; kontakt.html und kontakt/index.html sind beide «kontakt». Fehlt «seiten», sucht das Werkzeug alle Seiten selbst.",
   "name": "Schreinerei Muster AG (Übung)",
   "site": "site",
   "seiten": ["index", "kuechen", "moebel", "kontakt", "anfrage", "impressum", "datenschutz", "404"],
@@ -12,6 +12,8 @@
     "selektor": "header a[href=\"anfrage.html\"]",
     "href": "anfrage.html",
     "fest": true,
+    "mehrfach": false,
+    "_mehrfach": "true nur mit Entscheid des Betriebs «Knopf überall» in entscheide.md (Entscheid 6); sonst höchstens einmal je Bildschirm",
     "ausnahmen": ["404"]
   },
   "formular": {
@@ -21,6 +23,7 @@
     "bestaetigung": "#bestaetigung:not([hidden])",
     "felder": [3, 5],
     "pflicht": 2,
+    "_felder": "3 bis 5 Felder, höchstens 4 Pflicht; freiwillige Felder mit «(freiwillig)» in der Beschriftung, kein Sternchen (zusammenspiel.md Teil 4)",
     "verantwortlich": "Schreinerei Muster AG",
     "fuellen": { "#name": "Test Person", "#telefon": "079 000 00 00" }
   },
@@ -36,6 +39,7 @@
   "text": { "anrede": "Sie", "eszett": false, "guillemets": true, "gedankenstriche": false, "uhrzeitMitPunkt": true },
   "jsonld": { "typ": "HomeAndConstructionBusiness" },
   "vorschau": true,
+  "_vorschau": "Entscheid 4: noindex per Meta oder X-Robots-Tag in _headers; robots.txt ohne «Disallow: /»; keine Sitemap; kein canonical",
   "zahlen": {
     "071 555 00 00": "Musterwert",
     "9000": "PLZ, Musterwert",

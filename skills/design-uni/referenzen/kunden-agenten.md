@@ -110,7 +110,7 @@ GRÖSSTES HINDERNIS (ein Satz):
 |---|---|
 | erreicht ja/nein, Anzahl Aktionen (Tipps, Felder, Scrolls) | gegen die Schwellen in SKILL.md, DP7 |
 | Abbruchgrund | wörtlich |
-| «anfragen» 1–10, «Vertrauen» 1–10 | Mittel je Modell und gesamt |
+| «anfragen» 1–10, «Vertrauen» 1–10 | Mittel je Modell und gesamt; **Modell-Urteil, Vorfilter** (Entscheid 1): darunter überarbeiten, darüber «Modell-Urteil bestanden», nicht belegt |
 | grösstes Hindernis | wörtlich, gruppiert |
 
 - **Jeder Befund wird getrennt:** Fehler des Werkzeugs oder Fehler der Seite. Ein Werkzeugfehler wird von Hand nachgeprüft (Bildschirmfoto, Protokoll) und nicht gezählt.
@@ -120,6 +120,6 @@ GRÖSSTES HINDERNIS (ein Satz):
 
 ## 6. Grenzen
 
-- Kunden-Agenten sind keine Menschen: Sie zögern, lesen und brechen anders ab. Bestätigung erst mit echten Besuchern (Messplan) oder 3–5 Personen aus der Zielgruppe am eigenen Handy.
+- Kunden-Agenten sind keine Menschen: Sie zögern, lesen und brechen anders ab. Bestätigung erst mit echten Besuchern (Messplan) oder einem Menschentest mit denselben Aufgaben ([blindtest.md](blindtest.md) Teil 6, 5 bis 10 Personen aus der Zielgruppe am eigenen Handy).
 - Ein Lauf pro Aufgabe und Modell zeigt keine Streuung.
 - Das Werkzeug misst den Weg, den der Agent wählt; ein Skript für den kürzesten Weg (Klickpfade, DP6) ergänzt es.

@@ -27,7 +27,7 @@
 - **DGF14 · Einheitliche Bildwelt.** Gleiche Belichtung, Helligkeit, Kontrast, Farbstimmung; Icons in Strichstärke passend zur Schrift. Prüfung: alle Bilder als Kontaktbogen.
 - **DGF15 · Leistung im Gebrauch** zeigen, nicht freigestellt im Nichts.
 - **DGF16 · Blickführung.** Schaut eine Person zum Titel oder zur Handlung statt in die Kamera, bekommt das Ziel mehr Aufmerksamkeit.
-- **DGF17 · Scharf in Anzeigegrösse** bei 2× Pixeldichte; die Seite bleibt bei rund 1–2 MB.
+- **DGF17 · Scharf in Anzeigegrösse** bei 2× Pixeldichte. Wie schwer Bilder und Seite sein dürfen und in welchen Formaten sie ausgeliefert werden: Budgets in web-uni (WP5).
 - **DGF18 · Schnitt pro Format.** Mobil ein eigener, engerer Hochformat-Ausschnitt mit `<picture>` oder `object-position` mit Absicht.
 - **DGF19 · Alternativtext** beschreibt den Inhalt.
 - **DGF20 · Keine KI-Bilder** von echten Menschen oder Produkten als Beleg; Konsumenten werten sie als irreführend.

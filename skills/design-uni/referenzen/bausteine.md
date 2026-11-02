@@ -12,17 +12,17 @@ Die eigenen Umsetzungen stehen in der **Galerie** [../galerie/index.html](../gal
 
 | # | Baustein | Technik | Urteil | Braucht vom Betrieb |
 |---|---|---|---|---|
-| B1 | Strich zeichnet sich unter ein Wort | TK5, TK6 | trägt, wenn echt | ein Ding, das wirklich gezogen wird (Schnur, Kreide, Band, Naht) |
-| B2 | Titelzeile steigt aus einer Maske | TK1, TK6 | nur mit Idee | einen Grund (Schublade, Schlitz, Etikett) |
-| B3 | Fallblatt zeigt, was jetzt gilt | TK3 | trägt, wenn echt | belegte Zeiten, Kalenderprüfung DP6 |
-| B4 | Laufband mit Pause | TK10 | nur mit Idee | gepflegten Inhalt (Termin, Saison, Pikett) |
-| B5 | Wortliste mit aktivem Eintrag | TK7 | trägt, wenn echt | 4 bis 12 echte Einträge |
-| B6 | Form aus dem Betrieb öffnet das Bild | TK8 | nur mit Idee | belegte Form, Fotos in Serie |
-| B7 | Vorher und nachher, von Hand verschoben | TK2, TK9 | trägt, wenn echt | zwei Fotos vom selben Stativpunkt |
-| B8 | Masslinien legen sich ans Werkstück | TK9 | nur mit Idee | echte Werte, Detailfoto |
-| B9 | Ablauf in drei Spalten mit Haarlinien | TK4 | trägt, wenn echt | drei Schritte mit Frist und Person |
-| B10 | Fragen, die sich öffnen (`details`) | – | trägt, wenn echt | Fragen der Kundschaft |
-| B11 | Handy-Menü als Blatt von unten (`dialog`) | TK14 | nur mit Idee | einen Grund (Schublade, Werkzeugwagen) |
+| GB1 | Strich zeichnet sich unter ein Wort | TK5, TK6 | trägt, wenn echt | ein Ding, das wirklich gezogen wird (Schnur, Kreide, Band, Naht) |
+| GB2 | Titelzeile steigt aus einer Maske | TK1, TK6 | nur mit Idee | einen Grund (Schublade, Schlitz, Etikett) |
+| GB3 | Fallblatt zeigt, was jetzt gilt | TK3 | trägt, wenn echt | belegte Zeiten, Kalenderprüfung DP6 |
+| GB4 | Laufband mit Pause | TK10 | nur mit Idee | gepflegten Inhalt (Termin, Saison, Pikett) |
+| GB5 | Wortliste mit aktivem Eintrag | TK7 | trägt, wenn echt | 4 bis 12 echte Einträge |
+| GB6 | Form aus dem Betrieb öffnet das Bild | TK8 | nur mit Idee | belegte Form, Fotos in Serie |
+| GB7 | Vorher und nachher, von Hand verschoben | TK2, TK9 | trägt, wenn echt | zwei Fotos vom selben Stativpunkt |
+| GB8 | Masslinien legen sich ans Werkstück | TK9 | nur mit Idee | echte Werte, Detailfoto |
+| GB9 | Ablauf in drei Spalten mit Haarlinien | TK4 | trägt, wenn echt | drei Schritte mit Frist und Person |
+| GB10 | Fragen, die sich öffnen (`details`) | – | trägt, wenn echt | Fragen der Kundschaft |
+| GB11 | Handy-Menü als Blatt von unten (`dialog`) | TK14 | nur mit Idee | einen Grund (Schublade, Werkzeugwagen) |
 
 «Trägt, wenn echt» heisst: Der Baustein zeigt einen echten Zustand, ein echtes Material oder hilft bei der Bedienung. «Nur mit Idee» heisst: ohne Grund aus dem Betrieb ist er Dekoration.
 
@@ -43,8 +43,8 @@ Die eigenen Umsetzungen stehen in der **Galerie** [../galerie/index.html](../gal
 
 | Gruppe | Beispiele | Urteil |
 |---|---|---|
-| Rückmeldung (Dauer nach [bewegung.md](bewegung.md) Teil 2) | Akkordeon, Tabs, Tooltip, Schalter, Drawer, Bottom Sheet | als Verhalten erlaubt; selbst gebaut mit `details`, `dialog`, CSS (B10, B11) |
-| Inhalt mit echtem Bezug | Timeline, Marquee, Image Viewer | als B9, B4, B7 in eigener Form |
+| Rückmeldung (Dauer nach [bewegung.md](bewegung.md) Teil 2) | Akkordeon, Tabs, Tooltip, Schalter, Drawer, Bottom Sheet | als Verhalten erlaubt; selbst gebaut mit `details`, `dialog`, CSS (GB10, GB11) |
+| Inhalt mit echtem Bezug | Timeline, Marquee, Image Viewer | als GB9, GB4, GB7 in eigener Form |
 | Nie als Voreinstellung | Zahl, die hochzählt; Tilt-Card; Shader-Hintergrund; Dock; Loader; Text-Animation pro Buchstabe | Zähler «500+» und Loader stehen schon in der Nie-Liste; Tilt und Shader sind Dekoration |
 | Für Websites unnötig | Pagination, Combobox, Datumsbereich, Farbwähler, Dateibaum, Sortierstapel | App-Oberflächen, nicht Gegenstand des Skills |
 

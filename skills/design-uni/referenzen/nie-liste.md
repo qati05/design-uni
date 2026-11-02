@@ -27,7 +27,7 @@ Länderspezifisch: [recht-schweiz.md](recht-schweiz.md) für Gestaltung und Mate
 **Erster Eindruck**
 - Ladebildschirm, Zähler, Intro, Eingangstor, Popup, Chat-Knopf, Newsletter-Overlay, Exit-Popup über dem Inhalt.
 - Hero-Slider, Auto-Karussell für Wichtiges.
-- Begrüssung als Titel («Herzlich willkommen», «Wir sind …», «Ihr Partner für …»).
+- Begrüssung als Titel («Herzlich willkommen», «Wir sind …»).
 - Text über Fremdmotiv mit Schatten, halbtransparentem Kasten oder Kontur.
 - Landschaft statt Arbeit; Stock-Lächeln, Handschlag, «Daumen hoch»; Symbolbilder (Waage, Paragraf, Skyline).
 - Vollbild-Hero mit zentriertem Text, nichts angeschnitten.
@@ -52,7 +52,7 @@ Länderspezifisch: [recht-schweiz.md](recht-schweiz.md) für Gestaltung und Mate
 - Akzentfarbe überall; jede Sektion mit eigener Hintergrundfarbe.
 
 **Text**
-- Floskeln: «massgeschneidert», «mit Leidenschaft», «ganzheitlich», «in guten Händen», «Genuss neu definiert», Dreiklang mit Punkten («Form. Funktion. Faszination.»).
+- Floskeln, die `slop-de.js` von text-uni als Fehler meldet (Liste in [slop-de.json](../../text-uni/werkzeuge/slop-de.json)), dazu «in guten Händen», «Genuss neu definiert», Dreiklang mit Punkten («Form. Funktion. Faszination.»).
 - «Mehr erfahren», «Jetzt starten», «Absenden»; «Wir freuen uns auf Ihre Nachricht!»
 - Englischer Claim auf einer deutschsprachigen Seite; SEO-Absätze mit wiederholten Ortsnamen.
 - Platzhalter in eckigen Klammern auf einer Vorschau oder in einem Test.

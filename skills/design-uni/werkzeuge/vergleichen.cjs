@@ -4,7 +4,8 @@
 //   node vergleichen.cjs --band-neu <ordner-mit-messungen> [--ohne name,name] > vorbilder-band.json
 // Die Messung kommt von vermessen.cjs. Das Band beschreibt, was die Vorbilder tun; es ist kein Ziel.
 // «Vorlagen-Signale» sind Muster, die bei den Vorbildern selten sind und in den blinden Tests als
-// Vorlage gelesen wurden. Mit --streng endet das Skript mit Code 1, wenn ein Signal anschlägt.
+// Vorlage gelesen wurden. Sie sind Hinweise, keine Verbote (Entscheid 13). Die Faktenzeile aus Entscheid 3
+// (Leistung, Ort, Telefon, Hauptaktion) ist kein Signal; Textlinks darin zählen nicht als knopfartig. Mit --streng endet das Skript mit Code 1, wenn ein Signal anschlägt.
 "use strict";
 const fs = require("fs");
 const path = require("path");
@@ -51,8 +52,9 @@ const SIGNALE = [
   ["radienArten", (v) => v > 3, "mehr als 3 Arten von Eckenradien (Vorbilder: Median 1)"],
   ["icons", (v) => v > 14, "mehr als 14 kleine Icons (Vorbilder: Median 5)"],
   ["familien", (v) => v > 2, "mehr als 2 Schriftfamilien (20 von 25 Vorbildern: 1 oder 2)"],
-  ["woerter", (v) => v > 120, "mehr als 120 Wörter im ersten Bildschirm (Vorbilder: Median 39, 19 von 25 höchstens 120)"],
-  ["handyWoerter", (v) => v > 85, "mehr als 85 Wörter im ersten Handy-Bildschirm (Vorbilder: Median 30, 19 von 25 höchstens 85)"],
+  // Wörter: Grenze aus Entscheid 3 (zusammenspiel.md): eine grosse Sache plus Faktenzeile, höchstens etwa 60 Wörter [Annahme]
+  ["woerter", (v) => v > 60, "mehr als etwa 60 Wörter im ersten Bildschirm (Entscheid 3; Vorbilder: Median 39)"],
+  ["handyWoerter", (v) => v > 60, "mehr als etwa 60 Wörter im ersten Handy-Bildschirm (Entscheid 3; Vorbilder: Median 30)"],
 ];
 
 function band(ordner, ohne) {

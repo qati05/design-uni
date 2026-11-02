@@ -8,7 +8,7 @@
 - **DGK1 · Ein Raster pro Breakpoint, nachweisbar.** Kanten liegen auf Spalten- oder Gutterlinien; im Code ein Grid, keine frei gesetzten Pixelbreiten. Richtwert rund 4 Spalten mobil, 12 am Desktop.
 - **DGK2 · Das Raster sitzt bewusst im Format.** Ränder gleich oder absichtlich asymmetrisch; Rand mindestens so breit wie ein Gutter.
 - **DGK3 · Rasterbruch nur mit Grund.** Höchstens ein Element pro Abschnitt verlässt das Raster, und es ist das wichtigste.
-- **DGK4 · Lesezeilen 45–75 Zeichen** (`max-width` in `ch`), auch wenn das Raster breiter ist.
+- **DGK4 · Lesezeilen 50 bis 75 Zeichen, nie über 80** (`max-width` in `ch`), auch wenn das Raster breiter ist (Schwelle: [zusammenspiel.md](zusammenspiel.md) Teil 4).
 - **DGK5 · Breakpoints entstehen am Inhalt:** dort, wo «7er» (Bild schrumpft, Text wird Turm), «Drifts» (Zusammengehöriges driftet) oder «Pinches» (Fremdes rückt zu nah) auftauchen.
 
 **Weissraum und Abstände**
@@ -77,7 +77,7 @@
 4. Abstände in Gruppen kleiner als zwischen Gruppen?
 5. Rahmen und Flächen nur, wo Nähe nicht reicht?
 6. Höchstens drei Grössen- und drei Kontraststufen?
-7. Fliesstext 45–75 Zeichen?
+7. Fliesstext 50 bis 75 Zeichen, nie über 80?
 8. Folgeinhalt unten angeschnitten?
 9. Wechseln Abschnitte Dichte oder Komposition?
 10. Hat jeder Rasterbruch einen Grund?

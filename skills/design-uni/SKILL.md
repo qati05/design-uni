@@ -144,7 +144,7 @@ Ablauf im Detail: [richtung.md](referenzen/richtung.md) Teil 2.
 - **Farbe** mit der Pipette aus dem eigenen Foto oder Material. Die Palette ist blind kaum ein Hebel; entscheide sie schnell und investiere in Komposition und Bild ([lektionen.md](referenzen/lektionen.md)).
 - **Schwache Fotos:** eine feste Bearbeitung für die ganze Serie als Skript (Lichtregel, z. B. Zweiton, Kontrastkurve, Körnung), und Schrift und Bild komponiert statt nebeneinander. Das hob blind 6,00 auf 7,17 mit denselben Handyfotos ([farbe-bild.md](referenzen/farbe-bild.md)).
 
-**DP2 · Abstand (Hinweis; maschinell, wo möglich, sonst im Bericht als «Selbstauskunft» markiert)** nach [abstand.md](referenzen/abstand.md). Die Werte stammen aus Modell-Urteilen; nach Entscheid 13 sperren sie nicht. Jede Abweichung steht mit Grund im Bericht; ob der Abstand reicht, zeigt der Geschwister-Test in DP4 als Vorfilter.
+**DP2 · Abstand, Tokens, welche Bewegung die Idee braucht (Abstand als Hinweis; maschinell, wo möglich, sonst im Bericht als «Selbstauskunft» markiert)** nach [abstand.md](referenzen/abstand.md). Die Werte stammen aus Modell-Urteilen; nach Entscheid 13 sperren sie nicht. Jede Abweichung steht mit Grund im Bericht; ob der Abstand reicht, zeigt der Geschwister-Test in DP4 als Vorfilter.
 
 | Prüfung | Richtwert `[Annahme]` |
 |---|---|
@@ -285,7 +285,7 @@ Jeder Befund wird getrennt: Fehler des Werkzeugs oder Fehler der Seite. Ein Werk
 - **Rechte-Liste** aktuell, ohne Personendaten.
 - **Register:** Eintrag von «im Bau» auf «gebaut», mit den gemessenen Achsen, Bauteilen und Techniken.
 - **Lektion:** Abweichungen, Messwerte, Werkzeugfehler, im Format von [lektionen.md](referenzen/lektionen.md).
-- Nichts veröffentlichen, nichts mergen, nichts an den Betrieb senden ohne Freigabe. Den Livegang nach Freigabe führt web-uni.
+- Nichts veröffentlichen, nichts mergen, nichts an den Betrieb senden ohne Freigabe. Den Livegang nach Freigabe führt web-uni (WP9).
 
 ## Wenn kein Unteragent verfügbar ist
 

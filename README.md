@@ -1,110 +1,119 @@
-# design-uni
+# design-uni, text-uni, web-uni
 
-Ein Claude-Code-Skill, der Websites und Landingpages auf Agentur-Niveau bauen und prüfen lässt, die zugleich Anfragen, Anrufe und Buchungen bringen.
+Drei Claude-Code-Skills, die zusammen Websites und Landingpages für kleine Betriebe bauen und prüfen: auf Agentur-Niveau, mit Texten, die verkaufen und gefunden werden, und mit der Technik, die dazu passt.
 
-Er entstand aus einer Reihe blinder Tests (erste Bildschirme, Bewegung, ganze Websites, Kunden-Agenten am Handy) und hält fest, was sich dabei gehalten hat:
+| Skill | Regelt | Besitzt (Auszug) |
+|---|---|---|
+| **design-uni** | wie es aussieht und ob Besucher ans Ziel kommen | Kundenangaben-Blatt und Eingangstor, Richtung, Gestaltung, Typografie, Bedienung und Barrierefreiheit mit allen Schwellen, Bewegung (ob und welche), Bilder und Rechte, alle Bewerter, Kunden-Agenten und Menschentests, Bericht |
+| **text-uni** | was dasteht | Fakten, Kundenworte, Suchbegriffe, Wortlaut aller Texte, Angebot und Belege als Inhalt, Recht für Inhalte (UWG, PBV), Suche und KI-Suche, Messplan |
+| **web-uni** | womit gebaut und wie es betrieben wird | Stack und Hoster (Standard: Astro, statische Ausgabe), Budgets für Ladezeit, JS und Bilder, fremde Hosts und Datenschutz-Technik, Formular-Backend, Testumgebung, Livegang, Pflege, Kosten |
 
-- **Eine grosse Entscheidung aus dem Betrieb** statt Branchenvorlage; alles andere hängt über einen «weil»-Satz daran.
-- **Abstand zum eigenen Durchschnitt**, gemessen an acht Achsen und sieben Bauteilen, weil ein Modell ohne Verfahren auf seinen Standard zurückfällt.
-- **Angebot als Inhalt, nicht als Form:** Leistung und Ort, Preis, Frist, Plan, ein Aufruf statt Badge, Countdown, Häkchen.
-- **Blind prüfen, nie selbst benoten:** sechs Bewerter auf zwei Modellen, eine Fassung pro Satz, fremde Referenzen und eine Falle.
-- **Kunden-Agenten am Handy** mit echten Aufgaben, und maschinelle Prüfungen für das, was eine Maschine sicher findet (Telefon-Links, Kontrast aus der Kaskade, Verdeckung, Kalender).
+Jedes Thema hat **genau einen Besitzer**; die anderen Skills verweisen nur. Rangfolge, Besitz, die Entscheide zu Widersprüchen, eine Schwelle je Sache, die Kennungen und die gemeinsame Abfolge stehen in **[skills/design-uni/referenzen/zusammenspiel.md](skills/design-uni/referenzen/zusammenspiel.md)**. Wer eine Regel ändert, ändert sie beim Besitzer.
 
-## Inhalt
+**Kennungen:** design-uni DP0 bis DP8 (Prüfpunkte), DL (Lektionen), DGT, DGK, DGF, DGB (Grundsätze), TK1 bis TK14 (Techniken), LA, LP, LH (Prüflisten); text-uni TP0 bis TP8 und die Grundsätze V, W, L, CH, K, A, KW, U, B, R, G, S, P, Q, M, KQ, TI, ZS, CL; web-uni WP0 bis WP9, WL (Lektionen).
 
-```
-skills/design-uni/
-├── SKILL.md                 Verfahren in elf Schritten mit Prüfpunkten DP0–DP8
-├── eingabe/
-│   ├── kundenangaben.md     Blatt für die Angaben des Kunden: das, woraus jede Website entsteht
-│   └── projekt.beispiel.json  Vorlage für pruefen.cjs (Telefon, Hauptaktion, Formular, Kalender, Zahlen)
-├── referenzen/              Wissen, nach Thema; SKILL.md verlinkt dorthin
-│   ├── techniken.md         14 Techniken statt Looks, aus 25 vermessenen Vorbildern
-│   ├── vorbilder-gemessen.md  Band der Vorbilder, Vorlagen-Signale, Methode, Grenzen
-│   ├── bausteine.md         Baukästen (motionin, beui, backgrounds.supply) eingeordnet
-│   ├── geschmack.md         was premium ausmacht, 60-Sekunden-Prüfung, Billig-Muster
-│   ├── richtung.md          Richtungsblatt, eine grosse Entscheidung, Komponenten aus der Idee
-│   ├── abstand.md           Register, Achsen, Bauteile, Sperren, Modell-Standard
-│   ├── typografie.md · komposition.md · farbe-bild.md · bewegung.md
-│   ├── conversion.md        Angebot, Vertrauen, Formular, Prüflisten A/P/H, Messplan
-│   ├── recht-schweiz.md     Wenn in der Schweiz: UWG, PBV, DSG, FMG, MedBG
-│   ├── branchen/            Boden, Fototag, Vorbilder, «Nie» je Branche
-│   ├── blindtest.md         Aufbau, Auftragstexte für die Bewerter, Schwellen
-│   ├── kunden-agenten.md    Kunden-Agenten am Handy, Auftragstext, Auswertung
-│   ├── lektionen.md         was die Tests gelehrt haben, mit Zahlen
-│   └── nie-liste.md         verboten · nie als Voreinstellung · trotzdem erlaubt
-├── galerie/
-│   ├── index.html           elf Bausteine, eigener Code, ohne Bibliothek, mit Urteil und Technik
-│   └── pruefen-galerie.cjs  ohne JS lesbar, still bei «Bewegung reduzieren», Pause, Kontrast, 44 px
-└── werkzeuge/
-    ├── kunde.cjs            Handy-Simulator für Kunden-Agenten (Playwright)
-    ├── selbsttest/          Prüfseite mit drei eingebauten Fehlern für kunde.cjs
-    ├── pruefen.cjs          maschinelle Prüfungen DP6/TP7 für jedes Projekt, gesteuert über projekt.json, mit Selbsttest
-    ├── vermessen.cjs        misst eine Website wie die Vorbilder (Schrift, Bild, Knöpfe, Raster, Bauteile, Bewegung)
-    ├── vergleichen.cjs      vergleicht eine Messung mit dem Band der Vorbilder, meldet Vorlagen-Signale
-    └── vorbilder-band.json  Band aus 25 Vorbildern (Stand November 2026)
-```
+## Installation (alle drei)
 
-## Installation
+Die drei Ordner unter `skills/` kopieren, am besten zusammen, weil sie aufeinander verweisen:
 
-Den Ordner `skills/design-uni/` kopieren:
-
-- **für ein Projekt:** nach `.claude/skills/design-uni/` im Projekt
+- **für ein Projekt:** nach `.claude/skills/` im Projekt
   ```
-  mkdir -p .claude/skills && cp -R pfad/zu/design-uni/skills/design-uni .claude/skills/
+  mkdir -p .claude/skills && cp -R pfad/zu/design-uni/skills/design-uni pfad/zu/design-uni/skills/text-uni pfad/zu/design-uni/skills/web-uni .claude/skills/
   ```
-- **für alle Projekte:** nach `~/.claude/skills/design-uni/`
+- **für alle Projekte:** nach `~/.claude/skills/`
   ```
-  mkdir -p ~/.claude/skills && cp -R pfad/zu/design-uni/skills/design-uni ~/.claude/skills/
+  mkdir -p ~/.claude/skills && cp -R pfad/zu/design-uni/skills/design-uni pfad/zu/design-uni/skills/text-uni pfad/zu/design-uni/skills/web-uni ~/.claude/skills/
   ```
 
-Claude Code findet den Skill beim nächsten Start. Aufrufen lässt er sich auch direkt mit `/design-uni`.
+Claude Code findet die Skills beim nächsten Start. Aufrufen lassen sie sich auch direkt mit `/design-uni`, `/text-uni` und `/web-uni`.
 
-**Für das Werkzeug** (nur für Kunden-Agenten nötig): Node.js 18 oder neuer und Playwright.
+**Für die Werkzeuge:** Node.js (für die Astro-Vorlage die Version aus `skills/web-uni/vorlage-astro/package.json`) und Playwright mit Chromium:
 
 ```
 npm i -D playwright && npx playwright install chromium
-node .claude/skills/design-uni/werkzeuge/kunde.cjs \
-  .claude/skills/design-uni/werkzeuge/selbsttest '[{"tippe":"Anrufen"}]' /tmp/test.png
 ```
 
-Das erwartete Protokoll steht in `referenzen/kunden-agenten.md`, Teil 2.
+**Ablauf mit einem neuen Kunden** (gemeinsame Abfolge in `zusammenspiel.md` Teil 6)
 
-**Ablauf mit einem neuen Kunden**
-
-1. `eingabe/kundenangaben.md` kopieren und mit dem Betrieb ausfüllen (★ = Pflicht). Logo und Fotos in einen Ordner.
-2. Claude mit dem Skill beauftragen: «Baue die Website aus diesen Kundenangaben.» Der Skill liest das Blatt, sucht die Richtung, wählt Techniken und baut eine Vorschau.
-3. Prüfen ohne Bewerter: `projekt.json` nach der Vorlage anlegen, dann
+1. `skills/design-uni/eingabe/kundenangaben.md` kopieren und mit dem Betrieb ausfüllen: ein Blatt für alle drei Skills (★ = ohne die Antwort geht der Bau nicht). Logo und Fotos mit Rechten in einen Ordner.
+2. Claude beauftragen: «Baue die Website aus diesen Kundenangaben, mit design-uni, text-uni und web-uni.» Es gibt ein Eingangstor (DP0 = TP0 = WP0), dann wechseln die Skills sich in der festen Abfolge ab.
+3. Ein Prüflauf für alle maschinellen Prüfungen (DP6 + TP7 + WP4 + WP5), zum Beispiel:
    ```
    node .claude/skills/design-uni/werkzeuge/pruefen.cjs projekt.json --selbsttest
    node .claude/skills/design-uni/werkzeuge/pruefen.cjs projekt.json
    node .claude/skills/design-uni/werkzeuge/vermessen.cjs site --name kunde --aus pruefung --bilder
    node .claude/skills/design-uni/werkzeuge/vergleichen.cjs pruefung/kunde.json
+   node .claude/skills/text-uni/werkzeuge/slop-de.js site
    ```
-4. Blinde Bewerter und Kunden-Agenten laufen über Unteragenten (SKILL.md Schritt 9).
+4. Blinde Bewerter und Kunden-Agenten laufen über Unteragenten (design-uni Schritt 9); ihr Urteil ist ein **Vorfilter**. Belegt ist eine Wirkung erst mit Menschen (Menschentest) oder Zahlen nach dem Livegang.
+5. Live geht nichts ohne Freigabe; den Livegang führt web-uni (WP9).
 
-## Wann der Skill greift
+## Was die Skills voraussetzen
 
-Claude lädt ihn, wenn eine Website, Landingpage, Startseite oder ein erster Bildschirm gestaltet, umgebaut oder beurteilt werden soll, wenn etwas «generisch», «nach Vorlage» oder «nach KI» aussieht, oder wenn blind getestet werden soll, ob eine Seite premium wirkt und Besucher ans Ziel kommen. Er passt zu jedem Stack; die Technikbeispiele sind für statisches HTML, CSS und JavaScript geschrieben.
+- **Unteragenten** für die blinden Bewerter und die Kunden-Agenten, idealerweise auf zwei verschiedenen Modellen. Ohne sie heissen alle Bewerter-Tore «nicht gelaufen»; gebaut wird nur, wenn der Auftraggeber es will, und der Bericht sagt das oben.
+- **Einen Menschen, der freigibt.** Die Skills bauen Vorschauen und Entwürfe; veröffentlicht, zugesagt und mit dem Betrieb gesprochen wird nur mit Freigabe. Kosten an den Kunden sind Entwürfe.
+- **Belegte Fakten.** Was fehlt, bleibt als sichtbare Lücke stehen.
+
+## design-uni
+
+Ein Skill, der Websites und Landingpages auf Agentur-Niveau bauen und prüfen lässt, die zugleich Anfragen, Anrufe und Buchungen bringen. Er entstand aus einer Reihe blinder Tests (erste Bildschirme, Bewegung, ganze Websites, Kunden-Agenten am Handy) und hält fest, was sich dabei gehalten hat:
+
+- **Eine grosse Entscheidung aus dem Betrieb** statt Branchenvorlage; alles andere hängt über einen «weil»-Satz daran.
+- **Abstand zum eigenen Durchschnitt**, gemessen an acht Achsen und sieben Bauteilen, weil ein Modell ohne Verfahren auf seinen Standard zurückfällt.
+- **Angebot als Inhalt, nicht als Form:** Leistung und Ort, Preis, Frist, Plan, ein Aufruf statt Badge, Countdown, Häkchen.
+- **Blind prüfen, nie selbst benoten:** sechs Bewerter auf zwei Modellen als Vorfilter, eine Fassung pro Satz, fremde Referenzen und eine Falle; dazu ein Verfahren für Menschentests.
+- **Kunden-Agenten am Handy** mit echten Aufgaben, und maschinelle Prüfungen für das, was eine Maschine sicher findet (Telefon-Links, Kontrast aus der Kaskade, Verdeckung, Kalender).
+
+Stackneutral; der Standard-Stack steht in web-uni.
+
+```
+skills/design-uni/
+├── SKILL.md                 Verfahren in elf Schritten mit Prüfpunkten DP0 bis DP8 und den Übergaben an text-uni und web-uni
+├── eingabe/
+│   ├── kundenangaben.md     das eine Blatt für die Angaben des Kunden, mit Teilen für text-uni und web-uni
+│   └── projekt.beispiel.json  Vorlage für pruefen.cjs (Telefon, Hauptaktion, Formular, Kalender, Zahlen)
+├── referenzen/              Wissen, nach Thema; SKILL.md verlinkt dorthin
+│   ├── zusammenspiel.md     Besitz, Rangfolge, Entscheide, Schwellen, Kennungen, Abfolge der drei Skills
+│   ├── techniken.md         14 Techniken statt Looks (TK1 bis TK14), aus 25 vermessenen Vorbildern
+│   ├── vorbilder-gemessen.md  Band der Vorbilder, Vorlagen-Signale, Methode, Grenzen
+│   ├── bausteine.md         Baukästen (motionin, beui, backgrounds.supply) eingeordnet
+│   ├── geschmack.md         was premium ausmacht, 60-Sekunden-Prüfung, Billig-Muster
+│   ├── richtung.md          Richtungsblatt, eine grosse Entscheidung, Komponenten aus der Idee
+│   ├── abstand.md           Register, Achsen, Bauteile, Richtwerte, Modell-Standard
+│   ├── typografie.md · komposition.md · farbe-bild.md · bewegung.md   Grundsätze DGT, DGK, DGF, DGB; Boden für Bewegung
+│   ├── conversion.md        Angebot, Vertrauen, Formular, Prüflisten LA, LP, LH, Zählpunkte
+│   ├── recht-schweiz.md     Wenn in der Schweiz: was Gestaltung und Material betrifft
+│   ├── branchen/            Boden, Fototag, Vorbilder, «Nie» je Branche
+│   ├── blindtest.md         Aufbau, Auftragstexte für die Bewerter, Schwellen, Menschentest
+│   ├── kunden-agenten.md    Kunden-Agenten am Handy, Auftragstext, Auswertung
+│   ├── lektionen.md         was die Tests gelehrt haben, mit Zahlen (DL1 ff.)
+│   └── nie-liste.md         verboten · nie als Voreinstellung (Hinweis) · trotzdem erlaubt
+├── galerie/
+│   ├── index.html           elf Bausteine, eigener Code, ohne Bibliothek, mit Urteil und Technik
+│   └── pruefen-galerie.cjs  ohne JS lesbar, still bei «Bewegung reduzieren», Pause ab 5 s, Kontrast, 44 px
+└── werkzeuge/
+    ├── kunde.cjs            Handy-Simulator für Kunden-Agenten (Playwright)
+    ├── selbsttest/          Prüfseite mit drei eingebauten Fehlern für kunde.cjs
+    ├── pruefen.cjs          maschinelle Prüfungen DP6 und TP7 für jedes Projekt, gesteuert über projekt.json, mit Selbsttest; findet Seiten auch im Verzeichnisformat
+    ├── vermessen.cjs        misst eine Website wie die Vorbilder (Schrift, Bild, Knöpfe, Raster, Bauteile, Bewegung)
+    ├── vergleichen.cjs      vergleicht eine Messung mit dem Band der Vorbilder, meldet Vorlagen-Signale
+    └── vorbilder-band.json  Band aus 25 Vorbildern (Stand November 2026)
+```
+
+Werkzeug für Kunden-Agenten prüfen:
+
+```
+node .claude/skills/design-uni/werkzeuge/kunde.cjs \
+  .claude/skills/design-uni/werkzeuge/selbsttest '[{"tippe":"Anrufen"}]' /tmp/test.png
+```
+
+Das erwartete Protokoll steht in `skills/design-uni/referenzen/kunden-agenten.md`, Teil 2.
 
 Nicht gedacht für App-Oberflächen (Dashboards, Einstellungen, Formular-Strecken in Anwendungen).
 
-## Was der Skill voraussetzt
+## text-uni
 
-- **Unteragenten** für die blinden Bewerter und die Kunden-Agenten, idealerweise auf zwei verschiedenen Modellen. Ohne sie hält das Verfahren nach der Richtung an und berichtet «nicht gelaufen».
-- **Einen Menschen, der freigibt.** Der Skill baut Vorschauen und Entwürfe; veröffentlicht, zugesagt und mit dem Betrieb gesprochen wird nur mit Freigabe.
-- **Belegte Fakten.** Was fehlt, bleibt als sichtbare Lücke stehen.
-
-## Grenzen
-
-- Alle Bewerter in den zugrunde liegenden Tests waren Sprachmodelle; ob Menschen gleich urteilen, ist offen.
-- Schwellen mit `[Annahme]` sind nicht kalibriert.
-- Die Rechtsteile sind keine Rechtsauskunft.
-- Ob die Grundsätze mehr Anfragen bringen, zeigt erst eine Messung nach dem Livegang (Messplan in `referenzen/conversion.md`).
-
-## Zweiter Skill: text-uni
-
-`text-uni` regelt, **was** auf der Website steht: Inhalt, Wortlaut, Suche und Technik. `design-uni` regelt, wie es aussieht und ob Besucher ans Ziel kommen. Beide Skills sind zusammen gedacht: Text-Uni liefert Antwort-Plan, Texte und Ziele, design-uni baut daraus die Gestaltung. Bei Lesbarkeit und Recht gilt der strengere Grundsatz.
+`text-uni` regelt, **was** auf der Website steht: Inhalt, Wortlaut, Suche und die Regeln für `robots.txt`, Sitemap und Umzug. Text-Uni liefert Antwort-Plan, Texte und Ziele an die Gestaltung; design-uni baut daraus die Gestaltung.
 
 Der Skill ist ein Lehrgang in vier Semestern mit 404 prüfbaren Grundsätzen, je mit ID und Herkunft:
 
@@ -113,11 +122,9 @@ Der Skill ist ein Lehrgang in vier Semestern mit 404 prüfbaren Grundsätzen, je
 - **Google-Suche:** Grundlagen, Suchabsicht und Antwort-Plan, Titel und Beschreibung, lokale Suche und Profil, Messen mit Search Console.
 - **KI-Suche und Technik:** wie KI-Dienste Quellen wählen, zitierfähig schreiben, robots.txt, Sitemap, Statuscodes, Umzug einer Website.
 
-### Inhalt
-
 ```
 skills/text-uni/
-├── SKILL.md                 Verfahren in neun Schritten mit Prüfpunkten TP0 bis TP8
+├── SKILL.md                 Verfahren mit Prüfpunkten TP0 bis TP8
 ├── referenzen/
 │   ├── semester1/           V, W, L, CH, K   und die Prüfung «Welcher Text ist klarer?»
 │   ├── semester2/           A, KW, U, B, R   und die Prüfung «Würden Sie hier anrufen?»
@@ -129,35 +136,22 @@ skills/text-uni/
     └── slop-de.json         Liste mit 63 Einträgen, je mit Begründung und besserer Variante
 ```
 
-### Installation
+`slop-de.js` liest den sichtbaren Text von HTML-Seiten und Markdown und meldet Floskeln, KI-Muster, Eszett und leere Knöpfe mit Zeile. Exit-Code 0 heisst: kein FEHLER. Mit `--streng` zählen auch Warnungen, mit `--json <pfad>` gibt es alle Treffer als Datei.
 
-Wie bei design-uni den Ordner `skills/text-uni/` kopieren, am besten beide Skills zusammen:
+## web-uni
 
-- **für ein Projekt:**
-  ```
-  mkdir -p .claude/skills && cp -R pfad/zu/design-uni/skills/text-uni .claude/skills/
-  ```
-- **für alle Projekte:**
-  ```
-  mkdir -p ~/.claude/skills && cp -R pfad/zu/design-uni/skills/text-uni ~/.claude/skills/
-  ```
-
-Aufrufen lässt er sich auch direkt mit `/text-uni`.
-
-### Werkzeug
-
-`slop-de.js` braucht Node.js 18 oder neuer. Es liest den sichtbaren Text von HTML-Seiten und meldet Floskeln, KI-Muster, Eszett und leere Knöpfe mit Zeile.
+`web-uni` regelt, **womit** gebaut wird und wie die Website betrieben wird: Klassen und Stack, Hoster, Bewegungstechnik und 3D mit Kostenblatt, Budgets für Ladezeit, JavaScript und Bilder, ein Prüflauf für alle maschinellen Prüfungen, Formular-Backend, Datenschutz-Technik, Livegang, Pflege und Übergabe. Standard des Studios ist Astro mit statischer Ausgabe; statisches HTML bleibt erlaubt, wenn nichts verloren geht.
 
 ```
-node .claude/skills/text-uni/werkzeuge/slop-de.js pfad/zur/website
-node .claude/skills/text-uni/werkzeuge/slop-de.js .claude/skills/text-uni/referenzen/semester1/ki-klang.md
+skills/web-uni/
+├── SKILL.md                 Verfahren mit Prüfpunkten WP0 bis WP9 (WP9 Livegang)
+├── referenzen/              stacks, animation-3d, messungen, pruefumgebung, betrieb, livegang, branchenwerte, lektionen (WL1 ff.)
+└── vorlage-astro/           Gerüst mit Datenquelle, Bau und Prüfungen, ohne eigene Gestaltung und ohne fertige Texte
 ```
 
-Exit-Code 0 heisst: kein FEHLER. Mit `--streng` zählen auch Warnungen, mit `--json <pfad>` gibt es alle Treffer als Datei.
+## Grenzen
 
-### Grenzen von text-uni
-
-- Alle vier Semesterprüfungen sind Modell-Urteile: Sprachmodelle haben bewertet, keine Menschen.
-- Klickwirkung und die Auswahl der Quellen durch KI-Dienste sind nicht geprüft.
-- Ausser `slop-de.js` gibt es kein Werkzeug; Faktenabgleich, Snippet-Test und Zitat-Test laufen von Hand oder mit eigenem Skript.
+- Alle Bewerter in den zugrunde liegenden Tests waren Sprachmodelle. Ihr Urteil ist ein Vorfilter; ob Menschen gleich urteilen, zeigt erst ein Menschentest.
+- Schwellen mit `[Annahme]` sind nicht kalibriert. Regeln, die nur aus Modell-Urteilen oder Geschmack stammen, sind Hinweise und sperren nichts.
 - Die Rechtsteile sind keine Rechtsauskunft.
+- Ob die Grundsätze mehr Anfragen bringen, zeigt erst eine Messung nach dem Livegang (Messplan: text-uni).

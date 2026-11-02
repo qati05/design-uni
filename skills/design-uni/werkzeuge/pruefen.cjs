@@ -5,7 +5,8 @@
    Allgemein: Alles Projektbezogene steht in projekt.json (Vorlage: ../eingabe/projekt.beispiel.json).
 
    Aufruf:  node pruefen.cjs <projekt.json> [--selbsttest] [--json <ausgabe.json>]
-   --selbsttest  prüft eine Kopie mit eingebauten Fehlern; das Werkzeug gilt nur als brauchbar, wenn es alle findet.
+   --selbsttest  prüft zuerst die Seite, dann eine Kopie mit eingebauten Fehlern; ein Fehler gilt nur als gefunden, wenn sich
+                 das Ergebnis gegenüber dem ersten Lauf ändert. Das Werkzeug gilt nur als brauchbar, wenn es alle findet.
 
    Was fehlt in projekt.json, wird übersprungen und als «nicht geprüft» gemeldet, nie als bestanden.
    Seiten: «seiten» in projekt.json, sonst alle *.html im Ordner, auch in Unterordnern. Eine Seite «kontakt» ist
@@ -221,7 +222,7 @@ async function pruefe(base) {
   await b.close();
 }
 
-/* ---------- Text und Technik aus den HTML-Dateien (T7) ---------- */
+/* ---------- Text und Technik aus den HTML-Dateien (TP7) ---------- */
 function textPruefung(ordner) {
   const html = (s) => fs.readFileSync(datei(ordner, s), "utf8");
   const vis = (h) => h.replace(/<(script|style|svg|head)\b[\s\S]*?<\/\1>/gi, " ").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ");
@@ -315,7 +316,7 @@ function baueFehlerEin(tmp) {
   // 5 Bild ohne Mass
   schreib(sK, lies(sK).replace(/<\/main>/, '<img src="fehlt-absichtlich.jpg" alt=""></main>')); eingebaut.push("TP7/S20/TI33 Bilder mit Alt-Attribut, width und height");
   // 6 Vorschau mit «Disallow: /» (Entscheid 4: falsch)
-  if (P.vorschau !== false) { fs.writeFileSync(path.join(tmp, "robots.txt"), "User-agent: *\nDisallow: /\n"); eingebaut.push("TP7/TI8 Vorschau: robots.txt sperrt nicht (kein «Disallow: /»), keine Sitemap (Entscheid 4)"); }
+  if (P.vorschau !== false) { fs.writeFileSync(path.join(tmp, "robots.txt"), "User-agent: *\nDisallow: /\n"); fs.writeFileSync(path.join(tmp, "sitemap.xml"), "<urlset></urlset>"); eingebaut.push("TP7/TI8 Vorschau: robots.txt sperrt nicht (kein «Disallow: /»), keine Sitemap (Entscheid 4)"); }
   // 7 Telefon mit 0041 im sichtbaren Text (CH13: falsch)
   schreib(sT, lies(sT).replace(/<\/main>/, "<p>Telefon 0041 71 555 00 00</p></main>")); eingebaut.push("TP7/CH12/CH13 Telefon sichtbar national oder «+41 xx xxx xx xx», kein 0041, kein (0)");
   // 8 Hauptaktion doppelt im ersten Bildschirm (Entscheid 6)
@@ -323,7 +324,7 @@ function baueFehlerEin(tmp) {
   // 9 Pflichtfeld mit Sternchen (U11, zusammenspiel.md Teil 4: falsch)
   const F = P.formular;
   const fSeite = F && F.seite ? ziel(tmp, path.join(tmp, "index.html"), F.seite) : null;
-  if (F && F.selektor && fSeite && fs.existsSync(fSeite)) { const fp = fSeite, fh = fs.readFileSync(fp, "utf8"); const neu = fh.replace(/<\/label>/, " *</label>"); if (neu !== fh) { fs.writeFileSync(fp, neu); eingebaut.push("DP6 Formular: höchstens 4 Pflichtfelder, freiwillige mit «(freiwillig)», kein Sternchen"); } }
+  if (F && F.selektor && fSeite && fs.existsSync(fSeite)) { const fp = fSeite, fh = fs.readFileSync(fp, "utf8"); const kand = [...fh.matchAll(/<label\b[^>]*for="([^"]+)"[^>]*>((?:(?!<\/label>)[\s\S])*?)<\/label>/g)].filter((x) => !x[2].includes("*") && new RegExp(`<(textarea|select)\\b[^>]*id="${x[1]}"|<input(?![^>]*type="(checkbox|radio|hidden)")[^>]*id="${x[1]}"`).test(fh)).pop(); const neu = kand ? fh.replace(kand[0], kand[0].replace("</label>", " *</label>")) : fh; if (neu !== fh) { fs.writeFileSync(fp, neu); eingebaut.push("DP6 Formular: höchstens 4 Pflichtfelder, freiwillige mit «(freiwillig)», kein Sternchen"); } }
   // 10 Verzeichnisformat: Link auf eine echte Ordnerseite gilt nicht als tot, Link auf einen fehlenden Ordner schon
   fs.mkdirSync(path.join(tmp, "selbsttest-ordner"), { recursive: true });
   fs.writeFileSync(path.join(tmp, "selbsttest-ordner", "index.html"), "<!doctype html><title>Selbsttest</title><main><p>Selbsttest</p></main>");

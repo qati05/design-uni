@@ -9,7 +9,7 @@ Die Liste entstand aus der Vermessung von 25 Vorbildern ([vorbilder-gemessen.md]
 1. **Aus den Kundenangaben lesen** ([../eingabe/kundenangaben.md](../eingabe/kundenangaben.md)): Welche Form hat die grosse Entscheidung (Wort, Bild, Fläche, System)? Gibt es eigene Fotos, ein Logo als Vektordatei, belegte Fakten (Zertifikat, Jahr, Gebiet, Zeiten)?
 2. **Eine tragende Technik** wählen, die die Idee im ersten Bildschirm zeigt, und **höchstens zwei stützende**. Jede bekommt in der Ableitungskette einen «weil»-Satz, der auf die Idee zeigt.
 3. **Material-Weiche:** Ohne eigene Fotos und ohne Fototag trägt keine Bild-Technik (TK2, TK8, TK9, TK12). Dann trägt eine Schrift- oder Fakten-Technik (TK1 gesetzt, TK3, TK5, TK6, TK7), und das Foto stützt nur (DL10, DL11).
-4. **Ins Register** ([abstand.md](abstand.md) Teil 3), Spalte «Techniken». Eine tragende Technik der letzten zwei Websites ist als tragende gesperrt.
+4. **Ins Register** ([abstand.md](abstand.md) Teil 3), Spalte «Techniken». Hinweis: Eine tragende Technik der letzten zwei Websites besser nicht wieder als tragende (Modell-Urteil, Entscheid 13).
 5. **Prüfen am Bild:** Die Technik gilt erst, wenn ein blinder Bewerter die Idee aus dem ersten Bildschirm nacherzählen kann (DL7). Messwerte aus [../werkzeuge/vergleichen.cjs](../werkzeuge/vergleichen.cjs) zeigen nur, ob sie überhaupt im Bild steht.
 
 | Form der Idee | passt als tragende Technik |
@@ -23,7 +23,7 @@ Die Liste entstand aus der Vermessung von 25 Vorbildern ([vorbilder-gemessen.md]
 
 ### TK1 · Der Name als Bild
 - **Gesehen:** 7 von 25 im ersten Bildschirm (Rennsport, Telha Clarke, WRK, Infinite Machine, Eladio Dieste, Studio Ag, watts); 6 von 25 im Fuss (TK13).
-- **Was:** Name oder Wortmarke über 90 bis 100 % der Breite, an einer Kante bündig oder angeschnitten. Er ist der Star; der Titel daneben bleibt klein.
+- **Was:** Name oder Wortmarke über 90 bis 100 % der Breite, an einer Kante bündig oder angeschnitten. Er ist der Star, aber **keine Überschrift**: Die `h1` daneben oder darunter nennt Leistung und Ort und darf klein sein (Entscheid 2).
 - **Voraussetzung:** Logo als Vektordatei, oder der Name wird in einer Schrift **gesetzt** (nie ein Rasterlogo vergrössern, DL10). Name kurz oder klar teilbar.
 - **Bauen:** einmal gross (Kopf oder Fuss, nicht beides gleich); Handy mit eigener Form: zweizeilig, oben und unten geteilt, oder gestürzt.
 - **Messen:** `wortmarke = 1` oder `starBreite ≥ 0,9`.
@@ -42,7 +42,7 @@ Die Liste entstand aus der Vermessung von 25 Vorbildern ([vorbilder-gemessen.md]
 - **Was:** Anschrift, Öffnungszeiten, Telefon und Erreichbarkeit stehen als gesetzte Tabelle **im Kopf**, in Spalten mit feinen Linien. Was Besucher suchen, ist zugleich die Gestaltung.
 - **Voraussetzung:** belegte Zeiten, Anschrift, Nummer; ein Betrieb, den man besucht oder anruft. Für lokale KMU die naheliegendste Technik.
 - **Bauen:** Spalten mit Haarlinien über die ganze Breite; Zeiten mit Tabellenziffern; Spalte «jetzt offen» nur mit Kalenderprüfung (DP6); Handy: Fakten zuerst, dann das Bild.
-- **Messen:** Telefon und Zeiten im ersten Bildschirm (DP6), Wörter im ersten Bildschirm dennoch ≤ 120.
+- **Messen:** Telefon und Zeiten im ersten Bildschirm (DP6), Wörter im ersten Bildschirm dennoch höchstens etwa 60 `[Annahme]` (Entscheid 3). Die Faktenzeile aus Entscheid 3 ist die kleinste Form dieser Technik.
 - **Gefahr:** Wird zur Tabelle ohne Idee, wenn nichts anderes da ist. Die Spalten brauchen einen Rhythmus aus dem Betrieb (Fahrplan, Rapport, Schichtplan).
 
 ### TK4 · Das sichtbare Raster
@@ -57,14 +57,14 @@ Die Liste entstand aus der Vermessung von 25 Vorbildern ([vorbilder-gemessen.md]
 - **Gesehen:** 9 von 25 (ESR, Turion, Redwood, WRK, Digital Metal, Storey, Telha Clarke, Rennsport, Tekt).
 - **Was:** links eine kleine Zeile in Versalien oder Mono («ZERTIFIZIERTE CARROSSERIE», «001 ORBIT»), rechts oder darunter die grosse Aussage. Zwei Grössen, kein Mittelmass.
 - **Voraussetzung:** Etiketten mit echtem Inhalt (Zertifikat, Nummer, Jahr, Ort), keine Wörter wie «Über uns».
-- **Bauen:** Etikett 11 bis 13 px, Laufweite +0,04 bis +0,08 em; Aussage ab 28 px; ein Abstand zwischen beiden, immer derselbe.
+- **Bauen:** Das Etikett mit Leistung und Ort kann die `h1` sein, die Aussage daneben ist dann keine Überschrift (Entscheid 2). Etikett 11 bis 13 px, Laufweite +0,04 bis +0,08 em; Aussage ab 28 px; ein Abstand zwischen beiden, immer derselbe.
 - **Messen:** `versal` oder `mono` > 0,02 und `starZuFliess` ≥ 3.
 - **Gefahr:** Die Versal-Zeile «LABEL Wert · LABEL Wert» im ersten Bildschirm ist Modell-Standard (abstand.md Prüfung 7). Das Etikett steht allein über einer Aussage, nie als Reihe.
 
 ### TK6 · Die Aussage als grosser Absatz
 - **Gesehen:** 7 von 25 (ESR, Eladio Dieste, Tekt, Rennsport, Storey, Pixelflakes, Studio Ag).
 - **Was:** Statt drei Icon-Kacheln ein Absatz in 28 bis 40 px mit belegten Fakten im Satz: seit wann, wo, welches Zertifikat, für wen.
-- **Voraussetzung:** zwei bis drei belegte Fakten, die in einen Satz passen; Text nach text-uni (≤ 25 Wörter je Satz).
+- **Voraussetzung:** zwei bis drei belegte Fakten, die in einen Satz passen; Text und Satzlänge nach text-uni (W2).
 - **Bauen:** über 6 bis 8 von 12 Spalten, linksbündig, Zeilenhöhe 1,15 bis 1,25; ein Wort darf hervorgehoben werden, wenn es ein Fakt ist.
 - **Messen:** grösster Absatz im Fliesstext ≥ 1,8 × Fliesstext.
 - **Gefahr:** Ohne Fakten wird es ein grosser Werbesatz. Der Faktenabgleich (DP6/TP7) gilt auch hier.
@@ -120,17 +120,21 @@ Die Liste entstand aus der Vermessung von 25 Vorbildern ([vorbilder-gemessen.md]
 ### TK14 · Das Handy hat eine eigene Form
 - **Gesehen:** Die Vorbilder zeigen am Handy im Median 30 Wörter, 0 knopfartige Elemente und 91 % Bild im ersten Bildschirm. This January spiegelt den Namen oben und unten, Eladio Dieste teilt ihn, Wine Diplomacy stellt die Fakten vor das Bild.
 - **Was:** Der erste Handy-Bildschirm ist eigens komponiert (komposition.md Regel 4), nicht der gestapelte Desktop.
-- **Messen:** `handyWoerter ≤ 85`, `handyKnoepfe ≤ 2`.
+- **Messen:** `handyWoerter` höchstens etwa 60 (Entscheid 3), `handyKnoepfe ≤ 2`.
 
 ## 3. Was die Vorbilder fast nie tun
 
 Gemessen an 25 Vorbildern ([vorbilder-gemessen.md](vorbilder-gemessen.md) Teil 2). Sie sind die «Vorlagen-Signale» in [../werkzeuge/vergleichen.cjs](../werkzeuge/vergleichen.cjs):
 
-- mehr als 2 knopfartige Elemente im ersten Bildschirm (Median 0);
+- mehr als 2 knopfartige Elemente im ersten Bildschirm (Median 0); Telefon und Hauptaktion in der Faktenzeile zählen nicht als Signal;
 - Karten mit Fläche, Radius und Text (19 von 25: keine);
 - Schatten (16 von 25: keine);
 - mehr als 3 Arten von Eckenradien;
 - mehr als 14 kleine Icons auf der Startseite (Median 5);
 - mehr als 2 Schriftfamilien (20 von 25: 1 oder 2; oft eine Familie mit ihrem Mono-Schnitt).
 
-Ein Signal ist kein Verbot. Es braucht einen «weil»-Satz aus dem Betrieb, sonst ist es Voreinstellung.
+Dazu die Grenze für den ersten Bildschirm aus Entscheid 3: höchstens etwa **60 Wörter** `[Annahme]`, Desktop und Handy. Sie ersetzt die früheren Signale «über 120» und «über 85 Wörter».
+
+**Die Faktenzeile ist kein Vorlagen-Signal** (Entscheid 3, [zusammenspiel.md](zusammenspiel.md)): eine schlanke Zeile mit Leistung, Ort, Telefon und Hauptaktion neben der einen grossen Sache. Sie braucht keinen «weil»-Satz.
+
+Ein Signal ist kein Verbot, sondern ein Hinweis (Entscheid 13). Es braucht einen «weil»-Satz aus dem Betrieb, sonst ist es Voreinstellung.
