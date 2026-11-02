@@ -1,13 +1,16 @@
 ---
 import Seite from "../layouts/Seite.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
+import FremdInhalt from "../components/FremdInhalt.astro";
+import { betrieb as b } from "../../bau/daten.mjs";
 ---
 <Seite seite="occasionen" eigeneH1>
 <SeitenKopf seite="occasionen" idee="Occasionen auf dem Areal." foto="fassade" alt="Gebäude der Auto Speedy AG, davor ein Defender und weitere Fahrzeuge">
   <p>Auf unserem Areal finden Sie laufend verschiedene Occasionen. Als markenunabhängige Garage kaufen wir auch Ihr Auto an.</p>
-  <p><a class="knopf" href="https://www.autoscout24.ch/de/s/seller-67678" rel="noopener" data-zaehl="autoscout" data-ort="occasionen">Occasionen auf AutoScout24</a></p>
-</SeitenKopf>
-<div class="seite">
+  </SeitenKopf>
+<div class="seite seite--breit">
+  <h2>Aktuelle Occasionen</h2>
+  <FremdInhalt dienst="AutoScout24" titel="Occasionen anzeigen" text="Unsere Fahrzeuge erfassen wir auf AutoScout24. Hier sehen Sie die aktuelle Liste direkt auf unserer Seite." widget={b.occasionen?.widget} link={b.occasionen?.liste} linkText="Liste auf AutoScout24 öffnen" />
   <h2>Was wir anbieten</h2>
   <ul class="liste"><li>Verkauf von Occasionen</li><li>Autoankauf</li><li>Leasing</li><li>technische Beratung</li><li>Abwicklung von Versicherungen</li></ul>
 </div>

@@ -61,5 +61,10 @@
     "anzeige": "076 615 44 41",
     "bestaetigt": false
   },
-  "_whatsapp": "Nummer = Mobilnummer von autospeedy.ch (F2). Ob der Betrieb darüber WhatsApp nutzt, ist NICHT belegt: bestaetigt false zeigt neben dem Knopf eine sichtbare Lücke."
+  "_whatsapp": "Nummer = Mobilnummer von autospeedy.ch (F2). Ob der Betrieb darüber WhatsApp nutzt, ist NICHT belegt: bestaetigt false zeigt neben dem Knopf eine sichtbare Lücke.",
+  "occasionen": {
+    "liste": "https://www.autoscout24.ch/de/s/seller-67678",
+    "widget": null
+  },
+  "_occasionen": "liste = Händlerseite auf AutoScout24 (F16). widget = Einbettung, die AutoScout24 dem Betrieb gibt: {\"art\": \"iframe\", \"src\": \"https://…\", \"hoehe\": 900} oder {\"art\": \"skript\", \"src\": \"https://…\"}. null = noch nicht vorhanden (Lücke). Lädt erst nach Klick (web-uni WP5, text-uni CL3)."
 }

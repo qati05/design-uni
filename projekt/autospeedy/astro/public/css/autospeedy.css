@@ -754,3 +754,11 @@ header .aktionen .knopf[aria-current="page"] { display: none; }
 .saison a:hover span { transform: translateX(3px); }
 .saison span { transition: transform 150ms ease; }
 @media (prefers-reduced-motion: reduce) { .saison span { transition: none; } }
+
+/* Fremder Inhalt nach Klick (Occasionen-Widget) */
+.fremd { margin: 8px 0 32px; }
+.fremd__platz { display: grid; gap: 12px; justify-items: start; padding: clamp(20px, 3vw, 32px); background-color: #e2f0fc; background-image: var(--lack); border: 2px solid var(--babyblau-tief); }
+.fremd__platz p { margin: 0; max-width: 64ch; }
+.fremd__titel { font: italic 700 26px/1.1 var(--titel); text-transform: uppercase; }
+.fremd__datenschutz { font-size: 15px; color: var(--hallengrau); }
+.fremd.ist-geladen .fremd__platz { display: none; }

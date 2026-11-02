@@ -3,3 +3,4 @@ dist/
 .astro/
 .bau-tmp.mjs
 dist-demo/
+dist-widgettest/

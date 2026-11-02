@@ -1,0 +1,30 @@
+---
+// Fremder Inhalt (z. B. AutoScout24-Widget) lädt erst nach Klick: vorher keine Verbindung zum fremden Dienst,
+// keine Cookies (web-uni WP5, text-uni CL3, zusammenspiel Entscheid 10). Ohne JavaScript bleibt der Link.
+const { dienst, titel, text, widget, link, linkText } = Astro.props;
+---
+<div class="fremd" data-fremd data-art={widget?.art} data-src={widget?.src} data-hoehe={widget?.hoehe ?? 900} data-titel={titel}>
+  <div class="fremd__platz">
+    <p class="fremd__titel">{titel}</p>
+    <p>{text}</p>
+    <p class="fremd__datenschutz">Beim Anzeigen lädt {dienst} Inhalte von seinen Servern und kann dabei Cookies setzen. Vorher wird nichts geladen. Mehr in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+    {widget?.src ? <button class="knopf" type="button" data-fremd-laden hidden>{titel}</button> : <p data-luecke>Lücke: Den Code für das Widget stellt AutoScout24 dem Betrieb zur Verfügung. Bis dahin führt der Link direkt zur Liste.</p>}
+    <a class="knopf knopf--zweit" href={link} rel="noopener" target="_blank" data-zaehl="autoscout" data-ort="occasionen">{linkText}</a>
+  </div>
+  <div class="fremd__inhalt" data-fremd-ziel></div>
+</div>
+<script is:inline>
+(function () {
+  [].forEach.call(document.querySelectorAll("[data-fremd]"), function (box) {
+    var knopf = box.querySelector("[data-fremd-laden]"); if (!knopf) return;
+    knopf.hidden = false;
+    knopf.addEventListener("click", function () {
+      var ziel = box.querySelector("[data-fremd-ziel]"), src = box.dataset.src;
+      if (!/^https:\/\//.test(src) && !/^\//.test(src)) return;
+      if (box.dataset.art === "skript") { var s = document.createElement("script"); s.src = src; s.async = true; ziel.appendChild(s); }
+      else { var f = document.createElement("iframe"); f.src = src; f.title = box.dataset.titel; f.loading = "lazy"; f.style.width = "100%"; f.style.height = (parseInt(box.dataset.hoehe, 10) || 900) + "px"; f.style.border = "0"; f.setAttribute("referrerpolicy", "no-referrer-when-downgrade"); ziel.appendChild(f); }
+      box.classList.add("ist-geladen"); knopf.hidden = true;
+    });
+  });
+})();
+</script>
