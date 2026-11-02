@@ -1,17 +1,26 @@
 ---
 name: web-uni
-description: Verfahren, um für eine Website-Aufgabe selbst den besten technischen Weg zu wählen und zu bauen, statt den einfachsten oder den modischsten: Stack (statisch, Astro oder Eleventy, Next.js und React, SvelteKit, Baukasten oder CMS), Bewegung und 3D (CSS, View Transitions, GSAP, Motion, Lenis, Video, WebGL mit three.js und React Three Fiber, WebGPU), Bilder, Formulare, Hosting, Geschwindigkeit, Barrierefreiheit, Messung. Nutzen, wenn eine Website oder Landingpage gebaut, umgebaut oder technisch beurteilt werden soll und der Stack, eine Animation oder ein 3D-Element entschieden werden muss; wenn ein Kunde «etwas Besonderes» will; wenn gemessen werden soll, ob sich eine Technik lohnt. Gedacht zusammen mit design-uni (Gestaltung) und text-uni (Text und Suche). Jede Aussage trägt ein Kennzeichen, ob sie gebaut und gemessen, gelesen oder nur angenommen ist.
+description: Verfahren, um für eine Website-Aufgabe den besten technischen Weg zu wählen, zu bauen und live zu bringen, statt den einfachsten oder den modischsten: Stack und Hoster (statisch, Astro, Next.js, Baukasten), Bewegungstechnik und 3D mit Kostenblatt, Budgets für Ladezeit, JS und Bilder, ein Prüflauf für alle maschinellen Prüfungen, Formular-Backend, Datenschutz-Technik, Hosting, Livegang, Pflege und Übergabe. Nutzen, wenn eine Website gebaut, umgebaut, technisch beurteilt oder veröffentlicht werden soll; wenn Stack, Animation oder 3D zu entscheiden sind; wenn ein Kunde «etwas Besonderes» will; wenn gemessen werden soll, ob sich eine Technik lohnt. Arbeitet mit design-uni (Gestaltung) und text-uni (Text und Suche). Jede Aussage trägt ein Kennzeichen, ob sie gebaut und gemessen, gelesen oder angenommen ist.
 ---
 
 # Web-Uni: Den besten Weg bauen, nicht den einfachsten
 
-`design-uni` entscheidet, **wie es aussieht**, `text-uni`, **was dasteht**, `web-uni`, **womit und wie es gebaut wird**. Der Wunsch des Kunden gibt das Ziel vor; der Stack ist das Mittel. Der Skill verlangt zwei Dinge zugleich, die sich oft widersprechen: **nicht den einfachsten Weg nehmen, nur weil er einfach ist**, und **nicht die auffälligste Technik, nur weil sie möglich ist**. Gewählt wird, was den Wunsch am besten erfüllt, solange der Betrieb es tragen kann (Pflege, Kosten, Geschwindigkeit).
+`design-uni` entscheidet, **wie es aussieht**, `text-uni`, **was dasteht**, `web-uni`, **womit es gebaut wird, was es kostet und wie es live geht**. Der Wunsch des Betriebs gibt das Ziel vor; der Stack ist das Mittel. Gewählt wird, was den Wunsch am besten erfüllt, solange der Betrieb es tragen kann (Pflege, Kosten, Geschwindigkeit): weder die einfachste Technik, nur weil sie einfach ist, noch die auffälligste, nur weil sie möglich ist.
 
 Merksatz: *Technik ist gut, wenn der Besucher sie nicht bemerkt, ausser sie ist der Grund, warum er bleibt.*
 
+## Zusammenspiel
+
+Die verbindlichen Regeln für alle drei Skills stehen in [zusammenspiel.md](../design-uni/referenzen/zusammenspiel.md): Rangfolge, Besitzer je Thema, Entscheide, eine Schwelle je Sache, Kennungen, gemeinsame Abfolge.
+
+- **web-uni besitzt:** Stack, Hoster, Domain, HTTPS, Sicherheit, Sicherungen; Budgets (Ladezeit, Core Web Vitals, JS, Bilder) und die Lighthouse-Schwelle; fremde Hosts, Cookies, DSG-Technik; Formular-Backend, Spamschutz, Zählendpunkt; die Testumgebung für den einen Prüflauf; Livegang, Pflege, Zugänge, Übergabe; Kosten an den Kunden (nur als Entwurf).
+- **web-uni verweist auf design-uni** für Eingabe und `entscheide.md`, Gestaltung, Barrierefreiheit mit Schwellen, Bewegung (ob und welche), Bewerter und Menschentests, `LIESMICH.md`.
+- **web-uni verweist auf text-uni** für Fakten, jeden Wortlaut, Recht für Inhalte, Regeln für `robots.txt`, Sitemap, `canonical`, Weiterleitungen und Umzug (TI1 bis TI30, S28), Messplan.
+- **Kennungen:** Prüfpunkte WP0 bis WP9, Lektionen WL. Fremde Kennungen immer voll: DP, DL, TK, LA, LP, LH (design-uni); TP und die Grundsätze von text-uni (TI, S, M, U, CL …).
+
 ## Wie man diese Datei liest
 
-- Die Schritte laufen der Reihe nach, jeder endet mit einem **Prüfpunkt (V0 bis V8)**. Fällt einer durch, geht es einen Schritt zurück.
+- Die Schritte folgen der gemeinsamen Abfolge (zusammenspiel Teil 6) und enden je mit einem **Prüfpunkt WP**. Fällt ein Prüfpunkt, geht es zum Schritt zurück, der das fehlende Ergebnis liefert, auch in einem anderen Skill.
 - **Kennzeichen** an jeder Aussage in `referenzen/`:
 
 | Kennzeichen | Bedeutung |
@@ -19,181 +28,196 @@ Merksatz: *Technik ist gut, wenn der Besucher sie nicht bemerkt, ausser sie ist 
 | `[gebaut und gemessen · Datum]` | in diesem Repo gebaut und mit einem Werkzeug gemessen; die Zahl steht mit Befehl in [messungen.md](referenzen/messungen.md) |
 | `[gelesen · Quelle, Datum]` | in der genannten Quelle gelesen, nicht selbst gebaut |
 | `[Annahme]` | eigene Ableitung oder Arbeitsgrenze, ungeprüft |
-| `[nicht gebaut]` | ein Stack oder eine Technik, die hier genannt, aber noch nie gebaut wurde; kein Urteil erlaubt |
+| `[nicht gebaut]` | genannt, aber hier noch nie gebaut; kein Urteil erlaubt |
 
-- **Versionen veralten schnell.** Vor jedem Bau: Versionen in `package.json` lesen, die **aktuelle** Dokumentation dieser Version lesen, nicht aus dem Gedächtnis arbeiten. Die Tabelle in [stacks.md](referenzen/stacks.md) ist ein Stand vom 1. November 2026.
-- **Selbstbewertung zählt nicht.** Urteile über Wirkung (gefällt, wirkt hochwertig, lohnt sich) kommen aus der blinden Bewertung von `design-uni` oder aus einem Test mit Menschen; Urteile über Geschwindigkeit und Zugänglichkeit kommen aus Messungen.
+- **Versionen veralten schnell.** Vor jedem Bau die Versionen in `package.json` lesen und die Dokumentation genau dieser Version. Die Tabelle in [stacks.md](referenzen/stacks.md) ist ein Stand vom 1. November 2026.
+- **Urteile über Wirkung** (gefällt, Vertrauen, «würde anfragen») aus Bewerter-Läufen mit Sprachmodellen heissen «**Modell-Urteil bestanden**», nicht «belegt» (zusammenspiel Entscheid 1). Belegt ist eine Wirkung erst durch Menschen (WP6) oder durch Zahlen nach dem Livegang. Urteile über Geschwindigkeit und Zugänglichkeit kommen aus Messungen.
 
 ## Grundregeln
 
-1. **Der Wunsch des Kunden geht vor, mit offenem Preis.** Will der Kunde Bewegung oder 3D, wird es gebaut, wenn die Kosten benannt sind: Gewicht in KB, Auswirkung auf LCP und TBT, Pflege, Geräte, die es nicht tragen. Der Kunde entscheidet mit diesem Blatt, nicht ohne.
-2. **Inhalt zuerst, Bewegung danach.** Alle Inhalte, Telefon und Formular funktionieren **ohne JavaScript** und **ohne WebGL**. Bewegung und 3D sind eine Verbesserung, kein Träger (progressive Verbesserung).
-3. **Foto zuerst, Szene später.** Das grösste Element im ersten Bildschirm (LCP) ist ein Bild oder Text. Szenen laden erst nach dem LCP und nur, wenn Bewegung erlaubt und die Technik da ist.
-4. **`prefers-reduced-motion` und Energie.** Unter reduzierter Bewegung läuft nichts von selbst. Auf Geräten mit schwacher Grafik oder Sparmodus wird die Szene nicht gestartet.
-5. **Keine fremden Hosts ohne Not.** Schriften, Skripte und Modelle liegen auf dem eigenen Server (Datenschutz, DSG, Geschwindigkeit).
-6. **Messen, bevor man behauptet.** Eine Technik gilt als «gut» erst nach Messung (V5) und, wo es um Wirkung geht, nach dem blinden Test (V6).
-7. **Der Betrieb muss es pflegen können.** Wer ändert Öffnungszeiten, Fotos, Team, Preise? Ist die Antwort «nur ein Entwickler», ist das ein Kostenpunkt und wird dem Kunden gesagt.
-8. **Entscheide des Auftraggebers** (Stack, Hosting, Marke, Budget) gehen jeder Regel hier vor und stehen mit Quelle im Entscheidblatt.
-9. **Nichts geht live ohne Freigabe.** Gebaut wird eine Vorschau (`noindex`).
-10. **Geschäftswirkung vor Millisekunden, Organisation vor Technik.** Ein Besucher wird zur Anfrage durch Verständlichkeit, Vertrauen und einen kurzen Weg zum Ziel, und die Anfrage wird zum Auftrag durch das, was im Betrieb danach geschieht (wer liest sie, wie schnell kommt die Antwort, was folgt). Ladezeit ist eine **Schwelle** (Hygiene: ab «gut» im Sinne von Core Web Vitals genügt es), kein Wettbewerb: Weitere Millisekunden erzeugen nicht automatisch mehr Anfragen. Der Skill darf deshalb Technik **nicht** allein mit Tempo begründen. Jeder Stack-Entscheid braucht mindestens einen Grund aus der **Organisation** (Pflege, Abläufe, Anfragekette), siehe Schritt 0 Punkt 11 und Schritt 7.
+1. **Rangfolge statt Bauchgefühl.** Recht, dann Entscheide des Betriebs, dann Hausentscheide des Studios, dann die Regeln dieses Skills (zusammenspiel Teil 1). Entscheide stehen mit Datum und Person in `entscheide.md` (design-uni).
+2. **Der Wunsch des Betriebs geht vor, mit offenem Preis.** Will der Betrieb mehr Technik, als die Regeln vorsehen, wird sie gebaut, wenn die Kosten benannt sind: Gewicht in KB, Auswirkung auf LCP und TBT, Pflege, Geräte, die es nicht tragen. Der Betrieb entscheidet mit dem Kostenblatt.
+3. **Kosten an den Kunden sind Entwürfe.** Kostenblatt, Stunden und laufende Kosten gehen erst nach Freigabe durch das Studio an den Betrieb.
+4. **Inhalt zuerst.** Alle Inhalte, Telefon und Anfrage funktionieren ohne JavaScript und ohne WebGL. Bewegung und 3D sind Verbesserung, kein Träger.
+5. **Foto zuerst, Szene später.** Das LCP-Element ist ein Bild oder Text. Szenen laden nach dem LCP, nur mit Bewegung erlaubt und Technik vorhanden.
+6. **`prefers-reduced-motion` und Energie.** Unter reduzierter Bewegung läuft nichts von selbst; bei schwacher Grafik oder Sparmodus startet keine Szene.
+7. **Alles vom eigenen Host.** Schriften, Skripte, Bilder und Modelle liegen auf dem eigenen Server. Fremde Inhalte laden erst nach Klick (text-uni CL3); fremde Skripte nur mit Grund und erst nach Einwilligung oder Klick (zusammenspiel Entscheid 10). Keine Cookies ohne Entscheid. Einzelheiten: [betrieb.md](referenzen/betrieb.md).
+8. **Messen, bevor man behauptet.** Eine Technik gilt als «gut» erst nach WP5 und, wo es um Wirkung geht, nach WP6.
+9. **Organisation vor Millisekunden.** Aus einem Besucher wird eine Anfrage durch Verständlichkeit, Vertrauen und einen kurzen Weg; aus der Anfrage ein Auftrag durch das, was im Betrieb danach geschieht. Ladezeit ist eine **Schwelle** (WP5), kein Wettbewerb. Jeder Stack-Entscheid braucht mindestens einen Grund aus der Organisation (Pflege, Abläufe, Anfragekette).
+10. **Der Betrieb muss es pflegen können.** Ist die Antwort auf «Wer ändert die Öffnungszeiten?» «nur ein Entwickler», ist das ein Kostenpunkt und steht im Kostenblatt.
+11. **Nichts geht live ohne Freigabe.** Gebaut wird eine Vorschau: `noindex` per `X-Robots-Tag` oder Meta, wo möglich mit Zugangsschutz; `robots.txt` sperrt sie **nicht** (zusammenspiel Entscheid 4). Live geht es nur über Schritt 9.
 
-## Schritt 0 · Brief lesen: Anforderungsblatt
+## Schritt 0 · Eingang
 
-Aus Gespräch, Website und Unterlagen. Jede Zeile `[Fakt · Quelle]`, `[Annahme]` oder `[Lücke]`.
+Ein Gespräch, ein Blatt: Die Fragen von web-uni stehen im **Kundenangaben-Blatt von design-uni**, Teil web-uni ([kundenangaben.md](../design-uni/eingabe/kundenangaben.md)). web-uni führt kein eigenes Blatt. Aus dem Blatt braucht web-uni diese Antworten, je als `[Fakt · Quelle]`, `[Annahme]` oder `[Lücke]`:
 
-1. **Ziel:** Anruf, Anfrage, Buchung, Kauf, Bild? Was ist ein Erfolg?
-2. **Wunsch des Kunden** in seinen Worten («sauber, informativ, einfach», «etwas, das man nicht vergisst», «wie die Seite von X»). Vorbilder und Gegenbilder.
-3. **Besucher und Geräte:** Anteil Handy, Alter der Geräte, Netz (Land, Berge), Sprachen.
-4. **Inhalte:** Seiten, Fotos, Videos, 3D-Modelle (gibt es welche oder müssen sie entstehen?), Preise, Termine.
-5. **Funktionen:** Formular, Terminbuchung, Anmeldung, Zahlung, Shop, Mehrsprachigkeit, Suche, Karte, Chat.
-6. **Pflege:** Wer ändert was, wie oft, mit welchen Kenntnissen? (Heute Wix, WordPress, Datei?)
-7. **Budget und Frist:** Bau und laufende Kosten.
-8. **Recht und Daten:** Land (Schweiz: DSG, UWG), Hosting-Standort, Cookies, Anfragen speichern ja oder nein.
-9. **Bestand:** alte Adressen für Weiterleitungen, bisherige Rankings, Konten.
-10. **Messung:** Welche Zahlen zählen nach dem Livegang? Anfragen und Aufträge zählen mehr als Ladezeit.
-11. **Organisation nach der Anfrage (Anfragekette):** Wo kommt eine Anfrage an (Postfach, Telefon, System)? Wer liest sie, zu welchen Zeiten? Wie schnell wird geantwortet (heute und gewünscht)? Was geschieht danach (Rückruf, Termin, Offerte, Besichtigung)? Wer pflegt Bewertungen, Google-Profil, Zeiten? Ohne diese Kette bringt die beste Seite nichts.
+1. **Wunsch des Betriebs** in seinen Worten, mit Vorbildern und Gegenbildern; daraus die Frage, ob Bewegung oder 3D Kern des Wunsches ist.
+2. **Besucher und Geräte:** Anteil Handy, Alter der Geräte, Netz, Sprachen.
+3. **Funktionen:** Anfrage, Terminbuchung, Anmeldung, Zahlung, Shop, Mehrsprachigkeit, Suche, Karte, Chat.
+4. **Pflege:** wer ändert was, wie oft, mit welchen Kenntnissen; heutiges System.
+5. **Budget und Frist** für Bau und laufende Kosten.
+6. **Daten:** Hosting-Standort, Cookies, Anfragen speichern ja oder nein, Aufbewahrung.
+7. **Bestand:** alte Adressen und Sitemap (für TI19), Domain und ihr Halter, Konten (Hoster, Search Console, Unternehmensprofil, E-Mail).
+8. **Anfragekette** als Entwurf: wo kommt eine Anfrage an, wer liest sie wann, wie schnell kommt die Antwort, was folgt.
 
-**V0 · Anforderungsblatt vollständig:** alle elf Punkte beantwortet oder als Lücke geführt; **Wunsch des Kunden** als Satz festgehalten.
+**WP0 · Teil web-uni vollständig:** alle acht Antworten da oder als Lücke bestätigt; der Wunsch als Satz festgehalten. WP0 läuft einmal zusammen mit DP0 und TP0 (gemeinsames Tor, zusammenspiel Teil 6, Schritt 1).
 
 ## Schritt 1 · Fähigkeiten und Klassen
 
-Aus dem Blatt wird abgeleitet, **was die Seite können muss**. Fünf Klassen (Einzelheiten und Stand: [stacks.md](referenzen/stacks.md)):
+Aus den Antworten folgt, **was die Seite können muss**. Fünf Klassen (Einzelheiten: [stacks.md](referenzen/stacks.md)):
 
 | Klasse | Gemeint | Typisch für |
 |---|---|---|
-| **A** statisch von Hand | HTML, CSS, wenig JS, ein Bauskript | wenige Seiten, selten Änderungen, ein Entwickler pflegt |
-| **B** statischer Generator mit Inhaltsdateien | Astro, Eleventy und ähnliche | viele Seiten, Inhalte in Dateien oder CMS, schnell, wenig JS |
-| **C** React-Framework | Next.js (App Router), alternativ SvelteKit, Remix, Nuxt | Konten, Shop, Vorschau für Redakteure, viel Zustand, dynamische Daten, grosse Teams |
-| **D** Baukasten oder CMS | Webflow, Wix, Shopify, WordPress | der Betrieb pflegt selbst, Standardfunktionen reichen |
-| **E** Erlebnis-Zuschlag | WebGL, WebGPU, grosse Animation, Video | wenn Bewegung oder 3D der Kern des Wunsches ist; wird **auf B oder C aufgesetzt** |
+| **A** statisch von Hand | HTML, CSS, wenig JS, ein Bauskript | sehr wenige Seiten, kaum wiederkehrende Werte |
+| **B** statischer Generator | Astro, Eleventy | Werte an einer Stelle, Seiten aus Bauteilen, wenig JS |
+| **C** React-Framework | Next.js, alternativ SvelteKit, Remix, Nuxt | Konten, Shop, Buchung, dynamische Daten |
+| **D** Baukasten oder CMS | Webflow, Wix, Shopify, WordPress | der Betrieb pflegt ganz ohne Entwickler |
+| **E** Erlebnis-Zuschlag | WebGL, WebGPU, grosse Animation, Video | Bewegung oder 3D ist Kern des Wunsches; **auf B oder C** |
 
-**V1 · Klasse begründet:** je gefordertem Merkmal steht, welche Klasse es verlangt und welche es nur erleichtert.
+**WP1 · Klasse begründet:** je gefordertem Merkmal steht, welche Klasse es verlangt und welche es nur erleichtert.
 
-## Schritt 2 · Stack-Entscheid mit Gegenentwurf
+Danach: TP1 Antwort-Plan (text-uni) legt die Seitenliste fest; gebaut wird keine Seite ausserhalb des Plans.
 
-Der Entscheid steht als Blatt `entscheid-stack.md`:
+## Schritt 2 · Stack und Hoster
 
-1. **Wahl** (Klasse und konkreter Stack mit Version).
-2. **Weil-Sätze:** drei Gründe aus dem Anforderungsblatt, jeder mit Zeilenverweis, **davon mindestens einer aus der Organisation** (Pflege, Anfragekette, Team), nicht nur aus Technik oder Tempo.
-3. **Gegenentwurf:** der zweitbeste Weg und **warum nicht**.
-4. **Der einfachste Weg** (meist Klasse A oder D) und was der Kunde dabei **verliert**. Wenn nichts verloren geht, ist der einfachste Weg der beste.
-5. **Kosten und Pflege:** Stunden Bau (Schätzung), laufende Kosten, wer pflegt.
-6. **Umkehrbarkeit:** Was kostet ein Wechsel nach Schritt 4?
+Läuft nach TP1. **Ist Bewegung oder 3D Kern des Wunsches, läuft WP2 erst nach DP1** (Richtung), weil Klasse E an der Richtung hängt.
 
-**Standard-Stack (Entscheid des Auftraggebers, 2. November 2026): Astro mit statischer Ausgabe**, Inhalte in Dateien, Gerüst in [vorlage-astro/](vorlage-astro/README.md). Dazu gilt: *ein Standard, zwei benannte Ausnahmen, kein Wechsel nach Laune.*
-- **Ausnahme 1, Next.js:** nur bei Konten, Anmeldung, Shop, Buchung oder stark dynamischen Daten. Begründung: im Spike +133 KB JS und rund 1 s LCP bei gleichem Inhalt (messungen.md).
-- **Ausnahme 2, Baukasten (Webflow, Wix, Framer):** nur wenn der Kunde ihn schon hat oder ausdrücklich verlangt, oder wenn er **ganz ohne Entwickler** pflegen will und das gesagt hat.
-- **Jede Abweichung** steht mit einem «Weil»-Satz im Entscheidblatt. Ohne diesen Satz gilt Astro.
-- **Die anderen Stacks bleiben im Werkzeugkasten** und werden nach dem gewählt, was der Kunde braucht oder erwartet (stacks.md, Klassen A bis E). Der Standard ist der Ausgangspunkt, kein Verbot.
-- **Kombinationen** sind erlaubt, wenn der Wunsch zwei Dinge verlangt (zum Beispiel ruhige Firmenseite plus Kundenportal): [stacks.md](referenzen/stacks.md), Abschnitt «Zwei Stacks zusammen». Regel: **eine Seite, ein Stack**; die Grenze liegt an der Adresse (Unterseite oder Subdomain), nie mitten in einer Seite.
-- **Gesichert** ist: Astro kostet bei statischer Ausgabe nichts gegenüber von Hand geschriebenem HTML und trägt ein echtes Projekt (12 Seiten, 50 Maschinenprüfungen bestanden). **Nicht gebaut** ist: das Bearbeiten durch Laien (Git-CMS) und Formulare mit Server.
+**Standard des Studios** `[Hausentscheid · Studio, 02.11.2026]`: **Astro mit statischer Ausgabe**, Gerüst in [vorlage-astro/](vorlage-astro/README.md). Astro ist Standard, weil Pflege und eine Datenquelle gewinnen (Organisation): Jeder Wert steht an einer Stelle (WL4), der Bau prüft Pflichtfelder und Links, Seiten entstehen aus Bauteilen. Bei statischer Ausgabe kostet Astro gegenüber handgeschriebenem HTML nichts Messbares (Score 96 gegen 97, gleiches JS, [messungen.md](referenzen/messungen.md)). Ausnahmen, je mit «Weil»-Satz:
 
-**V2 · Entscheid geprüft:** ein zweiter Blick (Unteragent ohne Kontext oder eine Fachperson) bekommt nur das Blatt und das Anforderungsblatt und nennt den stärksten Einwand. Der Einwand wird beantwortet oder der Entscheid geändert.
+- **Statisches HTML (Klasse A):** erlaubt, wenn nichts verloren geht, das heisst: so wenige wiederkehrende Werte, dass eine Datenquelle nichts spart, und kein Bedarf an Bauprüfungen über das Prüfskript hinaus.
+- **Next.js (Klasse C):** nur bei Konten, Anmeldung, Shop, Buchung oder stark dynamischen Daten; im Spike +133 KB JS und rund 1 s später LCP bei gleichem Inhalt.
+- **Baukasten (Klasse D):** wenn der Betrieb ihn schon hat oder ausdrücklich verlangt, oder ganz ohne Entwickler pflegen will und das gesagt hat. Ein solcher Wunsch ist ein Entscheid des Betriebs und geht dem Hausentscheid vor.
+- **Kombinationen:** eine Seite, ein Stack; die Grenze liegt an der Adresse ([stacks.md](referenzen/stacks.md), «Zwei Stacks zusammen»).
 
-## Schritt 3 · Bewegung und 3D: Leiter statt Schalter
+Die Begründung steht in `technik.md` im Projekt:
 
-Jede Bewegung steigt eine Leiter. Ein Schritt höher kostet Gewicht, Pflege und Geräte ([animation-3d.md](referenzen/animation-3d.md)):
+1. **Wahl:** Klasse, Stack mit Version, **Hoster**.
+2. **Weil-Sätze:** drei Gründe aus dem Eingang, davon mindestens einer aus der Organisation.
+3. **Gegenentwurf:** der zweitbeste Weg und warum nicht.
+4. **Einfachster Weg** (meist Klasse A oder D) und was der Betrieb dabei verliert.
+5. **Kosten und Pflege** (Entwurf): Stunden Bau, laufende Kosten, wer pflegt.
+6. **Umkehrbarkeit:** was ein Wechsel nach Schritt 4 kostet.
 
-| Stufe | Technik | Gewicht (Annahme) | Wann |
+Der Hoster muss können, was text-uni für Suche und Umzug verlangt: eigene 404 (TI17), Weiterleitungen mit 301 ohne Ketten (TI20, TI23), Kopfzeilen für `noindex` (TI10), Vorschau je Änderung. Kriterien und Stand: [betrieb.md](referenzen/betrieb.md). Der Entscheid selbst kommt mit Datum in `entscheide.md`.
+
+**WP2 · Entscheid geprüft:** ein zweiter Blick (Unteragent ohne Kontext oder eine Fachperson) bekommt nur `technik.md` und den Teil web-uni des Blatts und nennt den stärksten Einwand. Der Einwand wird beantwortet oder der Entscheid geändert.
+
+## Schritt 3 · Bewegungstechnik und Kostenblatt
+
+**Ob und welche Bewegung** entscheidet design-uni in DP2. web-uni entscheidet nur, **womit** und **was es kostet**. Übergabe **DP2 → WP3**: design-uni nennt die Bewegung (oder «keine»), web-uni wählt die niedrigste Stufe der Leiter, die sie trägt ([animation-3d.md](referenzen/animation-3d.md)):
+
+| Stufe | Technik | Gewicht | Wann |
 |---|---|---|---|
-| 0 | keine | 0 | Fakten und Dringendes (Notfall, Preis, Formular) sind der Star |
-| 1 | CSS-Übergänge, `scroll-timeline` und `animation-timeline` | 0 KB JS | ein echter Handgriff, ein Strich, der gezeichnet wird |
-| 2 | View Transitions zwischen Seiten | 0 bis 2 KB | Seitenwechsel sollen zusammenhängen |
-| 3 | Bibliothek: GSAP, Motion, Lenis | 20 bis 90 KB JS | gebündelte Abläufe, die CSS nicht kann |
-| 4 | Video, Lottie, Rive | Video MB, Lottie 50 KB | etwas Reales (Arbeit im Betrieb) oder eine Marke zeigen |
-| 5 | WebGL: three.js, React Three Fiber, OGL, Shader | gemessen: kleine Szene +240 KB JS komprimiert und 3,4 s Blockierzeit im Labor ohne GPU ([messungen.md](referenzen/messungen.md)); echte Fahrzeugszene mehr | das Produkt ist 3D (Fahrzeug, Möbel, Gerät) oder die Seite soll «erleben» |
-| 6 | WebGPU (mit WebGL-Rückfall) | wie 5 plus Pfade | nur wenn Rechenlast es verlangt (Partikel, Simulation); nicht für Optik allein |
+| 0 | keine | 0 | DP2 sagt «keine» |
+| 1 | CSS-Übergänge, `animation-timeline` | 0 KB JS `[Annahme]` | die Bewegung geht mit CSS |
+| 2 | View Transitions | 0 bis 2 KB `[Annahme]` | Seitenwechsel sollen zusammenhängen |
+| 3 | GSAP, Motion, Lenis | 20 bis 90 KB JS `[Annahme]` | Abläufe, die CSS nicht kann |
+| 4 | Video, Lottie, Rive | Video MB, Lottie 50 KB `[Annahme]` | etwas Reales zeigen |
+| 5 | WebGL: three.js, React Three Fiber | +240 KB JS, 3,4 s TBT im Labor ohne GPU `[gebaut und gemessen]` | das Produkt ist 3D |
+| 6 | WebGPU mit WebGL-Rückfall | wie 5 plus Pfade | nur bei Rechenlast |
 
-**Entscheid je Bewegung** (Blatt `entscheid-bewegung.md`): Stufe, **was sie zeigt** (etwas Echtes aus dem Betrieb, sonst Wunsch des Kunden), **was sie kostet** (KB, LCP, TBT aus der Messung), **was ohne sie fehlt**, **Rückfall** (Foto statt Szene), **Abschalter** (reduzierte Bewegung, Energiesparmodus, schwache GPU).
+**Wunsch nach mehr Bewegung:** Will der Betrieb mehr, als DP2 vorsieht, gilt die Rangfolge: Der Wunsch ist ein Entscheid des Betriebs und geht den Regeln von design-uni vor, sobald er mit dem Kostenblatt in `entscheide.md` steht. Ab Stufe 4 braucht dieser Entscheid das Kostenblatt, nachdem das Studio es freigegeben hat.
 
-**Aufstieg nur mit Beleg:** Von Stufe 4 aufwärts muss der Kunde das Kostenblatt unterschrieben haben, und die Wirkung wird blind geprüft (design-uni P5).
+Je Bewegung im Abschnitt «Bewegung» von `technik.md`: Stufe, was sie zeigt, Kosten (KB, LCP, TBT), was ohne sie fehlt, Rückfall, Abschalter.
 
-**V3 · Bewegung entschieden:** jede Bewegung hat ihr Blatt; keine Bewegung hält Inhalt zurück; ohne JS und ohne WebGL ist alles da.
+**WP3 · Technik und Kosten benannt:** jede Bewegung aus DP2 hat Stufe, Kostenblatt (Entwurf) und Rückfall; keine Bewegung hält Inhalt zurück; ohne JS und ohne WebGL ist alles da.
 
-## Schritt 4 · Bau
+## Schritt 4 · Gerüst und Bau
 
-Gemeinsame Regeln, unabhängig vom Stack:
+Zwei Teile, getrennt durch Schritte von design-uni und text-uni (zusammenspiel Teil 6, Schritte 11 und 13):
 
-- **Tokens aus einer Quelle.** `tokens.json` (W3C DTCG) erzeugt das CSS; Farben, Abstände und Schriften werden **nicht** von Hand an zwei Stellen gepflegt (Lektion aus der Probe Auto Speedy, [lektionen.md](referenzen/lektionen.md)).
-- **Bilder:** mehrere Breiten (`srcset`, `sizes`), moderne Formate, `width` und `height`, das LCP-Bild mit `fetchpriority="high"`, alles andere `loading="lazy"`; Metadaten entfernen.
-- **Schriften lokal**, Teilmenge, `font-display: swap`, die Hauptschrift vorladen.
-- **Formulare mit Server**, nicht nur `mailto:`: Prüfung am Server, Spamschutz ohne Fremd-Skript, Bestätigung, Anhänge bei Schadensmeldungen, Rückfall ohne JS.
-- **Barrierefreiheit** (WCAG 2.2 AA): Tastatur, Fokus, Kontrast aus der Kaskade, Sprunglink, Zielgrösse, Reduced Motion.
-- **Pflege:** Inhalte, die der Betrieb ändert (Zeiten, Team, Preise, Fotos), liegen in **einer** Quelle (Datei oder CMS), nie doppelt im Code.
-- **Tests im Repo:** Playwright für Pfade, axe für Zugänglichkeit, Lighthouse CI für Budgets.
+1. **Gerüst** vor DP4: Vorlage kopieren, Fakten und Wortlaut eintragen, Bau läuft. Übergabe **Gerüst → DP4** (erster Bildschirm).
+2. **Bau aller Seiten** nach DP5, mit Titel, Beschreibung, strukturierten Daten und Technik aus text-uni.
 
-Stackspezifisches Vorgehen: [stacks.md](referenzen/stacks.md). Nur Stacks mit Kennzeichen `[gebaut und gemessen]` bekommen ein Rezept, die übrigen eine Warnliste.
+Regeln, unabhängig vom Stack:
 
-**V4 · Bau:** Vorschau läuft, alle Pflichtpfade bestehen, Inhalte aus **einer** Quelle, Tokens erzeugen das CSS.
+- **Eine Quelle.** Fakten, Wortlaut und Tokens stehen je an einer Stelle; der Bau erzeugt den Rest (WL4). `tokens.json` (design-uni) erzeugt das CSS.
+- **Adressen ohne Weiterleitung** (text-uni TI24): Links zeigen auf die Adresse, die der Hoster direkt ausliefert. In der Vorlage: Verzeichnisformat, Link `/kontakt/`.
+- **Bilder:** Varianten (`srcset`, `sizes`), moderne Formate, `width` und `height`, das LCP-Bild mit `fetchpriority="high"`, sonst `loading="lazy"`; Metadaten entfernen; Grösse je Variante nach WP5.
+- **Schriften** lokal und als Teilmenge; `font-display` nach design-uni; die Hauptschrift vorladen.
+- **Anfrage:** Formular-Backend ist `[nicht gebaut]`. Bis es gebaut ist, führt die Hauptaktion auf `tel:` oder `mailto:`, Wortlaut aus text-uni ([betrieb.md](referenzen/betrieb.md)).
+- **Barrierefreiheit:** Schwellen und Prüfungen bei design-uni; web-uni stellt die Werkzeuge im Prüflauf.
 
-## Schritt 5 · Messung
+Stackspezifisch: [stacks.md](referenzen/stacks.md).
 
-Auf der gebauten Seite, mobil, drei Läufe, Median ([messungen.md](referenzen/messungen.md) zeigt Befehle):
+**WP4 · Bau:** Vorschau läuft mit `noindex`; Bau ohne Fehler; Fakten, Wortlaut und Tokens aus je einer Quelle; 0 interne Links mit Weiterleitung.
 
-| Kennzahl | Ziel `[Annahme]` | Werkzeug |
+## Schritt 5 · Ein Prüflauf und Budgets
+
+Alle maschinellen Prüfungen laufen **einmal am selben Stand**: DP6 (design-uni, `pruefen.cjs`), TP7 (text-uni, `slop-de.js` und Technik), WP4 und WP5 (Bau und Messung); dazu TP5 und TP6. Ablauf und Befehle: [pruefumgebung.md](referenzen/pruefumgebung.md).
+
+**Budgets** (web-uni ist Besitzer; die anderen Skills verweisen hierher). Gemessen mobil, mit Komprimierung, drei Läufe, Median:
+
+| Kennzahl | Schwelle | Herkunft |
 |---|---|---|
-| Lighthouse Leistung (mobil, simuliert) | ≥ 90 | Lighthouse |
-| LCP | ≤ 2,5 s | Lighthouse, später Feldmessung |
-| TBT (Ersatz für INP im Labor) | ≤ 200 ms | Lighthouse |
-| CLS | ≤ 0,1 | Lighthouse |
-| JavaScript, komprimiert, vor dem LCP | ≤ 100 KB | Netzwerkprotokoll |
-| JavaScript gesamt, komprimiert, normale Seite | ≤ 170 KB | Netzwerkprotokoll |
-| Zusatz-JavaScript einer 3D-Szene, nach dem LCP, komprimiert | im Kostenblatt genannt, ≤ 600 KB `[Annahme]` | Netzwerkprotokoll |
-| Zugänglichkeit | 0 Verstösse in axe, Tastatur-Durchgang | axe, Playwright |
-| Browser | Chromium, Firefox, WebKit | Playwright |
+| Lighthouse Leistung (mobil, simuliert) | ≥ 90; darüber wird nicht weiter optimiert | zusammenspiel Teil 4 |
+| LCP | ≤ 2,5 s | `[gelesen · web.dev, Schwelle «gut» am 75. Perzentil]`; im Labor nur Hinweis |
+| INP (Feld), TBT als Laborersatz | INP ≤ 200 ms `[gelesen · web.dev]`; TBT ≤ 200 ms | TBT: `[Annahme]` |
+| CLS | ≤ 0,1 | `[gelesen · web.dev]` |
+| JavaScript vor dem LCP, komprimiert | ≤ 100 KB | `[Annahme]` |
+| JavaScript gesamt, komprimiert, normale Seite | ≤ 170 KB | `[Annahme]` |
+| Zusatz-JS einer 3D-Szene nach dem LCP | im Kostenblatt, ≤ 600 KB | `[Annahme]` |
+| HTML je Seite | ≤ 100 KB | `[Annahme, wie text-uni TI34]` |
+| Bild, je ausgelieferte Variante | ≤ 200 KB | `[Annahme, wie text-uni TI33]` |
+| Ausnahme: randloses oder LCP-Bild, grösste Variante (ab 1440 px bei 2×) | ≤ 400 KB | `[Annahme]` |
+| Bilder beim ersten Aufruf, mobil | ≤ 1 MB | `[Annahme]`; Median-Startseite lädt 1059 KB Bilder `[gelesen · Web Almanac 2025]` |
+| Schriften gesamt | ≤ 100 KB | `[Annahme]`; Median 139 KB `[gelesen · Web Almanac 2025]` |
+| Fremde Herkunft, Cookies | 0 | Grundregel 7; geprüft in DP6 |
 
-**Tempo ist Schwelle, nicht Ziel.** Ist alles im Zielbereich, wird nicht weiter optimiert. Millisekunden darüber hinaus kosten Bauzeit und Pflege und erzeugen **keine nachgewiesenen** zusätzlichen Anfragen; die Belege für Ladezeit und Umsatz sind Fallstudien von Herstellern und korrelativ ([branchenwerte.md](referenzen/branchenwerte.md)). Aufwand geht dann in Verständlichkeit, Vertrauen und die Anfragekette (Schritt 7).
+- **Score ersetzt die Einzelwerte nicht.** Die gemessene Probe hatte Score 97 und LCP 2645 ms im Labor. Liegt ein Laborwert über der Schwelle, steht er mit Grund im Bericht; den Ausschlag geben Feldwerte nach dem Livegang.
+- **Tempo ist Schwelle, nicht Ziel.** Liegt alles innerhalb der Schwellen, geht Aufwand in Verständlichkeit, Vertrauen und die Anfragekette. Die Belege für Ladezeit und Umsatz sind Fallstudien von Herstellern und korrelativ ([branchenwerte.md](referenzen/branchenwerte.md)).
+- **Labor ist nicht Feld.** Software-Grafik im Container zeigt Gewicht und Blockierung, nicht Bildrate.
 
-**Ehrlichkeit:** Messungen im Labor (simulierte Drosselung, Software-Grafik) sind **Hinweise**, keine Feldwerte. Ein 3D-Test ohne echte GPU zeigt Gewicht und Blockierung, nicht Bildrate.
+**WP5 · Gemessen:** jede Kennzahl mit Wert, Befehl und Datum; jede Überschreitung mit Grund; alle Prüfungen des Prüflaufs mit Ergebnis oder «nicht gelaufen».
 
-**V5 · Gemessen:** jede Kennzahl hat Wert, Befehl und Datum; Abweichungen von den Zielen stehen im Bericht mit Grund.
+## Schritt 6 · Wirkung mit Menschen
 
-## Schritt 6 · Wirkung: blind und mit Menschen
+Läuft nach DP7 und DP8 (Kunden-Agenten und ganze Website, Modell-Urteile als Vorfilter). Ablauf, Auswahl, Einwilligung und Auswertung von Menschentests regelt design-uni ([blindtest.md](../design-uni/referenzen/blindtest.md)). web-uni nennt nur, **was** geprüft wird:
 
-- **Blind** nach [design-uni/blindtest.md](../design-uni/referenzen/blindtest.md): erster Bildschirm, Bewegung (P5), ganze Website (P8). Dieselbe Seite **mit und ohne** die teure Technik, in getrennten Sätzen.
-- **Mit Menschen:** fünf Personen, zwei Aufgaben (Hauptaufgabe, Auffinden einer Leistung), danach Fünf-Sekunden-Frage. Modell-Urteile gelten bei «gefällt» und «würde anfragen» nicht ([text-uni/abgleich-menschen.md](../text-uni/referenzen/abgleich-menschen.md)).
-- **Regel:** Eine Technik, die in V5 teuer und in V6 nicht besser ist, fliegt raus, auch wenn der Kunde sie mochte. Er bekommt die Zahlen, und der Entscheid wird neu getroffen.
+- Dieselbe Seite **mit und ohne** die teure Technik (ab Stufe 3 oder Klasse E).
+- Zwei Aufgaben: die Hauptaufgabe und das Auffinden einer Leistung; danach die Fünf-Sekunden-Frage.
 
-**V6 · Wirkung belegt oder Technik gestrichen.**
+Regel: Eine Technik, die in WP5 teuer und im Menschentest nicht besser ist, fliegt raus, auch wenn der Betrieb sie mochte. Er bekommt die Zahlen, und der Entscheid wird neu getroffen. Ohne Menschentest steht im Bericht «Modell-Urteil bestanden, Wirkung nicht belegt».
+
+**WP6 · Wirkung mit Menschen:** für jede teure Technik ein Menschentest mit Ergebnis, oder der Satz «Wirkung nicht belegt» im Bericht und ein Entscheid des Betriebs, sie trotzdem zu behalten.
 
 ## Schritt 7 · Betrieb und Übergabe
 
-**Anfragekette zuerst:** Für jeden Eingang (Formular, Telefon, E-Mail, Google-Profil) steht schriftlich: wer, wann, wie schnell, was danach. Die Seite verspricht nur, was die Kette hält (keine «Rückruf in 30 Minuten», wenn niemand abends liest). Untersuchungen zu Anfragen im Vertrieb zeigen, dass die **Antwortzeit** stark mit dem Erfolg zusammenhängt (MIT/InsideSales 2007, Harvard Business Review 2011), allerdings aus dem US-Vertrieb mit Herstellerdaten und nicht auf Carrosserien übertragen `[gelesen · Annahme der Übertragbarkeit]`. Bewertungen und Google-Profil pflegen gehört dazu.
+**Anfragekette zuerst:** Für jeden Eingang (Anfrage, Telefon, E-Mail, Unternehmensprofil) steht schriftlich: wer, wann, wie schnell, was danach. Die Seite verspricht nur, was die Kette hält. Studien aus dem US-Vertrieb verbinden kurze Antwortzeit mit mehr Erfolg (MIT/InsideSales 2007, Harvard Business Review 2011) `[gelesen · Übertragbarkeit: Annahme]`.
 
-Hosting (Standort, Kosten, Vorschau je Änderung), Domain, `https`, Weiterleitungen aus dem Umzugsblatt ([text-uni Schritt 7](../text-uni/SKILL.md)), Sicherungen, Zugänge (Konten gehören dem Betrieb), Pflegehandbuch mit Bildern («So ändern Sie die Öffnungszeiten»), Messplan.
+Dazu Hosting, Domain, HTTPS, Sicherheits-Kopfzeilen, Sicherungen, E-Mail-Zustellung, Zugänge, Pflegehandbuch und Weiterleitungsliste: [betrieb.md](referenzen/betrieb.md).
 
-**V7 · Betrieb:** Anfragekette schriftlich und vom Betrieb bestätigt; Vorschau und Livegang getrennt; der Betrieb hat alle Zugänge; ein Pflegehandbuch existiert und wurde von einer Person des Betriebs durchgespielt.
+**WP7 · Betrieb:** Anfragekette vom Betrieb bestätigt; der Betrieb hat alle Zugänge und ist Inhaber (text-uni M17, TI30); Pflegehandbuch von einer Person des Betriebs durchgespielt; Weiterleitungsliste nach TI19; Kostenblatt freigegeben oder als Entwurf markiert.
 
 ## Schritt 8 · Abliefern
 
-`LIESMICH.md` mit Stack-Entscheid, Bewegungsblättern, Messprotokoll, Prüfpunkten V0 bis V7 mit Zahlen, Lektion. **Was nicht lief, heisst «nicht gelaufen»**, nie «bestanden».
+Ein `LIESMICH.md` für das ganze Projekt (Besitz: design-uni). web-uni liefert den Teil Technik: Stack und Hoster aus `technik.md`, Bewegungen mit Kosten, Ergebnis des Prüflaufs, WP0 bis WP7 mit Zahlen, Lektion in [lektionen.md](referenzen/lektionen.md). **Was nicht lief, heisst «nicht gelaufen»**, nie «bestanden».
 
-**V8 · Bericht vollständig.**
+**WP8 · Teil Technik vollständig.**
+
+## Schritt 9 · Livegang
+
+Erst nach Freigabe durch den Betrieb oder das Studio, mit Datum in `entscheide.md`. Ablauf: [livegang.md](referenzen/livegang.md): Schalter `vorschau` aus, `noindex` weg, `robots.txt`, Sitemap und `canonical` nach text-uni (TI1 bis TI14, S28), Weiterleitungen am Hoster (TI19 bis TI30), Einreichen, Nachprüfung nach 1, 4 und 12 Wochen.
+
+**WP9 · Livegang:** jede Zeile der Liste in [livegang.md](referenzen/livegang.md) mit Datum und Ergebnis; die Termine für die Nachprüfungen stehen im Kalender des Betriebs.
 
 ## Was der Skill nicht kann
 
-- **Keine Meisterschaft durch Text.** Dieser Skill ist ein Verfahren und ein Wissensstand, der mit jedem Bau und jeder Messung wächst. Stand heute: `[gebaut und gemessen]` sind nur statisches HTML (Klasse A) und Next.js 16 als statischer Export mit und ohne React-Three-Fiber-Szene (Klasse C und E). Alle anderen Stacks sind `[nicht gebaut]`.
-- **Labor ist nicht Feld.** Alle Messungen laufen in einem Container mit Software-Grafik.
-- **Wirkungsurteile von Modellen** sind Hinweise, keine Beweise.
-- **Keine Rechtsauskunft.**
-
-## Zusammenarbeit mit den anderen Skills
-
-| | design-uni | text-uni | web-uni |
-|---|---|---|---|
-| Frage | Wie sieht es aus, kommt man ans Ziel? | Was steht da, wird es gefunden und zitiert? | Womit und wie wird es gebaut, was kostet es, hält es? |
-| Entscheidet | Richtung, Form, Bewegung (ob und was) | Inhalt, Titel, Suche, Technik der Auffindbarkeit | Stack, Bewegungstechnik, Budgets, Betrieb |
-| Darf nicht | Stack und Budgets erzwingen | Layout bestimmen | Gestaltung oder Inhalt ändern |
-
-**Konflikt Bewegung:** design-uni sagt «keine oder eine Bewegung»; der Wunsch des Kunden darf mehr verlangen (Grundregel 4 von design-uni: Entscheide des Auftraggebers gehen vor). Dann entscheidet `web-uni` die **Technik**, `design-uni` bewertet die **Wirkung** blind. Kostet die Bewegung mehr, als sie bringt, gilt das Ergebnis aus V6.
+- **Keine Meisterschaft durch Text.** `[gebaut und gemessen]` sind statisches HTML (Klasse A), Astro als 1:1-Übernahme und Next.js 16 als statischer Export mit und ohne 3D-Szene. Die Astro-Vorlage ist gebaut, aber nicht gemessen. Alles andere ist `[nicht gebaut]`.
+- **Labor ist nicht Feld.** Alle Messungen liefen in einem Container mit Software-Grafik.
+- **Keine Rechtsauskunft.** Wortlaut und Recht für Inhalte: text-uni.
+- **Ohne Unteragenten** heissen alle Bewerter-Tore «nicht gelaufen». Gebaut wird trotzdem, wenn der Auftraggeber es will; der Bericht sagt das oben.
 
 ## Übersicht der Referenzen
 
 | Datei | Inhalt |
 |---|---|
-| [vorlage-astro/](vorlage-astro/README.md) | Gerüst für einen neuen Betrieb (Astro, eine Quelle für Angaben, Komponenten) |
-| [stacks.md](referenzen/stacks.md) | Klassen A bis E, Entscheidbaum, Versionsstand, Status je Stack |
-| [animation-3d.md](referenzen/animation-3d.md) | Leiter der Bewegung, Browser-Unterstützung, Rückfälle, Kostenblatt |
+| [vorlage-astro/](vorlage-astro/README.md) | Gerüst: Datenquelle, Layout, Bau mit Prüfungen, Vorschau und Livegang per Schalter |
+| [stacks.md](referenzen/stacks.md) | Klassen A bis E, Entscheidbaum, Versionsstand |
+| [animation-3d.md](referenzen/animation-3d.md) | Leiter der Bewegung, Browserstand, Rückfälle, Kostenblatt |
+| [betrieb.md](referenzen/betrieb.md) | Hoster, Domain, HTTPS, Kopfzeilen, Sicherungen, E-Mail, Datenschutz-Technik, Formular, Mehrsprachigkeit, Pflege, Zugänge, Kosten |
+| [pruefumgebung.md](referenzen/pruefumgebung.md) | der eine Prüflauf: Bau, `pruefen.cjs`, `slop-de.js`, Messung |
+| [livegang.md](referenzen/livegang.md) | Schritte und Prüfliste für WP9 |
 | [messungen.md](referenzen/messungen.md) | gebaute Spikes mit Zahlen, Befehle, Grenzen |
-| [branchenwerte.md](referenzen/branchenwerte.md) | was im Web normal ist, was Konzerne einsetzen und wie sie messen |
-| [lektionen.md](referenzen/lektionen.md) | was Bau und Messung gelehrt haben |
+| [branchenwerte.md](referenzen/branchenwerte.md) | was im Web normal ist und womit die Grossen bauen |
+| [lektionen.md](referenzen/lektionen.md) | was Bau und Messung gelehrt haben (WL) |

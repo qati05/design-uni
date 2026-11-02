@@ -83,7 +83,7 @@ Beispiel, Malerei Muster, Musterdorf `[Annahme]`:
 ### Sammeln
 
 - **Wörtlich, nicht zusammengefasst.** Wiebe kopierte die echten Wörter mit so wenig Zusammenfassung wie möglich. `[Meinung · Wiebe, Q1]` Wer zusammenfasst, ersetzt die Kundenwörter durch die eigenen.
-- **Menge.** Wiebe las über 500 Bewertungen. `[Fakt · Q1]` Ein kleiner Betrieb hat weniger. Arbeitsgrenze: mindestens 30 wörtliche Aussagen aus mindestens 2 Quellenarten, bevor ein Satz geschrieben wird. `[Annahme]`
+- **Menge.** Wiebe las über 500 Bewertungen. `[Fakt · Q1]` Ein kleiner Betrieb hat weniger. Ziel: 30 wörtliche Aussagen aus mindestens 2 Quellenarten, bevor ein Satz geschrieben wird. Sind sie nicht zu bekommen, wird die Lücke bestätigt und weiter geschrieben (KW1). `[Annahme]`
 - **Ohne Personendaten.** Name, Initialen, Telefonnummer, Mail, Adresse, Autokennzeichen und Foto bleiben weg. Notiert werden nur die Wörter, die Quellenart und der Monat. `[Fakt · Q8, DSG Art. 6 Abs. 2 und 3, Art. 7 Abs. 3; Regel Annahme]`
 
 ### Sortieren
@@ -240,7 +240,8 @@ Jede Regel nennt einen Grenzwert oder eine Prüffrage. «Werkzeug» heisst: Ein 
 
 **Sammeln**
 
-- **KW1 Sammlung vor dem Text.** Bevor ein Text entsteht, liegen mindestens 30 wörtliche Aussagen aus mindestens 2 Quellenarten vor (Bewertungen, Telefon, Mail, Gespräch). Werkzeug: Aussagen und Quellenarten in der Sammlung zählen. `[Meinung · Wiebe, Q1; Grenzwerte Annahme]`
+- **KW1 Sammlung vor dem Text.** Ziel: Bevor ein Text entsteht, liegen 30 wörtliche Aussagen aus mindestens 2 Quellenarten vor (Bewertungen, Telefon, Mail, Gespräch). Sind sie nicht zu bekommen, bestätigt der Auftraggeber die Lücke, und es wird weiter geschrieben; Begriffe und Formulierungen gelten dann als `[Annahme]`. Werkzeug: Aussagen und Quellenarten in der Sammlung zählen; eine bestätigte Lücke steht mit Datum im Bericht. `[Meinung · Wiebe, Q1; Grenzwerte Annahme]`
+  Geändert am 02.11.2026: 30 Aussagen sind ein Ziel, keine Sperre; ohne sie geht es mit bestätigter Lücke und `[Annahme]` weiter (Entscheid 5 in [zusammenspiel.md](../../../design-uni/referenzen/zusammenspiel.md)). `[Entscheid · Studio, 02.11.2026]`
 - **KW2 Wörtlich.** Jede Aussage steht in Anführungszeichen, mit Quellenart und Monat, nicht als Zusammenfassung. Prüffrage: Ist die Aussage ein Zitat oder eine Umschreibung? Umschreibungen sind Befunde. `[Meinung · Wiebe, Q1]`
 - **KW3 Ohne Personendaten.** Die Sammlung enthält 0 Namen, Initialen mit Ort, Telefonnummern, Mailadressen, Postadressen und Autokennzeichen. Werkzeug: Muster für Nummern, Mails und Kennzeichen; Bewerter für Namen. `[Fakt · Q8, DSG Art. 5 lit. a, Art. 6 Abs. 2 und 3]`
 - **KW4 Sortiert und gezählt.** Jede Aussage liegt in mindestens einem der sieben Fächer (Anlass, Wunsch, Sorge, Bisher, Frage, Lob-Detail, Klebewort), und je Fach ist die Häufigkeit notiert. Werkzeug. `[Meinung · Copyhackers Q2, Elbaz Q3, Moesta Q6; Fächer Annahme]`

@@ -60,7 +60,7 @@ Urteil: **gestützt**, **teilweise**, **widersprochen** oder **keine Menschen-Da
 | L2 | Erste Bildschirmhöhe | wie L1 | gestützt | Blickverfolgung mit Stichprobe | Fessenden, NN/g, 2018 |
 | L10 | Zeilenlänge 50 bis 75 Zeichen | Lange Zeilen (100 Zeichen) wurden am Bildschirm schneller gelesen, bei gleichem Verständnis; als angenehm galten mittlere Zeilen um 55 Zeichen | teilweise | Experiment mit Stichprobe (1998) | Dyson, Kipping, 1998 |
 | W1 | Mittlere Satzlänge höchstens 15 Wörter | kein Experiment mit Kundschaft gefunden; nur Lesbarkeitsformeln | keine Menschen-Daten gefunden | | |
-| W2 | Kein Satz über 20 Wörter | wie W1 | keine Menschen-Daten gefunden | | |
+| W2 | Satz über 20 Wörter Warnung, über 25 Fehler | wie W1 | keine Menschen-Daten gefunden | | |
 | W14 | Fachwort beim ersten Vorkommen erklären | Fachsprache senkte bei 650 Personen die Überzeugung; mitgelieferte Erklärungen hoben den Nachteil nicht auf. Für Fachleute als Zielgruppe kann das Erklären von Grundbegriffen schaden | teilweise | Experiment mit Stichprobe; Nutzertest | Bullock u. a., 2019; Loranger, Moran, NN/g, 2017 |
 | V6 | Fachwörter in Alltagssprache erklären | wie W14 | teilweise | Experiment; Nutzertest | Bullock u. a., 2019; Loranger, Moran, 2017 |
 | KW6 | Kundenwort statt Fachwort | Laien fanden Fachsprache schwerer und weniger glaubwürdig; Fachsprache hob nur das Bild von Fachwissen | gestützt | Experimente mit Stichprobe (650 und 98 Personen) | Bullock u. a., 2019; Zimmermann, Jucks, 2018 |

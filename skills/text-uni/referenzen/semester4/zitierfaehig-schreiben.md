@@ -150,7 +150,7 @@ Ein Dienst liest selten die ganze Seite in Ruhe. Er holt Stücke, oft einzelne A
 ### 5.2 Regeln
 
 - **Gegenstand im Satz.** Jeder Satz mit Preis, Zeit oder Frist nennt die Leistung. Kein «das», «dies», «diese», «dort» als Pronomen für den Gegenstand, kein «wie oben», «siehe unten». `[Regel laut Microsoft · ZS-Q5; Fakt · ZS-Q10; Wortliste: Annahme]`
-- **Name und Ort je Abschnitt.** Der erste oder zweite Satz unter jedem Zwischentitel nennt den Betrieb und den Ort. Danach darf «wir» stehen (W12). `[Annahme nach ZS-Q10]`
+- **Name und Ort in Abschnitten mit Preis oder Zeit.** Der erste oder zweite Satz unter jedem Zwischentitel, dessen Abschnitt einen Preis oder eine Zeit nennt, nennt den Betrieb und den Ort (ZS2). Danach darf «wir» stehen (W12). `[Annahme nach ZS-Q10]`
 - **Ein Fakt, ein Satz.** Ein Satz trägt höchstens zwei Beträge oder Zeiten. Mehr gehört in eine Tabelle. `[Regel laut Microsoft · ZS-Q5: überladene Sätze; Grenze: Annahme]`
 - **Bedingung im selben Satz.** «Ohne Termin», «für 4 Räder», «November bis März» stehen beim Betrag, nicht im nächsten Absatz. Sonst gibt ein Dienst den Preis ohne Bedingung wieder. `[Annahme; vgl. R13, R14]`
 - **Keine Zierzeichen statt Wörter.** Kein «✓», «→», «★» als Träger einer Aussage. `[Regel laut Microsoft · ZS-Q5]`
@@ -279,7 +279,8 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 **Sätze und Abschnitte**
 
 - **ZS1 Satz steht allein.** Jeder Satz mit Preis, Zeit, Frist oder Bedingung nennt die Leistung selbst. 0 Sätze, die mit «Das», «Dies», «Diese», «Dort», «Hier» als Pronomen beginnen, also ohne Nomen danach; 0 «wie oben», «siehe oben», «siehe unten», «wie erwähnt». Werkzeug: Wortliste am Satzanfang und im Satz; Bewerter für Grenzfälle. `[Regel laut Microsoft · ZS-Q5; Fakt · ZS-Q10; Wortliste: Annahme]`
-- **ZS2 Name und Ort je Abschnitt.** Unter jedem Zwischentitel nennen die ersten 2 Sätze den Betriebsnamen oder den Ort, auf Leistungsseiten beides mindestens einmal je Abschnitt mit Preis oder Zeit. Werkzeug. `[Fakt · ZS-Q10: Abschnitt ohne Firma und Zeitraum wird schlechter gefunden; Regel: Annahme]`
+- **ZS2 Name und Ort in Abschnitten mit Preis oder Zeit.** In jedem Abschnitt mit Preis oder Zeit nennen die ersten 2 Sätze den Betriebsnamen oder den Ort; auf Leistungsseiten steht dort beides mindestens einmal. Andere Abschnitte brauchen das nicht (K7). Werkzeug. `[Fakt · ZS-Q10: Abschnitt ohne Firma und Zeitraum wird schlechter gefunden; Regel: Annahme]`
+  Geändert am 02.11.2026: nur noch Abschnitte mit Preis oder Zeit, nicht jeder Zwischentitel, damit der Ort nicht in jedem Abschnitt wiederkehrt (K7). `[Entscheid · Studio, 02.11.2026]`
 - **ZS3 Ein Fakt, ein Satz.** Kein Satz im Fliesstext trägt mehr als 2 Beträge oder mehr als 2 Zeitangaben. Mehr gehört in eine Tabelle (ZS11). Werkzeug. `[Regel laut Microsoft · ZS-Q5; Grenze: Annahme]`
 - **ZS4 Antwort zuerst.** Der erste Satz nach dem Haupttitel beantwortet die Hauptfrage der Seite: Er enthält einen Betrag, eine Zeit, ein Ja oder Nein oder die Leistung mit Ort. Werkzeug: Betrag, Ziffer mit Zeiteinheit oder Ja/Nein im ersten Satz; Bewerter. `[Verweis V1, Q7, Q8, S13; Fakt · ZS-Q9, Übertragung: Annahme]`
 
@@ -311,7 +312,8 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 **Prüfen**
 
-- **ZS19 Wiedergabe-Probe.** Vor der Freigabe beantworten mindestens 2 Modelle ohne Vorwissen je 3 Kundenfragen nur aus der Seite. Jede Angabe der Antworten wird mit der Faktenliste verglichen. Schwelle: 0 falsche Fakten. Das Ergebnis heisst «Modell-Urteil» (S29). Werkzeug: maschineller Abgleich mit einer Prüfliste der Fakten. `[Fakt · ZS-Q8; ZS-Q14: falsche Wiedergabe ist häufig; Schwelle: Annahme]`
+- **ZS19 Wiedergabe-Probe.** Vor der Freigabe beantworten mindestens 2 Modelle ohne Vorwissen je 3 Kundenfragen nur aus der Seite. Jede Angabe der Antworten wird mit der Faktenliste verglichen. Schwelle: 0 falsche Fakten. Das Ergebnis heisst «Modell-Urteil, Vorfilter» (S29). Werkzeug: maschineller Abgleich mit einer Prüfliste der Fakten. `[Fakt · ZS-Q8; ZS-Q14: falsche Wiedergabe ist häufig; Schwelle: Annahme]`
+  Geändert am 02.11.2026: «Vorfilter» ergänzt (Entscheid 1). `[Entscheid · Studio, 02.11.2026]`
 - **ZS20 Quellenauswahl benannt.** Jeder Bericht über einen KI-Test sagt, ob der Dienst die Quellen selbst gesucht hat oder ob sie vorgegeben waren. Vorgegebene Quellen belegen nur die Wiedergabe, nicht die Auswahl. Prüffrage. `[Fakt · ZS-Q6: Quellen vorgegeben; ZS-Q7: Platz im Abruf entscheidet]`
 
 **Wenn in der Schweiz**
@@ -325,7 +327,7 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 ## 12. Für die Semesterprüfung
 
-Der KI-Zitat-Test (TP6) gibt KI-Such-Agenten 5 echte Quellen und eine eigene Musterseite je Frage. Die Agenten beantworten die Frage nur aus diesen Quellen und nennen bei jeder Angabe die Quelle. Ergebnis ist ein **Modell-Urteil** (S29). Der Test überspringt die Quellenauswahl (ZS20).
+Der KI-Zitat-Test (TP6) gibt KI-Such-Agenten 5 echte Quellen und eine eigene Musterseite je Frage. Die Agenten beantworten die Frage nur aus diesen Quellen und nennen bei jeder Angabe die Quelle. Ergebnis ist ein **Modell-Urteil, Vorfilter** (S29). Der Test überspringt die Quellenauswahl (ZS20).
 
 ### 12.1 Checkliste für eine eigene Musterseite
 

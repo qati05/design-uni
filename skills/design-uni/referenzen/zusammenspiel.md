@@ -51,6 +51,8 @@ Getroffen am 2. November 2026 `[Entscheid · Studio]`, nach dem Abgleich der dre
 9. **Werberecht.** Für UWG und PBV gilt die Fassung in text-uni (R-Grundsätze). Superlative: keine unbelegten; im Titel und in der Beschreibung keine.
 10. **Fremde Inhalte erst nach Klick** (CL3) gilt vor TI34. Fremde Skripte nur mit Grund und erst nach Einwilligung oder Klick.
 11. **Messung.** Nach 8 Wochen ein Zwischenstand für die Suche, mit «zu wenig Daten» als möglichem Ergebnis. Das Urteil über Anfragen fällt nach 3 Monaten.
+12. **Bewegung ohne Mengenregel** `[Entscheid · Studio, 02.11.2026]`. Die Regel «keine oder eine Bewegung» fällt weg, ebenso Voreinstellungen wie «glattes Scrollen aus». Bewegung gibt es so viel, wie die Idee des Betriebs oder der Wunsch des Kunden braucht. Es bleibt nur der Boden: `prefers-reduced-motion` wird respektiert; aller Inhalt ist ohne Bewegung und ohne JavaScript erreichbar; keine Bewegung hält Inhalt zurück; was länger als 5 s von selbst läuft, lässt sich pausieren (WCAG 2.2.2); die Kosten stehen im Kostenblatt (web-uni WP3). Ob eine Bewegung wirkt, zeigt der Bildtest als Vorfilter und ein Test mit Menschen.
+13. **Weniger Regeln.** Eine Regel bleibt nur, wenn sie Recht, Barrierefreiheit, eine Entscheidung des Betriebs oder einen Befund mit Menschen-Daten schützt. Regeln, die nur aus Modell-Urteilen oder aus Geschmack stammen, werden zu Hinweisen und sperren nichts.
 
 ## 4. Eine Schwelle je Sache
 
@@ -63,7 +65,7 @@ Getroffen am 2. November 2026 `[Entscheid · Studio]`, nach dem Abgleich der dre
 | Formular | 3 bis 5 Felder, höchstens 4 Pflicht; freiwillige Felder mit «(freiwillig)» | design-uni (Anzahl), text-uni (Wortlaut) |
 | JS, Bilder, LCP | Budgets in web-uni (WP5) | web-uni |
 | Lighthouse | Schwelle 90; über der Schwelle wird nicht weiter optimiert | web-uni |
-| Bewegung: Dauer, Pause | eine Tabelle in `bewegung.md` | design-uni |
+| Bewegung | keine Mengenregel; Boden: Reduced Motion, Inhalt ohne Bewegung, Pause ab 5 s (Entscheid 12), Tabelle in `bewegung.md` | design-uni |
 | Ortsseiten, gleicher Text | höchstens 30 Prozent | text-uni |
 | Mindestumfang einer Seite | kein Wortziel; unter 80 Wörtern nur ein Hinweis auf eine leere Seite | text-uni |
 
@@ -94,7 +96,7 @@ Jeder Schritt nennt das Tor. Fällt ein Tor, geht es zum Schritt zurück, der da
 3. **TP1 Antwort-Plan** (text-uni): Seitenliste. Gebaut wird keine Seite ausserhalb des Plans.
 4. **DP1 Richtung** (design-uni), blind als Vorfilter, mit Register.
 5. **WP2 Stack und Hoster** (web-uni). Ist Bewegung oder 3D Kern des Wunsches, läuft WP2 nach DP1.
-6. **DP2 Abstand, Tokens, Bewegung ja oder nein** (design-uni) → **WP3 Bewegungstechnik und Kostenblatt** (web-uni).
+6. **DP2 Abstand, Tokens, welche Bewegung die Idee braucht** (design-uni) → **WP3 Bewegungstechnik und Kostenblatt** (web-uni).
 7. **TP2 Botschaft** (text-uni), blind, nur Text. Dazu der Abgleich: Satz aus der Idee und erster Satz widersprechen sich nicht (Entscheid 2).
 8. **Ziele an die Gestaltung** (text-uni) → design-uni, **vor** dem Bau.
 9. **Text und Inhalt vor Gestalt** → **DP3 = TP3** in einem Lauf. Fragen, die erst am Bau prüfbar sind (Ladezeit, tote Links, Messplan), wandern zu DP6.

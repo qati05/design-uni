@@ -100,7 +100,9 @@ Was andere Anbieter dazu schreiben:
 
 **Was daraus folgt.** Für eine KMU-Website, die gefunden werden will, gilt: keine Snippet-Sperren auf Seiten, die in Suche und KI-Antworten erscheinen sollen. `noindex` nur für Danke-Seiten, Testseiten und Vorschau (G1). `[Annahme, aus TI-Q4 und TI-Q16]`
 
-**Vorschau auf Cloudflare Pages.** Jede Vorschau-Fassung mit zufälligem Hash (`<hash>.<projekt>.pages.dev`) bekommt von Cloudflare selbst `X-Robots-Tag: noindex`. `[Fakt · TI-Q45, 12.10.2026]` Die Adresse `<projekt>.pages.dev` der Hauptfassung ist davon nicht ausdrücklich erfasst; Cloudflare zeigt als Beispiel eine Regel in der Datei `_headers`, die dort `noindex` setzt. `[Fakt · TI-Q45, 25.08.2026]` Ohne diese Regel liegt dieselbe Website unter zwei Adressen offen. `[Annahme]`
+**Vorschau, bei jedem Hoster.** Die Vorschau trägt `noindex` per Kopfzeile `X-Robots-Tag` oder Meta-Tag und ist, wo möglich, durch einen Zugang geschützt. `robots.txt` sperrt sie nicht, sonst liest Google das `noindex` nicht (2.2, TI8, TI10). Den Hoster wählt web-uni (WP2). `[Regel laut Google · TI-Q1; TI-Q5; Entscheid · Studio, 02.11.2026]`
+
+**Beispiel Cloudflare Pages.** Jede Vorschau-Fassung mit zufälligem Hash (`<hash>.<projekt>.pages.dev`) bekommt von Cloudflare selbst `X-Robots-Tag: noindex`. `[Fakt · TI-Q45, 12.10.2026]` Die Adresse `<projekt>.pages.dev` der Hauptfassung ist davon nicht ausdrücklich erfasst; Cloudflare zeigt als Beispiel eine Regel in der Datei `_headers`, die dort `noindex` setzt. `[Fakt · TI-Q45, 25.08.2026]` Ohne diese Regel liegt dieselbe Website unter zwei Adressen offen. `[Annahme]`
 
 ```
 https://:project.pages.dev/*
@@ -277,7 +279,7 @@ Bevor ein neuer Hoster feststeht, prüft man, ob er jede Art alter Adresse weite
 | 2 Wochen vorher | Neue Website als Vorschau mit `noindex`; Liste gegen die Vorschau prüfen: jedes Ziel liefert 200 | TI-Q27: Testkopie mit `noindex` |
 | 1 Woche vorher | Bei neuem Hoster: TTL der DNS-Einträge auf wenige Stunden senken, mindestens 1 Woche vor dem Umzug | TI-Q27 |
 | 1 Woche vorher | Bei neuer Domain: alte und neue Domain in Search Console bestätigen, alle Varianten (`www`, ohne, `http`, `https`) | TI-Q26; TI-Q28 |
-| Umzugstag | Weiterleitungen aktiv; Sperren der Vorschau (`noindex`, `Disallow`) entfernen; Bestätigungsdatei oder -tag der Search Console mitnehmen | TI-Q26; TI-Q27 |
+| Umzugstag | Weiterleitungen aktiv; `noindex` und Zugangsschutz der Vorschau entfernen (eine Sperre in `robots.txt` gibt es nach TI10 nicht); Bestätigungsdatei oder -tag der Search Console mitnehmen | TI-Q26; TI-Q27 |
 | Umzugstag | Neue Sitemap einreichen; eine Sitemap mit den alten Adressen behalten, damit Google die Weiterleitungen findet | TI-Q26 |
 | Umzugstag | Bei neuer Domain: Adressänderung in Search Console | TI-Q28 |
 | Umzugstag | Bing: Sitemap einreichen; alle neuen Adressen über IndexNow melden | TI-Q16; TI-Q21 |
@@ -360,7 +362,7 @@ Grenzwerte laut web.dev, je am **75. Perzentil** der echten Besuche, getrennt na
 - `width` und `height` an jedem `<img>` und `<video>`, oder Platz mit CSS `aspect-ratio` reservieren. Sonst verschiebt sich das Layout (CLS). `[Regel laut web.dev · TI-Q36, 07.02.2025]`
 - `loading="lazy"` nur für Bilder ausserhalb des ersten Bildschirms. Bilder im ersten Bildschirm, vor allem das LCP-Bild, laden normal. `[Regel laut web.dev · TI-Q37, 13.08.2024]`
 - Dateiname und Alt-Text nach S20, S21. Bing will Bilder als Ergänzung zum Text, nicht als einzige Quelle einer Information. `[Verweis; Regel laut Bing · TI-Q16]`
-- Grenzwert für Dateigrösse: Google und web.dev nennen in den gelesenen Seiten keinen. Arbeitsregel: höchstens 200 KB je Bild. `[Annahme]`
+- Grenzwert für Dateigrösse: Google und web.dev nennen in den gelesenen Seiten keinen. Das Budget für Bilder legt web-uni fest (WP5); die frühere eigene Arbeitsregel von 200 KB je Bild ist am 02.11.2026 gestrichen. `[Annahme]`
 
 ### 10.3 HTTPS
 
@@ -412,9 +414,11 @@ Jede Regel entscheidet ein Werkzeug oder ein Bewerter ohne Vorwissen. «Werkzeug
 
 **Index und Snippet**
 
-- **TI8 noindex richtig gesetzt.** Jede Seite mit `noindex` (Meta-Tag oder `X-Robots-Tag` in `_headers`) ist nicht in `robots.txt` gesperrt und steht nicht in der Sitemap. Jede Seite der Sitemap trägt kein `noindex`. Werkzeug. `[Regel laut Google · TI-Q5; TI-Q22; Verweis G1]`
+- **TI8 noindex richtig gesetzt.** Jede Seite mit `noindex` (Meta-Tag oder Kopfzeile `X-Robots-Tag`, bei Cloudflare Pages etwa in `_headers`) ist nicht in `robots.txt` gesperrt und steht nicht in der Sitemap. Das gilt auch für die Vorschau (TI10). Jede Seite der Sitemap trägt kein `noindex`. Werkzeug. `[Regel laut Google · TI-Q5; TI-Q22; Verweis G1]`
+  Geändert am 02.11.2026: hosterneutral gefasst; ausdrücklich auch für die Vorschau (Entscheid 4 in [zusammenspiel.md](../../../design-uni/referenzen/zusammenspiel.md)). `[Entscheid · Studio, 02.11.2026]`
 - **TI9 Snippets frei.** Auf indexierbaren Seiten 0 `nosnippet`, 0 `max-snippet` unter 160 Zeichen ausser `-1`, 0 `data-nosnippet`, 0 `noarchive`, 0 `nocache`, ausser der Betrieb hat es schriftlich entschieden. Werkzeug. `[Regel laut Google · TI-Q4; Regel laut Bing · TI-Q16; Regel laut Apple · TI-Q15; 160: Annahme]`
-- **TI10 Vorschau nie im Index.** `_headers` setzt `X-Robots-Tag: noindex` für die Adresse `*.pages.dev` des Projekts (oder die Vorschau-Adresse des jeweiligen Hosters). Online: `curl -I` auf die Vorschau zeigt `noindex`. Werkzeug. `[Fakt · TI-Q45; Regel: Annahme]`
+- **TI10 Vorschau nie im Index.** Jede Vorschau-Adresse trägt `noindex` per Kopfzeile `X-Robots-Tag` oder Meta-Tag und ist, wo möglich, durch einen Zugang geschützt. Ihre `robots.txt` enthält kein `Disallow: /`, sonst liest Google das `noindex` nicht (TI8). Beispiel Cloudflare Pages: Regel in `_headers` für die Adresse `*.pages.dev` des Projekts; bei anderen Hostern nach deren Doku (Hoster: web-uni, WP2). Online: `curl -I` auf die Vorschau zeigt `noindex`. Werkzeug. `[Fakt · TI-Q45; Regel: Annahme; kein Disallow: Entscheid · Studio, 02.11.2026]`
+  Geändert am 02.11.2026: hosterneutral gefasst; Vorschau ohne `Disallow` und, wo möglich, mit Zugangsschutz (Entscheid 4). `[Entscheid · Studio, 02.11.2026]`
 
 **Sitemap**
 
@@ -430,8 +434,10 @@ Jede Regel entscheidet ein Werkzeug oder ein Bewerter ohne Vorwissen. «Werkzeug
 
 **Statuscodes**
 
-- **TI17 Echte 404.** Unbekannte Adressen liefern 404. Bei Cloudflare Pages liegt dafür `404.html` an der Wurzel; die Seite hat kein `canonical`, verlinkt Startseite und Kontakt und steht nicht in der Sitemap. Werkzeug (Datei offline, Status online). `[Regel laut Google · TI-Q24; Fakt · TI-Q44; Inhalt der Seite: Annahme]`
-- **TI18 Kein Soft-404.** Jede Seite der Sitemap hat mindestens 80 Wörter sichtbaren Text und keinen Fehlersatz wie «nicht gefunden» oder «existiert nicht». Werkzeug. `[Regel laut Google · TI-Q24; 80 Wörter: Annahme]`
+- **TI17 Echte 404.** Unbekannte Adressen liefern 404 mit einer eigenen Fehlerseite. Wie der Hoster sie findet, steht in seiner Doku; Beispiel Cloudflare Pages: `404.html` an der Wurzel, sonst liefert Pages für jede unbekannte Adresse die Startseite (Teil 7). Die Fehlerseite hat kein `canonical`, verlinkt Startseite und Kontakt und steht nicht in der Sitemap. Werkzeug (Datei offline, Status online). `[Regel laut Google · TI-Q24; Fakt · TI-Q44; Inhalt der Seite: Annahme]`
+  Geändert am 02.11.2026: hosterneutral gefasst, Cloudflare Pages nur als Beispiel; den Hoster entscheidet web-uni (WP2). `[Entscheid · Studio, 02.11.2026]`
+- **TI18 Kein Soft-404.** Keine Seite der Sitemap zeigt einen Fehlersatz wie «nicht gefunden» oder «existiert nicht». Werkzeug. Unter 80 Wörtern sichtbaren Texts ist nur ein Hinweis auf eine leere Seite, kein Wortziel (G20, Q10): Ein Bewerter prüft, ob die Seite leer wirkt. `[Regel laut Google · TI-Q24; 80 Wörter: Annahme]`
+  Geändert am 02.11.2026: 80 Wörter sind keine Mindestzahl mehr, nur ein Hinweis (Teil 4 in [zusammenspiel.md](../../../design-uni/referenzen/zusammenspiel.md)). `[Entscheid · Studio, 02.11.2026]`
 
 **Weiterleitungen und Umzug**
 
@@ -439,27 +445,33 @@ Jede Regel entscheidet ein Werkzeug oder ein Bewerter ohne Vorwissen. «Werkzeug
 - **TI20 Genau ein Sprung mit 301.** Jede alte Adresse der Liste antwortet mit 301 oder 308 und landet nach genau einem Sprung mit 200 auf dem Ziel aus der Liste. Ketten: 0. 302, 303, 307: 0. Schleifen: 0. Werkzeug (offline als Nachbildung des Hosters, online mit `curl`). `[Regel laut Google · TI-Q25; TI-Q26; Regel laut Bing · TI-Q16; «genau ein»: Annahme]`
 - **TI21 Passendes Ziel.** Höchstens 2 alte Adressen zeigen auf die Startseite (alte Startseite und eine Übersicht). Prüffrage je Zeile: Deckt das Ziel denselben Inhalt? Werkzeug für die Zahl. `[Regel laut Google · TI-Q26: Soft-404; Grenzwert: Annahme]`
 - **TI22 Gelöscht heisst 404 oder 410.** Zeilen ohne Nachfolger tragen Status 404 oder 410 und stehen nicht als Weiterleitung im Hoster. Werkzeug. `[Regel laut Google · TI-Q26; Regel laut Bing · TI-Q16]`
-- **TI23 Der Hoster kann jede alte Adresse.** In `_redirects`: 0 Quellen mit `?` oder mit Domain; jede Zeile mit ausdrücklichem Code. Adressen mit Parametern laufen über eine Funktion oder eine Regel auf Domain-Ebene. Werkzeug. `[Fakt · TI-Q43]`
-- **TI24 Neue Adressen überall.** 0 interne Links, `canonical`, Sitemap-Einträge und Adressen in strukturierten Daten, die auf eine alte Adresse oder auf eine Adresse mit Weiterleitung zeigen (auch `/kontakt.html` statt `/kontakt`). Werkzeug. `[Regel laut Google · TI-Q26; Fakt · TI-Q44]`
+- **TI23 Der Hoster kann jede alte Adresse.** Jede alte Adresse der Liste (TI19) ist beim gewählten Hoster (web-uni, WP2) als Weiterleitung umsetzbar, auch mit Abfrage-Parametern, und jede Regel nennt den Code ausdrücklich. Beispiel Cloudflare Pages: In `_redirects` 0 Quellen mit `?` oder mit Domain, jede Zeile mit Code (ohne Code gilt 302); Adressen mit Parametern laufen über eine Funktion oder eine Regel auf Domain-Ebene. Werkzeug. `[Fakt · TI-Q43; allgemeine Fassung: Annahme]`
+  Geändert am 02.11.2026: hosterneutral gefasst, Cloudflare Pages nur als Beispiel (Hoster: web-uni). `[Entscheid · Studio, 02.11.2026]`
+- **TI24 Neue Adressen überall.** 0 interne Links, `canonical`, Sitemap-Einträge und Adressen in strukturierten Daten, die auf eine alte Adresse oder auf eine Adresse mit Weiterleitung zeigen (auch `/kontakt.html` statt `/kontakt`, wenn der Hoster wie Cloudflare Pages auf die Adresse ohne Endung weiterleitet). Werkzeug. `[Regel laut Google · TI-Q26; Fakt · TI-Q44]`
 - **TI25 Eine Hostvariante.** `canonical`, Sitemap, strukturierte Daten und absolute interne Links nutzen dieselbe Variante (`https://` und gleicher Host). Online: `http://` und die andere `www`-Variante leiten mit einem Sprung weiter. Werkzeug. `[Regel laut Google · S-Q14; TI-Q26]`
 - **TI26 Adressänderung bei neuer Domain.** Bei neuer Domain sind alle Varianten der alten und neuen Domain in Search Console bestätigt und die Adressänderung ist eingereicht; bei allen anderen Umzügen nicht. Prüffrage. `[Regel laut Google · TI-Q28]`
 - **TI27 Lange genug behalten.** Die Liste nennt Umzugsdatum und «behalten bis»; Abstand mindestens 365 Tage. Die alte Domain bleibt mindestens 1 Jahr registriert. Werkzeug für die Daten, Prüffrage für die Domain. `[Regel laut Google · TI-Q26; TI-Q28]`
 - **TI28 Hosterwechsel vorbereitet.** TTL mindestens 1 Woche vorher gesenkt; Bestätigung der Search Console mitgenommen; alter Server läuft, bis dort kein Verkehr mehr ankommt. Prüffrage. `[Regel laut Google · TI-Q27]`
 - **TI29 Nach dem Umzug nachgeprüft.** Nach 1, 4 und 12 Wochen: TI20 online für jede Zeile, M7, M8; Rückgänge nach M15 gedeutet. Prüffrage mit Datum. `[Regel laut Google · TI-Q26; Termine: Annahme]`
-- **TI30 Domain gehört dem Betrieb.** Halter der Domain ist der Betrieb, nicht der Anbieter. Prüffrage. `[Annahme, aus 8.8]`
+- **TI30 Domain gehört dem Betrieb.** Halter der Domain ist der Betrieb, nicht der Anbieter. Prüffrage; geprüft mit den übrigen Zugängen in web-uni WP7. `[Annahme, aus 8.8]`
 
 **JavaScript**
 
-- **TI31 Inhalt ohne JavaScript.** Auf jeder indexierbaren Seite stehen Titel, Beschreibung, `canonical`, ein `<h1>`, Hauptinhalt mit mindestens 80 Wörtern, Links als `<a href>` und strukturierte Daten im HTML ohne Ausführung von Skripten. 0 Seiten mit leerem Wurzel-Element einer App (`<div id="app"></div>`, `<div id="root"></div>`). Werkzeug. `[Regel laut Google · TI-Q29; Regel laut Bing · TI-Q16; Fakt · TI-Q30; TI-Q31; 80 Wörter: Annahme]`
+- **TI31 Inhalt ohne JavaScript.** Auf jeder indexierbaren Seite stehen Titel, Beschreibung, `canonical`, ein `<h1>`, der Hauptinhalt, Links als `<a href>` und strukturierte Daten im HTML ohne Ausführung von Skripten. 0 Seiten mit leerem Wurzel-Element einer App (`<div id="app"></div>`, `<div id="root"></div>`). Werkzeug. `[Regel laut Google · TI-Q29; Regel laut Bing · TI-Q16; Fakt · TI-Q30; TI-Q31; 80 Wörter: Annahme]` Unter 80 Wörtern im HTML ohne Skript ist ein Hinweis auf eine leere Seite (TI18), kein Wortziel.
+  Geändert am 02.11.2026: «mindestens 80 Wörter» gestrichen; 80 Wörter sind nur noch ein Hinweis (eine Schwelle je Sache, G20, Q10). `[Entscheid · Studio, 02.11.2026]`
 
 **Leistung, HTTPS, Handy**
 
-- **TI32 Core Web Vitals gut.** LCP bis 2,5 s, INP bis 200 ms, CLS bis 0,1 am 75. Perzentil, Handy und Desktop getrennt; ohne Felddaten Labor-Wert, gekennzeichnet (M9). Werkzeug online (PageSpeed Insights, Search Console). `[Fakt · TI-Q32 bis TI-Q35; Verweis M9]`
-- **TI33 Bilder mit Mass.** Jedes `<img>` hat `width` und `height`. Das erste Bild einer Seite lädt ohne `loading="lazy"`, jedes weitere mit. Jede Bilddatei höchstens 200 KB. Werkzeug. `[Regel laut web.dev · TI-Q36; TI-Q37; Reihenfolge als Ersatz für «im ersten Bildschirm» und 200 KB: Annahme]`
-- **TI34 Leichte Seite.** Je Seite HTML höchstens 100 KB; eigene CSS- und JS-Dateien zusammen höchstens 100 KB; 0 Skripte von fremden Domains ohne `async` oder `defer`. Werkzeug. `[Annahme, Hilfsgrösse für TI32]`
-- **TI35 Nur HTTPS.** 0 Verweise mit `http://` in `href`, `src`, `canonical`, Sitemap und strukturierten Daten (ausgenommen XML-Namensräume). Online: gültiges Zertifikat. Werkzeug. `[Regel laut Google · TI-Q38; TI-Q26]`
+- **TI32 Core Web Vitals gut.** Schwellen, Budgets und Messregeln für Ladezeit und Core Web Vitals besitzt web-uni (WP5). text-uni liest die Felddaten in Search Console für den Messplan (M9). Google nennt als «gut»: LCP bis 2,5 s, INP bis 200 ms, CLS bis 0,1 am 75. Perzentil, Handy und Desktop getrennt (10.1). Werkzeug online (PageSpeed Insights, Search Console). `[Fakt · TI-Q32 bis TI-Q35; Verweis M9, WP5]`
+  Geändert am 02.11.2026: Schwelle und Budget liegen bei web-uni; hier nur Verweis und Googles Definition. `[Entscheid · Studio, 02.11.2026]`
+- **TI33 Bilder mit Mass.** Jedes `<img>` hat `width` und `height`. Das erste Bild einer Seite lädt ohne `loading="lazy"`, jedes weitere mit. Das Gewicht der Bilder regelt das Budget von web-uni (WP5). Werkzeug. `[Regel laut web.dev · TI-Q36; TI-Q37; Reihenfolge als Ersatz für «im ersten Bildschirm»: Annahme]`
+  Geändert am 02.11.2026: eigene Grenze von 200 KB je Bild gestrichen; Budgets gehören web-uni. `[Entscheid · Studio, 02.11.2026]`
+- **TI34 Leichte Seite, nichts Fremdes.** Budgets für HTML, CSS, JavaScript und Bilder besitzt web-uni (WP5); text-uni wiederholt sie nicht. Fremde Inhalte (Player, Feeds) laden erst nach Klick (CL3, gilt vor TI34). Fremde Skripte nur mit Grund und erst nach Einwilligung oder Klick; fremde Hosts regelt web-uni. Werkzeug: im ausgelieferten HTML 0 Skripte und 0 eingebettete Inhalte von fremden Domains, die beim Aufruf laden. `[Verweis WP5, CL3; Entscheid · Studio, 02.11.2026]`
+  Geändert am 02.11.2026: eigene Budgets (HTML 100 KB; CSS und JS zusammen 100 KB; Annahme) gestrichen, sie gehören web-uni; ein fremdes Skript mit `async` oder `defer` besteht nicht mehr (Entscheid 10). `[Entscheid · Studio, 02.11.2026]`
+- **TI35 Nur HTTPS.** 0 Verweise mit `http://` in `href`, `src`, `canonical`, Sitemap und strukturierten Daten (ausgenommen XML-Namensräume). Online: gültiges Zertifikat (HTTPS am Hoster: web-uni). Werkzeug. `[Regel laut Google · TI-Q38; TI-Q26]`
 - **TI36 Handy zuerst.** Jede Seite hat `<meta name="viewport" content="width=device-width, initial-scale=1">`; eine Fassung für alle Geräte, keine `m.`-Adresse. Werkzeug für das Tag. `[Regel laut Google · TI-Q39; Tag als Nachweis für responsiv: Annahme]`
-- **TI37 Nichts vor dem Inhalt.** 0 Werbe-Überlagerungen; Pflicht- und Cookie-Hinweise überlagern nur und leiten nicht auf eine eigene Seite um. Prüffrage. `[Regel laut Google · TI-Q40]`
+- **TI37 Nichts vor dem Inhalt.** 0 Werbe-Überlagerungen. Grundsatz ist eine Website ohne Cookies (Technik: web-uni). Falls ein Pflicht- oder Cookie-Hinweis nötig ist, überlagert er nur und leitet nicht auf eine eigene Seite um. Prüffrage. `[Regel laut Google · TI-Q40]`
+  Geändert am 02.11.2026: Cookie-Hinweis nur noch, «falls ein Hinweis nötig ist»; der Grundsatz ist cookielos (Abgleich der drei Skills). `[Entscheid · Studio, 02.11.2026]`
 
 **llms.txt und Schweiz**
 

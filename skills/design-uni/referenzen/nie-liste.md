@@ -19,7 +19,7 @@ Zwei Stufen. **Verboten** sperrt die Seite, unabhängig von allen Noten (Deckel 
 - Bilder ohne Nutzungsrechte.
 - Eine Telefonnummer, die nirgendwohin wählt; ein Formular, das nicht abschickt.
 
-Länderspezifisch: [recht-schweiz.md](recht-schweiz.md).
+Länderspezifisch: [recht-schweiz.md](recht-schweiz.md) für Gestaltung und Material; für Inhalte (Preise, Superlative, Stimmen, Werbung) die Grundsätze R von text-uni.
 
 ## 2. Nie als Voreinstellung
 
@@ -36,9 +36,9 @@ Länderspezifisch: [recht-schweiz.md](recht-schweiz.md).
 - Drei Feature-Karten mit Icon, Logo-Leiste, Testimonial-Karussell, CTA-Band mit Verlauf.
 - Conversion-Vorlage: Ausrufezeichen, Häkchen-Liste, Versal-Knopf, klebendes Bewertungs-Badge.
 - Zähler «500+» ohne Quelle; Werte-Raster mit Allgemeinplätzen.
-- Mehrere gleich laute Knöpfe; doppelte Handlungen (Telefon und Hauptaktion je zweimal im selben Bildschirm).
+- Mehrere gleich laute Knöpfe; doppelte Handlungen (Telefon oder Hauptaktion zweimal im selben Bildschirm). Erlaubt ist ein fester Kopf mit Hauptaktion und Telefon plus ein Abschluss am Seitenende; ein Entscheid des Betriebs («Knopf überall») geht vor (Entscheid 6, [zusammenspiel.md](zusammenspiel.md)).
 - Logo-Laufband ohne Pause; Social-Icons in der Kopfzeile; Hamburger auf dem Desktop.
-- Eingebettete Karte, Fremd-Widgets, Schriften von fremden Hosts, Cookie-Banner in Fremdblau.
+- Eingebettete Karte, Fremd-Widgets, Schriften von fremden Hosts, Cookie-Banner in Fremdblau (Grundregel 9; Technik: web-uni).
 - Rendering und Foto im selben Raster.
 - Barrierefreiheits-Overlay statt sauberem Code.
 

@@ -11,7 +11,7 @@ Stand 01.11.2026 · Text-Uni, Semester 3 «Google-Suche».
 >
 > Herkunft: `[Fakt · Quelle, Datum]`, `[Annahme]`, `[Meinung · Autor]`, `[Vorschlag]`, `[Verweis]`. Was Google über seine Werkzeuge schreibt, ist ein Fakt über das Werkzeug. Was Google über Rangfolge schreibt, steht als **«Absicht laut Google»**.
 
-**Boden aus Semester 1 und 2.** Zahlen genau und mit Quelle (B2). Nichts erfunden (B8). Der Messplan gehört zum Prüfpunkt TP8 im Verfahren (SKILL.md). Dieses Skript misst Text nicht direkt; es misst, ob eine Seite gefunden und angeklickt wird.
+**Boden aus Semester 1 und 2.** Zahlen genau und mit Quelle (B2). Nichts erfunden (B8). Der Messplan gehört zum Prüfpunkt TP8 im Verfahren (SKILL.md). Er ist ein Dokument, `messplan.md`, und gehört text-uni; design-uni liefert die Zählpunkte auf der Seite, web-uni den Zählendpunkt. Dieses Skript misst Text nicht direkt; es misst, ob eine Seite gefunden und angeklickt wird.
 
 **Abgrenzung.** Wie man Titel und Snippets schreibt, steht in «Titel, Snippet, Struktur». Was Google sonst verlangt, in «Google-Grundlagen». Profil und Bewertungen in «Lokal gefunden werden».
 
@@ -161,10 +161,12 @@ Ohne Ausgangswerte gibt es keinen Vergleich. Der Messplan entsteht **vor** dem L
 | Eigene Zählung | Anfragen pro Woche nach Kanal (Telefon, Mail, Formular), vom Betrieb gezählt | Strichliste oder Tabelle beim Betrieb |
 | Vorjahr | dieselben 8 Wochen im Vorjahr, für die Saison | Nov./Dez. Vorjahr |
 | Technik | Indexierung der wichtigen Seiten, Sitemap «Erfolgreich», Core Web Vitals oder Labormessung | Liste mit Datum |
-| Datum erste Auswertung | 8 Wochen nach Livegang, fest im Kalender | Livegang 12.01., Auswertung 09.03. |
+| Zählpunkte und Zählendpunkt | Zählpunkte auf der Seite liefert design-uni, den Zählendpunkt web-uni | Liste der Zählpunkte je Seite |
+| Datum Zwischenstand Suche | 8 Wochen nach Livegang, fest im Kalender; «zu wenig Daten» ist ein mögliches Ergebnis | Livegang 12.01., Zwischenstand 09.03. |
+| Datum Urteil über Anfragen | 3 Monate nach Livegang, fest im Kalender | Urteil 12.04. |
 | Wer liest | eine Person, die Zugriff hat und den Bericht schreibt | benannt, mit Rolle |
 
-`[Annahme; 8 Wochen: Entscheid im Lehrplan der Text-Uni, Doktor D3; 16 Monate: Fakt · M-Q5]`
+`[Annahme; 8 Wochen: Entscheid im Lehrplan der Text-Uni, Doktor D3; 3 Monate: Entscheid · Studio, 02.11.2026; 16 Monate: Fakt · M-Q5]`
 
 ### 9.2 Warum 8 Wochen, und warum das wenig ist
 
@@ -209,21 +211,23 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 - **M7 Wichtige Seiten indexiert.** Startseite und jede Seite aus dem Antwort-Plan stehen als indexiert. Jede davon unter «Gecrawlt» oder «Gefunden, zurzeit nicht indexiert» ist ein Befund. Nicht-indexierte Weiterleitungen, Duplikate und `noindex` sind kein Befund. `[Fakt · M-Q8; Auswahl: Annahme]`
 - **M8 Sitemap erfolgreich.** Status «Erfolgreich», und «Gefundene Seiten» weicht um höchstens 10 Prozent von der Zahl der echten Seiten ab. `[Fakt · M-Q10 zum Status; 10 %: Annahme]`
-- **M9 Core Web Vitals gut oder Labor genannt.** LCP bis 2,5 s, INP bis 200 ms, CLS bis 0,1 am 75. Perzentil. Ohne Felddaten steht der Labor-Wert, gekennzeichnet als Labor. `[Fakt · M-Q9; Ersatz: Vorschlag]`
+- **M9 Core Web Vitals gut oder Labor genannt.** LCP bis 2,5 s, INP bis 200 ms, CLS bis 0,1 am 75. Perzentil. Ohne Felddaten steht der Labor-Wert, gekennzeichnet als Labor. Budgets und Messregeln für die Ladezeit besitzt web-uni (WP5). `[Fakt · M-Q9; Ersatz: Vorschlag]`
 - **M10 Indexierung einmal beantragen.** Je Seite höchstens ein Antrag pro Änderung. `[Fakt · M-Q11: Wiederholen hilft nicht]`
 
 **Messplan**
 
-- **M11 Messplan vor dem Livegang.** Er liegt vor dem Livegang vor und enthält: Ziel, 5 bis 10 Begriffe mit Zielseite, Ausgangswerte Website und Profil der letzten 3 Monate, eigene Zählung der Anfragen, Datum der ersten Auswertung. Fehlt ein Punkt, ist TP8 nicht bestanden. `[Annahme; Verweis SKILL.md, Prüfpunkt TP8]`
+- **M11 Messplan vor dem Livegang.** Er liegt vor dem Livegang vor und enthält: Ziel, 5 bis 10 Begriffe mit Zielseite, Ausgangswerte Website und Profil der letzten 3 Monate, eigene Zählung der Anfragen (M14) mit Zählpunkten (design-uni) und Zählendpunkt (web-uni), Datum des Zwischenstands Suche und des Urteils über Anfragen (M13). Fehlt ein Punkt, ist TP8 nicht bestanden. `[Annahme; Verweis SKILL.md, Prüfpunkt TP8]`
+  Geändert am 02.11.2026: Zählpunkte, Zählendpunkt und die zwei Termine aus M13 ergänzt (Entscheid 11). `[Entscheid · Studio, 02.11.2026]`
 - **M12 16 Monate gesichert.** Vor dem Livegang ist ein Export der letzten 16 Monate mit Datum gespeichert, beim Betrieb, nicht im Repo. `[Fakt · M-Q5: 16 Monate; Rest: Annahme]`
-- **M13 Erste Auswertung nach 8 Wochen, fest.** Das Datum steht im Plan. Der Bericht vergleicht gegen den Zeitraum davor und gegen dasselbe Fenster im Vorjahr. `[Fakt · M-Q12 empfiehlt Vorjahr; 8 Wochen: Lehrplan der Text-Uni, D3]`
+- **M13 Zwischenstand nach 8 Wochen, Urteil nach 3 Monaten.** Beide Daten stehen fest im Plan. Nach 8 Wochen gibt es einen Zwischenstand für die Suche; «zu wenig Daten» ist ein mögliches Ergebnis (M3). Das Urteil über Anfragen fällt nach 3 Monaten, nicht früher. Der Bericht vergleicht gegen den Zeitraum davor und gegen dasselbe Fenster im Vorjahr. `[Fakt · M-Q12 empfiehlt Vorjahr; 8 Wochen: Lehrplan der Text-Uni, D3; 3 Monate: Entscheid · Studio, 02.11.2026]`
+  Geändert am 02.11.2026: Die Auswertung nach 8 Wochen ist nur noch ein Zwischenstand für die Suche; das Urteil über Anfragen fällt nach 3 Monaten (Entscheid 11 in [zusammenspiel.md](../../../design-uni/referenzen/zusammenspiel.md)). `[Entscheid · Studio, 02.11.2026]`
 - **M14 Eigene Zählung neben Google.** Anfragen nach Kanal zählt der Betrieb selbst, ab dem Ausgangszeitraum. Ohne sie gilt keine Aussage über Wirkung auf Aufträge. `[Annahme, aus 8.7]`
 - **M15 Ursache nur mit Ausschluss.** «Wegen der neuen Texte» steht nur, wenn Saison (Vorjahr), Updates und technische Fehler geprüft und genannt sind. Sonst «zeitgleich mit». `[Fakt · M-Q12, sechs Ursachen; Regel: Annahme]`
 - **M16 Profil-Zahlen mit Zählweise.** Aufrufe heissen «eindeutige Personen pro Tag», Anrufe heissen «Klicks auf Anrufen». Suchbegriffe des Profils erst nach dem 5. des Folgemonats auswerten. `[Fakt · M-Q14]`
 
 **Zugriff**
 
-- **M17 Betrieb ist Inhaber.** Der Betrieb selbst ist bestätigter Inhaber von Search Console und Unternehmensprofil. Helfer haben die kleinste nötige Rolle. `[Fakt · M-Q13 zu den Rollen; Regel: Vorschlag]`
+- **M17 Betrieb ist Inhaber.** Der Betrieb selbst ist bestätigter Inhaber von Search Console und Unternehmensprofil. Helfer haben die kleinste nötige Rolle. Geprüft wird das mit den übrigen Zugängen in web-uni WP7. `[Fakt · M-Q13 zu den Rollen; Regel: Vorschlag]`
 - **M18 Zugänge aufgeräumt.** Mindestens einmal pro Jahr und bei jedem Wechsel: 0 Nutzer ohne Aufgabe, 0 verwaiste Nachweise von früheren Inhabern. `[Fakt · M-Q13; Rhythmus: Annahme]`
 - **M19 Keine Rohdaten im Repo.** Exporte aus Search Console und Profil liegen beim Betrieb. Im Repo stehen höchstens zusammengefasste Kennzahlen. `[Annahme]`
 

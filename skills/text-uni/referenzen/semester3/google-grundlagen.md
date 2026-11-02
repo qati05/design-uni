@@ -338,7 +338,8 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 - **G3 Keine Ortsliste.** Kein Textblock mit mehr als 5 Orts- oder Gemeindenamen hintereinander ausserhalb einer eigenen Seite «Einsatzgebiet». In Fusszeile und Kopf: 0 solche Listen. Werkzeug: Folge von mehr als 5 Ortsnamen, nur durch Komma, «und» oder Zeilenumbruch getrennt. `[Regel laut Google · G-Q3, Keyword-Stuffing; Zahl 5: Annahme]`
 - **G4 Kein Suchwort-Stapel.** Dasselbe Suchwort (Leistung plus Ort) steht in einem Absatz höchstens 2-mal. Werkzeug. `[Regel laut Google · G-Q3; Grenzwert: Annahme]`
-- **G5 Ortsseite mit eigenem Inhalt.** Jede Ortsseite hat mindestens 3 Angaben, die es nur für diesen Ort gibt (Adresse, Team, Arbeiten vor Ort, Anfahrt, Öffnungszeiten, Ansprechperson). Zwei Ortsseiten teilen höchstens 50 % ihrer Sätze. Werkzeug für den Satzvergleich, Prüffrage für die Angaben. `[Regel laut Google · G-Q3, Doorway-Missbrauch; Zahlen: Annahme]`
+- **G5 Ortsseite mit eigenem Inhalt.** Jede Ortsseite hat mindestens 3 Angaben, die es nur für diesen Ort gibt (Adresse, Team, Arbeiten vor Ort, Anfahrt, Öffnungszeiten, Ansprechperson). Zwei Ortsseiten teilen höchstens 30 Prozent ihres Textes (Q15). Werkzeug für den Textvergleich, Prüffrage für die Angaben. `[Regel laut Google · G-Q3, Doorway-Missbrauch; Zahlen: Annahme]`
+  Geändert am 02.11.2026: «höchstens 50 % ihrer Sätze» durch die Schwelle aus Q15 ersetzt; eine Schwelle je Sache, beide Grenzwerte waren Annahmen. `[Entscheid · Studio, 02.11.2026]`
 - **G6 Keine zweite Domain als Tür.** Keine weitere Domain, die nur auf die Hauptseite weiterleitet oder sie fast gleich wiederholt. Prüffrage an den Betrieb. `[Regel laut Google · G-Q3, Doorway-Missbrauch; G-Q9, Exact Match Domain]`
 - **G7 Keine gekauften Links.** Kein Link gegen Geld, Ware, Rabatt oder Gegenlink. Bezahlte oder gesponserte Links tragen `rel="sponsored"` oder `rel="nofollow"`. Werkzeug für Attribute, Prüffrage an den Betrieb. `[Regel laut Google · G-Q3]`
 - **G8 Gestalter-Hinweis ohne Suchwort.** Ein Hinweis auf die Gestalter im Fuss nennt nur den Namen, trägt `nofollow` und kein Suchwort im Linktext. Werkzeug. `[Regel laut Google · G-Q3: Fusszeilen-Links als Beispiel für Link-Spam; Abhilfe: Annahme]`
@@ -356,7 +357,7 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 - **G17 Wer steht dahinter.** Jede Website nennt den Betrieb mit vollständiger Firma, Adresse und Kontakt (R23), und mindestens eine verantwortliche Person mit Name und Rolle. Werkzeug für das Vorhandensein, Prüffrage für die Echtheit. `[Fakt · G-Q7, 2.5.3 und 4.5.1; Regel laut Google · G-Q4, «Who»]`
 - **G18 Keine erfundenen Personen.** 0 erfundene Namen, 0 KI-Porträts von Personen, 0 Titel ohne Beleg. Prüffrage an den Betrieb. `[Regel laut Google · G-Q4: Täuschung]`
 - **G19 Datum ehrlich.** «Aktualisiert am» ändert sich nur mit einer inhaltlichen Änderung. Prüfung: Unterschied zwischen zwei Fassungen bei geändertem Datum. Nur Datum oder Kleinigkeit ist ein Befund. `[Regel laut Google · G-Q4, Frage 31]`
-- **G20 Keine Wortzahl als Ziel.** Kein Auftrag und keine Prüfliste verlangt eine Mindestzahl an Wörtern für die Suche. Länge folgt L16 und V10. `[Regel laut Google · G-Q4; G-Q11]`
+- **G20 Keine Wortzahl als Ziel.** Kein Auftrag und keine Prüfliste verlangt eine Mindestzahl an Wörtern für die Suche. Länge folgt L16 und V10. Unter 80 Wörtern ist nur ein Hinweis auf eine leere Seite (TI18). `[Regel laut Google · G-Q4; G-Q11]`
 
 **KI**
 

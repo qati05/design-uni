@@ -43,7 +43,7 @@ Die eigenen Umsetzungen stehen in der **Galerie** [../galerie/index.html](../gal
 
 | Gruppe | Beispiele | Urteil |
 |---|---|---|
-| Rückmeldung 100 bis 300 ms | Akkordeon, Tabs, Tooltip, Schalter, Drawer, Bottom Sheet | als Verhalten erlaubt; selbst gebaut mit `details`, `dialog`, CSS (B10, B11) |
+| Rückmeldung (Dauer nach [bewegung.md](bewegung.md) Teil 2) | Akkordeon, Tabs, Tooltip, Schalter, Drawer, Bottom Sheet | als Verhalten erlaubt; selbst gebaut mit `details`, `dialog`, CSS (B10, B11) |
 | Inhalt mit echtem Bezug | Timeline, Marquee, Image Viewer | als B9, B4, B7 in eigener Form |
 | Nie als Voreinstellung | Zahl, die hochzählt; Tilt-Card; Shader-Hintergrund; Dock; Loader; Text-Animation pro Buchstabe | Zähler «500+» und Loader stehen schon in der Nie-Liste; Tilt und Shader sind Dekoration |
 | Für Websites unnötig | Pagination, Combobox, Datumsbereich, Farbwähler, Dateibaum, Sortierstapel | App-Oberflächen, nicht Gegenstand des Skills |
@@ -56,6 +56,6 @@ Technik: React plus Framer Motion. Eine statische KMU-Seite braucht dafür kein 
 
 1. Welche Technik trägt er, und wie lautet der «weil»-Satz aus dem Betrieb?
 2. Ist er die eine Bewegung der Website? Wenn es schon eine gibt: weglassen.
-3. Ohne JavaScript lesbar, unter «Bewegung reduzieren» still, nach 1 s fertig oder mit Pause?
+3. Ohne JavaScript lesbar, unter «Bewegung reduzieren» still, fertig nach der Tabelle in [bewegung.md](bewegung.md) Teil 2 oder mit Pause?
 4. Sieht er anders aus als bei den letzten drei Websites (Bauteile im Register)?
 5. Läuft `pruefen.cjs` des Projekts danach weiter ohne Fehler?

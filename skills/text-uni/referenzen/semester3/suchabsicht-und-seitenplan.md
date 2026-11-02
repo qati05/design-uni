@@ -271,7 +271,8 @@ Jede Regel nennt einen Grenzwert oder eine Prüffrage. «Werkzeug» heisst: Ein 
 - **Q7 Preisfrage, Preis vorne.** Enthält der Hauptbegriff «Kosten», «Preis» oder «güns·tig», nennen Beschreibung und erster Bildschirm der Seite einen Preis oder Richtpreis mit Bedingung (wofür, ab wann). Werkzeug: Betrag mit CHF in Beschreibung und erstem Absatz. `[Beobachtung · Q-Q13: 8 von 15 Beschreibungen bei Preisfragen; Regel Annahme; vgl. A19, CH8, CH9]`
 - **Q8 Frage im Begriff, Antwort im ersten Satz.** Ist der Begriff eine Ja-nein-Frage oder Bedingung («ohne Rezept», «ohne Termin», «am Sonntag»), beginnt der erste Satz der Seite mit der Antwort, und die Beschreibung enthält sie. Bewerter. `[Beobachtung · Q-Q13: 1 von 5; Regel Annahme; vgl. TP2, KW11]`
 - **Q9 Lücke gefüllt.** Jede Seite beantwortet mindestens eine Lücke aus der Notiz zu Q2 mit einem belegten Fakt (Zahl, Frist, Preis, Ablauf). Bewerter mit der Notiz. `[Annahme]`
-- **Q10 Umfang nach Antwort, nicht nach Wortzahl.** Keine Seite hat ein Wortziel. Prüffrage: Beantwortet die Seite die Fragen aus KW5 und die Lücke aus Q9? Seiten unter 150 Wörtern prüft ein Bewerter auf fehlende Antworten. `[Fakt · Q-Q5; Beobachtung · Q-Q13: 110 bis 6800 Wörter oben; Grenzwert Annahme]`
+- **Q10 Umfang nach Antwort, nicht nach Wortzahl.** Keine Seite hat ein Wortziel. Prüffrage: Beantwortet die Seite die Fragen aus KW5 und die Lücke aus Q9? Unter 80 Wörtern ist nur ein Hinweis auf eine leere Seite (TI18): Ein Bewerter prüft sie auf fehlende Antworten. `[Fakt · Q-Q5; Beobachtung · Q-Q13: 110 bis 6800 Wörter oben; Grenzwert Annahme]`
+  Geändert am 02.11.2026: Prüfgrenze 150 durch 80 Wörter ersetzt, damit für den Mindestumfang eine Schwelle gilt (TI18, TI31, G20). `[Entscheid · Studio, 02.11.2026]`
 
 **Lokal und Ortsseiten**
 
@@ -279,7 +280,7 @@ Jede Regel nennt einen Grenzwert oder eine Prüffrage. «Werkzeug» heisst: Ein 
 - **Q12 Keine Ortsliste im Titel.** Höchstens ein Ort im Titel, zwei nur bei zwei Standorten. Werkzeug: Ortsnamen im Titel zählen. `[Annahme; Fakt · Q-Q4 zu Seiten für Städte]`
 - **Q13 Ortsseite nur mit Bezug.** Eine Ortsseite ohne Standort am Ort hat mindestens 2 der Anzeichen aus Teil 5 (belegte Aufträge mit Jahr, ortsbezogene Angaben, andere Leistung). Prüffrage für Bewerter mit der Tabelle aus Teil 5. `[Fakt · Q-Q4; Grenzwert Annahme]`
 - **Q14 Ersetzungstest für Orte.** Tauscht man den Ortsnamen gegen einen Nachbarort, bleibt höchstens ein Satz je Abschnitt wahr (K3). Bewerter markiert die austauschbaren Sätze. `[Annahme; nach K3]`
-- **Q15 Keine Serie gleicher Ortsseiten.** Zwei Ortsseiten desselben Betriebs teilen höchstens 30 Prozent ihres Textes. Werkzeug: Textvergleich ohne Menü und Fusszeile. `[Fakt · Q-Q4, «substantially similar pages»; Grenzwert Annahme]`
+- **Q15 Keine Serie gleicher Ortsseiten.** Zwei Ortsseiten desselben Betriebs teilen höchstens 30 Prozent ihres Textes. Werkzeug: Textvergleich ohne Menü und Fusszeile. Diese Schwelle gilt auch für G5. `[Fakt · Q-Q4, «substantially similar pages»; Grenzwert Annahme]`
 - **Q16 Portale oben, Eintrag korrekt.** Steht unter den obersten 5 Treffern eines Hauptbegriffs ein Verzeichnis oder Portal, hat der Betrieb dort einen Eintrag mit denselben Firmendaten wie auf der Website. Prüffrage. `[Beobachtung · Q-Q13: 6 von 10 Fragen; Regel Annahme; Einzelheiten P…]`
 
 **Schweiz und Messen**

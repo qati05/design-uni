@@ -390,7 +390,8 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 - **KQ7 Anbieter-Text heisst Absicht.** Jede Aussage darüber, wie ein KI-Dienst Quellen wählt, trägt «Regel laut <Anbieter>» oder eine Messung mit Quelle. «ChatGPT bevorzugt …» ohne Quelle ist ein Befund. Werkzeug: Kennzeichen zählen, wie G25 und P17. `[Annahme; Lehre aus ../abgleich-menschen.md]`
 - **KQ8 Zahl nur mit Methode.** Jede Zahl zu KI-Sichtbarkeit in einem Bericht oder Angebot nennt Studie, Stichprobe, Zeitraum und ob der Herausgeber ein Werkzeug verkauft. Fehlt eines davon, wird die Zahl nicht verwendet. Prüffrage. `[Fakt · Teil 5: Profound und BrightEdge ohne nachvollziehbare Methode]`
 - **KQ9 Keine Zusage zu KI-Zitaten.** Kein Text an Kundschaft verspricht ein Zitat in ChatGPT, Perplexity, Gemini, Copilot, Claude oder in der KI-Übersicht. Werkzeug: Suche nach «garantiert», «sicher zitiert», «Platz in ChatGPT»; Prüffrage für den Rest. `[Regel laut OpenAI · KQ-Q2: «Placement is not guaranteed»; Regel laut Microsoft · KQ-Q16: «GEO does not guarantee»; Verweis G2, P18]`
-- **KQ10 Modell-Urteil benannt.** Ergebnisse eines KI-Zitat-Tests, bei dem die Quellen vorgegeben sind, heissen «Modell-Urteil, Quellenauswahl übersprungen». Prüffrage. `[Fakt · Prüfauftrag Semester 4; KQ-Q30: Auswahl der Quellen weicht stark ab]`
+- **KQ10 Modell-Urteil benannt.** Ergebnisse eines KI-Zitat-Tests, bei dem die Quellen vorgegeben sind, heissen «Modell-Urteil, Vorfilter, Quellenauswahl übersprungen». Prüffrage. `[Fakt · Prüfauftrag Semester 4; KQ-Q30: Auswahl der Quellen weicht stark ab]`
+  Geändert am 02.11.2026: «Vorfilter» ergänzt (Entscheid 1). `[Entscheid · Studio, 02.11.2026]`
 
 **Fakten und Erwähnungen**
 

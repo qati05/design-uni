@@ -15,7 +15,7 @@ Stand 01.11.2026 · Text-Uni, Semester 3 «Google-Suche».
 
 **Boden aus Semester 1 und 2 und aus «Google-Grundlagen».** Was dort steht, gilt hier und wird nur mit der ID zitiert: Seitentitel 40 bis 60 Zeichen (U4), Titel wählt aus, nennt Leistung und Ort und ist konkret (A17 bis A19), Überschrift als Aussage (U1, V3, L6), wichtiges Wort vorn (L8), Linktext nennt das Ziel (L14), kein Eszett (CH1), Preisform (CH7, CH8, R13, R14), Bewertungsschnitt mit Anzahl, Plattform und Datum (B4, R8), Stimmen echt (R7), keine erfundene Frage (KW12), FAQ als Kundenfrage (KW11), keine Ortsliste und keine Ortsseiten ohne eigenen Inhalt (G3, G5), KI-Metadaten geprüft (G21).
 
-**Abgrenzung.** Wie die Seite aussieht, entscheidet die Design-Uni. Wo Überschriften, Links und Knöpfe stehen, entscheidet die UX-Uni. Dieses Skript regelt die **Wörter und Auszeichnungen**, die Google liest und zeigt. Welche Seiten es überhaupt gibt, steht in «Suchabsicht und Seitenplan».
+**Abgrenzung.** Wie die Seite aussieht und wo Überschriften, Links und Knöpfe stehen, entscheidet der Schwester-Skill design-uni. Dieses Skript regelt die **Wörter und Auszeichnungen**, die Google liest und zeigt. Welche Seiten es überhaupt gibt, steht in «Suchabsicht und Seitenplan».
 
 **Schreibweise der Beispiele.** Floskeln stehen mit Mittelpunkt im Wort, etwa «Will·kommen». Alle Betriebe sind erfunden. Adressen enden auf `.example`, damit keine echte Domain gemeint ist.
 
@@ -320,10 +320,12 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 - **S1 Jede Seite hat einen eigenen Titel.** 0 Seiten ohne `<title>`, 0 gleiche Titel auf zwei Seiten, 0 Titel aus nur einem Wort wie «Home», «Startseite», «Leistungen». Werkzeug. `[Regel laut Google · S-Q1]`
 - **S2 Leistung und Ort zuerst.** Jeder Titel einer Leistungs- oder Startseite beginnt mit der Leistung in den Worten der Kundschaft und enthält den Ort aus den Fakten. Der Name des Betriebs steht am Ende. Werkzeug: erstes Wort ist nicht der Betriebsname; Ortsname vorhanden. `[Fakt · S-Q19: Suchwörter im Titel erhöhen Klicks; Regel laut Google · S-Q1; S-Q15; Reihenfolge: Annahme nach L8]`
-- **S3 Titellänge 40 bis 60 Zeichen.** Über 65 ist ein Fehler, unter 30 eine Warnung. Werkzeug. `[Fakt · S-Q24, S-Q25, beide Anbieter; U4; Grenzwerte: Annahme]`
+- **S3 Titellänge 40 bis 60 Zeichen.** Unter 40 und 61 bis 65 Zeichen sind eine Warnung, über 65 ein Fehler. Diese Schwelle gilt für alle drei Skills und ihre Werkzeuge ([zusammenspiel.md](../../../design-uni/referenzen/zusammenspiel.md), Teil 4). Werkzeug. `[Fakt · S-Q24, S-Q25, beide Anbieter; U4; Grenzwerte: Annahme]`
+  Geändert am 02.11.2026: Staffel ausgeschrieben (vorher: über 65 Fehler, unter 30 Warnung; 30 bis 39 und 61 bis 65 Zeichen waren offen); eine Schwelle je Sache. `[Entscheid · Studio, 02.11.2026]`
 - **S4 Kein Wort doppelt.** Kein Inhaltswort steht zweimal im Titel; der Betriebsname zählt nicht mit, wenn er die Leistung enthält. Werkzeug. `[Regel laut Google · S-Q1, Keyword-Stuffing]`
 - **S5 Ein prüfbares Detail.** Jeder Titel einer Leistungsseite enthält eine Zahl, eine Frist, einen Preis oder einen Gegenstand aus den Fakten. 0 Superlative (R2). Werkzeug: Ziffer oder Eintrag aus der Faktenliste; Superlativ-Liste. `[Meinung · A19; Fakt · Zahlen wirken bei Nachrichten-Titeln, U-Q17; Übertragung auf Suchergebnisse: Annahme]` `[unsicher]` Für Suchergebnisse fehlt eine Messung.
-- **S6 Titel passt zum Haupttitel.** `<title>` und `<h1>` nennen dieselbe Leistung und denselben Ort. Prüffrage. `[Regel laut Google · S-Q1]`
+- **S6 Titel passt zum Haupttitel.** `<title>` und `<h1>` nennen dieselbe Leistung und denselben Ort. Gemeint ist das `h1` als Etikett; der grosse Satz aus der Idee ist keine Überschrift und zählt hier nicht. Prüffrage. `[Regel laut Google · S-Q1]`
+  Geändert am 02.11.2026: klargestellt, dass S6 für das `h1` gilt, nicht für den grossen Satz aus der Idee (Entscheid 2). `[Entscheid · Studio, 02.11.2026]`
 - **S7 Trennzeichen schlicht.** Trennzeichen sind `|` oder `:`, höchstens zwei je Titel. Eckige Klammern: 0. Werkzeug. `[Fakt · S-Q25; Wahl: Annahme]`
 - **S8 Keine Frage nur als Form.** Ein Titel in Frageform steht nur, wenn die Frage wörtlich aus der Sammlung der Kundschaft stammt (KW1, U3). `[Fakt · S-Q24: kein Vorteil für Fragen; Regel: Annahme]`
 
@@ -332,13 +334,14 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 - **S9 Eigene Beschreibung je wichtiger Seite.** Startseite und jede Leistungsseite haben eine Meta-Beschreibung; 0 gleiche Beschreibungen. Werkzeug. `[Regel laut Google · S-Q3]`
 - **S10 Beschreibung mit Fakten.** Die Beschreibung nennt Leistung, Ort und mindestens ein prüfbares Detail und sagt, was als Nächstes passiert oder für wen das Angebot ist. 0 Floskeln (K1). Prüffrage. `[Regel laut Google · S-Q3; Inhalt: Annahme nach A1, U8]`
 - **S11 Keine Wortliste.** Die Beschreibung besteht aus Sätzen oder klar getrennten Angaben. Mehr als 3 Suchwörter hintereinander nur durch Komma getrennt: Befund. Werkzeug. `[Regel laut Google · S-Q3]`
-- **S12 Beschreibungslänge 110 bis 155 Zeichen.** Werkzeug. `[Annahme; Google nennt keine Zahl, S-Q3]`
+- **S12 Beschreibungslänge 110 bis 155 Zeichen.** Diese Schwelle gilt für alle drei Skills. Werkzeug. `[Annahme; Google nennt keine Zahl, S-Q3]`
 - **S13 Erster Absatz als Snippet.** Der erste Absatz jeder Seite beantwortet die Hauptfrage allein (V1, L1). Prüffrage: Wäre er als Snippet allein verständlich? `[Regel laut Google · S-Q3: Snippet meist aus dem Inhalt]`
 - **S14 Sprunglinks möglich.** Antworten auf Hauptfragen stehen sichtbar, nicht nur hinter Akkordeon oder Reiter; kein Skript setzt die Scrollposition beim Laden. Werkzeug. `[Regel laut Google · S-Q3, seit 20.04.2026]`
 
 **Überschriften und Links**
 
-- **S15 Ein Haupttitel.** Genau ein `<h1>` je Seite, sichtbar, grösser als alle anderen Überschriften. Werkzeug. `[Regel laut Google · S-Q1]`
+- **S15 Ein Haupttitel.** Genau ein `<h1>` je Seite, sichtbar. Es nennt Leistung und Ort (A17, S6) und darf kleiner gesetzt sein als der grosse Satz aus der Idee; die Grösse entscheidet design-uni. Werkzeug. `[Regel laut Google · S-Q1]` `[Entscheid · Studio, 02.11.2026]`
+  Geändert am 02.11.2026: «grösser als alle anderen Überschriften» gestrichen (Entscheid 2: Etikett ist `h1`, die Idee ist gross). Google nennt als gute Praxis einen klaren Haupttitel, «grösser als alles andere» (Teil 2.1). Ob Google einen anderen Text als Titel wählt, wenn der grösste Text kein `h1` ist, ist nicht geprüft. `[unsicher]`
 - **S16 Reihenfolge ohne Sprung.** Keine Überschrift springt eine Ebene (`h2` auf `h4`). Werkzeug. `[Regel laut Google · S-Q15: wichtig für Bildschirmleser, nicht für Google]`
 - **S17 Folgbare Links.** Jeder interne Link ist ein `<a>` mit `href` auf eine echte Adresse. 0 Links nur per Skript. Werkzeug. `[Regel laut Google · S-Q4]`
 - **S18 Linktext allein verständlich.** Jeder Linktext nennt das Ziel und ist ohne Umgebung verständlich, 2 bis 8 Wörter. 0 «hier», «mehr», «Website», «Artikel» allein. Werkzeug mit Liste und `slop-de.js`. `[Regel laut Google · S-Q4; L14; Wortzahl: Annahme]`
@@ -364,7 +367,8 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 **Lesen der Klickdaten**
 
-- **S29 Klickwirkung nur mit Menschen-Daten.** Aussagen wie «dieser Titel bringt mehr Klicks» stützen sich auf Messungen mit Menschen (Teil 10 oder eigene Search-Console-Daten nach dem Livegang). Ein Urteil von Such-Agenten heisst «Modell-Urteil» und belegt keine Klickwirkung. Prüffrage. `[Fakt · ../abgleich-menschen.md; S-Q18 bis S-Q24]`
+- **S29 Klickwirkung nur mit Menschen-Daten.** Aussagen wie «dieser Titel bringt mehr Klicks» stützen sich auf Messungen mit Menschen (Teil 10 oder eigene Search-Console-Daten nach dem Livegang). Ein Urteil von Such-Agenten heisst «Modell-Urteil», ist als Tor ein Vorfilter (TP5) und belegt keine Klickwirkung. Prüffrage. `[Fakt · ../abgleich-menschen.md; S-Q18 bis S-Q24]`
+  Geändert am 02.11.2026: «Vorfilter» ergänzt (Entscheid 1). `[Entscheid · Studio, 02.11.2026]`
 - **S30 Recht vor Klick.** Kein Wort im Titel oder in der Beschreibung, das R2, R5, R6 oder R17 verletzt, auch wenn ein Test mehr Klicks verspricht. Werkzeug für Superlative, Prüffrage für den Rest. `[Verweis auf R2, B19; S-Q27 als Gegenbeispiel]`
 
 **Wenn in der Schweiz**
@@ -378,7 +382,7 @@ Jede Regel kann ein Werkzeug oder ein Bewerter ohne Vorwissen entscheiden. Grenz
 
 ## 13. Für die Semesterprüfung
 
-Der Snippet-Test (TP5) zeigt Such-Agenten echte Treffer und einen eigenen Treffer eines erfundenen Betriebs. Ein Treffer hat drei Teile: Titel, sichtbare Adresse, Beschreibung. Ergebnis ist ein **Modell-Urteil** (S29).
+Der Snippet-Test (TP5) zeigt Such-Agenten echte Treffer und einen eigenen Treffer eines erfundenen Betriebs. Ein Treffer hat drei Teile: Titel, sichtbare Adresse, Beschreibung. Ergebnis ist ein **Modell-Urteil, Vorfilter** (S29).
 
 ### 13.1 Checkliste für einen guten Treffer
 

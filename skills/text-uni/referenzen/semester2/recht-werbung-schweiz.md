@@ -8,7 +8,7 @@ Herkunft jeder Aussage: `[Fakt · Quelle, Stand oder Datum]` (aus der gelesenen 
 
 **Schreibweise der Beispiele.** Das Floskel-Werkzeug `slop-de.js` prüft auch dieses Skript. Darum steht in jeder Floskel, die es melden würde, ein Mittelpunkt im Wort, etwa «höchste Quali·tät». Beim Lesen den Punkt überspringen. Alle Betriebe, Namen, Preise und Zahlen in den Beispielen sind **erfunden**. Sie heissen «Muster», «Beispiel» oder «Fiktiv».
 
-**Grenze zum Rest der Uni.** Preisformat und Schreibweise von Beträgen stehen in `semester1/schweizer-hochdeutsch.md` (CH7, CH8, CH9). Wertende Adjektive ohne Beleg behandeln W18 und K2. Hier geht es nur darum, was ein Werbetext rechtlich sagen darf. Die Design-Uni hat dasselbe Recht für die Gestaltung gelesen; dieses Skript prüft es neu an den Primärquellen und nennt, wo es abweicht.
+**Grenze zum Rest der Uni.** Preisformat und Schreibweise von Beträgen stehen in `semester1/schweizer-hochdeutsch.md` (CH7, CH8, CH9). Wertende Adjektive ohne Beleg behandeln W18 und K2. Hier geht es nur darum, was ein Werbetext rechtlich sagen darf. Die Design-Uni hat dasselbe Recht für die Gestaltung gelesen; dieses Skript prüft es neu an den Primärquellen und nennt, wo es abweicht. Seit 02.11.2026 gilt für Werberecht (UWG, PBV, Heilmittel, Berufsrecht) und für den Wortlaut von Impressum und Datenschutzerklärung dieses Skript in allen drei Skills (Entscheid 9 und Besitzer-Tabelle in [zusammenspiel.md](../../../design-uni/referenzen/zusammenspiel.md)). `[Entscheid · Studio, 02.11.2026]`
 
 ---
 
@@ -26,7 +26,7 @@ Fedlex (fedlex.admin.ch) zeigt Gesetze nur mit JavaScript an. Gelesen wurde daru
 | Medizinalberufegesetz (MedBG) | 811.11 | 01.07.2025 | Art. 2, 40, 43, 58 |
 | Gesundheitsberufegesetz (GesBG) | 811.21 | 01.07.2025 | Art. 2, 16 |
 | Anwaltsgesetz (BGFA) | 935.61 | 01.07.2025 | Art. 12 |
-| Datenschutzgesetz (DSG) | 235.1 | 07.07.2025 | Art. 5, 6, 7, 30, 31 |
+| Datenschutzgesetz (DSG) | 235.1 | 07.07.2025 | Art. 5, 6, 7, 30, 31; Art. 19 und 20 am 02.11.2026 |
 | Strafgesetzbuch (StGB) | 311.0 | 01.11.2026 | Art. 321 |
 | Lebensmittelgesetz (LMG) | 817.0 | 01.10.2024 | Art. 5, 18 |
 | Lebensmittel- und Gebrauchsgegenständeverordnung (LGV) | 817.02 | 01.07.2025 | Art. 47 |
@@ -322,6 +322,16 @@ Zusammengezogen aus 4.1 bis 4.4 und Teil 5. [Annahme zur Zusammenstellung; jede 
 > **Nicht erlaubt** (Physiotherapie Muster): «‹Nach dem Bandscheibenvorfall konnte ich wieder arbeiten.› Peter K., Musterdorf», ohne Einwilligung.
 > **Erlaubt:** «4,8 von 5 Sternen aus 64 Google-Bewertungen (Stand 1. November 2026)» mit Link zur Plattform.
 
+### 6.1 Datenschutzerklärung: was mindestens drinsteht
+
+Nachgelesen am 02.11.2026, weil dieses Skript seit diesem Tag den Wortlaut von Impressum und Datenschutzerklärung für alle drei Skills regelt. Keine Rechtsauskunft.
+
+- Wer Personendaten beschafft, informiert die betroffene Person angemessen darüber, auch wenn die Daten nicht bei ihr beschafft werden. [Fakt · DSG Art. 19 Abs. 1, Stand 07.07.2025, Abruf 02.11.2026]
+- Mitgeteilt werden mindestens: die Identität und die Kontaktdaten des Verantwortlichen, der Bearbeitungszweck und gegebenenfalls die Empfängerinnen und Empfänger oder deren Kategorien. [Fakt · DSG Art. 19 Abs. 2, Stand 07.07.2025, Abruf 02.11.2026]
+- Gehen Personendaten ins Ausland, nennt die Information auch den Staat oder das internationale Organ und gegebenenfalls die Garantien nach Art. 16 Abs. 2 oder die Ausnahme nach Art. 17. [Fakt · DSG Art. 19 Abs. 4, Stand 07.07.2025, Abruf 02.11.2026]
+- Ausnahmen von der Informationspflicht nennt Art. 20. [Fakt · DSG Art. 20, Stand 07.07.2025, Abruf 02.11.2026] Ob eine davon für eine Website gilt, ist eine Frage für die Anwältin (Teil 9). [Annahme]
+- **Folge für den Text** [Annahme]: Die Datenschutzerklärung sagt in einfachen Sätzen, wer verantwortlich ist und wie man ihn erreicht, welche Personendaten die Website wofür bearbeitet (etwa Formular, Zählung, Hosting) und an wen sie gehen (Hoster, fremde Dienste nach CL3), mit Land. Welche Daten tatsächlich anfallen, liefert web-uni (Hoster, Formular-Backend, Zählendpunkt); dieses Skript regelt nur den Wortlaut. Was nicht belegt ist, bleibt eine sichtbare Lücke und ist als «Rechtsprüfung nötig» markiert (R24).
+
 ---
 
 ## 7. Leitentscheide
@@ -375,6 +385,7 @@ Die Fassungen unterscheiden sich nur im Satz mit dem Versprechen. [Annahme zum A
 8. **Garantie bei Dienstleistungen:** Gilt SLK B.14 (Rückgabe von Waren) sinngemäss für «Geld zurück»-Zusagen bei Dienstleistungen?
 9. **Viagogo:** Eine Zweitquelle meldet, das Handelsgericht Zürich (HG170194) habe Countdowns nicht als besonders aggressiv nach lit. h beurteilt. Das Urteil wurde nicht gelesen. Wie ist die Rechtslage nach diesem Urteil und nach dem Bundesratsbericht 2024?
 10. **AWV-Fassung:** Fedlex führt als neueste Fassung den Stand 01.01.2020. Gibt es seither Änderungen, die nicht konsolidiert sind?
+11. **Impressum und Datenschutzerklärung:** Welche Angaben braucht das Impressum einer Website ohne Online-Verträge, wenn UWG Art. 3 Abs. 1 lit. s nicht greift? Welche Bearbeitungen einer KMU-Website (Server-Protokolle beim Hoster, Formular, Zählung ohne Cookies) muss die Datenschutzerklärung einzeln nennen? (Ergänzt am 02.11.2026.)
 
 ---
 
@@ -400,7 +411,8 @@ Die Fassungen unterscheiden sich nur im Satz mit dem Versprechen. [Annahme zum A
 Jede Regel nennt eine Prüffrage, die ein Bewerter oder ein Werkzeug entscheiden kann. Ein Befund heisst: umschreiben oder der Anwältin vorlegen.
 
 - **R1 Beleg für jede Tatsache.** Prüffrage: Ist für jede Zahl, Jahresangabe, Frist, Menge und Eigenschaft im Text ein Beleg des Betriebs notiert (Dokument, Datum, Quelle)? Fehlt einer, ist es ein Befund. [Fakt · UWG Art. 3 Abs. 1 lit. b und Art. 13a; SLK A.5]
-- **R2 Kein Superlativ ohne Beleg.** Prüffrage: Steht ein Superlativ oder eine Alleinstellung («beste», «grösste», «schnellste», «günstigste», «einzige», «Nr. 1», «führend») ohne Beleg im selben oder nächsten Satz? Werkzeug: Wortliste plus Suche nach Endungen auf «-ste» und «-sten». [Fakt · BGE 132 III 414 E. 4.2.1; SLK-Tätigkeitsbericht 2016; Wortliste: Annahme]
+- **R2 Kein Superlativ ohne Beleg.** Prüffrage: Steht ein Superlativ oder eine Alleinstellung («beste», «grösste», «schnellste», «günstigste», «einzige», «Nr. 1», «führend») ohne Beleg im selben oder nächsten Satz? Im Titel (`<title>` und `h1`) und in der Beschreibung steht kein Superlativ, auch kein belegter (A19, S5, S30). Werkzeug: Wortliste plus Suche nach Endungen auf «-ste» und «-sten». [Fakt · BGE 132 III 414 E. 4.2.1; SLK-Tätigkeitsbericht 2016; Wortliste: Annahme; Titel und Beschreibung: Entscheid · Studio, 02.11.2026]
+  Geändert am 02.11.2026: Titel und Beschreibung ohne Superlativ ergänzt; diese Fassung gilt für alle drei Skills (Entscheid 9). `[Entscheid · Studio, 02.11.2026]`
 - **R3 Keine Selbstverständlichkeit als Vorzug.** Prüffrage: Hebt der Text etwas hervor, das Gesetz oder Branche ohnehin verlangen («inkl. MWST», «versichert», «gesetzliche Garantie», «Datenschutz nach DSG»)? [Fakt · SLK B.4]
 - **R4 Vergleich nur sachlich und vollständig.** Prüffrage: Nennt oder meint der Text Mitbewerber («andere», «die Konkurrenz»)? Wenn ja: gleiche Leistung, gleiche Menge, belegte Zahl, keine Abwertung? [Fakt · UWG Art. 3 Abs. 1 lit. a und e; SLK B.1, B.3; BGE 132 III 414 E. 4.2.1]
 - **R5 Titel nur echt.** Prüffrage: Ist jeder Titel, jede Berufsbezeichnung und jede Mitgliedschaft mit Urkunde oder Register belegt, ein ausländischer Titel mit Anerkennung? [Fakt · UWG Art. 3 Abs. 1 lit. c; SLK B.12; MedBG Art. 58]
@@ -467,4 +479,4 @@ Alle abgerufen am 01.11.2026.
 24. BGer 2C_95/2021 vom 27.08.2021, Wiedergabe DFR, Universität Bern. https://www.servat.unibe.ch/dfr/bger/2021/210827_2C_95-2021.html
 25. SAMW und FMH, «Rechtliche Grundlagen im medizinischen Alltag», Kapitel 2.5 «Information, Werbung und Verwendung von Berufsbezeichnungen», aktualisiert 22.06.2026. https://leitfaden.samw.fmh.ch/rechtlicher-leitfaden/2-rahmenbedingungen-des-arztes/25-verwendung-von-arzttiteln.cfm
 
-**Nicht gelesen oder nicht erreichbar:** die Urteile BGer 2C_367/2008, BGer 2A.787/2006 und BVGer C-1795/2009 (nur über Quellen 17 und 25); das Viagogo-Urteil HG170194 des Handelsgerichts Zürich; die FMH-Standesordnung mit Anhang 2; die Botschaft zum UWG; DSG Art. 19 (Informationspflicht); kantonales Gesundheitsrecht zu Heiltätigkeit und Praxiswerbung; die Website faire-werbung.ch selbst (antwortet direkten Abrufen mit 403; die PDF-Dateien waren erreichbar); bger.ch direkt (Zertifikatsfehler; gelesen über einen Abrufdienst).
+**Nicht gelesen oder nicht erreichbar:** die Urteile BGer 2C_367/2008, BGer 2A.787/2006 und BVGer C-1795/2009 (nur über Quellen 17 und 25); das Viagogo-Urteil HG170194 des Handelsgerichts Zürich; die FMH-Standesordnung mit Anhang 2; die Botschaft zum UWG; DSG Art. 19 (Informationspflicht; am 02.11.2026 nachgelesen, Teil 6.1); kantonales Gesundheitsrecht zu Heiltätigkeit und Praxiswerbung; die Website faire-werbung.ch selbst (antwortet direkten Abrufen mit 403; die PDF-Dateien waren erreichbar); bger.ch direkt (Zertifikatsfehler; gelesen über einen Abrufdienst).

@@ -1,6 +1,7 @@
 # Bewegung
 
 > Eigene, geprüfte Umsetzungen der erlaubten Bewegungen: [../galerie/index.html](../galerie/index.html) · Einordnung der Baukästen: [bausteine.md](bausteine.md)
+> **Besitz:** design-uni entscheidet, **ob** und **welche** Bewegung es gibt, und setzt Dauer und Pause (Tabelle in Teil 2). **Womit** sie gebaut wird und was sie kostet (Bibliothek, Gewicht, Ladezeit), entscheidet web-uni in WP3 ([zusammenspiel.md](zusammenspiel.md) Teil 2).
 
 > **Quellen:** NN/g «Executing UX Animations: Duration and Motion Characteristics» und «Scrolljacking 101»; Emil Kowalski, «Great animations»; web.dev «How to create high-performance CSS animations»; MDN View Transition API und scroll-driven animations; Chrome for Developers «Cross-document view transitions»; W3C WCAG 2.2.2, 2.3.1, 2.3.3; GSAP-Doku (Eases, ScrollTrigger, matchMedia); Awwwards Sites of the Year; WebKit-Bug 219889 (Autoplay im Stromsparmodus). Eigene Bildfolgen mit Playwright.
 
@@ -24,30 +25,46 @@ Sieben Entwürfe, je statisch und bewegt, als Bildfolgen; sechs Bewerter auf zwe
 4. **Inhalt nie zurückhalten.** Die Idee des Zooms wurde gelobt, aber Öffnungszeiten und Anschrift kamen erst nach drei Bildschirmen.
 5. **Steuerbarkeit zählt.** Pause-Knopf und «Bewegung reduzieren» wurden ausdrücklich positiv genannt.
 
-**Regel:** keine oder eine Bewegung pro Website; nur wenn sie etwas Echtes zeigt; in unter 1 s fertig oder steuerbar; nie Inhalt verzögernd. Sonst statisch. Ein Entscheid des Auftraggebers «statisch» geht vor.
+**Regel:** keine oder eine Bewegung pro Website; nur wenn sie etwas Echtes zeigt; fertig oder steuerbar nach den Grenzen in Teil 2; nie Inhalt verzögernd. Sonst statisch. Ein Entscheid des Betriebs «statisch» geht vor.
 
 ## 2. Grundsätze
 
+**Dauer und Pause: die eine Tabelle.** Alle Zahlen zu Dauer und Pause in design-uni stehen hier; andere Dateien verweisen nur. `[Entscheid · Studio, 02.11.2026, nach zusammenspiel.md Teil 4]`
+
+| Was | Grenze | Herkunft |
+|---|---|---|
+| Rückmeldung auf Tipp, Hover, Druck | 100 bis 200 ms | NN/g: Rückmeldung um 100 ms; Kowalski |
+| Interface-Übergang (Menü, Dialog, Akkordeon, Seitenwechsel) | 200 bis 300 ms, **nie über 300 ms**; hinein langsamer als hinaus | NN/g: Dialog 200 bis 300 ms, ab 500 ms «a real drag» |
+| Absenden bis sichtbare Bestätigung oder Fehlermeldung | ≤ 300 ms | `[Annahme]`, DP6 |
+| Der eine inszenierte Moment (Titel aus der Maske, Strich, Fallblatt) | fertig nach **≤ 1,0 s**; der Titel ist nach ≤ 1,0 s lesbar | `[Annahme]`, DP5 |
+| Versatz zwischen Gliedern (Stagger) | 40 bis 80 ms, höchstens 5 bis 6 Glieder | `[Annahme]` |
+| An den Scrollweg gekoppelt | folgt dem Scrollen; Glättung 0,3 bis 1 s | GSAP-Doku |
+| Was von selbst läuft (Video-Schleife, Laufband, Szene) | nach **3 s** läuft nichts mehr, ausser mit Pause-Knopf | DP5, strenger als WCAG 2.2.2 (Pause ab 5 s) |
+| Schnitt im Hintergrundvideo | nicht unter rund 3 s je Einstellung | `[Annahme]` |
+| Blitze | höchstens 3 pro Sekunde | WCAG 2.3.1 |
+
+Damit gelten die früheren Werte nicht mehr: Interface «100 bis 500 ms» und «nie über 400 ms» (jetzt nie über 300 ms), ein Moment «bis etwa 1,2 s» (jetzt 1,0 s), Pause «ab 5 s» (jetzt nach 3 s, wie DP5).
+
 - **DGB1 · Bewegung hat eine Aufgabe:** Rückmeldung, Herkunft, Orientierung oder Betonung. Sonst fliegt sie raus.
-- **DGB2 · Kurz.** Interface 100–500 ms; Rückmeldung ~100 ms, Dialog 200–300 ms; ab 500 ms «a real drag» (NN/g). Keine Interface-Dauer über 400 ms.
-- **DGB3 · Hinein langsamer als hinaus** (~300 ms / 200–250 ms).
+- **DGB2 · Kurz.** Dauer nach der Tabelle oben; ab 500 ms wirkt Interface-Bewegung zäh (NN/g: «a real drag»).
+- **DGB3 · Hinein langsamer als hinaus** (etwa 300 ms hinein, 200 bis 250 ms hinaus).
 - **DGB4 · Ease-out als Standard,** hinaus ease-in, nie linear für Raumbewegung; linear nur bei Kopplung an den Scrollbalken. Stärkere Abbremsung z. B. `cubic-bezier(0.05, 0.7, 0.1, 1)`.
-- **DGB5 · Je häufiger, desto leiser.** Hover und Druck 120–200 ms; Tastatur-Aktionen nie animieren.
+- **DGB5 · Je häufiger, desto leiser.** Hover und Druck am kurzen Ende der Tabelle; Tastatur-Aktionen nie animieren.
 - **DGB6 · Unterbrechbar.** CSS-Transitions statt Keyframes für Interaktion. Prüfung: dreimal schnell über den Knopf, kein Springen.
 - **DGB7 · Nur `transform` und `opacity`** (und Farbe). `top`/`left` liess im web.dev-Versuch 50 % der Bilder fallen, `transform` 1 %.
-- **DGB8 · Kleine Wege:** 12–24 px beim Einblenden, mobil die Hälfte; Stagger 40–80 ms, höchstens 5–6 Glieder `[Annahme]`.
-- **DGB9 · Ein inszenierter Moment pro Seite,** bis etwa 1,2 s; alles andere unter DGB2.
-- **DGB10 · Der Inhalt ist sofort da.** Kein Ladebildschirm, kein Zähler, kein Tor. Was einfährt, ist nach spätestens 1 s lesbar.
+- **DGB8 · Kleine Wege:** 12 bis 24 px beim Einblenden, mobil die Hälfte `[Annahme]`; Stagger nach der Tabelle.
+- **DGB9 · Ein inszenierter Moment pro Seite,** fertig nach höchstens 1,0 s; alles andere ist Interface nach DGB2.
+- **DGB10 · Der Inhalt ist sofort da.** Kein Ladebildschirm, kein Zähler, kein Tor. Was einfährt, ist nach spätestens 1,0 s lesbar.
 - **DGB11 · Scrollen gehört dem Besucher.** Kein verändertes Tempo oder Richtung, wo gelesen wird; höchstens ein gepinnter Abschnitt, etwa eine Bildschirmhöhe zusätzlich. Glättendes Scrollen standardmässig aus.
 - **DGB12 · Reduced Motion ist eine eigene Fassung:** keine Wege, Parallaxe, Zoom, Schwenks; Deckkraft kurz erlaubt. Video → Poster, Sequenz → Schlüsselbild.
-- **DGB13 · Was von selbst läuft, lässt sich anhalten:** über 5 s automatisch → Pause (WCAG 2.2.2). Nie mehr als drei Blitze pro Sekunde.
+- **DGB13 · Was von selbst läuft, lässt sich anhalten:** nach 3 s läuft nichts mehr ohne Pause-Knopf (Tabelle; WCAG 2.2.2 verlangt die Pause ab 5 s). Nie mehr als drei Blitze pro Sekunde.
 - **DGB14 · Ohne JavaScript ist alles sichtbar.** Ausgangszustände setzt erst das Skript.
 - **DGB15 · Bewegung stammt aus dem Betrieb:** eine Unterschrift zeichnen, ein Name, der sich füllt, ein Strich, der den Grundriss zieht.
 
 **Video und filmische Momente**
-- Das Standbild trägt allein: Auf iOS im Stromsparmodus startet kein Autoplay. Poster ist das LCP-Element, mit `<link rel="preload" fetchpriority="high">`.
-- Hintergrundvideo kurz, stumm, `playsinline`, eigener Handy-Schnitt, Pause-Knopf. Schnitte nicht unter rund 3 s. Ton nur auf Knopfdruck.
-- Scroll-Erzählung als Bildsequenz auf `<canvas>`, nicht als Video-Scrubbing: 60–120 Bilder Desktop, die Hälfte mobil, ≤ 3 MB mobil `[Annahme]`. Eine Szene 100–250 vh Scrollweg.
+- Das Standbild trägt allein: Auf iOS im Stromsparmodus startet kein Autoplay. Das Poster ist gestaltet wie ein Bild der Seite; wie es geladen wird, regelt web-uni.
+- Hintergrundvideo kurz, stumm, `playsinline`, eigener Handy-Schnitt, Pause-Knopf. Schnitte nach der Tabelle. Ton nur auf Knopfdruck.
+- Scroll-Erzählung als Bildsequenz, nicht als Video-Scrubbing: 60 bis 120 Bilder Desktop, die Hälfte mobil. Eine Szene 100 bis 250 vh Scrollweg `[Annahme]`. Gewicht und Technik: Budgets in web-uni (WP5).
 - WebGL und 3D nur, wenn das Objekt der Inhalt ist; eine fotografierte Drehsequenz (36–72 Bilder) ersetzt es meist.
 
 ## 3. Spitzenniveau, solide, Effekthascherei
@@ -57,7 +74,7 @@ Sieben Entwürfe, je statisch und bewegt, als Bildfolgen; sechs Bewerter auf zwe
 | Anzahl | alles bewegt sich | jeder Abschnitt gleich (fade-up) | fast nichts, eine Stelle sehr gut |
 | Herkunft | Bibliothekseffekt (Partikel, Glitch) | neutral, austauschbar | aus Marke oder Material |
 | Kurve | Federn überall oder linear | ease-in-out überall | starke Abbremsung; zwei bis drei Kurven als System |
-| Dauer | Sekunden für Interface | 300–600 ms für alles | 150–300 ms Interface, ein Moment bis gut 1 s |
+| Dauer | Sekunden für Interface | 300–600 ms für alles | kurzes Interface, ein Moment bis 1 s (Tabelle in Teil 2) |
 | Typografie | Buchstaben fliegen | Zeile blendet ein | Zeilen steigen aus einer Maske, immer lesbar |
 | Handy | gekürzt, ruckelt | aus | eigens gewichtet, gleiche Idee |
 | Barrierefreiheit | Reduced Motion fehlt | schaltet hart ab | eigene ruhige Fassung |
@@ -71,15 +88,17 @@ Der sichtbare Unterschied: **Spitzenseiten haben eine Bewegung, die man nacherz�
 - **Pangram Pangram:** kein Intro; Schriftkarten stapeln sich beim Scrollen (Stapel = Sammlung).
 - **Muster:** Fünf von sechs erfassten Jahressiegern starten mit Ladebild, Zähler oder Tor. Das ist Galerie-Logik, nicht die Logik eines Besuchers, der einen Termin will.
 
-## 5. Technik für statisches HTML, CSS, JS
+## 5. Muster und Technik
 
-1. **CSS-Transitions** für Hover, Fokus, Druck, Menü. Dauer und Kurve als Tokens (`--t-schnell: 150ms`, `--k-aus: cubic-bezier(.2,.8,.2,1)`). Druck: `:active` mit leichter Skalierung.
-2. **CSS scroll-driven animations** (`animation-timeline: view()`), immer in `@supports` gekapselt; ohne Unterstützung steht der Inhalt fertig da.
-3. **View Transitions** zwischen Seiten (`@view-transition { navigation: auto; }`), 200–400 ms, ein benanntes Element wandert; unter Reduced Motion nur Überblendung.
-4. **GSAP lokal** nur für Choreografie, Scrub mit Glättung (0,3–1 s), einen gepinnten Abschnitt; Einstieg über `gsap.matchMedia()` mit Desktop, Handy, Reduced Motion.
-5. **Muster «Zeile aus der Maske»:** Titel in Zeilen, `overflow: clip`, Start `translateY(100%)`, 600–800 ms, Stagger 60–80 ms; Bildschirmleser lesen den ungeteilten Text. Nur für den einen Hero-Titel.
-6. **Muster «Strich zeichnet sich»:** SVG-Pfad, `stroke-dashoffset` an den Scrollweg gekoppelt (Grundriss, Naht, Schnitt).
-7. Hover-Effekte nur unter `@media (hover: hover) and (pointer: fine)`; Hero mit `svh`/`dvh`.
+**Womit** eine Bewegung gebaut wird (CSS-Übergänge, an den Scrollweg gekoppelte CSS-Animation, View Transitions, eine Bibliothek, 3D), welche Stufe erlaubt ist und was sie kostet, entscheidet web-uni in WP3 ([../../web-uni/referenzen/animation-3d.md](../../web-uni/referenzen/animation-3d.md)). Hier steht nur, **wie** die erlaubten Muster aussehen und sich verhalten:
+
+1. **Dauer und Kurve als Tokens** mit Namen aus dem Betrieb, Werte nach der Tabelle in Teil 2. Druck: leichte Skalierung.
+2. **Ohne Unterstützung steht der Inhalt fertig da.** Jede Bewegung ist eine Zugabe; der Ausgangszustand ohne sie ist die lesbare Seite.
+3. **Seitenübergang:** ein benanntes Element wandert; unter Reduced Motion nur Überblendung.
+4. **Choreografie** höchstens für die eine Bewegung, mit einem gepinnten Abschnitt; eigene Fassungen für Desktop, Handy und Reduced Motion.
+5. **Muster «Zeile aus der Maske»:** Titel in Zeilen, Start unterhalb der Maske, fertig nach der Tabelle, Stagger nach der Tabelle; Bildschirmleser lesen den ungeteilten Text. Nur für den einen Hero-Titel.
+6. **Muster «Strich zeichnet sich»:** ein Pfad, an den Scrollweg gekoppelt (Grundriss, Naht, Schnitt).
+7. Hover-Effekte nur auf Geräten mit Maus; der erste Bildschirm passt sich der sichtbaren Höhe des Handys an.
 
 **Typische Fehler:** Ladebildschirm, Zähler 000–100; Partikel, Cursor-Kreis, magnetische Knöpfe; Laufband ohne Pause; Animationen bei jedem Hoch- und Runterscrollen; Einblendungen so spät, dass man auf leere Flächen scrollt; Karten heben sich beim Hover mit Schatten; Bilder zoomen auf 105–110 %; Reduced Motion lässt Inhalt unsichtbar.
 
@@ -90,11 +109,10 @@ Der sichtbare Unterschied: **Spitzenseiten haben eine Bewegung, die man nacherz�
 **Ebene B · Videos.** `recordVideo` mit 25 Bildern/s, je 8 s: 2 s Laden, 4 s Scrollen in festem Tempo, 2 s Hover und Klick. Je Entwurf drei: Desktop, Handy, Reduced Motion (`page.emulateMedia({ reducedMotion: 'reduce' })`). Gemischt mit Referenz-Videos.
 
 **Ebene C · Messwerte (maschinell).**
-- Zeit bis Titel lesbar ≤ 1,0 s.
-- Laufende Animationen nach 3 s (`document.getAnimations().length` plus GSAP): 0, ausser mit Pause-Knopf.
+- Zeit bis Titel lesbar und Ende des Moments: nach der Tabelle in Teil 2.
+- Laufende Animationen nach 3 s (`document.getAnimations().length` plus Bibliothek): 0, ausser mit Pause-Knopf.
 - Animierte Eigenschaften nur `transform`, `opacity`, Farbe.
-- Lange Animationsbilder im Leistungsmitschnitt mit 4-facher CPU-Drosselung.
-- CLS während der Einblendungen.
+- Ruckeln und Verschiebung während der Einblendungen (lange Animationsbilder, CLS): Messung in web-uni (WP5).
 - Reduced Motion: Summe der Transform-Wege 0 px.
 - JavaScript aus: aller Inhalt sichtbar.
 

@@ -1,6 +1,8 @@
 # Blinder Test
 
-Selbstbewertung lag in den Tests im Mittel 1,3 Punkte über dem blinden Urteil (bis 2,2). Ein Rat aus vielen Prüf-Personas verbesserte Fehler und Bedienung, hob den ersten Eindruck aber nicht (blind 5,83, 0 von 6 «Agentur»); seine Noten sanken sogar von Runde zu Runde, und «einig» wurde als «gut genug» missverstanden. Darum entscheidet über Geschmack nur der blinde Test.
+Selbstbewertung lag in den Tests im Mittel 1,3 Punkte über dem blinden Urteil (bis 2,2). Ein Rat aus vielen Prüf-Personas verbesserte Fehler und Bedienung, hob den ersten Eindruck aber nicht (blind 5,83, 0 von 6 «Agentur»); seine Noten sanken sogar von Runde zu Runde, und «einig» wurde als «gut genug» missverstanden. Darum entscheidet über Geschmack kein Selbsturteil, sondern der blinde Test.
+
+**Was ein blinder Test mit Sprachmodellen ist (Entscheid 1, [zusammenspiel.md](zusammenspiel.md)):** ein **Modell-Urteil, Vorfilter**. Er bleibt Pflicht. Was durchfällt, wird überarbeitet. Was besteht, heisst im Bericht «Modell-Urteil bestanden», nie «belegt». Belegt ist eine Wirkung (Gefallen, «Agentur», Vertrauen, «würde anfragen») erst durch einen Test mit Menschen (Teil 6) oder durch Zahlen nach dem Livegang. Diese Datei besitzt die Regeln für alle Bewerter, Kunden-Agenten und Menschentests der drei Skills; text-uni und web-uni nennen nur, was geprüft wird.
 
 ## 1. Aufbau
 
@@ -27,7 +29,9 @@ Selbstbewertung lag in den Tests im Mittel 1,3 Punkte über dem blinden Urteil (
 
 ## 2. Schwellen `[Annahme, aus den Tests]`
 
-| Prüfpunkt | Schwelle |
+Jede Schwelle in dieser Tabelle ist ein **Modell-Urteil, Vorfilter**: Durchfallen heisst überarbeiten, Bestehen heisst nicht belegt.
+
+| Prüfpunkt (Modell-Urteil, Vorfilter) | Schwelle |
 |---|---|
 | DP1 Richtung | gewählt: höchste Trefferquote beim Betrieb, niedrigste Zuordnung zum eigenen Studio; Idee nacherzählbar |
 | DP4 Bildtest | Mittel ≥ 7,5 und ≥ 4 von 6 «Agentur» |
@@ -181,7 +185,7 @@ Drei Bewerter. Das Bild wird gezeigt, danach wird es nicht mehr angesehen (in de
 3. Was würdest du jetzt tun, wenn du das brauchst?
 ```
 
-Bestanden: 3 von 3 richtig gegen den Lösungsschlüssel.
+Bestanden: 3 von 3 richtig gegen den Lösungsschlüssel. Der Fünf-Sekunden-Test von text-uni (TP2, nur Text) läuft in derselben Bewerterrunde, aber in einem eigenen Satz.
 
 ## 4. Herstellen der Bilder
 
@@ -193,4 +197,38 @@ Bestanden: 3 von 3 richtig gegen den Lösungsschlüssel.
 ## 5. Was der blinde Test nicht misst
 
 - Bedienung: Eine Website lag im Bildtest bei 8,0 und war zugleich nicht anrufbar (kaputter `tel:`-Link); der erste Kunden-Agent gab ihr 3 von 10. Dafür gibt es DP6 und DP7.
-- Menschen: Alle Bewerter sind Modelle. Wo möglich, bewerten Auftraggeber oder Zielgruppe blind mit; getrennt ausweisen.
+- Menschen: Alle Bewerter sind Modelle. Ob Menschen gleich urteilen, zeigt nur ein Menschentest (Teil 6).
+
+## 6. Menschentest
+
+Wo es um Wirkung geht (Gefallen, Vertrauen, «würde anfragen»), macht erst ein Test mit Menschen aus «Modell-Urteil bestanden» ein «belegt» (Entscheid 1). web-uni verlangt ihn in WP6, bevor eine teure Technik bleibt. Die Zahlen unten sind Startwerte, keine kalibrierten Grenzen.
+
+**Wer**
+- Personen aus der Kundschaft oder Zielgruppe des Betriebs, passend zu den Lagen im Angebotsblatt (z. B. jemand mit Auto in der Region, nicht ein Designer).
+- Nicht: Mitarbeitende des Studios, Personen, die am Bau beteiligt waren, Familie oder Angestellte des Betriebs. Stimmen des Auftraggebers werden getrennt ausgewiesen und zählen nicht als Menschentest.
+- Den Test leitet ein Mensch des Studios. Ein Agent bereitet Aufgabenblatt und Auswertungsbogen vor und wertet die Notizen aus; er spricht nicht mit den Personen.
+
+**Wie viele:** 5 bis 10 Personen je Fassung `[Annahme]`. Fünf genügen, um die meisten Bedienprobleme zu sehen (NN/g, Nielsen 2000, «5 Users»); für eine Aussage über Wirkung zeigen sie nur eine Richtung, keinen Unterschied in Prozent.
+
+**Einwilligung**
+- Vor dem Test schriftlich: Zweck, was notiert wird, ob Bildschirm oder Stimme aufgenommen werden (nur mit eigenem Ja), wer die Notizen sieht, wann sie gelöscht werden, dass jederzeit abgebrochen werden kann.
+- Einwilligungen und Namen bleiben beim Studio oder Betrieb, **nicht im Repository und nicht in einer Sitzung mit einem Sprachmodell**. In die Auswertung gehen nur Kürzel (Person A, B, C), Alter in Gruppen und Gerät.
+- Keine Gesundheitsdaten erfragen; bei Praxen spielen die Personen eine Lage, sie erzählen nicht ihre eigene.
+
+**Ablauf: dieselben Aufgaben wie die Kunden-Agenten (DP7)**
+1. Fünf-Sekunden-Frage am ersten Bildschirm (Teil 3.6), am eigenen Handy der Person.
+2. Die Aufgaben aus DP7 im selben Wortlaut, mit Wochentag und Uhrzeit, mit demselben Einstieg (Suchmaschine → Unterseite). Die Testkopie mit Musterwerten, nie die echte Nummer anrufen lassen.
+3. Die Person spricht laut, was sie denkt; die Leitung hilft nicht und notiert wörtlich.
+4. Danach dieselben zwei Fragen wie im Agentenlauf: «Würden Sie hier anfragen oder anrufen?» (1–10) und «Vertrauen» (1–10), dazu «Was hätte Sie fast davon abgehalten?».
+
+**Auswertung**
+- Je Person und Aufgabe: erreicht ja/nein, Anzahl Aktionen oder Zeit, Abbruchgrund wörtlich, die zwei Noten.
+- Bericht in Zählungen, nicht in Prozent: «4 von 5 erreichten die Anfrage». Noten als Spannweite und Median, nicht als Mittel mit zwei Stellen.
+- Hindernisse wörtlich gruppieren. Jedes Hindernis, das mindestens zwei Personen nennen, ist ein Befund `[Annahme]`.
+- Abgleich mit den Kunden-Agenten: Wo weichen Menschen ab? Jede Abweichung wird eine Lektion.
+- Schwelle für «belegt» `[Annahme]`: die Hauptaufgabe erreichen mindestens 4 von 5 Personen, und kein Befund betrifft die Hauptaktion. Wird eine Technik geprüft (web-uni WP6), entscheidet der Vergleich mit der Fassung ohne sie, in getrennten Gruppen.
+
+**Kennzeichnung im Bericht**
+- «Menschentest, n = 5, Datum, Geräte, Leitung (Rolle)» bei jedem Ergebnis.
+- «belegt» nur für das, was Menschen geprüft haben; alles andere bleibt «Modell-Urteil bestanden».
+- Läuft kein Menschentest, steht oben im Bericht «Menschentest nicht gelaufen».
