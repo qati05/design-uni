@@ -1,14 +1,20 @@
 ---
-// Kopf: Name, Kontakt-Link, Telefon und Hauptaktion (Schaden melden) auf jeder Seite (Wunsch des Betriebs).
-// Am Handy wandern Telefon und Hauptaktion in eine Leiste unten (public/css/autospeedy.css).
-import { betrieb as b, texte as t } from "../../bau/daten.mjs";
+// Kopf: Logo, Menü, Telefon und «Schaden melden» auf jeder Seite (Wunsch des Betriebs). Handy: Menü-Knopf oben, Leiste unten.
+import { texte as t } from "../../bau/daten.mjs";
 import Hauptaktion from "./Hauptaktion.astro";
 import Tel from "./Tel.astro";
+import Logo from "./Logo.astro";
 const { aktiv = "" } = Astro.props;
-const cur = (p: string) => (aktiv === p ? "page" : undefined);
+const cur = (p: string) => (aktiv === p || (p !== "/" && aktiv.startsWith(p)) ? "page" : undefined);
 ---
 <header>
-<a href="/" aria-label={`${b.name}, ${t.mikrotexte.startseite}`}>{b.name}</a>
-<nav aria-label={t.mikrotexte.navName}>{t.navigation.map((n: any) => <a href={n.pfad} aria-current={cur(n.pfad)}>{n.text}</a>)}</nav>
+<a class="kopf__logo" href="/" aria-label={t.mikrotexte.startseite}><Logo /></a>
+<nav aria-label={t.mikrotexte.navName}>
+<details class="menue">
+<summary>{t.mikrotexte.menueKnopf}</summary>
+<ul>{t.navigation.map((n: any) => <li><a href={n.pfad} aria-current={cur(n.pfad)}>{n.text}</a></li>)}</ul>
+</details>
+<ul class="menue__breit">{t.navigation.map((n: any) => <li><a href={n.pfad} aria-current={cur(n.pfad)}>{n.text}</a></li>)}</ul>
+</nav>
 <div class="aktionen"><Tel ort="kopf" /><Hauptaktion ort="kopf" /></div>
 </header>

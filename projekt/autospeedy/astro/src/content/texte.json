@@ -1,17 +1,65 @@
 {
   "_hinweis": "Wortlaut-ENTWURF (text-uni), noch nicht freigegeben. Nur Aussagen, die in ../../../fakten.md belegt sind.",
-  "hauptaktion": { "text": "Schaden melden", "ziel": "/kontakt/" },
-  "navigation": [{ "pfad": "/kontakt/", "text": "Kontakt" }],
-  "fuss": [{ "pfad": "/impressum/", "text": "Impressum" }, { "pfad": "/datenschutz/", "text": "Datenschutz" }],
+  "hauptaktion": {
+    "text": "Schaden melden",
+    "ziel": "/schaden-melden/"
+  },
+  "navigation": [
+    {
+      "pfad": "/carrosserie/",
+      "text": "Carrosserie"
+    },
+    {
+      "pfad": "/lackiererei/",
+      "text": "Lackiererei"
+    },
+    {
+      "pfad": "/felgen-folierung/",
+      "text": "Felgen und Folierung"
+    },
+    {
+      "pfad": "/tesla/",
+      "text": "Tesla"
+    },
+    {
+      "pfad": "/occasionen/",
+      "text": "Occasionen"
+    },
+    {
+      "pfad": "/team/",
+      "text": "Team"
+    },
+    {
+      "pfad": "/kontakt/",
+      "text": "Kontakt"
+    }
+  ],
+  "fuss": [
+    {
+      "pfad": "/impressum/",
+      "text": "Impressum"
+    },
+    {
+      "pfad": "/datenschutz/",
+      "text": "Datenschutz"
+    }
+  ],
   "mikrotexte": {
     "sprunglink": "Zum Inhalt springen",
     "vorschauHinweis": "Vorschau für ein Gespräch mit dem Betrieb. Nicht veröffentlicht, nicht freigegeben.",
     "navName": "Hauptmenü",
-    "startseite": "Zur Startseite",
+    "startseite": "Auto Speedy AG, zur Startseite",
     "menueKnopf": "Menü",
-    "route": "Route anzeigen",
-    "abschluss": { "titel": "Schaden melden", "text": "Beschreiben Sie den Schaden. Wir melden uns bei Ihnen." },
-    "zeiten": { "fenster": "{von} bis {bis} Uhr", "trenner": " und ", "geschlossen": "geschlossen" },
+    "route": "Route in Google Maps öffnen",
+    "abschluss": {
+      "titel": "Schaden passiert?",
+      "text": "Melden Sie ihn online oder rufen Sie an. Die Abwicklung mit Ihrer Versicherung übernehmen wir."
+    },
+    "zeiten": {
+      "fenster": "{von} bis {bis} Uhr",
+      "trenner": " und ",
+      "geschlossen": "geschlossen"
+    },
     "status": {
       "ohneSkript": "Öffnungszeiten siehe Kontakt.",
       "offen": "Jetzt offen, bis {bis} Uhr.",
@@ -27,12 +75,59 @@
       "h1": "Carrosserie und Spritzwerk in Altstätten SG"
     },
     "kontakt": {
+      "titel": "Kontakt und Anfahrt, Carrosserie Altstätten | Auto Speedy",
+      "beschreibung": "",
+      "h1": "Kontakt und Anfahrt: Auto Speedy in Altstätten"
+    },
+    "impressum": {
+      "titel": "Impressum | Auto Speedy AG, Carrosserie Altstätten SG",
+      "beschreibung": "",
+      "h1": "Impressum"
+    },
+    "datenschutz": {
+      "titel": "Datenschutz | Auto Speedy AG, Carrosserie Altstätten SG",
+      "beschreibung": "",
+      "h1": "Datenschutzerklärung"
+    },
+    "404": {
+      "titel": "Seite nicht gefunden | Auto Speedy AG Altstätten",
+      "beschreibung": "",
+      "h1": "Diese Seite gibt es nicht"
+    },
+    "schaden-melden": {
       "titel": "Schaden melden in Altstätten SG | Auto Speedy AG",
       "beschreibung": "",
       "h1": "Schaden melden bei Auto Speedy in Altstätten"
     },
-    "impressum": { "titel": "", "beschreibung": "", "h1": "" },
-    "datenschutz": { "titel": "", "beschreibung": "", "h1": "" },
-    "404": { "titel": "Seite nicht gefunden | Auto Speedy AG Altstätten", "beschreibung": "", "h1": "Diese Seite gibt es nicht" }
+    "tesla": {
+      "titel": "Tesla Approved Body Shop in Altstätten SG | Auto Speedy",
+      "beschreibung": "",
+      "h1": "Tesla-Carrosserie in Altstätten SG"
+    },
+    "carrosserie": {
+      "titel": "Carrosserie und Unfallreparatur in Altstätten | Auto Speedy",
+      "beschreibung": "",
+      "h1": "Carrosserie und Unfallreparatur in Altstätten SG"
+    },
+    "lackiererei": {
+      "titel": "Autolackiererei und Spritzwerk in Altstätten | Auto Speedy",
+      "beschreibung": "",
+      "h1": "Lackiererei und Spritzwerk in Altstätten SG"
+    },
+    "felgen-folierung": {
+      "titel": "Alufelgen und Folierung in Altstätten SG | Auto Speedy AG",
+      "beschreibung": "",
+      "h1": "Alufelgen und Folierung in Altstätten SG"
+    },
+    "occasionen": {
+      "titel": "Occasionen, Ankauf und Leasing in Altstätten | Auto Speedy",
+      "beschreibung": "",
+      "h1": "Occasionen und Autoankauf in Altstätten SG"
+    },
+    "team": {
+      "titel": "Team der Carrosserie Auto Speedy in Altstätten SG",
+      "beschreibung": "",
+      "h1": "Das Team von Auto Speedy in Altstätten"
+    }
   }
 }

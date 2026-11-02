@@ -1,0 +1,16 @@
+---
+// Kopf einer Unterseite: grosser Satz (keine Überschrift), h1-Etikett mit Leistung und Ort, Einleitung, ein Foto.
+import { seite as lies } from "../../bau/daten.mjs";
+import Foto from "./Foto.astro";
+const { seite, idee, foto, alt, platzhalter } = Astro.props;
+const h1 = lies(seite).h1;
+---
+<section class="seitenkopf">
+<div class="seitenkopf__text">
+<p class="idee idee--klein">{idee}</p>
+<h1>{h1}</h1>
+<slot />
+</div>
+{foto ? <figure class="seitenkopf__bild"><Foto name={foto} alt={alt} sizes="(max-width: 860px) 100vw, 50vw" lcp /></figure>
+ : <figure class="seitenkopf__bild platzhalter" aria-label="Platzhalter"><span>{platzhalter}</span></figure>}
+</section>

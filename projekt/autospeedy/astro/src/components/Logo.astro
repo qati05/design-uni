@@ -1,0 +1,6 @@
+---
+// Logo von der Website des Betriebs (Rasterdatei, freigestellt). Vektordatei fehlt: siehe rechte.md.
+import { betrieb as b } from "../../bau/daten.mjs";
+const { hoehe = 48 } = Astro.props;
+---
+<img class="logo" src="/bilder/logo-96.webp" srcset="/bilder/logo-48.webp 1x, /bilder/logo-96.webp 2x, /bilder/logo-144.webp 3x" width={Math.round(hoehe * 1139 / 405)} height={hoehe} alt={b.name}>

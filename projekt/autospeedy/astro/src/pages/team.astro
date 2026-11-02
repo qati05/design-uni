@@ -1,0 +1,31 @@
+---
+import Seite from "../layouts/Seite.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Foto from "../components/Foto.astro";
+const gruppen = [
+  { name: "Administration", leute: [["Shpejtim Pirku «Speedy»", "Geschäftsführer"]] },
+  { name: "Annahme", leute: [["Lea Schlegel", "HR-Assistentin"], ["Martyna Skweres", "Kauffrau EBA in Ausbildung"]] },
+  { name: "Carrosserie", leute: [["Arsim Selmani", "Teamleiter Carrosserie-Spengler, Hagel- und Dellendrücken"], ["Dragan Tejic", "Carrosserie-Spengler, Schweisstechniker"], ["Enes Rushiti", "Carrosserie-Spengler"]] },
+  { name: "Lackiererei", leute: [["Sheref Kamili", "Carrosserie-Lackierer"], ["Fabio Cezza", "Carrosserie-Lackierer"], ["Anna Meier", "Carrosserie-Lackiererin EFZ in Ausbildung"]] },
+  { name: "Aufbereitung und Finish", leute: [["Armend Nuhii", "Aufbereiter, Finisher"]] },
+];
+---
+<Seite seite="team" eigeneH1>
+<SeitenKopf seite="team" idee="Zehn Leute, fünf Bereiche." foto="team-kabine" alt="Mitarbeiter in der Lackierkabine neben einer abgeklebten Fahrzeugtür">
+  <p>Von der Annahme bis zum Finish: So ist das Team von Auto Speedy aufgeteilt.</p>
+</SeitenKopf>
+<div class="seite seite--breit">
+  <div class="team">
+    {gruppen.map((g) => <section><h2>{g.name}</h2><ul>{g.leute.map(([n, r]) => <li><strong>{n}</strong><span>{r}</span></li>)}</ul></section>)}
+  </div>
+  <p data-luecke>Lücke: Namen und Rollen stammen von der bisherigen Website. Ob alle mit Namen und Foto auf der neuen Website stehen möchten, klärt der Betrieb.</p>
+  <div class="galerie galerie--vier">
+    <Foto name="team-buero" alt="Mitarbeiter am Schreibtisch im Büro" sizes="(max-width: 860px) 50vw, 25vw" />
+    <Foto name="team-politur" alt="Mitarbeiter poliert das Heck eines roten Cabrios" sizes="(max-width: 860px) 50vw, 25vw" />
+    <Foto name="team-rad" alt="Mitarbeiter kniet neben einem Rad" sizes="(max-width: 860px) 50vw, 25vw" />
+    <Foto name="team-lack" alt="Lackiererin an einer abgeklebten Fahrzeugseite" sizes="(max-width: 860px) 50vw, 25vw" />
+  </div>
+  <h2>Ausbildung und Stellen</h2>
+  <p>Auto Speedy ist Ausbildungsbetrieb, unter anderem für Carrosserielackierer/-in EFZ (laut Carrosserie Suisse). Zurzeit sind keine Stellen offen (Stand der bisherigen Website).</p>
+</div>
+</Seite>

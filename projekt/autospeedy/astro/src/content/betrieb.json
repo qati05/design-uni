@@ -8,12 +8,52 @@
   "land": "CH",
   "typ": "AutoBodyShop",
   "mail": "info@autospeedy.ch",
-  "tel": { "anzeige": "071 755 88 61", "e164": "+41717558861" },
+  "tel": {
+    "anzeige": "071 755 88 61",
+    "e164": "+41717558861"
+  },
   "geo": null,
-  "route": null,
+  "route": "https://www.google.com/maps/search/?api=1&query=Auto+Speedy+AG+Alte+Landstrasse+63+9450+Altst%C3%A4tten",
   "ausnahmen": null,
   "zeiten": [
-    { "tage": "Montag bis Donnerstag", "ld": ["Monday", "Tuesday", "Wednesday", "Thursday"], "fenster": [["7.30", "12.00"], ["13.15", "17.30"]] },
-    { "tage": "Freitag", "ld": ["Friday"], "fenster": [["7.30", "12.00"], ["13.15", "17.15"]] }
-  ]
+    {
+      "tage": "Montag bis Donnerstag",
+      "ld": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday"
+      ],
+      "fenster": [
+        [
+          "7.30",
+          "12.00"
+        ],
+        [
+          "13.15",
+          "17.30"
+        ]
+      ]
+    },
+    {
+      "tage": "Freitag",
+      "ld": [
+        "Friday"
+      ],
+      "fenster": [
+        [
+          "7.30",
+          "12.00"
+        ],
+        [
+          "13.15",
+          "17.15"
+        ]
+      ]
+    }
+  ],
+  "mobil": {
+    "anzeige": "076 615 44 41",
+    "e164": "+41766154441"
+  }
 }

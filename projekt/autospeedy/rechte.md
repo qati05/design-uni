@@ -1,13 +1,15 @@
 # Rechte-Liste (ohne Personendaten)
 
-| Material | Herkunft | Urheber | Recht | Verwendet |
-|---|---|---|---|---|
-| Foto «Halle, Audi auf Hebebühne» (halle-640/1024/1600.webp, verkleinert) | Betriebs-Website autospeedy.ch, Seite Dienstleistungen, Bereich Carrosserie; EXIF: Canon, 2017 | unbekannt | **nicht bestätigt.** Der Auftrag erlaubt «Fotos von der Website des Betriebs» für die Vorschau. Schriftliche Zusage mit Datum fehlt. Vor jeder Weitergabe oder dem Livegang beim Betrieb einholen. Kein erkennbares Kennzeichen, keine erkennbare Person. | ja, Vorschau |
-| Foto Areal mit Schild (Startseite des Betriebs) | autospeedy.ch | unbekannt | nicht bestätigt | **nein** (stark bearbeitet), Reserve |
-| Grafik «20 Jahre» | autospeedy.ch | unbekannt | nicht bestätigt; Aussage widerspricht dem Register (F10) | nein |
-| Foto Kontaktseite (Mechaniker an Motorraum, schwarzweiss) | autospeedy.ch/kontakt | **Stockfoto-Anmutung**, Photoshop-Metadaten | unklar | **nein** (nicht sicher vom Betrieb, Auftrag: nur Fotos vom Betrieb) |
-| Foto Spritzwerk | autospeedy.ch/dienstleistungen | iPhone 6s, 2016 | nicht bestätigt | nein (Hochformat-Ausschnitt, schwach) |
-| Logo (Schild mit blauem S-Schwung) | nur als Foto der Fassade | unbekannt | **keine Vektordatei**, Recht nicht geklärt | **nein.** Der Name steht als Text gesetzt. |
-| Logos Land Rover, AMAG, TABS | autospeedy.ch | Markeninhaber | nicht geklärt | nein |
-| Schrift Barlow und Barlow Semi Condensed | npm `@fontsource`, SIL Open Font License 1.1, eigener Host | The Barlow Project Authors | Lizenz OFL, Datei `public/fonts/LICENSE-Barlow-OFL.txt` | ja |
-| Farben | Pipette aus den Fotos der Betriebs-Website | – | frei | ja |
+Stand 02.11.2026. **Kein Recht ist schriftlich bestätigt.** Der Auftrag erlaubt für die Vorschau Fotos von der Website des Betriebs. Vor Weitergabe oder Livegang braucht es eine schriftliche Zusage des Betriebs mit Datum.
+
+| Material | Herkunft | Verwendet | Bemerkung |
+|---|---|---|---|
+| Logo «Auto Speedy AG» (PNG 1447×879, transparent), freigestellt zu `logo-48/96/144` | autospeedy.ch (Datei `f05f45_73a3…png`) | ja, Kopf und Fuss | **Keine Vektordatei.** Für scharfen Druck und grosse Grössen beim Betrieb anfragen |
+| 25 Werkstattfotos (Liste in `astro/src/content/bilder.json`, Feld `quelle` = Dateiname auf wixstatic.com) | Seiten Alufelgen, Folierung, Team, Unternehmen, Spenglerei, Dienstleistungen der Betriebs-Website | ja | verkleinert, WebP, Metadaten entfernt |
+| Kennzeichen auf dem Maserati-Foto | – | unkenntlich gemacht | übrige Kennzeichen nicht lesbar |
+| Fotos mit erkennbaren Mitarbeitenden (team-buero, team-lack, team-kabine, team-politur, team-rad, dellen, dellen-zug, maserati, politur) | Teamseite und Galerien des Betriebs | ja, **ohne Namen am Foto** | Einwilligung der Personen beim Betrieb bestätigen |
+| Namen und Rollen der 10 Mitarbeitenden | autospeedy.ch/team | ja, Seite Team | Einwilligung zur Nennung auf der neuen Website bestätigen |
+| Stockfoto-Anmutung (Mechaniker schwarzweiss, Handschlag, Motorraum) | autospeedy.ch Kontakt, Book Online, Stellen | **nein** | vermutlich nicht vom Betrieb |
+| Grafik «20 Jahre», Areal-Foto stark bearbeitet | autospeedy.ch | nein | Widerspruch zum Register (F10) bzw. schwache Qualität |
+| Logos Tesla, AMAG, Land Rover, Ayvens | autospeedy.ch | **nein**, nur als Text | Markenrechte der Inhaber |
+| Schrift Barlow, Barlow Semi Condensed | @fontsource, SIL OFL 1.1 | ja | `public/fonts/LICENSE-Barlow-OFL.txt` |

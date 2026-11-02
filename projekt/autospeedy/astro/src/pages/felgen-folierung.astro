@@ -1,0 +1,25 @@
+---
+import Seite from "../layouts/Seite.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Foto from "../components/Foto.astro";
+---
+<Seite seite="felgen-folierung" eigeneH1>
+<SeitenKopf seite="felgen-folierung" idee="Felgen und Folien." foto="felge-markiert" alt="Alufelge, Schaden am Felgenrand blau eingekreist">
+  <p>Bilder aus unserer Arbeit an Alufelgen und Folierungen.</p>
+</SeitenKopf>
+<div class="seite seite--breit">
+  <h2>Alufelgen</h2>
+  <div class="galerie galerie--vier">
+    <Foto name="felge-schaden" alt="Alufelge mit Kratzern am Rand" sizes="(max-width: 860px) 50vw, 25vw" />
+    <Foto name="felge-fertig" alt="Schwarze Alufelge mit glanzgedrehter Front" sizes="(max-width: 860px) 50vw, 25vw" />
+    <Foto name="felge-gold" alt="Goldene Kreuzspeichen-Felge" sizes="(max-width: 860px) 50vw, 25vw" />
+    <Foto name="felge-pink" alt="Pink lackierte Felge auf dem Gitter" sizes="(max-width: 860px) 50vw, 25vw" />
+  </div>
+  <h2>Folierung</h2>
+  <div class="galerie galerie--zwei">
+    <Foto name="defender-folie" alt="Defender in mattem Grau auf blauem Werkstattboden" sizes="(max-width: 860px) 100vw, 50vw" />
+    <Foto name="defender-seite" alt="Defender in Grau von der Seite, Türen offen" sizes="(max-width: 860px) 100vw, 50vw" />
+  </div>
+  <p data-luecke>Lücke: Welche Arbeiten an Felgen und welche Folierungen Auto Speedy anbietet, steht auf der bisherigen Website nur als Bild. Den Text liefert der Betrieb.</p>
+</div>
+</Seite>

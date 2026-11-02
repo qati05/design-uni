@@ -1,0 +1,24 @@
+---
+import Seite from "../layouts/Seite.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Foto from "../components/Foto.astro";
+---
+<Seite seite="lackiererei" eigeneH1>
+<SeitenKopf seite="lackiererei" idee="Kleine Lackschäden, ganze Lackierungen." foto="lackierkabine" alt="Lackierer in Schutzkleidung in der Lackierkabine, Fahrzeug blau abgeklebt">
+  <p>Kleine Lackschäden reparieren wir mit möglichst wenig Aufwand, ohne grosse Demontage. Für ganze Lackierungen haben wir neue, grössere Lackierkabinen.</p>
+</SeitenKopf>
+<div class="seite seite--breit">
+  <div class="leistung">
+    <div><h2>Was wir lackieren</h2><ul class="liste"><li>einfache Lackschäden</li><li>komplette Neulackierung</li><li>Versicherungsfälle</li><li>Restaurationen</li><li>Lackieren aller Gegenstände</li></ul></div>
+    <Foto name="lackkante" alt="Frisch lackierte Kante, rot neben weiss, mit Klebeband abgegrenzt" sizes="(max-width: 860px) 100vw, 40vw" />
+  </div>
+  <div class="leistung">
+    <div><h2>Aufpolieren und Aufbereitung</h2><ul class="liste"><li>Aufpolieren</li><li>Fahrzeugaufbereitung</li></ul></div>
+    <Foto name="politur" alt="Mitarbeiterin poliert die Tür eines roten Ferrari" sizes="(max-width: 860px) 100vw, 40vw" />
+  </div>
+  <div class="galerie galerie--zwei">
+    <Foto name="ferrari-streifen" alt="Schwarzer Ferrari mit gelbem Streifen in der Halle" sizes="(max-width: 860px) 100vw, 50vw" />
+    <Foto name="team-lack" alt="Lackiererin in Ausbildung arbeitet an einer abgeklebten Fahrzeugseite" sizes="(max-width: 860px) 100vw, 50vw" />
+  </div>
+</div>
+</Seite>

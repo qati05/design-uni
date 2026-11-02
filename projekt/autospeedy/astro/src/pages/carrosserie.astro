@@ -1,0 +1,28 @@
+---
+import Seite from "../layouts/Seite.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Foto from "../components/Foto.astro";
+---
+<Seite seite="carrosserie" eigeneH1>
+<SeitenKopf seite="carrosserie" idee="Vom Blechschaden bis zum Chassisschaden." foto="hebebuehne" alt="Schwarzer Audi mit abgebauter Front auf der Hebebühne in der hellen Halle">
+  <p>Wir reparieren Unfallschäden nach Herstellervorgaben und verwenden ausschliesslich Original-Ersatzteile. Die Schadenabwicklung mit der Versicherung erledigen wir für Sie.</p>
+</SeitenKopf>
+<div class="seite seite--breit">
+  <div class="leistung">
+    <div><h2>Unfall und Blech</h2><ul class="liste"><li>Unfallschäden</li><li>Stossstangen-Reparatur</li><li>Rostreparatur</li><li>Schweissarbeiten</li></ul></div>
+    <Foto name="abgeklebt" alt="Roter Transporter, an der Front mit Folie abgedeckt" sizes="(max-width: 860px) 100vw, 40vw" />
+  </div>
+  <div class="leistung" id="hagel">
+    <div><h2>Hagel und Dellen</h2><p>Dellendrücken und Hagelschäden.</p></div>
+    <Foto name="dellen" alt="Mitarbeiter mit Werkzeug zum Dellendrücken an einem weissen Auto" sizes="(max-width: 860px) 100vw, 40vw" />
+  </div>
+  <div class="leistung">
+    <div><h2>Scheiben</h2><ul class="liste"><li>Scheibenwechsel</li><li>Scheibenreparatur</li></ul><p class="quelle">Carrosserie Suisse führt Auto Speedy im Branchenverzeichnis als Partner im Bereich Windschutzscheiben.</p></div>
+    <Foto name="werkstatt" alt="Werkstatt mit Fahrzeug, offener Motorhaube und Messgerät" sizes="(max-width: 860px) 100vw, 40vw" />
+  </div>
+  <div class="leistung">
+    <div><h2>Nutzfahrzeuge und Oldtimer</h2><p>Laut Branchenverzeichnis repariert Auto Speedy auch Nutzfahrzeuge und Anhänger unter und über 3,5 t, Oldtimer und Youngtimer sowie Wohnmobile.</p></div>
+    <Foto name="transporter" alt="Weiss-roter Transporter mit offener Front in der Halle" sizes="(max-width: 860px) 100vw, 40vw" />
+  </div>
+</div>
+</Seite>

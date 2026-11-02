@@ -1,0 +1,308 @@
+{
+ "defender-kabine": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   1600,
+   1200
+  ],
+  "quelle": "23d933_1ddcc99b68794acbaae4acc3b90a1f86~mv2.jpeg"
+ },
+ "fassade": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   1600,
+   1200
+  ],
+  "quelle": "23d933_6f8125b29e76404daa7c39eae882f3b2~mv2.jpeg"
+ },
+ "maserati": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   2016,
+   1512
+  ],
+  "quelle": "23d933_9eb9fecd33794f9484cf91a7232508b4~mv2.jpeg"
+ },
+ "dellen": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   2048,
+   1536
+  ],
+  "quelle": "23d933_04227a35c51c47699de070c24220f09b~mv2.jpg"
+ },
+ "dellen-zug": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   4032,
+   3024
+  ],
+  "quelle": "23d933_80fc0159e3a4458b97507baf0589d130~mv2.jpg"
+ },
+ "hebebuehne": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   5184,
+   3456
+  ],
+  "quelle": "23d933_1a41a5e7ed704f34b2ef8b6c7c5d4cde~mv2_d_5184_3456_s_4_2.jpg"
+ },
+ "transporter": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   1600,
+   1200
+  ],
+  "quelle": "23d933_e7cfc6736e8043d9a1b6b2f583670837~mv2.jpeg"
+ },
+ "abgeklebt": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   2048,
+   1536
+  ],
+  "quelle": "23d933_27e10184ab2849fa978eae7e28b60972~mv2.jpeg"
+ },
+ "lackierkabine": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   3024,
+   4032
+  ],
+  "quelle": "23d933_e0b932c4767246e3b5f50ef68647e02d~mv2_d_3024_4032_s_4_2.jpg"
+ },
+ "lackkante": {
+  "w": [
+   480,
+   960
+  ],
+  "ratio": [
+   1200,
+   1600
+  ],
+  "quelle": "23d933_689a59812ed9481bb3d32db976635cab~mv2.jpeg"
+ },
+ "politur": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   2048,
+   1536
+  ],
+  "quelle": "23d933_f2d14881b40e4124bb6522067738c2a8~mv2.jpeg"
+ },
+ "ferrari-streifen": {
+  "w": [
+   480,
+   960
+  ],
+  "ratio": [
+   1024,
+   576
+  ],
+  "quelle": "23d933_8d0cac5a197043849e1e6ab1b33c0481~mv2.jpg"
+ },
+ "felge-schaden": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   1600,
+   1200
+  ],
+  "quelle": "23d933_0314f9cfbc6d4283a8ca057d2a4e3757~mv2.jpeg"
+ },
+ "felge-markiert": {
+  "w": [
+   480,
+   960
+  ],
+  "ratio": [
+   1200,
+   1600
+  ],
+  "quelle": "23d933_cda1a7e737e947a3a4aa13cd1fa294ee~mv2.jpg"
+ },
+ "felge-fertig": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   1600,
+   1200
+  ],
+  "quelle": "23d933_30faf987792d4c1e9919c1834165e0cd~mv2.jpeg"
+ },
+ "felge-gold": {
+  "w": [
+   480,
+   960
+  ],
+  "ratio": [
+   1200,
+   1600
+  ],
+  "quelle": "23d933_91fe017715b34ea6aa24df58c7d0b9f4~mv2.jpeg"
+ },
+ "felge-pink": {
+  "w": [
+   480,
+   960
+  ],
+  "ratio": [
+   1512,
+   2016
+  ],
+  "quelle": "23d933_e21da27037e44718a37a7d17563fb39f~mv2.jpeg"
+ },
+ "defender-seite": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   1600,
+   1200
+  ],
+  "quelle": "23d933_921cf01cab3745929a0c7540a9ea56aa~mv2.jpeg"
+ },
+ "defender-folie": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   1600,
+   1200
+  ],
+  "quelle": "23d933_500120b042cd45eb9cf8c235a6b1c105~mv2.jpeg"
+ },
+ "kaefer": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   1600,
+   1200
+  ],
+  "quelle": "23d933_f9a91dbf6802449ba16e7378c4f011a0~mv2.jpeg"
+ },
+ "werkstatt": {
+  "w": [
+   480,
+   960
+  ],
+  "ratio": [
+   1024,
+   768
+  ],
+  "quelle": "23d933_4b98d25be810409eb767a548af4927e2~mv2.jpg"
+ },
+ "team-buero": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   5712,
+   4284
+  ],
+  "quelle": "23d933_133d3735f2774b6a94118783c70e267e~mv2.jpg"
+ },
+ "team-lack": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   3000,
+   2250
+  ],
+  "quelle": "23d933_15ea327899fc475c9abce9b999dc0faa~mv2.jpg"
+ },
+ "team-kabine": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   5712,
+   4284
+  ],
+  "quelle": "23d933_da986b370e2e403e87b1461679681a2a~mv2.jpg"
+ },
+ "team-politur": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   4435,
+   3183
+  ],
+  "quelle": "23d933_dcddc922b7ff4dceb46bce4b7ea342bb~mv2.jpg"
+ },
+ "team-rad": {
+  "w": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": [
+   4210,
+   4445
+  ],
+  "quelle": "23d933_473111a2a9a74229ab2285641a26539e~mv2.jpg"
+ }
+}

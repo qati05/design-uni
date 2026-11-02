@@ -1,6 +1,20 @@
 ---
-// Wortlaut des Impressums: text-uni (Recht für Inhalte).
 import Seite from "../layouts/Seite.astro";
+import Tel from "../components/Tel.astro";
+import Mail from "../components/Mail.astro";
+import { betrieb as b } from "../../bau/daten.mjs";
 ---
 <Seite seite="impressum" abschluss={false}>
+<div class="seite">
+<p data-luecke>Entwurf, Rechtsprüfung nötig. UID und Verantwortlicher stammen aus Verzeichnissen und der bisherigen Website, nicht aus dem Handelsregister selbst.</p>
+<h2>Betreiber</h2>
+<p>{b.name}<br>{b.strasse}<br>{b.plz} {b.ort} {b.kanton}<br>Schweiz</p>
+<p>Telefon <Tel ort="impressum" /><br>E-Mail <Mail ort="impressum" /></p>
+<h2>Vertretung</h2>
+<p>Shpejtim Pirku, Geschäftsführer</p>
+<h2>Handelsregister</h2>
+<p>UID CHE-221.907.243</p>
+<h2>Fotos</h2>
+<p>Fotos und Logo: {b.name}.</p>
+</div>
 </Seite>

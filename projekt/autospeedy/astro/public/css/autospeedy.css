@@ -1,19 +1,21 @@
 [hidden] { display: none !important; }
 
-/* Tokens mit Namen aus dem Betrieb (Farben per Pipette aus den Fotos der Betriebs-Website; Hausschrift Barlow, OFL, eigener Host) */
-@font-face { font-family: "Barlow"; font-weight: 400; font-style: normal; font-display: swap; src: url("/fonts/barlow-latin-400-normal.woff2") format("woff2"); }
-@font-face { font-family: "Barlow"; font-weight: 600; font-style: normal; font-display: swap; src: url("/fonts/barlow-latin-600-normal.woff2") format("woff2"); }
-@font-face { font-family: "Barlow Semi Condensed"; font-weight: 600; font-style: normal; font-display: swap; src: url("/fonts/barlow-semi-condensed-latin-600-normal.woff2") format("woff2"); }
-@font-face { font-family: "Barlow Semi Condensed"; font-weight: 700; font-style: normal; font-display: swap; src: url("/fonts/barlow-semi-condensed-latin-700-normal.woff2") format("woff2"); }
+/* Tokens mit Namen aus dem Betrieb: Farben per Pipette aus den Fotos der Betriebs-Website, Hausschrift Barlow (OFL, eigener Host) */
+@font-face { font-family: "Barlow"; font-weight: 400; font-display: swap; src: url("/fonts/barlow-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 600; font-display: swap; src: url("/fonts/barlow-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Semi Condensed"; font-weight: 600; font-display: swap; src: url("/fonts/barlow-semi-condensed-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Semi Condensed"; font-weight: 700; font-display: swap; src: url("/fonts/barlow-semi-condensed-latin-700-normal.woff2") format("woff2"); }
 
 :root {
   --hallenweiss: #f3f5f6;   /* Wand und Boden der hellen Halle */
-  --blech: #e2e7e9;         /* Fuge und Haarlinie, Grau der Hallenwand */
-  --hallengrau: #4a585d;    /* Verkleidung des Hallengebäudes, abgedunkelt für Text */
+  --kabinenlicht: #ffffff;  /* Lichtleisten der Kabine */
+  --blech: #e2e7e9;         /* Fuge und Haarlinie */
+  --hallengrau: #4a585d;    /* Fassade, für Text abgedunkelt */
   --tinte: #14202a;
-  --gebotsblau: #1566b8;    /* Blau des S-Schwungs im Schild und der Gebotszeichen an der Hallenwand */
+  --gebotsblau: #1566b8;    /* S-Schwung im Schild, Gitterboden der Kabine */
   --gebotsblau-dunkel: #0f4f94;
-  --kopf-h: 72px;
+  --gebotsblau-hell: #e8f1fb;
+  --kopf-h: 76px;
   --rand: clamp(16px, 4vw, 56px);
   --titel: "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif;
   --text: "Barlow", Arial, sans-serif;
@@ -26,85 +28,190 @@ body { margin: 0; background: var(--hallenweiss); color: var(--tinte); font: 400
 a { color: var(--gebotsblau-dunkel); text-underline-offset: 3px; }
 a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline: var(--fokus); outline-offset: 3px; }
 img { display: block; max-width: 100%; height: auto; }
+h2, h3 { font-family: var(--titel); font-weight: 700; text-transform: uppercase; letter-spacing: .01em; }
 
-/* Vorschau-Hinweis: dünner Streifen ganz oben */
 [data-vorschau] { margin: 0; padding: 4px var(--rand); background: var(--tinte); color: #fff; font-size: 14px; line-height: 1.4; text-align: center; }
 
-/* Kopf: Name links, Telefon und Schaden melden immer rechts (Wunsch des Betriebs: Schadenmeldung immer erreichbar) */
-header { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 24px; min-height: var(--kopf-h); padding: 0 var(--rand); background: var(--hallenweiss); border-bottom: 1px solid var(--blech); }
-header > a:first-child { font: 700 26px/1 var(--titel); letter-spacing: .01em; color: var(--tinte); text-decoration: none; text-transform: uppercase; }
+/* Kopf */
+header { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 20px; min-height: var(--kopf-h); padding: 0 var(--rand); background: rgba(243,245,246,.97); border-bottom: 1px solid var(--blech); }
+.kopf__logo { display: inline-flex; align-items: center; min-height: 48px; flex: none; }
+.logo { height: 48px; width: auto; }
 header nav { margin-right: auto; }
-header nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; font-weight: 600; color: var(--hallengrau); }
-header .aktionen { display: flex; align-items: center; gap: 12px; }
-.tel { display: inline-flex; align-items: center; min-height: 48px; padding: 0 12px; font: 600 20px/1 var(--text); color: var(--tinte); text-decoration: none; white-space: nowrap; }
+.menue__breit { display: flex; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.menue__breit a, .menue a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; font-weight: 600; font-size: 16px; color: var(--tinte); text-decoration: none; border-radius: 4px; }
+.menue__breit a:hover { background: var(--blech); }
+.menue__breit a[aria-current="page"] { box-shadow: inset 0 -3px 0 var(--gebotsblau); border-radius: 0; }
+.menue { display: none; }
+header .aktionen { display: flex; align-items: center; gap: 8px; flex: none; }
+.tel { display: inline-flex; align-items: center; min-height: 48px; padding: 0 10px; font: 600 19px/1 var(--text); color: var(--tinte); text-decoration: none; white-space: nowrap; }
 .tel:hover { text-decoration: underline; }
-.knopf { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; background: var(--gebotsblau); color: #fff; font: 700 18px/1 var(--text); text-decoration: none; border-radius: 4px; border: 0; cursor: pointer; }
+.knopf { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; background: var(--gebotsblau); color: #fff; font: 700 18px/1 var(--text); text-decoration: none; border-radius: 4px; border: 0; cursor: pointer; text-align: center; }
 .knopf:hover { background: var(--gebotsblau-dunkel); }
-.knopf--zweit { background: transparent; color: var(--gebotsblau-dunkel); box-shadow: inset 0 0 0 2px var(--gebotsblau); }
-.knopf--zweit:hover { background: var(--gebotsblau); color: #fff; }
+.knopf--gross { min-height: 56px; font-size: 19px; }
 
-/* Erster Bildschirm */
-.start { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); min-height: calc(100vh - var(--kopf-h)); min-height: calc(100svh - var(--kopf-h)); }
-.start__text { display: flex; flex-direction: column; justify-content: center; gap: 28px; padding: 40px clamp(24px, 4vw, 64px) 40px var(--rand); }
-.idee { margin: 0; font: 700 clamp(44px, 5.4vw, 84px)/.98 var(--titel); letter-spacing: -.005em; text-transform: uppercase; }
-.start h1 { margin: 0; font: 600 20px/1.25 var(--text); color: var(--hallengrau); }
+/* Startseite: erster Bildschirm */
+.start { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); min-height: calc(100svh - var(--kopf-h) - 28px); }
+.start__text { display: flex; flex-direction: column; justify-content: center; gap: 26px; padding: 40px clamp(24px, 4vw, 64px) 40px var(--rand); }
+.idee { margin: 0; font: 700 clamp(44px, 5.2vw, 82px)/.98 var(--titel); text-transform: uppercase; }
+.idee--klein { font-size: clamp(36px, 3.8vw, 60px); }
+.start h1, .seitenkopf h1, .formularseite h1 { margin: 0; font: 600 20px/1.25 var(--text); text-transform: none; color: var(--hallengrau); }
 .fakten { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--blech); }
-.fakten li { display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: start; padding: 12px 0; border-bottom: 1px solid var(--blech); font-size: 17px; line-height: 1.4; }
+.fakten li { display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--blech); font-size: 17px; line-height: 1.4; }
 .fakten b { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--gebotsblau); color: #fff; font: 700 15px/1 var(--text); }
-.start__bild { position: relative; margin: 0; min-height: 360px; background: var(--blech); }
-.start__bild img { width: 100%; height: 100%; object-fit: cover; object-position: 35% 50%; position: absolute; inset: 0; }
-.start__bild figcaption { position: absolute; left: 0; bottom: 0; padding: 6px 12px; background: var(--hallenweiss); font-size: 13px; line-height: 1.3; color: var(--hallengrau); }
+.tesla-band { display: flex; flex-direction: column; gap: 2px; padding: 14px 18px; border: 2px solid var(--tinte); border-radius: 4px; color: var(--tinte); text-decoration: none; max-width: 440px; }
+.tesla-band__marke { font: 700 22px/1.1 var(--titel); text-transform: uppercase; }
+.tesla-band span:last-child { color: var(--gebotsblau-dunkel); font-weight: 600; }
+.tesla-band:hover { background: var(--kabinenlicht); }
+.start__bild { position: relative; margin: 0; background: var(--blech); }
+.start__bild img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
 
-/* Seiten ohne Hero */
-main > h1:not(.x), .seite h1 { font: 700 clamp(34px, 4vw, 56px)/1.05 var(--titel); text-transform: uppercase; margin: 0 0 24px; }
-.seite { max-width: 880px; padding: 48px var(--rand) 96px; }
-.seite h2 { font: 700 28px/1.15 var(--titel); text-transform: uppercase; margin: 40px 0 12px; }
-.seite p { max-width: 62ch; }
-[data-luecke] { margin: 16px 0; padding: 10px 14px; border-left: 4px solid var(--hallengrau); background: var(--blech); max-width: 62ch; font-size: 16px; }
-table { border-collapse: collapse; margin: 8px 0 24px; }
-th, td { padding: 8px 24px 8px 0; text-align: left; border-bottom: 1px solid var(--blech); font-weight: 400; }
+/* Bänder */
+.band { padding: clamp(48px, 7vw, 96px) var(--rand); }
+.band--weiss { background: var(--kabinenlicht); }
+.band__titel { margin: 0 0 28px; font-size: clamp(30px, 3.4vw, 46px); line-height: 1.02; }
+.wege { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; margin: 0; padding: 0; list-style: none; }
+.wege a { display: grid; grid-template-rows: auto auto auto 1fr; height: 100%; background: var(--kabinenlicht); color: var(--tinte); text-decoration: none; }
+.wege img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.wege__nr { margin: 16px 18px 0; font: 700 15px/1 var(--text); color: var(--gebotsblau-dunkel); }
+.wege__titel { margin: 6px 18px 0; font: 700 24px/1.05 var(--titel); text-transform: uppercase; }
+.wege__text { margin: 8px 18px 20px; font-size: 16px; color: var(--hallengrau); }
+.wege a:hover .wege__titel { color: var(--gebotsblau-dunkel); text-decoration: underline; }
+.ablauf { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin: 0; padding: 0; list-style: none; counter-reset: none; }
+.ablauf li { border-top: 3px solid var(--gebotsblau); padding-top: 16px; }
+.ablauf__nr { font: 700 15px/1 var(--text); color: var(--gebotsblau-dunkel); }
+.ablauf h3 { margin: 8px 0 8px; font-size: 26px; }
+.ablauf p { margin: 0; max-width: 36ch; }
+.ablauf .tel { display: inline; padding: 0; min-height: 0; font-size: inherit; color: var(--gebotsblau-dunkel); text-decoration: underline; }
+.partner { display: flex; flex-wrap: wrap; gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--blech); }
+.partner li { flex: 1 1 220px; padding: 22px 0; border-bottom: 1px solid var(--blech); font: 700 clamp(26px, 2.8vw, 38px)/1 var(--titel); text-transform: uppercase; }
+.partner a { color: var(--tinte); text-decoration: none; }
+.partner a:hover { color: var(--gebotsblau-dunkel); }
+.partner small { display: block; margin-top: 6px; font: 600 15px/1.2 var(--text); text-transform: none; color: var(--gebotsblau-dunkel); }
+.quelle { margin: 16px 0 0; font-size: 15px; color: var(--hallengrau); max-width: 70ch; }
+.galerie { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-auto-rows: 1fr; gap: 4px; }
+.galerie img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3; }
+.galerie__gross { grid-row: span 2; }
+.galerie--zwei { grid-template-columns: 1fr 1fr; margin: 32px 0; }
+.galerie--vier { grid-template-columns: repeat(4, 1fr); margin: 16px 0 32px; }
+.anfahrt { display: grid; grid-template-columns: 1fr 1fr; background: var(--kabinenlicht); }
+.anfahrt__bild { margin: 0; }
+.anfahrt__bild img { width: 100%; height: 100%; object-fit: cover; }
+.anfahrt__text { padding: clamp(32px, 5vw, 72px) var(--rand); }
+.anfahrt__text p { margin: 0 0 16px; }
+.route { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+
+/* Unterseiten */
+.seitenkopf { display: grid; grid-template-columns: 1fr 1fr; background: var(--kabinenlicht); border-bottom: 1px solid var(--blech); }
+.seitenkopf__text { display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: clamp(40px, 6vw, 88px) var(--rand); }
+.seitenkopf__text p { margin: 0; max-width: 54ch; }
+.seitenkopf__bild { margin: 0; min-height: 360px; position: relative; }
+.seitenkopf__bild img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.platzhalter { display: grid; place-items: center; padding: 32px; background: repeating-linear-gradient(135deg, var(--blech) 0 14px, var(--hallenweiss) 14px 28px); }
+.platzhalter span { max-width: 34ch; padding: 14px 16px; background: var(--kabinenlicht); border: 2px dashed var(--hallengrau); font-size: 16px; color: var(--hallengrau); text-align: center; }
+main > h1 { margin: 0; padding: 48px var(--rand) 0; font: 700 clamp(36px, 4vw, 56px)/1.05 var(--titel); text-transform: uppercase; }
+.seite { max-width: 880px; padding: 40px var(--rand) 72px; }
+.seite--breit { max-width: 1240px; }
+.seite h2 { font-size: 30px; line-height: 1.1; margin: 40px 0 12px; }
+.seite p { max-width: 64ch; }
+.liste { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--blech); max-width: 560px; }
+.liste li { padding: 10px 0 10px 28px; border-bottom: 1px solid var(--blech); position: relative; }
+.liste li::before { content: ""; position: absolute; left: 4px; top: 19px; width: 10px; height: 10px; border-radius: 50%; background: var(--gebotsblau); }
+.leistung { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 64px); align-items: center; padding: 32px 0; border-bottom: 1px solid var(--blech); }
+.leistung h2 { margin-top: 0; }
+.leistung img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.team { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px 32px; }
+.team h2 { font-size: 24px; margin: 24px 0 8px; }
+.team ul { margin: 0; padding: 0; list-style: none; }
+.team li { display: flex; flex-direction: column; padding: 10px 0; border-bottom: 1px solid var(--blech); }
+.team li span { font-size: 16px; color: var(--hallengrau); }
+[data-luecke] { margin: 20px 0; padding: 10px 14px; border-left: 4px solid #b26a00; background: #fff4e0; max-width: 64ch; font-size: 16px; color: var(--tinte); }
+table { border-collapse: collapse; margin: 8px 0 16px; }
+th, td { padding: 8px 20px 8px 0; text-align: left; border-bottom: 1px solid var(--blech); font-weight: 400; font-size: 16px; vertical-align: top; }
 th { font-weight: 600; }
 
-/* Formular */
-form { display: grid; gap: 20px; max-width: 560px; margin: 16px 0; }
+/* Schadenmeldung */
+.formularseite { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 5vw, 80px); padding: clamp(40px, 6vw, 80px) var(--rand); }
+.formularseite__kopf { display: flex; flex-direction: column; gap: 18px; }
+.formularseite__kopf p { margin: 0; max-width: 44ch; }
+.formularseite__tel .tel { display: inline; padding: 0; color: var(--gebotsblau-dunkel); text-decoration: underline; }
+form { display: grid; gap: 22px; max-width: 640px; padding: clamp(20px, 3vw, 36px); background: var(--kabinenlicht); border-top: 4px solid var(--gebotsblau); }
 label, legend { display: block; font-weight: 600; margin-bottom: 6px; }
 input[type=text], input[type=tel], textarea { width: 100%; min-height: 48px; padding: 10px 12px; font: inherit; color: var(--tinte); background: #fff; border: 2px solid var(--hallengrau); border-radius: 4px; }
-textarea { min-height: 140px; }
-fieldset { border: 0; margin: 0; padding: 0; }
-.wahl { display: flex; flex-wrap: wrap; gap: 12px; }
-.wahl label { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 16px; margin: 0; background: #fff; border: 2px solid var(--hallengrau); border-radius: 4px; cursor: pointer; }
-.wahl input { width: 20px; height: 20px; accent-color: var(--gebotsblau); }
-.wahl label:has(input:checked) { border-color: var(--gebotsblau); background: #e8f1fb; }
-.hilfe { margin: 4px 0 0; font-size: 15px; color: var(--hallengrau); font-weight: 400; }
-[data-rueckmeldung] { padding: 12px 14px; border-left: 4px solid var(--gebotsblau); background: #e8f1fb; max-width: 62ch; }
+textarea { min-height: 130px; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.wahl { display: flex; flex-wrap: wrap; gap: 10px; }
+.wahl label { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 14px; margin: 0; background: #fff; border: 2px solid var(--hallengrau); border-radius: 4px; cursor: pointer; font-weight: 600; }
+.wahl input { width: 20px; height: 20px; accent-color: var(--gebotsblau); margin: 0; }
+.wahl label:has(input:checked) { border-color: var(--gebotsblau); background: var(--gebotsblau-hell); }
+.hilfe { margin: 6px 0 0; font-size: 15px; color: var(--hallengrau); font-weight: 400; }
+[data-rueckmeldung] { margin: 0; padding: 12px 14px; border-left: 4px solid var(--gebotsblau); background: var(--gebotsblau-hell); }
 
 /* Abschluss und Fuss */
-main > section[aria-labelledby="abschluss-titel"] { display: none; }
-footer { display: flex; flex-wrap: wrap; gap: 24px 64px; padding: 32px var(--rand) 40px; background: var(--tinte); color: #dfe6e9; font-size: 16px; }
-footer a { color: #fff; }
-footer address { font-style: normal; }
-footer ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 20px; }
-footer li a { display: inline-flex; min-height: 44px; align-items: center; }
+.abschluss { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding: clamp(40px, 5vw, 64px) var(--rand); background: var(--gebotsblau); color: #fff; }
+.abschluss h2 { margin: 0 0 6px; font-size: clamp(30px, 3.4vw, 46px); }
+.abschluss p { margin: 0; max-width: 56ch; }
+.abschluss__aktionen { display: flex; flex-wrap: wrap; gap: 12px; }
+.abschluss .knopf { background: #fff; color: var(--gebotsblau-dunkel); }
+.abschluss .knopf:hover { background: var(--hallenweiss); }
+.abschluss .tel { color: #fff; box-shadow: inset 0 0 0 2px #fff; border-radius: 4px; padding: 0 18px; }
+footer { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 32px 48px; padding: 48px var(--rand) 56px; background: var(--hallenweiss); border-top: 1px solid var(--blech); font-size: 16px; }
+footer address { font-style: normal; margin: 16px 0 8px; }
+footer address a, footer li a { display: inline-flex; align-items: center; min-height: 44px; }
+footer .tel { padding: 0; font: inherit; color: var(--gebotsblau-dunkel); text-decoration: underline; }
+footer .logo { height: 40px; }
+.fuss__titel { margin: 0 0 8px; font: 700 20px/1 var(--titel); text-transform: uppercase; }
+footer ul { list-style: none; margin: 0; padding: 0; }
+footer li a { min-height: 36px; }
+
+/* Mittlere Breite: Menü als Knopf */
+@media (max-width: 1240px) {
+  .menue__breit { display: none; }
+  .menue { display: block; position: relative; }
+  .menue summary { display: inline-flex; align-items: center; min-height: 48px; padding: 0 16px; font-weight: 700; border: 2px solid var(--tinte); border-radius: 4px; cursor: pointer; list-style: none; }
+  .menue summary::-webkit-details-marker { display: none; }
+  .menue summary::after { content: ""; width: 10px; height: 10px; margin-left: 10px; border-right: 2px solid; border-bottom: 2px solid; transform: rotate(45deg) translateY(-3px); }
+  .menue[open] summary::after { transform: rotate(-135deg) translateY(-3px); }
+  .menue ul { position: absolute; top: calc(100% + 8px); left: 0; min-width: 260px; margin: 0; padding: 8px; list-style: none; background: var(--kabinenlicht); border: 1px solid var(--blech); box-shadow: 0 12px 32px rgba(20,32,42,.14); }
+  .menue a { display: flex; min-height: 48px; font-size: 18px; }
+  .menue a[aria-current="page"] { color: var(--gebotsblau-dunkel); text-decoration: underline; }
+}
 
 /* Handy: eigene Form, Leiste unten für Anruf und Schadenmeldung */
 @media (max-width: 860px) {
-  :root { --kopf-h: 56px; }
-  body { padding-bottom: 72px; }
+  :root { --kopf-h: 64px; }
+  body { padding-bottom: 76px; }
   header { gap: 12px; }
-  header > a:first-child { font-size: 22px; }
-  header nav { display: none; }
-  header .aktionen { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: var(--hallenweiss); border-top: 1px solid var(--blech); padding: 8px var(--rand) calc(8px + env(safe-area-inset-bottom)); gap: 10px; }
+  .logo { height: 38px; }
+  header nav { margin-left: auto; margin-right: 0; order: 2; }
+  .menue ul { left: auto; right: 0; }
+  header .aktionen { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--hallenweiss); border-top: 1px solid var(--blech); padding: 8px var(--rand) calc(8px + env(safe-area-inset-bottom)); }
   header .aktionen .tel { justify-content: center; min-height: 52px; font-size: 18px; box-shadow: inset 0 0 0 2px var(--tinte); border-radius: 4px; }
   header .aktionen .knopf { min-height: 52px; padding: 0 10px; }
-  .start { display: flex; flex-direction: column; min-height: 0; }
-  .start__bild { order: -1; min-height: 0; aspect-ratio: 4 / 3; }
-  .start__bild figcaption { right: 0; }
-  .start__text { gap: 18px; padding: 24px var(--rand) 32px; }
+  .start, .seitenkopf, .anfahrt, .formularseite, .leistung { display: flex; flex-direction: column; }
+  .start { min-height: 0; }
+  .start__bild, .seitenkopf__bild { order: -1; min-height: 0; aspect-ratio: 4 / 3; }
+  .start__text { gap: 18px; padding: 24px var(--rand) 36px; }
   .idee { font-size: clamp(38px, 11vw, 54px); }
+  .idee--klein { font-size: clamp(32px, 9vw, 44px); }
   .fakten li { font-size: 16px; padding: 10px 0; }
+  .wege { grid-template-columns: 1fr 1fr; }
+  .wege li:last-child { grid-column: span 2; }
+  .wege__titel { font-size: 20px; }
+  .ablauf { grid-template-columns: 1fr; gap: 24px; }
+  .galerie { grid-template-columns: 1fr 1fr; }
+  .galerie__gross { grid-column: span 2; grid-row: auto; }
+  .galerie--vier { grid-template-columns: 1fr 1fr; }
+  .anfahrt__bild img { aspect-ratio: 4 / 3; }
+  .formularseite { padding-top: 28px; }
+  form { padding: 18px; }
+  footer { grid-template-columns: 1fr; }
 }
 
-/* Korrekturen nach Messung (Kontrast im Fuss, Tippziele) */
-footer .tel { color: #fff; padding: 0; min-height: 44px; }
-footer address a { display: inline-flex; align-items: center; min-height: 44px; }
-header > a:first-child { display: inline-flex; align-items: center; min-height: 44px; }
+/* Nachbesserungen nach Sichtprüfung */
+.anfahrt__bild img { min-height: 420px; }
+.anfahrt__text .tel { padding: 0; }
+@media (max-width: 860px) {
+  .start__text .tesla-band { order: 1; }
+  .start__text .fakten { order: 2; }
+  .anfahrt__bild img { min-height: 0; }
+}

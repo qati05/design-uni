@@ -1,0 +1,11 @@
+---
+// Foto aus public/bilder mit Varianten aus src/content/bilder.json (alle Fotos von der Website des Betriebs, siehe rechte.md).
+import bilder from "../content/bilder.json";
+const { name, alt, sizes = "100vw", lcp = false, klasse } = Astro.props;
+const b = (bilder as any)[name];
+if (!b || alt === undefined) throw new Error(`Foto ${name}: unbekannt oder ohne alt`);
+const [rw, rh] = b.ratio;
+const gross = b.w[b.w.length - 1];
+const srcset = b.w.map((w: number) => `/bilder/${name}-${w}.webp ${w}w`).join(", ");
+---
+<img class={klasse} src={`/bilder/${name}-${gross}.webp`} srcset={srcset} sizes={sizes} alt={alt} width={gross} height={Math.round(gross * rh / rw)} loading={lcp ? undefined : "lazy"} fetchpriority={lcp ? "high" : undefined} decoding="async">

@@ -1,13 +1,17 @@
 ---
-// Gerüst ohne eigenes Aussehen: Name, Anschrift, Telefon, E-Mail, Route, Pflichtseiten.
-// Form aus der Richtung (design-uni), Text aus text-uni.
 import { betrieb as b, texte as t } from "../../bau/daten.mjs";
 import Tel from "./Tel.astro";
 import Mail from "./Mail.astro";
 import Route from "./Route.astro";
+import Zeiten from "./Zeiten.astro";
+import Logo from "./Logo.astro";
 ---
 <footer>
-<address>{b.name}<br>{b.strasse}<br>{b.plz} {b.ort}<br><Tel ort="fuss" /><br><Mail ort="fuss" /></address>
+<div class="fuss__spalte">
+<Logo hoehe={40} />
+<address>{b.name}<br>{b.strasse}<br>{b.plz} {b.ort} {b.kanton}<br><Tel ort="fuss" /><br><Mail ort="fuss" /></address>
 <Route ort="fuss" />
-<ul>{t.fuss.map((n: any) => <li><a href={n.pfad}>{n.text}</a></li>)}</ul>
+</div>
+<div class="fuss__spalte"><p class="fuss__titel">Öffnungszeiten</p><Zeiten /></div>
+<div class="fuss__spalte"><p class="fuss__titel">Seiten</p><ul>{t.navigation.map((n: any) => <li><a href={n.pfad}>{n.text}</a></li>)}{t.fuss.map((n: any) => <li><a href={n.pfad}>{n.text}</a></li>)}</ul></div>
 </footer>

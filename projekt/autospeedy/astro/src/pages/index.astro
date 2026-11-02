@@ -1,25 +1,86 @@
 ---
-// Erster Bildschirm (Entwurf): eine grosse Sache (Foto der Halle), Faktenzeile, Schaden melden und Telefon im Kopf.
-// Wortlaut-Entwurf nach fakten.md; nichts hier ist freigegeben.
+// Startseite (Entwurf). Wortlaut nur aus fakten.md, nichts freigegeben.
 import Seite from "../layouts/Seite.astro";
-import { betrieb as b, texte as t, seite as lies } from "../../bau/daten.mjs";
+import Foto from "../components/Foto.astro";
+import Zeiten from "../components/Zeiten.astro";
+import Route from "../components/Route.astro";
+import Tel from "../components/Tel.astro";
+import Mail from "../components/Mail.astro";
+import { betrieb as b, seite as lies } from "../../bau/daten.mjs";
 const h1 = lies("index").h1;
+const wege = [
+  { nr: "01", titel: "Unfall oder Blechschaden", text: "Vom kleinen Blechschaden bis zum Chassisschaden.", pfad: "/carrosserie/", foto: "hebebuehne", alt: "Schwarzer Audi mit abgebauter Front auf der Hebebühne" },
+  { nr: "02", titel: "Hagel oder Delle", text: "Dellendrücken und Hagelschäden.", pfad: "/carrosserie/#hagel", foto: "dellen", alt: "Mitarbeiter drückt eine Delle an einem weissen Auto" },
+  { nr: "03", titel: "Kratzer oder Lackschaden", text: "Von einfachen Lackschäden bis zur Neulackierung.", pfad: "/lackiererei/", foto: "lackierkabine", alt: "Lackierer in der Lackierkabine, Fahrzeugteile abgeklebt" },
+  { nr: "04", titel: "Felge beschädigt", text: "Arbeiten an Alufelgen, Bilder aus der Werkstatt.", pfad: "/felgen-folierung/", foto: "felge-markiert", alt: "Alufelge mit blau markiertem Schaden am Felgenrand" },
+  { nr: "05", titel: "Tesla beschädigt", text: "Auto Speedy ist Tesla Approved Body Shop.", pfad: "/tesla/", foto: "werkstatt", alt: "Helle Werkstatthalle mit Fahrzeug und Messgerät" },
+];
 ---
-<Seite seite="index" jsonld eigeneH1 abschluss={false}>
+<Seite seite="index" jsonld eigeneH1>
 <div class="start">
   <div class="start__text">
     <p class="idee">Vom Kratzer bis zum Blechschaden.</p>
     <h1>{h1}</h1>
     <ul class="fakten">
       <li><b aria-hidden="true">1</b><span>{b.strasse}, {b.plz} {b.ort}</span></li>
-      <li><b aria-hidden="true">2</b><span>Montag bis Donnerstag 7.30 bis 12.00 und 13.15 bis 17.30 Uhr, Freitag bis 17.15 Uhr</span></li>
-      <li><b aria-hidden="true">3</b><span>Die Schadenabwicklung mit Ihrer Versicherung übernehmen wir.</span></li>
+      <li><b aria-hidden="true">2</b><span>Mo bis Do 7.30 bis 12.00 und 13.15 bis 17.30 Uhr, Fr bis 17.15 Uhr</span></li>
+      <li><b aria-hidden="true">3</b><span>Die Abwicklung mit Ihrer Versicherung übernehmen wir.</span></li>
     </ul>
-    <p><a class="knopf knopf--zweit" href="/kontakt/?fahrzeug=tesla" data-zaehl="anfrage-tesla" data-ort="start">Sie fahren einen Tesla? Hier melden</a></p>
+    <a class="tesla-band" href="/tesla/" data-zaehl="tesla" data-ort="start"><span class="tesla-band__marke">Tesla Approved Body Shop</span><span>Sie fahren einen Tesla? Hier entlang</span></a>
   </div>
   <figure class="start__bild">
-    <img src="/bilder/halle-1600.webp" srcset="/bilder/halle-640.webp 640w, /bilder/halle-1024.webp 1024w, /bilder/halle-1600.webp 1600w" sizes="(max-width: 860px) 100vw, 58vw" width="1600" height="1067" alt="Helle Werkstatthalle: ein schwarzer Audi auf der Hebebühne mit abgebauter Frontpartie, rechts Werkzeugwagen und Messgeräte" fetchpriority="high" decoding="async">
-    <figcaption>Halle der Auto Speedy AG, Foto von der Website des Betriebs</figcaption>
+    <Foto name="defender-kabine" alt="Land Rover Defender in der hell beleuchteten Kabine der Werkstatt" sizes="(max-width: 860px) 100vw, 58vw" lcp />
   </figure>
 </div>
+
+<section class="band" aria-labelledby="wege-titel">
+  <h2 id="wege-titel" class="band__titel">Was ist passiert?</h2>
+  <ul class="wege">
+    {wege.map((w) => <li><a href={w.pfad}><Foto name={w.foto} alt={w.alt} sizes="(max-width: 860px) 50vw, 20vw" /><span class="wege__nr">{w.nr}</span><span class="wege__titel">{w.titel}</span><span class="wege__text">{w.text}</span></a></li>)}
+  </ul>
+</section>
+
+<section class="band band--weiss" aria-labelledby="ablauf-titel">
+  <h2 id="ablauf-titel" class="band__titel">So läuft eine Reparatur</h2>
+  <ol class="ablauf">
+    <li><span class="ablauf__nr">01</span><h3>Schaden melden</h3><p>Online mit dem Formular oder am Telefon unter <Tel ort="ablauf" />.</p></li>
+    <li><span class="ablauf__nr">02</span><h3>Versicherung</h3><p>Die Schadenabwicklung mit Ihrer Versicherung erledigen wir für Sie.</p></li>
+    <li><span class="ablauf__nr">03</span><h3>Reparatur</h3><p>Nach Herstellervorgaben und ausschliesslich mit Original-Ersatzteilen.</p></li>
+  </ol>
+  <p data-luecke>Lücke: Wie lange eine Reparatur dauert und ob es einen Ersatzwagen gibt, sagt der Betrieb noch.</p>
+</section>
+
+<section class="band" aria-labelledby="partner-titel">
+  <h2 id="partner-titel" class="band__titel">Zertifizierte K + L Partner von</h2>
+  <ul class="partner">
+    <li><a href="/tesla/">Tesla <small>Approved Body Shop</small></a></li>
+    <li>AMAG</li>
+    <li>Land Rover</li>
+    <li>Ayvens</li>
+  </ul>
+  <p class="quelle">Laut der bisherigen Website des Betriebs. Ausbildungsbetrieb und Mitglied von Carrosserie Suisse, Sektion Ostschweiz.</p>
+</section>
+
+<section class="band band--weiss" aria-labelledby="werkstatt-titel">
+  <h2 id="werkstatt-titel" class="band__titel">Aus der Werkstatt</h2>
+  <div class="galerie">
+    <Foto name="maserati" alt="Mitarbeiter an einem blauen Maserati in der Halle, im Hintergrund das Auto-Speedy-Schild" sizes="(max-width: 860px) 100vw, 50vw" klasse="galerie__gross" />
+    <Foto name="politur" alt="Mitarbeiterin poliert die Tür eines roten Ferrari" sizes="(max-width: 860px) 50vw, 25vw" />
+    <Foto name="dellen-zug" alt="Mitarbeiter richtet eine Delle an einer weissen Motorhaube" sizes="(max-width: 860px) 50vw, 25vw" />
+    <Foto name="transporter" alt="Weiss-roter Transporter mit offener Front in der Halle" sizes="(max-width: 860px) 50vw, 25vw" />
+    <Foto name="felge-fertig" alt="Schwarze Alufelge mit glanzgedrehter Front" sizes="(max-width: 860px) 50vw, 25vw" />
+  </div>
+</section>
+
+<section class="anfahrt" aria-labelledby="anfahrt-titel">
+  <figure class="anfahrt__bild"><Foto name="fassade" alt="Gebäude der Auto Speedy AG mit Schild und Eingang «Büro – Empfang», davor ein Defender" sizes="(max-width: 860px) 100vw, 50vw" /></figure>
+  <div class="anfahrt__text">
+    <h2 id="anfahrt-titel" class="band__titel">So finden Sie uns</h2>
+    <p>Etwas ausserhalb von Altstätten an der Alten Landstrasse 63.</p>
+    <p>{b.name}<br>{b.strasse}<br>{b.plz} {b.ort}</p>
+    <p><Tel ort="anfahrt" /><br><Mail ort="anfahrt" /></p>
+    <Zeiten />
+    <Route ort="anfahrt" />
+  </div>
+</section>
 </Seite>

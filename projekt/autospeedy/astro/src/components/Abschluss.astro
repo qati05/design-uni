@@ -1,13 +1,13 @@
 ---
-// Gerüst ohne eigenes Aussehen: Abschluss am Seitenende mit Hauptaktion und Telefon (zusammenspiel Entscheid 6).
-// Form aus der Richtung (design-uni), Text aus text-uni.
+// Abschluss am Seitenende: Schaden melden und Telefon (zusammenspiel Entscheid 6).
 import { texte as t } from "../../bau/daten.mjs";
 import Hauptaktion from "./Hauptaktion.astro";
 import Tel from "./Tel.astro";
 ---
-<section aria-labelledby="abschluss-titel">
+<section class="abschluss" aria-labelledby="abschluss-titel">
+<div>
 <h2 id="abschluss-titel">{t.mikrotexte.abschluss.titel}</h2>
 <p>{t.mikrotexte.abschluss.text}</p>
-<Hauptaktion ort="abschluss" />
-<Tel ort="abschluss" />
+</div>
+<div class="abschluss__aktionen"><Hauptaktion ort="abschluss" /><Tel ort="abschluss" /></div>
 </section>
