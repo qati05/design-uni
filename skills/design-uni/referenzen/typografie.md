@@ -7,7 +7,7 @@
 **Grundtext**
 - **DGT1** Grundtext 15–25 px; unter 16 px nur bei auffällig grosser x-Höhe. Auf Handwerks- und Gesundheitsseiten 18–20 px.
 - **DGT2** Zeilenabstand 1,2–1,45 (einheitenlos), im Web meist ab 1,3; bei Gesundheit bis 1,6.
-- **DGT3** Fliesstext 50 bis 75 Zeichen pro Zeile, nie über 80 (eine Schwelle für alle drei Skills, [zusammenspiel.md](zusammenspiel.md) Teil 4; gemessen bei 1440 und 390 px). Rutter und Bringhurst nennen um 66 als Ideal. Prüfung von Auge: 2 bis 3 Alphabete pro Zeile.
+- **DGT3** Fliesstext nie über 80 Zeichen pro Zeile, am Desktop (1440 px) und am Handy (390 px); das sperrt (Barrierefreiheit). Am Desktop 50 bis 75 Zeichen als Ziel; das ist ein Hinweis und sperrt nicht. Am Handy gilt nur «nie über 80» (eine Schwelle für alle drei Skills, [zusammenspiel.md](zusammenspiel.md) Teil 4; gemessen von `pruefen.cjs`, DP6). Rutter und Bringhurst nennen um 66 als Ideal. Prüfung von Auge: 2 bis 3 Alphabete pro Zeile.
 - **DGT4** Textblöcke haben `max-width` in `ch` oder `em`, auf jeder Breite.
 - **DGT5** Absätze mit Abstand *oder* Einzug, nie beides.
 - **DGT6** Linksbündiger Flattersatz. Blocksatz nur mit Silbentrennung (`hyphens: auto`, korrektes `lang`).
@@ -42,7 +42,7 @@
 **Technik und Barrierefreiheit**
 - **DGT26** Kontrast Text ≥ 4,5:1, gross (ab 24 px oder ca. 18,5 px fett) ≥ 3:1.
 - **DGT27** Layout hält erzwungene Abstände aus (Zeile 1,5, Absatz 2 em, Laufweite 0,12 em, Wort 0,16 em): keine festen Höhen um Text.
-- **DGT28** Lizenz (z. B. SIL OFL) vor dem Einsatz in der Lizenzdatei prüfen, auch «Reserved Font Name»; sie steht in der Rechte-Liste (DP0). Die Schrift enthält ä ö ü « » ‹ › und alle Zeichen, die die Seite braucht; nur gebrauchte Schnitte. Wie Schriften ausgeliefert werden (Format, eigener Server, `font-display`, Ersatzschrift), regelt web-uni.
+- **DGT28** Lizenz (z. B. SIL OFL) vor dem Einsatz in der Lizenzdatei prüfen, auch «Reserved Font Name»; sie steht in der Rechte-Liste (DP0). Die Schrift enthält ä ö ü « » ‹ › und alle Zeichen, die die Seite braucht; nur gebrauchte Schnitte. design-uni wählt die Schrift. Wie sie ausgeliefert wird (Format, eigener Server, Teilmenge, `font-display`, Ersatzschrift, Vorladen), regelt allein web-uni ([betrieb.md](../../web-uni/referenzen/betrieb.md)); hier steht dazu kein Wert.
 - **DGT29** Variable Schriften ab mehreren Schnitten; Titel dürfen mit Achsen spielen, Grundtext nicht.
 
 ## 2. Gut gegen premium
@@ -81,7 +81,7 @@ Teil 1 gilt überall. Die Branche verschiebt Charakter, Grössenkontrast und Ton
 
 ## 5. Prüffragen an ein Bildschirmfoto
 
-1. Fliesstext 50 bis 75 Zeichen pro Zeile, nie über 80, Desktop und Handy?
+1. Fliesstext nie über 80 Zeichen pro Zeile, Desktop und Handy? Am Desktop 50 bis 75 (Hinweis)?
 2. Text ≥ 16 px, Zeilenabstand weder eng noch zerfallend?
 3. Mehr als zwei Familien? (Befund)
 4. Wirken die Grössen wie Stufen einer Reihe?

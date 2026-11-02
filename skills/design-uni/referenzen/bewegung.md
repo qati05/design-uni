@@ -99,7 +99,7 @@ Der sichtbare Unterschied in den Bewerter-Tests: **Spitzenseiten haben eine Bewe
 
 ## 5. Muster und Technik
 
-**Womit** eine Bewegung gebaut wird (CSS-Übergänge, an den Scrollweg gekoppelte CSS-Animation, View Transitions, eine Bibliothek, 3D), welche Stufe erlaubt ist und was sie kostet, entscheidet web-uni in WP3 ([../../web-uni/referenzen/animation-3d.md](../../web-uni/referenzen/animation-3d.md)). Hier steht nur, **wie** die erlaubten Muster aussehen und sich verhalten:
+**Womit** eine Bewegung gebaut wird (CSS-Übergänge, an den Scrollweg gekoppelte CSS-Animation, View Transitions, eine Bibliothek, 3D), und was sie kostet, entscheidet web-uni in WP3 (eine Stufengrenze gibt es nicht, Entscheid 12) ([../../web-uni/referenzen/animation-3d.md](../../web-uni/referenzen/animation-3d.md)). Hier steht nur, **wie** die erlaubten Muster aussehen und sich verhalten:
 
 1. **Dauer und Kurve als Tokens** mit Namen aus dem Betrieb, Werte nach den Richtwerten in Teil 2. Druck: leichte Skalierung.
 2. **Ohne Unterstützung steht der Inhalt fertig da.** Jede Bewegung ist eine Zugabe; der Ausgangszustand ohne sie ist die lesbare Seite.

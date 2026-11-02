@@ -185,7 +185,7 @@ Drei Bewerter. Das Bild wird gezeigt, danach wird es nicht mehr angesehen (in de
 3. Was würdest du jetzt tun, wenn du das brauchst?
 ```
 
-Bestanden: 3 von 3 richtig gegen den Lösungsschlüssel. Der Fünf-Sekunden-Test von text-uni (TP2, nur Text) läuft in derselben Bewerterrunde, aber in einem eigenen Satz.
+Bestanden: 3 von 3 richtig gegen den Lösungsschlüssel. Dieser Test am Bild gehört zu DP4 und läuft in einer eigenen Runde. text-uni TP2 ist ein Lesetest nur am Text und läuft früher in der Abfolge (zusammenspiel Teil 6, Schritt 7).
 
 ## 4. Herstellen der Bilder
 

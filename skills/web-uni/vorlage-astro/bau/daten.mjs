@@ -6,8 +6,9 @@
 //   []    leere Liste in einem Pflichtfeld: FEHLER.
 // Zwei Stufen (zusammenspiel Teil 7, «Gerüst und Vorschau»):
 //   stufe «geruest»: Gerüst und Vorschau während des Baus. Texte, die erst später entstehen (Beschreibung je Seite,
-//                    Rechtsseiten Impressum und Datenschutz, Länge der Beschreibung), sind HINWEIS; der Bau läuft weiter.
-//   stufe «abgabe»:  Prüflauf vor der Abgabe (Abfolge Schritt 13: DP6, TP7, WP4, WP5) und Livegang. Dieselben Texte sind FEHLER.
+//                    Rechtsseiten Impressum und Datenschutz) sind HINWEIS; der Bau läuft weiter.
+//   stufe «abgabe»:  Prüflauf vor der Abgabe (Abfolge Schritt 13: DP6, TP7, WP4, WP5) und Livegang. Fehlen sie, ist das FEHLER.
+// In beiden Stufen HINWEIS (text-uni S1, S3, S12; Entscheid 13): Länge von Titel und Beschreibung, doppelter Titel.
 //   Livegang (vorschau false) prüft immer wie «abgabe». Die Umgebungsvariable STUFE geht bau.json vor.
 // Immer FEHLER, in jeder Stufe: leere Fakten in betrieb.json (Name, Telefon, Anschrift …), falsche Formate,
 // leerer Wortlaut ausserhalb der Seiten, und je Seite (ausser Rechtsseiten) Titel und h1: Sie kommen als Entwurf aus text-uni TP2.
@@ -94,12 +95,12 @@ for (const [name, s] of Object.entries(texte.seiten || {})) {
   }
   if (s.beschreibung === "") spaeter(`Seite ${name}: Beschreibung fehlt (text-uni S12, kommt beim Bau aller Seiten)`);
   if (t) {
-    if (t.length > 65) spaeter(`Seite ${name}: Titel ${t.length} Zeichen, über 65 (S3): ${t}`);
+    if (t.length > 65) hinweis.push(`Seite ${name}: Titel ${t.length} Zeichen, über 65 (S3): ${t}`);
     else if (t.length < 40 || t.length > 60) hinweis.push(`Seite ${name}: Titel ${t.length} Zeichen, Ziel 40 bis 60 (S3)`);
-    if (titel.has(t)) spaeter(`Seite ${name}: gleicher Titel wie ${titel.get(t)} (S1)`);
+    if (titel.has(t)) hinweis.push(`Seite ${name}: gleicher Titel wie ${titel.get(t)} (S1)`);
     titel.set(t, name);
   }
-  if (d && (d.length < 110 || d.length > 155)) spaeter(`Seite ${name}: Beschreibung ${d.length} Zeichen, verlangt 110 bis 155 (S12)`);
+  if (d && (d.length < 110 || d.length > 155)) hinweis.push(`Seite ${name}: Beschreibung ${d.length} Zeichen, verlangt 110 bis 155 (S12)`);
 }
 
 // Meldet einen Befund, der erst nach dem Bau feststeht (bau/dateien.mjs), nach derselben Stufe.

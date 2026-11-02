@@ -41,7 +41,7 @@
   "text": { "anrede": "Sie", "eszett": false, "guillemets": true, "gedankenstriche": false, "uhrzeitMitPunkt": true },
   "jsonld": { "typ": "HomeAndConstructionBusiness" },
   "vorschau": true,
-  "_vorschau": "Entscheid 4: noindex per Meta oder X-Robots-Tag in _headers; robots.txt ohne «Disallow: /»; keine Sitemap (TP7/TI8, sperrt); kein canonical (TP7/S28, Hinweis)",
+  "_vorschau": "Entscheid 4: noindex per Meta oder X-Robots-Tag in _headers; robots.txt ohne «Disallow: /»; keine Sitemap (TP7/TI8, sperrt); kein canonical (TP7/TI10, Hinweis)",
   "_zahlen": "Abschrift der Werte aus fakten.md (Quelle, geführt von text-uni), je mit Quelle; ändert sich fakten.md, wird diese Liste nachgeführt.",
   "zahlen": {
     "071 555 00 00": "Musterwert",

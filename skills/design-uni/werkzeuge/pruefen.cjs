@@ -316,7 +316,7 @@ function textPruefung(ordner) {
     const fliess = vis(absaetze.join(" . ")).replace(/\b(Nr|ca|z\. B|bzw|inkl|evtl)\./g, "$1");
     for (const satz of fliess.split(/(?<=[.!?])\s+(?=[A-ZÄÖÜ«])/)) { const w = satz.trim().split(/\s+/).filter((x) => /\p{L}|\d/u.test(x)).length; if (w < 2) continue; wortSumme += w; saetze++; if (w > maxSatz) { maxSatz = w; maxWo = `${s}: ${satz.slice(0, 80)}`; } if (w > 25) bad.satz.push(`${s}: ${w} Wörter «${satz.slice(0, 50)}»`); }
   }
-  // Hinweise nach text-uni SKILL.md (Grundsätze-Tabelle): CH1, CH4, CH5, CH11, CH13, K11, W1, W2, S3, S12, S23, S28, TI33
+  // Hinweise nach text-uni SKILL.md (Grundsätze-Tabelle): CH1, CH4, CH5, CH11, CH13, CH14, K11, W1, W2, S3, S12, S23, TI33; kein canonical in der Vorschau (TI10) ebenfalls als Hinweis
   if (T.eszett === false) h("TP7/CH1 Eszett 0", bad.sz.length === 0, bad.sz.join(", ") || "0");
   if (T.anrede) h(`TP7/CH4 Eine Anrede (nur «${T.anrede}»)`, bad.anrede.length === 0, bad.anrede.join(", ") || "0");
   if (T.guillemets !== false) h("TP7/CH5 Guillemets, keine geraden oder deutschen Anführungszeichen", bad.gerade.length === 0, bad.gerade.join(", ") || "0");
@@ -339,7 +339,7 @@ function textPruefung(ordner) {
   if (P.vorschau !== false) { const rt = fs.existsSync(rob) ? fs.readFileSync(rob, "utf8") : ""; const sperrt = /^\s*Disallow:\s*\/\s*$/m.test(rt); const sitemap = fs.existsSync(path.join(ordner, "sitemap.xml"));
     const teile = []; if (bad.noindex.length) teile.push(`ohne noindex: ${bad.noindex.join(", ")}`); if (sperrt) teile.push("robots.txt: «Disallow: /»"); if (sitemap) teile.push("sitemap.xml vorhanden");
     r("TP7/TI8 Vorschau: noindex per Meta oder X-Robots-Tag, robots.txt ohne «Disallow: /», keine Sitemap (Entscheid 4)", teile.length === 0, teile.join(" · ") || `${noindexKopf ? "X-Robots-Tag in _headers" : `Meta auf ${SEITEN.length} Seiten`}; ${rt ? rt.trim().replace(/\n/g, " | ") : "keine robots.txt"}`);
-    h("TP7/S28 Vorschau: kein canonical", bad.canon.length === 0, bad.canon.join(", ") || `${SEITEN.length} Seiten`); }
+    h("TP7/TI10 Vorschau: kein canonical", bad.canon.length === 0, bad.canon.join(", ") || `${SEITEN.length} Seiten`); }
   const tot = []; for (const s of SEITEN) { for (const m of html(s).matchAll(/(?:href|src)="([^"#?]+)(?:[?#][^"]*)?"/g)) { const u = m[1]; if (/^(https?:|mailto:|tel:|\/\/|data:)/.test(u)) continue; if (!fs.existsSync(ziel(ordner, datei(ordner, s), u))) tot.push(`${s}: ${u}`); } }
   r("DP6 Keine toten internen Links oder Bilder", tot.length === 0, tot.join(" | ") || "0");
   // Strukturierte Daten: Typ, Telefon und Strasse gleich der sichtbaren Seite, keine eigene Bewertung

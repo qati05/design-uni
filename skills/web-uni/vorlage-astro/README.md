@@ -17,10 +17,9 @@ Standard-Stack des Studios `[Hausentscheid · Studio, 02.11.2026]`: **Astro, sta
   | Fakten in `betrieb.json` leer (Name, Telefon, Anschrift …), falsches Format (Telefon `+41…`, E-Mail) | FEHLER | FEHLER |
   | Wortlaut ausserhalb der Seiten leer (Hauptaktion, Menü, Mikrotexte) | FEHLER | FEHLER |
   | `titel` und `h1` je Seite leer (Entwurf aus text-uni TP2) | FEHLER | FEHLER |
-  | Beschreibung leer oder ausserhalb 110 bis 155 Zeichen (S12) | HINWEIS | FEHLER |
+  | Beschreibung leer | HINWEIS | FEHLER |
   | Rechtsseiten Impressum und Datenschutz: Einträge leer oder Seite ohne Inhalt | HINWEIS | FEHLER |
-  | Titel über 65 Zeichen (S3) oder doppelt (S1) | HINWEIS | FEHLER |
-  | Titel ausserhalb 40 bis 60 Zeichen (S3) | HINWEIS | HINWEIS |
+  | Länge von Titel (S3, auch über 65) und Beschreibung (S12, 110 bis 155), doppelter Titel (S1) | HINWEIS | HINWEIS |
   | interne Links mit Weiterleitung oder ohne Ziel (TI24) | FEHLER | FEHLER |
 
   Die Stufe steht in `bau.json` (`stufe`), die Umgebungsvariable `STUFE` geht vor (`npm run bau:abgabe`). Mit `vorschau: false` prüft der Bau immer wie `abgabe`.

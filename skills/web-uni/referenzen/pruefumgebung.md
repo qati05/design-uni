@@ -18,7 +18,7 @@ Stand 2. November 2026. web-uni stellt die Umgebung; die Prüfungen liefern desi
 | 1 | Bau mit Bauprüfungen in der Stufe `abgabe` (Pflichtfelder, Titel, Beschreibung, Rechtsseiten, Links) | `cd <projekt>/astro && npm ci && npm run bau:abgabe` | WP4 |
 | 2 | Selbsttest des Prüfwerkzeugs, einmal je Werkzeugstand (WL5) | `node skills/design-uni/werkzeuge/pruefen.cjs <projekt>/projekt.json --selbsttest` | DP6 |
 | 3 | Maschinelle Prüfungen Gestaltung, Bedienung, Technik, fremde Hosts | `node skills/design-uni/werkzeuge/pruefen.cjs <projekt>/projekt.json --json <projekt>/pruefung/dp6-tp7.json` | DP6, TP7, WP5 (fremde Herkunft, Cookies) |
-| 4 | Floskeln und KI-Klang | `node skills/text-uni/werkzeuge/slop-de.js <projekt>/astro/dist --json <projekt>/pruefung/slop-de.json` | TP7 (K1) |
+| 4 | Floskeln und KI-Klang; `--prueflauf` meldet jeden Treffer als HINWEIS mit Exit-Code 0, weil K1 nicht sperrt | `node skills/text-uni/werkzeuge/slop-de.js <projekt>/astro/dist --prueflauf --json <projekt>/pruefung/slop-de.json` | TP7 (K1) |
 | 5 | Ausliefern mit Komprimierung | `npx serve <projekt>/astro/dist -l 8201` | WP5 |
 | 6 | Messung, 3 Läufe je Seite, Median | `npx lighthouse@13.6.0 http://localhost:8201/ --form-factor=mobile --only-categories=performance --output=json --output-path=<projekt>/pruefung/lh-start-1.json` (dreimal) | WP5 |
 | 7 | Grösse je Bildvariante, JS, HTML, Schriften | aus dem Netzwerkprotokoll von Lighthouse und `ls -l dist/bilder` | WP5 |

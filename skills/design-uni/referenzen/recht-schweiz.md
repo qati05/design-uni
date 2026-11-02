@@ -24,7 +24,7 @@ Ob ein Text täuscht, prüft text-uni (R1, R6, R7, R13).
 ## 3. Formular: Aufbau
 
 - Zweck und Verantwortlicher stehen sichtbar am Knopf (DSG Art. 19).
-- Nur so viele Felder wie nötig (DSG Art. 6, 7): 3 bis 5, höchstens 4 Pflicht ([conversion.md](conversion.md)).
+- Nur so viele Felder wie nötig (DSG Art. 6, 7). Die Zahl 3 bis 5, höchstens 4 Pflicht, ist ein Hausentscheid des Studios, kein Gesetz ([zusammenspiel.md](zusammenspiel.md) Teil 4; [conversion.md](conversion.md)).
 - Nichts vorangekreuzt; ein Newsletter nur als eigenes, leeres Kästchen.
 - Bei Praxen keine Pflichtfelder zu Beschwerden oder Diagnosen.
 

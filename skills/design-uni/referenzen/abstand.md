@@ -22,7 +22,7 @@ Zu jeder gebauten Website und jedem Entwurf kommt eine Zeile in eine Datei (z. B
 | 5 Primäraktion | Füllung, Radius, was daneben steht | |
 | 6 Schrift der Fakten | Familie und Klasse der Zahlen und Fakten, nicht nur Versalien | Versal-Zeile, Mono-Ziffern, Tabellenziffern im Satz |
 | 7 Bildschnitt | Format und Lage des Hauptbilds | randabfallend quer, hoch rechts, Mosaik, kein Bild |
-| 8 Bewegung | Typ des einen Moments | keine, Strich zeichnet sich, Zeile aus der Maske, Einblenden von unten |
+| 8 Bewegung | Typ der Hauptbewegung (Menge frei nach Entscheid 12) | keine, Strich zeichnet sich, Zeile aus der Maske, Einblenden von unten |
 
 Dazu die **sieben Bauteile:** Menü-Knopf, Leiste unten am Handy, Fehlerbox, Auswahl-Chips, Datenschrift, Linienraster, Ton der Mikrotexte.
 

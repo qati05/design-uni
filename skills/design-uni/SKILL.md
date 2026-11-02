@@ -240,7 +240,7 @@ Gebaut werden alle Seiten aus dem Antwort-Plan, das Formular und die Zustände: 
 | Versteckt bleibt versteckt | `[hidden] { display: none !important }` als erste Regel; Prüfung, dass nichts mit `hidden` sichtbar ist | 0 | sperrt (Barrierefreiheit) |
 | Klammern | Suche nach eckigen Klammern und Platzhaltern in der Testkopie | 0 (siehe Schritt 9) | sperrt (Grundregel 2) |
 
-**Nur Verweis, hier nicht ein zweites Mal gezählt:** Vorschau mit `noindex`, `robots.txt` ohne `Disallow: /`, keine Sitemap: text-uni TP7/TI8 (Entscheid 4, sperrt; `canonical` als TP7/S28, Hinweis). Fremde Hosts, Cookies, nichts auf dem Gerät gespeichert: web-uni WP5 (sperrt). Ladezeit, LCP und Lighthouse: Budgets in web-uni WP5. `pruefen.cjs` misst diese Punkte mit, unter der Kennung ihres Besitzers.
+**Nur Verweis, hier nicht ein zweites Mal gezählt:** Vorschau mit `noindex`, `robots.txt` ohne `Disallow: /`, keine Sitemap: text-uni TP7/TI8 und TI10 (Entscheid 4, sperrt; kein `canonical` in der Vorschau als TP7/TI10, Hinweis). Fremde Hosts, Cookies, nichts auf dem Gerät gespeichert: web-uni WP5 (sperrt). Ladezeit, LCP und Lighthouse: Budgets in web-uni WP5. `pruefen.cjs` misst diese Punkte mit, unter der Kennung ihres Besitzers.
 
 ## Schritt 9 · Kunden-Agenten und blinde Bewerter
 

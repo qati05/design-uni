@@ -25,7 +25,7 @@ Länderspezifisch: [recht-schweiz.md](recht-schweiz.md) für Gestaltung und Mate
 ## 2. Nie als Voreinstellung (Hinweis)
 
 **Erster Eindruck**
-- Ladebildschirm, Zähler, Intro, Eingangstor, Popup, Chat-Knopf, Newsletter-Overlay, Exit-Popup über dem Inhalt.
+- Zähler, Popup, Chat-Knopf, Newsletter-Overlay, Exit-Popup über dem Inhalt. (Ladebildschirm, Intro und Eingangstor halten Inhalt zurück und sind verboten, Teil 1.)
 - Hero-Slider, Auto-Karussell für Wichtiges.
 - Begrüssung als Titel («Herzlich willkommen», «Wir sind …»).
 - Text über Fremdmotiv mit Schatten, halbtransparentem Kasten oder Kontur.
