@@ -9,7 +9,7 @@
 - Ein Gespräch von etwa einer Stunde, am besten im Betrieb; oder schriftlich. Teilantworten und «weiss nicht» sind nützlich: lieber markieren als weglassen.
 - Hinter jede Antwort eine Marke: `[Fakt · Quelle, Datum]`, `[Annahme]` oder `[Lücke]`. Ein wörtlicher Satz des Inhabers bekommt Anführungszeichen und gilt als Fakt.
 - **Nomen, nicht Adjektive.** «Modern» sagt jeder; «Schreinerdreieck auf jedem Brett» nur dieser Betrieb.
-- Mit ★ markierte Fragen braucht der Bau zwingend: Ohne die Antwort geht er nicht. Geprüft wird alles einmal im gemeinsamen Eingangstor **DP0 = TP0 = WP0** (SKILL.md Schritt 2). Ohne ★-Antwort wird nicht gebaut, sondern nachgefragt; eine bestätigte Lücke zählt als Antwort.
+- Mit ★ markierte Fragen braucht der Bau zwingend: Ohne die Antwort geht er nicht. Geprüft wird alles einmal im gemeinsamen Eingangstor **DP0 + TP0 + WP0** (ein Tor mit drei Teilen, SKILL.md Schritt 2). Ohne ★-Antwort wird nicht gebaut, sondern nachgefragt; eine bestätigte Lücke zählt als Antwort.
 
 Vorfüllen aus öffentlichen Quellen (Website, Handelsregister, Google-Profil, Verzeichnisse) ist erlaubt und spart Zeit; jede vorgefüllte Zeile trägt ihre Quelle und wird im Gespräch bestätigt.
 
@@ -97,7 +97,7 @@ _Warum: Eine belegte Form kann alle Bilder schneiden (techniken.md TK8)._
 ## 4. Material
 
 ### ★ Logo als Vektordatei (SVG, PDF, AI, EPS)? Wenn nein: wer hat es gestaltet, und gibt es die Datei dort?
-_Warum: Ein Rasterlogo hielt eine Probe blind bei 6,3 bis 6,5 fest (DL10). Ohne Vektordatei wird der Name gesetzt, nicht das Logo vergrössert._
+_Warum: Mit Rasterlogo und Handyfotos kam eine Probe blind nicht über 6,7 bis 7,2 hinaus; die meisten Kritikpunkte betrafen das Material (DL10). Ohne Vektordatei wird der Name gesetzt, nicht das Logo vergrössert._
 >
 
 ### ★ Eigene Fotos: wie viele, von wem, mit welchen Rechten? Erkennbare Personen mit Einwilligung?
@@ -157,9 +157,9 @@ _Warum: für den Messplan (text-uni TP8). Nur Zahlen, keine Namen._
 
 ## 7. Für web-uni: Technik, Betrieb, Kosten
 
-Das Ziel ist die Hauptaktion aus Teil 1.
+Das Ziel ist die Hauptaktion aus Teil 1. Die acht ★-Fragen hier sind die acht Antworten, die web-uni in WP0 prüft.
 
-### Wunsch in eigenen Worten: Wie soll die Website sein? Vorbilder und Gegenbilder? Ist Bewegung oder 3D ein Kern des Wunsches?
+### ★ Wunsch in eigenen Worten: Wie soll die Website sein? Vorbilder und Gegenbilder? Ist Bewegung oder 3D ein Kern des Wunsches?
 >
 
 ### ★ Besucher und Geräte: Anteil Handy, Alter der Geräte, Netz (Land, Berge), Sprachen der Website
@@ -170,21 +170,22 @@ _Warum: Sprachen und Geräte bestimmen Aufbau und Stack._
 _Warum: Die Funktionen bestimmen die Klasse und den Stack (web-uni WP1, WP2)._
 >
 
-### Pflege: Wer ändert was (Zeiten, Preise, Fotos, Termine, Saison, Laufband), wie oft, mit welchen Kenntnissen? Welches System heute?
+### ★ Pflege: Wer ändert was (Zeiten, Preise, Fotos, Termine, Saison, Laufband), wie oft, mit welchen Kenntnissen? Welches System heute?
 >
 
-### Budget und Frist: für den Bau und für laufende Kosten
+### ★ Budget und Frist: für den Bau und für laufende Kosten
 _Warum: Kosten an den Kunden schreibt web-uni nur als Entwurf; sie gehen erst nach Freigabe des Studios hinaus._
 >
 
-### Recht und Daten: Hosting-Standort, Cookies, Anfragen speichern ja oder nein, wie lange?
+### ★ Recht und Daten: Hosting-Standort, Cookies, Anfragen speichern ja oder nein, wie lange?
 >
 
-### Bestand: Gibt es eine bisherige Website (Adresse, alte Seiten), eine Domain (wer ist Halter?), Konten (Hoster, Search Console, Unternehmensprofil, E-Mail)?
+### ★ Bestand: Gibt es eine bisherige Website (Adresse, alte Seiten), eine Domain (wer ist Halter?), Konten (Hoster, Search Console, Unternehmensprofil, E-Mail)?
 _Warum: Alte Adressen brauchen Weiterleitungen; Zugänge gehören dem Betrieb._
 >
 
 ### Messung: Welche Zahlen zählen nach dem Livegang? (Anfragen und Aufträge zählen mehr als Ladezeit)
+_Warum: für den Messplan von text-uni (TP8), zusammen mit den Ausgangswerten aus Teil 6. Gehört nicht zu WP0._
 >
 
 ### ★ Anfragekette: Wo kommt eine Anfrage an (Postfach, Telefon, System)? Wer liest sie, zu welchen Zeiten? Wie schnell kommt die Antwort? Was folgt (Rückruf, Termin, Offerte)?
@@ -202,5 +203,6 @@ Was haben wir nicht gefragt, sollten es aber wissen?
 **Nach dem Ausfüllen** (Aufgabe des Studios, nicht des Betriebs):
 1. `entscheide.md` aus Teil 5 (Betrieb) und den Hausentscheiden (Studio); `fakten.md` aus Teil 2 mit Quellen (geführt von text-uni).
 2. Rechte-Liste aus Teil 4 (SKILL.md Schritt 1), ohne Personendaten.
-3. `projekt.json` für die Werkzeuge nach [projekt.beispiel.json](projekt.beispiel.json): Telefon, Hauptaktion, Formular, Kalender, Zahlen mit Quelle.
-4. Eingangstor DP0 = TP0 = WP0, dann weiter mit SKILL.md Schritt 1.
+3. `projekt.json` für die Werkzeuge nach [projekt.beispiel.json](projekt.beispiel.json): Telefon, Hauptaktion, Formular, Kalender, Zahlen mit Quelle (aus `fakten.md`).
+
+Danach folgen SKILL.md Schritt 1 (Lesen) und Schritt 2 (Gespräch); beide führen zum Eingangstor DP0 + TP0 + WP0 am Ende von Schritt 2. Erst danach geht es mit Schritt 3 (Richtung) weiter.

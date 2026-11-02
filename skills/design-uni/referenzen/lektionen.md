@@ -89,4 +89,4 @@ Was die blinden Tests, Kunden-Agenten und Prüfrunden gelehrt haben, mit Zahlen.
 - Grund: warum, in einem Satz.
 ```
 
-Eine Lektion beschreibt, was passiert ist, nicht wer es war. Keine Namen von Betrieben oder Personen, keine Kundendaten.
+DL1 bis DL25 stammen aus der Zeit vor diesem Format und behalten ihre Form ohne Datum. Eine Lektion beschreibt, was passiert ist, nicht wer es war. Keine Namen von Betrieben oder Personen, keine Kundendaten.

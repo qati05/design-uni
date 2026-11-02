@@ -57,7 +57,7 @@ Je Punkt `[Fakt · Quelle, Datum]`, `[Annahme]` oder `[Lücke]`:
 - **Telefon immer sichtbar und antippbar** als `tel:`-Link, auf jeder Seite.
 - **Anschrift öffnet die Karten-App.** Keine eingebettete Karte.
 - **Erreichbarkeit und Antwortfrist** stehen beim Kontakt.
-- **Formular 3 bis 5 Felder, höchstens 4 Pflicht,** ergänzt das Telefon. Ein Feld «Name» (42 % tippten den ganzen Namen ins Vornamenfeld, Baymard). Freiwillige Felder tragen «(freiwillig)» in der Beschriftung, kein Sternchen (text-uni U11); oder sie stehen hinter «Mehr angeben».
+- **Formular 3 bis 5 Felder, höchstens 4 Pflicht,** ergänzt das Telefon. Ein Feld «Name» (42 % tippten den ganzen Namen ins Vornamenfeld, Baymard). Freiwillige Felder tragen «(freiwillig)» in der Beschriftung; ein Sternchen für Pflicht nur, wenn es über dem Formular erklärt ist (Wortlaut: text-uni U11). Oder die freiwilligen Felder stehen hinter «Mehr angeben».
 - **Beschriftung über dem Feld,** kein Platzhalter als Label; `type="tel"`, `autocomplete`, `inputmode`.
 - **Validierung beim Verlassen des Feldes,** Meldung am Feld, verschwindet nach Korrektur, Eingaben bleiben. **Die Meldung darf den Senden-Knopf nicht verschieben**, sonst geht der Tipp daneben. Den Wortlaut der Meldungen liefert text-uni (U10 bis U21).
 - **Knopftext = Verb + was danach passiert**; nie «Absenden», «Mehr erfahren», «Jetzt starten». Wortlaut: text-uni U.
@@ -66,9 +66,9 @@ Je Punkt `[Fakt · Quelle, Datum]`, `[Annahme]` oder `[Lücke]`:
 - **Message Match:** Wer über «Kachelofen sanieren» kommt, sieht Kachelofen-Sanierung.
 - **Vorwahl aus dem Kontext:** Wer von einer Unterseite kommt, findet die Auswahl vorgewählt.
 - **Schnell auf dem Handy:** keine Lade-Intros; Ladezeit und Budgets nach web-uni (WP5). Warum es zählt: 31 % besseres LCP brachte bei Vodafone 8 % mehr Verkäufe.
-- **Klickpfade gezählt:** Anruf ≤ 1 Tipp, Route ≤ 2, Anfrage ≤ 3 Bildschirme `[Annahme]`.
+- **Klickpfade gezählt:** Anruf ≤ 1 Tipp, Route ≤ 2, Anfrage ≤ 3 Bildschirme; `[Annahme]`, sperrt nicht (Entscheid 13).
 - **Zeitangaben kennen den Kalender:** kein «morgen», wenn morgen Sonntag ist.
-- **Gemessen ohne Cookies,** gelesen mit Unsicherheitsband: Zählpunkte in Teil 7, Messplan bei text-uni (TP8).
+- **Gemessen ohne Cookies:** Zählpunkte in Teil 7; Messplan, Warnwerte und das Lesen kleiner Zahlen bei text-uni (TP8).
 
 ## 3. Muster mit Wortlaut
 
@@ -108,10 +108,11 @@ Was danach passiert, mit Frist (text-uni U19, U20)
 Zweck und Verantwortlicher: [Firma], [Ort]
 ```
 
-Aufbau und Anzahl: 5 Felder, 3 davon Pflicht; nur die freiwilligen sind beschriftet, kein Sternchen. Alle Beschriftungen, Hilfe-, Fehler- und Bestätigungstexte schreibt text-uni (U10 bis U21); Backend, Zustellung und Spamschutz baut web-uni.
+Aufbau und Anzahl: 5 Felder, 3 davon Pflicht; die freiwilligen tragen «(freiwillig)». Wer Pflichtfelder mit Sternchen markiert, erklärt es über dem Formular (U11). Alle Beschriftungen, Hilfe-, Fehler- und Bestätigungstexte schreibt text-uni (U10 bis U21); Backend, Zustellung und Spamschutz baut web-uni.
 
 - Fehlerzusammenfassung oben («2 Angaben fehlen: Name, Telefon» als Links) plus Meldung am Feld. **Ihre Form kommt aus der Idee des Betriebs**; die immer gleiche rote Box verrät die Herkunft ([abstand.md](abstand.md)).
-- Nach dem Absenden: Knopf sofort im Zustand «wird gesendet», gegen Doppeltippen gesperrt; Bestätigung ≤ 300 ms mit nächstem Schritt und Frist (mit Wochentag).
+- Nach dem Absenden: sofort eine sichtbare Rückmeldung im Browser, Knopf gegen Doppeltippen gesperrt; Rückmeldung in ≤ 300 ms (`[Annahme]`, sperrt nicht), mit nächstem Schritt und Frist (mit Wochentag).
+- **Ohne Backend** ([zusammenspiel.md](zusammenspiel.md) Teil 7): Solange web-uni keinen Server-Endpunkt gebaut hat (z. B. Rückfall auf `mailto:`), sagt die Rückmeldung ehrlich, was geschieht («Ihr E-Mail-Programm öffnet sich. Gesendet ist die Nachricht erst, wenn Sie dort auf Senden tippen.»; Wortlaut: text-uni). «Gesendet» heisst es erst mit Endpunkt. `pruefen.cjs` prüft das, wenn in `projekt.json` `"endpunkt": false` steht.
 - Keine feste Leiste über dem Senden-Knopf; Bestätigung sofort sichtbar. In einem Test lag ein runder Absende-Stempel teils hinter der Anrufleiste, die Bestätigung kam verzögert, der Agent hätte fast doppelt gesendet.
 - Bei Praxen: keine Pflichtfelder zu Beschwerden oder Diagnosen; Hinweis «Im Notfall anrufen, nicht dieses Formular».
 
@@ -152,7 +153,7 @@ Je Frage 1 Punkt für ein klares Ja. Fehlt ein Punkt nur, weil beim Betrieb ein 
 - **LP14** **Recht:** Halten die Preisangaben den örtlichen Preisregeln stand (Schweiz: text-uni R12 bis R16)?
 - **LP15** **Recht:** Nennt das Formular Verantwortlichen und Zweck, erhebt es nur das Nötige, ist nichts vorangekreuzt? (Tracker und Cookies: web-uni.)
 
-Ein Nein bei LP13 bis LP15 sperrt die Seite, egal wie viele Punkte.
+Ein Nein bei LP13 bis LP15 sperrt, egal wie viele Punkte (Recht). Gezählt wird die Sperre einmal beim Besitzer: LP13 und LP14 in der Unlauter-Probe von text-uni TP3, LP15 im Prüflauf als DP6 Formular. Die Punktschwellen selbst sind Hinweise (Entscheid 13).
 
 **LH · Handwerk und Forschung (15, davon 10 in DP3), Schwelle ≥ 9 von 10**
 - **LH1** Sagt der erste Bildschirm in 5 s, was, für wen, wo?
@@ -169,7 +170,7 @@ Ein Nein bei LP13 bis LP15 sperrt die Seite, egal wie viele Punkte.
 - **LH12** Preise, wo genannt, vollständig (Währung, Steuer, Zuschläge)?
 - **LH13** *Am Bau, siehe DP6 Boden und web-uni WP5.* Ladezeit im Budget, ohne Ladebildschirm oder Intro?
 - **LH14** Stört nichts über dem Inhalt (Popup, Chat, Banner)?
-- **LH15** *Nach dem Bau, siehe text-uni TP8.* Gibt es einen Messplan?
+- **LH15** *Am Bau, mit den anderen Bau-Fragen im Prüflauf (DP6, zusammenspiel Teil 6, Schritt 9) nur als Frage; das Dokument selbst prüft text-uni TP8.* Gibt es einen Messplan?
 
 ## 6. Wo Conversion und Premium sich widersprechen
 
@@ -187,9 +188,9 @@ Ein Nein bei LP13 bis LP15 sperrt die Seite, egal wie viele Punkte.
 
 **Regel:** Jedes Conversion-Element bekommt die Form der Marke und den Inhalt eines Belegs. Ein Element, das nur Form hat (Badge, Häkchen, Timer), fliegt raus. Fehlt der Beleg, bleibt die Lücke sichtbar.
 
-## 7. Zählpunkte und Zulieferung an den Messplan
+## 7. Zählpunkte für den Messplan
 
-**Besitz:** Den Messplan führt text-uni in **einem** Dokument `messplan.md` (TP8, M11 bis M16). design-uni liefert die **Zählpunkte** im Markup (geprüft in DP6), web-uni den **Zählendpunkt** und die cookielose Technik. Termine nach Entscheid 11: nach 8 Wochen ein Zwischenstand für die Suche, mit «zu wenig Daten» als möglichem Ergebnis; das Urteil über Anfragen fällt nach 3 Monaten.
+**Besitz:** Den Messplan führt text-uni in **einem** Dokument `messplan.md` (TP8, M11 bis M16), mit Strichliste im Betrieb, Warnwerten, dem Lesen kleiner Zahlen und den Terminen nach Entscheid 11 ([messen-search-console.md](../../text-uni/referenzen/semester3/messen-search-console.md)). design-uni liefert nur die **Zählpunkte** im Markup (geprüft in DP6, als Hinweis), web-uni den **Zählendpunkt** und die cookielose Technik.
 
 **Zählpunkte:** Jeder Aufruf und jeder Kontakt-Link trägt `data-zaehl` (Art: anruf, route, mail, anfrage) und `data-ort` (Stelle auf der Seite). Das Formular trägt Start und Ende. Was beim Tipp gesendet und wie gespeichert wird, regelt web-uni; die Datenschutzerklärung (Wortlaut: text-uni) beschreibt die Zählung.
 
@@ -198,27 +199,7 @@ Ein Nein bei LP13 bis LP15 sperrt die Seite, egal wie viele Punkte.
 | Tipp auf `tel:` | Absicht anzurufen | Tipp ≠ Gespräch |
 | Tipp auf Route | Absicht hinzugehen | Ankunft nicht messbar |
 | Formular begonnen | Interesse | mit «gesendet» die Abbruchquote |
-| Formular gesendet (am Server) | Anfrage | – |
+| Formular gesendet | Anfrage | nur mit Server-Endpunkt; ohne Endpunkt zählt der Tipp auf «Senden» als «Formular abgeschickt», nicht als Anfrage (zusammenspiel Teil 7) |
 | Preisseite, Karte, Zeiten | Vorbereitung | nur Richtung |
 
-Die folgenden Punkte sind ein **Beitrag an `messplan.md`**; text-uni übernimmt sie dort.
-
-**Im Betrieb:** acht Wochen Strichliste «Wie sind Sie auf uns gekommen?» (Website, Suche, Empfehlung, Stammkunde), nur Zahlen, keine Namen. Ausgangswerte vor dem Livegang erfragen oder als Lücke führen.
-
-**Warnwerte** `[Annahme]`, am eigenen Verlauf, nicht an fremden Benchmarks (die 6,6 % von Unbounce stammen von bezahlten US-Landingpages):
-
-| Kennzahl | Warnwert (sofort prüfen) |
-|---|---|
-| Formular gesendet ÷ begonnen | unter 40 % bei ≥ 10 begonnenen, oder 0 gesendet in 14 Tagen bei ≥ 5 begonnenen |
-| Anruf-Tipps je Woche | 0 bei ≥ 50 Handy-Besuchen (Link kaputt?) |
-| Seitenaufrufe je Woche | Rückgang über 50 % |
-| Technik täglich | `tel:`-Nummer ≠ Faktenliste; Testsendung kommt nicht an |
-
-**Kleine Zahlen ehrlich lesen**
-1. **Raten mit Band:** 6 Anfragen bei 200 Besuchen sind nicht «3 %», sondern 1,4–6,4 % (Wilson, 95 %); 12 von 400: 1,7–5,2 %.
-2. **Zählungen haben ein Band:** 8 Anfragen im Monat sind mit 3,5–15,8 vereinbar, 12 mit 6,2–21,0 (Poisson).
-3. **Zählung statt Prozent vergleichen:** 8 → 12 ist Zufall (p ≈ 0,25), 6 → 12 noch vereinbar (p ≈ 0,12); erst etwa eine Verdoppelung ab 10 (10 → 20, p ≈ 0,05) ist ein Zeichen.
-4. **Gleiche Zeiträume,** Saison beachten; ein Änderungslog führen.
-5. **Drei Monate vor, drei Monate nach dem Livegang** für das Urteil über Anfragen; nach 8 Wochen nur ein Zwischenstand für die Suche (Entscheid 11); vorher kein Urteil, ausser Warnwerte.
-6. **Mikro vor Makro:** mehr Formularstarts bei gleich vielen Abschlüssen zeigen Reibung im Formular.
-7. **Keine A/B-Tests bei kleinen Betrieben:** Für +30 % bei 3 % Grundrate braucht es rund 12 900 Besuche, über zwei Jahre bei 500 im Monat. Stattdessen: Heuristik, Menschentest mit 5 bis 10 Personen ([blindtest.md](blindtest.md) Teil 6) oder Kunden-Agenten mit Aufgaben, Fünf-Sekunden-Test, eine Frage nach dem Absenden («Was hätte Sie fast davon abgehalten?»), grosse Änderungen auf einmal.
+Kleine Betriebe testen nicht mit A/B-Tests, sondern mit Heuristik, Menschentest ([blindtest.md](blindtest.md) Teil 6) oder Kunden-Agenten; wie man ihre Zahlen liest, steht im Messplan von text-uni.
