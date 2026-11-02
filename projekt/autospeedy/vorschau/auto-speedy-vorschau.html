@@ -609,6 +609,38 @@ header { background: var(--kopf-grund); }
 :root[data-lack="dunkel"] .band--nacht .ablauf p { color: var(--hallengrau); }
 .menue .nav-tesla { margin: 6px 0 6px 10px; }
 
+/* Beschrifteter Schadenplan (Startseite): flach von oben, Etiketten mit gestrichelten Pfeilen zu jeder Stelle */
+.plan-buehne--links .plan { transform: none; max-width: 640px; filter: drop-shadow(10px 22px 18px rgba(15,40,80,.22)); }
+.planband__auto .plan { max-width: 640px; }
+.planband { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+.plan__etikett { font: 600 21px/1 var(--titel); letter-spacing: .01em; fill: var(--tinte); }
+.plan__pfeil-linie { fill: none; stroke: var(--gebotsblau); stroke-width: 1.6; stroke-dasharray: 5 5; stroke-linecap: round; }
+.plan__spitze path { fill: var(--gebotsblau); }
+.plan--links .plan__stelle:hover .plan__etikett, .plan--links .plan__stelle:focus-visible .plan__etikett, .plan--links .plan__stelle.ist-aktiv .plan__etikett { fill: var(--gebotsblau-dunkel); text-decoration: underline; }
+.plan--links .plan__stelle:hover .plan__pfeil-linie, .plan--links .plan__stelle.ist-aktiv .plan__pfeil-linie, .plan--links .plan__stelle:focus-visible .plan__pfeil-linie { stroke-dasharray: none; stroke-width: 2.4; }
+.plan--links .plan__stelle--glas:hover rect { fill: url(#schild-links); }
+@media (prefers-color-scheme: dark) { :root:not([data-lack="hell"]) .plan-buehne--links .plan { filter: drop-shadow(10px 22px 18px rgba(0,0,0,.5)); } :root:not([data-lack="hell"]) .plan__spitze path { fill: #5aa2ec; } :root:not([data-lack="hell"]) .plan__pfeil-linie { stroke: #5aa2ec; } }
+:root[data-lack="dunkel"] .plan-buehne--links .plan { filter: drop-shadow(10px 22px 18px rgba(0,0,0,.5)); }
+:root[data-lack="dunkel"] .plan__spitze path { fill: #5aa2ec; }
+:root[data-lack="dunkel"] .plan__pfeil-linie { stroke: #5aa2ec; }
+@media (max-width: 860px) {
+  .planband { grid-template-columns: 1fr; }
+  .plan-buehne--links .plan { transform: none; max-width: none; }
+  .planband__auto { padding: 0; margin-inline: calc(var(--rand) * -.5); }
+}
+.plan__etikett--kurz { display: none; }
+@media (max-width: 860px) {
+  .plan__etikett--lang { display: none; }
+  .plan__etikett--kurz { display: inline; font-size: 27px; }
+  .planband__text { display: contents; }
+  .planband > .planband__text > h2 { order: 0; margin-bottom: 0; }
+  .planband > .planband__text > p { order: 1; margin: 0; }
+  .planband__auto { order: 2; }
+  .planband__info { order: 3; }
+  .planband__liste { order: 4; margin-top: 0; }
+  .planband { gap: 20px; }
+}
+
 header{top:env(safe-area-inset-top,0px)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:25;background:#f3f5f6}
 :root{color-scheme:light}
@@ -672,27 +704,100 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     </ul>
   </div>
   <div class="planband__auto"><div class="plan-buehne plan-buehne--links">
-<svg class="plan plan--links" viewBox="0 0 240 440" role="group" aria-label="Auto von oben: Stelle des Schadens antippen" data-plan="links">
+<svg class="plan plan--links" viewBox="0 0 640 470" role="group" aria-label="Auto von oben: Stelle des Schadens antippen" data-plan="links">
   <defs>
     <linearGradient id="lack-links" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="st-a"></stop><stop offset=".5" class="st-b"></stop><stop offset="1" class="st-c"></stop></linearGradient>
     <linearGradient id="schild-links" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a8ae0"></stop><stop offset=".45" stop-color="#1566b8"></stop><stop offset="1" stop-color="#0d4583"></stop></linearGradient>
     <linearGradient id="glas-links" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5d7c9e"></stop><stop offset=".35" stop-color="#22374f"></stop><stop offset="1" stop-color="#0c1724"></stop></linearGradient>
     <linearGradient id="glanz-links" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"></stop><stop offset=".5" stop-color="#fff" stop-opacity=".55"></stop><stop offset="1" stop-color="#fff" stop-opacity="0"></stop></linearGradient>
     <radialGradient id="felge-links"><stop offset="0" stop-color="#f4f6f8"></stop><stop offset=".7" stop-color="#aeb6bf"></stop><stop offset="1" stop-color="#6d7781"></stop></radialGradient>
+    <marker id="spitze-links" class="plan__spitze" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z"></path></marker>
   </defs>
-  <rect class="plan__karosse" x="20" y="16" width="200" height="408" rx="46"></rect>
-  <g class="plan__zier" aria-hidden="true">
-    <rect x="8" y="138" width="14" height="16" rx="4"></rect><rect x="218" y="138" width="14" height="16" rx="4"></rect>
+  <g transform="translate(200 14)">
+    <rect class="plan__karosse" x="20" y="16" width="200" height="408" rx="46"></rect>
+    <g class="plan__zier" aria-hidden="true"><rect x="8" y="138" width="14" height="16" rx="4"></rect><rect x="218" y="138" width="14" height="16" rx="4"></rect></g>
   </g>
-  <a href="#schaden-melden" data-stelle-ziel="front" class="plan__stelle" data-stelle="front" data-name="Front-Stossstange" data-leistung="Stossstangen-Reparatur, Unfallschäden" data-pfad="/carrosserie/" aria-label="Front-Stossstange: Schaden hier melden" data-zaehl="schadenplan" data-ort="start"><title>Front-Stossstange</title><rect x="50" y="20" width="140" height="26" rx="13"></rect></a><a href="#schaden-melden" data-stelle-ziel="haube" class="plan__stelle" data-stelle="haube" data-name="Motorhaube" data-leistung="Dellen, Hagel, Lackschäden" data-pfad="/carrosserie/#hagel" aria-label="Motorhaube: Schaden hier melden" data-zaehl="schadenplan" data-ort="start"><title>Motorhaube</title><rect x="54" y="50" width="132" height="76" rx="8"></rect></a><a href="#schaden-melden" data-stelle-ziel="frontscheibe" class="plan__stelle plan__stelle--glas" data-stelle="frontscheibe" data-name="Frontscheibe" data-leistung="Scheibenreparatur und Scheibenwechsel" data-pfad="/carrosserie/" aria-label="Frontscheibe: Schaden hier melden" data-zaehl="schadenplan" data-ort="start"><title>Frontscheibe</title><rect x="58" y="130" width="124" height="36" rx="6"></rect></a><a href="#schaden-melden" data-stelle-ziel="dach" class="plan__stelle" data-stelle="dach" data-name="Dach" data-leistung="Hagelschäden und Dellendrücken" data-pfad="/carrosserie/#hagel" aria-label="Dach: Schaden hier melden" data-zaehl="schadenplan" data-ort="start"><title>Dach</title><rect x="62" y="170" width="116" height="100" rx="6"></rect></a><a href="#schaden-melden" data-stelle-ziel="heckscheibe" class="plan__stelle plan__stelle--glas" data-stelle="heckscheibe" data-name="Heckscheibe" data-leistung="Scheibenreparatur und Scheibenwechsel" data-pfad="/carrosserie/" aria-label="Heckscheibe: Schaden hier melden" data-zaehl="schadenplan" data-ort="start"><title>Heckscheibe</title><rect x="58" y="274" width="124" height="32" rx="6"></rect></a><a href="#schaden-melden" data-stelle-ziel="heckdeckel" class="plan__stelle" data-stelle="heckdeckel" data-name="Heckdeckel" data-leistung="Dellen, Rost, Lackschäden" data-pfad="/lackiererei/" aria-label="Heckdeckel: Schaden hier melden" data-zaehl="schadenplan" data-ort="start"><title>Heckdeckel</title><rect x="54" y="310" width="132" height="76" rx="8"></rect></a><a href="#schaden-melden" data-stelle-ziel="heck" class="plan__stelle" data-stelle="heck" data-name="Heck-Stossstange" data-leistung="Stossstangen-Reparatur, Parkschäden" data-pfad="/carrosserie/" aria-label="Heck-Stossstange: Schaden hier melden" data-zaehl="schadenplan" data-ort="start"><title>Heck-Stossstange</title><rect x="50" y="390" width="140" height="30" rx="13"></rect></a><a href="#schaden-melden" data-stelle-ziel="links-vorne" class="plan__stelle" data-stelle="links-vorne" data-name="Seite links vorne" data-leistung="Unfall- und Blechschäden, Lack" data-pfad="/carrosserie/" aria-label="Seite links vorne: Schaden hier melden" data-zaehl="schadenplan" data-ort="start"><title>Seite links vorne</title><rect x="24" y="60" width="26" height="148" rx="8"></rect></a><a href="#schaden-melden" data-stelle-ziel="links-hinten" class="plan__stelle" data-stelle="links-hinten" data-name="Seite links hinten" data-leistung="Unfall- und Blechschäden, Lack" data-pfad="/carrosserie/" aria-label="Seite links hinten: Schaden hier melden" data-zaehl="schadenplan" data-ort="start"><title>Seite links hinten</title><rect x="24" y="212" width="26" height="160" rx="8"></rect></a><a href="#schaden-melden" data-stelle-ziel="rechts-vorne" class="plan__stelle" data-stelle="rechts-vorne" data-name="Seite rechts vorne" data-leistung="Unfall- und Blechschäden, Lack" data-pfad="/carrosserie/" aria-label="Seite rechts vorne: Schaden hier melden" data-zaehl="schadenplan" data-ort="start"><title>Seite rechts vorne</title><rect x="190" y="60" width="26" height="148" rx="8"></rect></a><a href="#schaden-melden" data-stelle-ziel="rechts-hinten" class="plan__stelle" data-stelle="rechts-hinten" data-name="Seite rechts hinten" data-leistung="Unfall- und Blechschäden, Lack" data-pfad="/carrosserie/" aria-label="Seite rechts hinten: Schaden hier melden" data-zaehl="schadenplan" data-ort="start"><title>Seite rechts hinten</title><rect x="190" y="212" width="26" height="160" rx="8"></rect></a><a href="#schaden-melden" data-stelle-ziel="felgen" class="plan__stelle plan__stelle--rad" data-stelle="felgen" data-name="Felgen" data-leistung="Arbeiten an Alufelgen" data-pfad="/felgen-folierung/" aria-label="Felgen: Schaden hier melden" data-zaehl="schadenplan" data-ort="start"><title>Felgen</title><rect x="4" y="82" width="16" height="58" rx="6"></rect><rect x="220" y="82" width="16" height="58" rx="6"></rect><rect x="4" y="300" width="16" height="58" rx="6"></rect><rect x="220" y="300" width="16" height="58" rx="6"></rect></a>
-  <g class="plan__zier" aria-hidden="true">
+  <a href="#schaden-melden" data-stelle-ziel="front" class="plan__stelle" data-stelle="front" data-name="Front-Stossstange" data-leistung="Stossstangen-Reparatur, Unfallschäden" data-pfad="/carrosserie/" data-zaehl="schadenplan" data-ort="start">
+      <title>Front-Stossstange: Schaden hier melden</title>
+      <rect x="250" y="34" width="140" height="26" rx="13"></rect>
+      <path class="plan__pfeil-linie" d="M192 27 L292 44" marker-end="url(#spitze-links)"></path>
+      <text class="plan__etikett plan__etikett--lang" x="186" y="34" text-anchor="end">Front-Stossstange</text>
+      <text class="plan__etikett plan__etikett--kurz" x="186" y="28" text-anchor="end" aria-hidden="true"><tspan x="186" dy="-9">Front-</tspan><tspan x="186" dy="28">Stossstange</tspan></text>
+    </a><a href="#schaden-melden" data-stelle-ziel="haube" class="plan__stelle" data-stelle="haube" data-name="Motorhaube" data-leistung="Dellen, Hagel, Lackschäden" data-pfad="/carrosserie/#hagel" data-zaehl="schadenplan" data-ort="start">
+      <title>Motorhaube: Schaden hier melden</title>
+      <rect x="254" y="64" width="132" height="76" rx="8"></rect>
+      <path class="plan__pfeil-linie" d="M448 55 L350 96" marker-end="url(#spitze-links)"></path>
+      <text class="plan__etikett plan__etikett--lang" x="454" y="62" text-anchor="start">Motorhaube</text>
+      <text class="plan__etikett plan__etikett--kurz" x="454" y="56" text-anchor="start" aria-hidden="true"><tspan x="454" dy="9">Motorhaube</tspan></text>
+    </a><a href="#schaden-melden" data-stelle-ziel="frontscheibe" class="plan__stelle plan__stelle--glas" data-stelle="frontscheibe" data-name="Frontscheibe" data-leistung="Scheibenreparatur und Scheibenwechsel" data-pfad="/carrosserie/" data-zaehl="schadenplan" data-ort="start">
+      <title>Frontscheibe: Schaden hier melden</title>
+      <rect x="258" y="144" width="124" height="36" rx="6"></rect>
+      <path class="plan__pfeil-linie" d="M192 163 L282 162" marker-end="url(#spitze-links)"></path>
+      <text class="plan__etikett plan__etikett--lang" x="186" y="170" text-anchor="end">Frontscheibe</text>
+      <text class="plan__etikett plan__etikett--kurz" x="186" y="164" text-anchor="end" aria-hidden="true"><tspan x="186" dy="9">Frontscheibe</tspan></text>
+    </a><a href="#schaden-melden" data-stelle-ziel="dach" class="plan__stelle" data-stelle="dach" data-name="Dach" data-leistung="Hagelschäden und Dellendrücken" data-pfad="/carrosserie/#hagel" data-zaehl="schadenplan" data-ort="start">
+      <title>Dach: Schaden hier melden</title>
+      <rect x="262" y="184" width="116" height="100" rx="6"></rect>
+      <path class="plan__pfeil-linie" d="M448 245 L350 228" marker-end="url(#spitze-links)"></path>
+      <text class="plan__etikett plan__etikett--lang" x="454" y="252" text-anchor="start">Dach</text>
+      <text class="plan__etikett plan__etikett--kurz" x="454" y="246" text-anchor="start" aria-hidden="true"><tspan x="454" dy="9">Dach</tspan></text>
+    </a><a href="#schaden-melden" data-stelle-ziel="heckscheibe" class="plan__stelle plan__stelle--glas" data-stelle="heckscheibe" data-name="Heckscheibe" data-leistung="Scheibenreparatur und Scheibenwechsel" data-pfad="/carrosserie/" data-zaehl="schadenplan" data-ort="start">
+      <title>Heckscheibe: Schaden hier melden</title>
+      <rect x="258" y="288" width="124" height="32" rx="6"></rect>
+      <path class="plan__pfeil-linie" d="M192 323 L282 304" marker-end="url(#spitze-links)"></path>
+      <text class="plan__etikett plan__etikett--lang" x="186" y="330" text-anchor="end">Heckscheibe</text>
+      <text class="plan__etikett plan__etikett--kurz" x="186" y="324" text-anchor="end" aria-hidden="true"><tspan x="186" dy="9">Heckscheibe</tspan></text>
+    </a><a href="#schaden-melden" data-stelle-ziel="heckdeckel" class="plan__stelle" data-stelle="heckdeckel" data-name="Heckdeckel" data-leistung="Dellen, Rost, Lackschäden" data-pfad="/lackiererei/" data-zaehl="schadenplan" data-ort="start">
+      <title>Heckdeckel: Schaden hier melden</title>
+      <rect x="254" y="324" width="132" height="76" rx="8"></rect>
+      <path class="plan__pfeil-linie" d="M448 385 L350 366" marker-end="url(#spitze-links)"></path>
+      <text class="plan__etikett plan__etikett--lang" x="454" y="392" text-anchor="start">Heckdeckel</text>
+      <text class="plan__etikett plan__etikett--kurz" x="454" y="386" text-anchor="start" aria-hidden="true"><tspan x="454" dy="9">Heckdeckel</tspan></text>
+    </a><a href="#schaden-melden" data-stelle-ziel="heck" class="plan__stelle" data-stelle="heck" data-name="Heck-Stossstange" data-leistung="Stossstangen-Reparatur, Parkschäden" data-pfad="/carrosserie/" data-zaehl="schadenplan" data-ort="start">
+      <title>Heck-Stossstange: Schaden hier melden</title>
+      <rect x="250" y="404" width="140" height="30" rx="13"></rect>
+      <path class="plan__pfeil-linie" d="M192 425 L292 422" marker-end="url(#spitze-links)"></path>
+      <text class="plan__etikett plan__etikett--lang" x="186" y="432" text-anchor="end">Heck-Stossstange</text>
+      <text class="plan__etikett plan__etikett--kurz" x="186" y="426" text-anchor="end" aria-hidden="true"><tspan x="186" dy="-9">Heck-</tspan><tspan x="186" dy="28">Stossstange</tspan></text>
+    </a><a href="#schaden-melden" data-stelle-ziel="links-vorne" class="plan__stelle" data-stelle="links-vorne" data-name="Seite links vorne" data-leistung="Unfall- und Blechschäden, Lack" data-pfad="/carrosserie/" data-zaehl="schadenplan" data-ort="start">
+      <title>Seite links vorne: Schaden hier melden</title>
+      <rect x="224" y="74" width="26" height="148" rx="8"></rect>
+      <path class="plan__pfeil-linie" d="M192 97 L237 142" marker-end="url(#spitze-links)"></path>
+      <text class="plan__etikett plan__etikett--lang" x="186" y="104" text-anchor="end">Seite links vorne</text>
+      <text class="plan__etikett plan__etikett--kurz" x="186" y="98" text-anchor="end" aria-hidden="true"><tspan x="186" dy="-9">Seite</tspan><tspan x="186" dy="28">links vorne</tspan></text>
+    </a><a href="#schaden-melden" data-stelle-ziel="links-hinten" class="plan__stelle" data-stelle="links-hinten" data-name="Seite links hinten" data-leistung="Unfall- und Blechschäden, Lack" data-pfad="/carrosserie/" data-zaehl="schadenplan" data-ort="start">
+      <title>Seite links hinten: Schaden hier melden</title>
+      <rect x="224" y="226" width="26" height="160" rx="8"></rect>
+      <path class="plan__pfeil-linie" d="M192 247 L237 310" marker-end="url(#spitze-links)"></path>
+      <text class="plan__etikett plan__etikett--lang" x="186" y="254" text-anchor="end">Seite links hinten</text>
+      <text class="plan__etikett plan__etikett--kurz" x="186" y="248" text-anchor="end" aria-hidden="true"><tspan x="186" dy="-9">Seite</tspan><tspan x="186" dy="28">links hinten</tspan></text>
+    </a><a href="#schaden-melden" data-stelle-ziel="rechts-vorne" class="plan__stelle" data-stelle="rechts-vorne" data-name="Seite rechts vorne" data-leistung="Unfall- und Blechschäden, Lack" data-pfad="/carrosserie/" data-zaehl="schadenplan" data-ort="start">
+      <title>Seite rechts vorne: Schaden hier melden</title>
+      <rect x="390" y="74" width="26" height="148" rx="8"></rect>
+      <path class="plan__pfeil-linie" d="M448 121 L403 142" marker-end="url(#spitze-links)"></path>
+      <text class="plan__etikett plan__etikett--lang" x="454" y="128" text-anchor="start">Seite rechts vorne</text>
+      <text class="plan__etikett plan__etikett--kurz" x="454" y="122" text-anchor="start" aria-hidden="true"><tspan x="454" dy="-9">Seite</tspan><tspan x="454" dy="28">rechts vorne</tspan></text>
+    </a><a href="#schaden-melden" data-stelle-ziel="rechts-hinten" class="plan__stelle" data-stelle="rechts-hinten" data-name="Seite rechts hinten" data-leistung="Unfall- und Blechschäden, Lack" data-pfad="/carrosserie/" data-zaehl="schadenplan" data-ort="start">
+      <title>Seite rechts hinten: Schaden hier melden</title>
+      <rect x="390" y="226" width="26" height="160" rx="8"></rect>
+      <path class="plan__pfeil-linie" d="M448 311 L403 314" marker-end="url(#spitze-links)"></path>
+      <text class="plan__etikett plan__etikett--lang" x="454" y="318" text-anchor="start">Seite rechts hinten</text>
+      <text class="plan__etikett plan__etikett--kurz" x="454" y="312" text-anchor="start" aria-hidden="true"><tspan x="454" dy="-9">Seite</tspan><tspan x="454" dy="28">rechts hinten</tspan></text>
+    </a><a href="#schaden-melden" data-stelle-ziel="felgen" class="plan__stelle plan__stelle--rad" data-stelle="felgen" data-name="Felgen" data-leistung="Arbeiten an Alufelgen" data-pfad="/felgen-folierung/" data-zaehl="schadenplan" data-ort="start">
+      <title>Felgen: Schaden hier melden</title>
+      <rect x="204" y="96" width="16" height="58" rx="6"></rect><rect x="420" y="96" width="16" height="58" rx="6"></rect><rect x="204" y="314" width="16" height="58" rx="6"></rect><rect x="420" y="314" width="16" height="58" rx="6"></rect>
+      <path class="plan__pfeil-linie" d="M448 185 L430 140" marker-end="url(#spitze-links)"></path>
+      <text class="plan__etikett plan__etikett--lang" x="454" y="192" text-anchor="start">Felgen</text>
+      <text class="plan__etikett plan__etikett--kurz" x="454" y="186" text-anchor="start" aria-hidden="true"><tspan x="454" dy="9">Felgen</tspan></text>
+    </a>
+  <g class="plan__zier" aria-hidden="true" transform="translate(200 14)">
     <rect x="7" y="99" width="10" height="24" rx="5" fill="url(#felge-links)"></rect><rect x="223" y="99" width="10" height="24" rx="5" fill="url(#felge-links)"></rect>
     <rect x="7" y="317" width="10" height="24" rx="5" fill="url(#felge-links)"></rect><rect x="223" y="317" width="10" height="24" rx="5" fill="url(#felge-links)"></rect>
     <rect class="plan__licht" x="60" y="24" width="30" height="8" rx="4"></rect><rect class="plan__licht" x="150" y="24" width="30" height="8" rx="4"></rect>
     <rect class="plan__ruecklicht" x="58" y="404" width="32" height="8" rx="4"></rect><rect class="plan__ruecklicht" x="150" y="404" width="32" height="8" rx="4"></rect>
     <polygon points="78,20 112,20 176,420 142,420" fill="url(#glanz-links)" opacity=".7"></polygon>
+    <path class="plan__pfeil" d="M120 2 l-7 10 h14 z"></path>
   </g>
-  <path class="plan__pfeil" d="M120 2 l-7 10 h14 z" aria-hidden="true"></path>
 </svg>
 </div></div>
 </section>
@@ -785,20 +890,21 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     <linearGradient id="glas-wahl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5d7c9e"></stop><stop offset=".35" stop-color="#22374f"></stop><stop offset="1" stop-color="#0c1724"></stop></linearGradient>
     <linearGradient id="glanz-wahl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"></stop><stop offset=".5" stop-color="#fff" stop-opacity=".55"></stop><stop offset="1" stop-color="#fff" stop-opacity="0"></stop></linearGradient>
     <radialGradient id="felge-wahl"><stop offset="0" stop-color="#f4f6f8"></stop><stop offset=".7" stop-color="#aeb6bf"></stop><stop offset="1" stop-color="#6d7781"></stop></radialGradient>
+    
   </defs>
-  <rect class="plan__karosse" x="20" y="16" width="200" height="408" rx="46"></rect>
-  <g class="plan__zier" aria-hidden="true">
-    <rect x="8" y="138" width="14" height="16" rx="4"></rect><rect x="218" y="138" width="14" height="16" rx="4"></rect>
+  <g transform="translate(0 0)">
+    <rect class="plan__karosse" x="20" y="16" width="200" height="408" rx="46"></rect>
+    <g class="plan__zier" aria-hidden="true"><rect x="8" y="138" width="14" height="16" rx="4"></rect><rect x="218" y="138" width="14" height="16" rx="4"></rect></g>
   </g>
   <g class="plan__stelle" data-stelle="front" aria-hidden="true"><rect x="50" y="20" width="140" height="26" rx="13"></rect></g><g class="plan__stelle" data-stelle="haube" aria-hidden="true"><rect x="54" y="50" width="132" height="76" rx="8"></rect></g><g class="plan__stelle plan__stelle--glas" data-stelle="frontscheibe" aria-hidden="true"><rect x="58" y="130" width="124" height="36" rx="6"></rect></g><g class="plan__stelle" data-stelle="dach" aria-hidden="true"><rect x="62" y="170" width="116" height="100" rx="6"></rect></g><g class="plan__stelle plan__stelle--glas" data-stelle="heckscheibe" aria-hidden="true"><rect x="58" y="274" width="124" height="32" rx="6"></rect></g><g class="plan__stelle" data-stelle="heckdeckel" aria-hidden="true"><rect x="54" y="310" width="132" height="76" rx="8"></rect></g><g class="plan__stelle" data-stelle="heck" aria-hidden="true"><rect x="50" y="390" width="140" height="30" rx="13"></rect></g><g class="plan__stelle" data-stelle="links-vorne" aria-hidden="true"><rect x="24" y="60" width="26" height="148" rx="8"></rect></g><g class="plan__stelle" data-stelle="links-hinten" aria-hidden="true"><rect x="24" y="212" width="26" height="160" rx="8"></rect></g><g class="plan__stelle" data-stelle="rechts-vorne" aria-hidden="true"><rect x="190" y="60" width="26" height="148" rx="8"></rect></g><g class="plan__stelle" data-stelle="rechts-hinten" aria-hidden="true"><rect x="190" y="212" width="26" height="160" rx="8"></rect></g><g class="plan__stelle plan__stelle--rad" data-stelle="felgen" aria-hidden="true"><rect x="4" y="82" width="16" height="58" rx="6"></rect><rect x="220" y="82" width="16" height="58" rx="6"></rect><rect x="4" y="300" width="16" height="58" rx="6"></rect><rect x="220" y="300" width="16" height="58" rx="6"></rect></g>
-  <g class="plan__zier" aria-hidden="true">
+  <g class="plan__zier" aria-hidden="true" transform="translate(0 0)">
     <rect x="7" y="99" width="10" height="24" rx="5" fill="url(#felge-wahl)"></rect><rect x="223" y="99" width="10" height="24" rx="5" fill="url(#felge-wahl)"></rect>
     <rect x="7" y="317" width="10" height="24" rx="5" fill="url(#felge-wahl)"></rect><rect x="223" y="317" width="10" height="24" rx="5" fill="url(#felge-wahl)"></rect>
     <rect class="plan__licht" x="60" y="24" width="30" height="8" rx="4"></rect><rect class="plan__licht" x="150" y="24" width="30" height="8" rx="4"></rect>
     <rect class="plan__ruecklicht" x="58" y="404" width="32" height="8" rx="4"></rect><rect class="plan__ruecklicht" x="150" y="404" width="32" height="8" rx="4"></rect>
     <polygon points="78,20 112,20 176,420 142,420" fill="url(#glanz-wahl)" opacity=".7"></polygon>
+    <path class="plan__pfeil" d="M120 2 l-7 10 h14 z"></path>
   </g>
-  <path class="plan__pfeil" d="M120 2 l-7 10 h14 z" aria-hidden="true"></path>
 </svg>
 </div></div>
       <div class="wahl wahl--stellen">
