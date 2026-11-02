@@ -723,3 +723,27 @@ header .aktionen .knopf[aria-current="page"] { display: none; }
 }
 .schnellstart__kopf { display: grid; justify-content: start; gap: 8px; }
 @media (max-width: 860px) { .fakten li { grid-template-columns: 112px 1fr; } .fakten b { font-size: 11.5px; letter-spacing: .06em; } }
+
+/* ===== Lack mit feinen Partikeln: hell Perleffekt, dunkel Metallic. Eigene Kachel (public/bilder/flocken-*.png),
+   nur auf lackierten Flächen, nicht hinter Fliesstext auf Weiss. Statisch; beim Darüberfahren über eine Schadenart
+   verschieben sich die Flocken minimal und blitzen auf. */
+:root { --flocken: url("/bilder/flocken-hell.png"); --flocken-deckkraft: .55; }
+@media (prefers-color-scheme: dark) { :root:not([data-lack="hell"]) { --flocken: url("/bilder/flocken-dunkel.png"); --flocken-deckkraft: .7; } }
+:root[data-lack="dunkel"] { --flocken: url("/bilder/flocken-dunkel.png"); --flocken-deckkraft: .7; }
+.start__text, .seitenkopf__text, .formularseite__kopf, .band--nacht, .art, .planband__info, .rapport__kopf, .fotos__knopf, .nav-tesla, .abschluss { position: relative; isolation: isolate; }
+.start__text::before, .seitenkopf__text::before, .formularseite__kopf::before, .band--nacht::before, .art::before, .rapport__kopf::before, .fotos__knopf::before, .abschluss::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image: var(--flocken); background-size: 240px 240px; opacity: var(--flocken-deckkraft);
+  transition: background-position 600ms var(--zug), opacity 300ms ease;
+}
+.abschluss::before { background-image: url("/bilder/flocken-dunkel.png"); opacity: .55; }
+.art::before { opacity: calc(var(--flocken-deckkraft) * .8); }
+.art:hover::before { background-position: 6px -4px; opacity: 1; }
+.art:has(input:checked)::before { background-image: url("/bilder/flocken-dunkel.png"); opacity: .6; }
+@media (prefers-reduced-motion: reduce) { .start__text::before, .seitenkopf__text::before, .formularseite__kopf::before, .band--nacht::before, .art::before, .rapport__kopf::before, .fotos__knopf::before, .abschluss::before { transition: none; } }
+/* Flocken fein abgestimmt: Kachel 480 px, angezeigt 240 px (scharf auf hochauflösenden Bildschirmen), weniger Deckkraft */
+:root { --flocken-deckkraft: .75; }
+@media (prefers-color-scheme: dark) { :root:not([data-lack="hell"]) { --flocken-deckkraft: .6; } }
+:root[data-lack="dunkel"] { --flocken-deckkraft: .6; }
+.art::before { opacity: calc(var(--flocken-deckkraft) * .6); }
+.abschluss::before { opacity: .45; }

@@ -42,3 +42,6 @@ Fehlerfall A: Hinweis auf WhatsApp, E-Mail und Telefon. Doppeltes Senden gesperr
 
 ## Änderung 02.11.2026: E-Mail-Weg entfernt (Studio)
 Weg C («Per E-Mail senden») ist weg: Weg A geht ohnehin als E-Mail an den Betrieb. Es bleiben **A · Website** und **B · WhatsApp**. Ohne JavaScript bleibt das Formular über `mailto` als einziger Rückfall (sonst gäbe es ohne Skript keinen Weg). Fehlerfall A verweist auf WhatsApp und Telefon.
+
+## Partikel-Kacheln
+Zwei PNG-Kacheln, je rund 75 KB, auf jeder Seite geladen (gecacht); innerhalb des Bild-Budgets (WP5, Richtwert je Datei ≤ 200 KB). Eine kleinere Fassung (Palette, 8 Bit) ist möglich, falls Lighthouse es verlangt.

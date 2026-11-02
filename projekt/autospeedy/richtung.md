@@ -82,3 +82,11 @@ Befunde und Änderungen:
 6. Occasionen: Knopftext kürzer, eine Zeile am Handy.
 7. Datenschutzerklärung beschreibt jetzt Website-Versand und WhatsApp (Entwurf, Lücke Mail-Dienst, Rechtsprüfung nötig).
 Geprüft: Kontrast aller Seiten hell und dunkel, Handy und Desktop: 0 Befunde. Blind bewertet: nicht gelaufen.
+
+## Lack mit Partikeln (Rückmeldung Studio, 02.11.2026: «Oberfläche wie eine Lackierung, feine Partikel»)
+- Hell: Perleffekt mit feinen blau-silbernen Flocken; dunkel: Metallic mit feinen hellen Funken. Eigene Kachel `public/bilder/flocken-hell.png` und `flocken-dunkel.png` (480 px, angezeigt 240 px, je rund 75 KB), keine fremden Hintergründe (bausteine.md: backgrounds.supply nie).
+- Nur auf lackierten Flächen: Hero-Hälfte, Seitenköpfe, Schadenmeldung, Ablauf-Band, Schadenarten, Foto-Feld, Rapport-Kopf, Abschluss. Nicht hinter Fliesstext auf Weiss.
+- Bewegung: keine von selbst; beim Darüberfahren über eine Schadenart verschieben sich die Flocken um wenige Pixel und blitzen auf (600 ms); unter Reduced Motion ohne Übergang.
+- Erste Fassung verworfen: im dunklen Lack wie ein Sternenhimmel, zu grobe Punkte hinter kleiner Schrift. Zweite Fassung: viele, sehr feine Partikel, wenige Funken, weniger Deckkraft.
+- Ehrlicher wäre eine Makroaufnahme echter Metallic-Lackierung aus der Lackierkabine (Fototag); die Kachel ist eine Annäherung `[Annahme]`.
+- Kontrast: das Prüfskript misst gegen die Grundfarbe, nicht gegen die Partikel; von Auge an Zoomaufnahmen geprüft, Schrift klar lesbar.
