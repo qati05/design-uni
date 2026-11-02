@@ -18,3 +18,6 @@
 **Formular:** kein Server-Endpunkt. Das Formular übergibt an das E-Mail-Programm; der Text sagt das ehrlich und behauptet kein «gesendet».
 
 **Gemessen:** Bau mit `npm run build` (Stufe `geruest`): 0 FEHLER, 9 HINWEIS (fehlende Beschreibungen und Rechtsseiten). Lighthouse, WP5-Prüflauf, `pruefen.cjs`: **nicht gelaufen.**
+
+## Bewegung (WP3)
+GB6, GB1, GB5: Stufe 1, nur CSS (`clip-path`, `stroke-dashoffset`, Farbe), 0 KB JavaScript. Rückfall: ohne Animation steht alles offen; unter Reduced Motion aus. LCP: das Startfoto wird 900 ms lang aufgedeckt, das kann den gemessenen LCP verschieben; Lighthouse nicht gelaufen.

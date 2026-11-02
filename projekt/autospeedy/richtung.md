@@ -23,3 +23,20 @@
 - **Umsetzung:** schwarze Texthälfte gegen helles Foto im ersten Bildschirm und auf jeder Unterseite; Bänder im Wechsel Weiss und Schwarz mit schrägen Kanten; Titel kursiv wie der Schriftzug AUTO SPEEDY; kantige Knöpfe in Versalien; Blau nur als Akzent (Strich unter dem Satz, Ziffern, Knopf, Abschluss).
 - **Wunsch 3 «hell und übersichtlich»:** Kopf, Wege, Partner, Anfahrt, Formular und Fuss bleiben hell; Schwarz trägt nur Einstieg, Ablauf und Galerie. Ob das für den Betrieb noch «hell» ist, entscheidet er im Gespräch.
 - Kontrast gemessen: Weiss auf Nacht 19:1, Hellblau `#6fb0f2` auf Nacht über 7:1.
+
+## Richtung C «Logo-Kontrast» (Rückmeldung Studio, 02.11.2026: «nicht schwarz-weiss, der Kontrast soll mit den Logo-Farben sein»)
+- Gegenpole aus dem Logo: **Navy `#1f2d40`** (S-Schwung, Pipette `#203040`) gegen **Silber `#dfe2e8` und Weiss** (Schatten `#b8b8c0`); Akzent **Schild-Blau** der Fassade (`#1566b8` auf hell, `#8cc2f5` auf Navy). Schwarz entfällt.
+- Kontrast: Weiss auf Navy 13,9:1; Hellblau auf Navy 7,4:1; Navy auf Silber 10,7:1.
+
+## Bewegung (DP2, Entscheid 12), aus der Galerie gewählt
+| Baustein | Wo | Weil | Stand |
+|---|---|---|---|
+| GB6 Form öffnet das Bild (Hauptsache) | Foto im ersten Bildschirm und in jedem Seitenkopf, einmal 900 ms | Der schräge Schnitt ist der Schwung des Logos; Navy schiebt sich vom Foto weg | gebaut |
+| GB1 Strich zeichnet sich | Schwung unter dem grossen Satz, einmal 700 ms | Der Schwung des S ist das eine Ding der Marke, das «gezogen» wird | gebaut |
+| GB5 Liste mit aktivem Eintrag | K + L Partner, Tesla aktiv, Zeiger wählt um, 160 ms | vier echte Einträge, Tesla ist Wunsch 2 | gebaut |
+| GB7 Vorher und nachher | Carrosserie, Hagel, Felgen | stärkster Beleg einer Carrosserie | **nicht gebaut**: braucht zwei Fotos vom selben Standpunkt (Fototag) |
+| GB3 Fallblatt «jetzt offen» | erster Bildschirm | Schadenmeldung: Kunde will wissen, ob jemand abnimmt | **nicht gebaut**: Samstag, Feiertage, Ferien fehlen, ein falsches «offen» wäre eine falsche Zusage |
+| GB11 Menü als Blatt von unten | Handy | Leiste unten ist schon da | Option |
+| GB2, GB4, GB8, GB10 | – | kein Grund aus dem Betrieb (keine gepflegten Inhalte, keine Masse, keine echten Kundenfragen) | nein |
+Fremde Baukästen (motionin.design, beui.dev, backgrounds.supply) nur als Anschauung, nichts übernommen (bausteine.md).
+Boden gemessen: Reduced Motion 0 Animationen; nach 5 s läuft nichts; `h1` und Telefon nach 1,0 s lesbar (Text wird nicht animiert).

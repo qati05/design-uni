@@ -310,3 +310,52 @@ header { border-bottom: 2px solid var(--nacht); }
   .formularseite__kopf { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 24px), 0 100%); padding: 32px var(--rand) 52px; }
   .formularseite form { margin: 24px var(--rand) 40px; }
 }
+
+/* ===== Kontrast in den Logo-Farben (Rückmeldung Studio, 02.11.2026): Navy des S-Schwungs gegen Silber und Weiss,
+   Schild-Blau der Fassade als Akzent. Ersetzt das Schwarz der Richtung «Yin und Yang». */
+:root {
+  --nacht: #1f2d40;               /* Logo: Navy des S-Schwungs (#203040) */
+  --nacht-2: #283a52;
+  --silber: #b8b8c0;              /* Logo: Schatten des Schwungs */
+  --silber-hell: #dfe2e8;
+  --gebotsblau-auf-nacht: #8cc2f5; /* Schild-Blau, aufgehellt für Navy (7,4:1) */
+  --auf-nacht-leise: #c3cad3;
+  --zug: cubic-bezier(.2, .8, .2, 1);
+}
+.idee::after { content: none; }
+.band--silber { background: var(--silber-hell); }
+.band--nacht .ablauf li { border-top-color: var(--gebotsblau-auf-nacht); }
+.start .fakten, .start .fakten li { border-color: rgba(184,184,192,.35); }
+.wege, .partner, .partner li, .leistung, header { border-color: var(--nacht); }
+.wege li + li a { border-left-color: var(--nacht); }
+
+/* GB1 · Der Schwung aus dem Logo zeichnet sich unter den grossen Satz (einmal, 700 ms) */
+.schwung { display: block; width: clamp(140px, 14vw, 220px); height: auto; margin-top: -6px; overflow: visible; }
+.schwung path { fill: none; stroke: var(--gebotsblau-auf-nacht); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; animation: schwung-zug 700ms var(--zug) 250ms both; }
+@keyframes schwung-zug { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* GB6 · Der schräge Schnitt des Schwungs öffnet das Foto (einmal, 900 ms). Ohne Animation steht das Foto offen. */
+.start__bild img, .seitenkopf__bild img { animation: schnitt-auf 900ms var(--zug) both; }
+@keyframes schnitt-auf {
+  from { clip-path: polygon(calc(100% + 7vw) 0, 100% 0, 100% 100%, 100% 100%); }
+  to   { clip-path: polygon(7vw 0, 100% 0, 100% 100%, 0 100%); }
+}
+
+/* GB5 · Partnerliste mit aktivem Eintrag: Tesla ist aktiv, Zeiger wählt um (160 ms) */
+.partner li { padding: 22px 16px; transition: background-color 160ms ease, color 160ms ease; }
+.partner li:first-child, .partner:hover li:hover { background: var(--nacht); color: #fff; }
+.partner:hover li:first-child:not(:hover) { background: transparent; color: var(--tinte); }
+.partner li:first-child a, .partner li:hover a { color: inherit; }
+.partner li:first-child small { color: var(--gebotsblau-auf-nacht); }
+.partner:hover li:first-child:not(:hover) small { color: var(--gebotsblau-dunkel); }
+
+@media (max-width: 860px) {
+  .start__bild img, .seitenkopf__bild img { animation-name: schnitt-auf-handy; }
+  .schwung { width: 150px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .schwung path, .start__bild img, .seitenkopf__bild img { animation: none !important; clip-path: none; stroke-dashoffset: 0; }
+  .partner li { transition: none; }
+}
+
+@keyframes schnitt-auf-handy { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }

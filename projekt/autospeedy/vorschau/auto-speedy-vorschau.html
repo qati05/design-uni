@@ -323,6 +323,55 @@ header { border-bottom: 2px solid var(--nacht); }
   .formularseite form { margin: 24px var(--rand) 40px; }
 }
 
+/* ===== Kontrast in den Logo-Farben (Rückmeldung Studio, 02.11.2026): Navy des S-Schwungs gegen Silber und Weiss,
+   Schild-Blau der Fassade als Akzent. Ersetzt das Schwarz der Richtung «Yin und Yang». */
+:root {
+  --nacht: #1f2d40;               /* Logo: Navy des S-Schwungs (#203040) */
+  --nacht-2: #283a52;
+  --silber: #b8b8c0;              /* Logo: Schatten des Schwungs */
+  --silber-hell: #dfe2e8;
+  --gebotsblau-auf-nacht: #8cc2f5; /* Schild-Blau, aufgehellt für Navy (7,4:1) */
+  --auf-nacht-leise: #c3cad3;
+  --zug: cubic-bezier(.2, .8, .2, 1);
+}
+.idee::after { content: none; }
+.band--silber { background: var(--silber-hell); }
+.band--nacht .ablauf li { border-top-color: var(--gebotsblau-auf-nacht); }
+.start .fakten, .start .fakten li { border-color: rgba(184,184,192,.35); }
+.wege, .partner, .partner li, .leistung, header { border-color: var(--nacht); }
+.wege li + li a { border-left-color: var(--nacht); }
+
+/* GB1 · Der Schwung aus dem Logo zeichnet sich unter den grossen Satz (einmal, 700 ms) */
+.schwung { display: block; width: clamp(140px, 14vw, 220px); height: auto; margin-top: -6px; overflow: visible; }
+.schwung path { fill: none; stroke: var(--gebotsblau-auf-nacht); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; animation: schwung-zug 700ms var(--zug) 250ms both; }
+@keyframes schwung-zug { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* GB6 · Der schräge Schnitt des Schwungs öffnet das Foto (einmal, 900 ms). Ohne Animation steht das Foto offen. */
+.start__bild img, .seitenkopf__bild img { animation: schnitt-auf 900ms var(--zug) both; }
+@keyframes schnitt-auf {
+  from { clip-path: polygon(calc(100% + 7vw) 0, 100% 0, 100% 100%, 100% 100%); }
+  to   { clip-path: polygon(7vw 0, 100% 0, 100% 100%, 0 100%); }
+}
+
+/* GB5 · Partnerliste mit aktivem Eintrag: Tesla ist aktiv, Zeiger wählt um (160 ms) */
+.partner li { padding: 22px 16px; transition: background-color 160ms ease, color 160ms ease; }
+.partner li:first-child, .partner:hover li:hover { background: var(--nacht); color: #fff; }
+.partner:hover li:first-child:not(:hover) { background: transparent; color: var(--tinte); }
+.partner li:first-child a, .partner li:hover a { color: inherit; }
+.partner li:first-child small { color: var(--gebotsblau-auf-nacht); }
+.partner:hover li:first-child:not(:hover) small { color: var(--gebotsblau-dunkel); }
+
+@media (max-width: 860px) {
+  .start__bild img, .seitenkopf__bild img { animation-name: schnitt-auf-handy; }
+  .schwung { width: 150px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .schwung path, .start__bild img, .seitenkopf__bild img { animation: none !important; clip-path: none; stroke-dashoffset: 0; }
+  .partner li { transition: none; }
+}
+
+@keyframes schnitt-auf-handy { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+
 header{top:env(safe-area-inset-top,0px)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:25;background:#f3f5f6}
 :root{color-scheme:light}
@@ -350,6 +399,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <div class="start">
   <div class="start__text">
     <p class="idee">Vom Kratzer bis zum Blechschaden.</p>
+<svg class="schwung" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 18 C 60 4, 150 2, 236 10" pathLength="1"></path></svg>
     <h1>Carrosserie und Spritzwerk in Altstätten SG</h1>
     <ul class="fakten">
       <li><b aria-hidden="true">1</b><span>Alte Landstrasse 63, 9450 Altstätten</span></li>
@@ -380,7 +430,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   <p data-luecke>Lücke: Wie lange eine Reparatur dauert und ob es einen Ersatzwagen gibt, sagt der Betrieb noch.</p>
 </section>
 
-<section class="band band--weiss" aria-labelledby="partner-titel">
+<section class="band band--silber" aria-labelledby="partner-titel">
   <h2 id="partner-titel" class="band__titel">Zertifizierte K + L Partner von</h2>
   <ul class="partner">
     <li><a href="#tesla">Tesla <small>Approved Body Shop</small></a></li>
@@ -431,6 +481,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <div class="formularseite">
 <div class="formularseite__kopf">
   <p class="idee idee--klein">Schaden passiert. Jetzt melden.</p>
+<svg class="schwung" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 18 C 60 4, 150 2, 236 10" pathLength="1"></path></svg>
   <h1>Schaden melden bei Auto Speedy in Altstätten</h1>
   <p>Beschreiben Sie kurz, was passiert ist. Die Abwicklung mit Ihrer Versicherung übernehmen wir.</p>
   <p class="formularseite__tel">Lieber sprechen? <a class="tel" href="tel:+41717558861" data-zaehl="anruf" data-ort="schaden">071 755 88 61</a></p>
@@ -471,6 +522,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <section class="seitenkopf">
 <div class="seitenkopf__text">
 <p class="idee idee--klein">Tesla Approved Body Shop.</p>
+<svg class="schwung" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 18 C 60 4, 150 2, 236 10" pathLength="1"></path></svg>
 <h1>Tesla-Carrosserie in Altstätten SG</h1>
 
   <p>Auto Speedy ist von Tesla als Karosseriewerkstatt zugelassen. Melden Sie den Schaden an Ihrem Tesla direkt hier; das Formular wählt «Tesla» schon aus.</p>
@@ -506,6 +558,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <section class="seitenkopf">
 <div class="seitenkopf__text">
 <p class="idee idee--klein">Vom Blechschaden bis zum Chassisschaden.</p>
+<svg class="schwung" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 18 C 60 4, 150 2, 236 10" pathLength="1"></path></svg>
 <h1>Carrosserie und Unfallreparatur in Altstätten SG</h1>
 
   <p>Wir reparieren Unfallschäden nach Herstellervorgaben und verwenden ausschliesslich Original-Ersatzteile. Die Schadenabwicklung mit der Versicherung erledigen wir für Sie.</p>
@@ -546,6 +599,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <section class="seitenkopf">
 <div class="seitenkopf__text">
 <p class="idee idee--klein">Kleine Lackschäden, ganze Lackierungen.</p>
+<svg class="schwung" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 18 C 60 4, 150 2, 236 10" pathLength="1"></path></svg>
 <h1>Lackiererei und Spritzwerk in Altstätten SG</h1>
 
   <p>Kleine Lackschäden reparieren wir mit möglichst wenig Aufwand, ohne grosse Demontage. Für ganze Lackierungen haben wir neue, grössere Lackierkabinen.</p>
@@ -582,6 +636,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <section class="seitenkopf">
 <div class="seitenkopf__text">
 <p class="idee idee--klein">Felgen und Folien.</p>
+<svg class="schwung" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 18 C 60 4, 150 2, 236 10" pathLength="1"></path></svg>
 <h1>Alufelgen und Folierung in Altstätten SG</h1>
 
   <p>Bilder aus unserer Arbeit an Alufelgen und Folierungen.</p>
@@ -619,6 +674,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <section class="seitenkopf">
 <div class="seitenkopf__text">
 <p class="idee idee--klein">Occasionen auf dem Areal.</p>
+<svg class="schwung" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 18 C 60 4, 150 2, 236 10" pathLength="1"></path></svg>
 <h1>Occasionen und Autoankauf in Altstätten SG</h1>
 
   <p>Auf unserem Areal finden Sie laufend verschiedene Occasionen. Als markenunabhängige Garage kaufen wir auch Ihr Auto an.</p>
@@ -646,6 +702,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <section class="seitenkopf">
 <div class="seitenkopf__text">
 <p class="idee idee--klein">Zehn Leute, fünf Bereiche.</p>
+<svg class="schwung" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 18 C 60 4, 150 2, 236 10" pathLength="1"></path></svg>
 <h1>Das Team von Auto Speedy in Altstätten</h1>
 
   <p>Von der Annahme bis zum Finish: So ist das Team von Auto Speedy aufgeteilt.</p>
@@ -682,6 +739,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <section class="seitenkopf">
 <div class="seitenkopf__text">
 <p class="idee idee--klein">Alte Landstrasse 63.</p>
+<svg class="schwung" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 18 C 60 4, 150 2, 236 10" pathLength="1"></path></svg>
 <h1>Kontakt und Anfahrt: Auto Speedy in Altstätten</h1>
 
   <p>Auto Speedy AG<br>Alte Landstrasse 63<br>9450 Altstätten SG</p>
