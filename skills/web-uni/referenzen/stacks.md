@@ -24,6 +24,19 @@ Stand 1. November 2026. Versionen `[gelesen · npm-Registry, 2026-11-01]`; **vor
 
 **Astro mit statischer Ausgabe.** Ausnahmen: Next.js (Konten, Shop, Buchung, dynamische Daten) und Baukasten (Kunde hat ihn oder verlangt ihn). Gerüst: [../vorlage-astro/](../vorlage-astro/README.md). Der Entscheidbaum unten bleibt gültig für die Frage, **wann man vom Standard abweicht**.
 
+## Zwei Stacks zusammen (Kombinationen) `[nicht gebaut]`
+
+Sinnvoll, wenn ein Wunsch zwei Arten von Seiten verlangt. Alle Muster sind `[Annahme]`, bis ein Spike sie misst.
+
+| Muster | Wann | Preis |
+|---|---|---|
+| **Astro mit React-Inseln** (einzelne Bauteile hydrieren, der Rest bleibt HTML) | eine Seite hat einen echten interaktiven Teil: Konfigurator, Rechner, Terminwahl | JavaScript nur für diese Insel; Insel erst bei Sichtbarkeit laden |
+| **Astro für Firmenseite + Next.js für Portal oder Shop** auf einer Subdomain | Kunde will schnelle Marken-Seite und ein Kundenkonto oder eine Buchung | zwei Bauten und zwei Hostings; Tokens, Kopf und Fuss müssen geteilt werden, sonst driftet die Marke auseinander |
+| **Astro + Headless- oder Git-CMS** | Betrieb will Zeiten, Fotos, Texte selbst ändern | Konto und Schulung; Eignung für Laien ist `[nicht gebaut]` (Keystatic, Decap, Tina nur gelesen) |
+| **Astro + Baukasten-Shop** (zum Beispiel Shopify) | kleiner Shop, Marke eigenständig | Anbieterbindung für den Shop, Fremd-Skripte im Warenkorb |
+
+Regeln: (1) **eine Seite, ein Stack**; die Grenze liegt an der Adresse, nicht mitten in einer Seite. (2) Gemeinsame **Tokens** aus einer Quelle (design-uni Schritt 4). (3) Gemeinsame **Prüfungen**: dieselben Budgets und Prüfwerkzeuge für beide Teile. (4) Der Kunde bekommt das **Kostenblatt für den zweiten Stack** wie für jede Bewegung (Pflege, Hosting, Wechselkosten).
+
 ## Die fünf Klassen im Einzelnen
 
 ### A · Statisch von Hand (HTML, CSS, wenig JS, Bauskript) `[gebaut und gemessen]`

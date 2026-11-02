@@ -84,6 +84,8 @@ Der Entscheid steht als Blatt `entscheid-stack.md`:
 - **Ausnahme 1, Next.js:** nur bei Konten, Anmeldung, Shop, Buchung oder stark dynamischen Daten. Begründung: im Spike +133 KB JS und rund 1 s LCP bei gleichem Inhalt (messungen.md).
 - **Ausnahme 2, Baukasten (Webflow, Wix, Framer):** nur wenn der Kunde ihn schon hat oder ausdrücklich verlangt, oder wenn er **ganz ohne Entwickler** pflegen will und das gesagt hat.
 - **Jede Abweichung** steht mit einem «Weil»-Satz im Entscheidblatt. Ohne diesen Satz gilt Astro.
+- **Die anderen Stacks bleiben im Werkzeugkasten** und werden nach dem gewählt, was der Kunde braucht oder erwartet (stacks.md, Klassen A bis E). Der Standard ist der Ausgangspunkt, kein Verbot.
+- **Kombinationen** sind erlaubt, wenn der Wunsch zwei Dinge verlangt (zum Beispiel ruhige Firmenseite plus Kundenportal): [stacks.md](referenzen/stacks.md), Abschnitt «Zwei Stacks zusammen». Regel: **eine Seite, ein Stack**; die Grenze liegt an der Adresse (Unterseite oder Subdomain), nie mitten in einer Seite.
 - **Gesichert** ist: Astro kostet bei statischer Ausgabe nichts gegenüber von Hand geschriebenem HTML und trägt ein echtes Projekt (12 Seiten, 50 Maschinenprüfungen bestanden). **Nicht gebaut** ist: das Bearbeiten durch Laien (Git-CMS) und Formulare mit Server.
 
 **V2 · Entscheid geprüft:** ein zweiter Blick (Unteragent ohne Kontext oder eine Fachperson) bekommt nur das Blatt und das Anforderungsblatt und nennt den stärksten Einwand. Der Einwand wird beantwortet oder der Entscheid geändert.
