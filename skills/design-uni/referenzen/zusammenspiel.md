@@ -30,7 +30,8 @@ Stand 2. November 2026 · gilt für alle drei Skills. Jedes Thema hat **genau ei
 | Messplan (ein Dokument `messplan.md`) | text-uni | design-uni liefert Zählpunkte, web-uni den Zählendpunkt |
 | Stack, Hoster, Domain, HTTPS, Sicherheit, Sicherungen | web-uni | – |
 | Budgets: Ladezeit, Core Web Vitals, JS, Bildgrössen | web-uni | – |
-| Fremde Hosts, Cookies, Datenschutz-Technik (DSG) | web-uni | Grundregel bleibt: nichts von fremden Hosts ohne Not |
+| Fremde Hosts, Cookies, Datenschutz-Technik (DSG), Schriften ausliefern (`font-display`) | web-uni | Grundregel bleibt: nichts von fremden Hosts ohne Not |
+| Inhalt ohne JavaScript erreichbar | design-uni (Barrierefreiheit) | text-uni TI31 und web-uni verweisen |
 | Formular-Backend, Spamschutz, Zählendpunkt | web-uni | – |
 | Testumgebung für alle maschinellen Prüfungen (ein Prüflauf) | web-uni | design-uni und text-uni liefern die Prüfungen |
 | Livegang, Pflege durch den Betrieb, Zugänge, Übergabe | web-uni | text-uni liefert die Regeln für Suche und Umzug |
@@ -62,7 +63,7 @@ Getroffen am 2. November 2026 `[Entscheid · Studio]`, nach dem Abgleich der dre
 | Zeilenlänge | 50 bis 75 Zeichen, nie über 80; am Handy gilt nur «nie über 80» | design-uni |
 | Messbreiten für alle Prüfungen | 1440 × 900 und 390 × 844; Überlauf zusätzlich bei 360 | design-uni |
 | Titel und Beschreibung | 40 bis 60 Zeichen, über 65 Fehler; Beschreibung 110 bis 155 (S3, S12) | text-uni |
-| Formular | 3 bis 5 Felder, höchstens 4 Pflicht; freiwillige Felder mit «(freiwillig)» | design-uni (Anzahl), text-uni (Wortlaut) |
+| Formular | 3 bis 5 Felder, höchstens 4 Pflicht; freiwillige Felder mit «(freiwillig)»; ein Sternchen für Pflicht nur, wenn es über dem Formular erklärt ist (U11) | design-uni (Anzahl), text-uni (Wortlaut) |
 | JS, Bilder, LCP | Budgets in web-uni (WP5) | web-uni |
 | Lighthouse | Schwelle 90; über der Schwelle wird nicht weiter optimiert | web-uni |
 | Bewegung | keine Mengenregel; Boden: Reduced Motion, Inhalt ohne Bewegung, Pause ab 5 s (Entscheid 12), Tabelle in `bewegung.md` | design-uni |
@@ -98,13 +99,13 @@ Jeder Schritt nennt das Tor. Fällt ein Tor, geht es zum Schritt zurück, der da
 4. **DP1 Richtung** (design-uni), blind als Vorfilter, mit Register.
 5. **WP2 Stack und Hoster** (web-uni). Ist Bewegung oder 3D Kern des Wunsches, läuft WP2 nach DP1.
 6. **DP2 Abstand, Tokens, welche Bewegung die Idee braucht** (design-uni) → **WP3 Bewegungstechnik und Kostenblatt** (web-uni).
-7. **TP2 Botschaft** (text-uni), blind, nur Text. Dazu der Abgleich: Satz aus der Idee und erster Satz widersprechen sich nicht (Entscheid 2).
+7. **TP2 Botschaft** (text-uni), blind, nur Text: erster Satz, `h1`-Etikett und `<title>` als Entwurf. Dazu der Abgleich: Satz aus der Idee und erster Satz widersprechen sich nicht (Entscheid 2). Der Fünf-Sekunden-Test am Bild gehört zu DP4.
 8. **Ziele an die Gestaltung** (text-uni) → design-uni, **vor** dem Bau.
 9. **Text und Inhalt vor Gestalt** → **DP3 = TP3** in einem Lauf. Fragen, die erst am Bau prüfbar sind (Ladezeit, tote Links, Messplan), wandern zu DP6.
 10. **TP4 blind gegen die Konkurrenz** (text-uni), zwei Sätze mit denselben Referenzen, je eine eigene Fassung.
 11. **Gerüst** (web-uni) → **DP4 erster Bildschirm** (design-uni), vorher `vermessen.cjs` und `vergleichen.cjs`.
 12. **DP5 Startseite mit Bewegung** (design-uni, braucht WP3).
-13. **Bau aller Seiten** mit Titel, Beschreibung, strukturierten Daten, Zitierfähigkeit, Technik → **ein Prüflauf**: DP6 + TP7 + WP4 + WP5; dazu TP5 und TP6.
+13. **Bau aller Seiten** mit Titel, Beschreibung, strukturierten Daten, Zitierfähigkeit, Technik, dazu **Impressum und Datenschutzerklärung** (text-uni) → **ein Prüflauf**: DP6 + TP7 + WP4 + WP5; dazu TP5 und TP6.
 14. **DP7 Kunden-Agenten**, **DP8 ganze Website** (design-uni), als Vorfilter.
 15. **WP6 Wirkung mit Menschen**, wo es um Wirkung geht (Entscheid 1).
 16. **TP8 Messplan** (text-uni, ein Dokument).
@@ -113,3 +114,11 @@ Jeder Schritt nennt das Tor. Fällt ein Tor, geht es zum Schritt zurück, der da
 19. **WP9 Livegang nach Freigabe** (web-uni): `noindex` weg, `robots.txt`, Sitemap, `canonical`, Weiterleitungen, Einreichen, Nachprüfung nach 1, 4 und 12 Wochen.
 
 **Ohne Unteragenten:** Alle Bewerter-Tore heissen «nicht gelaufen». Gebaut wird trotzdem, wenn der Auftraggeber es will, und der Bericht sagt das oben.
+
+## 7. Prüfen: sperren oder Hinweis
+
+- **Jede Prüfung hat eine Kennung und einen Besitzer.** Sie läuft einmal im gemeinsamen Prüflauf. Die anderen Skills nennen sie mit dieser Kennung und zählen sie nicht noch einmal.
+- **Werkzeuge kennen drei Stufen:** FEHLER (sperrt, nach Entscheid 13), HINWEIS (wird gemeldet, sperrt nicht) und «nicht geprüft». Exit-Code 1 nur bei FEHLER.
+- **Gerüst und Vorschau:** Fehlen Texte, die erst später geschrieben werden (Beschreibung, Rechtsseiten), meldet der Bau einen HINWEIS und baut weiter. Vor der Abgabe (DP6, TP7) sind sie FEHLER.
+- **Formular ohne Backend:** Solange kein Server-Endpunkt gebaut ist, gilt: sichtbare Rückmeldung im Browser sofort; der Text sagt ehrlich, was geschieht (z. B. «Ihr E-Mail-Programm öffnet sich»). «Gesendet» heisst es erst mit Endpunkt.
+- **Menschentest:** Ablauf nur in `blindtest.md` (design-uni). web-uni und text-uni verweisen darauf.
