@@ -1,0 +1,6 @@
+---
+// Platzhalter-Satz für den Öffnungsstatus; das Skript ersetzt ihn je nach Tageszeit. Ohne Skript bleibt dieser Satz stehen.
+import b from "../content/betrieb.json";
+const u = (z: string) => `${z} Uhr`;
+---
+<p class="status" data-status>Montag bis Freitag geöffnet, mittags von {u(b.mittag.von)} bis {u(b.mittag.bis)} zu.</p>

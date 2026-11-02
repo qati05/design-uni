@@ -1,0 +1,33 @@
+/* Neutrale Grundgestaltung der Vorlage. Sie gehört keinem Projekt: Farben, Schriften und Abstände kommen im Projekt
+   aus den Tokens (design-uni Schritt 4) und ersetzen diese Datei. Mindestmass: Kontrast 4,5:1, Tippziele 44 px. */
+:root { --grund: #f6f6f4; --tinte: #161616; --leise: #555; --linie: #cfcfca; --signal: #1d4ed8; --rahmen: 72rem; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--grund); color: var(--tinte); font: 1rem/1.55 system-ui, sans-serif; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+.rahmen { max-width: var(--rahmen); margin: 0 auto; padding: 0 1rem; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.sprung { position: absolute; left: -999px; } .sprung:focus { left: 1rem; top: 1rem; background: #fff; padding: .5rem; z-index: 9; }
+.vorschau { background: #fff3c4; font-size: .875rem; padding: .25rem 0; }
+.kopf { border-bottom: 1px solid var(--linie); background: #fff; }
+.kopf-innen { display: flex; align-items: center; gap: 1rem; min-height: 4rem; flex-wrap: wrap; }
+.marke { text-decoration: none; font-weight: 700; }
+.nav-desktop ul { display: flex; gap: 1rem; list-style: none; margin: 0; padding: 0; }
+.kopf-aktionen { margin-left: auto; display: flex; gap: .5rem; align-items: center; }
+.knopf { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: .5rem 1rem; background: var(--tinte); color: #fff; text-decoration: none; font-weight: 600; border: 1px solid var(--tinte); }
+.knopf-leise { background: transparent; color: var(--tinte); }
+.knopf-gross { min-height: 52px; padding: .75rem 1.25rem; }
+.menue { display: none; } @media (max-width: 760px) { .nav-desktop { display: none; } .menue { display: block; } .tel-zahl { display: none; } }
+.hero { padding: 3rem 0 2rem; } .hero h1 { font-size: clamp(2rem, 6vw, 3.5rem); line-height: 1.05; margin: 0 0 1rem; }
+.lead { font-size: 1.25rem; max-width: 40rem; } .spalte { max-width: 42rem; } .klein { font-size: .875rem; color: var(--leise); }
+.abschnitt { padding: 2rem 0; border-top: 1px solid var(--linie); } .aktionen { display: flex; gap: .75rem; flex-wrap: wrap; margin: 1rem 0; }
+.paar { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; } @media (max-width: 760px) { .paar { grid-template-columns: 1fr; } }
+.zeilen { list-style: none; padding: 0; } .zeilen a { display: grid; grid-template-columns: 1fr auto; gap: .25rem 1rem; padding: .75rem 0; border-bottom: 1px solid var(--linie); text-decoration: none; }
+.zeilen .zusatz { grid-column: 1; color: var(--leise); }
+.zeiten th { text-align: left; padding-right: 1rem; font-weight: 600; } .zeiten td, .zeiten th { padding: .25rem 0; vertical-align: top; }
+.bild { margin: 0; } .bild img { display: block; max-width: 100%; height: auto; } .bild figcaption { font-size: .875rem; color: var(--leise); }
+.luecke { border-left: 3px solid var(--linie); padding-left: .75rem; color: var(--leise); }
+.abschluss { background: var(--tinte); color: #fff; padding: 2.5rem 0; margin-top: 2rem; } .abschluss .knopf { background: #fff; color: var(--tinte); border-color: #fff; } .abschluss .knopf-leise { background: transparent; color: #fff; }
+.fuss { border-top: 1px solid var(--linie); padding: 2rem 0; background: #fff; } .fuss-raster { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 2rem; } .fuss ul { list-style: none; padding: 0; }
+.karten { list-style: none; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); } .karte { background: #fff; border: 1px solid var(--linie); padding: 1rem; } .sterne svg { width: 1.1rem; height: 1.1rem; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

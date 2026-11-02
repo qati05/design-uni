@@ -1,0 +1,23 @@
+---
+// Google-Bewertungen als Karten (kein Widget, keine fremden Skripte). Daten: content/bewertungen.json, content/betrieb.json.
+import b from "../content/betrieb.json";
+import karten from "../content/bewertungen.json";
+const stern = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="#121416" d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg>';
+const sterne = (n: number) => stern.repeat(n);
+const { bewertung: bw } = b;
+---
+<section class="abschnitt" aria-labelledby="bew-titel"><div class="rahmen">
+<h2 id="bew-titel">{bw.note} von 5 auf Google bei {bw.anzahl} Bewertungen</h2>
+<div class="bewertung">
+<div class="bew-kopf"><p class="bew-zahl" aria-hidden="true">{bw.note}</p><span class="sterne" aria-hidden="true" set:html={sterne(5)}></span>
+<p><strong>{bw.anzahl} Bewertungen auf Google Maps</strong><br><span class="klein">Stand {bw.stand}. Der Betrieb hat noch keine Bewertung beantwortet.</span></p>
+{bw.verteilung.map(([s, n]) => (
+  <div class="balken"><span>{s}&nbsp;Sterne</span><span class="spur"><span class="fuell" style={`--w:${Math.round((n / bw.anzahl) * 100)}%`}></span></span><span>{n}</span></div>
+))}
+<p><a href={b.links.google} data-zaehl="route" data-ort="bewertungen">Alle Bewertungen auf Google lesen</a></p></div>
+<ul class="karten">
+{karten.map((k) => (
+  <li class="karte"><span class="sterne" role="img" aria-label={`${k.sterne} von 5 Sternen`} set:html={sterne(k.sterne)}></span><blockquote><p>{k.text}</p></blockquote><p class="quelle">Google-Bewertung, {k.monat}</p><span class="marke-offen">Einwilligung der Verfasserin oder des Verfassers offen</span></li>
+))}
+</ul>
+</div></div></section>

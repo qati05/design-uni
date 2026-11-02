@@ -1,0 +1,5 @@
+---
+import b from "../content/betrieb.json";
+const { ort } = Astro.props;
+---
+<a href={`mailto:${b.mail}`} data-zaehl="mail" data-ort={ort}>{b.mail}</a>

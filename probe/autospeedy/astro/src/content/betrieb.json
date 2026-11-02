@@ -1,0 +1,43 @@
+{
+  "name": "Auto Speedy AG",
+  "strasse": "Alte Landstrasse 63",
+  "plz": "9450",
+  "ort": "Altstätten",
+  "kanton": "SG",
+  "land": "CH",
+  "uid": "CHE-221.907.243",
+  "hr": "CH-320.3.080.980-3",
+  "mail": "info@autospeedy.ch",
+  "tel1": { "zeige": "071 755 88 61", "href": "tel:+41717558861", "e164": "+41717558861" },
+  "tel2": { "zeige": "076 615 44 41", "href": "tel:+41766154441" },
+  "geo": { "lat": 47.369432, "lon": 9.559048 },
+  "links": {
+    "route": "https://www.google.com/maps/search/?api=1&query=Auto+Speedy+AG%2C+Alte+Landstrasse+63%2C+9450+Altst%C3%A4tten&query_place_id=ChIJfWvlb90Xm0cRkco0yhXSEAk",
+    "google": "https://www.google.com/maps/search/?api=1&query=Auto+Speedy+AG&query_place_id=ChIJfWvlb90Xm0cRkco0yhXSEAk",
+    "autoscout": "https://www.autoscout24.ch/de/s/seller-67678",
+    "carrosseriesuisse": "https://www.carrosseriesuisse.ch/de/automobilisten/branchenverzeichnis/detail/auto-speedy-ag-1"
+  },
+  "zeiten": [
+    { "tage": "Montag bis Donnerstag", "ld": ["Monday", "Tuesday", "Wednesday", "Thursday"], "fenster": [["7.30", "12.00"], ["13.15", "17.30"]] },
+    { "tage": "Freitag", "ld": ["Friday"], "fenster": [["7.30", "12.00"], ["13.15", "17.15"]] },
+    { "tage": "Samstag und Sonntag", "zu": true }
+  ],
+  "mittag": { "von": "12.00", "bis": "13.15" },
+  "bewertung": {
+    "note": "4,8",
+    "anzahl": 37,
+    "stand": "1. November 2026",
+    "verteilung": [[5, 33], [4, 2], [3, 1], [2, 0], [1, 1]]
+  },
+  "nav": [
+    ["carrosserie.html", "Carrosserie"],
+    ["lackiererei.html", "Lackiererei"],
+    ["felgen-folierung.html", "Felgen und Folierung"],
+    ["occasionen.html", "Occasionen"],
+    ["betrieb.html", "Betrieb"],
+    ["kontakt.html", "Kontakt"]
+  ],
+  "dienstAnzahl": 4,
+  "teslaModelle": ["Model 3", "Model Y", "Model S", "Model X"],
+  "vorschauZeile": "Vorschau zur Freigabe, nicht veröffentlicht. Stand 1. November 2026."
+}

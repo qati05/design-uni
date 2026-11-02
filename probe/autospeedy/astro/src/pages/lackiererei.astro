@@ -1,0 +1,36 @@
+---
+import Seite from "../layouts/Seite.astro";
+import Bild from "../components/Bild.astro";
+import SchadenKnopf from "../components/SchadenKnopf.astro";
+import Luecke from "../components/Luecke.astro";
+---
+<Seite title="Lackschaden und Neulackierung in Altstätten | Auto Speedy" desc="Lackschaden, Neulackierung, Aufpolieren und Fahrzeugaufbereitung in Altstätten. Die Lackiererei von Auto Speedy arbeitet in der Kabine. Schaden melden." aktiv="lackiererei.html" abschlussOrt="abschluss-lack">
+<section class="hero"><div class="rahmen">
+<h1>Lackschaden reparieren in Altstätten</h1>
+<p class="lead">Ihr Auto hat einen Lackschaden. Auto Speedy repariert einfache Lackschäden, lackiert komplett neu und bereitet Fahrzeuge auf.</p>
+<div class="aktionen"><SchadenKnopf ort="lack-hero" /></div>
+<Bild datei="kabine-defender-seite.jpg" alt="Land Rover Defender in der Lackierkabine auf einem Boden mit blauen Rampen" caption="Defender in der Lackierkabine, die Motorhaube ist abgedeckt" klasse="bild-rechts" zug breite={1200} hoehe={900} lazy={false} />
+</div></section>
+
+<section class="abschnitt" aria-labelledby="lack-liste"><div class="rahmen">
+<h2 id="lack-liste">Das lackiert und poliert Auto Speedy</h2>
+<ul class="liste-punkte spalte">
+<li>einfache Lackschäden</li>
+<li>komplette Neulackierung</li>
+<li>Versicherungsfälle</li>
+<li>Restaurationen</li>
+<li>Aufpolieren</li>
+<li>Lackieren aller Gegenstände</li>
+<li>Fahrzeugaufbereitung</li>
+</ul></div></section>
+
+<section class="abschnitt" aria-labelledby="wie-titel"><div class="rahmen"><div class="paar">
+<div><h2 id="wie-titel">Erst abkleben, dann lackieren</h2>
+<p>Auf den Fotos aus der Kabine sehen Sie Abdeckband und blaue Folie an Tür, Radhaus und Stossstange. Das Fahrzeug steht in einer Lackierkabine, die laut Betrieb neu und grösser ist.</p></div>
+<Bild datei="lackierer-kabine.jpg" alt="Ein Lackierer von hinten in der Lackierkabine vor einem mit blauer Folie abgedeckten Fahrzeug" caption="Lackierer in der Kabine, das Fahrzeug ist abgedeckt" breite={1200} hoehe={1600} />
+</div></div></section>
+
+<section class="abschnitt" aria-labelledby="preis-titel"><div class="rahmen">
+<h2 id="preis-titel">Was eine Lackierung kostet, hängt vom Schaden ab</h2>
+<Luecke>Fläche, Farbe und Zustand bestimmen den Preis. Eine Zahl nennen wir hier, sobald der Betrieb Preise freigibt.</Luecke></div></section>
+</Seite>

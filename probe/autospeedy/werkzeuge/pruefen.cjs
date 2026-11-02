@@ -9,7 +9,8 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 
-const WURZEL = path.join(__dirname, "..", "site");
+// SITE_DIR überschreibt den Ordner (zum Beispiel astro/dist), sonst gilt site/.
+const WURZEL = process.env.SITE_DIR ? path.resolve(process.env.SITE_DIR) : path.join(__dirname, "..", "site");
 const SEITEN = ["index", "carrosserie", "lackiererei", "felgen-folierung", "occasionen", "betrieb", "kontakt", "tesla", "schaden-melden", "impressum", "datenschutz", "404"];
 const args = process.argv.slice(2);
 const SELBST = args.includes("--selbsttest");

@@ -1,0 +1,26 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Zeiten from "../components/Zeiten.astro";
+import Tel from "../components/Tel.astro";
+import Route from "../components/Route.astro";
+import Mail from "../components/Mail.astro";
+import Status from "../components/Status.astro";
+---
+<Seite title="Kontakt, Zeiten und Anfahrt | Auto Speedy Altstätten" desc="Auto Speedy AG, Alte Landstrasse 63 in Altstätten: Telefon 071 755 88 61, E-Mail, Öffnungszeiten von Montag bis Freitag und Route. Schaden melden." aktiv="kontakt.html" jsonld abschlussOrt="abschluss-kontakt">
+<section class="hero"><div class="rahmen">
+<h1>So erreichen Sie Auto Speedy</h1>
+<p class="lead" style="font-size:clamp(2rem,6vw,3.5rem);font-family:var(--titel);font-weight:800;line-height:1;margin-bottom:.25em"><Tel ort="kontakt-hero" /></p>
+<p class="lead">Montag bis Freitag erreichen Sie den Betrieb telefonisch. Mobil: <Tel ort="kontakt-hero" nummer={2} />.</p>
+</div></section>
+
+<section class="abschnitt" aria-labelledby="k-zeiten"><div class="rahmen"><div class="paar">
+<div><h2 id="k-zeiten">Zeiten und Anschrift</h2><Status /><Zeiten /><p class="klein">An Feiertagen und in Betriebsferien gelten andere Zeiten.</p></div>
+<div><h2>Anfahrt und E-Mail</h2><p><strong>{b.name}<br>{b.strasse}<br>{b.plz} {b.ort}</strong></p><p><Route ort="kontakt-anfahrt" /></p><p>E-Mail: <Mail ort="kontakt-anfahrt" /></p>
+<p class="klein">Der Betrieb liegt etwas ausserhalb der Stadt Altstätten.</p></div>
+</div></div></section>
+
+<section class="abschnitt" aria-labelledby="k-tesla"><div class="rahmen">
+<h2 id="k-tesla">Für Fälle von Tesla gelten dieselben Nummern</h2>
+<p class="spalte">Wer einen Fall von Tesla weiterleitet, erreicht den Betrieb unter denselben Nummern. Die Meldung mit Modell und Tesla-Referenz geht mit einem Tipp: <a href="schaden-melden.html?tesla=1" data-zaehl="anfrage" data-ort="kontakt-tesla">Tesla-Schaden melden</a>.</p></div></section>
+</Seite>

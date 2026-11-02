@@ -1,0 +1,32 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Bild from "../components/Bild.astro";
+import Tel from "../components/Tel.astro";
+import Mail from "../components/Mail.astro";
+import SchadenKnopf from "../components/SchadenKnopf.astro";
+import Luecke from "../components/Luecke.astro";
+---
+<Seite title="Tesla-Schaden melden in Altstätten | Auto Speedy" desc="Tesla beschädigt? Auto Speedy in Altstätten ist Tesla Approved Body Shop. Modell wählen, Tesla-Referenz angeben und den Schaden in zwei Angaben melden." aktiv="tesla.html" abschlussOrt="abschluss-tesla">
+<section class="hero"><div class="rahmen">
+<h1>Tesla-Schaden? Hier sind Sie richtig.</h1>
+<p class="lead">Auto Speedy in Altstätten ist Tesla Approved Body Shop. Ihr Tesla hat einen Schaden, oder Tesla hat Ihren Fall an uns weitergeleitet: Melden Sie ihn hier in zwei Angaben.</p>
+<div class="aktionen"><SchadenKnopf ort="tesla-hero" text="Tesla-Schaden melden" href="schaden-melden.html?tesla=1" /> <Tel ort="tesla-hero" knopf /></div>
+<p class="klein">Der Status als Tesla Approved Body Shop beruht auf einer Aussage des Betriebs. Der Nachweis steht noch aus.</p>
+</div></section>
+
+<section class="abschnitt" aria-labelledby="modell-titel"><div class="rahmen">
+<h2 id="modell-titel">Modell wählen, Meldung ist vorbereitet</h2>
+<p class="spalte">Ein Tipp auf Ihr Modell öffnet die Meldung mit gesetztem Tesla-Fall und gewähltem Modell. Fehlt Ihr Modell, wählen Sie «anderes Modell» in der Meldung.</p>
+<ul class="zeilen">
+{b.teslaModelle.map((m) => <li><a href={`schaden-melden.html?tesla=1&modell=${encodeURIComponent(m)}`} data-zaehl="anfrage" data-ort="tesla-modell"><strong>{m}</strong><span class="pfeil" aria-hidden="true">→</span><span class="zusatz">Schaden am {m} melden</span></a></li>)}
+</ul></div></section>
+
+<section class="abschnitt" aria-labelledby="tref-titel"><div class="rahmen"><div class="paar">
+<div><h2 id="tref-titel">Für Mitarbeitende von Tesla</h2>
+<p>Leiten Sie einen Fall weiter, tragen die Kundinnen und Kunden die Tesla-Referenz in der Meldung ein. Das Feld ist freiwillig.</p>
+<p>Direkt erreichen Sie den Betrieb unter <Tel ort="tesla-mitarbeitende" /> und <Mail ort="tesla-mitarbeitende" />.</p>
+<Luecke>Welche Angaben Tesla bei einer Weiterleitung mitgibt, tragen wir hier ein, sobald der Betrieb es beschrieben hat.</Luecke></div>
+<Bild datei="folie-motorhaube.jpg" alt="Motorhaube eines Fahrzeugs mit schwarzer Folie in der Lackierkabine" caption="Arbeit in der Lackierkabine von Auto Speedy" breite={1200} hoehe={900} />
+</div></div></section>
+</Seite>

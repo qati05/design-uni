@@ -1,0 +1,22 @@
+---
+// Kopfzeile: Marke, Hauptmenü mit Aufklappmenü «Dienstleistungen», CTA «Schaden melden», Telefon, Handy-Menü.
+import b from "../content/betrieb.json";
+import Tel from "./Tel.astro";
+const { aktiv = "" } = Astro.props;
+const dienst = b.nav.slice(0, b.dienstAnzahl);
+const rest = b.nav.slice(b.dienstAnzahl);
+const imDienst = dienst.some(([h]) => h === aktiv);
+const cur = (h: string) => (aktiv === h ? "page" : undefined);
+---
+<header class="kopf">
+<div class="rahmen kopf-innen">
+<a class="marke" href="index.html" aria-label={`${b.name}, zur Startseite`}><img src="bilder/logo-wirbel-s.png" width="76" height="46" alt={b.name}><span class="marke-text" aria-hidden="true">{b.name}</span></a>
+<nav class="nav-desktop" aria-label="Hauptmenü"><ul><li><details class={`dienst${imDienst ? " ist-aktiv" : ""}`}><summary>Dienstleistungen</summary><ul class="dienst-liste">{dienst.map(([h, t]) => <li><a href={h} aria-current={cur(h)}>{t}</a></li>)}</ul></details></li>{rest.map(([h, t]) => <li><a href={h} aria-current={cur(h)}>{t}</a></li>)}<li><a class="etikett-link" href="tesla.html" aria-current={cur("tesla.html")} data-ort="kopf">Tesla</a></li></ul></nav>
+<div class="kopf-aktionen">
+<a class="knopf knopf-text" href="schaden-melden.html" data-zaehl="anfrage" data-ort="kopf">Schaden melden</a>
+<Tel ort="kopf" knopf kopf klasse="knopf knopf-leise" />
+<details class="menue"><summary>Menü<span class="sr"> öffnen</span></summary>
+<nav class="menue-liste" aria-label="Menü"><ul><li><a href="index.html" aria-current={cur("index.html")}>Start</a></li><li><details class="dienst-m" open={imDienst}><summary>Dienstleistungen</summary><ul>{dienst.map(([h, t]) => <li><a href={h} aria-current={cur(h)}>{t}</a></li>)}</ul></details></li>{rest.map(([h, t]) => <li><a href={h} aria-current={cur(h)}>{t}</a></li>)}<li><a href="tesla.html" data-ort="menue">Tesla-Schaden</a></li></ul></nav></details>
+</div>
+</div>
+</header>

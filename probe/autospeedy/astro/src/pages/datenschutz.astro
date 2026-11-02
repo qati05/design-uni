@@ -1,0 +1,23 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Mail from "../components/Mail.astro";
+import Luecke from "../components/Luecke.astro";
+---
+<Seite title="Datenschutzerklärung der Auto Speedy AG | Altstätten" desc="Datenschutz bei Auto Speedy in Altstätten: keine Cookies, keine fremden Server, Schadenmeldung per E-Mail. Entwurf zur Freigabe, Rechtsprüfung offen." ohneAbschluss>
+<section class="hero"><div class="rahmen"><h1>Datenschutz</h1><p class="lead">Entwurf zur Freigabe. Eine Rechtsprüfung steht aus.</p></div></section>
+<section class="abschnitt"><div class="rahmen spalte">
+<h2>Wer verantwortlich ist</h2>
+<p>{b.name}, {b.strasse}, {b.plz} {b.ort}. E-Mail <Mail ort="datenschutz" />.</p>
+<h2>Was diese Website tut</h2>
+<p>Diese Vorschau setzt keine Cookies und speichert nichts auf Ihrem Gerät. Schriften und Bilder liegen auf demselben Server. Es werden keine fremden Dienste geladen.</p>
+<h2>Was bei einer Schadenmeldung geschieht</h2>
+<p>Das Formular sendet nichts selbst. Es öffnet Ihr E-Mail-Programm mit einer vorbereiteten Nachricht an {b.mail}. Ihre Angaben (Name, Telefon, freiwillig Fahrzeug, Tesla-Modell, Tesla-Referenz und Beschreibung) gehen erst an den Betrieb, wenn Sie die E-Mail senden. Der Betrieb nutzt sie nur, um Ihre Schadenmeldung zu beantworten.</p>
+<h2>Links auf andere Seiten</h2>
+<p>Die Links zu Google Maps, AutoScout24 und Carrosserie Suisse führen auf fremde Seiten. Dort gelten deren Datenschutzerklärungen.</p>
+<h2>Zählung der Kontakte</h2>
+<p>Vorgesehen ist eine Zählung ohne Cookies, die nur Art und Stelle eines Tipps erfasst, keine Kennung und keine IP-Adresse. In dieser Vorschau ist sie abgeschaltet. Vor der Veröffentlichung wird sie hier genau beschrieben.</p>
+<Luecke>Hosting, Standort des Servers und Aufbewahrung der E-Mails tragen wir hier ein, sobald der Betrieb sie genannt hat.</Luecke>
+<h2>Ihre Rechte</h2>
+<p>Sie können Auskunft über Ihre Daten verlangen und sie berichtigen oder löschen lassen. Schreiben Sie dazu an <Mail ort="datenschutz" />.</p></div></section>
+</Seite>

@@ -1,0 +1,12 @@
+---
+// Schluss-Handlung am Ende jeder Seite: Hauptaktion und Anruf (nicht vergessen, wenn der Kunde «überall ein CTA» will).
+import b from "../content/betrieb.json";
+import Hauptaktion from "./Hauptaktion.astro";
+import Tel from "./Tel.astro";
+const { ort = "abschluss" } = Astro.props;
+---
+<section class="abschluss" aria-labelledby="abschluss-titel"><div class="rahmen">
+<h2 id="abschluss-titel">{b.abschluss.titel}</h2>
+<p class="spalte">{b.abschluss.text}</p>
+<div class="aktionen"><Hauptaktion ort={ort} /> <Tel ort={ort} knopf /></div>
+</div></section>

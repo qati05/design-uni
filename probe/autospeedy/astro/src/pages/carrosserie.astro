@@ -1,0 +1,46 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Bild from "../components/Bild.astro";
+import SchadenKnopf from "../components/SchadenKnopf.astro";
+import Luecke from "../components/Luecke.astro";
+---
+<Seite title="Unfallschaden reparieren in Altstätten | Auto Speedy" desc="Unfallschaden, Hagel, Dellen, Rost oder Scheibe: Die Carrosserie von Auto Speedy in Altstätten repariert und klärt die Versicherung. Schaden melden." aktiv="carrosserie.html" abschlussOrt="abschluss-carrosserie">
+<section class="hero"><div class="rahmen">
+<h1>Unfallschaden reparieren in Altstätten</h1>
+<p class="lead">Ihr Auto hat einen Unfallschaden. Auto Speedy repariert ihn vom kleinen Blechschaden bis zum Chassisschaden und erledigt die Schadensabwicklung mit der Versicherung.</p>
+<div class="aktionen"><SchadenKnopf ort="carrosserie-hero" /></div>
+<Bild datei="hebebuehne-audi.jpg" alt="Dunkler Personenwagen auf der Hebebühne in der Werkstatt, Front ohne Stossstange" caption="Fahrzeug auf der Hebebühne in der Werkstatt von Auto Speedy" klasse="bild-rechts" zug breite={1400} hoehe={933} lazy={false} />
+</div></section>
+
+<section class="abschnitt" aria-labelledby="schaeden-titel"><div class="rahmen">
+<h2 id="schaeden-titel">Diese Schäden repariert die Carrosserie</h2>
+<ul class="liste-punkte spalte">
+<li>Unfallschäden, von kleinen Blechschäden bis zu grösseren Chassisschäden</li>
+<li>Hagelschäden und Dellendrücken</li>
+<li>Rostreparatur</li>
+<li>Stossstangenreparatur</li>
+<li>Scheiben wechseln und reparieren</li>
+<li>Schweissarbeiten</li>
+</ul></div></section>
+
+<section class="abschnitt" id="dellen" aria-labelledby="dellen-titel"><div class="rahmen"><div class="paar">
+<div><h2 id="dellen-titel">Hagelschäden und Dellen sind eine eigene Leistung</h2>
+<p>Auto Speedy nennt Hagelschäden und Dellendrücken als eigene Leistungen. Der Teamleiter der Carrosserie ist Spengler für Hagel- und Dellendrücken.</p></div>
+<Bild datei="lack-kante-rot-weiss.jpg" alt="Nahaufnahme einer Karosseriekante, rot lackiert, mit weissem Abdeckband daneben" caption="Karosseriekante mit Abdeckband" breite={900} hoehe={1200} />
+</div></div></section>
+
+<section class="abschnitt" aria-labelledby="vers-titel"><div class="rahmen">
+<h2 id="vers-titel">Die Versicherung gehört zur Reparatur</h2>
+<p class="spalte">Die Schadensabwicklung mit der Versicherung erledigt Auto Speedy für Sie. Verwendet werden ausschliesslich Original-Ersatzteile.</p></div></section>
+
+<section class="abschnitt" aria-labelledby="fz-titel"><div class="rahmen">
+<h2 id="fz-titel">Für Personenwagen, Nutzfahrzeuge, Oldtimer und Wohnmobile</h2>
+<p class="spalte">Carrosserie Suisse führt Auto Speedy für diese Fahrzeugarten auf (Stand 1. November 2026):</p>
+<ul class="liste-punkte spalte"><li>Personenwagen</li><li>Nutzfahrzeuge und Anhänger, bis und über 3,5 Tonnen</li><li>Oldtimer und Youngtimer</li><li>Wohnmobile und Wohnwagen</li></ul>
+<p class="spalte"><a href={b.links.carrosseriesuisse} data-ort="carrosserie-verband">Eintrag bei Carrosserie Suisse lesen</a></p></div></section>
+
+<section class="abschnitt" aria-labelledby="preis-titel"><div class="rahmen">
+<h2 id="preis-titel">Was eine Reparatur kostet, hängt vom Schaden ab</h2>
+<Luecke>Schaden, Fahrzeug und Ersatzteile bestimmen den Preis. Eine Zahl nennen wir hier, sobald der Betrieb Preise freigibt.</Luecke></div></section>
+</Seite>

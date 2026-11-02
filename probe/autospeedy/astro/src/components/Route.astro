@@ -1,0 +1,5 @@
+---
+import b from "../content/betrieb.json";
+const { ort, text = "Route zur Alten Landstrasse 63 öffnen" } = Astro.props;
+---
+<a href={b.links.route} data-zaehl="route" data-ort={ort}>{text}</a>

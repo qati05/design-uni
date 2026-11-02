@@ -1,0 +1,11 @@
+---
+// Schluss-CTA: Schadenmeldung und Anruf auf jeder Seite (Kundenwunsch).
+import SchadenKnopf from "./SchadenKnopf.astro";
+import Tel from "./Tel.astro";
+const { ort = "abschluss" } = Astro.props;
+---
+<section class="abschluss" aria-labelledby="abschluss-titel"><div class="rahmen">
+<h2 id="abschluss-titel">Schaden melden in zwei Angaben</h2>
+<p class="spalte">Name und Telefon genügen. Ihr E-Mail-Programm öffnet die Meldung vorbereitet. Sie senden sie dort ab.</p>
+<div class="aktionen"><SchadenKnopf ort={ort} /> <Tel ort={ort} knopf /></div>
+</div></section>

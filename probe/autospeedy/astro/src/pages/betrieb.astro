@@ -1,0 +1,38 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Bild from "../components/Bild.astro";
+import Luecke from "../components/Luecke.astro";
+// Team als Daten (Namen und Funktionen laut Website des Betriebs).
+const team = [
+  ["Administration", [["Shpejtim Pirku «Speedy»", "Geschäftsführer"], ["Lea Schlegel", "Annahme, HR-Assistentin"], ["Martyna Skweres", "Kauffrau EBA in Ausbildung"]]],
+  ["Carrosserie", [["Arsim Selmani", "Teamleiter Carrosserie, Spengler für Hagel- und Dellendrücken"], ["Dragan Tejic", "Carrosserie-Spengler, Schweisstechniker"], ["Enes Rushiti", "Carrosserie-Spengler"]]],
+  ["Lackiererei", [["Sheref Kamili", "Carrosserie-Lackierer"], ["Fabio Cezza", "Carrosserie-Lackierer"], ["Anna Meier", "Carrosserie-Lackiererin EFZ in Ausbildung"]]],
+  ["Aufbereitung und Finish", [["Armend Nuhii", "Aufbereiter, Finisher"]]],
+];
+---
+<Seite title="Team und Ausbildung | Auto Speedy Altstätten" desc="Das Team der Auto Speedy AG in Altstätten: Administration, Carrosserie, Lackiererei und Aufbereitung. Ausbildungsbetrieb für Spengler und Lackierer EFZ." aktiv="betrieb.html" abschlussOrt="abschluss-betrieb">
+<section class="hero"><div class="rahmen">
+<h1>Das Team von Auto Speedy in Altstätten</h1>
+<p class="lead">Auto Speedy AG ist eine Aktiengesellschaft in Altstätten. Laut Handelsregister betreibt sie eine Carrosserie, Autospenglerei und Autolackiererei sowie Autohandel.</p>
+<Bild datei="halle-defender-schild.jpg" alt="Grau verkleidete Halle mit Schild von Auto Speedy, davor ein matt schwarzer Land Rover Defender" caption="Halle von Auto Speedy an der Alten Landstrasse 63" klasse="bild-rechts" zug breite={1200} hoehe={900} lazy={false} />
+</div></section>
+
+<section class="abschnitt team" aria-labelledby="team-titel"><div class="rahmen">
+<h2 id="team-titel">Wer arbeitet wo</h2>
+{team.map(([bereich, leute]) => (
+  <Fragment><h3>{bereich}</h3><dl>{(leute as string[][]).map(([n, f]) => <Fragment><dt>{n}</dt><dd>{f}</dd></Fragment>)}</dl></Fragment>
+))}
+<Luecke>Fotos der Mitarbeitenden zeigen wir hier, sobald alle einverstanden sind.</Luecke>
+</div></section>
+
+<section class="abschnitt" aria-labelledby="ausb-titel"><div class="rahmen">
+<h2 id="ausb-titel">Auto Speedy bildet Spengler und Lackierer aus</h2>
+<p class="spalte">Laut Carrosserie Suisse ist Auto Speedy Ausbildungsbetrieb für Carrosseriespengler/-in EFZ und Carrosserielackierer/-in EFZ. Der Verband führt den Betrieb als «TOP-Ausbildungsbetrieb» und als Scheibenkonzept-Partner (Stand 1. November 2026). <a href={b.links.carrosseriesuisse} data-ort="betrieb-verband">Eintrag lesen</a>.</p>
+<Luecke klasse="spalte">Welche Stellen offen sind, klären Sie am besten telefonisch.</Luecke></div></section>
+
+<section class="abschnitt" aria-labelledby="partner-titel"><div class="rahmen">
+<h2 id="partner-titel">Partner von Herstellern und Flotten</h2>
+<p class="spalte">Auto Speedy nennt sich zertifizierter Partner für Karosserie und Lack von Tesla (Approved Body Shop), Land Rover, AMAG und Ayvens.</p>
+<p><span class="marke-offen">Nachweis des Betriebs offen</span></p></div></section>
+</Seite>

@@ -1,0 +1,26 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Bild from "../components/Bild.astro";
+import Tel from "../components/Tel.astro";
+---
+<Seite title="Occasionen und Autoankauf in Altstätten | Auto Speedy" desc="Auto Speedy in Altstätten verkauft Occasionen, kauft Autos an und berät zu Leasing. Die aktuellen Fahrzeuge stehen bei AutoScout24. Schaden melden." aktiv="occasionen.html" abschlussOrt="abschluss-occasionen">
+<section class="hero"><div class="rahmen">
+<h1>Occasionen kaufen und verkaufen in Altstätten</h1>
+<p class="lead">Auto Speedy verkauft Occasionen und kauft Autos an. Die aktuellen Fahrzeuge stehen bei AutoScout24.</p>
+<div class="aktionen"><a class="knopf knopf-gross" href={b.links.autoscout} data-ort="occasionen-hero" rel="noopener">Occasionen bei AutoScout24 ansehen</a> <Tel ort="occasionen-hero" knopf /></div>
+<Bild datei="halle-areal.jpg" alt="Graue Metallhalle mit Schild, davor mehrere parkierte Fahrzeuge" caption="Fahrzeuge vor der Halle von Auto Speedy" klasse="bild-rechts" zug breite={1600} hoehe={1200} lazy={false} />
+</div></section>
+
+<section class="abschnitt" aria-labelledby="handel-titel"><div class="rahmen">
+<h2 id="handel-titel">Das gehört zum Autohandel</h2>
+<ul class="liste-punkte spalte">
+<li>Autoankauf</li>
+<li>Verkauf von Occasionen</li>
+<li>schnelle Abwicklung</li>
+<li>Leasing</li>
+<li>technische Beratung</li>
+<li>Abwicklung von Versicherungen</li>
+</ul>
+<p class="spalte">Auto Speedy ist eine markenunabhängige Garage. Preise und Angaben zur Garantie stehen im jeweiligen Inserat bei AutoScout24.</p></div></section>
+</Seite>

@@ -25,6 +25,10 @@ Verlangt wird: schnelle Seite, ein Formular mit Fotoanhang, wenig Inhalt, selten
 
 ## V2 · Stack-Entscheid
 
+> **Entscheid des Auftraggebers, 2. November 2026: Astro.** Er ersetzt die bedingte Wahl unten (Klasse A). Umgesetzt in `astro/` (alle 12 Seiten, eine Quelle in `src/content/betrieb.json`); die Ausgabe entspricht der bisherigen Vorschau Token für Token, 50 von 50 Maschinenprüfungen bestehen. Offen bleibt, wie Laien Inhalte ändern (Git-CMS, `[nicht gebaut]`) und der Formularweg mit Fotoanhang.
+
+Ursprüngliche Abwägung (zur Nachvollziehbarkeit):
+
 **Wahl (bedingt, siehe V2-Gegenprüfung):** Klasse A beibehalten (statisches HTML mit Bauskript; Laborwerte: Score 97, 3,6 KB JS), **wenn** ein Entwickler die Seite dauerhaft pflegt. **Dazu** ein kleiner Server-Endpunkt für das Formular (nimmt Name, Telefon, Fotos entgegen und verschickt **eine E-Mail**). Lautet die Antwort auf Zeile 6 «der Betrieb pflegt selbst, ohne Entwickler», gilt die Wahl **nicht**; dann Astro mit Inhaltsdateien (erst Spike) oder ein Baukasten.
 
 **Weil:**

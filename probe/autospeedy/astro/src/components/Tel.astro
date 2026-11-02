@@ -1,0 +1,11 @@
+---
+// Telefonnummer als Link. nummer=1 (Festnetz) oder 2 (Mobil); knopf=true gibt den grossen Knopf mit Symbol.
+import b from "../content/betrieb.json";
+const { ort, nummer = 1, knopf = false, klasse = "knopf knopf-leise knopf-gross", kopf = false } = Astro.props;
+const t = nummer === 2 ? b.tel2 : b.tel1;
+---
+{knopf
+  ? <a class={klasse} href={t.href} data-zaehl="anruf" data-ort={ort}><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>{kopf
+      ? <><span class="sr">Anrufen: {t.zeige}</span><span class="tel-zahl nowrap" aria-hidden="true">{t.zeige}</span></>
+      : <span><span class="sr">Anrufen: </span><span class="nowrap">{t.zeige}</span></span>}</a>
+  : <a href={t.href} data-zaehl="anruf" data-ort={ort}><span class="nowrap">{t.zeige}</span></a>}

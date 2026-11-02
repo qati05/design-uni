@@ -1,0 +1,19 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Tel from "../components/Tel.astro";
+import Mail from "../components/Mail.astro";
+---
+<Seite title="Impressum der Auto Speedy AG in Altstätten" desc="Impressum der Auto Speedy AG, Alte Landstrasse 63, 9450 Altstätten: Firma, UID, Handelsregister, Vertretung, Kontakt und Herkunft der Bilder." ohneAbschluss>
+<section class="hero"><div class="rahmen"><h1>Impressum</h1></div></section>
+<section class="abschnitt"><div class="rahmen spalte">
+<h2>Firma und Anschrift</h2>
+<p><strong>{b.name}</strong><br>{b.strasse}<br>{b.plz} {b.ort}</p>
+<p>UID: {b.uid}<br>Handelsregister-Nummer: {b.hr}<br>Sitz: Altstätten SG, Aktiengesellschaft</p>
+<p>Zweck laut Handelsregister: Betrieb einer Carrosserie, Autospenglerei und Autolackiererei sowie Autohandel.</p>
+<h2>Vertretung und Kontakt</h2>
+<p>Verwaltungsrat mit Einzelunterschrift: Shpejtim Pirku.<br>Telefon <Tel ort="impressum" />, E-Mail <Mail ort="impressum" />.</p>
+<h2>Bilder</h2>
+<p>Die Fotos stammen von der bisherigen Website des Betriebs. Die Rechte klärt der Betrieb vor der Veröffentlichung.</p>
+<p class="klein">Entwurf zur Freigabe. Eine Rechtsprüfung steht aus.</p></div></section>
+</Seite>

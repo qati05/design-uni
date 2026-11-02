@@ -80,6 +80,12 @@ Der Entscheid steht als Blatt `entscheid-stack.md`:
 5. **Kosten und Pflege:** Stunden Bau (Schätzung), laufende Kosten, wer pflegt.
 6. **Umkehrbarkeit:** Was kostet ein Wechsel nach Schritt 4?
 
+**Standard-Stack (Entscheid des Auftraggebers, 2. November 2026): Astro mit statischer Ausgabe**, Inhalte in Dateien, Gerüst in [vorlage-astro/](vorlage-astro/README.md). Dazu gilt: *ein Standard, zwei benannte Ausnahmen, kein Wechsel nach Laune.*
+- **Ausnahme 1, Next.js:** nur bei Konten, Anmeldung, Shop, Buchung oder stark dynamischen Daten. Begründung: im Spike +133 KB JS und rund 1 s LCP bei gleichem Inhalt (messungen.md).
+- **Ausnahme 2, Baukasten (Webflow, Wix, Framer):** nur wenn der Kunde ihn schon hat oder ausdrücklich verlangt, oder wenn er **ganz ohne Entwickler** pflegen will und das gesagt hat.
+- **Jede Abweichung** steht mit einem «Weil»-Satz im Entscheidblatt. Ohne diesen Satz gilt Astro.
+- **Gesichert** ist: Astro kostet bei statischer Ausgabe nichts gegenüber von Hand geschriebenem HTML und trägt ein echtes Projekt (12 Seiten, 50 Maschinenprüfungen bestanden). **Nicht gebaut** ist: das Bearbeiten durch Laien (Git-CMS) und Formulare mit Server.
+
 **V2 · Entscheid geprüft:** ein zweiter Blick (Unteragent ohne Kontext oder eine Fachperson) bekommt nur das Blatt und das Anforderungsblatt und nennt den stärksten Einwand. Der Einwand wird beantwortet oder der Entscheid geändert.
 
 ## Schritt 3 · Bewegung und 3D: Leiter statt Schalter
@@ -183,6 +189,7 @@ Hosting (Standort, Kosten, Vorschau je Änderung), Domain, `https`, Weiterleitun
 
 | Datei | Inhalt |
 |---|---|
+| [vorlage-astro/](vorlage-astro/README.md) | Gerüst für einen neuen Betrieb (Astro, eine Quelle für Angaben, Komponenten) |
 | [stacks.md](referenzen/stacks.md) | Klassen A bis E, Entscheidbaum, Versionsstand, Status je Stack |
 | [animation-3d.md](referenzen/animation-3d.md) | Leiter der Bewegung, Browser-Unterstützung, Rückfälle, Kostenblatt |
 | [messungen.md](referenzen/messungen.md) | gebaute Spikes mit Zahlen, Befehle, Grenzen |

@@ -1,0 +1,51 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Tel from "../components/Tel.astro";
+import Mail from "../components/Mail.astro";
+import Luecke from "../components/Luecke.astro";
+const modelle = [...b.teslaModelle, "anderes Modell"];
+---
+<Seite title="Schaden melden in zwei Angaben | Auto Speedy Altstätten" desc="Schaden bei Auto Speedy in Altstätten melden: Name und Telefon genügen, alles andere ist freiwillig. Auch für Tesla-Fälle mit Modellwahl und Referenz." aktiv="schaden-melden.html" ohneAbschluss>
+<section class="hero"><div class="rahmen">
+<h1>Schaden melden</h1>
+<p class="lead">Name und Telefon genügen. Alles andere ist freiwillig.</p>
+<p class="spalte"><strong>Unfall mit Verletzten?</strong> Rufen Sie zuerst 144 oder 117 an.</p>
+</div></section>
+
+<section class="abschnitt"><div class="rahmen"><div class="paar">
+<div>
+<form id="schadenformular" class="formular" action={`mailto:${b.mail}?subject=Schadenmeldung`} method="post" enctype="text/plain" novalidate>
+<div class="haken"><input type="checkbox" id="tesla" name="tesla" value="ja"><label for="tesla">Der Fall kommt von Tesla</label></div>
+<div class="feld"><label for="name">Name <span aria-hidden="true">*</span></label><input type="text" id="name" name="name" autocomplete="name" required aria-describedby="name-fehler"><p class="fehler" id="name-fehler" role="alert"></p></div>
+<div class="feld"><label for="telefon">Telefon <span aria-hidden="true">*</span></label><input type="tel" id="telefon" name="telefon" autocomplete="tel" inputmode="tel" required aria-describedby="telefon-hilfe telefon-fehler"><p class="hilfe" id="telefon-hilfe">Für den Rückruf. Beispiel: 079 123 45 67.</p><p class="fehler" id="telefon-fehler" role="alert"></p></div>
+<div class="feld nur-eigen"><label for="fahrzeug">Fahrzeug (freiwillig)</label><input type="text" id="fahrzeug" name="fahrzeug" autocomplete="off" aria-describedby="fahrzeug-hilfe"><p class="hilfe" id="fahrzeug-hilfe">Marke und Modell, zum Beispiel VW Golf.</p></div>
+<fieldset class="feld nur-tesla"><legend>Tesla-Modell (freiwillig)</legend><div class="chips">
+{modelle.map((m) => <label class="chip"><input type="radio" name="tesla-modell" value={m}><span>{m}</span></label>)}
+</div></fieldset>
+<div class="feld nur-tesla"><label for="referenz">Tesla-Referenz (freiwillig)</label><input type="text" id="referenz" name="referenz" autocomplete="off" aria-describedby="referenz-hilfe"><p class="hilfe" id="referenz-hilfe">Die Nummer, die Sie von Tesla erhalten haben.</p></div>
+<div class="feld"><label for="was">Was ist passiert? (freiwillig)</label><textarea id="was" name="was" rows="4"></textarea></div>
+<div class="sendebereich">
+<button class="knopf knopf-gross" type="submit" id="senden">Schaden melden und E-Mail öffnen</button>
+<p class="rueckmeldung" id="rueckmeldung" role="status" aria-live="polite"></p>
+<p class="datenschutz-satz">Die E-Mail öffnet sich vorbereitet. Gesendet ist sie erst, wenn Sie in Ihrem E-Mail-Programm auf «Senden» tippen. Wir verwenden Ihre Angaben nur für diese Schadenmeldung. Verantwortlich: {b.name}, {b.strasse}, {b.plz} {b.ort}. Mehr in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+</div>
+</form>
+<div class="bestaetigung" id="bestaetigung" hidden tabindex="-1">
+<p><span class="etikett">Vorbereitet</span></p>
+<p><strong>Ihre E-Mail ist vorbereitet.</strong> Gesendet ist sie erst, wenn Sie in Ihrem E-Mail-Programm auf «Senden» tippen.</p>
+<p id="bestaetigung-zusammenfassung" class="klein"></p>
+<p>Hat sich nichts geöffnet? Schreiben Sie an <Mail ort="bestaetigung" /> oder rufen Sie <Tel ort="bestaetigung" /> an.</p>
+</div>
+</div>
+<aside aria-labelledby="danach-titel"><h2 id="danach-titel">So geht es danach weiter</h2>
+<ol class="liste-punkte spalte" style="list-style:decimal">
+<li>Sie melden den Schaden mit Name und Telefon.</li>
+<li>Der Betrieb meldet sich bei Ihnen.</li>
+<li>Die Schadensabwicklung mit der Versicherung erledigt Auto Speedy für Sie.</li>
+</ol>
+<Luecke>Wie schnell sich der Betrieb meldet, tragen wir hier ein, sobald er es festgelegt hat.</Luecke>
+<p class="klein">Fotos des Schadens können Sie an die E-Mail anhängen.</p>
+</aside>
+</div></div></section>
+</Seite>

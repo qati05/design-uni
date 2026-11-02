@@ -1,0 +1,13 @@
+---
+import b from "../content/betrieb.json";
+import Tel from "./Tel.astro";
+import Route from "./Route.astro";
+import Mail from "./Mail.astro";
+---
+<footer class="fuss"><div class="rahmen">
+<div class="fuss-raster">
+<div><h2>{b.name}</h2><p>{b.strasse}<br>{b.plz} {b.ort}<br><Route ort="fuss" text="Route öffnen" /></p></div>
+<div><h2>Erreichbar</h2><ul><li><Tel ort="fuss" /></li><li><Mail ort="fuss" /></li></ul></div>
+<div><h2>Seiten</h2><ul>{b.nav.map(([h, t]) => <li><a href={h}>{t}</a></li>)}<li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li></ul></div>
+</div>
+</div></footer>

@@ -1,0 +1,10 @@
+---
+// Öffnungszeiten-Tabelle, nur aus content/betrieb.json.
+import b from "../content/betrieb.json";
+const u = (z: string) => `${z} Uhr`;
+---
+<table class="zeiten"><caption class="sr">Öffnungszeiten</caption><tbody>
+{b.zeiten.map((z) => (
+  <tr><th scope="row">{z.tage}</th><td>{z.zu ? "geschlossen" : z.fenster!.map(([v, bis]) => `${u(v)} bis ${u(bis)}`).join(" und ")}</td></tr>
+))}
+</tbody></table>

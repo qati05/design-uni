@@ -1,0 +1,4 @@
+---
+const { ort, text = "Schaden melden", href = "schaden-melden.html", extra = "knopf-gross" } = Astro.props;
+---
+<a class={`knopf ${extra}`} href={href} data-zaehl="anfrage" data-ort={ort}>{text}</a>

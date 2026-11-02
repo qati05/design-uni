@@ -20,6 +20,10 @@ Stand 1. November 2026. Versionen `[gelesen · npm-Registry, 2026-11-01]`; **vor
 | Tailwind | 4.3.3 | `[gelesen]` |
 | Lighthouse | 13.6.0 | `[gebaut und gemessen]` als Messwerkzeug |
 
+## Standard (Entscheid des Auftraggebers, 2. November 2026)
+
+**Astro mit statischer Ausgabe.** Ausnahmen: Next.js (Konten, Shop, Buchung, dynamische Daten) und Baukasten (Kunde hat ihn oder verlangt ihn). Gerüst: [../vorlage-astro/](../vorlage-astro/README.md). Der Entscheidbaum unten bleibt gültig für die Frage, **wann man vom Standard abweicht**.
+
 ## Die fünf Klassen im Einzelnen
 
 ### A · Statisch von Hand (HTML, CSS, wenig JS, Bauskript) `[gebaut und gemessen]`

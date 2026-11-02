@@ -1,0 +1,49 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Bild from "../components/Bild.astro";
+import Zeiten from "../components/Zeiten.astro";
+import Tel from "../components/Tel.astro";
+import Route from "../components/Route.astro";
+import Mail from "../components/Mail.astro";
+import SchadenKnopf from "../components/SchadenKnopf.astro";
+import Zeile from "../components/Zeile.astro";
+import Status from "../components/Status.astro";
+import Bewertungen from "../components/Bewertungen.astro";
+---
+<Seite title="Carrosserie und Lackiererei in Altstätten | Auto Speedy" desc="Auto Speedy AG in Altstätten: Carrosserie, Lackiererei, Alufelgen und Occasionen. Montag bis Freitag geöffnet. Schaden melden mit Name und Telefon." aktiv="index.html" jsonld abschlussOrt="abschluss-start">
+<section class="hero hero-start"><div class="rahmen"><div class="hero-gitter">
+<div class="hero-text">
+<h1>Erst die Kante. Dann der Lack.</h1>
+<p class="lead">Carrosserie, Lackiererei und Felgen in Altstätten. Ihr Auto hat einen Schaden? Für die Meldung genügen Name und Telefon.</p>
+<div class="aktionen"><SchadenKnopf ort="hero" /></div>
+<Status />
+</div>
+<Bild datei="halle-defender-schild.jpg" alt="Graue Halle mit dem Schild von Auto Speedy, davor ein matt schwarzer Land Rover Defender und weitere Fahrzeuge" caption="Auto Speedy an der Alten Landstrasse 63 in Altstätten" klasse="hero-bild" zug breite={1200} hoehe={900} lazy={false} fetch />
+</div></div></section>
+
+<section class="abschnitt" aria-labelledby="zeiten-titel"><div class="rahmen">
+<h2 id="zeiten-titel">Offen von Montag bis Freitag</h2>
+<div class="paar">
+<div><Zeiten /><p class="klein">An Feiertagen und in Betriebsferien gelten andere Zeiten.</p></div>
+<div><p><strong>{b.strasse}<br>{b.plz} {b.ort}</strong></p><p><Route ort="start-zeiten" /></p>
+<p>Telefon <Tel ort="start-zeiten" /><br>Mobil <Tel ort="start-zeiten" nummer={2} /><br>E-Mail <Mail ort="start-zeiten" /><br><a href={b.links.google} data-zaehl="route" data-ort="start-bewertung">{b.bewertung.note} von 5 bei {b.bewertung.anzahl} Google-Bewertungen</a></p></div>
+</div></div></section>
+
+<section class="abschnitt" aria-labelledby="leistung-titel"><div class="rahmen">
+<h2 id="leistung-titel">Carrosserie, Lack, Felgen und Occasionen an einer Adresse</h2>
+<ul class="zeilen">
+<Zeile href="carrosserie.html" titel="Carrosserie" zusatz="Unfall-, Hagel- und Dellenschäden, Rost, Stossstangen, Scheiben" ort="start-leistung" />
+<Zeile href="lackiererei.html" titel="Lackiererei" zusatz="Lackschäden, Neulackierung, Aufpolieren, Fahrzeugaufbereitung" ort="start-leistung" />
+<Zeile href="felgen-folierung.html" titel="Felgen und Folierung" zusatz="Alufelgen und Folierung, mit Bildern aus dem Betrieb" ort="start-leistung" />
+<Zeile href="occasionen.html" titel="Occasionen" zusatz="Verkauf, Ankauf, Leasing, technische Beratung" ort="start-leistung" />
+</ul></div></section>
+
+<section class="abschnitt" aria-labelledby="tesla-titel"><div class="rahmen"><div class="abschluss" style="margin-top:0">
+<h2 id="tesla-titel">Tesla beschädigt? Hier sind Sie richtig.</h2>
+<p class="spalte">Auto Speedy ist Tesla Approved Body Shop. Kommt Ihr Fall von Tesla, wählen Sie das in der Meldung aus. Das Modell wählen Sie mit einem Tipp.</p>
+<div class="aktionen"><SchadenKnopf ort="start-tesla" text="Tesla-Schaden melden" href="schaden-melden.html?tesla=1" /> <a class="knopf knopf-leise knopf-gross" href="tesla.html" data-ort="start-tesla">Tesla-Seite ansehen</a></div>
+</div></div></section>
+
+<Bewertungen />
+</Seite>

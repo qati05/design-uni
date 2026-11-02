@@ -1,0 +1,42 @@
+---
+import Seite from "../layouts/Seite.astro";
+import Bild from "../components/Bild.astro";
+import SchadenKnopf from "../components/SchadenKnopf.astro";
+import Luecke from "../components/Luecke.astro";
+// Bilder als Daten: eine Liste statt zehnmal derselbe Block.
+const felgen = [
+  ["felge-bordstein.jpg", "Graue Alufelge mit abgeschabtem Rand", "Alufelge mit Bordsteinschaden", 1200, 900],
+  ["felge-markiert.jpg", "Alufelge mit blau umkreistem Schaden am Rand", "Schaden am Felgenrand, blau markiert", 900, 1200],
+  ["felge-blau-abgeklebt.jpg", "Schwarze Alufelge mit blauem Abdeckband am Rand", "Felge mit blauem Abdeckband", 900, 1200],
+  ["felge-magenta.jpg", "Magentafarbene Felge auf einem Gitterrost", "Felge in Magenta auf dem Gestell", 900, 1200],
+  ["felge-gold-regal.jpg", "Goldene Speichenfelge mit poliertem Rand auf einem Ständer", "Goldene Speichenfelge auf dem Ständer", 900, 1200],
+  ["felge-schwarz-detail.jpg", "Nahaufnahme einer schwarzen Alufelge mit polierten Speichenkanten", "Schwarze Alufelge, Speichenkanten poliert", 1200, 900],
+];
+const folie = [
+  ["folie-motorhaube.jpg", "Motorhaube eines Land Rover Defender mit schwarzer Folie in der Kabine", "Motorhaube mit schwarzer Folie", 1200, 900],
+  ["lieferwagen-rot-folie.jpg", "Lieferwagen mit roter Folie an der Front in der Werkstatt", "Lieferwagen mit roter Folie", 1200, 900],
+  ["lieferwagen-abgeklebt.jpg", "Weisser Lieferwagen mit Pritsche, Front teilweise rot und abgeklebt", "Lieferwagen, teilweise abgeklebt", 1200, 900],
+  ["defender-schriftzug-matt.jpg", "Nahaufnahme des Defender-Schriftzugs auf matter grauer Oberfläche", "Defender-Schriftzug auf matter Oberfläche", 1200, 900],
+  ["matt-kante-blau.jpg", "Matte schwarze Karosseriekante, blau gespiegelt", "Matte Kante, blau gespiegelt", 900, 1200],
+];
+---
+<Seite title="Alufelgen und Folierung in Altstätten | Auto Speedy" desc="Alufelgen und Folierung bei Auto Speedy in Altstätten: Bilder von Felgen mit Bordsteinschaden, fertigen Felgen und foliierten Fahrzeugen. Schaden melden." aktiv="felgen-folierung.html" abschlussOrt="abschluss-felgen">
+<section class="hero"><div class="rahmen">
+<h1>Alufelgen und Folierung in Altstätten</h1>
+<p class="lead">Alufelgen und Folierung gehören zum Angebot von Auto Speedy. Die Bilder zeigen Felgen mit Bordsteinschaden, fertige Felgen und Fahrzeuge mit Folie.</p>
+<Luecke>Was genau zu Alufelgen und Folierung gehört, tragen wir hier ein, sobald der Betrieb es beschrieben hat.</Luecke>
+<div class="aktionen"><SchadenKnopf ort="felgen-hero" /></div>
+</div></section>
+
+<section class="abschnitt" id="felgen" aria-labelledby="felgen-titel"><div class="rahmen">
+<h2 id="felgen-titel">Felgen vom Bordsteinschaden bis zur fertigen Felge</h2>
+<div class="raster raster-3">
+{felgen.map(([datei, alt, caption, breite, hoehe]) => <Bild datei={datei} alt={alt} caption={caption} breite={breite} hoehe={hoehe} />)}
+</div></div></section>
+
+<section class="abschnitt" id="folierung" aria-labelledby="folie-titel"><div class="rahmen">
+<h2 id="folie-titel">Folierung am Fahrzeug, wie die Bilder sie zeigen</h2>
+<div class="raster raster-3">
+{folie.map(([datei, alt, caption, breite, hoehe]) => <Bild datei={datei} alt={alt} caption={caption} breite={breite} hoehe={hoehe} />)}
+</div></div></section>
+</Seite>

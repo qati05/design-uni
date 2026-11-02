@@ -1,0 +1,16 @@
+---
+import b from "../content/betrieb.json";
+import Tel from "./Tel.astro";
+import Route from "./Route.astro";
+import Mail from "./Mail.astro";
+const u = (z: string) => `${z} Uhr`;
+const kurz = b.zeiten.filter((z) => z.fenster).map((z) => `${z.tage} ${u(z.fenster![0][0])} bis ${u(z.fenster![z.fenster!.length - 1][1])}`);
+---
+<footer class="fuss"><div class="rahmen">
+<div class="fuss-raster">
+<div><h2>{b.name}</h2><p>{b.strasse}<br>{b.plz} {b.ort}<br><Route ort="fuss" text="Route öffnen" /></p></div>
+<div><h2>Erreichbar</h2><ul><li><Tel ort="fuss" /></li><li><Tel ort="fuss" nummer={2} /></li><li><Mail ort="fuss" /></li></ul><p>{kurz.map((k) => <Fragment>{k}<br></Fragment>)}mittags {u(b.mittag.von)} bis {u(b.mittag.bis)} zu</p></div>
+<div><h2>Seiten</h2><ul>{b.nav.map(([h, t]) => <li><a href={h}>{t}</a></li>)}<li><a href="tesla.html">Tesla</a></li><li><a href="schaden-melden.html">Schaden melden</a></li><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li></ul></div>
+</div>
+<p class="schriftfeld">{b.name} · UID {b.uid} · {b.ort}. Fotos von der bisherigen Website des Betriebs. Tesla ist eine Marke von Tesla, Inc.</p>
+</div></footer>
