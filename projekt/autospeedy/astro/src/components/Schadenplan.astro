@@ -1,40 +1,63 @@
 ---
 // Signatur von Auto Speedy: das Auto von oben, Blech für Blech mit Spaltmass, plastisch lackiert.
-// modus «links»: jede Stelle ist ein Link zur Schadenmeldung mit dieser Stelle (geht ohne JavaScript).
-// modus «wahl»: Stellen schalten die Kästchen im Formular (nur mit JavaScript sichtbar; die Kästchen gehen immer).
-// Farben über CSS-Variablen (hell und dunkel lackiert); Zierteile (Glanz, Lichter, Spiegel, Felgensterne) fangen keine Klicks.
+// modus «links»: beschriftet (jede Stelle mit Etikett und gestricheltem Pfeil); Stelle und Etikett sind ein Link
+//   zur Schadenmeldung mit dieser Stelle (geht ohne JavaScript).
+// modus «wahl»: ohne Etiketten; Stellen schalten die Kästchen im Formular (nur mit JavaScript sichtbar).
+// Farben über CSS-Variablen (hell und dunkel lackiert); Zierteile fangen keine Klicks.
 import daten from "../content/stellen.json";
 const { modus = "links", titel } = Astro.props;
 const m = modus;
+const beschriftet = m === "links";
 const stellen = (daten as any).stellen;
+// Etiketten: Seite, Höhe der Schrift (viewBox), Ziel des Pfeils in Koordinaten des Autos (0 0 240 440)
+const etikett: Record<string, [string, number, number, number]> = {
+  "front": ["l", 34, 92, 30], "links-vorne": ["l", 104, 37, 128], "frontscheibe": ["l", 170, 82, 148],
+  "links-hinten": ["l", 254, 37, 296], "heckscheibe": ["l", 330, 82, 290], "heck": ["l", 432, 92, 408],
+  "haube": ["r", 62, 150, 82], "rechts-vorne": ["r", 128, 203, 128], "felgen": ["r", 192, 230, 126],
+  "dach": ["r", 252, 150, 214], "rechts-hinten": ["r", 318, 203, 300], "heckdeckel": ["r", 392, 150, 352],
+};
+// Am Handy zwei Zeilen: «Seite / links vorne», «Front- / Stossstange»
+const zeilen = (n: string) => n.startsWith("Seite ") ? ["Seite", n.slice(6)] : n.includes("-") && n.length > 12 ? [n.slice(0, n.indexOf("-") + 1), n.slice(n.indexOf("-") + 1)] : [n];
+const DX = beschriftet ? 200 : 0, DY = beschriftet ? 14 : 0;
+const box = beschriftet ? "0 0 640 470" : "0 0 240 440";
 ---
 <div class={`plan-buehne plan-buehne--${m}`}>
-<svg class={`plan plan--${m}`} viewBox="0 0 240 440" role={m === "links" ? "group" : "img"} aria-label={titel} data-plan={m}>
+<svg class={`plan plan--${m}`} viewBox={box} role={beschriftet ? "group" : "img"} aria-label={titel} data-plan={m}>
   <defs>
     <linearGradient id={`lack-${m}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="st-a"/><stop offset=".5" class="st-b"/><stop offset="1" class="st-c"/></linearGradient>
     <linearGradient id={`schild-${m}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a8ae0"/><stop offset=".45" stop-color="#1566b8"/><stop offset="1" stop-color="#0d4583"/></linearGradient>
     <linearGradient id={`glas-${m}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5d7c9e"/><stop offset=".35" stop-color="#22374f"/><stop offset="1" stop-color="#0c1724"/></linearGradient>
     <linearGradient id={`glanz-${m}`} x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
     <radialGradient id={`felge-${m}`}><stop offset="0" stop-color="#f4f6f8"/><stop offset=".7" stop-color="#aeb6bf"/><stop offset="1" stop-color="#6d7781"/></radialGradient>
+    {beschriftet && <marker id={`spitze-${m}`} class="plan__spitze" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z"/></marker>}
   </defs>
-  <rect class="plan__karosse" x="20" y="16" width="200" height="408" rx="46"/>
-  <g class="plan__zier" aria-hidden="true">
-    <rect x="8" y="138" width="14" height="16" rx="4"/><rect x="218" y="138" width="14" height="16" rx="4"/>
+  <g transform={`translate(${DX} ${DY})`}>
+    <rect class="plan__karosse" x="20" y="16" width="200" height="408" rx="46"/>
+    <g class="plan__zier" aria-hidden="true"><rect x="8" y="138" width="14" height="16" rx="4"/><rect x="218" y="138" width="14" height="16" rx="4"/></g>
   </g>
   {stellen.map((s: any) => {
-    const formen = s.form.map(([x, y, w, h, r]: number[]) => <rect x={x} y={y} width={w} height={h} rx={r}/>);
+    const formen = s.form.map(([x, y, w, h, r]: number[]) => <rect x={x + DX} y={y + DY} width={w} height={h} rx={r}/>);
     const klasse = `plan__stelle${s.art ? " plan__stelle--" + s.art : ""}`;
-    return m === "links"
-      ? <a href={`/schaden-melden/?stelle=${s.id}`} class={klasse} data-stelle={s.id} data-name={s.name} data-leistung={s.leistung} data-pfad={s.pfad} aria-label={`${s.name}: Schaden hier melden`} data-zaehl="schadenplan" data-ort="start"><title>{s.name}</title>{formen}</a>
-      : <g class={klasse} data-stelle={s.id} aria-hidden="true">{formen}</g>;
+    if (!beschriftet) return <g class={klasse} data-stelle={s.id} aria-hidden="true">{formen}</g>;
+    const [seite, ty, zx, zy] = etikett[s.id];
+    const links = seite === "l";
+    const tx = links ? 186 : 454;
+    const sx = links ? 192 : 448, sy = ty - 7;
+    return <a href={`/schaden-melden/?stelle=${s.id}`} class={klasse} data-stelle={s.id} data-name={s.name} data-leistung={s.leistung} data-pfad={s.pfad} data-zaehl="schadenplan" data-ort="start">
+      <title>{s.name}: Schaden hier melden</title>
+      {formen}
+      <path class="plan__pfeil-linie" d={`M${sx} ${sy} L${zx + DX} ${zy + DY}`} marker-end={`url(#spitze-${m})`}/>
+      <text class="plan__etikett plan__etikett--lang" x={tx} y={ty} text-anchor={links ? "end" : "start"}>{s.name}</text>
+      <text class="plan__etikett plan__etikett--kurz" x={tx} y={ty - 6} text-anchor={links ? "end" : "start"} aria-hidden="true">{zeilen(s.name).map((z: string, i: number) => <tspan x={tx} dy={i === 0 ? (zeilen(s.name).length > 1 ? -9 : 9) : 28}>{z}</tspan>)}</text>
+    </a>;
   })}
-  <g class="plan__zier" aria-hidden="true">
+  <g class="plan__zier" aria-hidden="true" transform={`translate(${DX} ${DY})`}>
     <rect x="7" y="99" width="10" height="24" rx="5" fill={`url(#felge-${m})`}/><rect x="223" y="99" width="10" height="24" rx="5" fill={`url(#felge-${m})`}/>
     <rect x="7" y="317" width="10" height="24" rx="5" fill={`url(#felge-${m})`}/><rect x="223" y="317" width="10" height="24" rx="5" fill={`url(#felge-${m})`}/>
     <rect class="plan__licht" x="60" y="24" width="30" height="8" rx="4"/><rect class="plan__licht" x="150" y="24" width="30" height="8" rx="4"/>
     <rect class="plan__ruecklicht" x="58" y="404" width="32" height="8" rx="4"/><rect class="plan__ruecklicht" x="150" y="404" width="32" height="8" rx="4"/>
     <polygon points="78,20 112,20 176,420 142,420" fill={`url(#glanz-${m})`} opacity=".7"/>
+    <path class="plan__pfeil" d="M120 2 l-7 10 h14 z"/>
   </g>
-  <path class="plan__pfeil" d="M120 2 l-7 10 h14 z" aria-hidden="true"/>
 </svg>
 </div>

@@ -61,3 +61,8 @@ Boden gemessen: Reduced Motion 0 Animationen; nach 5 s läuft nichts; `h1` und T
 - **Dunkel lackiert:** folgt der Einstellung des Geräts; Knopf im Kopf (Muster halb hell, halb dunkel lackiert) wählt für den Besuch um, speichert nichts. Dunkler Lack = Metallic-Navy-Verlauf mit bläulichem Glanz; das Logo erscheint hell wie das beleuchtete Fassadenschild (Filter auf dem Rasterlogo; mit einer Vektordatei sauberer).
 - **Umlackieren als Bewegung:** Beim Wechsel zieht der neue Lack schräg mit weicher Sprühnebel-Kante über die Seite (View Transitions mit Maske, 1,1 s, einmal). Ohne Unterstützung oder unter «Bewegung reduzieren» sofort.
 - Kontrast in beiden Lacken an allen 11 Seiten gemessen: 0 unter Soll.
+
+## Beschrifteter Schadenplan (Rückmeldung Studio, 02.11.2026: «alle Kategorien aus dem Formular mit gestrichelten Pfeilen, dort steht Dach oder Felge»)
+- Startseite: alle 12 Stellen aus dem Formular mit Etikett und gestricheltem Pfeil auf das Blech (Pfeilspitze in Schild-Blau). Etikett und Blech sind ein Link; beim Darüberfahren wird der Pfeil durchgezogen, das Blech blau, das Etikett unterstrichen.
+- Damit die Schrift gerade lesbar bleibt, steht das beschriftete Auto flach von oben (Tiefe aus Lack, Glas, Glanz und Schatten); Formular-Plan behält die leichte Perspektive.
+- Handy: Etiketten zweizeilig («Seite / links vorne», «Front- / Stossstange»), Schrift rund 16 px; Auto steht unter Titel und Einleitung. Kein seitliches Scrollen.

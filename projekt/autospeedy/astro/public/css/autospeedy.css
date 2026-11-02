@@ -595,3 +595,35 @@ header { background: var(--kopf-grund); }
 @media (prefers-color-scheme: dark) { :root:not([data-lack="hell"]) .band--nacht .ablauf p { color: var(--hallengrau); } }
 :root[data-lack="dunkel"] .band--nacht .ablauf p { color: var(--hallengrau); }
 .menue .nav-tesla { margin: 6px 0 6px 10px; }
+
+/* Beschrifteter Schadenplan (Startseite): flach von oben, Etiketten mit gestrichelten Pfeilen zu jeder Stelle */
+.plan-buehne--links .plan { transform: none; max-width: 640px; filter: drop-shadow(10px 22px 18px rgba(15,40,80,.22)); }
+.planband__auto .plan { max-width: 640px; }
+.planband { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+.plan__etikett { font: 600 21px/1 var(--titel); letter-spacing: .01em; fill: var(--tinte); }
+.plan__pfeil-linie { fill: none; stroke: var(--gebotsblau); stroke-width: 1.6; stroke-dasharray: 5 5; stroke-linecap: round; }
+.plan__spitze path { fill: var(--gebotsblau); }
+.plan--links .plan__stelle:hover .plan__etikett, .plan--links .plan__stelle:focus-visible .plan__etikett, .plan--links .plan__stelle.ist-aktiv .plan__etikett { fill: var(--gebotsblau-dunkel); text-decoration: underline; }
+.plan--links .plan__stelle:hover .plan__pfeil-linie, .plan--links .plan__stelle.ist-aktiv .plan__pfeil-linie, .plan--links .plan__stelle:focus-visible .plan__pfeil-linie { stroke-dasharray: none; stroke-width: 2.4; }
+.plan--links .plan__stelle--glas:hover rect { fill: url(#schild-links); }
+@media (prefers-color-scheme: dark) { :root:not([data-lack="hell"]) .plan-buehne--links .plan { filter: drop-shadow(10px 22px 18px rgba(0,0,0,.5)); } :root:not([data-lack="hell"]) .plan__spitze path { fill: #5aa2ec; } :root:not([data-lack="hell"]) .plan__pfeil-linie { stroke: #5aa2ec; } }
+:root[data-lack="dunkel"] .plan-buehne--links .plan { filter: drop-shadow(10px 22px 18px rgba(0,0,0,.5)); }
+:root[data-lack="dunkel"] .plan__spitze path { fill: #5aa2ec; }
+:root[data-lack="dunkel"] .plan__pfeil-linie { stroke: #5aa2ec; }
+@media (max-width: 860px) {
+  .planband { grid-template-columns: 1fr; }
+  .plan-buehne--links .plan { transform: none; max-width: none; }
+  .planband__auto { padding: 0; margin-inline: calc(var(--rand) * -.5); }
+}
+.plan__etikett--kurz { display: none; }
+@media (max-width: 860px) {
+  .plan__etikett--lang { display: none; }
+  .plan__etikett--kurz { display: inline; font-size: 27px; }
+  .planband__text { display: contents; }
+  .planband > .planband__text > h2 { order: 0; margin-bottom: 0; }
+  .planband > .planband__text > p { order: 1; margin: 0; }
+  .planband__auto { order: 2; }
+  .planband__info { order: 3; }
+  .planband__liste { order: 4; margin-top: 0; }
+  .planband { gap: 20px; }
+}
