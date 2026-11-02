@@ -60,3 +60,32 @@ test("Mail-Dienst fällt aus: 502", () => mitMail(500, async () => {
 test("Stellen werden begrenzt", () => {
   assert.deepEqual(pruefe({ art: "Hagel", name: "A", telefon: "0715550000", stellen: Array(13).fill("Dach") }).fehler, ["stellen"]);
 });
+
+// ---- Betriebsart Cockpit (Supabase)
+const envCockpit = { ...env, SUPABASE_URL: "https://sb.example", SUPABASE_SERVICE_KEY: "SERVICE", COCKPIT_URL: "https://cockpit.example" };
+function mitSupabase(fn, { fehlerBei } = {}) {
+  const alt = globalThis.fetch; const aufrufe = [];
+  globalThis.fetch = async (url, opt) => {
+    aufrufe.push({ url: String(url), opt });
+    if (fehlerBei && String(url).includes(fehlerBei)) return new Response("{}", { status: 500 });
+    if (String(url).endsWith("/rest/v1/meldungen")) return new Response(JSON.stringify([{ id: "abc123" }]), { status: 201 });
+    return new Response("{}", { status: 200 });
+  };
+  return fn(aufrufe).finally(() => { globalThis.fetch = alt; });
+}
+test("Cockpit: Meldung, 2 Fotos und Fotozeilen in Supabase, Hinweis-Mail ohne Name und Telefon", () => mitSupabase(async (a) => {
+  const r = await onRequestPost({ request: anfrage(formular({ tesla: "ja" }, [jpg(), jpg()])), env: envCockpit });
+  assert.equal(r.status, 200);
+  const urls = a.map((x) => x.url);
+  assert.deepEqual(urls.slice(0, 4), ["https://sb.example/rest/v1/meldungen", "https://sb.example/storage/v1/object/schadenfotos/abc123/foto-1.jpg", "https://sb.example/storage/v1/object/schadenfotos/abc123/foto-2.jpg", "https://sb.example/rest/v1/meldung_fotos"]);
+  assert.equal(a[0].opt.headers.Authorization, "Bearer SERVICE");
+  const mail = JSON.parse(a[4].opt.body);
+  assert.match(mail.text, /cockpit\.example\/meldung\/abc123/); assert.doesNotMatch(mail.text + mail.betreff, /Test Person|071 555 00 00/); assert.equal(mail.anhaenge.length, 0);
+}));
+test("Cockpit: Speichern scheitert -> 502, keine Hinweis-Mail", () => mitSupabase(async (a) => {
+  const r = await onRequestPost({ request: anfrage(formular({}, [jpg()])), env: envCockpit });
+  assert.equal(r.status, 502); assert.ok(!a.some((x) => x.url.startsWith("https://mail.example")));
+}, { fehlerBei: "/storage/" }));
+test("Cockpit: Hinweis-Mail scheitert -> trotzdem 200 (Meldung ist gespeichert)", () => mitSupabase(async () => {
+  const r = await onRequestPost({ request: anfrage(formular()), env: envCockpit }); assert.equal(r.status, 200);
+}, { fehlerBei: "mail.example" }));

@@ -1,0 +1,75 @@
+@font-face { font-family: "Barlow"; font-weight: 400; font-display: swap; src: url("/fonts/barlow-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 600; font-display: swap; src: url("/fonts/barlow-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Semi Condensed"; font-weight: 700; font-display: swap; src: url("/fonts/barlow-semi-condensed-latin-700-normal.woff2") format("woff2"); }
+:root {
+  --grund: #f3f5f6; --tafel: #ffffff; --tinte: #14202a; --leise: #4a585d; --linie: #dde3e7;
+  --blau: #1566b8; --blau-dunkel: #0f4f94; --blau-hell: #e8f1fb; --baby: #c4e0f8;
+  --gruen: #1f7a4d; --orange: #a35a00; --rot: #b42318;
+  --lack: linear-gradient(162deg, #ffffff 0%, #eaf4fd 40%, #c4e0f8 100%);
+  --titel: "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif; --text: "Barlow", Arial, sans-serif;
+}
+[hidden] { display: none !important; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--grund); color: var(--tinte); font: 400 17px/1.5 var(--text); }
+a { color: var(--blau-dunkel); }
+:focus-visible { outline: 3px solid var(--blau); outline-offset: 2px; }
+h1, h2, h3 { font-family: var(--titel); font-weight: 700; font-style: italic; text-transform: uppercase; line-height: 1.05; margin: 0; }
+.demo-band { margin: 0; padding: 6px 16px; background: #fff4e0; border-bottom: 2px solid #e0a640; font-size: 14px; text-align: center; }
+.seite { max-width: 1100px; margin: 0 auto; padding: 20px max(16px, env(safe-area-inset-left)) 48px; }
+.schmal { max-width: 460px; }
+.kopf { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 12px max(16px, env(safe-area-inset-left)); background: var(--tafel); border-bottom: 2px solid var(--baby); position: sticky; top: 0; z-index: 5; }
+.kopf img { height: 34px; width: auto; }
+.kopf .titel { font: italic 700 20px/1 var(--titel); text-transform: uppercase; margin-right: auto; }
+.knopf { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 0; background: var(--blau); color: #fff; font: 700 15px/1 var(--text); text-transform: uppercase; letter-spacing: .04em; text-decoration: none; cursor: pointer; }
+.knopf:hover { background: var(--blau-dunkel); }
+.knopf.leise { background: transparent; color: var(--blau-dunkel); box-shadow: inset 0 0 0 2px var(--blau); }
+.knopf.gruen { background: transparent; color: #17633e; box-shadow: inset 0 0 0 2px var(--gruen); }
+.knopf[disabled] { opacity: .6; cursor: default; }
+.karte { background: var(--tafel); border: 1px solid var(--linie); padding: 20px; }
+.lack { background: var(--lack); }
+.formular { display: grid; gap: 12px; }
+label { font-weight: 600; }
+input[type=text], input[type=email], textarea { width: 100%; min-height: 48px; padding: 10px 12px; font: inherit; border: 2px solid var(--leise); background: #fff; color: var(--tinte); }
+input.code { font: 600 28px/1 var(--text); letter-spacing: .3em; text-align: center; }
+.meldung-text { color: var(--rot); margin: 0; }
+.hinweis { margin: 0; padding: 10px 12px; background: var(--blau-hell); border-left: 4px solid var(--blau); }
+.anmelden { display: grid; gap: 18px; padding-top: 40px; }
+.anmelden img { height: 48px; width: auto; }
+.unterzeile { color: var(--leise); margin: 0; }
+.kennzahlen { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 18px 0; }
+.kennzahl { padding: 14px 16px; background: var(--lack); border: 1px solid var(--baby); }
+.kennzahl b { display: block; font: italic 700 34px/1 var(--titel); }
+.kennzahl span { font-size: 14px; color: var(--leise); }
+.kennzahl.warn { background: #fff4e0; border-color: #e0a640; }
+.reiter { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 14px; }
+.reiter a { padding: 8px 12px; border: 1px solid var(--linie); background: var(--tafel); text-decoration: none; color: var(--tinte); font-weight: 600; font-size: 15px; }
+.reiter a[aria-current="page"] { background: var(--tinte); color: #fff; border-color: var(--tinte); }
+.liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.zeile { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: center; padding: 14px 16px; background: var(--tafel); border: 1px solid var(--linie); border-left: 5px solid var(--linie); text-decoration: none; color: inherit; }
+.zeile:hover { border-color: var(--blau); }
+.zeile.st-neu { border-left-color: var(--blau); }
+.zeile.st-zurueckgerufen, .zeile.st-offerte { border-left-color: var(--orange); }
+.zeile.st-auftrag, .zeile.st-erledigt { border-left-color: var(--gruen); }
+.zeile .art { font: italic 700 20px/1.1 var(--titel); text-transform: uppercase; }
+.zeile .meta { font-size: 14px; color: var(--leise); }
+.pille { display: inline-block; padding: 3px 9px; font: 700 12px/1.3 var(--text); text-transform: uppercase; letter-spacing: .05em; background: var(--blau-hell); color: var(--blau-dunkel); white-space: nowrap; }
+.pille.tesla { background: var(--blau); color: #fff; }
+.pille.beispiel { background: #fff4e0; color: #7a4300; }
+.pille.st-auftrag, .pille.st-erledigt { background: #e9f6ef; color: #17633e; }
+.pille.st-zurueckgerufen, .pille.st-offerte { background: #fff4e0; color: #7a4300; }
+.pille.st-verloren { background: #eceff1; color: #4a585d; }
+.alt { color: #7a4300; font-weight: 600; }
+.detail { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; margin-top: 14px; }
+.detail dl { margin: 0; display: grid; gap: 2px; }
+.detail dt { font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--blau-dunkel); margin-top: 10px; }
+.detail dd { margin: 0; white-space: pre-wrap; }
+.fotos { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 6px; margin-top: 10px; }
+.fotos img { width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--linie); }
+.aktionen { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.postfach { display: grid; gap: 10px; }
+.mail { padding: 14px 16px; background: var(--tafel); border: 1px solid var(--linie); }
+.mail .kopfzeile { font-size: 14px; color: var(--leise); }
+.mail pre { margin: 8px 0 0; font: 400 16px/1.5 var(--text); white-space: pre-wrap; }
+.authenticator { text-align: center; padding: 28px; }
+.authenticator .code { font: 700 52px/1 var(--text); letter-spacing: .15em; margin: 10px 0; }
+@media (max-width: 760px) { .detail { grid-template-columns: 1fr; } .zeile { grid-template-columns: 1fr; } }

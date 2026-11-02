@@ -1,4 +1,9 @@
 // Formular-Backend für die Schadenmeldung, Weg A (Cloudflare Pages Function, Route POST /api/schaden).
+// Zwei Betriebsarten:
+//   Cockpit (empfohlen): SUPABASE_URL und SUPABASE_SERVICE_KEY gesetzt -> Meldung und Fotos in Supabase
+//     (Tabellen und privater Bucket aus cockpit/supabase/migrations), dann nur ein Hinweis per Mail an den Betrieb,
+//     OHNE Name und Telefon (Link ins Cockpit, COCKPIT_URL). Die Daten bleiben in der Datenbank.
+//   Nur Mail: ohne Supabase gehen Angaben und Fotos als Mail mit Anhängen (wie bisher).
 // Stand: gebaut und lokal getestet (test/schaden.test.mjs), NICHT deployt. Erst aktiv, wenn
 //   1. bau.json formularEndpunkt = "/api/schaden",
 //   2. am Hoster MAIL_ENDPUNKT (HTTPS-Adresse des Mail-Dienstes), MAIL_SCHLUESSEL, MAIL_AN gesetzt sind,
@@ -49,6 +54,36 @@ function base64(puffer) {
   return btoa(s);
 }
 
+
+async function supabase(env, pfad, opt) {
+  const r = await fetch(`${env.SUPABASE_URL}${pfad}`, { ...opt, headers: { apikey: env.SUPABASE_SERVICE_KEY, Authorization: `Bearer ${env.SUPABASE_SERVICE_KEY}`, ...(opt.headers || {}) } });
+  if (!r.ok) throw new Error(`supabase ${r.status}`);
+  return r;
+}
+
+/** Meldung und Fotos ins Cockpit (Supabase); gibt die ID zurück. */
+export async function insCockpit(env, d) {
+  const r = await supabase(env, "/rest/v1/meldungen", {
+    method: "POST", headers: { "Content-Type": "application/json", Prefer: "return=representation" },
+    body: JSON.stringify({ art: d.art, tesla: d.tesla, stellen: d.stellen, bemerkung: d.bemerkung, name: d.name, telefon: d.telefon, quelle: "website" }),
+  });
+  const [{ id }] = await r.json();
+  const zeilen = [];
+  for (const [i, f] of d.fotos.entries()) {
+    const pfad = `${id}/foto-${i + 1}.jpg`;
+    await supabase(env, `/storage/v1/object/schadenfotos/${pfad}`, { method: "POST", headers: { "Content-Type": "image/jpeg", "x-upsert": "false" }, body: await f.arrayBuffer() });
+    zeilen.push({ meldung_id: id, pfad });
+  }
+  if (zeilen.length) await supabase(env, "/rest/v1/meldung_fotos", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(zeilen) });
+  return id;
+}
+
+/** Hinweis an den Betrieb ohne Personendaten. */
+export function hinweisText(d, id, cockpit) {
+  return [`Eine neue Schadenmeldung ist eingegangen: ${d.art}${d.tesla ? " (Tesla)" : ""}, ${d.fotos.length} Foto${d.fotos.length === 1 ? "" : "s"}.`,
+    `Ansehen und zurückrufen im Cockpit: ${cockpit || "(Cockpit-Adresse fehlt)"}/meldung/${id}`, "", "Name und Telefon stehen aus Datenschutzgründen nur im Cockpit."].join("\n");
+}
+
 export async function onRequestPost({ request, env }) {
   const herkunft = request.headers.get("Origin");
   if (env.ERLAUBTE_HERKUNFT && herkunft && herkunft !== env.ERLAUBTE_HERKUNFT) return antwort(403, { ok: false, fehler: ["herkunft"] });
@@ -64,6 +99,15 @@ export async function onRequestPost({ request, env }) {
   });
   if (daten.website) return antwort(200, { ok: true }); // Honigtopf: still annehmen, nichts senden
   if (fehler.length) return antwort(422, { ok: false, fehler });
+  if (env.SUPABASE_URL && env.SUPABASE_SERVICE_KEY) {
+    let id;
+    try { id = await insCockpit(env, daten); } catch { return antwort(502, { ok: false, fehler: ["speichern"] }); }
+    if (env.MAIL_ENDPUNKT && env.MAIL_SCHLUESSEL && env.MAIL_AN) {
+      // Die Meldung ist gespeichert; fällt nur der Hinweis aus, gilt sie trotzdem als angekommen (das Cockpit zeigt sie).
+      try { await fetch(env.MAIL_ENDPUNKT, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.MAIL_SCHLUESSEL}` }, body: JSON.stringify({ an: env.MAIL_AN, betreff: `Neue Schadenmeldung: ${daten.art}${daten.tesla ? " (Tesla)" : ""}`, text: hinweisText(daten, id, env.COCKPIT_URL), anhaenge: [] }) }); } catch { /* still */ }
+    }
+    return antwort(200, { ok: true });
+  }
   if (!env.MAIL_ENDPUNKT || !env.MAIL_SCHLUESSEL || !env.MAIL_AN) return antwort(503, { ok: false, fehler: ["nicht-eingerichtet"] });
   const anhaenge = [];
   for (const [i, f] of fotos.entries()) anhaenge.push({ name: `schaden-${i + 1}.jpg`, typ: "image/jpeg", inhalt: base64(await f.arrayBuffer()) });

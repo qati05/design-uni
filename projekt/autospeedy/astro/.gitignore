@@ -2,3 +2,4 @@ node_modules/
 dist/
 .astro/
 .bau-tmp.mjs
+dist-demo/

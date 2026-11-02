@@ -13,7 +13,8 @@ import { betrieb as b, bau, vorschau, seite as lies } from "../../bau/daten.mjs"
 const h1 = lies("schaden-melden").h1;
 const stellen = (stellenDaten as any).stellen;
 const arten = (artenDaten as any).arten;
-const endpunkt = bau.formularEndpunkt || "";
+// FORMULAR_ENDPUNKT (nur Demo-Bau) überschreibt bau.json, z. B. für das lokale Cockpit.
+const endpunkt = process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt || "";
 const wa = b.whatsapp;
 ---
 <Seite seite="schaden-melden" eigeneH1 abschluss={false}>

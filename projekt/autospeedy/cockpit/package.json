@@ -1,0 +1,35 @@
+{
+  "name": "autospeedy-cockpit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "next dev -p 4400",
+    "build": "next build",
+    "start": "next start -p 4400",
+    "demo": "COCKPIT_DEMO=1 next start -p 4400",
+    "typen": "tsc --noEmit",
+    "test": "vitest run",
+    "rauchprobe": "bash tests/db/rauchprobe.sh"
+  },
+  "dependencies": {
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "2.117.3",
+    "next": "16.4.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "server-only": "0.0.1",
+    "zod": "4.6.6"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "6.0.3",
+    "vite": "7.3.7",
+    "vitest": "5.0.3"
+  }
+}
