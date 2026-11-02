@@ -10,6 +10,9 @@
 ## Signatur: der Schadenplan
 Das Auto von oben, Blech für Blech mit Spaltmass: Auf der Startseite tippt man die Stelle an und landet in der Schadenmeldung mit dieser Stelle; im Formular wählt man Stellen am Auto; nach dem Absenden entsteht ein Schadenrapport mit Auto und Stellen. Details: richtung.md. Formular-Backend gebaut und getestet, nicht deployt: technik.md.
 
+## Dunkel lackiert
+Die Website folgt dem Dunkelmodus des Geräts; der runde Knopf im Kopf lackiert für den Besuch um. Beim Wechsel zieht der neue Lack mit Sprühnebel-Kante über die Seite.
+
 ## Seiten
 Start · Schaden melden · Tesla · Carrosserie · Lackiererei · Felgen und Folierung · Occasionen · Team · Kontakt · Impressum (Entwurf) · Datenschutz (Entwurf) · 404.
 «Schaden melden» und Telefon stehen auf jeder Seite im Kopf, am Handy in einer Leiste unten (Wunsch 1). Tesla ist im Menü, auf dem ersten Bildschirm und als Weg «Tesla beschädigt»; der Tesla-Knopf wählt im Formular «Tesla» vor (Wunsch 2).
@@ -51,6 +54,8 @@ Start · Schaden melden · Tesla · Carrosserie · Lackiererei · Felgen und Fol
 | Ohne JavaScript: Plan als Links, Formular mit Kästchen über mailto | läuft |
 | Formular-Backend `npm test` | 9 von 9 grün; nicht deployt |
 | Bewegung: Reduced Motion 0 Animationen, nach 5 s nichts laufend | gemessen |
+| Dunkel lackiert: Kontrast aller Seiten, Umlackieren per System und Knopf, Reduced Motion ohne Bewegung | gemessen, 0 Befunde |
+| Navigation: Leistungen auf und zu (Klick daneben, Escape), Tesla-Abzeichen Desktop und Handy | läuft |
 | Wörter im ersten Bildschirm | etwa 70, Richtwert 60 `[Annahme]`, Hinweis |
 | `pruefen.cjs`, `slop-de.js`, Lighthouse, axe | **nicht gelaufen** |
 | Blinde Bewerter, Kunden-Agenten, Menschentest, Safari, echte Geräte | **nicht gelaufen** |

@@ -7,19 +7,23 @@
   "navigation": [
     {
       "pfad": "/carrosserie/",
-      "text": "Carrosserie"
+      "text": "Carrosserie",
+      "gruppe": "Leistungen"
     },
     {
       "pfad": "/lackiererei/",
-      "text": "Lackiererei"
+      "text": "Lackiererei",
+      "gruppe": "Leistungen"
     },
     {
       "pfad": "/felgen-folierung/",
-      "text": "Felgen und Folierung"
+      "text": "Felgen und Folierung",
+      "gruppe": "Leistungen"
     },
     {
       "pfad": "/tesla/",
-      "text": "Tesla"
+      "text": "Tesla",
+      "marke": "Approved Body Shop"
     },
     {
       "pfad": "/occasionen/",
@@ -66,6 +70,10 @@
       "zuHeute": "Jetzt geschlossen, heute ab {ab} Uhr offen.",
       "zuTag": "Jetzt geschlossen, {tag} ab {ab} Uhr offen.",
       "zu": "Jetzt geschlossen."
+    },
+    "lack": {
+      "dunkel": "Dunkel lackieren",
+      "hell": "Hell lackieren"
     }
   },
   "seiten": {

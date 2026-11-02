@@ -54,3 +54,10 @@ Boden gemessen: Reduced Motion 0 Animationen; nach 5 s läuft nichts; `h1` und T
 - **Tauschtest:** Ein Coiffeur oder Schreiner kann ihn nicht haben; eine andere Carrosserie könnte ihn bauen, aber die Farben, der Lackverlauf und der Schwung gehören Auto Speedy. Blind nicht geprüft.
 - **Zwölf Stellen** mit Leistungen nur aus fakten.md (F5, F6, F16). Keine Fristen, keine Preise.
 - **Boden:** ohne JavaScript sind die Stellen Links und die Kästchen ein normales Formular; Tastatur: jede Stelle mit Fokus erreichbar; Bildschirmleser lesen «Motorhaube: Schaden hier melden»; Reduced Motion ohne Übergänge.
+
+## Ausbau 02.11.2026 (Rückmeldung Studio: mehr 2D/3D, kompaktere Navigation mit Tesla, Dunkelmodus «dunkel lackiert»)
+- **Schadenplan plastisch:** jedes Blech mit eigenem Lackverlauf, Scheiben als dunkles Glas, Reifen mit silbernen Felgen, Spiegel, Scheinwerfer, rote Rückleuchten, ein Glanzstreifen quer über das Auto; Schatten darunter; Perspektive wie auf einer Drehbühne (CSS `rotateX`/`rotateZ`, fest, folgt nicht der Maus: Tilt nach Maus steht in der Nie-Liste). Im Formular flacher, im Rapport flach.
+- **Navigation:** Carrosserie, Lackiererei, Felgen und Folierung unter «Leistungen» (`details`, geht ohne JavaScript; schliesst bei Klick daneben und mit Escape). **Tesla als eigenes Abzeichen** im Schild-Blau-Verlauf mit «Approved Body Shop», schräg geschnitten wie der Schwung; auch im Handy-Menü.
+- **Dunkel lackiert:** folgt der Einstellung des Geräts; Knopf im Kopf (Muster halb hell, halb dunkel lackiert) wählt für den Besuch um, speichert nichts. Dunkler Lack = Metallic-Navy-Verlauf mit bläulichem Glanz; das Logo erscheint hell wie das beleuchtete Fassadenschild (Filter auf dem Rasterlogo; mit einer Vektordatei sauberer).
+- **Umlackieren als Bewegung:** Beim Wechsel zieht der neue Lack schräg mit weicher Sprühnebel-Kante über die Seite (View Transitions mit Maske, 1,1 s, einmal). Ohne Unterstützung oder unter «Bewegung reduzieren» sofort.
+- Kontrast in beiden Lacken an allen 11 Seiten gemessen: 0 unter Soll.

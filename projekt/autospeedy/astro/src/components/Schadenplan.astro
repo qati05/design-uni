@@ -1,22 +1,40 @@
 ---
-// Signatur von Auto Speedy: das Auto von oben, Blech für Blech mit Spaltmass.
+// Signatur von Auto Speedy: das Auto von oben, Blech für Blech mit Spaltmass, plastisch lackiert.
 // modus «links»: jede Stelle ist ein Link zur Schadenmeldung mit dieser Stelle (geht ohne JavaScript).
 // modus «wahl»: Stellen schalten die Kästchen im Formular (nur mit JavaScript sichtbar; die Kästchen gehen immer).
+// Farben über CSS-Variablen (hell und dunkel lackiert); Zierteile (Glanz, Lichter, Spiegel, Felgensterne) fangen keine Klicks.
 import daten from "../content/stellen.json";
 const { modus = "links", titel } = Astro.props;
+const m = modus;
 const stellen = (daten as any).stellen;
 ---
-<svg class={`plan plan--${modus}`} viewBox="0 0 240 440" role={modus === "links" ? "group" : "img"} aria-label={titel} data-plan={modus}>
+<div class={`plan-buehne plan-buehne--${m}`}>
+<svg class={`plan plan--${m}`} viewBox="0 0 240 440" role={m === "links" ? "group" : "img"} aria-label={titel} data-plan={m}>
   <defs>
-    <linearGradient id={`lack-${modus}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#e6f2fc"/><stop offset="1" stop-color="#c4e0f8"/></linearGradient>
-    <linearGradient id={`schild-${modus}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1566b8"/><stop offset="1" stop-color="#0f4f94"/></linearGradient>
+    <linearGradient id={`lack-${m}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="st-a"/><stop offset=".5" class="st-b"/><stop offset="1" class="st-c"/></linearGradient>
+    <linearGradient id={`schild-${m}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a8ae0"/><stop offset=".45" stop-color="#1566b8"/><stop offset="1" stop-color="#0d4583"/></linearGradient>
+    <linearGradient id={`glas-${m}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5d7c9e"/><stop offset=".35" stop-color="#22374f"/><stop offset="1" stop-color="#0c1724"/></linearGradient>
+    <linearGradient id={`glanz-${m}`} x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <radialGradient id={`felge-${m}`}><stop offset="0" stop-color="#f4f6f8"/><stop offset=".7" stop-color="#aeb6bf"/><stop offset="1" stop-color="#6d7781"/></radialGradient>
   </defs>
   <rect class="plan__karosse" x="20" y="16" width="200" height="408" rx="46"/>
+  <g class="plan__zier" aria-hidden="true">
+    <rect x="8" y="138" width="14" height="16" rx="4"/><rect x="218" y="138" width="14" height="16" rx="4"/>
+  </g>
   {stellen.map((s: any) => {
     const formen = s.form.map(([x, y, w, h, r]: number[]) => <rect x={x} y={y} width={w} height={h} rx={r}/>);
-    return modus === "links"
-      ? <a href={`/schaden-melden/?stelle=${s.id}`} class="plan__stelle" data-stelle={s.id} data-name={s.name} data-leistung={s.leistung} data-pfad={s.pfad} aria-label={`${s.name}: Schaden hier melden`} data-zaehl="schadenplan" data-ort="start"><title>{s.name}</title>{formen}</a>
-      : <g class="plan__stelle" data-stelle={s.id} aria-hidden="true">{formen}</g>;
+    const klasse = `plan__stelle${s.art ? " plan__stelle--" + s.art : ""}`;
+    return m === "links"
+      ? <a href={`/schaden-melden/?stelle=${s.id}`} class={klasse} data-stelle={s.id} data-name={s.name} data-leistung={s.leistung} data-pfad={s.pfad} aria-label={`${s.name}: Schaden hier melden`} data-zaehl="schadenplan" data-ort="start"><title>{s.name}</title>{formen}</a>
+      : <g class={klasse} data-stelle={s.id} aria-hidden="true">{formen}</g>;
   })}
+  <g class="plan__zier" aria-hidden="true">
+    <rect x="7" y="99" width="10" height="24" rx="5" fill={`url(#felge-${m})`}/><rect x="223" y="99" width="10" height="24" rx="5" fill={`url(#felge-${m})`}/>
+    <rect x="7" y="317" width="10" height="24" rx="5" fill={`url(#felge-${m})`}/><rect x="223" y="317" width="10" height="24" rx="5" fill={`url(#felge-${m})`}/>
+    <rect class="plan__licht" x="60" y="24" width="30" height="8" rx="4"/><rect class="plan__licht" x="150" y="24" width="30" height="8" rx="4"/>
+    <rect class="plan__ruecklicht" x="58" y="404" width="32" height="8" rx="4"/><rect class="plan__ruecklicht" x="150" y="404" width="32" height="8" rx="4"/>
+    <polygon points="78,20 112,20 176,420 142,420" fill={`url(#glanz-${m})`} opacity=".7"/>
+  </g>
   <path class="plan__pfeil" d="M120 2 l-7 10 h14 z" aria-hidden="true"/>
 </svg>
+</div>

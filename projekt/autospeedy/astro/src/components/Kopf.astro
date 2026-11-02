@@ -1,20 +1,33 @@
 ---
-// Kopf: Logo, Menü, Telefon und «Schaden melden» auf jeder Seite (Wunsch des Betriebs). Handy: Menü-Knopf oben, Leiste unten.
+// Kopf: Logo, kompakte Navigation (Leistungen als Gruppe, Tesla als Abzeichen), Lackwahl, Telefon, «Schaden melden».
+// Gruppe ist <details>: geht ohne JavaScript. Handy: Menü-Knopf oben, Leiste unten.
 import { texte as t } from "../../bau/daten.mjs";
 import Hauptaktion from "./Hauptaktion.astro";
 import Tel from "./Tel.astro";
 import Logo from "./Logo.astro";
 const { aktiv = "" } = Astro.props;
 const cur = (p: string) => (aktiv === p || (p !== "/" && aktiv.startsWith(p)) ? "page" : undefined);
+const gruppe = t.navigation.filter((n: any) => n.gruppe);
+const gName = gruppe[0]?.gruppe;
+const rest = t.navigation.filter((n: any) => !n.gruppe);
+const gAktiv = gruppe.some((n: any) => cur(n.pfad));
 ---
 <header>
 <a class="kopf__logo" href="/" aria-label={t.mikrotexte.startseite}><Logo /></a>
 <nav aria-label={t.mikrotexte.navName}>
 <details class="menue">
 <summary>{t.mikrotexte.menueKnopf}</summary>
-<ul>{t.navigation.map((n: any) => <li><a href={n.pfad} aria-current={cur(n.pfad)}>{n.text}</a></li>)}</ul>
+<ul>
+  <li class="menue__gruppe"><span>{gName}</span><ul>{gruppe.map((n: any) => <li><a href={n.pfad} aria-current={cur(n.pfad)}>{n.text}</a></li>)}</ul></li>
+  {rest.map((n: any) => <li>{n.marke ? <a class="nav-tesla" href={n.pfad} aria-current={cur(n.pfad)}><span>{n.text}</span><small>{n.marke}</small></a> : <a href={n.pfad} aria-current={cur(n.pfad)}>{n.text}</a>}</li>)}
+</ul>
 </details>
-<ul class="menue__breit">{t.navigation.map((n: any) => <li><a href={n.pfad} aria-current={cur(n.pfad)}>{n.text}</a></li>)}</ul>
+<ul class="menue__breit">
+  <li><details class="leistungen" data-leistungen><summary class={gAktiv ? "ist-aktiv" : undefined}>{gName}</summary>
+    <ul>{gruppe.map((n: any) => <li><a href={n.pfad} aria-current={cur(n.pfad)}>{n.text}</a></li>)}</ul></details></li>
+  {rest.map((n: any) => <li>{n.marke ? <a class="nav-tesla" href={n.pfad} aria-current={cur(n.pfad)}><span>{n.text}</span><small>{n.marke}</small></a> : <a href={n.pfad} aria-current={cur(n.pfad)}>{n.text}</a>}</li>)}
+</ul>
 </nav>
+<button class="lackwahl" type="button" data-lackwahl hidden aria-pressed="false" title={t.mikrotexte.lack.dunkel}><span class="lackwahl__muster" aria-hidden="true"></span><span class="sr" data-lackwahl-text>{t.mikrotexte.lack.dunkel}</span></button>
 <div class="aktionen"><Tel ort="kopf" /><Hauptaktion ort="kopf" /></div>
 </header>

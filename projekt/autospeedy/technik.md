@@ -27,3 +27,6 @@ GB6, GB1, GB5: Stufe 1, nur CSS (`clip-path`, `stroke-dashoffset`, Farbe), 0 KB 
 - Tests: `npm test`, 9 von 9 grün (Erfolg, Pflichtfelder, Honigtopf, fremde Herkunft, Format, Grösse, nicht eingerichtet, Mail-Dienst fällt aus, Telefon/Stellen) `[gebaut und gemessen · 02.11.2026]`. Ohne Netz, Mail-Dienst simuliert.
 - Frontend (`public/js/schaden.js`): mit `bau.json formularEndpunkt` POST und «angekommen» nur bei 200; sonst Rapport und Übergabe an das E-Mail-Programm. Doppeltes Senden gesperrt.
 - **Offen vor dem Einschalten:** Mail-Dienst wählen (Sitz Schweiz oder EU bevorzugt), Datenschutzerklärung ergänzen (text-uni CL3), Anfragekette mit dem Betrieb (wer liest, wann), Foto-Upload (braucht Speicher und Löschfrist, darum noch nicht gebaut).
+
+## Bewegung, Ergänzung
+Umlackieren: View Transitions (Stufe 2) mit CSS-Maske, `public/js/lack.js` rund 2 KB; Firefox und ältere Browser wechseln ohne Bewegung. Schadenplan-Perspektive: CSS-Transform, statisch. Kein zusätzliches JavaScript-Paket.

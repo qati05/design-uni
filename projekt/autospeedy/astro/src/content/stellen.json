@@ -1,17 +1,209 @@
 {
   "_hinweis": "Schadenplan: Auto von oben, Front oben. Masse im viewBox 0 0 240 440. Jede Stelle mit Leistung aus fakten.md (F5, F6, Felgen F16).",
   "stellen": [
-    { "id": "front", "name": "Front-Stossstange", "form": [[50, 20, 140, 26, 13]], "leistung": "Stossstangen-Reparatur, Unfallschäden", "pfad": "/carrosserie/" },
-    { "id": "haube", "name": "Motorhaube", "form": [[54, 50, 132, 76, 8]], "leistung": "Dellen, Hagel, Lackschäden", "pfad": "/carrosserie/#hagel" },
-    { "id": "frontscheibe", "name": "Frontscheibe", "form": [[58, 130, 124, 36, 6]], "leistung": "Scheibenreparatur und Scheibenwechsel", "pfad": "/carrosserie/" },
-    { "id": "dach", "name": "Dach", "form": [[62, 170, 116, 100, 6]], "leistung": "Hagelschäden und Dellendrücken", "pfad": "/carrosserie/#hagel" },
-    { "id": "heckscheibe", "name": "Heckscheibe", "form": [[58, 274, 124, 32, 6]], "leistung": "Scheibenreparatur und Scheibenwechsel", "pfad": "/carrosserie/" },
-    { "id": "heckdeckel", "name": "Heckdeckel", "form": [[54, 310, 132, 76, 8]], "leistung": "Dellen, Rost, Lackschäden", "pfad": "/lackiererei/" },
-    { "id": "heck", "name": "Heck-Stossstange", "form": [[50, 390, 140, 30, 13]], "leistung": "Stossstangen-Reparatur, Parkschäden", "pfad": "/carrosserie/" },
-    { "id": "links-vorne", "name": "Seite links vorne", "form": [[24, 60, 26, 148, 8]], "leistung": "Unfall- und Blechschäden, Lack", "pfad": "/carrosserie/" },
-    { "id": "links-hinten", "name": "Seite links hinten", "form": [[24, 212, 26, 160, 8]], "leistung": "Unfall- und Blechschäden, Lack", "pfad": "/carrosserie/" },
-    { "id": "rechts-vorne", "name": "Seite rechts vorne", "form": [[190, 60, 26, 148, 8]], "leistung": "Unfall- und Blechschäden, Lack", "pfad": "/carrosserie/" },
-    { "id": "rechts-hinten", "name": "Seite rechts hinten", "form": [[190, 212, 26, 160, 8]], "leistung": "Unfall- und Blechschäden, Lack", "pfad": "/carrosserie/" },
-    { "id": "felgen", "name": "Felgen", "form": [[4, 82, 16, 58, 6], [220, 82, 16, 58, 6], [4, 300, 16, 58, 6], [220, 300, 16, 58, 6]], "leistung": "Arbeiten an Alufelgen", "pfad": "/felgen-folierung/" }
+    {
+      "id": "front",
+      "name": "Front-Stossstange",
+      "form": [
+        [
+          50,
+          20,
+          140,
+          26,
+          13
+        ]
+      ],
+      "leistung": "Stossstangen-Reparatur, Unfallschäden",
+      "pfad": "/carrosserie/"
+    },
+    {
+      "id": "haube",
+      "name": "Motorhaube",
+      "form": [
+        [
+          54,
+          50,
+          132,
+          76,
+          8
+        ]
+      ],
+      "leistung": "Dellen, Hagel, Lackschäden",
+      "pfad": "/carrosserie/#hagel"
+    },
+    {
+      "id": "frontscheibe",
+      "name": "Frontscheibe",
+      "form": [
+        [
+          58,
+          130,
+          124,
+          36,
+          6
+        ]
+      ],
+      "leistung": "Scheibenreparatur und Scheibenwechsel",
+      "pfad": "/carrosserie/",
+      "art": "glas"
+    },
+    {
+      "id": "dach",
+      "name": "Dach",
+      "form": [
+        [
+          62,
+          170,
+          116,
+          100,
+          6
+        ]
+      ],
+      "leistung": "Hagelschäden und Dellendrücken",
+      "pfad": "/carrosserie/#hagel"
+    },
+    {
+      "id": "heckscheibe",
+      "name": "Heckscheibe",
+      "form": [
+        [
+          58,
+          274,
+          124,
+          32,
+          6
+        ]
+      ],
+      "leistung": "Scheibenreparatur und Scheibenwechsel",
+      "pfad": "/carrosserie/",
+      "art": "glas"
+    },
+    {
+      "id": "heckdeckel",
+      "name": "Heckdeckel",
+      "form": [
+        [
+          54,
+          310,
+          132,
+          76,
+          8
+        ]
+      ],
+      "leistung": "Dellen, Rost, Lackschäden",
+      "pfad": "/lackiererei/"
+    },
+    {
+      "id": "heck",
+      "name": "Heck-Stossstange",
+      "form": [
+        [
+          50,
+          390,
+          140,
+          30,
+          13
+        ]
+      ],
+      "leistung": "Stossstangen-Reparatur, Parkschäden",
+      "pfad": "/carrosserie/"
+    },
+    {
+      "id": "links-vorne",
+      "name": "Seite links vorne",
+      "form": [
+        [
+          24,
+          60,
+          26,
+          148,
+          8
+        ]
+      ],
+      "leistung": "Unfall- und Blechschäden, Lack",
+      "pfad": "/carrosserie/"
+    },
+    {
+      "id": "links-hinten",
+      "name": "Seite links hinten",
+      "form": [
+        [
+          24,
+          212,
+          26,
+          160,
+          8
+        ]
+      ],
+      "leistung": "Unfall- und Blechschäden, Lack",
+      "pfad": "/carrosserie/"
+    },
+    {
+      "id": "rechts-vorne",
+      "name": "Seite rechts vorne",
+      "form": [
+        [
+          190,
+          60,
+          26,
+          148,
+          8
+        ]
+      ],
+      "leistung": "Unfall- und Blechschäden, Lack",
+      "pfad": "/carrosserie/"
+    },
+    {
+      "id": "rechts-hinten",
+      "name": "Seite rechts hinten",
+      "form": [
+        [
+          190,
+          212,
+          26,
+          160,
+          8
+        ]
+      ],
+      "leistung": "Unfall- und Blechschäden, Lack",
+      "pfad": "/carrosserie/"
+    },
+    {
+      "id": "felgen",
+      "name": "Felgen",
+      "form": [
+        [
+          4,
+          82,
+          16,
+          58,
+          6
+        ],
+        [
+          220,
+          82,
+          16,
+          58,
+          6
+        ],
+        [
+          4,
+          300,
+          16,
+          58,
+          6
+        ],
+        [
+          220,
+          300,
+          16,
+          58,
+          6
+        ]
+      ],
+      "leistung": "Arbeiten an Alufelgen",
+      "pfad": "/felgen-folierung/",
+      "art": "rad"
+    }
   ]
 }

@@ -54,7 +54,9 @@ const daten = { zeiten, ausnahmen, status: texte.mikrotexte.status };
 <link rel="stylesheet" href="/css/autospeedy.css">
 {jsonld && <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)}></script>}
 <script is:inline type="application/json" id="betrieb-daten" set:html={JSON.stringify(daten)}></script>
+<script is:inline>try{document.documentElement.setAttribute("data-lack",matchMedia("(prefers-color-scheme: dark)").matches?"dunkel":"hell")}catch(e){}</script>
 <script is:inline src="/js/main.js" defer></script>
+<script is:inline src="/js/lack.js" defer></script>
 </head>
 <body>
 <a class="sprung" href="#inhalt">{texte.mikrotexte.sprunglink}</a>
