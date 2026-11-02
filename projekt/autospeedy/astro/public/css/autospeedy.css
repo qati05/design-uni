@@ -215,3 +215,98 @@ footer li a { min-height: 36px; }
   .start__text .fakten { order: 2; }
   .anfahrt__bild img { min-height: 0; }
 }
+
+/* ===== Richtung «Yin und Yang» (Rückmeldung Studio, 02.11.2026): harter Kontrast Schwarz/Weiss wie die zwei Schwünge
+   im S des Logos; Schnitt schräg im Winkel des Schwungs; Titel kursiv wie der Schriftzug AUTO SPEEDY. Blau bleibt Akzent. */
+:root {
+  --nacht: #0b0f14;          /* Schwarz des Schriftzugs im Logo */
+  --nacht-2: #151b22;
+  --auf-nacht: #ffffff;
+  --auf-nacht-leise: #b9c3c9;
+  --gebotsblau-auf-nacht: #6fb0f2;
+  --schnitt: 7vw;            /* Schräge des Schwungs */
+}
+.idee, .band__titel, .abschluss h2, .seite h2, .leistung h2, .ablauf h3, .wege__titel, .partner li, .tesla-band__marke, .fuss__titel { font-style: italic; }
+.idee { font-size: clamp(48px, 6.4vw, 104px); line-height: .92; letter-spacing: -.01em; }
+.idee--klein { font-size: clamp(38px, 4.6vw, 72px); }
+
+/* Erster Bildschirm: schwarze Hälfte gegen helles Foto, schräger Schnitt */
+.start { background: var(--nacht); grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); }
+.start__text { position: relative; z-index: 2; background: var(--nacht); color: var(--auf-nacht); margin-right: calc(var(--schnitt) * -1); padding-right: calc(var(--schnitt) + 24px); clip-path: polygon(0 0, 100% 0, calc(100% - var(--schnitt)) 100%, 0 100%); }
+.start h1, .seitenkopf h1, .formularseite h1 { color: var(--gebotsblau-auf-nacht); font-weight: 600; letter-spacing: .02em; text-transform: uppercase; font-size: 17px; }
+.start .fakten { border-color: rgba(255,255,255,.18); max-width: calc(100% - var(--schnitt)); }
+.start .fakten li { border-color: rgba(255,255,255,.18); color: var(--auf-nacht); }
+.tesla-band { border-color: var(--auf-nacht); color: var(--auf-nacht); background: transparent; }
+.tesla-band span:last-child { color: var(--gebotsblau-auf-nacht); }
+.tesla-band:hover { background: var(--auf-nacht); color: var(--nacht); }
+.tesla-band:hover span:last-child { color: var(--gebotsblau-dunkel); }
+.idee::after { content: ""; display: block; width: 96px; height: 8px; margin-top: 22px; background: var(--gebotsblau); transform: skewX(-24deg); }
+
+/* Bänder im Wechsel */
+.band--nacht { background: var(--nacht); color: var(--auf-nacht); clip-path: polygon(0 3vw, 100% 0, 100% calc(100% - 3vw), 0 100%); padding-block: calc(clamp(48px, 7vw, 96px) + 3vw); margin-block: -1px; }
+.band--nacht .band__titel { color: var(--auf-nacht); }
+.band--nacht .ablauf li { border-top-color: var(--gebotsblau); }
+.band--nacht .ablauf__nr { font: italic 700 64px/1 var(--titel); color: var(--gebotsblau-auf-nacht); }
+.band--nacht .ablauf p { color: var(--auf-nacht-leise); }
+.band--nacht .ablauf .tel { color: var(--auf-nacht); }
+.band--nacht .galerie img { filter: contrast(1.05); }
+.band__titel { font-size: clamp(36px, 4.4vw, 64px); }
+.wege { gap: 0; border: 2px solid var(--nacht); }
+.wege li + li a { border-left: 2px solid var(--nacht); }
+.wege a { background: var(--kabinenlicht); transition: background .15s, color .15s; }
+.wege a:hover { background: var(--nacht); }
+.wege a:hover .wege__titel, .wege a:hover .wege__text { color: var(--auf-nacht); text-decoration: none; }
+.wege a:hover .wege__nr { color: var(--gebotsblau-auf-nacht); }
+.partner li { font-size: clamp(32px, 4vw, 60px); border-bottom: 2px solid var(--nacht); }
+.partner { border-top: 2px solid var(--nacht); }
+
+/* Unterseiten: schwarze Texthälfte, Foto, Schnitt */
+.seitenkopf { background: var(--nacht); border: 0; }
+.seitenkopf__text { position: relative; z-index: 2; background: var(--nacht); color: var(--auf-nacht); margin-right: calc(var(--schnitt) * -1); padding-right: calc(var(--schnitt) + 24px); clip-path: polygon(0 0, 100% 0, calc(100% - var(--schnitt)) 100%, 0 100%); }
+.seitenkopf__text a:not(.knopf) { color: var(--gebotsblau-auf-nacht); }
+.seitenkopf__text .tel { color: var(--auf-nacht); padding: 0; min-height: 0; display: inline; }
+.seitenkopf__text .route { color: var(--gebotsblau-auf-nacht); }
+.leistung { border-bottom: 2px solid var(--nacht); }
+.leistung:nth-child(even) > div { order: 2; }
+.seite h2 { font-size: clamp(30px, 3vw, 42px); }
+main > h1 { font-style: italic; }
+
+/* Schaden melden: links Nacht, rechts das helle Formular */
+.formularseite { background: linear-gradient(100deg, var(--nacht) 0 44%, var(--hallenweiss) 44% 100%); }
+.formularseite__kopf { color: var(--auf-nacht); }
+.formularseite__tel .tel { color: var(--gebotsblau-auf-nacht); }
+form { border-top: 0; box-shadow: 0 0 0 2px var(--nacht), 12px 12px 0 var(--gebotsblau); border-radius: 0; }
+
+/* Knöpfe kantiger, Abschluss als harter Block */
+.knopf { border-radius: 0; text-transform: uppercase; letter-spacing: .04em; font-size: 16px; }
+.knopf--gross { font-size: 17px; }
+.abschluss { background: var(--gebotsblau); clip-path: polygon(0 0, 100% 3vw, 100% 100%, 0 100%); padding-top: calc(clamp(40px, 5vw, 64px) + 3vw); }
+.abschluss .tel { border-radius: 0; }
+header .aktionen .tel { border-radius: 0; }
+.menue summary { border-radius: 0; }
+header { border-bottom: 2px solid var(--nacht); }
+
+@media (max-width: 860px) {
+  .start__text, .seitenkopf__text { margin-right: 0; padding-right: var(--rand); clip-path: polygon(0 28px, 100% 0, 100% 100%, 0 100%); margin-top: -28px; padding-top: 52px; }
+  .start .fakten { max-width: none; }
+  .idee { font-size: clamp(42px, 12vw, 60px); }
+  .idee--klein { font-size: clamp(34px, 10vw, 48px); }
+  .band--nacht { clip-path: polygon(0 24px, 100% 0, 100% calc(100% - 24px), 0 100%); padding-block: 72px; }
+  .band--nacht .ablauf__nr { font-size: 48px; }
+  .wege li + li a { border-left: 0; }
+  .wege li:nth-child(even) a { border-left: 2px solid var(--nacht); }
+  .wege li:nth-child(n+3) a { border-top: 2px solid var(--nacht); }
+  .leistung:nth-child(even) > div { order: 0; }
+  .formularseite { background: linear-gradient(180deg, var(--nacht) 0 340px, var(--hallenweiss) 340px 100%); }
+  .abschluss { clip-path: polygon(0 0, 100% 20px, 100% 100%, 0 100%); padding-top: 60px; }
+}
+@media (prefers-reduced-motion: reduce) { .wege a { transition: none; } }
+/* Schaden melden: eigener schwarzer Block statt Verlauf (Kontrast sicher an jeder Breite) */
+.formularseite { background: var(--hallenweiss); padding: 0; gap: 0; align-items: stretch; }
+.formularseite__kopf { background: var(--nacht); padding: clamp(40px, 6vw, 80px) var(--rand); justify-content: center; clip-path: polygon(0 0, 100% 0, calc(100% - var(--schnitt)) 100%, 0 100%); padding-right: calc(var(--schnitt) + 24px); }
+.formularseite form { margin: clamp(32px, 5vw, 72px) var(--rand); align-self: center; }
+@media (max-width: 860px) {
+  .formularseite { background: var(--hallenweiss); }
+  .formularseite__kopf { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 24px), 0 100%); padding: 32px var(--rand) 52px; }
+  .formularseite form { margin: 24px var(--rand) 40px; }
+}

@@ -17,3 +17,9 @@
 **Tokens (Namen aus dem Betrieb):** `--hallenweiss #f3f5f6`, `--blech #e2e7e9`, `--hallengrau #4a585d`, `--gebotsblau #1566b8`, `--tinte #14202a`. Schrift Barlow Semi Condensed (Titel, wie Beschilderung) und Barlow (Text). Kontrast gemessen: Text auf Grund 15,1:1; weiss auf Gebotsblau 5,8:1.
 
 **Offen:** Ob der blaue S-Schwung des echten Logos später die Akzentfarbe bestimmt (Vektordatei fehlt). Blindtest (DP1, DP4): nicht gelaufen.
+
+## Richtung B «Yin und Yang» (Rückmeldung des Studios, 02.11.2026: «aggressiver, mehr herausstechen, wie ein Yin und Yang»)
+- **Idee:** Das S im Logo besteht aus zwei ineinandergreifenden Schwüngen, schwarz und blau. Die Website nimmt das als harten Wechsel Schwarz und Weiss mit schrägem Schnitt im Winkel des Schwungs.
+- **Umsetzung:** schwarze Texthälfte gegen helles Foto im ersten Bildschirm und auf jeder Unterseite; Bänder im Wechsel Weiss und Schwarz mit schrägen Kanten; Titel kursiv wie der Schriftzug AUTO SPEEDY; kantige Knöpfe in Versalien; Blau nur als Akzent (Strich unter dem Satz, Ziffern, Knopf, Abschluss).
+- **Wunsch 3 «hell und übersichtlich»:** Kopf, Wege, Partner, Anfahrt, Formular und Fuss bleiben hell; Schwarz trägt nur Einstieg, Ablauf und Galerie. Ob das für den Betrieb noch «hell» ist, entscheidet er im Gespräch.
+- Kontrast gemessen: Weiss auf Nacht 19:1, Hellblau `#6fb0f2` auf Nacht über 7:1.

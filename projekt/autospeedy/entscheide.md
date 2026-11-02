@@ -13,3 +13,7 @@
 
 ## Offen, vom Studio oder Betrieb zu entscheiden
 - Wer gibt frei? (★) · Hauptaktion bestätigt? (Auftrag nennt «Schadenmeldung», Anruf ist Zweitaktion) · Foto-Rechte · Logo-Datei · Bewegung ja/nein (vorerst nein, «hell, übersichtlich»).
+
+## Studio, 02.11.2026 (zweite Rückmeldung)
+- Logo statt Name oben links; ganze Vorschau; Tesla Approved Body Shop bestätigt; bessere Bildwahl.
+- Gestaltung «aggressiver, wie ein Yin und Yang» → Richtung B (richtung.md). Spannung zu Wunsch 3 «hell» im Gespräch mit dem Betrieb klären.

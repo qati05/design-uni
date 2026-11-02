@@ -33,14 +33,14 @@ const wege = [
   </figure>
 </div>
 
-<section class="band" aria-labelledby="wege-titel">
+<section class="band band--weiss" aria-labelledby="wege-titel">
   <h2 id="wege-titel" class="band__titel">Was ist passiert?</h2>
   <ul class="wege">
     {wege.map((w) => <li><a href={w.pfad}><Foto name={w.foto} alt={w.alt} sizes="(max-width: 860px) 50vw, 20vw" /><span class="wege__nr">{w.nr}</span><span class="wege__titel">{w.titel}</span><span class="wege__text">{w.text}</span></a></li>)}
   </ul>
 </section>
 
-<section class="band band--weiss" aria-labelledby="ablauf-titel">
+<section class="band band--nacht" aria-labelledby="ablauf-titel">
   <h2 id="ablauf-titel" class="band__titel">So läuft eine Reparatur</h2>
   <ol class="ablauf">
     <li><span class="ablauf__nr">01</span><h3>Schaden melden</h3><p>Online mit dem Formular oder am Telefon unter <Tel ort="ablauf" />.</p></li>
@@ -50,7 +50,7 @@ const wege = [
   <p data-luecke>Lücke: Wie lange eine Reparatur dauert und ob es einen Ersatzwagen gibt, sagt der Betrieb noch.</p>
 </section>
 
-<section class="band" aria-labelledby="partner-titel">
+<section class="band band--weiss" aria-labelledby="partner-titel">
   <h2 id="partner-titel" class="band__titel">Zertifizierte K + L Partner von</h2>
   <ul class="partner">
     <li><a href="/tesla/">Tesla <small>Approved Body Shop</small></a></li>
@@ -61,7 +61,7 @@ const wege = [
   <p class="quelle">Laut der bisherigen Website des Betriebs. Ausbildungsbetrieb und Mitglied von Carrosserie Suisse, Sektion Ostschweiz.</p>
 </section>
 
-<section class="band band--weiss" aria-labelledby="werkstatt-titel">
+<section class="band band--nacht" aria-labelledby="werkstatt-titel">
   <h2 id="werkstatt-titel" class="band__titel">Aus der Werkstatt</h2>
   <div class="galerie">
     <Foto name="maserati" alt="Mitarbeiter an einem blauen Maserati in der Halle, im Hintergrund das Auto-Speedy-Schild" sizes="(max-width: 860px) 100vw, 50vw" klasse="galerie__gross" />
