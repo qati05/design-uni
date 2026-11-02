@@ -45,4 +45,23 @@ select pg_temp.erwarte((select count(*) from public.zaehlung), 1, 'Mitglied lies
 do $$ begin perform public.zaehlen('anruf', 'kopf'); raise exception 'authenticated durfte zählen'; exception when insufficient_privilege then raise notice 'ok  nur die Website-Funktion zählt'; end $$;
 reset role;
 do $$ begin insert into public.zaehlung (punkt, ort) values ('<b>', 'x'); raise exception 'ungültiger Punkt'; exception when check_violation then raise notice 'ok  ungültiger Zählpunkt abgewiesen'; end $$;
+-- Pflege: anon liest nur über pflege_oeffentlich, aal1 schreibt nicht, Mitglied mit aal2 schreibt über die Funktion
+set role anon;
+do $$ begin perform count(*) from public.pflege; raise exception 'anon liest Pflege-Tabelle'; exception when insufficient_privilege then raise notice 'ok  anon liest die Pflege-Tabelle nicht'; end $$;
+do $$ begin perform public.pflege_speichern('{"hinweis":{},"zeiten":[],"ausnahmen":[],"team":[]}'); raise exception 'anon schreibt Pflege'; exception when insufficient_privilege then raise notice 'ok  anon schreibt keine Pflege'; end $$;
+reset role;
+set role authenticated; set test.uid = '11111111-1111-1111-1111-111111111111'; set test.aal = 'aal1';
+do $$ begin perform public.pflege_speichern('{"hinweis":{},"zeiten":[],"ausnahmen":[],"team":[]}'); raise exception 'aal1 schreibt Pflege'; exception when insufficient_privilege then raise notice 'ok  nur Mail-Code (aal1) schreibt keine Pflege'; end $$;
+set test.aal = 'aal2';
+do $$ begin perform public.pflege_speichern('{"hinweis":{}}'); raise exception 'unvollständig gespeichert'; exception when invalid_parameter_value then raise notice 'ok  unvollständige Pflege abgewiesen'; end $$;
+select public.pflege_speichern('{"hinweis":{"aktiv":true},"zeiten":[],"ausnahmen":[],"team":[]}');
+select pg_temp.erwarte((select count(*) from public.pflege), 1, 'Mitglied mit aal2 speichert und liest Pflege');
+do $$ begin update public.pflege set daten = '{}'; raise exception 'direktes Update Pflege'; exception when insufficient_privilege then raise notice 'ok  Pflege nicht direkt änderbar'; end $$;
+set test.uid = '22222222-2222-2222-2222-222222222222';
+do $$ begin perform public.pflege_speichern('{"hinweis":{},"zeiten":[],"ausnahmen":[],"team":[]}'); raise exception 'Nicht-Mitglied schreibt Pflege'; exception when insufficient_privilege then raise notice 'ok  Nicht-Mitglied schreibt keine Pflege'; end $$;
+reset role;
+set role anon;
+select pg_temp.erwarte((select (public.pflege_oeffentlich() -> 'hinweis' ->> 'aktiv')::boolean::int)::bigint, 1, 'Website-Bau liest Pflege über pflege_oeffentlich');
+reset role;
+select pg_temp.erwarte((select count(*) from public.audit_log where aktion = 'pflege'), 1, 'Pflege protokolliert');
 \echo RAUCHPROBE GRÜN

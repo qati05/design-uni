@@ -2,18 +2,29 @@
 // Nur Demo: nichts davon verlässt den Rechner. Alle Beispiel-Meldungen sind als Beispiel markiert.
 import { createHmac, randomBytes, randomInt, timingSafeEqual } from "node:crypto";
 import type { Meldung } from "./status";
+import type { PasskeyGespeichert } from "./webauthn-pruefung";
+import type { Pflege } from "./pflege";
+import pflegeStart from "./pflege-start.json";
 
 export const DEMO_MITGLIED = { userId: "demo-werkstatt", email: "werkstatt@autospeedy.example", name: "Werkstatt (Demo)" };
-export const DEMO_TOTP_GEHEIMNIS = "JBSWY3DPEHPK3PXPAUTOSPEED"; // nur Demo, öffentlich bekannt
 export const DEMO_COOKIE = "as_demo_sitzung";
+export const DEMO_SITZUNG_SEKUNDEN = 60 * 60 * 24 * 30;
 
 export type PostfachMail = { id: string; zeit: string; an: string; betreff: string; text: string };
-type Speicher = { codes: Map<string, { code: string; bis: number; versuche: number }>; meldungen: Meldung[]; postfach: PostfachMail[]; audit: { zeit: string; aktion: string; ergebnis: string; ziel?: string }[]; anfragen: number[]; zaehlung: Map<string, number> };
+type Speicher = { codes: Map<string, { code: string; bis: number; versuche: number }>; meldungen: Meldung[]; postfach: PostfachMail[]; audit: { zeit: string; aktion: string; ergebnis: string; ziel?: string }[]; anfragen: number[]; zaehlung: Map<string, number>;
+  passkeys: Map<string, PasskeyGespeichert[]>; vorgaenge: Map<string, { uid: string; zweck: "anmelden" | "einrichten"; challenge: string; bis: number; name: string }>;
+  pflege: { daten: Pflege; geaendert: string | null; von: string | null } };
 
 const g = globalThis as unknown as { __asDemo?: Speicher };
 export function speicher(): Speicher {
-  if (!g.__asDemo) g.__asDemo = { codes: new Map(), meldungen: beispielMeldungen(), postfach: [], audit: [], anfragen: [], zaehlung: beispielZaehlung() };
+  if (!g.__asDemo) g.__asDemo = { codes: new Map(), meldungen: beispielMeldungen(), postfach: [], audit: [], anfragen: [], zaehlung: beispielZaehlung(), passkeys: new Map(), vorgaenge: new Map(), pflege: { daten: startPflege(), geaendert: null, von: null } };
   return g.__asDemo;
+}
+
+function startPflege(): Pflege {
+  const { _quelle, ...d } = pflegeStart as unknown as Pflege & { _quelle: string };
+  void _quelle;
+  return structuredClone(d) as Pflege;
 }
 
 export function neueId(): string {
@@ -40,7 +51,7 @@ export function sitzungLesen(wert: string | undefined): { uid: string; email: st
   if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
   try {
     const d = JSON.parse(Buffer.from(roh, "base64url").toString("utf8"));
-    if (Date.now() - d.t > 12 * 3600e3) return null; // Demo-Sitzung 12 h
+    if (Date.now() - d.t > DEMO_SITZUNG_SEKUNDEN * 1000) return null; // wie im Betrieb: 30 Tage angemeldet
     return d;
   } catch { return null; }
 }

@@ -70,7 +70,7 @@ const wa = b.whatsapp;
       <p class="wege-senden__titel">So senden Sie die Meldung</p>
       <button class="knopf knopf--gross weg weg--a" type="button" data-senden="website" data-zaehl="schaden-website">Hier auf der Website senden<small data-weg-a-hilfe>Mit Fotos, ohne weitere App</small></button>
       <button class="knopf knopf--gross weg weg--b" type="button" data-senden="whatsapp" data-zaehl="schaden-whatsapp">Per WhatsApp senden<small>Fotos hängen Sie in WhatsApp an</small></button>
-      {wa && !wa.bestaetigt && <Luecke>Lücke: Ob Auto Speedy WhatsApp auf {wa.anzeige} nutzt, bestätigt der Betrieb noch.</Luecke>}
+      {wa && !wa.nummer_bestaetigt && <Luecke>Lücke: Die WhatsApp-Nummer {wa.anzeige} stammt von der Website; der Betrieb bestätigt sie noch.</Luecke>}
       <p class="hilfe">Verantwortlich: {b.name}. Ihre Angaben dienen nur der Bearbeitung Ihrer Meldung.</p>
     </div>
     <noscript><button class="knopf knopf--gross" type="submit">Meldung im E-Mail-Programm öffnen</button><p class="hilfe">Fotos hängen Sie in Ihrem E-Mail-Programm an.</p></noscript>

@@ -36,7 +36,7 @@ function leere(wert, pfad, aus) {
   return aus;
 }
 
-// Pflege durch den Betrieb (Decap CMS, /admin/): pflege.json ersetzt Zeiten und Ausnahmen aus betrieb.json, falls vorhanden.
+// Pflege durch den Betrieb (Cockpit, «Website pflegen»; bau/pflege-holen.mjs holt sie vor dem Bau): pflege.json ersetzt Zeiten und Ausnahmen aus betrieb.json, falls vorhanden.
 const pflegeDatei = path.join(ORDNER, "pflege.json");
 export const pflege = fs.existsSync(pflegeDatei) ? JSON.parse(fs.readFileSync(pflegeDatei, "utf8")) : null;
 function mitPflege(b, p) {

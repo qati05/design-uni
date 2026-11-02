@@ -70,8 +70,6 @@ input.code { font: 600 28px/1 var(--text); letter-spacing: .3em; text-align: cen
 .mail { padding: 14px 16px; background: var(--tafel); border: 1px solid var(--linie); }
 .mail .kopfzeile { font-size: 14px; color: var(--leise); }
 .mail pre { margin: 8px 0 0; font: 400 16px/1.5 var(--text); white-space: pre-wrap; }
-.authenticator { text-align: center; padding: 28px; }
-.authenticator .code { font: 700 52px/1 var(--text); letter-spacing: .15em; margin: 10px 0; }
 @media (max-width: 760px) { .detail { grid-template-columns: 1fr; } .zeile { grid-template-columns: 1fr; } }
 .kopf-nav { display: flex; gap: 4px; margin-right: auto; }
 .kopf-nav a { padding: 8px 12px; font-weight: 600; text-decoration: none; color: var(--tinte); }
@@ -84,3 +82,40 @@ table.zahlen th { width: 44%; font-weight: 600; }
 .balken rect { fill: var(--blau); }
 .abstand-oben { margin-top: 18px; }
 .zahl { width: 70px; text-align: right !important; font-variant-numeric: tabular-nums; font-weight: 700 !important; }
+/* Fingerabdruck / Gesicht */
+.passkey { display: grid; gap: 10px; }
+.knopf.gross { min-height: 60px; font-size: 16px; width: 100%; }
+.ersatz summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; }
+.geraete { list-style: none; margin: 0; padding: 0; }
+.geraete li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--linie); min-height: 60px; }
+.geraete li:last-child { border-bottom: 0; }
+/* Website-Pflege */
+.pflege { display: grid; gap: 16px; margin-top: 16px; }
+.pflege fieldset { margin: 0; display: grid; gap: 10px; }
+.pflege legend { font: italic 700 20px/1 var(--titel); text-transform: uppercase; padding: 0 6px; margin-left: -6px; }
+.pflege h3 { font-size: 17px; margin-top: 8px; }
+.pflege input:not([type=checkbox]), .pflege select { min-height: 44px; padding: 8px 10px; font: inherit; border: 2px solid var(--leise); background: #fff; color: var(--tinte); }
+.pflege input[type=checkbox] { width: 22px; height: 22px; accent-color: var(--blau); }
+.schalter { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 400; }
+.zeile-zeit, .zeile-aus, .zeile-person { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 0; border-bottom: 1px solid var(--linie); }
+.zeile-zeit .tage { min-width: 190px; font-weight: 600; }
+.fenster { display: inline-flex; align-items: center; gap: 6px; }
+.zeile-person input { flex: 1 1 200px; }
+.zeile-aus input[name$=".name"] { flex: 1 1 180px; }
+.speichern-leiste { position: sticky; bottom: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 12px; padding: 12px 0; background: var(--grund); border-top: 2px solid var(--baby); }
+.ok-text { color: #17633e; font-weight: 600; margin: 0; }
+/* Am Handy wie eine App: Bereiche unten in Daumenreichweite */
+@media (max-width: 760px) {
+  .kopf { gap: 10px; }
+  .kopf .unterzeile { display: none; }
+  .kopf-nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; margin: 0; gap: 0; background: var(--tafel); border-top: 2px solid var(--baby); padding-bottom: env(safe-area-inset-bottom); }
+  .kopf-nav a { flex: 1; text-align: center; min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+  .kopf-nav a[aria-current="page"] { box-shadow: inset 0 3px 0 var(--blau); color: var(--blau-dunkel); }
+  body:has(.kopf-nav) { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+  .speichern-leiste { bottom: calc(58px + env(safe-area-inset-bottom)); }
+  .zeile-zeit .tage { min-width: 100%; }
+}
+.team summary { font: italic 700 20px/1 var(--titel); text-transform: uppercase; cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+.team[open] { display: grid; gap: 10px; }
+/* «geschlossen» braucht keine Zeiten: Felder erst bei «andere Zeit» */
+.zeile-aus:has(select option[value="zu"]:checked) input[name$=".von"], .zeile-aus:has(select option[value="zu"]:checked) input[name$=".bis"] { display: none; }

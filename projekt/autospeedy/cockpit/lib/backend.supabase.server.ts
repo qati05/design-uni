@@ -1,7 +1,9 @@
 import "server-only";
 import { createServerClient } from "@supabase/ssr";
 import { cookies, headers } from "next/headers";
-import type { AuditEintrag, Backend, Zaehlzeile, CodeAntwort, Einrichten, SitzungsStand, TotpAntwort } from "./backend";
+import type { AuditEintrag, Backend, Zaehlzeile, CodeAntwort, Einrichten, SitzungsStand, TotpAntwort, PasskeyStart, PasskeyAntwort, Rp } from "./backend";
+import { pflegeSchema } from "./pflege";
+import pflegeStart from "./pflege-start.json";
 import { COOKIE_GRUNDLAGE, haerte } from "./cookies";
 import type { Meldung, Status } from "./status";
 
@@ -33,6 +35,27 @@ async function mitFotos(client: Awaited<ReturnType<typeof sb>>, zeilen: Zeile[])
     for (const d of data ?? []) if (d.path && d.signedUrl) urls.set(d.path, d.signedUrl);
   }
   return zeilen.map(({ meldung_fotos, ...z }) => ({ ...z, fotos: meldung_fotos.flatMap((f) => (urls.get(f.pfad) ? [{ id: f.id, url: urls.get(f.pfad)! }] : [])) }));
+}
+
+// Fingerabdruck/Gesicht als zweiter Faktor (Supabase MFA «webauthn»). supabase-js macht die Zeremonie im Browser
+// und braucht dort die Sitzung; das Cockpit hält die Sitzung aber nur in httpOnly-Cookies. Darum ruft der Server
+// die beiden Auth-Endpunkte selbst auf (challenge, verify) und reicht nur die WebAuthn-Optionen (JSON) an den Browser.
+// Ungeprüft gegen ein echtes Projekt (Beta seit Mai 2026): vor dem Livegang mit dem Supabase-Projekt testen.
+async function authRest(pfad: string, body: unknown): Promise<{ ok: boolean; daten: Record<string, unknown> }> {
+  const { url, anonKey } = oeffentlich();
+  const { data } = await (await sb()).auth.getSession();
+  const token = data.session?.access_token;
+  if (!token) return { ok: false, daten: {} };
+  const r = await fetch(`${url}/auth/v1${pfad}`, { method: "POST", headers: { apikey: anonKey, authorization: `Bearer ${token}`, "content-type": "application/json" }, body: JSON.stringify(body), cache: "no-store" });
+  return { ok: r.ok, daten: (await r.json().catch(() => ({}))) as Record<string, unknown> };
+}
+const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+async function webauthnChallenge(faktorId: string, rp: Rp): Promise<PasskeyStart> {
+  const r = await authRest(`/factors/${faktorId}/challenge`, { webauthn: { rpId: rp.rpId, rpOrigins: [rp.origin] } });
+  const w = r.daten.webauthn as { type?: string; credential_options?: { publicKey?: Record<string, unknown> } } | undefined;
+  const id = r.daten.id;
+  if (!r.ok || typeof id !== "string" || !w?.credential_options?.publicKey || (w.type !== "create" && w.type !== "request")) return { status: "fehler" };
+  return { status: "bereit", vorgang: `${faktorId}.${id}.${w.type}`, art: w.type, optionen: w.credential_options.publicKey };
 }
 
 const SPALTEN = "id, erstellt, art, tesla, stellen, bemerkung, name, telefon, quelle, status, notiz, meldung_fotos(id, pfad)";
@@ -75,6 +98,48 @@ export const supabaseBackend: Backend = {
   async totpEinrichtenBestaetigen(faktorId, code): Promise<TotpAntwort> {
     const { error } = await (await sb()).auth.mfa.challengeAndVerify({ factorId: faktorId, code });
     return { status: error ? "falsch" : "ok" };
+  },
+  async zweitfaktoren() {
+    const { data } = await (await sb()).auth.mfa.listFactors();
+    return { geraete: (data?.webauthn ?? []).map((f) => ({ id: f.id, name: f.friendly_name ?? "Gerät" })), totp: (data?.totp ?? []).length > 0 };
+  },
+  async passkeyStart(zweck, rp, geraetename = "Gerät"): Promise<PasskeyStart> {
+    const c = await sb();
+    const { data } = await c.auth.mfa.listFactors();
+    if (zweck === "anmelden") {
+      const f = data?.webauthn?.[0];
+      return f ? webauthnChallenge(f.id, rp) : { status: "kein_faktor" };
+    }
+    for (const f of data?.all ?? []) if (f.factor_type === "webauthn" && f.status === "unverified") await c.auth.mfa.unenroll({ factorId: f.id });
+    const { data: neu, error } = await c.auth.mfa.enroll({ factorType: "webauthn", friendlyName: `${geraetename.slice(0, 30)} ${new Date().toISOString().slice(0, 10)}` });
+    if (error) return { status: error.code === "insufficient_aal" ? "nicht_erlaubt" : "fehler" };
+    return webauthnChallenge(neu.id, rp);
+  },
+  async passkeyBestaetigen(vorgang, antwort, rp): Promise<PasskeyAntwort> {
+    const [faktorId, challengeId, art] = vorgang.split(".");
+    if (!faktorId || !challengeId || !uuid.test(faktorId) || !uuid.test(challengeId) || (art !== "create" && art !== "request")) return { status: "fehler" };
+    const r = await authRest(`/factors/${faktorId}/verify`, { challenge_id: challengeId, webauthn: { type: art, rpId: rp.rpId, rpOrigins: [rp.origin], credential_response: antwort } });
+    const access = r.daten.access_token, refresh = r.daten.refresh_token;
+    if (!r.ok || typeof access !== "string" || typeof refresh !== "string") return { status: "falsch" };
+    const { error } = await (await sb()).auth.setSession({ access_token: access, refresh_token: refresh }); // neue Sitzung mit aal2 in die httpOnly-Cookies
+    return { status: error ? "fehler" : "ok" };
+  },
+  async geraetEntfernen(id) {
+    const c = await sb();
+    const { data } = await c.auth.mfa.listFactors();
+    if ((data?.webauthn ?? []).length <= 1 || !uuid.test(id)) return false; // das letzte Gerät bleibt
+    const { error } = await c.auth.mfa.unenroll({ factorId: id });
+    return !error;
+  },
+  async pflegeLesen() {
+    const { data } = await (await sb()).from("pflege").select("daten, geaendert, geaendert_von").eq("id", 1).maybeSingle();
+    const g = pflegeSchema.safeParse(data?.daten);
+    const { _quelle, ...start } = pflegeStart as Record<string, unknown>; void _quelle;
+    return { daten: g.success ? g.data : pflegeSchema.parse(start), geaendert: data?.geaendert ?? null, von: data?.geaendert_von ?? null };
+  },
+  async pflegeSpeichern(p) {
+    const { error } = await (await sb()).rpc("pflege_speichern", { p_daten: p });
+    return !error;
   },
   async abmelden() { await (await sb()).auth.signOut(); },
   async meldungen() {

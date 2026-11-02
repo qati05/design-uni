@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Wird vom Betrieb im Pflege-Editor (/admin/) geändert. Der Bau macht daraus die Zeiten in betrieb.json-Form. Quelle der Startwerte: fakten.md F3.",
+  "_hinweis": "Kommt aus dem Cockpit (Website pflegen); hier stehen die Startwerte. Der Bau macht daraus die Zeiten in betrieb.json-Form. Quelle der Startwerte: fakten.md F3.",
   "hinweis": {
     "aktiv": false,
     "text": "Hagel? Melden Sie den Schaden jetzt mit Fotos.",

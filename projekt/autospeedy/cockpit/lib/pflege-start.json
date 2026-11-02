@@ -1,0 +1,117 @@
+{
+  "_quelle": "Startwerte aus astro/src/content/pflege.json und team.json (fakten.md F3, Teamseite des Betriebs). Im Betrieb liegen die Daten in Supabase (Tabelle pflege).",
+  "hinweis": {
+    "aktiv": false,
+    "text": "Hagel? Melden Sie den Schaden jetzt mit Fotos.",
+    "link": "/schaden-melden/?art=hagel"
+  },
+  "zeiten": [
+    {
+      "tage": "Montag bis Donnerstag",
+      "kurz": "Mo bis Do",
+      "wochentage": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday"
+      ],
+      "geschlossen": false,
+      "fenster": [
+        {
+          "von": "7.30",
+          "bis": "12.00"
+        },
+        {
+          "von": "13.15",
+          "bis": "17.30"
+        }
+      ]
+    },
+    {
+      "tage": "Freitag",
+      "kurz": "Fr",
+      "wochentage": [
+        "Friday"
+      ],
+      "geschlossen": false,
+      "fenster": [
+        {
+          "von": "7.30",
+          "bis": "12.00"
+        },
+        {
+          "von": "13.15",
+          "bis": "17.15"
+        }
+      ]
+    }
+  ],
+  "ausnahmen": [],
+  "team": [
+    {
+      "name": "Administration",
+      "leute": [
+        {
+          "name": "Shpejtim Pirku «Speedy»",
+          "rolle": "Geschäftsführer"
+        }
+      ]
+    },
+    {
+      "name": "Annahme",
+      "leute": [
+        {
+          "name": "Lea Schlegel",
+          "rolle": "HR-Assistentin"
+        },
+        {
+          "name": "Martyna Skweres",
+          "rolle": "Kauffrau EBA in Ausbildung"
+        }
+      ]
+    },
+    {
+      "name": "Carrosserie",
+      "leute": [
+        {
+          "name": "Arsim Selmani",
+          "rolle": "Teamleiter Carrosserie-Spengler, Hagel- und Dellendrücken"
+        },
+        {
+          "name": "Dragan Tejic",
+          "rolle": "Carrosserie-Spengler, Schweisstechniker"
+        },
+        {
+          "name": "Enes Rushiti",
+          "rolle": "Carrosserie-Spengler"
+        }
+      ]
+    },
+    {
+      "name": "Lackiererei",
+      "leute": [
+        {
+          "name": "Sheref Kamili",
+          "rolle": "Carrosserie-Lackierer"
+        },
+        {
+          "name": "Fabio Cezza",
+          "rolle": "Carrosserie-Lackierer"
+        },
+        {
+          "name": "Anna Meier",
+          "rolle": "Carrosserie-Lackiererin EFZ in Ausbildung"
+        }
+      ]
+    },
+    {
+      "name": "Aufbereitung und Finish",
+      "leute": [
+        {
+          "name": "Armend Nuhii",
+          "rolle": "Aufbereiter, Finisher"
+        }
+      ]
+    }
+  ]
+}

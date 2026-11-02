@@ -7,17 +7,17 @@
 |---|---|---|
 | Website (Astro, statisch), 14 Seiten inkl. Tesla, Flotten, Bewerten | `astro/` | gebaut, Prüfläufe grün |
 | Schadenmeldung in 3 Tipps, Rückruf in einem Schritt, Senden über Website oder WhatsApp | `astro/src/pages/schaden-melden.astro`, `components/Rueckruf.astro` | gebaut, Ende-zu-Ende grün |
-| Serverfunktionen: Meldung + Fotos ins Cockpit (Supabase), Hinweis-Mail ohne Personendaten, Zählung ohne Cookies | `astro/functions/api/schaden.js`, `zaehl.js` | gebaut, 15 Tests grün, **nicht deployt** |
-| Werkstatt-Cockpit (Next.js, Muster qati05/medaur): Mail-Code + Authenticator, Meldungen, Status bis Auftrag, Notizen, «Bewertung erbitten», Zahlen | `cockpit/` | gebaut, 16 Tests, Rauchprobe 18 Regeln gegen Postgres 16, Ende-zu-Ende grün, **nicht deployt**, Demo-Modus |
-| Pflege-Editor (Decap CMS): Öffnungszeiten, Feiertage, Saison-Hinweis, Team | `astro/public/admin/`, `src/content/pflege.json`, `team.json`, `PFLEGE.md` | gebaut, lokal durchgespielt |
+| Serverfunktionen: Meldung + Fotos ins Cockpit (Supabase), Hinweis-Mail ohne Personendaten, Zählung ohne Cookies | `astro/functions/api/schaden.js`, `zaehl.js` | gebaut, 18 Tests grün, **nicht deployt** |
+| Werkstatt-Cockpit (Next.js, Muster qati05/medaur), **eine App für Handy und Computer** (installierbar): Mail-Code + Fingerabdruck/Gesicht, Meldungen, Status bis Auftrag, Notizen, «Bewertung erbitten», Zahlen, **Website pflegen** (Zeiten, Feiertage, Hinweis, Team), Geräte | `cockpit/` | gebaut, 30 Tests, Rauchprobe 27 Regeln gegen Postgres 16, Ende-zu-Ende 24/24 grün, **nicht deployt**, Demo-Modus |
+| Pflege: vom Git-Editor (Decap) ins Cockpit verlegt; der Website-Bau holt sie | `astro/bau/pflege-holen.mjs`, `PFLEGE.md` | gebaut, 3 Tests |
 | AutoScout24-Widget, lädt erst nach Klick | `astro/src/components/FremdInhalt.astro` | gebaut, Widget-Code fehlt (Lücke) |
 | Skizze für das Gespräch | Excalidraw im Chat; Video und Bilder in `vorschau/` | fertig |
 
 ## Noch vom Betrieb nötig
-WhatsApp ja/nein und Nummer · Rückruf-Zeit und wer Meldungen liest · Google-Link «Rezension schreiben» · AutoScout24-Widget-Code · Logo als Vektordatei · Rechte an Fotos und Einwilligung des Teams · Samstag, Feiertage, Ferien · Löschfrist für Meldungen · Konditionen für Firmenkunden, Ersatzwagen.
+WhatsApp-Nummer (dass der Betrieb WhatsApp nutzt, ist laut Studio bestätigt) · wer im Team ein Cockpit-Konto bekommt · Rückruf-Zeit und wer Meldungen liest · Google-Link «Rezension schreiben» · AutoScout24-Widget-Code · Logo als Vektordatei · Rechte an Fotos und Einwilligung des Teams · Samstag, Feiertage, Ferien · Löschfrist für Meldungen · Konditionen für Firmenkunden, Ersatzwagen.
 
 ## Vor dem echten Betrieb (Freigabe des Studios)
-Supabase-Projekt (Region Zürich) und Migration · Mail-Dienst mit SPF/DKIM/DMARC · Hoster und Domain · Datenschutzerklärung nachführen (Supabase, Mail-Dienst, AutoScout24) und Rechtsprüfung · Pflege-Login für Laien prüfen. Details: `cockpit/LIESMICH.md`, `technik.md`, `PFLEGE.md`.
+Supabase-Projekt (Region Zürich) und Migration · Mail-Dienst mit SPF/DKIM/DMARC · Hoster und Domain · Datenschutzerklärung nachführen (Supabase, Mail-Dienst, AutoScout24) und Rechtsprüfung · WebAuthn-MFA (Supabase Beta) mit echten Handys prüfen · Website-Neubau per Deploy Hook verbinden. Details: `cockpit/LIESMICH.md`, `technik.md`, `PFLEGE.md`.
 
 ---
 

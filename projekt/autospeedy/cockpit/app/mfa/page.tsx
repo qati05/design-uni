@@ -1,16 +1,31 @@
+import { redirect } from "next/navigation";
+import { holeBackend } from "@/lib/backend.server";
 import { sichererPfad } from "@/lib/validierung";
+import { PasskeyKnopf } from "./PasskeyKnopf";
 import { TotpFormular } from "./TotpFormular";
 
 export default async function MfaSeite({ searchParams }: { searchParams: Promise<{ weiter?: string }> }) {
   const { weiter } = await searchParams;
-  const demo = process.env.COCKPIT_DEMO === "1";
+  const ziel = sichererPfad(weiter);
+  const f = await holeBackend().zweitfaktoren();
+  if (!f.geraete.length && !f.totp) redirect("/mfa/einrichten");
   return (
     <main className="seite schmal anmelden">
       <img src="/bilder/logo-96.webp" width={135} height={48} alt="Auto Speedy AG" />
-      <h1>Zweiter Schritt</h1>
-      <p className="unterzeile">Der Mail-Code ist bestätigt. Geben Sie jetzt den 6-stelligen Code aus Ihrer Authenticator-App ein.</p>
-      <TotpFormular weiter={sichererPfad(weiter)} />
-      {demo ? <p className="hinweis">Demo: Den aktuellen Code zeigt der <a href="/demo/authenticator" target="_blank">Demo-Authenticator</a>.</p> : null}
+      <h1>Noch ein Tipp</h1>
+      <p className="unterzeile">Der Mail-Code stimmt. Bestätigen Sie jetzt mit Fingerabdruck oder Gesicht, wie beim Entsperren des Handys.</p>
+      {f.geraete.length ? (
+        <div className="karte formular">
+          <PasskeyKnopf zweck="anmelden" weiter={ziel} text="Mit Fingerabdruck oder Gesicht bestätigen" />
+          <p className="unterzeile">Am Computer ohne Fingerabdruck zeigt der Browser einen QR-Code: mit dem Handy scannen und dort bestätigen.</p>
+        </div>
+      ) : null}
+      {f.totp ? (
+        <details className="karte ersatz" open={!f.geraete.length}>
+          <summary>Ersatzweg: Code aus der Authenticator-App</summary>
+          <TotpFormular weiter={ziel} />
+        </details>
+      ) : null}
     </main>
   );
 }

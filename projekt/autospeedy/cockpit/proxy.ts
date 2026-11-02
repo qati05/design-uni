@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import { COOKIE_GRUNDLAGE, haerte } from "./lib/cookies";
-import { DEMO_COOKIE, sitzungLesen } from "./lib/demo-speicher";
+import { DEMO_COOKIE, sitzungLesen, speicher } from "./lib/demo-speicher";
 import { log } from "./lib/log";
 import { baueCsp, sicherheitsHeader } from "./lib/sicherheit";
 import { entscheideZugang, type Zugang, type ZugangsAbfragen } from "./lib/zugang";
@@ -34,7 +34,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     abfragen = {
       hatSitzung: !!s,
       nutzerId: async () => s?.uid ?? null,
-      stufe: async () => ({ aktuell: s?.aal ?? null, naechste: "aal2" }),
+      stufe: async () => ({ aktuell: s?.aal ?? null, naechste: s && (speicher().passkeys.get(s.uid) ?? []).length ? "aal2" : "aal1" }),
       istMitglied: async () => s?.email === "werkstatt@autospeedy.example",
     };
   } else {

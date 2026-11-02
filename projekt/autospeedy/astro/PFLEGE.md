@@ -1,21 +1,24 @@
 # Pflegehandbuch für Auto Speedy (Entwurf)
 
-Was Sie selbst ändern können, ohne Entwickler: **Öffnungszeiten, Feiertage und Betriebsferien, Saison-Hinweis, Team.** Gestaltung, neue Seiten und Texte der Leistungen ändert das Studio.
+Was Sie selbst ändern können, ohne Entwickler: **Öffnungszeiten, Feiertage und Betriebsferien, Hinweis-Leiste (z. B. nach Hagel), Team.** Gestaltung, neue Seiten und Texte der Leistungen ändert das Studio.
 
 ## So geht es
-1. Öffnen Sie `https://www.autospeedy.ch/admin/` (Adresse nach dem Livegang) und melden Sie sich mit Ihrem Konto an.
-2. Wählen Sie «Öffnungszeiten und Hinweise» oder «Team».
-3. Ändern Sie die Felder. Beispiel Hagel: «Saison-Hinweis» → «Anzeigen» einschalten.
-4. Oben auf **Veröffentlichen** → **Jetzt veröffentlichen**. Nach etwa 1 bis 2 Minuten ist die Website aktualisiert.
+1. Cockpit öffnen (Symbol auf dem Handy oder Computer), anmelden: Code per Mail, dann Finger auflegen oder ins Handy schauen.
+2. Unten (Handy) oder oben (Computer) auf **Website**.
+3. Ändern. Beispiel Hagel: «Hinweis zeigen» anhaken, Text prüfen.
+4. **Speichern und veröffentlichen.** Nach etwa 2 Minuten ist die Website aktuell.
+
+Es ist dasselbe Login wie für die Schadenmeldungen. Keine zweite App, kein zweites Konto.
 
 ## Was automatisch mitgeht
-- Die Öffnungszeiten erscheinen gleich auf der Startseite, in der Tabelle unter Kontakt und im Fuss, und in den Angaben für Google.
+- Die Öffnungszeiten erscheinen auf der Startseite, unter Kontakt, im Fuss und in den Angaben für Google.
 - Feiertage stehen in der Tabelle, solange das Datum nicht vorbei ist.
-- Der Saison-Hinweis erscheint als blaues Band oben auf jeder Seite.
+- Der Hinweis erscheint als blaues Band oben auf jeder Seite.
 
 ## Regeln
 - Namen von Mitarbeitenden nur mit deren Einverständnis.
-- Kein Ausrufezeichen im Saison-Hinweis; der Editor lässt es nicht zu.
+- Das Cockpit nimmt keine unsinnigen Zeiten an (z. B. «bis» vor «von») und sagt, in welcher Zeile.
+- Jede Änderung wird mit Person und Zeit festgehalten.
 
 ## Stand
-Am 02.11.2026 am Studio-Rechner durchgespielt (Saison-Hinweis eingeschaltet, gespeichert, Website neu gebaut, Band sichtbar; Bilder in `vorschau/pflege/`). **Noch nicht** von einer Person des Betriebs durchgespielt (web-uni WP7). Anmeldung über GitHub ist für Laien eine Hürde; vor der Übergabe prüfen, ob Decap mit einem einfacheren Login (z. B. über den Hoster) betrieben wird.
+Am 02.11.2026 im Demo-Cockpit durchgespielt (Zeit geändert, Heiligabend eingetragen, Hinweis eingeschaltet, gespeichert, neu geladen; Bilder in `vorschau/cockpit/`). Der automatische Neubau der Website (Deploy Hook) ist gebaut, aber noch nicht mit einem Hoster verbunden. **Noch nicht** von einer Person des Betriebs durchgespielt (web-uni WP7).

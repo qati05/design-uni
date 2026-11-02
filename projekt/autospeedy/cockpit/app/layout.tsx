@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
+import { AppAnmelden } from "./_teile/AppAnmelden";
 
 // Jede Seite pro Anfrage gerendert (Nonce-CSP, keine Daten statisch abgelegt). Wie medaur.
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "Auto Speedy Cockpit", description: "Schadenmeldungen bearbeiten. Nur für Auto Speedy.", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Auto Speedy Cockpit", description: "Schadenmeldungen bearbeiten. Nur für Auto Speedy.", robots: { index: false, follow: false }, applicationName: "Cockpit", appleWebApp: { capable: true, title: "Cockpit", statusBarStyle: "default" }, icons: { icon: "/favicon.ico", apple: "/apple-touch-icon.png" } };
 export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#f3f5f6" };
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -13,6 +14,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <body>
         {process.env.COCKPIT_DEMO === "1" ? <p className="demo-band">Demo: Beispieldaten, kein echter Mailversand, nichts verlässt diesen Rechner.</p> : null}
         {children}
+        <AppAnmelden />
       </body>
     </html>
   );

@@ -7,5 +7,5 @@ runuser -u postgres -- $BIN/initdb -D "$D/db" -A trust >/dev/null
 runuser -u postgres -- $BIN/pg_ctl -D "$D/db" -o "-p 55432 -k $D" -l "$D/log" start >/dev/null
 H=$(dirname "$0"); P="psql -h $D -p 55432 -U postgres -v ON_ERROR_STOP=1 -q -t"
 $P -f "$H/stub.sql"
-$P -f "$H/../../supabase/migrations/20261102000000_autospeedy_cockpit.sql"
+for M in "$H"/../../supabase/migrations/*.sql; do $P -f "$M"; done
 $P -f "$H/rauchprobe.sql" 2>&1 | sed 's/^psql:[^ ]* NOTICE:  /  /'

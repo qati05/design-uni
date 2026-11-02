@@ -6,9 +6,9 @@ export default function LoginSeite() {
     <main className="seite schmal anmelden">
       <img src="/bilder/logo-96.webp" width={135} height={48} alt="Auto Speedy AG" />
       <h1>Werkstatt-Cockpit</h1>
-      <p className="unterzeile">Anmelden mit einem Code per Mail, danach mit dem Code aus der Authenticator-App.</p>
+      <p className="unterzeile">Code per Mail, dann Fingerabdruck oder Gesicht. Danach bleiben Sie auf diesem Gerät 30 Tage angemeldet.</p>
       <LoginFormular />
-      {demo ? <p className="hinweis">Demo: Mail-Adresse <b>werkstatt@autospeedy.example</b>. Den Code finden Sie im <a href="/demo/postfach" target="_blank">Demo-Postfach</a>, den zweiten Code im <a href="/demo/authenticator" target="_blank">Demo-Authenticator</a>.</p> : null}
+      {demo ? <p className="hinweis">Demo: Mail-Adresse <b>werkstatt@autospeedy.example</b>. Den Code finden Sie im <a href="/demo/postfach" target="_blank">Demo-Postfach</a>. Fingerabdruck: Ihr Handy oder Laptop (Touch ID, Windows Hello).</p> : null}
     </main>
   );
 }

@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Wird vom Betrieb im Pflege-Editor (/admin/) geändert. Namen nur mit Einverständnis der Personen (rechte.md).",
+  "_hinweis": "Kommt aus dem Cockpit (Website pflegen); hier stehen die Startwerte. Namen nur mit Einverständnis der Personen (rechte.md).",
   "gruppen": [
     {
       "name": "Administration",
