@@ -108,7 +108,7 @@ GRÖSSTES HINDERNIS (ein Satz):
 
 | Erfasst je Lauf | |
 |---|---|
-| erreicht ja/nein, Anzahl Aktionen (Tipps, Felder, Scrolls) | gegen die Schwellen in SKILL.md, P7 |
+| erreicht ja/nein, Anzahl Aktionen (Tipps, Felder, Scrolls) | gegen die Schwellen in SKILL.md, DP7 |
 | Abbruchgrund | wörtlich |
 | «anfragen» 1–10, «Vertrauen» 1–10 | Mittel je Modell und gesamt |
 | grösstes Hindernis | wörtlich, gruppiert |
@@ -122,4 +122,4 @@ GRÖSSTES HINDERNIS (ein Satz):
 
 - Kunden-Agenten sind keine Menschen: Sie zögern, lesen und brechen anders ab. Bestätigung erst mit echten Besuchern (Messplan) oder 3–5 Personen aus der Zielgruppe am eigenen Handy.
 - Ein Lauf pro Aufgabe und Modell zeigt keine Streuung.
-- Das Werkzeug misst den Weg, den der Agent wählt; ein Skript für den kürzesten Weg (Klickpfade, P6) ergänzt es.
+- Das Werkzeug misst den Weg, den der Agent wählt; ein Skript für den kürzesten Weg (Klickpfade, DP6) ergänzt es.

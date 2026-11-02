@@ -16,8 +16,8 @@ Merksatz: *Die Gestaltung entscheidet, wie etwas aussieht; das Angebot entscheid
 
 ## Wie man diese Datei liest
 
-- Die Schritte laufen der Reihe nach. Jeder endet mit einem **Prüfpunkt (P0–P8)**.
-- **Fällt ein Prüfpunkt durch, geht es einen Schritt zurück, nie zwei vor.** Fällt P4 zweimal durch, geht es zurück zu P1: Dann war die Idee falsch und nicht die Ausführung.
+- Die Schritte laufen der Reihe nach. Jeder endet mit einem **Prüfpunkt (DP0–DP8)**.
+- **Fällt ein Prüfpunkt durch, geht es einen Schritt zurück, nie zwei vor.** Fällt DP4 zweimal durch, geht es zurück zu DP1: Dann war die Idee falsch und nicht die Ausführung.
 - Schwellen mit `[Annahme]` sind nicht kalibriert. Wer abweicht, schreibt die Abweichung in den Bericht.
 - Details stehen in `referenzen/`. Lies dort nach, wenn ein Schritt darauf zeigt; lies nicht alles vorab.
 
@@ -84,7 +84,7 @@ Die Fragen stehen im Blatt [eingabe/kundenangaben.md](eingabe/kundenangaben.md);
 - jede Zusage (Frist, Garantie, Gratisleistung) mit zuständiger Person und Stellvertretung
 - was gepflegt werden muss (Termine, Saison) und wer es pflegt
 
-**P0 · Vollständigkeit (maschinell):**
+**DP0 · Vollständigkeit (maschinell):**
 - mindestens **12 Nomen**, die man fotografieren oder anfassen kann
 - nach dem Sieben (Schritt 3) mindestens **3**, die weder Name noch Ort sind
 - Hauptaktion festgelegt
@@ -110,7 +110,7 @@ Ablauf im Detail: [richtung.md](referenzen/richtung.md) Teil 2.
 6. **Drei Element-Collagen** statt drei Entwürfe: je Kandidat eine Tafel mit Titel, Knopf, Faktenblock, Bildschnitt, Farbe und einem Satz Text, ohne Seite. Von Anfang an mit **einer dominanten Handlung und einem Bild mit Absicht**, sonst gehen sie nicht in den Test.
 7. **Eintrag ins Register vor dem Bau:** Grundfarbe, Titelschrift und Klasse, Hero-Typ, Knopfform, Schrift der Fakten, Status «im Bau». So prüfen parallele Bauten gegeneinander.
 
-**P1 · Richtung (blind):** Die drei Collagen werden gemischt mit drei Collagen oder ersten Bildschirmen der letzten drei eigenen Websites und zwei fremden. Sechs Bewerter ([blindtest.md](referenzen/blindtest.md)) beantworten: «Welche gehören zum selben Studio?» und «Welcher Betrieb ist das, und was ist die Idee?»
+**DP1 · Richtung (blind):** Die drei Collagen werden gemischt mit drei Collagen oder ersten Bildschirmen der letzten drei eigenen Websites und zwei fremden. Sechs Bewerter ([blindtest.md](referenzen/blindtest.md)) beantworten: «Welche gehören zum selben Studio?» und «Welcher Betrieb ist das, und was ist die Idee?»
 - **Gewählt** wird die Collage mit der höchsten Trefferquote beim Betrieb und der geringsten Zuordnung zum eigenen Studio. Eine Richtung gilt erst als gefunden, wenn ein blinder Bewerter sie aus dem Bild nacherzählen kann.
 - **Danach** fragst du den Auftraggeber mit Optionen (gewählte Collage, die zweite, neu ansetzen), je mit einem Satz, was dann passiert. Ohne Antwort baust du nicht weiter.
 
@@ -123,7 +123,7 @@ Ablauf im Detail: [richtung.md](referenzen/richtung.md) Teil 2.
 - **Farbe** mit der Pipette aus dem eigenen Foto oder Material. Die Palette ist blind kaum ein Hebel; entscheide sie schnell und investiere in Komposition und Bild ([lektionen.md](referenzen/lektionen.md)).
 - **Schwache Fotos:** eine feste Bearbeitung für die ganze Serie als Skript (Lichtregel, z. B. Zweiton, Kontrastkurve, Körnung), und Schrift und Bild komponiert statt nebeneinander. Das hob blind 6,00 auf 7,17 mit denselben Handyfotos ([farbe-bild.md](referenzen/farbe-bild.md)).
 
-**P2 · Abstand (maschinell, wo möglich; sonst im Bericht als «Selbstauskunft» markiert)** nach [abstand.md](referenzen/abstand.md):
+**DP2 · Abstand (maschinell, wo möglich; sonst im Bericht als «Selbstauskunft» markiert)** nach [abstand.md](referenzen/abstand.md):
 
 | Prüfung | Schwelle `[Annahme]` |
 |---|---|
@@ -145,7 +145,7 @@ Für jede Einstiegsseite (Start, jede Leistung, Notfall, Kontakt) zuerst der Tex
 - **Bewusstseinsstufe:** Die Notfallseite nennt das Problem, die Startseite die Leistung.
 - **Lücken** als ausgeschriebener Satz, nie als Klammer auf der fertigen Vorschau.
 
-**P3 · Prüflisten** ([conversion.md](referenzen/conversion.md) Teil 5) am Text und an der Skizze:
+**DP3 · Prüflisten** ([conversion.md](referenzen/conversion.md) Teil 5) am Text und an der Skizze:
 - **A** Angebot und Botschaft: ≥ 11 von 14
 - **P** Psychologie, Vertrauen, Recht: ≥ 11 von 15
 - **H** Handwerk und Forschung: ≥ 13 von 15
@@ -156,13 +156,13 @@ Für jede Einstiegsseite (Start, jede Leistung, Notfall, Kontakt) zuerst der Tex
 
 Bauen: Desktop 1440 × 900 und Handy 390 × 844, mit allen Fakten. Das Handy bekommt eine eigene Form der Idee, keine gestapelte Desktop-Fassung. Vorher selbst die 60-Sekunden-Prüfung aus [geschmack.md](referenzen/geschmack.md) Teil 2 und den Unschärfe-Test (10 px) machen; das ist Handwerk, kein Urteil.
 
-**Vor P4, maschinell:** `node werkzeuge/vermessen.cjs <ordner> --name <projekt> --aus pruefung --bilder` und `node werkzeuge/vergleichen.cjs pruefung/<projekt>.json` ([vorbilder-gemessen.md](referenzen/vorbilder-gemessen.md)).
+**Vor DP4, maschinell:** `node werkzeuge/vermessen.cjs <ordner> --name <projekt> --aus pruefung --bilder` und `node werkzeuge/vergleichen.cjs pruefung/<projekt>.json` ([vorbilder-gemessen.md](referenzen/vorbilder-gemessen.md)).
 - **Vorlagen-Signale:** 0, oder jedes mit einem «weil»-Satz aus dem Betrieb in der Ableitungskette. `[Annahme]`
 - **Lage im Band:** Jedes Mass unter p25 oder über p75 steht im Bericht, mit Grund. Das Band ist kein Ziel; es zeigt, wo die Seite von den Vorbildern abweicht.
-- **Idee im Bild:** Am Bildschirmfoto ohne Text (Text unscharf) ist die tragende Technik zu sehen. Wenn nicht, zurück zu Schritt 4 (L7).
+- **Idee im Bild:** Am Bildschirmfoto ohne Text (Text unscharf) ist die tragende Technik zu sehen. Wenn nicht, zurück zu Schritt 4 (DL7).
 Das ersetzt keinen blinden Test; es spart einen, der sicher durchfällt.
 
-**P4 · erster Bildschirm (blind), drei Tests** ([blindtest.md](referenzen/blindtest.md)):
+**DP4 · erster Bildschirm (blind), drei Tests** ([blindtest.md](referenzen/blindtest.md)):
 - **Bildtest:** beide Bilder zwischen fremde Referenzen und eine Falle, **nur eine Fassung pro Satz**. Schwelle: Mittel ≥ 7,5 und ≥ 4 von 6 «Agentur», beide Modelle einzeln ausgewiesen.
 - **Geschwister-Test:** neben den ersten Bildschirmen der letzten drei eigenen Websites und drei fremden. Schwelle: höchstens 1 von 6 ordnet es dem eigenen Studio zu.
 - **Fünf-Sekunden-Test:** drei Bewerter sehen das Bild 5 s und sagen: Was wird angeboten, wo, und was tue ich jetzt? Schwelle: 3 von 3 richtig.
@@ -171,7 +171,7 @@ Liegt die Kritik nach zwei Runden überwiegend beim Material (Logo, Fotos), meld
 
 ## Schritt 7 · Startseite mit der einen Bewegung
 
-**P5 · Startseite:** Bildfolge und Video nach [bewegung.md](referenzen/bewegung.md) Teil 6, je für Desktop, Handy und die ruhige Fassung.
+**DP5 · Startseite:** Bildfolge und Video nach [bewegung.md](referenzen/bewegung.md) Teil 6, je für Desktop, Handy und die ruhige Fassung.
 - **Blind:** Mittel ≥ 7,5; die Bewegung stört höchstens 1 von 6.
 - **Maschinell:** Titel nach ≤ 1,0 s lesbar; nach 3 s laufen 0 Animationen, ausser mit Pause-Knopf; animiert werden nur Transform, Deckkraft oder Farbe; unter Reduced Motion ist die Summe der Wege 0 px; ohne JavaScript ist aller Inhalt da.
 - **Erreichbarkeit:** Telefon und Öffnungszeiten am Handy höchstens einen Daumenstrich entfernt.
@@ -181,7 +181,7 @@ Liegt die Kritik nach zwei Runden überwiegend beim Material (Logo, Fotos), meld
 
 Gebaut werden alle Seiten, das Formular und die Zustände: Fehler, Bestätigung, 404, Menü offen, leeres Formular, und bei zustandsabhängigen Seiten (Tag/Nacht, Saison) jeder Zustand über die URL. Jede Unterseite hat einen eigenen Star aus ihrem Inhalt. Das Verhalten bleibt konventionell (Beschriftung über dem Feld, Fehler am Feld, Fokus sichtbar); die Idee lebt in Farbe, Schrift, Linie, Zeichen und Ton.
 
-**P6 · maschinell (alle Bedingungen erfüllt).** Werkzeug: `node werkzeuge/pruefen.cjs projekt.json`, vorher einmal mit `--selbsttest` (es muss alle eingebauten Fehler finden). Was in `projekt.json` fehlt, meldet es als «nicht geprüft», nie als bestanden.
+**DP6 · maschinell (alle Bedingungen erfüllt).** Werkzeug: `node werkzeuge/pruefen.cjs projekt.json`, vorher einmal mit `--selbsttest` (es muss alle eingebauten Fehler finden). Was in `projekt.json` fehlt, meldet es als «nicht geprüft», nie als bestanden.
 
 | Prüfung | Wie | Schwelle |
 |---|---|---|
@@ -200,7 +200,7 @@ Gebaut werden alle Seiten, das Formular und die Zustände: Fehler, Bestätigung,
 
 ## Schritt 9 · Kunden-Agenten und blinde Bewerter
 
-**Bewerter** für P1, P4, P5, P8 ([blindtest.md](referenzen/blindtest.md)):
+**Bewerter** für DP1, DP4, DP5, DP8 ([blindtest.md](referenzen/blindtest.md)):
 - 3 Bewerter mit Modell A und 3 mit Modell B (zwei verschiedene starke Modelle), Stufe hoch, als Unteragenten **ohne Projektkontext, ohne Code, ohne diesen Skill**, je mit anderer Reihenfolge.
 - Jedes Modell einzeln berichten. Liegen die Modelle mehr als 1,5 Punkte auseinander, ist das ein Befund.
 - **Eine Fassung pro Satz.** Drei Fassungen derselben Seite im selben Satz drückten alle (7,17 → 6,00). Fassungen in getrennten Sätzen mit denselben Referenzen prüfen.
@@ -210,7 +210,7 @@ Gebaut werden alle Seiten, das Formular und die Zustände: Fehler, Bestätigung,
 
 **Werkzeug zuerst prüfen:** Vor jedem Agentenlauf läuft [werkzeuge/kunde.cjs](werkzeuge/kunde.cjs) an der Selbsttest-Seite [werkzeuge/selbsttest/](werkzeuge/selbsttest/index.html) mit drei eingebauten Fehlern (kaputter `tel:`-Link, verdeckter Senden-Knopf, Überschrift mit demselben Text wie der Knopf). Es muss alle drei zeigen und den richtigen Knopf antippen. Sonst wird zuerst das Werkzeug repariert ([kunden-agenten.md](referenzen/kunden-agenten.md)).
 
-**P7 · Kunden-Agenten** ([kunden-agenten.md](referenzen/kunden-agenten.md)):
+**DP7 · Kunden-Agenten** ([kunden-agenten.md](referenzen/kunden-agenten.md)):
 - Handy 390 × 844 mit Touch, nur Bildschirmfotos, kein Quelltext. Je Aufgabe ein Lauf mit Modell A und einer mit Modell B.
 - Jede Aufgabe ist eine Lage aus dem Angebotsblatt, mit Wochentag und Uhrzeit, und hat einen festen Einstieg (Suchmaschine → Unterseite).
 - Erfasst je Lauf: erreicht ja/nein, Anzahl Aktionen, Abbruchgrund, Note «Würden Sie hier anfragen oder anrufen?» (1–10), Note «Vertrauen» (1–10), ein Satz zum grössten Hindernis.
@@ -226,7 +226,7 @@ Jeder Befund wird getrennt: Fehler des Werkzeugs oder Fehler der Seite. Ein Werk
 
 ## Schritt 10 · Ganze Website (blind)
 
-**P8:** Ein Kontaktbogen der neuen Website (alle Seiten und Zustände, Desktop und Handy) liegt neben den Kontaktbögen der letzten drei eigenen Websites und fremder Referenzen.
+**DP8:** Ein Kontaktbogen der neuen Website (alle Seiten und Zustände, Desktop und Handy) liegt neben den Kontaktbögen der letzten drei eigenen Websites und fremder Referenzen.
 
 | Frage | Schwelle `[Annahme]` |
 |---|---|
@@ -248,17 +248,17 @@ Menschen (Auftraggeber, Zielgruppe) bewerten mit, wenn sie Zeit haben; ihre Stim
 
 ## Wenn kein Unteragent verfügbar ist
 
-Kannst du keine Unteragenten starten, lieferst du nach Schritt 3 die drei Collagen als Bilder mit einer begründeten Vorwahl und hältst an. Ohne blinden Prüfpunkt baust du nicht weiter. Im Bericht steht dann «P1 nicht gelaufen», nie «bestanden». Eine kleine Aufgabe (ein Abschnitt, eine Korrektur) darfst du ohne P1 bauen, wenn der Auftraggeber das sagt; die maschinellen Prüfungen (P6) gelten trotzdem.
+Kannst du keine Unteragenten starten, lieferst du nach Schritt 3 die drei Collagen als Bilder mit einer begründeten Vorwahl und hältst an. Ohne blinden Prüfpunkt baust du nicht weiter. Im Bericht steht dann «DP1 nicht gelaufen», nie «bestanden». Eine kleine Aufgabe (ein Abschnitt, eine Korrektur) darfst du ohne DP1 bauen, wenn der Auftraggeber das sagt; die maschinellen Prüfungen (DP6) gelten trotzdem.
 
 ## Kurzform für eine Prüfung ohne Bau
 
 Soll eine bestehende Seite nur beurteilt werden:
 1. 60-Sekunden-Prüfung und «Billig, Baukasten, KI»-Muster aus [geschmack.md](referenzen/geschmack.md) als eigene Vorarbeit.
-2. Blinder Bildtest und Geschwister-Test (P4) mit Referenzen.
-3. Prüflisten A, P, H (P3) und die maschinellen Prüfungen (P6).
-4. Kunden-Agenten mit drei Aufgaben (P7).
+2. Blinder Bildtest und Geschwister-Test (DP4) mit Referenzen.
+3. Prüflisten A, P, H (DP3) und die maschinellen Prüfungen (DP6).
+4. Kunden-Agenten mit drei Aufgaben (DP7).
 5. Bericht: Befunde getrennt nach Geschmack, Angebot, Bedienung, Recht, Material; je mit Zahl und Quelle.
 
 ## Kosten und Dauer `[Annahme]`
 
-Ein Bau mit allen Prüfpunkten startet 6 Bewerter in P1, P4, P5 und P8 (24 Läufe) und 6 Agentenläufe in P7. Das ist viel; es misst aber etwas, das blind vergleichbar ist. Weniger Läufe sind möglich, dann steht im Bericht, welche fehlen.
+Ein Bau mit allen Prüfpunkten startet 6 Bewerter in DP1, DP4, DP5 und DP8 (24 Läufe) und 6 Agentenläufe in DP7. Das ist viel; es misst aber etwas, das blind vergleichbar ist. Weniger Läufe sind möglich, dann steht im Bericht, welche fehlen.

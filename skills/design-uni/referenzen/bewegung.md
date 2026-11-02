@@ -28,21 +28,21 @@ Sieben Entwürfe, je statisch und bewegt, als Bildfolgen; sechs Bewerter auf zwe
 
 ## 2. Grundsätze
 
-- **G1 · Bewegung hat eine Aufgabe:** Rückmeldung, Herkunft, Orientierung oder Betonung. Sonst fliegt sie raus.
-- **G2 · Kurz.** Interface 100–500 ms; Rückmeldung ~100 ms, Dialog 200–300 ms; ab 500 ms «a real drag» (NN/g). Keine Interface-Dauer über 400 ms.
-- **G3 · Hinein langsamer als hinaus** (~300 ms / 200–250 ms).
-- **G4 · Ease-out als Standard,** hinaus ease-in, nie linear für Raumbewegung; linear nur bei Kopplung an den Scrollbalken. Stärkere Abbremsung z. B. `cubic-bezier(0.05, 0.7, 0.1, 1)`.
-- **G5 · Je häufiger, desto leiser.** Hover und Druck 120–200 ms; Tastatur-Aktionen nie animieren.
-- **G6 · Unterbrechbar.** CSS-Transitions statt Keyframes für Interaktion. Prüfung: dreimal schnell über den Knopf, kein Springen.
-- **G7 · Nur `transform` und `opacity`** (und Farbe). `top`/`left` liess im web.dev-Versuch 50 % der Bilder fallen, `transform` 1 %.
-- **G8 · Kleine Wege:** 12–24 px beim Einblenden, mobil die Hälfte; Stagger 40–80 ms, höchstens 5–6 Glieder `[Annahme]`.
-- **G9 · Ein inszenierter Moment pro Seite,** bis etwa 1,2 s; alles andere unter G2.
-- **G10 · Der Inhalt ist sofort da.** Kein Ladebildschirm, kein Zähler, kein Tor. Was einfährt, ist nach spätestens 1 s lesbar.
-- **G11 · Scrollen gehört dem Besucher.** Kein verändertes Tempo oder Richtung, wo gelesen wird; höchstens ein gepinnter Abschnitt, etwa eine Bildschirmhöhe zusätzlich. Glättendes Scrollen standardmässig aus.
-- **G12 · Reduced Motion ist eine eigene Fassung:** keine Wege, Parallaxe, Zoom, Schwenks; Deckkraft kurz erlaubt. Video → Poster, Sequenz → Schlüsselbild.
-- **G13 · Was von selbst läuft, lässt sich anhalten:** über 5 s automatisch → Pause (WCAG 2.2.2). Nie mehr als drei Blitze pro Sekunde.
-- **G14 · Ohne JavaScript ist alles sichtbar.** Ausgangszustände setzt erst das Skript.
-- **G15 · Bewegung stammt aus dem Betrieb:** eine Unterschrift zeichnen, ein Name, der sich füllt, ein Strich, der den Grundriss zieht.
+- **DGB1 · Bewegung hat eine Aufgabe:** Rückmeldung, Herkunft, Orientierung oder Betonung. Sonst fliegt sie raus.
+- **DGB2 · Kurz.** Interface 100–500 ms; Rückmeldung ~100 ms, Dialog 200–300 ms; ab 500 ms «a real drag» (NN/g). Keine Interface-Dauer über 400 ms.
+- **DGB3 · Hinein langsamer als hinaus** (~300 ms / 200–250 ms).
+- **DGB4 · Ease-out als Standard,** hinaus ease-in, nie linear für Raumbewegung; linear nur bei Kopplung an den Scrollbalken. Stärkere Abbremsung z. B. `cubic-bezier(0.05, 0.7, 0.1, 1)`.
+- **DGB5 · Je häufiger, desto leiser.** Hover und Druck 120–200 ms; Tastatur-Aktionen nie animieren.
+- **DGB6 · Unterbrechbar.** CSS-Transitions statt Keyframes für Interaktion. Prüfung: dreimal schnell über den Knopf, kein Springen.
+- **DGB7 · Nur `transform` und `opacity`** (und Farbe). `top`/`left` liess im web.dev-Versuch 50 % der Bilder fallen, `transform` 1 %.
+- **DGB8 · Kleine Wege:** 12–24 px beim Einblenden, mobil die Hälfte; Stagger 40–80 ms, höchstens 5–6 Glieder `[Annahme]`.
+- **DGB9 · Ein inszenierter Moment pro Seite,** bis etwa 1,2 s; alles andere unter DGB2.
+- **DGB10 · Der Inhalt ist sofort da.** Kein Ladebildschirm, kein Zähler, kein Tor. Was einfährt, ist nach spätestens 1 s lesbar.
+- **DGB11 · Scrollen gehört dem Besucher.** Kein verändertes Tempo oder Richtung, wo gelesen wird; höchstens ein gepinnter Abschnitt, etwa eine Bildschirmhöhe zusätzlich. Glättendes Scrollen standardmässig aus.
+- **DGB12 · Reduced Motion ist eine eigene Fassung:** keine Wege, Parallaxe, Zoom, Schwenks; Deckkraft kurz erlaubt. Video → Poster, Sequenz → Schlüsselbild.
+- **DGB13 · Was von selbst läuft, lässt sich anhalten:** über 5 s automatisch → Pause (WCAG 2.2.2). Nie mehr als drei Blitze pro Sekunde.
+- **DGB14 · Ohne JavaScript ist alles sichtbar.** Ausgangszustände setzt erst das Skript.
+- **DGB15 · Bewegung stammt aus dem Betrieb:** eine Unterschrift zeichnen, ein Name, der sich füllt, ein Strich, der den Grundriss zieht.
 
 **Video und filmische Momente**
 - Das Standbild trägt allein: Auf iOS im Stromsparmodus startet kein Autoplay. Poster ist das LCP-Element, mit `<link rel="preload" fetchpriority="high">`.

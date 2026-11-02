@@ -29,12 +29,12 @@ Selbstbewertung lag in den Tests im Mittel 1,3 Punkte über dem blinden Urteil (
 
 | Prüfpunkt | Schwelle |
 |---|---|
-| P1 Richtung | gewählt: höchste Trefferquote beim Betrieb, niedrigste Zuordnung zum eigenen Studio; Idee nacherzählbar |
-| P4 Bildtest | Mittel ≥ 7,5 und ≥ 4 von 6 «Agentur» |
-| P4 Geschwister | höchstens 1 von 6 ordnet die neue Seite dem eigenen Studio zu |
-| P4 Fünf Sekunden | 3 von 3 nennen Angebot, Ort, nächsten Schritt richtig |
-| P5 Startseite mit Bewegung | Mittel ≥ 7,5; Bewegung «stört» bei höchstens 1 von 6 |
-| P8 ganze Website | Zusammenhalt ≥ 8; höchstens 1 Unterseite «austauschbar»; Geschwister ≤ 1 von 6; ≥ 4 von 6 «Agentur» |
+| DP1 Richtung | gewählt: höchste Trefferquote beim Betrieb, niedrigste Zuordnung zum eigenen Studio; Idee nacherzählbar |
+| DP4 Bildtest | Mittel ≥ 7,5 und ≥ 4 von 6 «Agentur» |
+| DP4 Geschwister | höchstens 1 von 6 ordnet die neue Seite dem eigenen Studio zu |
+| DP4 Fünf Sekunden | 3 von 3 nennen Angebot, Ort, nächsten Schritt richtig |
+| DP5 Startseite mit Bewegung | Mittel ≥ 7,5; Bewegung «stört» bei höchstens 1 von 6 |
+| DP8 ganze Website | Zusammenhalt ≥ 8; höchstens 1 Unterseite «austauschbar»; Geschwister ≤ 1 von 6; ≥ 4 von 6 «Agentur» |
 
 Zum Einordnen: Preisgekrönte Konzernseiten lagen bei 7,75 im Mittel (94 % «Agentur»), solide KMU-Seiten bei 5,38, Fallen bei 4,75. Die besten Entwürfe nach diesem Verfahren erreichten 8,00–8,33.
 
@@ -42,7 +42,7 @@ Zum Einordnen: Preisgekrönte Konzernseiten lagen bei 7,75 im Mittel (94 % «Age
 
 Pfade und Anzahl anpassen. Immer «nur Bilder ansehen, nichts anderes lesen».
 
-### 3.1 Erster Bildschirm (P4)
+### 3.1 Erster Bildschirm (DP4)
 
 ```
 # Blinder Test: erster Bildschirm von N Websites
@@ -77,7 +77,7 @@ WAS PREMIUM AUSMACHT (aus diesen Bildern, ein Satz):
 
 Für das Handy dieselbe Vorlage mit 390 × 844, oder Desktop und Handy nebeneinander auf einem Blatt.
 
-### 3.2 Geschwister-Test (P4, P8)
+### 3.2 Geschwister-Test (DP4, DP8)
 
 Zusatz am Ende von 3.1 oder 3.3:
 
@@ -89,7 +89,7 @@ oder «keine».
 
 Gezählt wird, wie viele Bewerter die neue Seite mit einer der eigenen früheren Seiten in eine Gruppe legen. Die Merkmale sind die Liste für das Register ([abstand.md](abstand.md)).
 
-### 3.3 Ganze Website (P8)
+### 3.3 Ganze Website (DP8)
 
 Je Website ein Blatt: oben drei Seiten am Desktop (erster Bildschirm), unten drei Ansichten am Handy (Start, Menü offen oder Unterseite, Formular mit Fehler oder Bestätigung).
 
@@ -120,7 +120,7 @@ BESTE 3: …
 GLEICHES STUDIO: <Gruppen mit Merkmal, oder «keine»>
 ```
 
-### 3.4 Richtung aus Collagen (P1)
+### 3.4 Richtung aus Collagen (DP1)
 
 ```
 # Blinder Test: Gestaltungstafeln
@@ -142,7 +142,7 @@ Merkmal, oder «keine».
 
 Gewertet: Trefferquote beim Betrieb (gegen den Lösungsschlüssel), ob die Idee nacherzählt wird, Zuordnung zum eigenen Studio.
 
-### 3.5 Bewegung (P5)
+### 3.5 Bewegung (DP5)
 
 ```
 # Blinder Test: Websites in Bewegung
@@ -171,7 +171,7 @@ WAS BEWEGUNG HOCHWERTIG MACHT (ein Satz):
 
 Ergänzend die Fragen aus [bewegung.md](bewegung.md) Teil 6, wenn Videos statt Bildfolgen gezeigt werden.
 
-### 3.6 Fünf-Sekunden-Test (P4)
+### 3.6 Fünf-Sekunden-Test (DP4)
 
 Drei Bewerter. Das Bild wird gezeigt, danach wird es nicht mehr angesehen (in der Praxis: Auftrag «Sieh das Bild einmal an und beantworte danach, ohne es erneut zu öffnen»):
 
@@ -192,5 +192,5 @@ Bestanden: 3 von 3 richtig gegen den Lösungsschlüssel.
 
 ## 5. Was der blinde Test nicht misst
 
-- Bedienung: Eine Website lag im Bildtest bei 8,0 und war zugleich nicht anrufbar (kaputter `tel:`-Link); der erste Kunden-Agent gab ihr 3 von 10. Dafür gibt es P6 und P7.
+- Bedienung: Eine Website lag im Bildtest bei 8,0 und war zugleich nicht anrufbar (kaputter `tel:`-Link); der erste Kunden-Agent gab ihr 3 von 10. Dafür gibt es DP6 und DP7.
 - Menschen: Alle Bewerter sind Modelle. Wo möglich, bewerten Auftraggeber oder Zielgruppe blind mit; getrennt ausweisen.

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Maschinelle Prüfungen einer Vorschau (design-uni P6, P5 maschinell; text-uni T7).
+/* Maschinelle Prüfungen einer Vorschau (design-uni DP6, DP5 maschinell; text-uni TP7).
    Allgemein: Alles Projektbezogene steht in projekt.json (Vorlage: ../eingabe/projekt.beispiel.json).
 
    Aufruf:  node pruefen.cjs <projekt.json> [--selbsttest] [--json <ausgabe.json>]
@@ -43,7 +43,7 @@ function server(dir) {
   return new Promise((ok) => s.listen(0, () => ok(s)));
 }
 
-/* Kontrast: Text gegen den tatsächlichen Grund aus der Kaskade (L24) */
+/* Kontrast: Text gegen den tatsächlichen Grund aus der Kaskade (DL24) */
 const kontrastSkript = () => {
   const parse = (c) => { const m = c.match(/rgba?\(([^)]+)\)/); if (!m) return null; const p = m[1].split(",").map((x) => parseFloat(x)); return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 }; };
   const lum = ({ r, g, b }) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
@@ -115,22 +115,22 @@ async function pruefe(base) {
       v.forEach((x) => verd.push(`${s}: ${x}`));
       const ue = await p.evaluate(() => document.documentElement.scrollWidth - innerWidth); if (ue > 0) ueberlauf.push(`${s}: ${ue}px`);
     }
-    if (TEL.length) r(`P6 Telefon-Links ${vname}`, tel.length === 0, tel.join(" | ") || "alle tel-Links international, Text gleich Ziel, Nummer aus projekt.json, im ersten Bildschirm");
-    else nichtGeprueft(`P6 Telefon-Links ${vname}`, "keine Nummer in projekt.json");
-    r(`P6 Zählpunkte ${vname}`, zaehl.length === 0, zaehl.join(" | ") || "100 % der tel-, mailto- und Karten-Links tragen data-zaehl und data-ort");
-    if (HA && HA.fest) r(`P6 Hauptaktion fest sichtbar ${vname}`, cta.length === 0, cta.join(" | ") || `«${HA.text || HA.selektor}» auf allen Seiten nach dem Scrollen, ≥ 44 px`);
-    r(`P6 Kontrast aus der Kaskade ${vname}`, kontr.length === 0, (kontr.join(" | ") || "alle sichtbaren Texte erreichen 4,5:1 (gross 3:1)") + (textUeberBild.length ? ` · Text über Bild nicht gemessen (von Auge prüfen): ${textUeberBild.join(", ")}` : ""));
-    r(`P6 Verdeckung ${vname}`, verd.length === 0, verd.join(" | ") || "0 Knöpfe und Felder verdeckt");
-    r(`P6 Kein Überlauf ${vname}`, ueberlauf.length === 0, ueberlauf.join(" | ") || "kein horizontales Scrollen");
-    r(`P6 Boden: nichts von fremden Hosts ${vname}`, fremd.size === 0, [...fremd].join(", ") || "alle Anfragen gleiche Herkunft");
+    if (TEL.length) r(`DP6 Telefon-Links ${vname}`, tel.length === 0, tel.join(" | ") || "alle tel-Links international, Text gleich Ziel, Nummer aus projekt.json, im ersten Bildschirm");
+    else nichtGeprueft(`DP6 Telefon-Links ${vname}`, "keine Nummer in projekt.json");
+    r(`DP6 Zählpunkte ${vname}`, zaehl.length === 0, zaehl.join(" | ") || "100 % der tel-, mailto- und Karten-Links tragen data-zaehl und data-ort");
+    if (HA && HA.fest) r(`DP6 Hauptaktion fest sichtbar ${vname}`, cta.length === 0, cta.join(" | ") || `«${HA.text || HA.selektor}» auf allen Seiten nach dem Scrollen, ≥ 44 px`);
+    r(`DP6 Kontrast aus der Kaskade ${vname}`, kontr.length === 0, (kontr.join(" | ") || "alle sichtbaren Texte erreichen 4,5:1 (gross 3:1)") + (textUeberBild.length ? ` · Text über Bild nicht gemessen (von Auge prüfen): ${textUeberBild.join(", ")}` : ""));
+    r(`DP6 Verdeckung ${vname}`, verd.length === 0, verd.join(" | ") || "0 Knöpfe und Felder verdeckt");
+    r(`DP6 Kein Überlauf ${vname}`, ueberlauf.length === 0, ueberlauf.join(" | ") || "kein horizontales Scrollen");
+    r(`DP6 Boden: nichts von fremden Hosts ${vname}`, fremd.size === 0, [...fremd].join(", ") || "alle Anfragen gleiche Herkunft");
     const ck = await ctx.cookies(); const ls = await p.evaluate(() => localStorage.length + sessionStorage.length);
-    r(`P6 Boden: keine Cookies, nichts im Speicher ${vname}`, ck.length === 0 && ls === 0, `Cookies ${ck.length}, Speichereinträge ${ls}`);
+    r(`DP6 Boden: keine Cookies, nichts im Speicher ${vname}`, ck.length === 0 && ls === 0, `Cookies ${ck.length}, Speichereinträge ${ls}`);
     await ctx.close();
   }
 
   { const ctx = await b.newContext({ viewport: { width: 360, height: 740 }, isMobile: true, hasTouch: true }); const p = await ctx.newPage(); const bad = [];
     for (const s of SEITEN) { await p.goto(`${base}/${s}.html`); const ue = await p.evaluate(() => document.documentElement.scrollWidth - innerWidth); if (ue > 0) bad.push(`${s}: ${ue}px`); }
-    r("P6 Kein Überlauf 360 px", bad.length === 0, bad.join(" | ") || `${SEITEN.length} Seiten`); await ctx.close(); }
+    r("DP6 Kein Überlauf 360 px", bad.length === 0, bad.join(" | ") || `${SEITEN.length} Seiten`); await ctx.close(); }
 
   // Formular
   const F = P.formular;
@@ -144,28 +144,28 @@ async function pruefe(base) {
     const vorgekreuzt = await p.$$eval(`${F.selektor} input[type=checkbox]:checked`, (es) => es.length);
     const pflicht = await p.$$eval(`${F.selektor} [required]`, (es) => es.length);
     const [fmin, fmax] = F.felder || [3, 5];
-    r(`P6 Formular: sichtbare Felder ${fmin} bis ${fmax}`, felder >= fmin && felder <= fmax, `${felder} Felder; Pflicht ${pflicht}`);
-    if (F.pflicht != null) r(`P6 Formular: Pflichtfelder ${F.pflicht}`, pflicht === F.pflicht, `${pflicht}`);
-    r("P6 Formular: Beschriftung an jedem Feld, 0 Platzhalter, nichts vorangekreuzt", ohneLabel.length === 0 && platzhalter === 0 && vorgekreuzt === 0, `ohne Label ${ohneLabel.join(",") || 0}, Platzhalter ${platzhalter}, vorangekreuzt ${vorgekreuzt}`);
-    if (F.verantwortlich) { const t = await sichtbarerText(p); r("P6 Formular: Verantwortlicher am Knopf genannt", t.includes(F.verantwortlich), F.verantwortlich); }
-    const tf = await p.$(`${F.selektor} input[type=tel]`); r("H8 Telefonfeld öffnet die Zifferntastatur", !!tf || !(F.fuellen && Object.values(F.fuellen).some((v) => /^0\d/.test(v))), tf ? "type=tel" : "kein Feld type=tel");
+    r(`DP6 Formular: sichtbare Felder ${fmin} bis ${fmax}`, felder >= fmin && felder <= fmax, `${felder} Felder; Pflicht ${pflicht}`);
+    if (F.pflicht != null) r(`DP6 Formular: Pflichtfelder ${F.pflicht}`, pflicht === F.pflicht, `${pflicht}`);
+    r("DP6 Formular: Beschriftung an jedem Feld, 0 Platzhalter, nichts vorangekreuzt", ohneLabel.length === 0 && platzhalter === 0 && vorgekreuzt === 0, `ohne Label ${ohneLabel.join(",") || 0}, Platzhalter ${platzhalter}, vorangekreuzt ${vorgekreuzt}`);
+    if (F.verantwortlich) { const t = await sichtbarerText(p); r("DP6 Formular: Verantwortlicher am Knopf genannt", t.includes(F.verantwortlich), F.verantwortlich); }
+    const tf = await p.$(`${F.selektor} input[type=tel]`); r("LH8 Telefonfeld öffnet die Zifferntastatur", !!tf || !(F.fuellen && Object.values(F.fuellen).some((v) => /^0\d/.test(v))), tf ? "type=tel" : "kein Feld type=tel");
     if (F.senden) {
       const vor = await p.$eval(F.senden, (e) => e.getBoundingClientRect().top + scrollY);
       await p.click(F.senden); await warte(150);
       const nach = await p.$eval(F.senden, (e) => e.getBoundingClientRect().top + scrollY);
       const meldungen = await p.$$eval(`${F.selektor} [aria-invalid=true], ${F.selektor} :invalid`, (es) => es.length);
-      r("P6 Leeres Senden: Fehler am Feld, Senden-Knopf bleibt stehen", meldungen > 0 && Math.abs(vor - nach) < 1, `${meldungen} Felder markiert, Verschiebung ${Math.abs(vor - nach).toFixed(0)} px`);
+      r("DP6 Leeres Senden: Fehler am Feld, Senden-Knopf bleibt stehen", meldungen > 0 && Math.abs(vor - nach) < 1, `${meldungen} Felder markiert, Verschiebung ${Math.abs(vor - nach).toFixed(0)} px`);
       if (F.fuellen && F.bestaetigung) {
         for (const [s, v] of Object.entries(F.fuellen)) await p.fill(s, v);
         await p.evaluate(() => { window.open = () => null; }); // mailto und neue Fenster nicht öffnen
         const t0 = Date.now();
         await Promise.all([p.click(F.senden), p.waitForSelector(F.bestaetigung, { timeout: 2000 })]).catch(() => {});
         const dt = Date.now() - t0; const da = await p.$(F.bestaetigung); const gesperrt = await p.$eval(F.senden, (e) => e.disabled || e.getAttribute("aria-disabled") === "true").catch(() => true);
-        r("P6 Rückmeldung ≤ 300 ms, doppeltes Senden gesperrt", !!da && dt <= 300 && gesperrt, `${da ? dt + " ms" : "keine Bestätigung"} (inkl. Klick), Knopf gesperrt: ${gesperrt}`);
-      } else nichtGeprueft("P6 Rückmeldung ≤ 300 ms", "formular.fuellen oder formular.bestaetigung fehlt");
+        r("DP6 Rückmeldung ≤ 300 ms, doppeltes Senden gesperrt", !!da && dt <= 300 && gesperrt, `${da ? dt + " ms" : "keine Bestätigung"} (inkl. Klick), Knopf gesperrt: ${gesperrt}`);
+      } else nichtGeprueft("DP6 Rückmeldung ≤ 300 ms", "formular.fuellen oder formular.bestaetigung fehlt");
     }
     await ctx.close();
-  } else nichtGeprueft("P6 Formular", "kein formular in projekt.json");
+  } else nichtGeprueft("DP6 Formular", "kein formular in projekt.json");
 
   // Kalender: Zustand nach simuliertem Datum, Gerät in fremder Zeitzone
   const K = P.kalender;
@@ -178,20 +178,20 @@ async function pruefe(base) {
       if (!new RegExp(erwartet).test(t) || /\bmorgen\b/.test(t)) bad.push(`${name}: «${t.trim()}»`);
       await ctx.close();
     }
-    r(`P6 Kalender (${K.faelle.map((f) => f[0]).join(", ")}; Gerät in anderer Zeitzone)`, bad.length === 0, bad.join(" | ") || `${K.faelle.length} Fälle richtig; nie «morgen»`);
-  } else nichtGeprueft("P6 Kalender", "kein kalender in projekt.json (nur nötig, wenn die Seite Zustände nach Uhrzeit zeigt)");
+    r(`DP6 Kalender (${K.faelle.map((f) => f[0]).join(", ")}; Gerät in anderer Zeitzone)`, bad.length === 0, bad.join(" | ") || `${K.faelle.length} Fälle richtig; nie «morgen»`);
+  } else nichtGeprueft("DP6 Kalender", "kein kalender in projekt.json (nur nötig, wenn die Seite Zustände nach Uhrzeit zeigt)");
 
   // Ohne JavaScript, Reduced Motion, Bewegung nach 3 s
   { const ctx = await b.newContext({ javaScriptEnabled: false }); const p = await ctx.newPage(); const bad = [];
     for (const s of SEITEN) { await p.goto(`${base}/${s}.html`); const t = await sichtbarerText(p); if (!OHNE_KONTAKT.has(s) && !enthaeltTelefon(t)) bad.push(s); if (t.length < 80) bad.push(`${s}: fast leer`); }
-    r("P6 Boden: ohne JavaScript ist der Inhalt da (Text, Telefon)", bad.length === 0, bad.join(", ") || `${SEITEN.length} Seiten`); await ctx.close(); }
+    r("DP6 Boden: ohne JavaScript ist der Inhalt da (Text, Telefon)", bad.length === 0, bad.join(", ") || `${SEITEN.length} Seiten`); await ctx.close(); }
   { const ctx = await b.newContext({ reducedMotion: "reduce" }); const p = await ctx.newPage(); await p.goto(`${base}/index.html`); await warte(500); const n = await p.evaluate(() => document.getAnimations().filter((a) => a.playState === "running").length);
-    r("P5 Reduced Motion: keine laufende Animation", n === 0, `${n} laufend`); await ctx.close(); }
+    r("DP5 Reduced Motion: keine laufende Animation", n === 0, `${n} laufend`); await ctx.close(); }
   { const ctx = await b.newContext({ reducedMotion: "no-preference" }); const p = await ctx.newPage(); await p.goto(`${base}/index.html`); await warte(3200);
     const n = await p.evaluate(() => document.getAnimations().filter((a) => a.playState === "running" && a.effect && a.effect.getTiming().iterations !== Infinity).length);
     const endlos = await p.evaluate(() => document.getAnimations().filter((a) => a.playState === "running" && a.effect && a.effect.getTiming().iterations === Infinity).length);
     const pause = await p.$('[data-pause], button[aria-label*="ause" i]');
-    r("P5 Nach 3 s laufen 0 Animationen (endlose nur mit Pause-Knopf)", n === 0 && (endlos === 0 || !!pause), `${n} laufend, ${endlos} endlos, Pause-Knopf: ${!!pause}`); await ctx.close(); }
+    r("DP5 Nach 3 s laufen 0 Animationen (endlose nur mit Pause-Knopf)", n === 0 && (endlos === 0 || !!pause), `${n} laufend, ${endlos} endlos, Pause-Knopf: ${!!pause}`); await ctx.close(); }
 
   await b.close();
 }
@@ -226,30 +226,30 @@ function textPruefung(ordner) {
     const fliess = vis(absaetze.join(" . ")).replace(/\b(Nr|ca|z\. B|bzw|inkl|evtl)\./g, "$1");
     for (const satz of fliess.split(/(?<=[.!?])\s+(?=[A-ZÄÖÜ«])/)) { const w = satz.trim().split(/\s+/).filter((x) => /\p{L}|\d/u.test(x)).length; if (w < 2) continue; wortSumme += w; saetze++; if (w > maxSatz) { maxSatz = w; maxWo = `${s}: ${satz.slice(0, 80)}`; } if (w > 25) bad.satz.push(`${s}: ${w} Wörter «${satz.slice(0, 50)}»`); }
   }
-  if (T.eszett === false) r("T7/CH1 Eszett 0", bad.sz.length === 0, bad.sz.join(", ") || "0");
-  if (T.anrede) r(`T7/CH4 Eine Anrede (nur «${T.anrede}»)`, bad.anrede.length === 0, bad.anrede.join(", ") || "0");
-  if (T.guillemets !== false) r("T7/CH5 Guillemets, keine geraden oder deutschen Anführungszeichen", bad.gerade.length === 0, bad.gerade.join(", ") || "0");
-  if (T.gedankenstriche === false) r("T7/K11 Keine Gedankenstriche im sichtbaren Text", bad.strich.length === 0, bad.strich.join(", ") || "0");
-  if (T.uhrzeitMitPunkt !== false) r("T7/CH11 Uhrzeit mit Punkt", bad.uhr.length === 0, bad.uhr.join(", ") || "0");
-  r("T7/CH12 Telefon national sichtbar, kein +41 im Text", bad.tel.length === 0, bad.tel.join(", ") || "0");
-  r("P6 Klammern: keine eckigen Klammern im sichtbaren Text", bad.klammer.length === 0, bad.klammer.join(", ") || "0");
-  r("T7/S15 Genau ein h1, keine Sprünge in der Gliederung", bad.h.length === 0, bad.h.join(" | ") || "0");
-  r("T7/S20 Bilder mit Alt-Attribut und Mass", bad.img.length === 0, bad.img.join(" | ") || "alle Bilder");
-  r("T7/S1 Titel 40 bis 60, Beschreibung 110 bis 155 Zeichen", bad.titel.length === 0, bad.titel.join(" | ") || `${SEITEN.length} Seiten`);
-  if (P.vorschau !== false) r("T7/TI9 Vorschau: noindex, kein canonical", bad.noindex.length === 0 && bad.canon.length === 0, [...bad.noindex, ...bad.canon].join(", ") || `${SEITEN.length} Seiten`);
+  if (T.eszett === false) r("TP7/CH1 Eszett 0", bad.sz.length === 0, bad.sz.join(", ") || "0");
+  if (T.anrede) r(`TP7/CH4 Eine Anrede (nur «${T.anrede}»)`, bad.anrede.length === 0, bad.anrede.join(", ") || "0");
+  if (T.guillemets !== false) r("TP7/CH5 Guillemets, keine geraden oder deutschen Anführungszeichen", bad.gerade.length === 0, bad.gerade.join(", ") || "0");
+  if (T.gedankenstriche === false) r("TP7/K11 Keine Gedankenstriche im sichtbaren Text", bad.strich.length === 0, bad.strich.join(", ") || "0");
+  if (T.uhrzeitMitPunkt !== false) r("TP7/CH11 Uhrzeit mit Punkt", bad.uhr.length === 0, bad.uhr.join(", ") || "0");
+  r("TP7/CH12 Telefon national sichtbar, kein +41 im Text", bad.tel.length === 0, bad.tel.join(", ") || "0");
+  r("DP6 Klammern: keine eckigen Klammern im sichtbaren Text", bad.klammer.length === 0, bad.klammer.join(", ") || "0");
+  r("TP7/S15 Genau ein h1, keine Sprünge in der Gliederung", bad.h.length === 0, bad.h.join(" | ") || "0");
+  r("TP7/S20 Bilder mit Alt-Attribut und Mass", bad.img.length === 0, bad.img.join(" | ") || "alle Bilder");
+  r("TP7/S1 Titel 40 bis 60, Beschreibung 110 bis 155 Zeichen", bad.titel.length === 0, bad.titel.join(" | ") || `${SEITEN.length} Seiten`);
+  if (P.vorschau !== false) r("TP7/TI9 Vorschau: noindex, kein canonical", bad.noindex.length === 0 && bad.canon.length === 0, [...bad.noindex, ...bad.canon].join(", ") || `${SEITEN.length} Seiten`);
   if (saetze) {
-    r("T3/W1 Sätze im Fliesstext im Mittel ≤ 15 Wörter", wortSumme / saetze <= 15, `${(wortSumme / saetze).toFixed(1)} im Mittel über ${saetze} Sätze; längster ${maxSatz} (${maxWo})`);
-    r("T3/W2 Kein Satz über 25 Wörter", bad.satz.length === 0, bad.satz.join(" | ") || `längster ${maxSatz}`);
+    r("TP3/W1 Sätze im Fliesstext im Mittel ≤ 15 Wörter", wortSumme / saetze <= 15, `${(wortSumme / saetze).toFixed(1)} im Mittel über ${saetze} Sätze; längster ${maxSatz} (${maxWo})`);
+    r("TP3/W2 Kein Satz über 25 Wörter", bad.satz.length === 0, bad.satz.join(" | ") || `längster ${maxSatz}`);
   }
   const rob = path.join(ordner, "robots.txt");
-  if (P.vorschau !== false) r("T7/TI3 Vorschau: robots.txt sperrt alles, keine Sitemap", fs.existsSync(rob) && /Disallow: \/\s*$/m.test(fs.readFileSync(rob, "utf8")) && !fs.existsSync(path.join(ordner, "sitemap.xml")), fs.existsSync(rob) ? fs.readFileSync(rob, "utf8").trim().replace(/\n/g, " | ") : "robots.txt fehlt");
+  if (P.vorschau !== false) r("TP7/TI3 Vorschau: robots.txt sperrt alles, keine Sitemap", fs.existsSync(rob) && /Disallow: \/\s*$/m.test(fs.readFileSync(rob, "utf8")) && !fs.existsSync(path.join(ordner, "sitemap.xml")), fs.existsSync(rob) ? fs.readFileSync(rob, "utf8").trim().replace(/\n/g, " | ") : "robots.txt fehlt");
   const tot = []; for (const s of SEITEN) { for (const m of html(s).matchAll(/(?:href|src)="([^"#?]+)(?:[?#][^"]*)?"/g)) { const u = m[1]; if (/^(https?:|mailto:|tel:|\/\/|data:)/.test(u)) continue; if (!fs.existsSync(path.join(ordner, u.replace(/^\//, "")))) tot.push(`${s}: ${u}`); } }
-  r("T7/TI17 Keine toten internen Links oder Bilder", tot.length === 0, tot.join(" | ") || "0");
+  r("TP7/TI17 Keine toten internen Links oder Bilder", tot.length === 0, tot.join(" | ") || "0");
   // Strukturierte Daten: Typ, Telefon und Strasse gleich der sichtbaren Seite, keine eigene Bewertung
   if (P.jsonld && P.jsonld.typ) {
     const ld = html("index").match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/); let ok = false, d = "fehlt";
     try { const j = JSON.parse(ld[1]); const sicht = vis(html("index")); const telOk = !TEL.length || (j.telephone || "").replace(/\D/g, "").endsWith(TEL[0].slice(1)); ok = j["@type"] === P.jsonld.typ && telOk && (!j.address || sicht.includes(j.address.streetAddress)) && !("aggregateRating" in j) && !("review" in j); d = `${j["@type"]}, ${j.telephone}, ${"aggregateRating" in j ? "mit" : "ohne"} Bewertung`; } catch (e) { d = "ungültig oder fehlt"; }
-    r("T7/S23 LocalBusiness gültig, gleich der sichtbaren Seite, ohne eigene Bewertung", ok, d);
+    r("TP7/S23 LocalBusiness gültig, gleich der sichtbaren Seite, ohne eigene Bewertung", ok, d);
   }
   // Faktenabgleich: jede mehrstellige Zahl im sichtbaren Text steht in projekt.json → zahlen (mit Quelle)
   if (P.zahlen) {
@@ -267,19 +267,19 @@ function baueFehlerEin(tmp) {
   const lies = (s) => fs.readFileSync(path.join(tmp, s + ".html"), "utf8"), schreib = (s, h) => fs.writeFileSync(path.join(tmp, s + ".html"), h);
   // 1 kaputter tel-Link
   const sTel = seiten.find((s) => /href="tel:\+/.test(lies(s)));
-  if (sTel) { schreib(sTel, lies(sTel).replace(/href="tel:\+(\d+)"/, 'href="tel:0$1"')); eingebaut.push("P6 Telefon-Links 1440"); }
+  if (sTel) { schreib(sTel, lies(sTel).replace(/href="tel:\+(\d+)"/, 'href="tel:0$1"')); eingebaut.push("DP6 Telefon-Links 1440"); }
   // 2 Kontrast: erster Absatz in main hellgrau auf dem Grund
-  const sK = seiten[0]; schreib(sK, lies(sK).replace("</head>", '<style>main p { color: #c8c8c8 !important; }</style></head>')); eingebaut.push("P6 Kontrast aus der Kaskade 1440");
+  const sK = seiten[0]; schreib(sK, lies(sK).replace("</head>", '<style>main p { color: #c8c8c8 !important; }</style></head>')); eingebaut.push("DP6 Kontrast aus der Kaskade 1440");
   // 3 Gedankenstrich und Klammer im ersten Absatz einer zweiten Seite
-  const sT = seiten[1] || seiten[0]; schreib(sT, lies(sT).replace(/(<main[\s\S]*?<p\b[^>]*>)/, "$1Muster – [Platzhalter] ")); eingebaut.push("P6 Klammern: keine eckigen Klammern im sichtbaren Text");
-  if (P.text && P.text.gedankenstriche === false) eingebaut.push("T7/K11 Keine Gedankenstriche im sichtbaren Text");
+  const sT = seiten[1] || seiten[0]; schreib(sT, lies(sT).replace(/(<main[\s\S]*?<p\b[^>]*>)/, "$1Muster – [Platzhalter] ")); eingebaut.push("DP6 Klammern: keine eckigen Klammern im sichtbaren Text");
+  if (P.text && P.text.gedankenstriche === false) eingebaut.push("TP7/K11 Keine Gedankenstriche im sichtbaren Text");
   // 4 Hauptaktion auf einer Seite entfernen
   if (P.hauptaktion && P.hauptaktion.fest && P.hauptaktion.href) {
     const sH = seiten[seiten.length - 1]; const re = new RegExp(`<a\\b[^>]*href="${P.hauptaktion.href.replace(/[.?*+^$()[\]{}|\\]/g, "\\$&")}"[^>]*>[\\s\\S]*?<\\/a>`, "g");
-    schreib(sH, lies(sH).replace(re, "")); eingebaut.push("P6 Hauptaktion fest sichtbar 1440");
+    schreib(sH, lies(sH).replace(re, "")); eingebaut.push("DP6 Hauptaktion fest sichtbar 1440");
   }
   // 5 Bild ohne Mass
-  schreib(sK, lies(sK).replace(/<\/main>/, '<img src="fehlt-absichtlich.jpg" alt=""></main>')); eingebaut.push("T7/S20 Bilder mit Alt-Attribut und Mass");
+  schreib(sK, lies(sK).replace(/<\/main>/, '<img src="fehlt-absichtlich.jpg" alt=""></main>')); eingebaut.push("TP7/S20 Bilder mit Alt-Attribut und Mass");
   return eingebaut;
 }
 

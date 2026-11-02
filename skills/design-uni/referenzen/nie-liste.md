@@ -1,6 +1,6 @@
 # Nie-Liste
 
-Zwei Stufen. **Verboten** sperrt die Seite, unabhängig von allen Noten (Deckel in P3). **Nie als Voreinstellung** begrenzt das Urteil auf «solide» und ist nur erlaubt, wenn es aus dem Betrieb begründet ist und die Ausnahme in einem Satz im Bericht steht.
+Zwei Stufen. **Verboten** sperrt die Seite, unabhängig von allen Noten (Deckel in DP3). **Nie als Voreinstellung** begrenzt das Urteil auf «solide» und ist nur erlaubt, wenn es aus dem Betrieb begründet ist und die Ausnahme in einem Satz im Bericht steht.
 
 ## 1. Verboten
 

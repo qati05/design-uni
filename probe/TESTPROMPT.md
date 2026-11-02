@@ -12,7 +12,7 @@ Zweck: prüfen, ob design-uni und text-uni **aus Kundenangaben allein** eine Web
 2. Einen Ordner `probe/<kunde>/eingabe/` anlegen mit:
    - `kundenangaben.md` (ausgefüllte Vorlage aus `skills/design-uni/eingabe/kundenangaben.md`, alle ★-Fragen beantwortet oder als Lücke bestätigt),
    - `logo/` und `fotos/` mit Rechten.
-   Am besten ein **echter** nächster Kunde. Ohne eigene Fotos misst der Test nur den Schrift-Weg (L10, L11).
+   Am besten ein **echter** nächster Kunde. Ohne eigene Fotos misst der Test nur den Schrift-Weg (DL10, DL11).
 3. Für einen Lauf ohne Kunden: den erfundenen Übungsbetrieb nehmen (siehe unten, Variante B). Dann gilt alles als Übung; nichts geht an einen Betrieb.
 
 ## Variante A: echter Kunde (in Claude Code einfügen, `<kunde>` ersetzen)
@@ -25,11 +25,11 @@ Baue daraus eine Vorschau der Website in probe/<kunde>/site/ (statisches HTML, C
 
 Ablauf: genau nach SKILL.md, Schritt 1 bis 11. Insbesondere:
 - Fehlen ★-Angaben, halte an und liste sie auf, statt zu raten.
-- Schritt 3: drei Collagen, P1 blind mit Unteragenten (3 Bewerter Modell A, 3 Modell B, ohne Projektkontext). Zeige mir die gewählte Richtung und frag mich, bevor du baust.
+- Schritt 3: drei Collagen, DP1 blind mit Unteragenten (3 Bewerter Modell A, 3 Modell B, ohne Projektkontext). Zeige mir die gewählte Richtung und frag mich, bevor du baust.
 - Schritt 4: tragende Technik und höchstens zwei stützende aus referenzen/techniken.md, je mit «weil»-Satz; Bewegung keine oder eine, aus galerie/index.html, selbst gebaut.
-- Schritt 6: vor P4 werkzeuge/vermessen.cjs und werkzeuge/vergleichen.cjs; Vorlagen-Signale 0 oder begründet. Dann P4 blind (Bildtest, Geschwister-Test, Fünf-Sekunden-Test).
+- Schritt 6: vor DP4 werkzeuge/vermessen.cjs und werkzeuge/vergleichen.cjs; Vorlagen-Signale 0 oder begründet. Dann DP4 blind (Bildtest, Geschwister-Test, Fünf-Sekunden-Test).
 - Schritt 8: projekt.json anlegen, werkzeuge/pruefen.cjs zuerst mit --selbsttest, dann normal; 0 Fehler.
-- Schritt 9 und 10: P7 Kunden-Agenten und P8 blind, wenn Unteragenten verfügbar sind.
+- Schritt 9 und 10: DP7 Kunden-Agenten und DP8 blind, wenn Unteragenten verfügbar sind.
 
 Grenzen: Nichts veröffentlichen, nichts an den Betrieb senden, nichts erfinden. Selbstbewertung zählt nicht.
 
@@ -57,8 +57,8 @@ Erwartung: Ohne Fotos muss die tragende Technik eine Schrift- oder Fakten-Techni
 | Wird eine Technik gewählt und begründet? | Ableitungskette, Register | 1 tragende, ≤ 2 stützende, je «weil» |
 | Benutzt der Lauf die neuen Werkzeuge? | `vergleichen.cjs`-Ausgabe, `pruefen.cjs`-Selbsttest im LIESMICH | beides vorhanden |
 | Vorlagen-Signale | vergleichen.cjs | 0 oder begründet |
-| P4 blind | Bildtest | Mittel ≥ 7,5, ≥ 4 von 6 «Agentur» |
-| P6 | pruefen.cjs | 0 Fehler |
+| DP4 blind | Bildtest | Mittel ≥ 7,5, ≥ 4 von 6 «Agentur» |
+| DP6 | pruefen.cjs | 0 Fehler |
 | Steht irgendwo Auto Speedy, Carrosserie-Text oder ein Wert aus einem früheren Projekt? | Suche im Bau | 0 Treffer |
 
 Ergebnis als Lektion (Format in `referenzen/lektionen.md`) zurück in den Skill, auch wenn es durchfällt.

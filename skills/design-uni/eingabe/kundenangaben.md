@@ -9,7 +9,7 @@
 - Ein Gespräch von etwa einer Stunde, am besten im Betrieb; oder schriftlich. Teilantworten und «weiss nicht» sind nützlich: lieber markieren als weglassen.
 - Hinter jede Antwort eine Marke: `[Fakt · Quelle, Datum]`, `[Annahme]` oder `[Lücke]`. Ein wörtlicher Satz des Inhabers bekommt Anführungszeichen und gilt als Fakt.
 - **Nomen, nicht Adjektive.** «Modern» sagt jeder; «Schreinerdreieck auf jedem Brett» nur dieser Betrieb.
-- Mit ★ markierte Fragen braucht der Bau zwingend (P0 in SKILL.md). Ohne sie wird nicht gebaut, sondern nachgefragt.
+- Mit ★ markierte Fragen braucht der Bau zwingend (DP0 in SKILL.md). Ohne sie wird nicht gebaut, sondern nachgefragt.
 
 Vorfüllen aus öffentlichen Quellen (Website, Handelsregister, Google-Profil, Verzeichnisse) ist erlaubt und spart Zeit; jede vorgefüllte Zeile trägt ihre Quelle und wird im Gespräch bestätigt.
 
@@ -47,7 +47,7 @@ _Beispiel: «Delle nach Parkschaden, Montag 7.40, will wissen, ob die Versicheru
 >
 
 ### Zertifikate, Partnerschaften, Verband, Lehrbetrieb, Meister: mit Nachweis
-_Warum: Ein belegtes Zertifikat kann die grosse Aussage tragen (techniken.md T6); ein unbelegtes darf nicht erscheinen._
+_Warum: Ein belegtes Zertifikat kann die grosse Aussage tragen (techniken.md TK6); ein unbelegtes darf nicht erscheinen._
 >
 
 ### Bewertungen: Plattform, Note, Anzahl, Datum, Link. Dürfen einzelne Zitate mit Namen gezeigt werden (Einwilligung)?
@@ -85,7 +85,7 @@ Mindestens zwölf Nomen, die man fotografieren oder anfassen kann. Danach streic
 >
 
 ### Formen: Kommt im Betrieb eine Form immer wieder vor? (Bogen, Fenster, Kachel, Profil, Zeichen im Logo)
-_Warum: Eine belegte Form kann alle Bilder schneiden (techniken.md T8)._
+_Warum: Eine belegte Form kann alle Bilder schneiden (techniken.md TK8)._
 >
 
 ### Gegenbild: Welche Website oder welcher Mitbewerber soll es **nicht** sein? Warum?
@@ -95,20 +95,20 @@ _Warum: Eine belegte Form kann alle Bilder schneiden (techniken.md T8)._
 >
 
 ### Worte der Kundschaft: Wie beschreiben Kundinnen und Kunden ihr Problem? (Sätze aus Telefonaten, Mails, Bewertungen, ohne Namen)
-_Warum: text-uni verlangt 30 solche Worte (T0); wörtliche Sätze schlagen jede Werbesprache._
+_Warum: text-uni verlangt 30 solche Worte (TP0); wörtliche Sätze schlagen jede Werbesprache._
 >
 
 ## 4. Material
 
 ### ★ Logo als Vektordatei (SVG, PDF, AI, EPS)? Wenn nein: wer hat es gestaltet, und gibt es die Datei dort?
-_Warum: Ein Rasterlogo hielt eine Probe blind bei 6,3 bis 6,5 fest (L10). Ohne Vektordatei wird der Name gesetzt, nicht das Logo vergrössert._
+_Warum: Ein Rasterlogo hielt eine Probe blind bei 6,3 bis 6,5 fest (DL10). Ohne Vektordatei wird der Name gesetzt, nicht das Logo vergrössert._
 >
 
 ### ★ Eigene Fotos: wie viele, von wem, mit welchen Rechten? Erkennbare Personen mit Einverständnis?
 >
 
 ### Ist ein Fototag möglich? Wann, und wer gibt die Halle oder den Raum frei?
-_Warum: Bild-Techniken (T2, T8, T9, T12) tragen nur mit eigenen Fotos. Ohne Fototag trägt Schrift oder Fakten._
+_Warum: Bild-Techniken (TK2, TK8, TK9, TK12) tragen nur mit eigenen Fotos. Ohne Fototag trägt Schrift oder Fakten._
 >
 
 ### Gibt es Farben im Betrieb, die feststehen (Fahrzeug, Arbeitskleidung, Schild)?

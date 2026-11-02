@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Kunden-Simulator für Kunden-Agenten (Design-Uni, Prüfpunkt P7).
+// Kunden-Simulator für Kunden-Agenten (Design-Uni, Prüfpunkt DP7).
 //
 // Aufruf:
 //   node kunde.cjs <website> '<aktionen-json>' <bild.png> [startseite]

@@ -14,7 +14,7 @@ Er entstand aus einer Reihe blinder Tests (erste Bildschirme, Bewegung, ganze We
 
 ```
 skills/design-uni/
-├── SKILL.md                 Verfahren in elf Schritten mit Prüfpunkten P0–P8
+├── SKILL.md                 Verfahren in elf Schritten mit Prüfpunkten DP0–DP8
 ├── eingabe/
 │   ├── kundenangaben.md     Blatt für die Angaben des Kunden: das, woraus jede Website entsteht
 │   └── projekt.beispiel.json  Vorlage für pruefen.cjs (Telefon, Hauptaktion, Formular, Kalender, Zahlen)
@@ -39,7 +39,7 @@ skills/design-uni/
 └── werkzeuge/
     ├── kunde.cjs            Handy-Simulator für Kunden-Agenten (Playwright)
     ├── selbsttest/          Prüfseite mit drei eingebauten Fehlern für kunde.cjs
-    ├── pruefen.cjs          maschinelle Prüfungen P6/T7 für jedes Projekt, gesteuert über projekt.json, mit Selbsttest
+    ├── pruefen.cjs          maschinelle Prüfungen DP6/TP7 für jedes Projekt, gesteuert über projekt.json, mit Selbsttest
     ├── vermessen.cjs        misst eine Website wie die Vorbilder (Schrift, Bild, Knöpfe, Raster, Bauteile, Bewegung)
     ├── vergleichen.cjs      vergleicht eine Messung mit dem Band der Vorbilder, meldet Vorlagen-Signale
     └── vorbilder-band.json  Band aus 25 Vorbildern (Stand November 2026)
@@ -117,7 +117,7 @@ Der Skill ist ein Lehrgang in vier Semestern mit 404 prüfbaren Grundsätzen, je
 
 ```
 skills/text-uni/
-├── SKILL.md                 Verfahren in neun Schritten mit Prüfpunkten T0 bis T8
+├── SKILL.md                 Verfahren in neun Schritten mit Prüfpunkten TP0 bis TP8
 ├── referenzen/
 │   ├── semester1/           V, W, L, CH, K   und die Prüfung «Welcher Text ist klarer?»
 │   ├── semester2/           A, KW, U, B, R   und die Prüfung «Würden Sie hier anrufen?»

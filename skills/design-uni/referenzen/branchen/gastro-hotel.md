@@ -31,7 +31,7 @@ Zwei Schichten, die sich nie mischen: Die Atmosphäre darf laut sein (ein Bild, 
 | Constance | Vier Bilder in vier Formaten frei gesetzt; mobil klebende Buchungsleiste. |
 | UND NY (Bewegung) | Der Name in Bewegung als Signatur ([../bewegung.md](../bewegung.md)). |
 | Audo, Artisans de Genève | Ein Licht für alle Bilder; Hände bei der Arbeit (Teig, Rebschere, Fass). |
-| Wine Diplomacy (Weinbar) | Anschrift, Öffnungszeiten, Telefon als Spaltenkopf mit Haarlinien im ersten Bildschirm; Farbstreifen aus dem Innenraum; der Bogen des Innenraums als Bildmaske; Laufband nur mit dem nächsten Anlass. Techniken T3, T8, T10, T11 ([../techniken.md](../techniken.md)). |
+| Wine Diplomacy (Weinbar) | Anschrift, Öffnungszeiten, Telefon als Spaltenkopf mit Haarlinien im ersten Bildschirm; Farbstreifen aus dem Innenraum; der Bogen des Innenraums als Bildmaske; Laufband nur mit dem nächsten Anlass. Techniken TK3, TK8, TK10, TK11 ([../techniken.md](../techniken.md)). |
 
 **Gegenbeispiele:** Award-Marken mit Icon-Reihe, Bogenmasken und Popup; eine Auszeichnung von früher sagt nichts über heute.
 

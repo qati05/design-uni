@@ -38,7 +38,7 @@ Fällt eine durch, geht der Bau zurück zur Richtung. Eine Ausnahme braucht eine
 6. **Primäraktion:** «gefüllter Knopf plus unterstrichener Telefonlink» ist als Grundeinstellung gesperrt. Die Form kommt aus der Idee (Billett, Register, Stempel) und unterscheidet sich in Radius oder Füllung von der letzten Website. Funktion bleibt Pflicht: ein Verb, ≥ 44 × 44 px, sichtbarer Fokus.
 7. **Fakten:** Die Versal-Zeile «LABEL Wert · LABEL Wert» im ersten Bildschirm ist für die nächsten drei Websites gesperrt; ebenso Mono-Ziffern als Faktenform, wenn sie zuletzt vorkamen. Fakten erscheinen in der Form der Idee: als Fahrplan, Rapport, Etikett, Satz oder Tabelle.
 8. **Bildschnitt und Bewegung:** beide in der Klasse anders als bei der letzten Website. Höchstens eine Bewegung, und sie zeigt etwas Echtes aus dem Betrieb.
-9. **Bauteile und Techniken:** mindestens 4 von 7 Bauteilen sichtbar anders als bei den letzten drei. Die tragende Technik ([techniken.md](techniken.md)) ist nicht die tragende einer der letzten zwei Websites. Auch eine Technik wird zum Hausstil, wenn sie immer trägt (L12).
+9. **Bauteile und Techniken:** mindestens 4 von 7 Bauteilen sichtbar anders als bei den letzten drei. Die tragende Technik ([techniken.md](techniken.md)) ist nicht die tragende einer der letzten zwei Websites. Auch eine Technik wird zum Hausstil, wenn sie immer trägt (DL12).
 10. **Geschwister-Test (blind, entscheidet):** höchstens 1 von 6 Bewertern ordnet die neue Website dem eigenen Studio zu ([blindtest.md](blindtest.md)).
 
 **Sperren laufen nach drei Websites aus**, sonst wird das Gegenteil zur nächsten Vorlage.

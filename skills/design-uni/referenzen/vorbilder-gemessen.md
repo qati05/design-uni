@@ -41,12 +41,12 @@ Neu messen: Teil 5.
 ## 3. Was daraus folgt `[Annahme, aus Vorbildern]`
 
 1. **Wenige, grosse Dinge.** Im ersten Bildschirm stehen im Median 39 Wörter, kein knopfartiges Element und sieben Links. 19 von 25 haben keine einzige Karte, 16 keinen Schatten. Die Handlung ist ein Wort im Kopf oder eine Zeile, kein Knopfblock. → Die «Vorlagen-Signale» in [../werkzeuge/vergleichen.cjs](../werkzeuge/vergleichen.cjs) und [techniken.md](techniken.md) Teil 3.
-2. **Das Material füllt den ersten Bildschirm, oder die Schrift tut es.** 16 von 25 zeigen zu ≥ 90 % Bild oder Video. Die übrigen setzen den Namen oder einen Satz so gross, dass er zum Bild wird (Telha Clarke, Pixelflakes, Decimals). Ein erster Bildschirm mit halber Leerfläche und kleinem Bild kommt bei den Vorbildern nicht vor. Wer kein starkes Foto hat, wählt die Schrift-Variante (L10, L11), nicht ein kleines schwaches Foto.
+2. **Das Material füllt den ersten Bildschirm, oder die Schrift tut es.** 16 von 25 zeigen zu ≥ 90 % Bild oder Video. Die übrigen setzen den Namen oder einen Satz so gross, dass er zum Bild wird (Telha Clarke, Pixelflakes, Decimals). Ein erster Bildschirm mit halber Leerfläche und kleinem Bild kommt bei den Vorbildern nicht vor. Wer kein starkes Foto hat, wählt die Schrift-Variante (DL10, DL11), nicht ein kleines schwaches Foto.
 3. **Eine Familie, zwei Rollen.** 20 von 25 kommen mit ein oder zwei Familien aus; sieben ergänzen den Mono-Schnitt **derselben** Familie für Etiketten und Zahlen. Serifen sind selten (3 von 25). Achtung: Mono-Ziffern als Faktenform stehen im Modell-Standard (abstand.md Teil 4); die Vorbilder nutzen Mono für Etiketten, nicht für Faktenreihen.
 4. **Raum.** Die Startseiten sind im Median 8,4 Bildschirme lang; Abschnitte bekommen einen Bildschirm, nicht einen Streifen. Kurze Seiten (unter 5 Bildschirmen) kommen fast nur als Einseiter vor.
 5. **Bewegung.** 16 von 25 laden glattes Scrollen (Lenis), 5 GSAP. Das ändert die Regel «keine oder eine Bewegung» nicht: Im Standbild sieht man es nicht, blind ist es nicht geprüft, und es kostet Bedienbarkeit (Scrollen fühlt sich fremd an, Reduced Motion muss eigens behandelt werden). Nicht als Voreinstellung.
-6. **Das Handy ist eigens gesetzt.** Median 30 Wörter, 0 knopfartige Elemente, 91 % Bild; der Name wird geteilt, gespiegelt oder gestürzt statt verkleinert (techniken.md T14).
-7. **Fakten können die Gestaltung sein.** Die einzige Website eines lokalen Betriebs mit Öffnungszeiten im ersten Bildschirm (Wine Diplomacy) setzt sie als Spaltenkopf mit Haarlinien; sie wirken wie Gestaltung, nicht wie ein Kasten (techniken.md T3). Für KMU, deren Kundschaft anruft oder vorbeikommt, ist das der naheliegende Weg, Bedienung und Anmutung zu verbinden.
+6. **Das Handy ist eigens gesetzt.** Median 30 Wörter, 0 knopfartige Elemente, 91 % Bild; der Name wird geteilt, gespiegelt oder gestürzt statt verkleinert (techniken.md TK14).
+7. **Fakten können die Gestaltung sein.** Die einzige Website eines lokalen Betriebs mit Öffnungszeiten im ersten Bildschirm (Wine Diplomacy) setzt sie als Spaltenkopf mit Haarlinien; sie wirken wie Gestaltung, nicht wie ein Kasten (techniken.md TK3). Für KMU, deren Kundschaft anruft oder vorbeikommt, ist das der naheliegende Weg, Bedienung und Anmutung zu verbinden.
 
 ## 4. Gegenprobe an einer Probe
 
@@ -62,7 +62,7 @@ Eine Probe (Carrosserie, 12 Seiten, hell) fiel im Bildtest zweimal durch: 6,33 u
 | Seitenhöhe in Bildschirmen | 4,4 | 8,4 |
 | Star ÷ Fliesstext am Handy | 3,1 | 2,2 |
 
-Die Bewerter nannten Material (Rasterlogo, Handyfoto) und «Text links, Bild rechts». Die Messung passt dazu: kleines Bild, viel Leerfläche, viel Text, viele Icons. **Ursache ist das nicht bewiesen**: Ein randloses Handyfoto hätte die Schwäche grösser gezeigt (techniken.md T2, Gefahr). Der Weg wäre eine Schrift- oder Fakten-Technik als Träger, und der Fototag.
+Die Bewerter nannten Material (Rasterlogo, Handyfoto) und «Text links, Bild rechts». Die Messung passt dazu: kleines Bild, viel Leerfläche, viel Text, viele Icons. **Ursache ist das nicht bewiesen**: Ein randloses Handyfoto hätte die Schwäche grösser gezeigt (techniken.md TK2, Gefahr). Der Weg wäre eine Schrift- oder Fakten-Technik als Träger, und der Fototag.
 
 ## 5. Neu messen
 

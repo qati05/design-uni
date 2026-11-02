@@ -5,35 +5,35 @@
 ## 1. Grundsätze
 
 **Raster und Masse**
-- **G1 · Ein Raster pro Breakpoint, nachweisbar.** Kanten liegen auf Spalten- oder Gutterlinien; im Code ein Grid, keine frei gesetzten Pixelbreiten. Richtwert rund 4 Spalten mobil, 12 am Desktop.
-- **G2 · Das Raster sitzt bewusst im Format.** Ränder gleich oder absichtlich asymmetrisch; Rand mindestens so breit wie ein Gutter.
-- **G3 · Rasterbruch nur mit Grund.** Höchstens ein Element pro Abschnitt verlässt das Raster, und es ist das wichtigste.
-- **G4 · Lesezeilen 45–75 Zeichen** (`max-width` in `ch`), auch wenn das Raster breiter ist.
-- **G5 · Breakpoints entstehen am Inhalt:** dort, wo «7er» (Bild schrumpft, Text wird Turm), «Drifts» (Zusammengehöriges driftet) oder «Pinches» (Fremdes rückt zu nah) auftauchen.
+- **DGK1 · Ein Raster pro Breakpoint, nachweisbar.** Kanten liegen auf Spalten- oder Gutterlinien; im Code ein Grid, keine frei gesetzten Pixelbreiten. Richtwert rund 4 Spalten mobil, 12 am Desktop.
+- **DGK2 · Das Raster sitzt bewusst im Format.** Ränder gleich oder absichtlich asymmetrisch; Rand mindestens so breit wie ein Gutter.
+- **DGK3 · Rasterbruch nur mit Grund.** Höchstens ein Element pro Abschnitt verlässt das Raster, und es ist das wichtigste.
+- **DGK4 · Lesezeilen 45–75 Zeichen** (`max-width` in `ch`), auch wenn das Raster breiter ist.
+- **DGK5 · Breakpoints entstehen am Inhalt:** dort, wo «7er» (Bild schrumpft, Text wird Turm), «Drifts» (Zusammengehöriges driftet) oder «Pinches» (Fremdes rückt zu nah) auftauchen.
 
 **Weissraum und Abstände**
-- **G6 · Abstände aus einer Skala** von höchstens rund 10 Stufen, Nachbarstufen ≥ 25 % auseinander. Kein 13 px, kein 37 px.
-- **G7 · Nähe vor Rahmen.** Abstand in der Gruppe sichtbar kleiner als zur nächsten Gruppe (Faustregel Faktor 2).
-- **G8 · Rahmen und Flächen sparsam,** nur wo Nähe nicht reicht.
-- **G9 · Mit zu viel Raum anfangen, dann wegnehmen.** Das Wichtigste hat am meisten Raum.
-- **G10 · Nicht die ganze Breite füllen.** Formulare und Texte in einer Spalte, auch bei 1440 px.
-- **G11 · Vertikaler Rhythmus** aus der Zeilenhöhe oder der Abstandsskala.
+- **DGK6 · Abstände aus einer Skala** von höchstens rund 10 Stufen, Nachbarstufen ≥ 25 % auseinander. Kein 13 px, kein 37 px.
+- **DGK7 · Nähe vor Rahmen.** Abstand in der Gruppe sichtbar kleiner als zur nächsten Gruppe (Faustregel Faktor 2).
+- **DGK8 · Rahmen und Flächen sparsam,** nur wo Nähe nicht reicht.
+- **DGK9 · Mit zu viel Raum anfangen, dann wegnehmen.** Das Wichtigste hat am meisten Raum.
+- **DGK10 · Nicht die ganze Breite füllen.** Formulare und Texte in einer Spalte, auch bei 1440 px.
+- **DGK11 · Vertikaler Rhythmus** aus der Zeilenhöhe oder der Abstandsskala.
 
 **Hierarchie**
-- **G12 · Drei Stufen, ein Star.** Höchstens drei Grössenstufen pro Ansicht, höchstens zwei wirklich grosse Elemente; das Wichtigste ist das grösste.
-- **G13 · Höchstens drei Kontraststufen.**
-- **G14 · Der Unschärfe-Test hält.** Mit 5–10 px Unschärfe bleiben Gruppen und Blickfang; bei 20 px dominiert kein zufälliges Element.
-- **G15 · Wichtiges oben und links;** Zwischentitel beginnen mit dem informativsten Wort.
+- **DGK12 · Drei Stufen, ein Star.** Höchstens drei Grössenstufen pro Ansicht, höchstens zwei wirklich grosse Elemente; das Wichtigste ist das grösste.
+- **DGK13 · Höchstens drei Kontraststufen.**
+- **DGK14 · Der Unschärfe-Test hält.** Mit 5–10 px Unschärfe bleiben Gruppen und Blickfang; bei 20 px dominiert kein zufälliges Element.
+- **DGK15 · Wichtiges oben und links;** Zwischentitel beginnen mit dem informativsten Wort.
 
 **Abfolge**
-- **G16 · Kein falscher Boden.** Am unteren Rand des ersten Bildschirms ist Folgeinhalt angeschnitten. In einem NN/g-Test merkten 6 von 8 Personen sonst nicht, dass sie scrollen können.
-- **G17 · Abschnitte wechseln das Tempo:** dicht, weit, dicht. Kleine wiederholte Module beschleunigen, grosse verlangsamen.
-- **G18 · Asymmetrie mit benennbarem Verhältnis** (z. B. 2fr 1fr 1fr 2fr aus einem 4+6-Compound-Grid, 1:1,618).
-- **G19 · Ähnliches sieht gleich aus:** gleiche Funktion, gleiche Masse und Abstände.
+- **DGK16 · Kein falscher Boden.** Am unteren Rand des ersten Bildschirms ist Folgeinhalt angeschnitten. In einem NN/g-Test merkten 6 von 8 Personen sonst nicht, dass sie scrollen können.
+- **DGK17 · Abschnitte wechseln das Tempo:** dicht, weit, dicht. Kleine wiederholte Module beschleunigen, grosse verlangsamen.
+- **DGK18 · Asymmetrie mit benennbarem Verhältnis** (z. B. 2fr 1fr 1fr 2fr aus einem 4+6-Compound-Grid, 1:1,618).
+- **DGK19 · Ähnliches sieht gleich aus:** gleiche Funktion, gleiche Masse und Abstände.
 
 **Wirkung**
-- **G20 · Geringe Komplexität, erkennbare Gattung.** Nach 17–50 ms gefallen am besten Seiten mit tiefer Komplexität *und* hoher Prototypikalität (Tuch u. a. 2012).
-- **G21 · Mehr Weissraum heisst mehr Wertigkeit;** enger Satz signalisiert Discount (Boulton).
+- **DGK20 · Geringe Komplexität, erkennbare Gattung.** Nach 17–50 ms gefallen am besten Seiten mit tiefer Komplexität *und* hoher Prototypikalität (Tuch u. a. 2012).
+- **DGK21 · Mehr Weissraum heisst mehr Wertigkeit;** enger Satz signalisiert Discount (Boulton).
 
 ## 2. Gut gegen premium
 

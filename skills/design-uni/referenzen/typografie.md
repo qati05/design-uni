@@ -5,45 +5,45 @@
 ## 1. Grundsätze
 
 **Grundtext**
-- **G1** Grundtext 15–25 px; unter 16 px nur bei auffällig grosser x-Höhe. Auf Handwerks- und Gesundheitsseiten 18–20 px.
-- **G2** Zeilenabstand 1,2–1,45 (einheitenlos), im Web meist ab 1,3; bei Gesundheit bis 1,6.
-- **G3** 45–90 Zeichen pro Zeile, ideal um 66; mehrspaltig 40–50. Prüfung: 2–3 Alphabete pro Zeile.
-- **G4** Textblöcke haben `max-width` in `ch` oder `em`, auf jeder Breite.
-- **G5** Absätze mit Abstand *oder* Einzug, nie beides.
-- **G6** Linksbündiger Flattersatz. Blocksatz nur mit Silbentrennung (`hyphens: auto`, korrektes `lang`).
-- **G7** Zentriert nur Kurzes (Titel, wenige Zeilen).
+- **DGT1** Grundtext 15–25 px; unter 16 px nur bei auffällig grosser x-Höhe. Auf Handwerks- und Gesundheitsseiten 18–20 px.
+- **DGT2** Zeilenabstand 1,2–1,45 (einheitenlos), im Web meist ab 1,3; bei Gesundheit bis 1,6.
+- **DGT3** 45–90 Zeichen pro Zeile, ideal um 66; mehrspaltig 40–50. Prüfung: 2–3 Alphabete pro Zeile.
+- **DGT4** Textblöcke haben `max-width` in `ch` oder `em`, auf jeder Breite.
+- **DGT5** Absätze mit Abstand *oder* Einzug, nie beides.
+- **DGT6** Linksbündiger Flattersatz. Blocksatz nur mit Silbentrennung (`hyphens: auto`, korrektes `lang`).
+- **DGT7** Zentriert nur Kurzes (Titel, wenige Zeilen).
 
 **Schriftwahl und Paarung**
-- **G8** Höchstens zwei Familien, jede mit fester Rolle. Kein Wechsel im Absatz.
-- **G9** Paarungen klar unterscheidbar; «nur Serif mit Sans» ist keine Regel. Sicher: zwei Schriften desselben Gestalters oder einer Superfamilie.
-- **G10** Keine Systemstandards als Entscheid (Arial, Times), keine Kostümschriften, keine Mono für Fliesstext.
+- **DGT8** Höchstens zwei Familien, jede mit fester Rolle. Kein Wechsel im Absatz.
+- **DGT9** Paarungen klar unterscheidbar; «nur Serif mit Sans» ist keine Regel. Sicher: zwei Schriften desselben Gestalters oder einer Superfamilie.
+- **DGT10** Keine Systemstandards als Entscheid (Arial, Times), keine Kostümschriften, keine Mono für Fliesstext.
 
 **Skala und Hierarchie**
-- **G11** Alle Grössen aus einer Skala mit 5–7 Stufen; keine Einzelwerte ausserhalb.
-- **G12** Fluide Skala: klein enger (Faktor um 1,2), gross weiter (1,333 und mehr), mit `clamp()` interpoliert.
-- **G13** Höchstens drei sichtbar verschiedene Überschriftenebenen, besser zwei.
-- **G14** Hierarchie zuerst über Abstand und Grösse, dann Gewicht; Überschriften oben mehr Abstand als unten.
-- **G15** Fett oder kursiv, nicht beides; Unterstreichung nur für Links.
-- **G16** Vertikale Abstände in festen Intervallen.
+- **DGT11** Alle Grössen aus einer Skala mit 5–7 Stufen; keine Einzelwerte ausserhalb.
+- **DGT12** Fluide Skala: klein enger (Faktor um 1,2), gross weiter (1,333 und mehr), mit `clamp()` interpoliert.
+- **DGT13** Höchstens drei sichtbar verschiedene Überschriftenebenen, besser zwei.
+- **DGT14** Hierarchie zuerst über Abstand und Grösse, dann Gewicht; Überschriften oben mehr Abstand als unten.
+- **DGT15** Fett oder kursiv, nicht beides; Unterstreichung nur für Links.
+- **DGT16** Vertikale Abstände in festen Intervallen.
 
 **Laufweite und Display**
-- **G17** Versalzeilen und Kapitälchen 0,05–0,12 em Laufweite; Kleinbuchstaben im Text keine.
-- **G18** Versalien nur für weniger als eine Zeile (Labels, Kicker), nie für ganze Sätze.
-- **G19** Grosse Titel in Kleinbuchstaben leicht enger (negative Laufweite), Zeilenabstand 0,9–1,1.
-- **G20** Kerning immer an.
-- **G21** Titel mit `text-wrap: balance`, Fliesstext mit `text-wrap: pretty`.
+- **DGT17** Versalzeilen und Kapitälchen 0,05–0,12 em Laufweite; Kleinbuchstaben im Text keine.
+- **DGT18** Versalien nur für weniger als eine Zeile (Labels, Kicker), nie für ganze Sätze.
+- **DGT19** Grosse Titel in Kleinbuchstaben leicht enger (negative Laufweite), Zeilenabstand 0,9–1,1.
+- **DGT20** Kerning immer an.
+- **DGT21** Titel mit `text-wrap: balance`, Fliesstext mit `text-wrap: pretty`.
 
 **Mikrotypografie**
-- **G22** In der Deutschschweiz Guillemets mit Spitzen nach aussen, ohne Abstand: «…», innen ‹…›. Keine geraden " ".
-- **G23** Echte Zeichen: Gedankenstrich –, Auslassung …, ×, Apostroph ’. Zahl und Einheit mit geschütztem Leerzeichen (CHF 120, 5 km).
-- **G24** Tabellenziffern (`font-variant-numeric: tabular-nums`) in Preislisten, Tabellen, Telefonnummern.
-- **G25** `lang` korrekt setzen (z. B. `de-CH`); Überschriften nicht trennen.
+- **DGT22** In der Deutschschweiz Guillemets mit Spitzen nach aussen, ohne Abstand: «…», innen ‹…›. Keine geraden " ".
+- **DGT23** Echte Zeichen: Gedankenstrich –, Auslassung …, ×, Apostroph ’. Zahl und Einheit mit geschütztem Leerzeichen (CHF 120, 5 km).
+- **DGT24** Tabellenziffern (`font-variant-numeric: tabular-nums`) in Preislisten, Tabellen, Telefonnummern.
+- **DGT25** `lang` korrekt setzen (z. B. `de-CH`); Überschriften nicht trennen.
 
 **Technik und Barrierefreiheit**
-- **G26** Kontrast Text ≥ 4,5:1, gross (ab 24 px oder ca. 18,5 px fett) ≥ 3:1.
-- **G27** Layout hält erzwungene Abstände aus (Zeile 1,5, Absatz 2 em, Laufweite 0,12 em, Wort 0,16 em): keine festen Höhen um Text.
-- **G28** WOFF2, Teilmenge mit ä ö ü « » –, nur gebrauchte Schnitte, lokal gehostet, `font-display` bewusst gewählt, Fallback mit `size-adjust`. Lizenz (z. B. SIL OFL) vor dem Einsatz in der Lizenzdatei prüfen, auch «Reserved Font Name».
-- **G29** Variable Schriften ab mehreren Schnitten; Titel dürfen mit Achsen spielen, Grundtext nicht.
+- **DGT26** Kontrast Text ≥ 4,5:1, gross (ab 24 px oder ca. 18,5 px fett) ≥ 3:1.
+- **DGT27** Layout hält erzwungene Abstände aus (Zeile 1,5, Absatz 2 em, Laufweite 0,12 em, Wort 0,16 em): keine festen Höhen um Text.
+- **DGT28** WOFF2, Teilmenge mit ä ö ü « » –, nur gebrauchte Schnitte, lokal gehostet, `font-display` bewusst gewählt, Fallback mit `size-adjust`. Lizenz (z. B. SIL OFL) vor dem Einsatz in der Lizenzdatei prüfen, auch «Reserved Font Name».
+- **DGT29** Variable Schriften ab mehreren Schnitten; Titel dürfen mit Achsen spielen, Grundtext nicht.
 
 ## 2. Gut gegen premium
 

@@ -4,15 +4,15 @@
 
 ## 1. Farbe
 
-- **G1 · Text-Kontrast.** Text ≥ 4,5:1, grosser Text ≥ 3:1 (AAA 7:1 bzw. 4,5:1). Auch Text auf Fotos an der hellsten Stelle hinter dem Text messen.
-- **G2 · Nicht-Text-Kontrast.** Feldränder, Fokusringe, Icons mit Bedeutung ≥ 3:1.
-- **G3 · Farbe nie allein.** Fehler, Pflicht, Link im Fliesstext, Status haben ein zweites Merkmal. Prüfung: Bildschirmfoto in Graustufen.
-- **G4 · Kleine Palette.** Höchstens drei Markenfarben plus Neutrale.
-- **G5 · Flächenverhältnis.** Startwert 60 / 30 / 10; der Akzent gehört dem Wichtigsten, meist der Haupthandlung.
-- **G6 · Konsistente Bedeutung.** Jedes Vorkommen der Akzentfarbe ist klickbar oder zentral.
-- **G7 · Im Kontext prüfen,** auf dem echten Layout neben den echten Fotos.
-- **G8 · Keine Farbpsychologie als Beweis.** Belegt ist nur, dass Ton, Sättigung und Helligkeit die wahrgenommene Persönlichkeit verschieben. Begründe mit dem gewünschten Charakter, nicht mit «Blau schafft Vertrauen».
-- **G9 · Komplexität vor Buntheit.** Im ersten Eindruck wirkt Komplexität stärker als Farbigkeit; beide folgen einer umgekehrten U-Kurve. Die Optik wird in rund 50 ms beurteilt.
+- **DGF1 · Text-Kontrast.** Text ≥ 4,5:1, grosser Text ≥ 3:1 (AAA 7:1 bzw. 4,5:1). Auch Text auf Fotos an der hellsten Stelle hinter dem Text messen.
+- **DGF2 · Nicht-Text-Kontrast.** Feldränder, Fokusringe, Icons mit Bedeutung ≥ 3:1.
+- **DGF3 · Farbe nie allein.** Fehler, Pflicht, Link im Fliesstext, Status haben ein zweites Merkmal. Prüfung: Bildschirmfoto in Graustufen.
+- **DGF4 · Kleine Palette.** Höchstens drei Markenfarben plus Neutrale.
+- **DGF5 · Flächenverhältnis.** Startwert 60 / 30 / 10; der Akzent gehört dem Wichtigsten, meist der Haupthandlung.
+- **DGF6 · Konsistente Bedeutung.** Jedes Vorkommen der Akzentfarbe ist klickbar oder zentral.
+- **DGF7 · Im Kontext prüfen,** auf dem echten Layout neben den echten Fotos.
+- **DGF8 · Keine Farbpsychologie als Beweis.** Belegt ist nur, dass Ton, Sättigung und Helligkeit die wahrgenommene Persönlichkeit verschieben. Begründe mit dem gewünschten Charakter, nicht mit «Blau schafft Vertrauen».
+- **DGF9 · Komplexität vor Buntheit.** Im ersten Eindruck wirkt Komplexität stärker als Farbigkeit; beide folgen einer umgekehrten U-Kurve. Die Optik wird in rund 50 ms beurteilt.
 
 **Woher die Farbe kommt:** mit der Pipette aus dem eigenen Foto oder dem Material des Betriebs (Firmenauto, Arbeitsjacke, Glasur, Karton). Logo-Farben nur, wenn sie im Bild vorkommen. Signalgelb nur als Fläche mit dunkler Schrift.
 
@@ -20,21 +20,21 @@
 
 ## 2. Bild
 
-- **G10 · Echte Menschen statt generische.** Stockfotos von Menschen werden im Eyetracking übersprungen.
-- **G11 · Jedes Bild trägt eine Aussage.** Text abdecken: Lässt sich am Bild erraten, wovon der Abschnitt handelt?
-- **G12 · Bild nahe am Text,** auch mobil im selben Ausschnitt.
-- **G13 · Wenige starke Bilder.** Pro Bildschirmhöhe ein klares Hauptbild.
-- **G14 · Einheitliche Bildwelt.** Gleiche Belichtung, Helligkeit, Kontrast, Farbstimmung; Icons in Strichstärke passend zur Schrift. Prüfung: alle Bilder als Kontaktbogen.
-- **G15 · Leistung im Gebrauch** zeigen, nicht freigestellt im Nichts.
-- **G16 · Blickführung.** Schaut eine Person zum Titel oder zur Handlung statt in die Kamera, bekommt das Ziel mehr Aufmerksamkeit.
-- **G17 · Scharf in Anzeigegrösse** bei 2× Pixeldichte; die Seite bleibt bei rund 1–2 MB.
-- **G18 · Schnitt pro Format.** Mobil ein eigener, engerer Hochformat-Ausschnitt mit `<picture>` oder `object-position` mit Absicht.
-- **G19 · Alternativtext** beschreibt den Inhalt.
-- **G20 · Keine KI-Bilder** von echten Menschen oder Produkten als Beleg; Konsumenten werten sie als irreführend.
+- **DGF10 · Echte Menschen statt generische.** Stockfotos von Menschen werden im Eyetracking übersprungen.
+- **DGF11 · Jedes Bild trägt eine Aussage.** Text abdecken: Lässt sich am Bild erraten, wovon der Abschnitt handelt?
+- **DGF12 · Bild nahe am Text,** auch mobil im selben Ausschnitt.
+- **DGF13 · Wenige starke Bilder.** Pro Bildschirmhöhe ein klares Hauptbild.
+- **DGF14 · Einheitliche Bildwelt.** Gleiche Belichtung, Helligkeit, Kontrast, Farbstimmung; Icons in Strichstärke passend zur Schrift. Prüfung: alle Bilder als Kontaktbogen.
+- **DGF15 · Leistung im Gebrauch** zeigen, nicht freigestellt im Nichts.
+- **DGF16 · Blickführung.** Schaut eine Person zum Titel oder zur Handlung statt in die Kamera, bekommt das Ziel mehr Aufmerksamkeit.
+- **DGF17 · Scharf in Anzeigegrösse** bei 2× Pixeldichte; die Seite bleibt bei rund 1–2 MB.
+- **DGF18 · Schnitt pro Format.** Mobil ein eigener, engerer Hochformat-Ausschnitt mit `<picture>` oder `object-position` mit Absicht.
+- **DGF19 · Alternativtext** beschreibt den Inhalt.
+- **DGF20 · Keine KI-Bilder** von echten Menschen oder Produkten als Beleg; Konsumenten werten sie als irreführend.
 
 **Art Direction**
-- **G21 · Erst das Gefühl, dann die Mittel.** Ein Satz: «Der Besucher soll sich … fühlen.» Jede Wahl wird daran gemessen.
-- **G22 · Bildwelt-Probe.** Allen Text entfernen; die Grundstimmung muss stimmen.
+- **DGF21 · Erst das Gefühl, dann die Mittel.** Ein Satz: «Der Besucher soll sich … fühlen.» Jede Wahl wird daran gemessen.
+- **DGF22 · Bildwelt-Probe.** Allen Text entfernen; die Grundstimmung muss stimmen.
 
 ## 3. Lichtregel für den Fototag
 
