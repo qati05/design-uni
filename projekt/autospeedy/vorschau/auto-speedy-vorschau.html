@@ -372,6 +372,56 @@ header { border-bottom: 2px solid var(--nacht); }
 
 @keyframes schnitt-auf-handy { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
 
+/* ===== Richtung D «Lackverlauf» (Rückmeldung Studio, 02.11.2026: Farbverlauf Richtung Lackierung, Weiss und Babyblau).
+   Weiss läuft in Babyblau wie ein frisch lackiertes Blech; ein weicher Glanzstreifen wie die Lichtleisten der Kabine
+   auf dem Lack. Navy bleibt nur Schrift, Schild-Blau der Akzent. Ersetzt die Navy-Flächen von Richtung C. */
+:root {
+  --babyblau: #c4e0f8;
+  --babyblau-tief: #b9dbf7;
+  --lackweiss: #ffffff;
+  --glanz: linear-gradient(104deg, transparent 0 34%, rgba(255,255,255,.85) 42%, rgba(255,255,255,0) 54%);
+  --lack: linear-gradient(162deg, var(--lackweiss) 0%, #eaf4fd 38%, var(--babyblau) 78%, var(--babyblau-tief) 100%);
+  --lack-quer: linear-gradient(100deg, var(--lackweiss) 0%, #edf6fd 45%, var(--babyblau) 100%);
+  --schild: linear-gradient(120deg, #0f4f94 0%, #1566b8 100%);
+}
+.start, .seitenkopf { background: var(--lackweiss); }
+.start__text, .seitenkopf__text, .formularseite__kopf { background-color: #e2f0fc; background-image: var(--glanz), var(--lack); color: var(--tinte); }
+.start h1, .seitenkopf h1, .formularseite h1 { color: var(--gebotsblau-dunkel); }
+.start .fakten, .start .fakten li { border-color: rgba(31,45,64,.16); color: var(--tinte); }
+.tesla-band { border-color: var(--tinte); color: var(--tinte); background: rgba(255,255,255,.55); }
+.tesla-band span:last-child { color: var(--gebotsblau-dunkel); }
+.tesla-band:hover { background: var(--tinte); color: #fff; }
+.tesla-band:hover span:last-child { color: #8cc2f5; }
+.schwung path { stroke: var(--gebotsblau); }
+.seitenkopf__text a:not(.knopf), .seitenkopf__text .route, .formularseite__tel .tel { color: var(--gebotsblau-dunkel); }
+.seitenkopf__text .tel { color: var(--tinte); }
+.formularseite__kopf { color: var(--tinte); }
+
+/* Bänder: Babyblau-Verlauf statt Navy, mit Glanz */
+.band--nacht { background-color: #dcedfb; background-image: var(--glanz), var(--lack-quer); color: var(--tinte); }
+.band--nacht .band__titel { color: var(--tinte); }
+.band--nacht .ablauf li { border-top-color: var(--gebotsblau); }
+.band--nacht .ablauf__nr { color: var(--gebotsblau-dunkel); }
+.band--nacht .ablauf p { color: #2b3a4a; }
+.band--nacht .ablauf .tel { color: var(--gebotsblau-dunkel); }
+.band--silber { background: linear-gradient(180deg, var(--lackweiss), var(--silber-hell)); }
+
+/* Wege und Partner: aktiv im Lackverlauf, Rahmen in Schild-Blau */
+.wege { border-color: var(--gebotsblau); }
+.wege li + li a, .wege li:nth-child(even) a, .wege li:nth-child(n+3) a { border-color: var(--gebotsblau); }
+.wege a:hover { background-color: #dcedfb; background-image: var(--lack); }
+.wege a:hover .wege__titel { color: var(--gebotsblau-dunkel); }
+.wege a:hover .wege__text { color: var(--tinte); }
+.wege a:hover .wege__nr { color: var(--gebotsblau-dunkel); }
+.partner, .partner li { border-color: var(--gebotsblau); }
+.partner li:first-child, .partner:hover li:hover { background-color: #1566b8; background-image: var(--schild); color: #fff; }
+.partner li:first-child small, .partner:hover li:hover small { color: #dbeeff; }
+
+/* Abschluss als Schild-Blau-Verlauf; Formular mit babyblauem Versatz */
+.abschluss { background-color: #1566b8; background-image: var(--glanz), var(--schild); }
+form { box-shadow: 0 0 0 2px var(--gebotsblau), 12px 12px 0 var(--babyblau-tief); }
+header { border-bottom: 2px solid var(--babyblau-tief); }
+
 header{top:env(safe-area-inset-top,0px)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:25;background:#f3f5f6}
 :root{color-scheme:light}

@@ -40,3 +40,10 @@
 | GB2, GB4, GB8, GB10 | – | kein Grund aus dem Betrieb (keine gepflegten Inhalte, keine Masse, keine echten Kundenfragen) | nein |
 Fremde Baukästen (motionin.design, beui.dev, backgrounds.supply) nur als Anschauung, nichts übernommen (bausteine.md).
 Boden gemessen: Reduced Motion 0 Animationen; nach 5 s läuft nichts; `h1` und Telefon nach 1,0 s lesbar (Text wird nicht animiert).
+
+## Richtung D «Lackverlauf» (Rückmeldung Studio, 02.11.2026: «Farbverlauf Richtung Lackierung, Weiss und Babyblau, überlege es selber») · aktuell
+- **Idee:** Die Flächen sehen aus wie frisch lackiertes Blech: Weiss läuft schräg in Babyblau (`#c4e0f8`, `#b9dbf7`), darüber ein weicher Glanzstreifen wie die Lichtleisten der Lackierkabine auf dem Lack (Startfoto: Defender in der Lichtkabine). Navy ist nur noch Schrift; Schild-Blau bleibt Akzent, als Verlauf `#0f4f94` → `#1566b8` im aktiven Partner und im Abschluss.
+- Wo: linke Hälfte im ersten Bildschirm und in jedem Seitenkopf, Kopf der Schadenmeldung, Bänder «So läuft eine Reparatur» und «Aus der Werkstatt», aktive Wege beim Darüberfahren. Partner auf Weiss→Silber.
+- Bleibt: schräger Schnitt (Logo-Schwung), Bewegungen GB6, GB1, GB5, kursive Titel.
+- Wunsch 3 «hell und übersichtlich» ist damit wieder voll erfüllt.
+- Kontrast (gerechnet, dunkelste Stelle Babyblau `#b9dbf7`): Schrift `#14202a` 11,5:1; Blau `#0f4f94` 5,7:1; Weiss auf Schild-Blau 5,8:1 bis 8,2:1. Messung aller Seiten: 0 unter Soll.
