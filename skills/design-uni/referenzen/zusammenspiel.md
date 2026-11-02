@@ -87,6 +87,7 @@ Jede Kennung ist in allen drei Skills eindeutig. Querverweise nennen immer die v
 | text-uni | Grundsätze | unverändert: V, W, L, CH, K, A, KW, U, B, R, G, S, P, Q, M, KQ, TI, ZS, CL |
 | web-uni | Prüfpunkte | **WP0 bis WP9** (früher V0 bis V8; WP9 Livegang ist neu) |
 | web-uni | Lektionen | **WL1 ff.** (früher W1 ff.) |
+| web-uni | Quellen in `stack-wahl.md` und `stacks.md` | **WQ1 bis WQ89** (früher S1 bis S89) |
 
 Die Probe unter `probe/autospeedy/` ist ein abgeschlossener Lauf und behält die alten Kennungen.
 

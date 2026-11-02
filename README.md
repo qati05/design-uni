@@ -10,7 +10,7 @@ Drei Claude-Code-Skills, die zusammen Websites und Landingpages für kleine Betr
 
 Jedes Thema hat **genau einen Besitzer**; die anderen Skills verweisen nur. Rangfolge, Besitz, die Entscheide zu Widersprüchen, eine Schwelle je Sache, die Kennungen und die gemeinsame Abfolge stehen in **[skills/design-uni/referenzen/zusammenspiel.md](skills/design-uni/referenzen/zusammenspiel.md)**. Wer eine Regel ändert, ändert sie beim Besitzer.
 
-**Kennungen:** design-uni DP0 bis DP8 (Prüfpunkte), DL (Lektionen), DGT, DGK, DGF, DGB (Grundsätze), TK1 bis TK14 (Techniken), LA, LP, LH (Prüflisten); text-uni TP0 bis TP8 und die Grundsätze V, W, L, CH, K, A, KW, U, B, R, G, S, P, Q, M, KQ, TI, ZS, CL; web-uni WP0 bis WP9, WL (Lektionen).
+**Kennungen:** design-uni DP0 bis DP8 (Prüfpunkte), DL (Lektionen), DGT, DGK, DGF, DGB (Grundsätze), TK1 bis TK14 (Techniken), LA, LP, LH (Prüflisten), GB1 bis GB11 (Bausteine der Galerie); text-uni TP0 bis TP8 und die Grundsätze V, W, L, CH, K, A, KW, U, B, R, G, S, P, Q, M, KQ, TI, ZS, CL; web-uni WP0 bis WP9, WL (Lektionen), WQ1 bis WQ89 (Quellen der Stack-Wahl).
 
 ## Installation (alle drei)
 
@@ -36,15 +36,19 @@ npm i -D playwright && npx playwright install chromium
 **Ablauf mit einem neuen Kunden** (gemeinsame Abfolge in `zusammenspiel.md` Teil 6)
 
 1. `skills/design-uni/eingabe/kundenangaben.md` kopieren und mit dem Betrieb ausfüllen: ein Blatt für alle drei Skills (★ = ohne die Antwort geht der Bau nicht). Logo und Fotos mit Rechten in einen Ordner.
-2. Claude beauftragen: «Baue die Website aus diesen Kundenangaben, mit design-uni, text-uni und web-uni.» Es gibt ein Eingangstor (DP0 = TP0 = WP0), dann wechseln die Skills sich in der festen Abfolge ab.
-3. Ein Prüflauf für alle maschinellen Prüfungen (DP6 + TP7 + WP4 + WP5), zum Beispiel:
+2. Claude beauftragen: «Baue die Website aus diesen Kundenangaben, mit design-uni, text-uni und web-uni.» Es gibt ein Eingangstor (DP0 + TP0 + WP0, ein Tor mit drei Teilen), dann wechseln die Skills sich in der festen Abfolge ab.
+3. Vor DP4 (erster Bildschirm) misst design-uni die Seite gegen die Vorbilder:
+   ```
+   node .claude/skills/design-uni/werkzeuge/vermessen.cjs site --name kunde --aus pruefung --bilder
+   node .claude/skills/design-uni/werkzeuge/vergleichen.cjs pruefung/kunde.json
+   ```
+   Nach dem Bau aller Seiten läuft **ein** Prüflauf für alle maschinellen Prüfungen (DP6 + TP7 + WP4 + WP5; Ablauf in web-uni `pruefumgebung.md`), zum Beispiel:
    ```
    node .claude/skills/design-uni/werkzeuge/pruefen.cjs projekt.json --selbsttest
    node .claude/skills/design-uni/werkzeuge/pruefen.cjs projekt.json
-   node .claude/skills/design-uni/werkzeuge/vermessen.cjs site --name kunde --aus pruefung --bilder
-   node .claude/skills/design-uni/werkzeuge/vergleichen.cjs pruefung/kunde.json
-   node .claude/skills/text-uni/werkzeuge/slop-de.js site
+   node .claude/skills/text-uni/werkzeuge/slop-de.js dist --prueflauf
    ```
+   `site` und `dist` stehen für den gebauten Ordner (bei Astro `dist`, bei statischem HTML der Ordner der Seiten). Die Werkzeuge melden **FEHLER** (sperrt), **HINWEIS** (sperrt nicht) oder «nicht geprüft»; Exit-Code 1 nur bei FEHLER (`zusammenspiel.md` Teil 7). `slop-de.js --prueflauf` meldet jeden Treffer als HINWEIS, weil K1 nicht sperrt.
 4. Blinde Bewerter und Kunden-Agenten laufen über Unteragenten (design-uni Schritt 9); ihr Urteil ist ein **Vorfilter**. Belegt ist eine Wirkung erst mit Menschen (Menschentest) oder Zahlen nach dem Livegang.
 5. Live geht nichts ohne Freigabe; den Livegang führt web-uni (WP9).
 
@@ -94,7 +98,7 @@ skills/design-uni/
 └── werkzeuge/
     ├── kunde.cjs            Handy-Simulator für Kunden-Agenten (Playwright)
     ├── selbsttest/          Prüfseite mit drei eingebauten Fehlern für kunde.cjs
-    ├── pruefen.cjs          maschinelle Prüfungen DP6 und TP7 für jedes Projekt, gesteuert über projekt.json, mit Selbsttest; findet Seiten auch im Verzeichnisformat
+    ├── pruefen.cjs          maschinelle Prüfungen DP5, DP6, TP7 und WP5 (fremde Herkunft) für jedes Projekt, gesteuert über projekt.json; Stufen FEHLER, HINWEIS, «nicht geprüft»; mit Selbsttest; findet Seiten auch im Verzeichnisformat
     ├── vermessen.cjs        misst eine Website wie die Vorbilder (Schrift, Bild, Knöpfe, Raster, Bauteile, Bewegung)
     ├── vergleichen.cjs      vergleicht eine Messung mit dem Band der Vorbilder, meldet Vorlagen-Signale
     └── vorbilder-band.json  Band aus 25 Vorbildern (Stand November 2026)
@@ -136,7 +140,7 @@ skills/text-uni/
     └── slop-de.json         Liste mit 63 Einträgen, je mit Begründung und besserer Variante
 ```
 
-`slop-de.js` liest den sichtbaren Text von HTML-Seiten und Markdown und meldet Floskeln, KI-Muster, Eszett und leere Knöpfe mit Zeile. Exit-Code 0 heisst: kein FEHLER. Mit `--streng` zählen auch Warnungen, mit `--json <pfad>` gibt es alle Treffer als Datei.
+`slop-de.js` liest den sichtbaren Text von HTML-Seiten und Markdown und meldet Floskeln, KI-Muster, Eszett und leere Knöpfe mit Zeile. Exit-Code 0 heisst: kein FEHLER. Mit `--streng` zählen auch Warnungen, mit `--json <pfad>` gibt es alle Treffer als Datei. Mit `--prueflauf` (für den gemeinsamen Prüflauf, TP7/K1) ist jeder Treffer ein HINWEIS und der Exit-Code 0.
 
 ## web-uni
 
@@ -145,7 +149,7 @@ skills/text-uni/
 ```
 skills/web-uni/
 ├── SKILL.md                 Verfahren mit Prüfpunkten WP0 bis WP9 (WP9 Livegang)
-├── referenzen/              stacks, animation-3d, messungen, pruefumgebung, betrieb, livegang, branchenwerte, lektionen (WL1 ff.)
+├── referenzen/              stack-wahl (Entscheidhilfe, Quellen WQ1 bis WQ89), stacks, animation-3d, messungen, pruefumgebung, betrieb, livegang, branchenwerte, lektionen (WL1 ff.)
 └── vorlage-astro/           Gerüst mit Datenquelle, Bau und Prüfungen, ohne eigene Gestaltung und ohne fertige Texte
 ```
 

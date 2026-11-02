@@ -26,7 +26,7 @@ Baue daraus eine Vorschau der Website in probe/<kunde>/site/ (Stack nach web-uni
 Vorschau mit noindex, robots.txt ohne «Disallow: /»; keine fremden Hosts ohne Not).
 
 Ablauf, insbesondere:
-- Eingangstor DP0 = TP0 = WP0 einmal: Fehlen ★-Angaben oder Rechte an Bildern, Logo,
+- Eingangstor DP0 + TP0 + WP0 einmal: Fehlen ★-Angaben oder Rechte an Bildern, Logo,
   Schriften, halte an und liste sie auf, statt zu raten.
 - WP1 Klassen, TP1 Antwort-Plan; gebaut wird keine Seite ausserhalb des Plans.
 - DP1: drei Collagen, blind mit Unteragenten (3 Bewerter Modell A, 3 Modell B, ohne
@@ -39,9 +39,10 @@ Ablauf, insbesondere:
 - DP4: erster Bildschirm mit einer grossen Sache und einer Faktenzeile (Entscheid 3);
   die h1 nennt Leistung und Ort (Entscheid 2). Vorher werkzeuge/vermessen.cjs und
   werkzeuge/vergleichen.cjs; Vorlagen-Signale 0 oder begründet. Dann DP4 blind
-  (Bildtest, Geschwister-Test, Fünf-Sekunden-Test) als Vorfilter.
+  (Bildtest, Geschwister-Test, Fünf-Sekunden-Test am Bild) als Vorfilter.
 - Ein Prüflauf DP6 + TP7 + WP4 + WP5: projekt.json anlegen, werkzeuge/pruefen.cjs zuerst
-  mit --selbsttest, dann normal; 0 Fehler. Dazu slop-de.js.
+  mit --selbsttest, dann normal; 0 FEHLER, jeder HINWEIS mit Grund im LIESMICH.
+  Dazu slop-de.js mit --prueflauf.
 - DP7 Kunden-Agenten und DP8 blind, wenn Unteragenten verfügbar sind; sonst
   «nicht gelaufen». Menschentest (blindtest.md Teil 6) nur, wenn ich ihn freigebe.
 - TP8 Messplan, WP7 Betrieb und Übergabe als Entwurf.
@@ -80,7 +81,7 @@ Erwartung: Ohne Fotos muss die tragende Technik eine Schrift- oder Fakten-Techni
 | Vorlagen-Signale | vergleichen.cjs | 0 oder begründet |
 | Erster Bildschirm | vergleichen.cjs, Bild | eine grosse Sache plus Faktenzeile, etwa 60 Wörter `[Annahme]`; h1 mit Leistung und Ort |
 | DP4 blind | Bildtest | Mittel ≥ 7,5, ≥ 4 von 6 «Agentur» (Modell-Urteil, Vorfilter) |
-| Ein Prüflauf | pruefen.cjs, slop-de.js | 0 Fehler |
+| Ein Prüflauf | pruefen.cjs, slop-de.js | 0 FEHLER; HINWEISE im LIESMICH mit Grund |
 | Steht irgendwo Auto Speedy, Carrosserie-Text oder ein Wert aus einem früheren Projekt? | Suche im Bau | 0 Treffer |
 
 Ergebnis als Lektion (Format in `skills/design-uni/referenzen/lektionen.md`, Kennung DL) zurück in den Skill, auch wenn es durchfällt; Befunde zu text-uni und web-uni in deren Lektionen.

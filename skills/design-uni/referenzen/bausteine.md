@@ -58,4 +58,4 @@ Technik: React plus Framer Motion. Eine statische KMU-Seite braucht dafür kein 
 2. Braucht die Idee oder der Wunsch diese Bewegung, und steht sie im Kostenblatt von web-uni?
 3. Ohne JavaScript lesbar, unter «Bewegung reduzieren» still, fertig nach der Tabelle in [bewegung.md](bewegung.md) Teil 2 oder mit Pause?
 4. Sieht er anders aus als bei den letzten drei Websites (Bauteile im Register)?
-5. Läuft `pruefen.cjs` des Projekts danach weiter ohne Fehler?
+5. Läuft `pruefen.cjs` des Projekts danach weiter ohne FEHLER?

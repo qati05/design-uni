@@ -28,13 +28,13 @@ Jede Antwort wird markiert: `[Fakt · Quelle, Datum]`, `[Annahme]` oder `[Lücke
 | **Regler** | Je 1–5: Freund–Autorität, still–laut, dicht–luftig, ernst–verspielt, Handwerk–Hightech (nach Knapps «Personality Sliders»). |
 | **Belege und Bilder** | Was ist belegt (Zahlen, Labels, Projekte, Preise)? Welche Bilder gibt es, ist ein Fototag möglich? Logo als Vektordatei? |
 
-**Pflicht:** mindestens **12 Nomen**, die man fotografieren oder anfassen kann. Mit weniger wird nicht gestaltet `[Annahme]`.
+**Ziel:** mindestens **12 Nomen**, die man fotografieren oder anfassen kann. Mit weniger fragst du nach und nennst die Lücke im Bericht; `[Annahme]`, sperrt nicht (Entscheid 13).
 
 ## 2. Von der Eingabe zur einen grossen Entscheidung
 
 Ein Double Diamond im Kleinen: weit sammeln, auf eine Entscheidung verdichten, weit ableiten, auf eine Website verdichten [Fakt · Design Council].
 
-**Schritt 1 · Sieben.** Alle Nomen untereinander. Jedes streichen, das auch ein Mitbewerber im Umkreis von 20 km hat («Holz», «Beratung», «frisch»). Bleiben weniger als **drei, die weder Name noch Ort sind**, geht es zurück ins Gespräch. Bei Gattungen mit Normdokumenten (Fahrschule, Praxis) bleibt oft nur Name, Ort und ein Satz; dann fehlt Material, nicht Fantasie.
+**Schritt 1 · Sieben.** Alle Nomen untereinander. Jedes streichen, das auch ein Mitbewerber im Umkreis von 20 km hat («Holz», «Beratung», «frisch»). Bleiben weniger als **drei, die weder Name noch Ort sind**, geht es in der Regel zurück ins Gespräch; `[Annahme]`, sperrt nicht (Entscheid 13), wer weitergeht, nennt den Grund im Bericht. Bei Gattungen mit Normdokumenten (Fahrschule, Praxis) bleibt oft nur Name, Ort und ein Satz; dann fehlt Material, nicht Fantasie.
 
 **Schritt 2 · Only-ness-Satz.** «[Name] ist der einzige [Gattung] in [Ort], der [konkret].» Tauschtest: Name eines Mitbewerbers einsetzen. Passt der Satz noch, ist er falsch [Fakt · Mall nach Neumeier]. Das Protokoll nennt, **woran** der Satz scheitert; es braucht mindestens zwei Anker, darunter ein Eigennomen aus dem Inventar.
 

@@ -30,7 +30,7 @@ Stand 2. November 2026. web-uni stellt die Umgebung; die Prüfungen liefern desi
 - **Stufen der Ergebnisse** (zusammenspiel Teil 7): FEHLER sperrt, HINWEIS wird berichtet und sperrt nicht, «nicht geprüft» heisst nicht gelaufen. Exit-Code 1 nur bei FEHLER. Jede Prüfung trägt die Kennung ihres Besitzers und zählt einmal.
 - **Stufe des Baus:** Während Gerüst und Vorschau baut die Vorlage mit `stufe: geruest` (fehlende Beschreibung und Rechtsseiten als HINWEIS); im Prüflauf vor der Abgabe mit `npm run bau:abgabe` (dieselben als FEHLER).
 
-- **Verzeichnisformat:** Die Vorlage legt Seiten als `kontakt/index.html` ab. `pruefen.cjs` sucht ohne Angabe nur Dateien `*.html` an der Wurzel; in `projekt.json` stehen die Seiten deshalb mit Pfad: `"seiten": ["index", "kontakt/index", "impressum/index", "datenschutz/index", "404"]`, ebenso in `seitenOhneKontakt` und bei der Hauptaktion (`"href": "/kontakt/"`). `"site"` zeigt auf `astro/dist`.
+- **Verzeichnisformat:** Die Vorlage legt Seiten als `kontakt/index.html` ab. `pruefen.cjs` findet Seiten auch in Unterordnern und löst Links wie `/kontakt/` auf. Wer die Seiten ausdrücklich nennen will, schreibt sie in `projekt.json` mit Pfad: `"seiten": ["index", "kontakt/index", "impressum/index", "datenschutz/index", "404"]`, ebenso in `seitenOhneKontakt` und bei der Hauptaktion (`"href": "/kontakt/"`). `"site"` zeigt auf `astro/dist`.
 - **Vorschau:** `projekt.json` mit `"vorschau": true` für die Vorschau; vor dem Livegang ein zweiter Lauf mit Bau und Prüfung bei `vorschau: false` ([livegang.md](livegang.md)).
 - **Labor:** Lighthouse läuft ohne Netz und ohne GPU; die Zahlen sind Hinweise, keine Feldwerte.
 

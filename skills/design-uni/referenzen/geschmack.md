@@ -17,7 +17,7 @@ Premium heisst am Bild: Man sieht, dass jemand entschieden hat, und man sieht, w
 8. **Schrift mit Grund, höchstens zwei Familien mit Rollen.** Keine Allerweltsgrotesk ohne Begründung, keine Kostümschrift.
 9. **Grosser Massstabssprung, wenige Stufen.** Titel auf dem Desktop deutlich mehr als dreimal so gross wie der Text, dazwischen kaum Stufen.
 10. **Display-Satz nachgearbeitet.** Grosse Titel eng gesetzt, ausgewogen umbrochen, in Kleinbuchstaben; keine ganzen Sätze in Versalien, kein Textschatten, kein halbtransparenter Kasten hinter dem Titel.
-11. **Linksbündig in einer Lesespalte.** Fliesstext links, 50 bis 75 Zeichen, nie über 80; zentriert nur kurze Titel.
+11. **Linksbündig in einer Lesespalte.** Fliesstext links, nie über 80 Zeichen, am Desktop 50 bis 75; zentriert nur kurze Titel.
 12. **Weissraum grosszügig und ungleich.** Gruppen sitzen eng, Abschnitte haben Luft.
 13. **Asymmetrie und Rasterbruch mit Grund.** Ein Element verlässt das Raster, und es ist das wichtigste.
 14. **Kein falscher Boden.** Am unteren Rand ist Folgeinhalt angeschnitten.
