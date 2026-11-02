@@ -1,0 +1,28 @@
+{
+  "_hinweis": "Eine Quelle für Name, Anschrift, Telefon, Zeiten und Menü. Belege: eingabe/fakten.md (Q1, Q5, Q12, Q14, Q17), Stand 1. November 2026.",
+  "name": "Auto Speedy AG",
+  "strasse": "Alte Landstrasse 63",
+  "plz": "9450",
+  "ort": "Altstätten",
+  "kanton": "SG",
+  "land": "CH",
+  "typ": "AutoBodyShop",
+  "mail": "info@autospeedy.ch",
+  "tel1": { "zeige": "071 755 88 61", "href": "tel:+41717558861", "e164": "+41717558861" },
+  "tel2": { "zeige": "076 615 44 41", "href": "tel:+41766154441", "e164": "+41766154441" },
+  "geo": { "lat": 47.369432, "lon": 9.559048 },
+  "hauptaktion": { "text": "Schaden melden", "href": "schaden.html" },
+  "zeiten": [
+    { "tage": "Montag bis Donnerstag", "kurz": "Mo bis Do", "ld": ["Monday", "Tuesday", "Wednesday", "Thursday"], "fenster": [["7.30", "12.00"], ["13.15", "17.30"]] },
+    { "tage": "Freitag", "kurz": "Fr", "ld": ["Friday"], "fenster": [["7.30", "12.00"], ["13.15", "17.15"]] },
+    { "tage": "Samstag und Sonntag", "kurz": "Sa und So", "zu": true }
+  ],
+  "nav": [["leistungen.html", "Leistungen"], ["tesla.html", "Tesla"], ["kontakt.html", "Kontakt"]],
+  "vorschauZeile": "Vorschau zur Freigabe durch die Auto Speedy AG. Nicht veröffentlicht. Sichtbare Lücken sind offene Angaben des Betriebs.",
+  "links": {
+    "route": "https://www.google.com/maps/search/?api=1&query=Auto%20Speedy%20AG%2C%20Alte%20Landstrasse%2063%2C%209450%20Altst%C3%A4tten",
+    "bewertungen": "https://www.google.com/maps/search/?api=1&query=Auto%20Speedy%20AG%20Altst%C3%A4tten&query_place_id=ChIJfWvlb90Xm0cRkco0yhXSEAk",
+    "autoscout": "https://www.autoscout24.ch/de/s/seller-67678"
+  },
+  "bewertung": { "schnitt": "4,8", "anzahl": "37", "plattform": "Google Maps", "stand": "1. November 2026" }
+}

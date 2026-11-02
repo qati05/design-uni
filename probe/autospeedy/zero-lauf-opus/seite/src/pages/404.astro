@@ -1,0 +1,17 @@
+---
+import Seite from "../layouts/Seite.astro";
+import Hauptaktion from "../components/Hauptaktion.astro";
+---
+<Seite title="Seite nicht gefunden | Auto Speedy AG in Altstätten" desc="Diese Seite gibt es bei der Auto Speedy AG in Altstätten nicht. Von hier geht es zur Schadenmeldung, zu den Leistungen und zu Kontakt und Zeiten." klasse="fehlerseite">
+<section class="seitenkopf"><div class="rahmen spalte-text">
+<p class="etikett">Fehler 404</p>
+<h1 class="titel-mittel">Hier ist nichts eingekreist.</h1>
+<p class="lead">Diese Seite gibt es nicht. Vielleicht hilft einer dieser Wege weiter:</p>
+<ul class="wortliste wortliste-klein">
+<li><a href="index.html"><span class="wortliste-wort">Startseite</span></a></li>
+<li><a href="leistungen.html"><span class="wortliste-wort">Leistungen</span></a></li>
+<li><a href="kontakt.html"><span class="wortliste-wort">Kontakt und Zeiten</span></a></li>
+</ul>
+<p class="held-aktion"><Hauptaktion ort="404" klasse="hauptaktion-gross" /></p>
+</div></section>
+</Seite>

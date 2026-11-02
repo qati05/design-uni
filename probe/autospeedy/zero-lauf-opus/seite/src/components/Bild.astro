@@ -1,0 +1,19 @@
+---
+// Foto aus der Serie (Lichtregel), mit Breiten, Mass und Alt-Text. kreis = Markerkreis über dem Foto (Lage in %).
+import Kreis from "./Kreis.astro";
+const MASS: Record<string, [number, number]> = {
+  "foto-03": [1200, 900], "foto-06": [900, 1200], "foto-09": [1200, 900], "foto-10": [1600, 1200], "foto-11": [1200, 900],
+  "foto-12": [1400, 933], "foto-17": [900, 1200], "foto-18": [1200, 1600], "foto-21": [900, 1200],
+};
+const { name, alt, sizes = "(min-width: 900px) 40vw, 100vw", lazy = true, fetch = false, kreis, klasse = "", caption, pos } = Astro.props;
+const [w, h] = MASS[name];
+const breiten = [480, 640, 800, 1200].filter((b) => b <= w);
+const gross = breiten[breiten.length - 1];
+const set = (typ: string) => breiten.map((b) => `bilder/${name}-${b}.${typ} ${b}w`).join(", ");
+const stil = kreis ? `left:${kreis[0]}%;top:${kreis[1]}%;width:${kreis[2]}%;height:${kreis[3]}%` : "";
+---
+<figure class={`bild ${klasse}`.trim()}>
+<div class="bild-rahmen"><div class="bild-innen"><picture><source type="image/webp" srcset={set("webp")} sizes={sizes}><img src={`bilder/${name}-${gross}.jpg`} srcset={set("jpg")} sizes={sizes} alt={alt} width={w} height={h} loading={lazy ? "lazy" : undefined} fetchpriority={fetch ? "high" : undefined} decoding="async" style={pos ? `object-position:${pos}` : undefined}></picture>
+{kreis && <span class="bild-kreis" style={stil}><Kreis /></span>}</div></div>
+{caption && <figcaption>{caption}</figcaption>}
+</figure>

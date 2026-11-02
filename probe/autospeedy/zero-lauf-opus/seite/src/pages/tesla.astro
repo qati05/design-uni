@@ -1,0 +1,30 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Meldung from "../components/Meldung.astro";
+import Tel from "../components/Tel.astro";
+import Luecke from "../components/Luecke.astro";
+import Status from "../components/Status.astro";
+---
+<Seite title="Tesla Carrosserie-Reparatur in Altstätten | Auto Speedy AG" desc="Schaden an Model 3, Model Y, Model S oder Model X melden: Die Auto Speedy AG in Altstätten SG ist als Tesla Approved Body Shop aufgeführt." aktiv="tesla.html" klasse="tesla">
+<section class="seitenkopf"><div class="rahmen">
+<p class="etikett">Tesla Approved Body Shop in Altstätten SG</p>
+<h1 class="titel-mittel">Welcher Tesla hat den Schaden?</h1>
+<p class="lead">Hat Tesla Sie an die Auto Speedy AG verwiesen, sind Sie hier richtig. Modell antippen, Name und Telefon angeben, dann schicken Sie die vorbereitete E-Mail mit Fotos ab.</p>
+</div></section>
+<section class="abschnitt formular-abschnitt"><div class="rahmen formular-raster">
+<div class="formular-spalte"><Meldung art="tesla" p="t-" betreff="Schadenmeldung Tesla" /></div>
+<aside class="neben" aria-label="Zur Reparatur">
+<h2 class="neben-titel">So arbeitet die Werkstatt</h2>
+<ul class="neben-liste">
+<li>Reparatur nach Herstellervorgaben</li>
+<li>ausschliesslich Original-Ersatzteile</li>
+<li>Schadensabwicklung mit der Versicherung durch die Auto Speedy AG</li>
+</ul>
+<Luecke>Die Bestätigung von Tesla für den Approved Body Shop zeigen wir hier, sobald der Betrieb sie vorlegt.</Luecke>
+<h2 class="neben-titel">Lieber anrufen?</h2>
+<p class="neben-tel"><Tel ort="tesla-neben" /></p>
+<Status />
+</aside>
+</div></section>
+</Seite>

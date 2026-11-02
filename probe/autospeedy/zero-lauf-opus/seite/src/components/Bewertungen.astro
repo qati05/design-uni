@@ -1,0 +1,13 @@
+---
+// Google-Bewertungen als Karten in der Hausschrift (Wunsch des Kunden), kein fremdes Widget. Zahlen aus betrieb.json.
+import b from "../content/betrieb.json";
+import karten from "../content/bewertungen.json";
+---
+<section class="abschnitt bewertungen" aria-labelledby="bew-titel"><div class="rahmen">
+<h2 id="bew-titel" class="abschnitt-titel"><span class="zahl-gross">{b.bewertung.schnitt}</span> von 5 Sternen auf {b.bewertung.plattform}</h2>
+<p class="bew-quelle">Aus {b.bewertung.anzahl} Bewertungen, Stand {b.bewertung.stand}. <a href={b.links.bewertungen} data-zaehl="bewertungen" data-ort="start">Alle Bewertungen auf Google Maps lesen</a></p>
+<ul class="bew-karten">{(karten as any[]).map((k) => (
+  <li class="bew-karte"><p class="bew-sterne">{k.sterne} von 5 Sternen</p><blockquote><p>«{k.text}»</p></blockquote><p class="bew-herkunft">{k.plattform}, {k.monat}</p></li>
+))}</ul>
+<p class="luecke">Die Verfasserinnen und Verfasser dieser drei Bewertungen sind noch nicht gefragt. Ohne ihre Einwilligung bleiben die Zitate weg und nur der Schnitt steht hier.</p>
+</div></section>

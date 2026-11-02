@@ -1,0 +1,9 @@
+---
+// Satz ohne Skript, aus betrieb.json; das Skript ersetzt ihn je nach Uhrzeit in Zürich (Feiertage nicht berücksichtigt).
+import b from "../content/betrieb.json";
+const { klasse = "" } = Astro.props;
+const offen = b.zeiten.filter((z) => z.fenster);
+const mittag = offen[0].fenster![0][1], wieder = offen[0].fenster![1][0];
+const satz = `${offen.map((z) => `${z.tage} bis ${z.fenster![z.fenster!.length - 1][1]} Uhr`).join(", ")}, über Mittag von ${mittag} bis ${wieder} Uhr geschlossen.`;
+---
+<p class={`status ${klasse}`.trim()} data-status>{satz}</p>

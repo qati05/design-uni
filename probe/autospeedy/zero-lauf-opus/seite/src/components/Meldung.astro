@@ -1,0 +1,99 @@
+---
+// Schadenmeldung ohne Server (Entscheid E6): Mit JavaScript wird eine fertige E-Mail vorbereitet,
+// ohne JavaScript schickt der Browser das Formular als «mailto:». 2 Pflichtfelder (Name, Telefon).
+// art = "skizze" (Stelle am Auto antippen) oder "tesla" (Modell wählen, Entscheid E7).
+import b from "../content/betrieb.json";
+import Kreis from "./Kreis.astro";
+import Route from "./Route.astro";
+import Tel from "./Tel.astro";
+const { art = "skizze", p = "", betreff = "Schadenmeldung" } = Astro.props;
+const zonen = [
+  { id: "front", text: "Front" },
+  { id: "felge", text: "Felge" },
+  { id: "scheibe", text: "Scheibe" },
+  { id: "links", text: "Seite links" },
+  { id: "dach", text: "Dach, Hagel" },
+  { id: "rechts", text: "Seite rechts" },
+  { id: "heck", text: "Heck" },
+];
+const modelle = ["Model 3", "Model Y", "Model S", "Model X", "anderes Modell"];
+const id = (x: string) => `${p}${x}`;
+---
+<form id={id("schadenmeldung")} class={`meldung meldung-${art}`} action={`mailto:${b.mail}?subject=${encodeURIComponent(betreff)}`} method="post" enctype="text/plain" novalidate data-betreff={betreff} data-zaehl-start="anfrage-begonnen" data-zaehl-ende="anfrage-vorbereitet" data-ort={art}>
+
+{art === "skizze" && (
+<fieldset class="stelle">
+<legend class="frage-klein">Stelle am Auto <span class="optional">(optional, antippen)</span></legend>
+<div class="skizze">
+<svg class="skizze-auto" viewBox="0 0 360 440" aria-hidden="true" focusable="false">
+<g class="auto-linie">
+<rect x="104" y="22" width="152" height="396" rx="50" />
+<path d="M122 132 L238 132 L226 176 L134 176 Z" />
+<path d="M132 340 L228 340 L236 372 L124 372 Z" />
+<rect x="136" y="182" width="88" height="150" rx="10" />
+<path d="M126 64 C150 54 210 54 234 64" />
+<path d="M104 152 L88 146 L88 162 L104 166" /><path d="M256 152 L272 146 L272 162 L256 166" />
+<rect x="90" y="78" width="14" height="58" rx="5" class="rad" /><rect x="256" y="78" width="14" height="58" rx="5" class="rad" />
+<rect x="90" y="306" width="14" height="58" rx="5" class="rad" /><rect x="256" y="306" width="14" height="58" rx="5" class="rad" />
+</g>
+</svg>
+{zonen.map((z) => (
+  <label class={`zone zone-${z.id}`}><input type="radio" name="Stelle" value={z.text} /><span class="kreis-wort">{z.text}<Kreis /></span></label>
+))}
+</div>
+<label class="zone zone-mehrere"><input type="radio" name="Stelle" value="mehrere Stellen" /><span class="kreis-wort">Mehrere Stellen<Kreis /></span></label>
+</fieldset>
+)}
+
+{art === "tesla" && (
+<fieldset class="modelle">
+<legend class="frage-klein">Modell <span class="optional">(optional, antippen)</span></legend>
+<ul class="modell-liste">{modelle.map((m) => (
+  <li><label class={`modell${m.startsWith("anderes") ? " modell-anderes" : ""}`}><input type="radio" name="Modell" value={`Tesla ${m}`} /><span class="kreis-wort">{m}<Kreis /></span></label></li>
+))}</ul>
+</fieldset>
+)}
+
+<div class="felder">
+<div class="feld">
+<label for={id("name")}>Name <span class="pflicht" aria-hidden="true">*</span></label>
+<p class="feld-hilfe" id={id("name-hilfe")}>Vor- und Nachname</p>
+<input id={id("name")} name="Name" type="text" autocomplete="name" required aria-describedby={`${id("name-hilfe")} ${id("name-fehler")}`} />
+<p class="feld-fehler" id={id("name-fehler")}></p>
+</div>
+<div class="feld">
+<label for={id("telefon")}>Telefon <span class="pflicht" aria-hidden="true">*</span></label>
+<p class="feld-hilfe" id={id("telefon-hilfe")}>Für den Rückruf, zum Beispiel 079 123 45 67</p>
+<input id={id("telefon")} name="Telefon" type="tel" autocomplete="tel" inputmode="tel" required aria-describedby={`${id("telefon-hilfe")} ${id("telefon-fehler")}`} />
+<p class="feld-fehler" id={id("telefon-fehler")}></p>
+</div>
+{art === "skizze" && (
+<div class="feld">
+<label for={id("fahrzeug")}>Fahrzeug <span class="optional">(optional)</span></label>
+<p class="feld-hilfe" id={id("fahrzeug-hilfe")}>Marke und Modell</p>
+<input id={id("fahrzeug")} name="Fahrzeug" type="text" autocomplete="off" aria-describedby={id("fahrzeug-hilfe")} />
+</div>
+)}
+<div class="feld feld-breit">
+<label for={id("was")}>Was ist passiert? <span class="optional">(optional)</span></label>
+<p class="feld-hilfe" id={id("was-hilfe")}>Zum Beispiel: Parkschaden hinten links, die Versicherung ist informiert.</p>
+<textarea id={id("was")} name="Was ist passiert" rows="3" aria-describedby={id("was-hilfe")}></textarea>
+</div>
+</div>
+
+<p class="pflicht-zeile"><span aria-hidden="true">*</span> Pflichtangabe. Fotos vom Schaden hängen Sie im nächsten Schritt in Ihrem E-Mail-Programm an.</p>
+<div class="senden-zeile">
+<button type="submit" id={id("senden")} class="senden"><span class="kreis-wort">Meldung als E-Mail öffnen<Kreis /></span></button>
+<p class="angstnehmer">Ihre Angaben gehen nur als E-Mail an die {b.name}, {b.strasse}, {b.plz} {b.ort}. Sie ist verantwortlich und nutzt sie nur für diese Schadenmeldung. Diese Website speichert nichts.</p>
+</div>
+</form>
+
+<div id={id("bestaetigung")} class="bestaetigung" role="status" tabindex="-1" hidden>
+<h2 class="frage">Ihre Meldung ist vorbereitet.</h2>
+<p>In Ihrem E-Mail-Programm steht die Nachricht an <strong>{b.mail}</strong> bereit. Hängen Sie Fotos an und tippen Sie dort auf <strong>Senden</strong>. Erst dann ist die Meldung unterwegs.</p>
+<p>Öffnet sich nichts? Kopieren Sie den Text in eine neue E-Mail an {b.mail} oder rufen Sie an: <Tel ort="bestaetigung" />.</p>
+<pre class="meldung-text" id={id("meldung-text")}></pre>
+<p class="bestaetigung-aktionen"><button type="button" class="kopieren" data-ziel={id("meldung-text")}>Text kopieren</button> <button type="button" class="aendern" data-form={id("schadenmeldung")}>Angaben ändern</button></p>
+<p class="kopiert" aria-live="polite"></p>
+<p>Wenn Sie das Auto vorbeibringen: <Route ort="bestaetigung" /></p>
+</div>

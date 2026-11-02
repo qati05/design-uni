@@ -1,0 +1,63 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Hauptaktion from "../components/Hauptaktion.astro";
+import Status from "../components/Status.astro";
+import Kreis from "../components/Kreis.astro";
+import Bild from "../components/Bild.astro";
+import Bewertungen from "../components/Bewertungen.astro";
+import Luecke from "../components/Luecke.astro";
+const leistungen = [
+  ["leistungen.html#carrosserie", "Unfall und Blech", "von kleinen Blechschäden bis zu grösseren Chassisschäden"],
+  ["leistungen.html#carrosserie", "Hagel und Dellen", "Hagelschäden, Dellendrücken"],
+  ["leistungen.html#lack", "Lack", "vom einfachen Lackschaden bis zur kompletten Neulackierung"],
+  ["leistungen.html#carrosserie", "Scheiben", "Scheibenwechsel und Scheibenreparatur"],
+  ["leistungen.html#felgen", "Alufelgen und Folierung", "Reparatur und Folie"],
+  ["leistungen.html#handel", "Occasionen", "Ankauf, Verkauf, Leasing"],
+];
+---
+<Seite title="Carrosserie und Spritzwerk in Altstätten | Auto Speedy AG" desc="Unfall-, Hagel- und Lackschaden am Auto? Die Auto Speedy AG repariert an der Alten Landstrasse 63 in Altstätten SG. Schaden online melden oder anrufen." aktiv="index.html" jsonld klasse="start" lcpBild="foto-06">
+
+<section class="held"><div class="rahmen held-raster">
+<div class="held-text">
+<p class="etikett">Carrosserie, Spritzwerk und Autohandel in Altstätten SG</p>
+<h1 class="titel-gross">Zeigen Sie uns den <span class="kreis-wort kreis-einmal">Schaden<Kreis /></span>.</h1>
+<script is:inline>(function(){var s=document.querySelector(".kreis-einmal");if(!s||!window.matchMedia||matchMedia("(prefers-reduced-motion: reduce)").matches)return;var p=s.querySelector("path"),r=s.querySelector("svg").getBoundingClientRect();if(!r.width)return;s.style.setProperty("--l",Math.ceil(p.getTotalLength()*(r.width/200+r.height/64)/2*1.3)+"px");s.classList.add("zeichnen");})();</script>
+<p class="lead">Die Auto Speedy AG repariert Unfall-, Hagel- und Lackschäden an Ihrem Auto, an der Alten Landstrasse 63 in Altstätten. Melden Sie den Schaden mit Name und Telefon, Fotos schicken Sie per E-Mail nach.</p>
+<p class="held-aktion"><Hauptaktion ort="start" klasse="hauptaktion-gross" /></p>
+<Status />
+</div>
+<Bild name="foto-06" alt="Alufelge in der Werkstatt der Auto Speedy AG. Ein Bordsteinschaden am Felgenrand ist mit blauem Stift eingekreist." fetch lazy={false} kreis={[5, 30, 69, 42]} sizes="(min-width: 900px) 50vw, 100vw" klasse="held-bild" />
+</div></section>
+
+<section class="abschnitt belege" aria-label="Belege"><div class="rahmen">
+<p class="aussage">Im Handelsregister seit <strong>2016</strong>. Ausbildungsbetrieb für <span class="nowrap">Carrosseriespengler/-in</span> EFZ und <span class="nowrap">Carrosserielackierer/-in</span> EFZ, bei Carrosserie Suisse als TOP-Ausbildungsbetrieb geführt. Auf Google Maps <strong>4,8 von 5</strong> Sternen aus 37 Bewertungen.</p>
+</div></section>
+
+<section class="abschnitt leistungen-start" aria-labelledby="lst-titel"><div class="rahmen leistungen-raster">
+<div>
+<h2 id="lst-titel" class="abschnitt-titel">Was in der Werkstatt repariert wird</h2>
+<ul class="wortliste">{leistungen.map(([h, t, z]) => (<li><a href={h}><span class="wortliste-wort">{t}</span><span class="wortliste-zusatz">{z}</span></a></li>))}</ul>
+</div>
+<Bild name="foto-18" alt="Ein Lackierer im Schutzanzug spritzt ein abgeklebtes Auto in der Lackierkabine der Auto Speedy AG." sizes="(min-width: 900px) 30vw, 100vw" klasse="bild-hoch" caption="Lackierkabine mit Lichtleisten, Alte Landstrasse 63." />
+</div></section>
+
+<section class="abschnitt tesla-band" aria-labelledby="tesla-titel"><div class="rahmen tesla-band-raster">
+<h2 id="tesla-titel" class="titel-mittel">Sie fahren einen Tesla?</h2>
+<div>
+<p class="lead">Die Auto Speedy AG ist als Tesla Approved Body Shop aufgeführt. Wählen Sie Ihr Modell und melden Sie den Schaden direkt.</p>
+<p class="weiter"><a href="tesla.html">Model 3, Model Y, Model S oder Model X wählen <span aria-hidden="true">→</span></a></p>
+</div>
+</div></section>
+
+<section class="abschnitt ablauf" aria-labelledby="ablauf-titel"><div class="rahmen">
+<h2 id="ablauf-titel" class="abschnitt-titel">So geht es nach der Meldung weiter</h2>
+<ol class="schritte">
+<li><strong>Sie melden den Schaden</strong> mit Name und Telefon. Fotos hängen Sie an die E-Mail an, oder Sie rufen an.</li>
+<li><strong>Die Auto Speedy AG meldet sich bei Ihnen.</strong> <Luecke klasse="luecke-inline">Bis wann, legt der Betrieb noch fest; erst dann steht hier eine Frist.</Luecke></li>
+<li><strong>Sie vereinbaren den Termin.</strong> Ist eine Versicherung beteiligt, erledigt die Auto Speedy AG die Schadensabwicklung mit ihr.</li>
+</ol>
+</div></section>
+
+<Bewertungen />
+</Seite>

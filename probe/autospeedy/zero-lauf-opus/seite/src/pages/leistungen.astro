@@ -1,0 +1,78 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Bild from "../components/Bild.astro";
+import Luecke from "../components/Luecke.astro";
+import Hauptaktion from "../components/Hauptaktion.astro";
+---
+<Seite title="Unfall, Hagel, Lack, Felgen in Altstätten | Auto Speedy AG" desc="Carrosserie, Spritzwerk, Alufelgen, Folierung und Occasionen: was die Auto Speedy AG an der Alten Landstrasse 63 in Altstätten SG repariert und verkauft." aktiv="leistungen.html" klasse="leistungen">
+<section class="seitenkopf"><div class="rahmen">
+<p class="etikett">Leistungen der Auto Speedy AG in Altstätten</p>
+<h1 class="titel-mittel">Von der Delle bis zum Chassisschaden.</h1>
+<p class="lead">Carrosserie und Spritzwerk unter einem Dach, dazu Alufelgen, Folierung und Occasionen. Für Personenwagen, Nutzfahrzeuge, Oldtimer und Wohnmobile.</p>
+<nav class="sprungliste" aria-label="Auf dieser Seite"><a href="#carrosserie">Carrosserie</a> <a href="#lack">Spritzwerk</a> <a href="#felgen">Alufelgen</a> <a href="#folierung">Folierung</a> <a href="#handel">Occasionen</a> <a href="#fahrzeuge">Fahrzeugarten</a></nav>
+</div></section>
+
+<section id="carrosserie" class="abschnitt leistung"><div class="rahmen leistung-raster">
+<div class="leistung-text">
+<h2 class="abschnitt-titel">Carrosserie: Unfall, Hagel, Scheiben</h2>
+<p>Die Carrosserie repariert Unfallschäden von kleinen Blechschäden bis zu grösseren Chassisschäden. Den Hagel- und Dellendrücken übernimmt der Teamleiter Carrosserie selbst, er ist Spengler für dieses Fach.</p>
+<ul class="liste-punkt"><li>Unfallreparaturen und Unfallschäden</li><li>Hagelschäden und Dellendrücken</li><li>Scheibenwechsel und Scheibenreparatur; Scheibenkonzept-Partner laut Carrosserie Suisse</li><li>Rostreparatur und Schweissarbeiten</li><li>Stossstangenreparatur</li></ul>
+<p>Die Schadensabwicklung mit der Versicherung erledigt die Auto Speedy AG für Sie. Verwendet werden ausschliesslich Original-Ersatzteile.</p>
+<p class="weiter"><a href="schaden.html">Carrosserieschaden melden <span aria-hidden="true">→</span></a></p>
+</div>
+<Bild name="foto-12" alt="Schwarzer Wagen ohne Frontschürze auf der Hebebühne in der Werkstatt der Auto Speedy AG." kreis={[3, 28, 28, 26]} sizes="(min-width: 900px) 50vw, 100vw" caption="Frontschaden auf der Hebebühne." />
+</div></section>
+
+<section id="lack" class="abschnitt leistung leistung-gespiegelt"><div class="rahmen leistung-raster">
+<div class="leistung-text">
+<h2 class="abschnitt-titel">Spritzwerk: vom Lackschaden bis zur Neulackierung</h2>
+<p>Einfache Lackschäden werden mit kleinstmöglichem Aufwand repariert. Die Lackiererei spritzt auch ganze Fahrzeuge neu, restauriert und poliert auf.</p>
+<ul class="liste-punkt"><li>einfache Lackschäden und Versicherungsfälle</li><li>komplette Neulackierung</li><li>Restaurationen</li><li>Aufpolieren und Fahrzeugaufbereitung</li><li>Lackieren aller Gegenstände</li></ul>
+<p class="weiter"><a href="schaden.html">Lackschaden melden <span aria-hidden="true">→</span></a></p>
+</div>
+<Bild name="foto-17" alt="Nahaufnahme einer frisch lackierten Kante: Rot trifft auf Weiss, dazwischen eine schwarze Dichtung." sizes="(min-width: 900px) 34vw, 100vw" klasse="bild-hoch" caption="Lackkante nach der Reparatur." />
+</div></section>
+
+<section id="felgen" class="abschnitt leistung"><div class="rahmen leistung-raster">
+<div class="leistung-text">
+<h2 class="abschnitt-titel">Alufelgen</h2>
+<p>Felgen mit Bordsteinschäden kommen in der Werkstatt auf den Tisch; die Fotos zeigen Felgen vor und in der Reparatur.</p>
+<Luecke>Welche Felgenschäden repariert werden und wie, beschreibt der Betrieb hier, sobald er die Angaben liefert.</Luecke>
+<p class="weiter"><a href="schaden.html">Felgenschaden melden <span aria-hidden="true">→</span></a></p>
+</div>
+<Bild name="foto-03" alt="Alufelge mit abgeschürftem Felgenrand nach einem Bordsteinkontakt." kreis={[30, 47, 58, 22]} sizes="(min-width: 900px) 50vw, 100vw" caption="Bordsteinschaden am Felgenrand." />
+</div></section>
+
+<section id="folierung" class="abschnitt leistung leistung-gespiegelt"><div class="rahmen leistung-raster">
+<div class="leistung-text">
+<h2 class="abschnitt-titel">Folierung</h2>
+<p>Ein Geländewagen wird in der Halle mit mattschwarzer Folie bezogen.</p>
+<Luecke>Umfang und Material der Folierung beschreibt der Betrieb hier, sobald er die Angaben liefert.</Luecke>
+</div>
+<Bild name="foto-09" alt="Geländewagen in der Halle, Motorhaube und Kotflügel halb mit mattschwarzer Folie bezogen." sizes="(min-width: 900px) 50vw, 100vw" caption="Folierung in Arbeit." />
+</div></section>
+
+<section id="handel" class="abschnitt leistung"><div class="rahmen leistung-raster">
+<div class="leistung-text">
+<h2 class="abschnitt-titel">Occasionen: Ankauf, Verkauf, Leasing</h2>
+<p>Die Auto Speedy AG kauft Autos an und verkauft Occasionen, mit Leasing und technischer Beratung. Die Fahrzeuge im Angebot stehen auf AutoScout24.</p>
+<p class="weiter"><a href={b.links.autoscout} rel="noopener">Occasionen auf AutoScout24 ansehen <span aria-hidden="true">↗</span></a></p>
+</div>
+<Bild name="foto-10" alt="Mehrere Geländewagen und Limousinen auf dem Platz vor der Halle der Auto Speedy AG." sizes="(min-width: 900px) 50vw, 100vw" caption="Fahrzeuge vor der Halle an der Alten Landstrasse 63." />
+</div></section>
+
+<section id="fahrzeuge" class="abschnitt fahrzeuge"><div class="rahmen">
+<h2 class="abschnitt-titel">Für welche Fahrzeuge</h2>
+<table class="tabelle"><caption class="sr">Fahrzeugarten laut Carrosserie Suisse</caption>
+<thead><tr><th scope="col">Fahrzeug</th><th scope="col">Arbeiten</th></tr></thead>
+<tbody>
+<tr><th scope="row">Personenwagen</th><td>Reparatur, Aufbau und Umbau, Restauration</td></tr>
+<tr><th scope="row">Nutzfahrzeuge und Anhänger bis und über 3,5 t</th><td>Reparatur, Aufbau und Umbau, Restauration</td></tr>
+<tr><th scope="row">Oldtimer und Youngtimer</th><td>Reparatur, Aufbau und Umbau, Restauration</td></tr>
+<tr><th scope="row">Wohnmobile und Wohnwagen</th><td>Reparatur</td></tr>
+</tbody></table>
+<p class="quelle">Quelle: Branchenverzeichnis von Carrosserie Suisse, gelesen am 1. November 2026.</p>
+<p class="held-aktion"><Hauptaktion ort="leistungen-ende" klasse="hauptaktion-gross" /></p>
+</div></section>
+</Seite>

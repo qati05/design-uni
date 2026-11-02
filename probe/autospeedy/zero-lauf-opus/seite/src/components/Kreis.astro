@@ -1,0 +1,5 @@
+---
+// Der blaue Markerkreis (foto-06): von Hand gezogen, offen, mit Überlauf. Schmuck, darum aria-hidden.
+const { klasse = "" } = Astro.props;
+---
+<svg class={`kreis ${klasse}`.trim()} viewBox="0 0 200 64" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M150 6 C105 1 46 3 20 13 C4 20 3 40 22 50 C50 63 140 62 178 51 C198 45 199 24 182 14 C164 5 128 4 96 7" /></svg>

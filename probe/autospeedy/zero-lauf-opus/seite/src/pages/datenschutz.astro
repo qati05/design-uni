@@ -1,0 +1,20 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Luecke from "../components/Luecke.astro";
+import Mail from "../components/Mail.astro";
+---
+<Seite title="Datenschutz der Auto Speedy AG, Carrosserie in Altstätten" desc="Welche Daten die Website der Auto Speedy AG in Altstätten bearbeitet: keine Cookies, keine fremden Dienste, Schadenmeldungen nur als E-Mail an den Betrieb." aktiv="datenschutz.html" klasse="recht">
+<section class="seitenkopf"><div class="rahmen spalte-text">
+<h1 class="titel-klein">Datenschutz</h1>
+<h2 class="neben-titel">Verantwortlich</h2>
+<p>{b.name}, {b.strasse}, {b.plz} {b.ort}. E-Mail <Mail ort="datenschutz" /></p>
+<h2 class="neben-titel">Keine Cookies, keine fremden Dienste</h2>
+<p>Diese Website setzt keine Cookies und speichert nichts auf Ihrem Gerät. Schrift, Bilder und Skripte liegen auf demselben Server; es werden keine Karten, Schriften oder Zähler anderer Anbieter geladen.</p>
+<h2 class="neben-titel">Schadenmeldung</h2>
+<p>Das Formular schickt nichts an einen Server. Es bereitet eine E-Mail in Ihrem E-Mail-Programm vor. Erst wenn Sie dort auf Senden tippen, gehen Name, Telefon und Ihre Angaben zum Schaden an {b.mail}. Die Auto Speedy AG nutzt sie nur, um Ihre Meldung zu bearbeiten.</p>
+<h2 class="neben-titel">Links zu Google Maps und AutoScout24</h2>
+<p>Route, Bewertungen und Occasionen sind Links. Erst wenn Sie einen anklicken, öffnet sich der Dienst des jeweiligen Anbieters mit dessen Datenschutzbestimmungen.</p>
+<Luecke>Hosting, Speicherort und Aufbewahrung der E-Mails trägt der Betrieb hier ein, bevor die Website online geht. Rechtsprüfung offen.</Luecke>
+</div></section>
+</Seite>

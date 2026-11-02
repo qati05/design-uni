@@ -1,0 +1,20 @@
+---
+// Fuss als Bühne (T13): Name gross auf der Navy-Fläche des Logos, darunter Anschrift, Zeiten, Telefon.
+import b from "../content/betrieb.json";
+import Tel from "./Tel.astro";
+import Route from "./Route.astro";
+import Mail from "./Mail.astro";
+import Zeiten from "./Zeiten.astro";
+import Status from "./Status.astro";
+import Hauptaktion from "./Hauptaktion.astro";
+---
+<footer class="fuss"><div class="rahmen">
+<p class="fuss-name" aria-hidden="true">Auto Speedy</p>
+<div class="fuss-raster">
+<div><h2>{b.name}</h2><p>Carrosserie, Spritzwerk und Autohandel<br>{b.strasse}<br>{b.plz} {b.ort} {b.kanton}</p><p><Route ort="fuss" text="Route öffnen" /></p></div>
+<div><h2>Geöffnet</h2><Zeiten klasse="zeiten-fuss" /><Status klasse="status-fuss" /></div>
+<div><h2>Erreichbar</h2><p>Telefon <Tel ort="fuss" /><br>Mobil <Tel ort="fuss" nummer={2} /><br><Mail ort="fuss" /></p><p class="fuss-aktion"><Hauptaktion ort="fuss" /></p></div>
+<div><h2>Seiten</h2><ul><li><a href="index.html">Start</a></li><li><a href="schaden.html">Schaden melden</a></li>{b.nav.map(([h, t]) => <li><a href={h}>{t}</a></li>)}<li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li></ul></div>
+</div>
+<p class="fuss-vorschau">{b.vorschauZeile}</p>
+</div></footer>

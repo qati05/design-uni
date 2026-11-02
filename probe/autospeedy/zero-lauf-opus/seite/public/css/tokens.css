@@ -1,0 +1,28 @@
+/* erzeugt aus tokens.json, nicht von Hand ändern */
+:root {
+  --farbe-kabinenweiss: #f4f6f8;
+  --farbe-abdeckweiss: #ffffff;
+  --farbe-logo-schwarz: #111317;
+  --farbe-logo-navy: #253145;
+  --farbe-logo-silber: #bdbec0;
+  --farbe-graphit: #555b66;
+  --farbe-marker: #0737c5;
+  --farbe-marker-hell: #9eb5ff;
+  --farbe-fehler: #b31c1c;
+  --farbe-fokus: #0737c5;
+  --schrift-logo-grotesk: "Mona Sans", "Arial Narrow", Arial, sans-serif;
+  --groesse-text: 18px;
+  --groesse-klein: 15px;
+  --groesse-zwischen: 24px;
+  --abstand-1: 4px;
+  --abstand-2: 8px;
+  --abstand-3: 16px;
+  --abstand-4: 24px;
+  --abstand-5: 40px;
+  --abstand-6: 64px;
+  --abstand-7: 104px;
+  --abstand-8: 168px;
+  --dauer-markieren: 250ms;
+  --dauer-einkreisen: 700ms;
+  --kurve-filzstift: cubic-bezier(0.05, 0.7, 0.1, 1);
+}

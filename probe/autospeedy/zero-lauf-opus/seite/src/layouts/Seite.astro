@@ -1,0 +1,56 @@
+---
+// Rahmen jeder Seite. Prüft Titel- und Beschreibungslänge (text-uni S1, S9, S12) und bricht den Bau bei Verstoss ab.
+import b from "../content/betrieb.json";
+import Kopf from "../components/Kopf.astro";
+import Fuss from "../components/Fuss.astro";
+
+const { title, desc, aktiv = "", jsonld = false, klasse = "", lcpBild = "" } = Astro.props;
+if (title.length < 40 || title.length > 60) throw new Error(`Titel ${title.length} Zeichen: ${title}`);
+if (desc.length < 110 || desc.length > 155) throw new Error(`Beschreibung ${desc.length} Zeichen: ${desc}`);
+
+const pad = (z: string) => z.replace(".", ":").padStart(5, "0");
+const ld = {
+  "@context": "https://schema.org",
+  "@type": b.typ,
+  name: b.name,
+  address: { "@type": "PostalAddress", streetAddress: b.strasse, postalCode: b.plz, addressLocality: b.ort, addressRegion: b.kanton, addressCountry: b.land },
+  telephone: b.tel1.e164,
+  email: b.mail,
+  geo: { "@type": "GeoCoordinates", latitude: b.geo.lat, longitude: b.geo.lon },
+  openingHoursSpecification: b.zeiten.filter((z) => z.fenster).flatMap((z) => z.fenster!.map(([von, bis]) => ({
+    "@type": "OpeningHoursSpecification", dayOfWeek: z.ld!.length === 1 ? z.ld![0] : z.ld, opens: pad(von), closes: pad(bis),
+  }))),
+};
+const tagNr: Record<string, number> = { Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6, Sunday: 0 };
+const min = (z: string) => { const [h, m] = z.split("."); return parseInt(h) * 60 + parseInt(m); };
+const zeiten: Record<number, number[][]> = {};
+for (const z of b.zeiten) if (z.fenster) for (const t of z.ld!) zeiten[tagNr[t]] = z.fenster.map(([v, e]) => [min(v), min(e)]);
+const daten = { mail: b.mail, tel: b.tel1.zeige, route: b.links.route, zeiten };
+---
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content={desc}>
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f4f6f8">
+{lcpBild ? <link rel="preload" as="image" type="image/webp" imagesrcset={[480, 640, 800].map((b) => `bilder/${lcpBild}-${b}.webp ${b}w`).join(", ")} imagesizes="(min-width: 900px) 50vw, 100vw" fetchpriority="high"> : <link rel="preload" href="fonts/mona-sans-italic.woff2" as="font" type="font/woff2" crossorigin>}
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="icon" href="bilder/logo-180.png" type="image/png">
+{jsonld && <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)}></script>}
+<script is:inline type="application/json" id="betrieb-daten" set:html={JSON.stringify(daten)}></script>
+<script is:inline src="js/main.js" defer></script>
+</head>
+<body class={klasse}>
+<a class="sprung" href="#inhalt">Zum Inhalt springen</a>
+<Kopf aktiv={aktiv} />
+<main id="inhalt">
+<slot />
+</main>
+<Fuss />
+</body>
+</html>

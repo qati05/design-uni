@@ -1,0 +1,16 @@
+{
+  "name": "auto-speedy-vorschau",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "prebuild": "node werkzeug/tokens.mjs"
+  },
+  "dependencies": {
+    "astro": "7.4.4"
+  },
+  "devDependencies": {
+    "@fontsource-variable/mona-sans": "^5.3.0"
+  }
+}

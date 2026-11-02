@@ -1,0 +1,50 @@
+{
+ "r1": {
+  "01": "rimac",
+  "02": "zaech",
+  "03": "falle",
+  "04": "gschwend",
+  "05": "kandidat",
+  "06": "lucid"
+ },
+ "r2": {
+  "01": "zaech",
+  "02": "falle",
+  "03": "kandidat",
+  "04": "lucid",
+  "05": "rimac",
+  "06": "gschwend"
+ },
+ "r3": {
+  "01": "rimac",
+  "02": "zaech",
+  "03": "falle",
+  "04": "gschwend",
+  "05": "lucid",
+  "06": "kandidat"
+ },
+ "r4": {
+  "01": "gschwend",
+  "02": "falle",
+  "03": "kandidat",
+  "04": "zaech",
+  "05": "rimac",
+  "06": "lucid"
+ },
+ "r5": {
+  "01": "kandidat",
+  "02": "zaech",
+  "03": "rimac",
+  "04": "lucid",
+  "05": "falle",
+  "06": "gschwend"
+ },
+ "r6": {
+  "01": "rimac",
+  "02": "gschwend",
+  "03": "zaech",
+  "04": "lucid",
+  "05": "kandidat",
+  "06": "falle"
+ }
+}

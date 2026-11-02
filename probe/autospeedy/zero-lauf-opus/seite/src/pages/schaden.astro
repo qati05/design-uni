@@ -1,0 +1,30 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Meldung from "../components/Meldung.astro";
+import Tel from "../components/Tel.astro";
+import Zeiten from "../components/Zeiten.astro";
+import Status from "../components/Status.astro";
+import Luecke from "../components/Luecke.astro";
+---
+<Seite title="Schaden am Auto melden in Altstätten | Auto Speedy AG" desc="Unfall-, Hagel-, Lack- oder Felgenschaden melden: Stelle antippen, Name und Telefon angeben. Die E-Mail an die Auto Speedy AG in Altstätten steht bereit." aktiv="schaden.html" klasse="schaden">
+<section class="seitenkopf"><div class="rahmen">
+<p class="etikett">Schaden melden bei der Auto Speedy AG, Altstätten</p>
+<h1 class="titel-mittel">Wo ist der Schaden?</h1>
+<p class="lead">Tippen Sie die Stelle am Auto an und geben Sie Name und Telefon an. Danach öffnet sich Ihr E-Mail-Programm mit der fertigen Nachricht an {b.mail}.</p>
+</div></section>
+<section class="abschnitt formular-abschnitt"><div class="rahmen formular-raster">
+<div class="formular-spalte"><Meldung art="skizze" betreff="Schadenmeldung über die Website" /></div>
+<aside class="neben" aria-label="Lieber anrufen">
+<h2 class="neben-titel">Lieber anrufen?</h2>
+<p class="neben-tel"><Tel ort="schaden-neben" /></p>
+<Status />
+<Zeiten />
+<h2 class="neben-titel">Mit Versicherung?</h2>
+<p>Die Schadensabwicklung mit der Versicherung erledigt die Auto Speedy AG für Sie.</p>
+<h2 class="neben-titel">Ein Tesla?</h2>
+<p><a href="tesla.html">Zur Meldung mit Modellwahl <span aria-hidden="true">→</span></a></p>
+<Luecke>Was an Wochenenden, Feiertagen und in den Betriebsferien gilt, steht hier, sobald der Betrieb es angibt.</Luecke>
+</aside>
+</div></section>
+</Seite>

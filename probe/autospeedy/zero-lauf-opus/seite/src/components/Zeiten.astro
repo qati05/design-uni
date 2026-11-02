@@ -1,0 +1,10 @@
+---
+import b from "../content/betrieb.json";
+const u = (z: string) => `${z} Uhr`;
+const { klasse = "" } = Astro.props;
+---
+<table class={`zeiten ${klasse}`.trim()}><caption class="sr">Öffnungszeiten</caption><tbody>
+{b.zeiten.map((z) => (
+  <tr><th scope="row">{z.tage}</th><td>{z.zu ? "geschlossen" : z.fenster!.map(([v, bis]) => `${v} bis ${u(bis)}`).join(", ")}</td></tr>
+))}
+</tbody></table>

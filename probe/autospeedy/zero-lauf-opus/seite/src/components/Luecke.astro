@@ -1,0 +1,5 @@
+---
+// Sichtbare Lücke als ganzer Satz (keine erfundenen Fakten, keine Klammern).
+const { klasse = "" } = Astro.props;
+---
+<p class={`luecke ${klasse}`.trim()}><slot /></p>

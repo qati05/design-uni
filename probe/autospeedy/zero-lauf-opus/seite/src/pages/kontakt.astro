@@ -1,0 +1,47 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Bild from "../components/Bild.astro";
+import Tel from "../components/Tel.astro";
+import Mail from "../components/Mail.astro";
+import Route from "../components/Route.astro";
+import Zeiten from "../components/Zeiten.astro";
+import Status from "../components/Status.astro";
+const team = [
+  ["Administration", [["Shpejtim Pirku «Speedy»", "Geschäftsführer"], ["Lea Schlegel", "Administration"], ["Martyna Skweres", "Kauffrau EBA in Ausbildung"]]],
+  ["Carrosserie", [["Arsim Selmani", "Teamleiter, Spengler für Hagel- und Dellendrücken"], ["Dragan Tejic", "Carrosseriespengler, Schweisstechniker"], ["Enes Rushiti", "Carrosseriespengler"]]],
+  ["Lackiererei", [["Sheref Kamili", "Carrosserielackierer"], ["Fabio Cezza", "Carrosserielackierer"], ["Anna Meier", "Carrosserielackiererin EFZ in Ausbildung"]]],
+  ["Aufbereitung", [["Armend Nuhii", "Aufbereiter, Finisher"]]],
+];
+---
+<Seite title="Kontakt und Öffnungszeiten in Altstätten | Auto Speedy AG" desc="Telefon 071 755 88 61, Alte Landstrasse 63 in 9450 Altstätten: Öffnungszeiten, Route, E-Mail und das Team der Auto Speedy AG, Carrosserie und Spritzwerk." aktiv="kontakt.html" jsonld klasse="kontakt">
+<section class="seitenkopf kontakt-kopf"><div class="rahmen kontakt-raster">
+<div>
+<p class="etikett">Kontakt, Auto Speedy AG in Altstätten</p>
+<h1 class="titel-klein">Anrufen, schreiben, vorbeikommen.</h1>
+<p class="tel-riesig"><Tel ort="kontakt-star" /></p>
+<Status />
+<p>Mobil <Tel ort="kontakt" nummer={2} /> · E-Mail <Mail ort="kontakt" /></p>
+</div>
+<div class="kontakt-zeiten"><h2 class="neben-titel">Öffnungszeiten</h2><Zeiten /><p class="klein">Feiertage und Betriebsferien sind noch nicht eingetragen.</p></div>
+</div></section>
+
+<section class="abschnitt anfahrt" aria-labelledby="anfahrt-titel"><div class="rahmen leistung-raster">
+<div class="leistung-text">
+<h2 id="anfahrt-titel" class="abschnitt-titel">{b.strasse}, {b.plz} {b.ort}</h2>
+<p>Die graue Halle mit dem Schild «Auto Speedy» über dem Eingang. Kundenparkplätze und Occasionen stehen auf dem Platz davor.</p>
+<p class="weiter"><Route ort="kontakt" text="Route in der Karten-App öffnen" /></p>
+</div>
+<Bild name="foto-11" alt="Graue Werkhalle der Auto Speedy AG mit Firmenschild über dem Eingang, davor parkierte Autos." kreis={[7, 7, 38, 24]} sizes="(min-width: 900px) 50vw, 100vw" caption="Das Schild über dem Eingang." />
+</div></section>
+
+<section class="abschnitt team" aria-labelledby="team-titel"><div class="rahmen">
+<h2 id="team-titel" class="abschnitt-titel">Wer in der Werkstatt arbeitet</h2>
+<div class="team-raster">{team.map(([bereich, leute]) => (
+  <div><h3 class="team-bereich">{bereich}</h3><ul class="team-liste">{(leute as string[][]).map(([n, r]) => <li><strong>{n}</strong><span>{r}</span></li>)}</ul></div>
+))}</div>
+<p class="klein">Namen und Rollen wie auf der bisherigen Website des Betriebs. Fotos der Mitarbeitenden zeigen wir erst, wenn alle einverstanden sind.</p>
+<h3 class="team-bereich">Lehrbetrieb</h3>
+<p>Ausbildungsbetrieb für Carrosseriespengler/-in EFZ und Carrosserielackierer/-in EFZ, bei Carrosserie Suisse als TOP-Ausbildungsbetrieb und Scheibenkonzept-Partner geführt.</p>
+</div></section>
+</Seite>

@@ -1,0 +1,22 @@
+---
+import b from "../content/betrieb.json";
+import Seite from "../layouts/Seite.astro";
+import Luecke from "../components/Luecke.astro";
+import Tel from "../components/Tel.astro";
+import Mail from "../components/Mail.astro";
+---
+<Seite title="Impressum der Auto Speedy AG, Carrosserie in Altstätten" desc="Impressum der Auto Speedy AG: Firma, Anschrift, Telefon, E-Mail, UID und Handelsregister-Nummer der Carrosserie an der Alten Landstrasse 63 in Altstätten." aktiv="impressum.html" klasse="recht">
+<section class="seitenkopf"><div class="rahmen spalte-text">
+<h1 class="titel-klein">Impressum</h1>
+<h2 class="neben-titel">Firma</h2>
+<p>{b.name}<br>{b.strasse}<br>{b.plz} {b.ort} {b.kanton}, Schweiz</p>
+<p>Telefon <Tel ort="impressum" /><br>E-Mail <Mail ort="impressum" /></p>
+<h2 class="neben-titel">Register</h2>
+<p>Aktiengesellschaft mit Sitz in Altstätten<br>UID: CHE-221.907.243<br>Handelsregister-Nummer: CH-320.3.080.980-3</p>
+<h2 class="neben-titel">Vertretung</h2>
+<p>Shpejtim Pirku, Mitglied des Verwaltungsrates</p>
+<h2 class="neben-titel">Bilder und Schrift</h2>
+<p>Fotos aus der Werkstatt der Auto Speedy AG. Schrift: Mona Sans, SIL Open Font License, auf diesem Server abgelegt.</p>
+<Luecke>Die Rechte an den Fotos und die Angaben zur Gestaltung der Website bestätigt der Betrieb vor der Veröffentlichung.</Luecke>
+</div></section>
+</Seite>

@@ -1,0 +1,7 @@
+---
+// Die eine Handlung: «Schaden melden», eingekreist statt Knopffläche.
+import b from "../content/betrieb.json";
+import Kreis from "./Kreis.astro";
+const { ort, text, href, klasse = "" } = Astro.props;
+---
+<a class={`hauptaktion ${klasse}`.trim()} href={href ?? b.hauptaktion.href} data-zaehl="anfrage" data-ort={ort}><span class="kreis-wort">{text ?? b.hauptaktion.text}<Kreis /></span></a>
