@@ -1094,9 +1094,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     <div class="honig" aria-hidden="true"><label for="f-web">Bitte leer lassen</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 
     <div class="wege-senden" data-nur-js hidden>
-      <p class="wege-senden__titel">So senden Sie die Meldung</p>
-      <button class="knopf knopf--gross weg weg--a" type="button" data-senden="website" data-zaehl="schaden-website">Hier auf der Website senden<small data-weg-a-hilfe>Mit Fotos, ohne weitere App</small></button>
-      <button class="knopf knopf--gross weg weg--b" type="button" data-senden="whatsapp" data-zaehl="schaden-whatsapp">Per WhatsApp senden<small>Fotos hängen Sie in WhatsApp an</small></button>
+      <p class="wege-senden__titel">Fertig? Dann senden Sie die Meldung ab.</p>
+      <button class="knopf knopf--gross weg weg--a" type="button" data-senden="website" data-zaehl="schaden-website">Meldung absenden<small data-weg-a-hilfe>Mit Ihren Fotos direkt an Auto Speedy. Wir melden uns bei Ihnen.</small></button>
+      <button class="knopf knopf--gross weg weg--b" type="button" data-senden="whatsapp" data-zaehl="schaden-whatsapp">Lieber per WhatsApp<small>Öffnet WhatsApp mit Ihrer Nachricht. Fotos hängen Sie dort an.</small></button>
       <p data-luecke>Lücke: Die WhatsApp-Nummer 076 615 44 41 stammt von der Website; der Betrieb bestätigt sie noch.</p>
       
         <p class="hilfe">Verantwortlich: Auto Speedy AG. Ihre Angaben dienen nur der Bearbeitung Ihrer Meldung.</p>
@@ -1634,7 +1634,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 <p>Geben Sie freiwillig Ihre Mail-Adresse an, schicken wir Ihnen eine Bestätigung und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nutzen wir die Adresse nicht.</p>
 <p data-luecke>Lücke: Anbieter und Sitz von Datenbank und Mail-Dienst (Vorschlag: Supabase, Region Zürich; Brevo) sowie die Löschfrist werden ergänzt, sobald sie gewählt sind. Rechtsprüfung nötig.</p>
-<p>Wählen Sie «Per WhatsApp senden», öffnet sich WhatsApp mit Ihrer Nachricht. Gesendet wird erst, wenn Sie dort senden; dann gelten die Datenschutzbestimmungen von WhatsApp.</p>
+<p>Wählen Sie «Lieber per WhatsApp», öffnet sich WhatsApp mit Ihrer Nachricht. Gesendet wird erst, wenn Sie dort senden; dann gelten die Datenschutzbestimmungen von WhatsApp.</p>
 <p>Wir nutzen Ihre Angaben nur, um Ihre Meldung zu bearbeiten.</p>
 <h2>Occasionen von AutoScout24</h2>
 <p>Auf der Seite Occasionen können Sie die Fahrzeugliste von AutoScout24 anzeigen lassen. Erst wenn Sie auf «Occasionen anzeigen» tippen, lädt AutoScout24 Inhalte von seinen Servern; dabei kann AutoScout24 Daten wie Ihre IP-Adresse erhalten und Cookies setzen. Es gelten die Datenschutzbestimmungen von AutoScout24.</p>
@@ -1838,7 +1838,7 @@ document.addEventListener('click',function(e){var z=e.target.closest('[data-abfr
   });
   // Ohne Endpunkt und ausserhalb der Vorschau gibt es Weg A nicht
   if (!f.dataset.endpunkt && f.dataset.istVorschau !== "ja") { var a = f.querySelector('[data-senden="website"]'); if (a) a.hidden = true; }
-  else if (!f.dataset.endpunkt) { var h = f.querySelector("[data-weg-a-hilfe]"); if (h) h.textContent = "In der Vorschau nur vorgeführt, es wird nichts gesendet"; }
+  else if (!f.dataset.endpunkt) { var h = f.querySelector("[data-weg-a-hilfe]"); if (h) h.textContent = "Mit Ihren Fotos direkt an Auto Speedy (Vorschau: nichts wird gesendet)"; }
 })();
 
 /* Lackwahl: hell oder dunkel lackiert. Folgt der Einstellung des Geräts; der Knopf im Kopf wählt für diesen Besuch um.

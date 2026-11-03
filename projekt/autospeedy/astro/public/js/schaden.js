@@ -167,5 +167,5 @@
   });
   // Ohne Endpunkt und ausserhalb der Vorschau gibt es Weg A nicht
   if (!f.dataset.endpunkt && f.dataset.istVorschau !== "ja") { var a = f.querySelector('[data-senden="website"]'); if (a) a.hidden = true; }
-  else if (!f.dataset.endpunkt) { var h = f.querySelector("[data-weg-a-hilfe]"); if (h) h.textContent = "In der Vorschau nur vorgeführt, es wird nichts gesendet"; }
+  else if (!f.dataset.endpunkt) { var h = f.querySelector("[data-weg-a-hilfe]"); if (h) h.textContent = "Mit Ihren Fotos direkt an Auto Speedy (Vorschau: nichts wird gesendet)"; }
 })();

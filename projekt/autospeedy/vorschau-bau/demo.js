@@ -203,7 +203,7 @@
           x.fotos && x.fotos.length ? h("div", { class: "d-wa__fotos" }, x.fotos.map(function (u) { return h("img", { src: u, alt: "Foto vom Schaden" }); })) : null,
           h("p", { text: x.text }), h("span", { class: "d-wa__zeit", text: wann(x.zeit) }),
         ]);
-      }) : [h("p", { class: "d-leer", text: "Noch keine Nachricht. Links in der Schadenmeldung «Per WhatsApp senden» wählen." })]),
+      }) : [h("p", { class: "d-leer", text: "Noch keine Nachricht. Links in der Schadenmeldung «Lieber per WhatsApp» wählen." })]),
       h("p", { class: "d-wa__fuss", text: "WhatsApp-Meldungen kommen wie heute auf Ihr Handy, nicht ins Cockpit. Fotos sehen Sie direkt im Chat." }),
     ]);
   }
