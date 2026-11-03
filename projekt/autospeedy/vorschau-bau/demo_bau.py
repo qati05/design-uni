@@ -11,7 +11,7 @@ ZIEL = os.path.join(PROJ, 'vorschau', 'auto-speedy-demo-klar.html' if KLAR else 
 
 tmp = tempfile.mkdtemp()
 subprocess.run([sys.executable, os.path.join(HIER, 'art_bau.py'), DIST, tmp, 'demo'], check=True, env={**os.environ, 'LINIE': 'klar' if KLAR else 'lack'})
-subprocess.run([sys.executable, os.path.join(HIER, 'einzel.py'), tmp, os.path.join(tmp, 'website.html')], check=True)
+subprocess.run([sys.executable, os.path.join(HIER, 'einzel.py'), tmp, os.path.join(tmp, 'website.html')], check=True, env={**os.environ, 'LINIE': 'klar' if KLAR else 'lack'})
 website = open(os.path.join(tmp, 'website.html'), encoding='utf8').read()
 
 def uri(pfad, mime):
