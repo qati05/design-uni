@@ -18,7 +18,13 @@ Regel: **Website kaufen, Cockpit mieten.** Die Website läuft ohne Cockpit; das 
 1. **Website:** Repo aus diesem Starter, `betrieb.json` (Fakten), `texte.json`, `src/daten/site.json` (Startwerte) füllen. Cloudflare Pages mit dem Repo verbinden (Bau bei jedem Commit).
 2. **Formular per Mail (immer):** in Cloudflare Pages `BREVO_SCHLUESSEL`, `MAIL_ABSENDER`, `MAIL_BETRIEB`, `ERLAUBTE_HERKUNFT`; gegen Missbrauch `TURNSTILE_SITEKEY` (Bau) und `TURNSTILE_SECRET`.
 3. **Cockpit (wenn gemietet):** in Supabase `insert into betrieb (id, name, website_url, github_repo, github_pfad, automation_bewertung) values (…)`; Konten in `betrieb_mitglied`. Im Cockpit-Hosting `GITHUB_TOKEN_<ID>` (fein abgestuft, nur dieses Repo). In Cloudflare Pages `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `BETRIEB_ID`, `COCKPIT_URL`.
-4. **Kündigung:** `update betrieb set aktiv = false`, CSV unter `/studio` an den Kunden, Editor mit `EDITOR_AKTIV=true`, `EDITOR_REPO`, `EDITOR_PFAD` einschalten, `UEBERGABE.md` übergeben.
+4. **Kündigung:** `update betrieb set aktiv = false`, CSV unter `/studio` an den Kunden. Teamfotos aus R2 in die Website-Dateien des Kunden (`public/bilder/team/`) legen und die Verweise in `site.json` auf `/bilder/team/…` umstellen; nach dem erfolgreichen Bau löscht Medaur die R2-Kopie [Entscheid · Roni, 03.11.2026]. Editor mit `EDITOR_AKTIV=true`, `EDITOR_REPO`, `EDITOR_PFAD` einschalten, `UEBERGABE.md` übergeben.
+
+**Hinweise**
+- **Start-Teamfotos:** Die Porträts unter `astro/public/bilder/team/` stammen von der alten, öffentlichen Website des Betriebs. Beim Einrichten ziehen sie nach R2 um (Verweise in `site.json` anpassen, Dateien aus dem Ordner löschen). Die Git-Historie wird nicht umgeschrieben, weil die Fotos ohnehin öffentlich waren [Entscheid · Roni, 03.11.2026].
+- **Bestätigungsmail ohne Datenbank** nur mit Turnstile, sonst keine [Entscheid · Roni, 03.11.2026].
+- **Dienstschlüssel von Supabase** (`SUPABASE_SERVICE_KEY`) nur serverseitig: in der Website-Funktion und im Cockpit nur für die Löschfrist der Fotos [Entscheid · Roni, 03.11.2026].
+- **Offen:** Sveltia lädt Schriften und Symbole von jsdelivr (betrifft nur den Editor, nicht die Besucher). Später selbst ausliefern.
 
 ## Was gebaut ist (Überblick)
 | Teil | Wo | Stand |

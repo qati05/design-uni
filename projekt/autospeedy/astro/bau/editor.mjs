@@ -1,8 +1,8 @@
 // Einfacher Editor für den Kunden nach einer Kündigung des Cockpits: Sveltia CMS unter /admin/.
 // Standard AUS. Nur wenn beim Bau EDITOR_AKTIV=true gesetzt ist, legt der Bau /admin/ an; sonst gibt es /admin/ nicht.
 // Sveltia wird selbst ausgeliefert (aus node_modules, Version fest in package.json), nicht von einem CDN.
-// Bearbeitet nur src/daten/site.json (Zeiten, Feiertage, Hinweis, Team). Teamfotos liegen nicht im Git, sondern im
-// Bild-Speicher: im Editor steht nur ihr Verweis. Speichert jemand Unsinn, bricht der nächste Bau an der Prüfung
+// Bearbeitet nur src/daten/site.json (Zeiten, Feiertage, Hinweis, Team). Teamfotos: bei der Übergabe kommen sie aus R2 in die
+// Website-Dateien des Kunden (public/bilder/team/); im Editor steht nur ihr Verweis. Speichert jemand Unsinn, bricht der nächste Bau an der Prüfung
 // (gemeinsam/site.ts) ab, und die bisherige Website bleibt online.
 // Einstellungen: EDITOR_REPO (owner/name), EDITOR_ZWEIG (Vorgabe main), EDITOR_PFAD (Pfad von site.json im Repo).
 import fs from "node:fs";
@@ -51,7 +51,7 @@ export function editorKonfiguration({ repo, zweig = "main", pfad = "astro/src/da
             text("name", "Gruppe (z. B. Werkstatt)"),
             { name: "leute", label: "Personen", widget: "list", max: 30, required: false, fields: [
               text("name", "Name"), text("rolle", "Rolle", { required: false }),
-              text("foto", "Foto (Verweis, nicht ändern)", { required: false, hint: "Fotos liegen im Bild-Speicher, nicht hier. Neues Foto oder Foto löschen: siehe Übergabe-Anleitung." }),
+              text("foto", "Foto (Verweis, z. B. /bilder/team/anna-muster.webp)", { required: false, hint: "Die Bilddatei liegt im Ordner bilder/team. Foto entfernen: Feld leeren und die Datei löschen. Siehe Übergabe-Anleitung." }),
               text("email", "Mail (freiwillig)", { required: false }),
             ] },
           ] },

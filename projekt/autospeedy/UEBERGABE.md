@@ -28,10 +28,10 @@ Diese Anleitung gilt, wenn Sie das Cockpit nicht mehr mieten. Die Website gehör
 
 ## Fotos vom Team
 
-Die Fotos liegen aus Datenschutzgründen nicht im Editor, sondern in einem eigenen Bild-Speicher. Im Feld «Foto» steht nur der Verweis darauf. Ändern Sie dieses Feld nicht.
+Bei der Übergabe bekommen Sie die Teamfotos zusammen mit der Website: Sie liegen danach bei Ihren Website-Dateien im Ordner `bilder/team`. Das Studio löscht anschliessend seine Kopie aus dem Bild-Speicher. Im Feld «Foto» steht der Verweis auf das Bild, zum Beispiel `/bilder/team/anna-muster.webp`.
 
-- **Neues Foto:** Schicken Sie das Foto dem Studio. Es legt das Bild ab und trägt den Verweis ein.
-- **Foto entfernen** (zum Beispiel, wenn jemand sein Einverständnis zurückzieht): Melden Sie sich beim Studio. Es löscht das Bild aus dem Speicher und den Verweis aus der Website.
+- **Foto entfernen** (zum Beispiel, wenn jemand sein Einverständnis zurückzieht): Leeren Sie im Editor das Feld «Foto» und speichern Sie. Löschen Sie danach auch die Bilddatei im Ordner `bilder/team`, sonst bleibt sie unter ihrer Adresse abrufbar. Das kann auch die Person tun, die Ihre Website technisch betreut.
+- **Neues Foto:** Die Bilddatei kommt in den Ordner `bilder/team` (quadratisch, Format WebP, Name nur mit Kleinbuchstaben, Ziffern und Bindestrichen). Danach tragen Sie im Editor den Verweis ein.
 
 ## Wenn etwas nicht klappt
 
