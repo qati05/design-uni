@@ -29,7 +29,7 @@ for v,f in views:
     m=re.search(r'<main id="inhalt">(.*?)</main>',s,re.S).group(1)
     m=re.sub(r'<script.*?</script>','',m,flags=re.S)
     m=m.replace('loading="lazy"','') if v=='start' else m
-    secs.append(f'<div class="ansicht" data-ansicht="{v}"{"" if v=="start" else " hidden"}>{rw(m)}</div>')
+    secs.append(f'<div class="vorschau-seite" data-ansicht="{v}"{"" if v=="start" else " hidden"}>{rw(m)}</div>')
 js_dateien=['js/schaden.js','js/rueckruf.js','js/klar.js'] if KLAR else ['js/schaden.js','js/lack.js','js/rueckruf.js']
 extra='\n'.join(open(os.path.join(D,f),encoding='utf8').read() for f in js_dateien)
 if DEMO:
