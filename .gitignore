@@ -1,0 +1,5 @@
+# Impeccable engine binary (platform-specific, ~21 MB); the launcher downloads and checksum-verifies it on first run
+.claude/skills/impeccable/scripts/bin/
+
+# Per-developer Claude Code settings
+.claude/settings.local.json
