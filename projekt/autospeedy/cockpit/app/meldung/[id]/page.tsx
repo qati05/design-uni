@@ -24,7 +24,7 @@ export default async function MeldungSeite({ params }: { params: Promise<{ id: s
       <Kopf email={s.email} />
       <main className="seite">
         <p><Link href="/">← Alle Meldungen</Link></p>
-        <h1>{m.art} {m.tesla ? <span className="pille tesla">Tesla</span> : null} {m.beispiel ? <span className="pille beispiel">Beispiel</span> : null}</h1>
+        <h1>{m.art} {m.tesla ? <span className="pille tesla">{m.teslaModell && m.teslaModell !== "Anderes Modell" ? `Tesla ${m.teslaModell}` : "Tesla"}</span> : null} {m.beispiel ? <span className="pille beispiel">Beispiel</span> : null}</h1>
         <p className="unterzeile">Eingegangen {wann(m.erstellt)} über {m.quelle === "website" ? "die Website" : m.quelle === "whatsapp" ? "WhatsApp" : "Telefon"} · Status: <span className={`pille st-${m.status}`}>{STATUS_NAME[m.status]}</span></p>
         <div className="detail">
           <section className="karte">

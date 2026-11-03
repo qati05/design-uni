@@ -116,4 +116,11 @@ select pg_temp.erwarte((select count(*) from public.meldungen where id = 'a1' an
 set role anon;
 do $$ begin perform count(*) from public.versand_geheimnis; raise exception 'Geheimnis lesbar'; exception when insufficient_privilege then raise notice 'ok  Versand-Geheimnis nicht lesbar'; end $$;
 reset role;
+-- Tesla-Modell: nur aus der Liste, nur bei Tesla
+set role service_role;
+insert into public.meldungen (id, art, name, telefon, tesla, tesla_modell) values ('t1', 'Hagel', 'T', '071 555 00 09', true, 'Model Y');
+reset role;
+select pg_temp.erwarte((select count(*) from public.meldungen where tesla_modell = 'Model Y')::bigint, 1, 'Tesla-Modell gespeichert');
+do $$ begin insert into public.meldungen (art, name, telefon, tesla, tesla_modell) values ('Hagel', 'T', '071 555 00 09', true, 'Roadster'); raise exception 'unbekanntes Modell'; exception when check_violation then raise notice 'ok  unbekanntes Tesla-Modell abgewiesen'; end $$;
+do $$ begin insert into public.meldungen (art, name, telefon, tesla, tesla_modell) values ('Hagel', 'T', '071 555 00 09', false, 'Model 3'); raise exception 'Modell ohne Tesla'; exception when check_violation then raise notice 'ok  Modell nur bei Tesla'; end $$;
 \echo RAUCHPROBE GRÜN

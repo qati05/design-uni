@@ -37,7 +37,7 @@ export default async function Uebersicht({ searchParams }: { searchParams: Promi
               <Link className={`zeile st-${m.status}`} href={`/meldung/${m.id}`}>
                 <span>
                   <span className="art">{m.art}</span>{" "}
-                  {m.tesla ? <span className="pille tesla">Tesla</span> : null}{" "}
+                  {m.tesla ? <span className="pille tesla">{m.teslaModell && m.teslaModell !== "Anderes Modell" ? `Tesla ${m.teslaModell}` : "Tesla"}</span> : null}{" "}
                   {m.beispiel ? <span className="pille beispiel">Beispiel</span> : null}
                   <br />
                   <span className="meta">{wann(m.erstellt)} · {m.name} · {m.art === "Rückruf" ? m.bemerkung : m.stellen.join(", ") || "Stelle nicht angegeben"} · {m.fotos.length} Foto{m.fotos.length === 1 ? "" : "s"} · über {m.quelle === "website" ? "Website" : m.quelle === "whatsapp" ? "WhatsApp" : "Telefon"}</span>

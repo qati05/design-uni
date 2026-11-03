@@ -12,6 +12,7 @@
 // Prüft Pflichtfelder, Längen, Herkunft, Grösse, Bildtyp und Spamschutz (Honigtopf «website»).
 
 const ARTEN = ["Parkschaden", "Unfall", "Hagel", "Kratzer oder Lack", "Scheibe", "Felge", "Etwas anderes", "Rückruf"];
+export const TESLA_MODELLE = ["Model 3", "Model Y", "Model S", "Model X", "Anderes Modell"];
 const GRENZEN = { email: 254, bemerkung: 3000, name: 120, telefon: 40, stelle: 40, stellen: 12, fotos: 6, fotoBytes: 2.5e6, gesamt: 16e6 };
 
 function antwort(status, daten) {
@@ -23,12 +24,13 @@ export function pruefe(e) {
   const fehler = [];
   const d = {
     art: text(e.art), name: text(e.name), telefon: text(e.telefon), email: text(e.email).toLowerCase(), bemerkung: text(e.bemerkung),
-    tesla: e.tesla === "ja", stellen: (e.stellen || []).map(text).filter(Boolean), website: text(e.website), fotos: e.fotos || [],
+    tesla: e.tesla === "ja", teslaModell: e.tesla === "ja" ? text(e.teslaModell) : "", stellen: (e.stellen || []).map(text).filter(Boolean), website: text(e.website), fotos: e.fotos || [],
   };
   if (!ARTEN.includes(d.art)) fehler.push("art");
   if (!d.name || d.name.length > GRENZEN.name) fehler.push("name");
   if (!/^[+0-9 ()./-]{6,40}$/.test(d.telefon)) fehler.push("telefon");
   if (d.email && (d.email.length > GRENZEN.email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email))) fehler.push("email");
+  if (d.teslaModell && !TESLA_MODELLE.includes(d.teslaModell)) fehler.push("tesla_modell");
   if (d.bemerkung.length > GRENZEN.bemerkung) fehler.push("bemerkung");
   if (d.stellen.length > GRENZEN.stellen || d.stellen.some((s) => s.length > GRENZEN.stelle)) fehler.push("stellen");
   if (d.fotos.length > GRENZEN.fotos || d.fotos.some((f) => f.type !== "image/jpeg" || f.size > GRENZEN.fotoBytes || f.size === 0)) fehler.push("fotos");
@@ -40,7 +42,7 @@ export function mailText(d) {
     "Schadenmeldung über die Website",
     "",
     `Was ist passiert: ${d.art}`,
-    `Tesla: ${d.tesla ? "ja" : "nein"}`,
+    `Tesla: ${d.tesla ? "ja" + (d.teslaModell ? ", " + d.teslaModell : "") : "nein"}`,
     `Stellen: ${d.stellen.join(", ") || "nicht angegeben"}`,
     `Fotos: ${d.fotos.length} (im Anhang)`,
     `Bemerkung: ${d.bemerkung || "keine"}`,
@@ -67,7 +69,7 @@ async function supabase(env, pfad, opt) {
 export async function insCockpit(env, d) {
   const r = await supabase(env, "/rest/v1/meldungen", {
     method: "POST", headers: { "Content-Type": "application/json", Prefer: "return=representation" },
-    body: JSON.stringify({ art: d.art, tesla: d.tesla, stellen: d.stellen, bemerkung: d.bemerkung, name: d.name, telefon: d.telefon, email: d.email || null, quelle: "website" }),
+    body: JSON.stringify({ art: d.art, tesla: d.tesla, tesla_modell: d.teslaModell || null, stellen: d.stellen, bemerkung: d.bemerkung, name: d.name, telefon: d.telefon, email: d.email || null, quelle: "website" }),
   });
   const [{ id }] = await r.json();
   const zeilen = [];
@@ -94,7 +96,7 @@ async function bestaetigen(env, d) {
 
 /** Hinweis an den Betrieb ohne Personendaten. */
 export function hinweisText(d, id, cockpit) {
-  return [`Eine neue Schadenmeldung ist eingegangen: ${d.art}${d.tesla ? " (Tesla)" : ""}, ${d.fotos.length} Foto${d.fotos.length === 1 ? "" : "s"}.`,
+  return [`Eine neue Schadenmeldung ist eingegangen: ${d.art}${d.tesla ? ` (Tesla${d.teslaModell && d.teslaModell !== "Anderes Modell" ? " " + d.teslaModell : ""})` : ""}, ${d.fotos.length} Foto${d.fotos.length === 1 ? "" : "s"}.`,
     `Stellen am Auto: ${d.stellen.join(", ") || "nicht angegeben"}. Mail vom Kunden: ${d.email ? "angegeben" : "keine"}.`,
     `Ansehen und zurückrufen im Cockpit: ${cockpit || "(Cockpit-Adresse fehlt)"}/meldung/${id}`, "", "Name und Telefon stehen aus Datenschutzgründen nur im Cockpit."].join("\n");
 }
@@ -110,7 +112,7 @@ export async function onRequestPost({ request, env }) {
   const fotos = form.getAll("foto").filter((f) => typeof f === "object" && f !== null);
   const { daten, fehler } = pruefe({
     art: form.get("art"), name: form.get("name"), telefon: form.get("telefon"), email: form.get("email") || "", bemerkung: form.get("bemerkung") || "",
-    tesla: form.get("tesla"), stellen: form.getAll("stelle"), website: form.get("website") || "", fotos,
+    tesla: form.get("tesla"), teslaModell: form.get("tesla_modell") || "", stellen: form.getAll("stelle"), website: form.get("website") || "", fotos,
   });
   if (daten.website) return antwort(200, { ok: true }); // Honigtopf: still annehmen, nichts senden
   if (fehler.length) return antwort(422, { ok: false, fehler });

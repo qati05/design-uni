@@ -30,6 +30,12 @@
   function gewaehlt() { return kaestchen.filter(function (k) { return k.checked; }).map(function (k) { return k.value; }); }
   function wert(n) { var e = f.elements[n]; return e && e.value ? e.value.trim() : ""; }
   function tesla() { var t = f.querySelector("[data-tesla]"); return !!(t && t.checked); }
+  // Tesla: Modell zum Antippen, nur wenn «Es ist ein Tesla» gewählt ist (Empfang bleibt gleich, das Modell steht in Meldung und Mail)
+  var modellFeld = f.querySelector("[data-tesla-modell]");
+  function modell() { var r = tesla() && f.querySelector('input[name="tesla_modell"]:checked'); return r ? r.value : ""; }
+  function teslaText() { return tesla() ? "Tesla" + (modell() && modell() !== "Anderes Modell" ? " " + modell() : "") : ""; }
+  function zeigeModell() { if (modellFeld) modellFeld.hidden = !tesla(); }
+  var teslaKasten = f.querySelector("[data-tesla]"); if (teslaKasten) teslaKasten.addEventListener("change", zeigeModell);
   function fasseZusammen() {
     var z = f.querySelector("[data-zusammen]"); if (!z) return;
     var teile = [art() || "Art fehlt"]; if (gewaehlt().length) teile.push(gewaehlt().join(", "));
@@ -91,6 +97,7 @@
   // Vorwahl über die Adresse oder die Vorschau-Datei: ?art=hagel, ?fahrzeug=tesla, ?stelle=dach
   function anwenden(q) {
     if (q.get("fahrzeug") === "tesla") { var t = f.querySelector("[data-tesla]"); if (t) t.checked = true; }
+    zeigeModell();
     kaestchen.forEach(function (k) { if (q.getAll("stelle").indexOf(k.dataset.stelle) > -1) k.checked = true; }); zeichne();
     var a = q.get("art") && f.querySelector('input[data-art="' + q.get("art") + '"]');
     if (a) { a.checked = true; zeige(2, false); requestAnimationFrame(function () { f.scrollIntoView({ block: "start" }); }); } else zeige(1, false);
@@ -101,7 +108,7 @@
 
   // Senden
   function nachricht() {
-    return "Schadenmeldung über autospeedy.ch\n\nWas ist passiert: " + art() + "\nTesla: " + (tesla() ? "ja" : "nein") +
+    return "Schadenmeldung über autospeedy.ch\n\nWas ist passiert: " + art() + "\nTesla: " + (tesla() ? "ja" + (modell() ? ", " + modell() : "") : "nein") +
       "\nStellen: " + (gewaehlt().join(", ") || "nicht angegeben") + "\nBemerkung: " + (wert("bemerkung") || "keine") +
       "\nName: " + wert("name") + "\nTelefon: " + wert("telefon") + "\n";
   }
@@ -116,7 +123,7 @@
     var d = new Intl.DateTimeFormat("de-CH", { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }).format(new Date());
     rapport.querySelector("[data-r-titel]").textContent = titel;
     rapport.querySelector("[data-r-datum]").textContent = d + " Uhr";
-    rapport.querySelector("[data-r-art]").textContent = art() + (tesla() ? " (Tesla)" : "");
+    rapport.querySelector("[data-r-art]").textContent = art() + (tesla() ? " (" + teslaText() + ")" : "");
     rapport.querySelector("[data-r-stellen]").textContent = gewaehlt().join(", ") || "nicht angegeben";
     rapport.querySelector("[data-r-text]").textContent = wert("bemerkung") || "keine";
     rapport.querySelector("[data-r-kontakt]").textContent = wert("name") + ", " + wert("telefon");
@@ -146,7 +153,7 @@
       }
       var daten = new FormData();
       daten.append("art", art()); daten.append("name", wert("name")); daten.append("telefon", wert("telefon"));
-      daten.append("bemerkung", wert("bemerkung")); if (wert("email")) daten.append("email", wert("email")); daten.append("website", wert("website")); if (tesla()) daten.append("tesla", "ja");
+      daten.append("bemerkung", wert("bemerkung")); if (wert("email")) daten.append("email", wert("email")); daten.append("website", wert("website")); if (tesla()) daten.append("tesla", "ja"); if (modell()) daten.append("tesla_modell", modell());
       gewaehlt().forEach(function (s) { daten.append("stelle", s); });
       fotos.forEach(function (x, i) { daten.append("foto", x.blob, "schaden-" + (i + 1) + ".jpg"); });
       sendet = true; melde("Ihre Meldung wird gesendet …");

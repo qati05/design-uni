@@ -29,6 +29,8 @@ export type Meldung = {
   erstellt: string; // ISO
   art: string;
   tesla: boolean;
+  /** Freiwillig gewählt, nur bei Tesla: Model 3, Model Y, Model S, Model X, Anderes Modell. */
+  teslaModell?: string | null;
   stellen: string[];
   bemerkung: string;
   name: string;

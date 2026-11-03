@@ -26,7 +26,7 @@ async function sb() {
   });
 }
 
-type Zeile = { id: string; erstellt: string; art: string; tesla: boolean; stellen: string[]; bemerkung: string; name: string; telefon: string; quelle: Meldung["quelle"]; status: Status; notiz: string; email: string | null; bewertung_faellig: string | null; bewertung_gesendet: string | null; meldung_fotos: { id: string; pfad: string }[] };
+type Zeile = { id: string; erstellt: string; art: string; tesla: boolean; tesla_modell: string | null; stellen: string[]; bemerkung: string; name: string; telefon: string; quelle: Meldung["quelle"]; status: Status; notiz: string; email: string | null; bewertung_faellig: string | null; bewertung_gesendet: string | null; meldung_fotos: { id: string; pfad: string }[] };
 
 async function mitFotos(client: Awaited<ReturnType<typeof sb>>, zeilen: Zeile[]): Promise<Meldung[]> {
   const pfade = zeilen.flatMap((z) => z.meldung_fotos.map((f) => f.pfad));
@@ -35,7 +35,7 @@ async function mitFotos(client: Awaited<ReturnType<typeof sb>>, zeilen: Zeile[])
     const { data } = await client.storage.from("schadenfotos").createSignedUrls(pfade, 600); // 10 Minuten gültig
     for (const d of data ?? []) if (d.path && d.signedUrl) urls.set(d.path, d.signedUrl);
   }
-  return zeilen.map(({ meldung_fotos, bewertung_faellig, bewertung_gesendet, ...z }) => ({ ...z, bewertungFaellig: bewertung_faellig, bewertungGesendet: bewertung_gesendet, fotos: meldung_fotos.flatMap((f) => (urls.get(f.pfad) ? [{ id: f.id, url: urls.get(f.pfad)! }] : [])) }));
+  return zeilen.map(({ meldung_fotos, bewertung_faellig, bewertung_gesendet, tesla_modell, ...z }) => ({ ...z, teslaModell: tesla_modell, bewertungFaellig: bewertung_faellig, bewertungGesendet: bewertung_gesendet, fotos: meldung_fotos.flatMap((f) => (urls.get(f.pfad) ? [{ id: f.id, url: urls.get(f.pfad)! }] : [])) }));
 }
 
 // Fingerabdruck/Gesicht als zweiter Faktor (Supabase MFA «webauthn»). supabase-js macht die Zeremonie im Browser
@@ -59,7 +59,7 @@ async function webauthnChallenge(faktorId: string, rp: Rp): Promise<PasskeyStart
   return { status: "bereit", vorgang: `${faktorId}.${id}.${w.type}`, art: w.type, optionen: w.credential_options.publicKey };
 }
 
-const SPALTEN = "id, erstellt, art, tesla, stellen, bemerkung, name, telefon, quelle, status, notiz, email, bewertung_faellig, bewertung_gesendet, meldung_fotos(id, pfad)";
+const SPALTEN = "id, erstellt, art, tesla, tesla_modell, stellen, bemerkung, name, telefon, quelle, status, notiz, email, bewertung_faellig, bewertung_gesendet, meldung_fotos(id, pfad)";
 
 /** Ohne Sitzung (Mail-Link, Zeitplan): nur der öffentliche Schlüssel; die Datenbankfunktionen prüfen Token bzw. Geheimnis. */
 function ohneSitzung() {

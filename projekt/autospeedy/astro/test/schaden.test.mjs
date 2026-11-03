@@ -102,3 +102,10 @@ test("mit Mail des Kunden: zweite Mail als Bestätigung an ihn, ohne Inhalt der 
   const b = JSON.parse(a[1].opt.body);
   assert.equal(b.an, "kunde@beispiel.ch"); assert.match(b.text, /angekommen/); assert.doesNotMatch(b.text, /geheim/);
 }));
+test("Tesla-Modell: gewähltes Modell steht in der Mail, unbekanntes gibt 422", () => mitMail(200, async (a) => {
+  assert.equal((await onRequestPost({ request: anfrage(formular({ tesla: "ja", tesla_modell: "Model Y" })), env })).status, 200);
+  assert.match(JSON.parse(a[0].opt.body).text, /Tesla: ja, Model Y/);
+  const r = await onRequestPost({ request: anfrage(formular({ tesla: "ja", tesla_modell: "Roadster 2049" })), env });
+  assert.equal(r.status, 422); assert.deepEqual((await r.json()).fehler, ["tesla_modell"]);
+  assert.equal(pruefe({ art: "Hagel", name: "A", telefon: "071 555 00 00", teslaModell: "Model 3" }).daten.teslaModell, "", "ohne Tesla kein Modell");
+}));
