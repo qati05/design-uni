@@ -2,9 +2,9 @@
 // Startseite der Linie «Klar». Wortlaut nur aus fakten.md und der ersten Linie (texte.json, arten.json), nichts Neues behauptet.
 import Klar from "../layouts/Klar.astro";
 import Bild from "../components/Bild.astro";
-import teamDaten from "../../../astro/src/content/team.json";
 import { betrieb as b, zeitenKurz } from "../../../astro/bau/daten.mjs";
-const leute = (teamDaten as any).gruppen.flatMap((g: any) => g.leute.map((p: any) => ({ ...p, gruppe: g.name }))).filter((p: any) => p.foto).slice(0, 5);
+import { site } from "../../../astro/bau/daten.mjs";
+const leute = site.team.flatMap((g: any) => g.leute.map((p: any) => ({ ...p, gruppe: g.name }))).filter((p: any) => p.foto).slice(0, 5);
 ---
 <Klar seite="index" jsonld>
 

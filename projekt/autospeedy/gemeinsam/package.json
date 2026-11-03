@@ -1,0 +1,7 @@
+{
+  "name": "autospeedy-gemeinsam",
+  "private": true,
+  "type": "module",
+  "description": "Ein Satz Regeln für Website (astro, astro-klar, functions) und Cockpit: Pflege-Daten (site.json), Schadenmeldung, Mailversand.",
+  "dependencies": { "zod": "4.6.6" }
+}

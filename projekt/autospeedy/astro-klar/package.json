@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Zweite Gestaltungslinie «Klar» für Auto Speedy (Vorschau). Inhalte, Bilder und Formular-Logik aus ../astro.",
   "scripts": {
-    "prebuild": "node bau/teilen.mjs",
+    "prebuild": "npm ci --prefix ../gemeinsam --silent && node bau/teilen.mjs",
     "build": "DATEN=../astro/src/content astro build",
     "dev": "node bau/teilen.mjs && DATEN=../astro/src/content astro dev"
   },

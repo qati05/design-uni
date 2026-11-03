@@ -1,6 +1,53 @@
 {
-  "_hinweis": "Kommt aus dem Cockpit (Website pflegen); hier stehen die Startwerte. Namen nur mit Einverständnis der Personen (rechte.md).",
-  "gruppen": [
+  "_hinweis": "Was der Betrieb selbst ändert (Cockpit «Website pflegen» oder Editor /admin/). Geprüft beim Bau mit gemeinsam/site.ts. Startwerte: fakten.md F3 (Zeiten), Teamseite der bisherigen Website (Team, Einwilligung offen: rechte.md). Neue Teamfotos liegen im Bild-Speicher, nie im Git.",
+  "hinweis": {
+    "aktiv": false,
+    "text": "Hagel? Melden Sie den Schaden jetzt mit Fotos.",
+    "link": "/schaden-melden/?art=hagel"
+  },
+  "zeiten": [
+    {
+      "tage": "Montag bis Donnerstag",
+      "kurz": "Mo bis Do",
+      "wochentage": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday"
+      ],
+      "geschlossen": false,
+      "fenster": [
+        {
+          "von": "7.30",
+          "bis": "12.00"
+        },
+        {
+          "von": "13.15",
+          "bis": "17.30"
+        }
+      ]
+    },
+    {
+      "tage": "Freitag",
+      "kurz": "Fr",
+      "wochentage": [
+        "Friday"
+      ],
+      "geschlossen": false,
+      "fenster": [
+        {
+          "von": "7.30",
+          "bis": "12.00"
+        },
+        {
+          "von": "13.15",
+          "bis": "17.15"
+        }
+      ]
+    }
+  ],
+  "ausnahmen": [],
+  "team": [
     {
       "name": "Administration",
       "leute": [

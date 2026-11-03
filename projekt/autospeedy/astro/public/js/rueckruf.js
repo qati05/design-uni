@@ -19,6 +19,7 @@
       if (!ep) { melde(f.dataset.istVorschau === "ja" ? "Vorschau: Auf der fertigen Website käme Ihre Rückruf-Bitte jetzt bei Auto Speedy an. Hier wird nichts gesendet." : "Bitte rufen Sie uns an: 071 755 88 61."); return; }
       var d = new FormData();
       d.append("art", "Rückruf"); d.append("name", wert("name")); d.append("telefon", wert("telefon")); d.append("bemerkung", "Anliegen: " + anliegen()); d.append("website", wert("website"));
+      var ts = f.querySelector('[name="cf-turnstile-response"]'); if (ts) d.append("cf-turnstile-response", ts.value);
       sendet = true; melde("Wird gesendet …");
       fetch(ep, { method: "POST", body: d }).then(function (x) { if (!x.ok) throw 0; return x.json(); })
         .then(function () { melde("Angekommen. Wir rufen Sie zurück. Anliegen: " + anliegen() + "."); f.querySelector('button[type="submit"]').disabled = true; })

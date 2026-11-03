@@ -1,140 +1,124 @@
-// Formular-Backend für die Schadenmeldung, Weg A (Cloudflare Pages Function, Route POST /api/schaden).
-// Zwei Betriebsarten:
-//   Cockpit (empfohlen): SUPABASE_URL und SUPABASE_SERVICE_KEY gesetzt -> Meldung und Fotos in Supabase
-//     (Tabellen und privater Bucket aus cockpit/supabase/migrations), dann nur ein Hinweis per Mail an den Betrieb,
-//     OHNE Name und Telefon (Link ins Cockpit, COCKPIT_URL). Die Daten bleiben in der Datenbank.
-//   Nur Mail: ohne Supabase gehen Angaben und Fotos als Mail mit Anhängen (wie bisher).
-// Stand: gebaut und lokal getestet (test/schaden.test.mjs), NICHT deployt. Erst aktiv, wenn
-//   1. bau.json formularEndpunkt = "/api/schaden",
-//   2. am Hoster MAIL_ENDPUNKT (HTTPS-Adresse des Mail-Dienstes), MAIL_SCHLUESSEL, MAIL_AN gesetzt sind,
-//   3. die Datenschutzerklärung den Mail-Dienst nennt (text-uni CL3).
-// Nimmt multipart/form-data an. Fotos gehen als Anhang mit der Mail; die Funktion speichert nichts.
-// Prüft Pflichtfelder, Längen, Herkunft, Grösse, Bildtyp und Spamschutz (Honigtopf «website»).
-
-const ARTEN = ["Parkschaden", "Unfall", "Hagel", "Kratzer oder Lack", "Scheibe", "Felge", "Etwas anderes", "Rückruf"];
-export const TESLA_MODELLE = ["Model 3", "Model Y", "Model S", "Model X", "Anderes Modell"];
-const GRENZEN = { email: 254, bemerkung: 3000, name: 120, telefon: 40, stelle: 40, stellen: 12, fotos: 6, fotoBytes: 2.5e6, gesamt: 16e6 };
+// Formular der Website (Cloudflare Pages Function, POST /api/schaden): Schadenmeldung und Rückruf-Bitte.
+// Die Website gehört dem Kunden und funktioniert ohne Cockpit. Welcher Weg gilt, ergibt sich aus der Einrichtung:
+//   Cockpit eingerichtet (SUPABASE_URL, SUPABASE_SERVICE_KEY, BETRIEB_ID):
+//     Meldung und Fotos in die Datenbank. Ist der Betrieb aktiv, geht nur ein Hinweis ohne Name und Telefon per Mail;
+//     ist das Cockpit für ihn aus, die ganze Meldung mit Fotos (das Team kann sich dann nicht anmelden).
+//     Scheitert das Speichern, wird die halbe Meldung entfernt und die ganze Meldung geht per Mail (Rückfall).
+//   Cockpit nicht eingerichtet: die ganze Meldung mit Fotos per Mail an MAIL_BETRIEB.
+// Mail: Brevo (BREVO_SCHLUESSEL, MAIL_ABSENDER), gemeinsam/brevo.ts. Schutz: Herkunft, Grösse, Bildtyp, Honigtopf «website»,
+// Cloudflare Turnstile (TURNSTILE_SECRET gesetzt = Pflicht), Bestätigung an dieselbe Kundenadresse höchstens 2-mal in 24 h.
+import { pruefe, GRENZEN, mailVoll, hinweisText, bestaetigungText, betreff } from "../../../gemeinsam/meldung.ts";
+import { mailSenden, mailBereit, base64 } from "../../../gemeinsam/brevo.ts";
+import betriebDaten from "../../src/content/betrieb.json" with { type: "json" };
 
 function antwort(status, daten) {
   return new Response(JSON.stringify(daten), { status, headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" } });
 }
-const text = (v) => (typeof v === "string" ? v.trim() : "");
+const cockpitBereit = (env) => !!(env.SUPABASE_URL && env.SUPABASE_SERVICE_KEY && env.BETRIEB_ID);
 
-export function pruefe(e) {
-  const fehler = [];
-  const d = {
-    art: text(e.art), name: text(e.name), telefon: text(e.telefon), email: text(e.email).toLowerCase(), bemerkung: text(e.bemerkung),
-    tesla: e.tesla === "ja", teslaModell: e.tesla === "ja" ? text(e.teslaModell) : "", stellen: (e.stellen || []).map(text).filter(Boolean), website: text(e.website), fotos: e.fotos || [],
-  };
-  if (!ARTEN.includes(d.art)) fehler.push("art");
-  if (!d.name || d.name.length > GRENZEN.name) fehler.push("name");
-  if (!/^[+0-9 ()./-]{6,40}$/.test(d.telefon)) fehler.push("telefon");
-  if (d.email && (d.email.length > GRENZEN.email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email))) fehler.push("email");
-  if (d.teslaModell && !TESLA_MODELLE.includes(d.teslaModell)) fehler.push("tesla_modell");
-  if (d.bemerkung.length > GRENZEN.bemerkung) fehler.push("bemerkung");
-  if (d.stellen.length > GRENZEN.stellen || d.stellen.some((s) => s.length > GRENZEN.stelle)) fehler.push("stellen");
-  if (d.fotos.length > GRENZEN.fotos || d.fotos.some((f) => f.type !== "image/jpeg" || f.size > GRENZEN.fotoBytes || f.size === 0)) fehler.push("fotos");
-  return { daten: d, fehler };
-}
-
-export function mailText(d) {
-  return [
-    "Schadenmeldung über die Website",
-    "",
-    `Was ist passiert: ${d.art}`,
-    `Tesla: ${d.tesla ? "ja" + (d.teslaModell ? ", " + d.teslaModell : "") : "nein"}`,
-    `Stellen: ${d.stellen.join(", ") || "nicht angegeben"}`,
-    `Fotos: ${d.fotos.length} (im Anhang)`,
-    `Bemerkung: ${d.bemerkung || "keine"}`,
-    `Name: ${d.name}`,
-    `Telefon: ${d.telefon}`,
-    `Mail: ${d.email || "nicht angegeben"}`,
-  ].join("\n");
-}
-
-function base64(puffer) {
-  let s = ""; const b = new Uint8Array(puffer);
-  for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
-  return btoa(s);
-}
-
-
-async function supabase(env, pfad, opt) {
+async function supabase(env, pfad, opt = {}) {
   const r = await fetch(`${env.SUPABASE_URL}${pfad}`, { ...opt, headers: { apikey: env.SUPABASE_SERVICE_KEY, Authorization: `Bearer ${env.SUPABASE_SERVICE_KEY}`, ...(opt.headers || {}) } });
   if (!r.ok) throw new Error(`supabase ${r.status}`);
   return r;
 }
 
-/** Meldung und Fotos ins Cockpit (Supabase); gibt die ID zurück. */
-export async function insCockpit(env, d) {
+async function sha256hex(t) {
+  const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
+  return [...new Uint8Array(h)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+/** Turnstile: nur Pflicht, wenn TURNSTILE_SECRET gesetzt ist (Vorschau und Tests ohne). */
+export async function turnstileOk(env, token, ip) {
+  if (!env.TURNSTILE_SECRET) return true;
+  if (typeof token !== "string" || !token || token.length > 2048) return false;
+  const body = new URLSearchParams({ secret: env.TURNSTILE_SECRET, response: token, ...(ip ? { remoteip: ip } : {}) });
+  const r = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body, signal: AbortSignal.timeout(8000) }).catch(() => null);
+  const j = r?.ok ? await r.json().catch(() => null) : null;
+  return j?.success === true;
+}
+
+/** Betrieb lesen (aktiv, gekaufte Automation). Wirft bei Fehler: dann gilt der Mail-Rückfall. */
+async function betriebLesen(env) {
+  const r = await supabase(env, `/rest/v1/betrieb?id=eq.${encodeURIComponent(env.BETRIEB_ID)}&select=aktiv,automation_bewertung`);
+  const [b] = await r.json();
+  if (!b) throw new Error("betrieb fehlt");
+  return b;
+}
+
+/** Meldung und Fotos speichern. Scheitert ein Foto, wird die Meldung wieder gelöscht (keine halben Meldungen, keine Doppel). */
+export async function insCockpit(env, d, tokenHash) {
   const r = await supabase(env, "/rest/v1/meldungen", {
     method: "POST", headers: { "Content-Type": "application/json", Prefer: "return=representation" },
-    body: JSON.stringify({ art: d.art, tesla: d.tesla, tesla_modell: d.teslaModell || null, stellen: d.stellen, bemerkung: d.bemerkung, name: d.name, telefon: d.telefon, email: d.email || null, quelle: "website" }),
+    body: JSON.stringify({ betrieb_id: env.BETRIEB_ID, art: d.art, tesla: d.tesla, tesla_modell: d.teslaModell || null, stellen: d.stellen, bemerkung: d.bemerkung, name: d.name, telefon: d.telefon, email: d.email || null, quelle: "website",
+      ...(tokenHash ? { erledigt_token_hash: tokenHash, erledigt_token_bis: new Date(Date.now() + 120 * 864e5).toISOString() } : {}) }),
   });
   const [{ id }] = await r.json();
-  const zeilen = [];
-  for (const [i, f] of d.fotos.entries()) {
-    const pfad = `${id}/foto-${i + 1}.jpg`;
-    await supabase(env, `/storage/v1/object/schadenfotos/${pfad}`, { method: "POST", headers: { "Content-Type": "image/jpeg", "x-upsert": "false" }, body: await f.arrayBuffer() });
-    zeilen.push({ meldung_id: id, pfad });
+  try {
+    const zeilen = [];
+    for (const [i, f] of d.fotos.entries()) {
+      const pfad = `${env.BETRIEB_ID}/${id}/foto-${i + 1}.jpg`;
+      await supabase(env, `/storage/v1/object/schadenfotos/${pfad}`, { method: "POST", headers: { "Content-Type": "image/jpeg", "x-upsert": "false" }, body: await f.arrayBuffer() });
+      zeilen.push({ meldung_id: id, pfad });
+    }
+    if (zeilen.length) await supabase(env, "/rest/v1/meldung_fotos", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(zeilen) });
+  } catch (e) {
+    await supabase(env, `/rest/v1/meldungen?id=eq.${encodeURIComponent(id)}`, { method: "DELETE" }).catch(() => {});
+    await supabase(env, `/storage/v1/object/schadenfotos`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prefixes: d.fotos.map((_, i) => `${env.BETRIEB_ID}/${id}/foto-${i + 1}.jpg`) }) }).catch(() => {});
+    throw e;
   }
-  if (zeilen.length) await supabase(env, "/rest/v1/meldung_fotos", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(zeilen) });
   return id;
 }
 
-/** Bestätigung an den Kunden, nur wenn er freiwillig seine Mail angegeben hat. Ohne Inhalt der Meldung. */
-export function bestaetigungText(d) {
-  const vorname = d.name.split(/\s+/)[0] || "";
-  return [`Guten Tag ${vorname}`.trim(), "", `Ihre Schadenmeldung (${d.art}) ist bei Auto Speedy angekommen. Wir melden uns bei Ihnen, in der Regel telefonisch.`,
-    "", "Dringend? Rufen Sie uns an: 071 755 88 61.", "", "Freundliche Grüsse", "Auto Speedy AG", "",
-    "Sie erhalten diese Mail, weil Sie Ihre Mail-Adresse angegeben haben. Wenn Ihr Auto fertig ist, bitten wir Sie einmal um eine Bewertung."].join("\n");
-}
-async function bestaetigen(env, d) {
-  if (!d.email) return;
-  try { await fetch(env.MAIL_ENDPUNKT, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.MAIL_SCHLUESSEL}` }, body: JSON.stringify({ an: d.email, betreff: "Ihre Schadenmeldung bei Auto Speedy", text: bestaetigungText(d), anhaenge: [] }) }); } catch { /* still */ }
-}
-
-/** Hinweis an den Betrieb ohne Personendaten. */
-export function hinweisText(d, id, cockpit) {
-  return [`Eine neue Schadenmeldung ist eingegangen: ${d.art}${d.tesla ? ` (Tesla${d.teslaModell && d.teslaModell !== "Anderes Modell" ? " " + d.teslaModell : ""})` : ""}, ${d.fotos.length} Foto${d.fotos.length === 1 ? "" : "s"}.`,
-    `Stellen am Auto: ${d.stellen.join(", ") || "nicht angegeben"}. Mail vom Kunden: ${d.email ? "angegeben" : "keine"}.`,
-    `Ansehen und zurückrufen im Cockpit: ${cockpit || "(Cockpit-Adresse fehlt)"}/meldung/${id}`, "", "Name und Telefon stehen aus Datenschutzgründen nur im Cockpit."].join("\n");
+/** Wie oft ging in 24 h schon eine Bestätigung an diese Adresse? (nur mit Cockpit zählbar; ohne gilt nur Turnstile) */
+async function bestaetigungErlaubt(env, email, gespeichert) {
+  if (!gespeichert) return true;
+  const seit = new Date(Date.now() - 864e5).toISOString();
+  const r = await supabase(env, `/rest/v1/meldungen?betrieb_id=eq.${encodeURIComponent(env.BETRIEB_ID)}&email=eq.${encodeURIComponent(email)}&erstellt=gte.${seit}&select=id&limit=3`).catch(() => null);
+  if (!r) return false;
+  return (await r.json()).length <= 2; // die eben gespeicherte zählt mit
 }
 
 export async function onRequestPost({ request, env }) {
   const herkunft = request.headers.get("Origin");
-  if (env.ERLAUBTE_HERKUNFT && herkunft && herkunft !== env.ERLAUBTE_HERKUNFT) return antwort(403, { ok: false, fehler: ["herkunft"] });
+  if (env.ERLAUBTE_HERKUNFT && herkunft !== env.ERLAUBTE_HERKUNFT) return antwort(403, { ok: false, fehler: ["herkunft"] });
   if (!(request.headers.get("Content-Type") || "").includes("multipart/form-data")) return antwort(415, { ok: false, fehler: ["format"] });
-  const laenge = Number(request.headers.get("Content-Length") || 0);
-  if (laenge > GRENZEN.gesamt) return antwort(413, { ok: false, fehler: ["groesse"] });
+  if (Number(request.headers.get("Content-Length") || 0) > GRENZEN.gesamt) return antwort(413, { ok: false, fehler: ["groesse"] });
   let form;
   try { form = await request.formData(); } catch { return antwort(400, { ok: false, fehler: ["format"] }); }
   const fotos = form.getAll("foto").filter((f) => typeof f === "object" && f !== null);
-  const { daten, fehler } = pruefe({
+  const { daten: d, fehler } = pruefe({
     art: form.get("art"), name: form.get("name"), telefon: form.get("telefon"), email: form.get("email") || "", bemerkung: form.get("bemerkung") || "",
     tesla: form.get("tesla"), teslaModell: form.get("tesla_modell") || "", stellen: form.getAll("stelle"), website: form.get("website") || "", fotos,
   });
-  if (daten.website) return antwort(200, { ok: true }); // Honigtopf: still annehmen, nichts senden
+  if (d.website) return antwort(200, { ok: true }); // Honigtopf: still annehmen, nichts tun
   if (fehler.length) return antwort(422, { ok: false, fehler });
-  if (env.SUPABASE_URL && env.SUPABASE_SERVICE_KEY) {
-    let id;
-    try { id = await insCockpit(env, daten); } catch { return antwort(502, { ok: false, fehler: ["speichern"] }); }
-    if (env.MAIL_ENDPUNKT && env.MAIL_SCHLUESSEL && env.MAIL_AN) {
-      // Die Meldung ist gespeichert; fällt nur der Hinweis aus, gilt sie trotzdem als angekommen (das Cockpit zeigt sie).
-      try { await fetch(env.MAIL_ENDPUNKT, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.MAIL_SCHLUESSEL}` }, body: JSON.stringify({ an: env.MAIL_AN, betreff: `Neue Schadenmeldung: ${daten.art}${daten.tesla ? " (Tesla)" : ""}`, text: hinweisText(daten, id, env.COCKPIT_URL), anhaenge: [] }) }); } catch { /* still */ }
-      await bestaetigen(env, daten);
-    }
-    return antwort(200, { ok: true });
+  if (!(await turnstileOk(env, form.get("cf-turnstile-response"), request.headers.get("CF-Connecting-IP")))) return antwort(403, { ok: false, fehler: ["robot"] });
+
+  const cockpit = env.COCKPIT_URL ? env.COCKPIT_URL.replace(/\/$/, "") : "";
+  let id = null, b = null, fertigLink = "";
+  if (cockpitBereit(env)) {
+    try {
+      b = await betriebLesen(env);
+      let hash = null;
+      if (b.automation_bewertung && d.email && cockpit) { const token = [...crypto.getRandomValues(new Uint8Array(32))].map((x) => x.toString(16).padStart(2, "0")).join(""); hash = await sha256hex(token); fertigLink = `${cockpit}/auftrag/${token}`; }
+      id = await insCockpit(env, d, hash);
+    } catch { id = null; fertigLink = ""; }
   }
-  if (!env.MAIL_ENDPUNKT || !env.MAIL_SCHLUESSEL || !env.MAIL_AN) return antwort(503, { ok: false, fehler: ["nicht-eingerichtet"] });
-  const anhaenge = [];
-  for (const [i, f] of fotos.entries()) anhaenge.push({ name: `schaden-${i + 1}.jpg`, typ: "image/jpeg", inhalt: base64(await f.arrayBuffer()) });
-  const r = await fetch(env.MAIL_ENDPUNKT, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.MAIL_SCHLUESSEL}` },
-    body: JSON.stringify({ an: env.MAIL_AN, betreff: `Schadenmeldung: ${daten.art}${daten.tesla ? " (Tesla)" : ""}`, text: mailText(daten), anhaenge }),
-  });
-  if (!r.ok) return antwort(502, { ok: false, fehler: ["mail"] });
-  await bestaetigen(env, daten);
+
+  let angekommen = !!id;
+  if (id && b?.aktiv && cockpit) {
+    // Hinweis ohne Personendaten; fällt er aus, liegt die Meldung trotzdem im Cockpit.
+    await mailSenden(env, { an: env.MAIL_BETRIEB, betreff: "Neue " + betreff(d), text: hinweisText(d, `${cockpit}/meldung/${id}`, fertigLink || undefined) });
+  } else if (mailBereit(env) && env.MAIL_BETRIEB) {
+    const anhaenge = [];
+    for (const [i, f] of d.fotos.entries()) anhaenge.push({ name: `schaden-${i + 1}.jpg`, inhalt: base64(await f.arrayBuffer()) });
+    const ok = await mailSenden(env, { an: env.MAIL_BETRIEB, betreff: betreff(d), text: mailVoll(d, fertigLink || undefined), anhaenge });
+    angekommen = angekommen || ok;
+  }
+  if (!angekommen) return antwort(mailBereit(env) || cockpitBereit(env) ? 502 : 503, { ok: false, fehler: [mailBereit(env) || cockpitBereit(env) ? "senden" : "nicht-eingerichtet"] });
+
+  if (d.email && mailBereit(env) && (await bestaetigungErlaubt(env, d.email, !!id))) {
+    await mailSenden(env, { an: d.email, betreff: `Ihre Meldung bei ${betriebDaten.name}`, text: bestaetigungText(d, { name: betriebDaten.name, tel: betriebDaten.tel.anzeige }) });
+  }
   return antwort(200, { ok: true });
 }

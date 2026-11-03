@@ -1,111 +1,132 @@
-// Test des Formular-Backends (Weg A) ohne Netz: npm test
+// Tests des Formulars ohne Netz: npm test. Ein Schein-«fetch» spielt Brevo, Supabase und Turnstile.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onRequestPost, pruefe } from "../functions/api/schaden.js";
+import { onRequestPost } from "../functions/api/schaden.js";
+import { pruefe } from "../../gemeinsam/meldung.ts";
 
-const env = { MAIL_ENDPUNKT: "https://mail.example/senden", MAIL_SCHLUESSEL: "TEST", MAIL_AN: "test@example.invalid", ERLAUBTE_HERKUNFT: "https://vorschau.example" };
+const MAIL = { BREVO_SCHLUESSEL: "BREVO", MAIL_ABSENDER: "website@beispiel.example", MAIL_BETRIEB: "betrieb@beispiel.example", ERLAUBTE_HERKUNFT: "https://vorschau.example" };
+const COCKPIT = { ...MAIL, SUPABASE_URL: "https://sb.example", SUPABASE_SERVICE_KEY: "SERVICE", BETRIEB_ID: "as", COCKPIT_URL: "https://cockpit.example" };
 const jpg = (n = 1000) => new File([new Uint8Array(n).fill(7)], "a.jpg", { type: "image/jpeg" });
 function formular(felder = {}, fotos = []) {
   const f = new FormData();
   const basis = { art: "Hagel", name: "Test Person", telefon: "071 555 00 00", bemerkung: "", website: "", ...felder };
-  for (const [k, v] of Object.entries(basis)) if (v !== undefined) f.append(k, v);
+  for (const [k, v] of Object.entries(basis)) if (v !== undefined && k !== "_stellen") f.append(k, v);
   for (const s of felder._stellen || []) f.append("stelle", s);
   for (const x of fotos) f.append("foto", x);
-  f.delete("_stellen");
   return f;
 }
 const anfrage = (body, kopf = {}) => new Request("https://vorschau.example/api/schaden", { method: "POST", headers: { Origin: "https://vorschau.example", ...kopf }, body });
-function mitMail(status, fn) {
-  const alt = globalThis.fetch; const aufrufe = [];
-  globalThis.fetch = async (url, opt) => { aufrufe.push({ url, opt }); return new Response("{}", { status }); };
-  return fn(aufrufe).finally(() => { globalThis.fetch = alt; });
-}
 
-test("gültige Meldung mit 2 Fotos: Mail mit 2 Anhängen, Antwort 200", () => mitMail(200, async (a) => {
-  const r = await onRequestPost({ request: anfrage(formular({ tesla: "ja", _stellen: ["Dach"] }, [jpg(), jpg(2000)])), env });
-  assert.equal(r.status, 200); assert.equal(a.length, 1);
-  const b = JSON.parse(a[0].opt.body);
-  assert.equal(b.anhaenge.length, 2); assert.match(b.text, /Hagel/); assert.match(b.text, /Tesla: ja/); assert.match(b.text, /Dach/); assert.match(b.betreff, /Tesla/);
-}));
-test("ohne Fotos geht es auch", () => mitMail(200, async (a) => {
-  assert.equal((await onRequestPost({ request: anfrage(formular()), env })).status, 200); assert.equal(JSON.parse(a[0].opt.body).anhaenge.length, 0);
-}));
-test("Pflichtfelder fehlen: 422 mit Feldnamen, keine Mail", () => mitMail(200, async (a) => {
-  const r = await onRequestPost({ request: anfrage(formular({ art: "Bombe", name: "", telefon: "x" })), env });
+/** Schein-Netz: antwortet je nach Adresse; «aus» lässt Adressen mit diesem Teil scheitern. */
+function netz(fn, { aus = [], betrieb = { aktiv: true, automation_bewertung: false }, frueher = 0, turnstile = true } = {}) {
+  const alt = globalThis.fetch; const a = [];
+  globalThis.fetch = async (url, opt = {}) => {
+    const u = String(url); a.push({ url: u, opt, body: typeof opt.body === "string" && opt.body.startsWith("{") ? JSON.parse(opt.body) : null });
+    if (aus.some((x) => u.includes(x))) return new Response("{}", { status: 500 });
+    if (u.includes("turnstile")) return Response.json({ success: turnstile });
+    if (u.includes("/rest/v1/betrieb?")) return Response.json([betrieb]);
+    if (u.endsWith("/rest/v1/meldungen") && opt.method === "POST") return Response.json([{ id: "abc123" }], { status: 201 });
+    if (u.includes("/rest/v1/meldungen?") && u.includes("email=eq.")) return Response.json(Array.from({ length: frueher + 1 }, (_, i) => ({ id: "m" + i })));
+    return Response.json({});
+  };
+  return fn(a).finally(() => { globalThis.fetch = alt; });
+}
+const mails = (a) => a.filter((x) => x.url.includes("api.brevo.com")).map((x) => x.body);
+
+// ---- Prüfung der Eingaben (ein Regelsatz, gemeinsam/meldung.ts)
+test("Pflichtfelder fehlen: 422 mit Feldnamen, nichts gesendet", () => netz(async (a) => {
+  const r = await onRequestPost({ request: anfrage(formular({ art: "Bombe", name: "", telefon: "x" })), env: MAIL });
   assert.equal(r.status, 422); assert.deepEqual((await r.json()).fehler, ["art", "name", "telefon"]); assert.equal(a.length, 0);
 }));
-test("falscher Bildtyp, zu viele oder zu grosse Fotos: 422", () => mitMail(200, async () => {
+test("falscher Bildtyp, zu viele oder zu grosse Fotos: 422", () => netz(async () => {
   const png = new File([new Uint8Array(10)], "a.png", { type: "image/png" });
-  assert.equal((await onRequestPost({ request: anfrage(formular({}, [png])), env })).status, 422);
-  assert.equal((await onRequestPost({ request: anfrage(formular({}, Array.from({ length: 7 }, () => jpg()))), env })).status, 422);
-  assert.equal((await onRequestPost({ request: anfrage(formular({}, [jpg(2.6e6)])), env })).status, 422);
+  for (const f of [[png], Array.from({ length: 7 }, () => jpg()), [jpg(2.6e6)]]) assert.equal((await onRequestPost({ request: anfrage(formular({}, f)), env: MAIL })).status, 422);
 }));
-test("Honigtopf gefüllt: 200, aber keine Mail", () => mitMail(200, async (a) => {
-  assert.equal((await onRequestPost({ request: anfrage(formular({ website: "spam" })), env })).status, 200); assert.equal(a.length, 0);
+test("Honigtopf gefüllt: 200, aber nichts gesendet", () => netz(async (a) => {
+  assert.equal((await onRequestPost({ request: anfrage(formular({ website: "spam" })), env: MAIL })).status, 200); assert.equal(a.length, 0);
 }));
-test("fremde Herkunft: 403", () => mitMail(200, async (a) => {
-  assert.equal((await onRequestPost({ request: anfrage(formular(), { Origin: "https://fremd.example" }), env })).status, 403); assert.equal(a.length, 0);
+test("fremde oder fehlende Herkunft: 403", () => netz(async (a) => {
+  assert.equal((await onRequestPost({ request: anfrage(formular(), { Origin: "https://fremd.example" }), env: MAIL })).status, 403);
+  const ohne = new Request("https://vorschau.example/api/schaden", { method: "POST", body: formular() });
+  assert.equal((await onRequestPost({ request: ohne, env: MAIL })).status, 403); assert.equal(a.length, 0);
 }));
-test("kein multipart: 415; zu gross laut Kopf: 413", () => mitMail(200, async () => {
-  assert.equal((await onRequestPost({ request: anfrage(JSON.stringify({ art: "Hagel" }), { "Content-Type": "application/json" }), env })).status, 415);
+test("kein multipart: 415; zu gross laut Kopf: 413", () => netz(async () => {
+  assert.equal((await onRequestPost({ request: anfrage(JSON.stringify({ art: "Hagel" }), { "Content-Type": "application/json" }), env: MAIL })).status, 415);
   const r = new Request("https://vorschau.example/api/schaden", { method: "POST", headers: { Origin: "https://vorschau.example", "Content-Type": "multipart/form-data; boundary=x", "Content-Length": "20000000" }, body: "x" });
-  assert.equal((await onRequestPost({ request: r, env })).status, 413);
+  assert.equal((await onRequestPost({ request: r, env: MAIL })).status, 413);
 }));
-test("nicht eingerichtet: 503, nie «angekommen»", () => mitMail(200, async (a) => {
-  assert.equal((await onRequestPost({ request: anfrage(formular()), env: {} })).status, 503); assert.equal(a.length, 0);
-}));
-test("Mail-Dienst fällt aus: 502", () => mitMail(500, async () => {
-  assert.equal((await onRequestPost({ request: anfrage(formular()), env })).status, 502);
-}));
-test("Stellen werden begrenzt", () => {
+test("Stellen begrenzt, Tesla-Modell nur aus der Liste und nur bei Tesla", () => {
   assert.deepEqual(pruefe({ art: "Hagel", name: "A", telefon: "0715550000", stellen: Array(13).fill("Dach") }).fehler, ["stellen"]);
+  assert.deepEqual(pruefe({ art: "Hagel", name: "A", telefon: "0715550000", tesla: "ja", teslaModell: "Roadster" }).fehler, ["tesla_modell"]);
+  assert.equal(pruefe({ art: "Hagel", name: "A", telefon: "0715550000", teslaModell: "Model 3" }).daten.teslaModell, "");
 });
 
-// ---- Betriebsart Cockpit (Supabase)
-const envCockpit = { ...env, SUPABASE_URL: "https://sb.example", SUPABASE_SERVICE_KEY: "SERVICE", COCKPIT_URL: "https://cockpit.example" };
-function mitSupabase(fn, { fehlerBei } = {}) {
-  const alt = globalThis.fetch; const aufrufe = [];
-  globalThis.fetch = async (url, opt) => {
-    aufrufe.push({ url: String(url), opt });
-    if (fehlerBei && String(url).includes(fehlerBei)) return new Response("{}", { status: 500 });
-    if (String(url).endsWith("/rest/v1/meldungen")) return new Response(JSON.stringify([{ id: "abc123" }]), { status: 201 });
-    return new Response("{}", { status: 200 });
-  };
-  return fn(aufrufe).finally(() => { globalThis.fetch = alt; });
-}
-test("Cockpit: Meldung, 2 Fotos und Fotozeilen in Supabase, Hinweis-Mail ohne Name und Telefon", () => mitSupabase(async (a) => {
-  const r = await onRequestPost({ request: anfrage(formular({ tesla: "ja" }, [jpg(), jpg()])), env: envCockpit });
+// ---- Mail-Weg (ohne Cockpit)
+test("Mail-Weg: ganze Meldung mit 2 Fotos als Anhang an den Betrieb, im Brevo-Format", () => netz(async (a) => {
+  const r = await onRequestPost({ request: anfrage(formular({ tesla: "ja", tesla_modell: "Model Y", _stellen: ["Dach"] }, [jpg(), jpg(2000)])), env: MAIL });
+  assert.equal(r.status, 200);
+  const [m] = mails(a), kopf = a.find((x) => x.url.includes("brevo")).opt.headers;
+  assert.equal(kopf["api-key"], "BREVO"); assert.equal(m.to[0].email, "betrieb@beispiel.example"); assert.equal(m.attachment.length, 2);
+  assert.match(m.subject, /Hagel \(Tesla Model Y\)/); assert.match(m.textContent, /Tesla: ja, Model Y/); assert.match(m.textContent, /Test Person/); assert.match(m.textContent, /Dach/);
+}));
+test("nichts eingerichtet: 503, nie «angekommen»", () => netz(async (a) => {
+  assert.equal((await onRequestPost({ request: anfrage(formular()), env: {} })).status, 503); assert.equal(a.length, 0);
+}));
+test("Mail-Dienst fällt aus: 502", () => netz(async () => {
+  assert.equal((await onRequestPost({ request: anfrage(formular()), env: MAIL })).status, 502);
+}, { aus: ["brevo"] }));
+
+// ---- Cockpit-Weg
+test("Cockpit, Betrieb aktiv: Meldung und Fotos gespeichert, Hinweis ohne Name und Telefon", () => netz(async (a) => {
+  const r = await onRequestPost({ request: anfrage(formular({ tesla: "ja" }, [jpg(), jpg()])), env: COCKPIT });
   assert.equal(r.status, 200);
   const urls = a.map((x) => x.url);
-  assert.deepEqual(urls.slice(0, 4), ["https://sb.example/rest/v1/meldungen", "https://sb.example/storage/v1/object/schadenfotos/abc123/foto-1.jpg", "https://sb.example/storage/v1/object/schadenfotos/abc123/foto-2.jpg", "https://sb.example/rest/v1/meldung_fotos"]);
-  assert.equal(a[0].opt.headers.Authorization, "Bearer SERVICE");
-  const mail = JSON.parse(a[4].opt.body);
-  assert.match(mail.text, /cockpit\.example\/meldung\/abc123/); assert.doesNotMatch(mail.text + mail.betreff, /Test Person|071 555 00 00/); assert.equal(mail.anhaenge.length, 0);
+  assert.ok(urls.includes("https://sb.example/storage/v1/object/schadenfotos/as/abc123/foto-2.jpg"));
+  assert.equal(a.find((x) => x.url.endsWith("/rest/v1/meldungen")).body.betrieb_id, "as");
+  const [m] = mails(a);
+  assert.match(m.textContent, /cockpit\.example\/meldung\/abc123/); assert.doesNotMatch(m.textContent + m.subject, /Test Person|071 555 00 00/); assert.equal(m.attachment, undefined);
 }));
-test("Cockpit: Speichern scheitert -> 502, keine Hinweis-Mail", () => mitSupabase(async (a) => {
-  const r = await onRequestPost({ request: anfrage(formular({}, [jpg()])), env: envCockpit });
-  assert.equal(r.status, 502); assert.ok(!a.some((x) => x.url.startsWith("https://mail.example")));
-}, { fehlerBei: "/storage/" }));
-test("Cockpit: Hinweis-Mail scheitert -> trotzdem 200 (Meldung ist gespeichert)", () => mitSupabase(async () => {
-  const r = await onRequestPost({ request: anfrage(formular()), env: envCockpit }); assert.equal(r.status, 200);
-}, { fehlerBei: "mail.example" }));
-test("Mail freiwillig: gültig wird mitgeschickt, ungültig gibt 422", () => mitMail(200, async (a) => {
-  assert.equal((await onRequestPost({ request: anfrage(formular({ email: "Kunde@Beispiel.ch" })), env })).status, 200);
-  assert.match(JSON.parse(a[0].opt.body).text, /Mail: kunde@beispiel\.ch/);
-  const r = await onRequestPost({ request: anfrage(formular({ email: "kein-mail" })), env });
-  assert.equal(r.status, 422); assert.deepEqual((await r.json()).fehler, ["email"]);
-  assert.deepEqual(pruefe({ art: "Hagel", name: "A", telefon: "071 555 00 00" }).fehler, []);
+test("Cockpit, Betrieb gesperrt: gespeichert UND ganze Meldung per Mail (Team kommt nicht ins Cockpit)", () => netz(async (a) => {
+  assert.equal((await onRequestPost({ request: anfrage(formular({}, [jpg()])), env: COCKPIT })).status, 200);
+  assert.ok(a.some((x) => x.url.endsWith("/rest/v1/meldungen")));
+  const [m] = mails(a); assert.match(m.textContent, /Test Person/); assert.equal(m.attachment.length, 1);
+}, { betrieb: { aktiv: false, automation_bewertung: false } }));
+test("Rückfall: Foto-Upload scheitert -> halbe Meldung gelöscht, ganze Meldung per Mail, Kunde sieht 200", () => netz(async (a) => {
+  const r = await onRequestPost({ request: anfrage(formular({}, [jpg()])), env: COCKPIT });
+  assert.equal(r.status, 200);
+  assert.ok(a.some((x) => x.url.includes("/rest/v1/meldungen?id=eq.abc123") && x.opt.method === "DELETE"), "halbe Meldung gelöscht");
+  const [m] = mails(a); assert.match(m.textContent, /Test Person/); assert.equal(m.attachment.length, 1);
+}, { aus: ["/storage/v1/object/schadenfotos/as/"] }));
+test("Rückfall: Supabase ganz weg -> Mail; und wenn auch die Mail scheitert: 502", () => netz(async (a) => {
+  assert.equal((await onRequestPost({ request: anfrage(formular()), env: COCKPIT })).status, 200); assert.equal(mails(a).length, 1);
+}, { aus: ["sb.example"] }).then(() => netz(async () => {
+  assert.equal((await onRequestPost({ request: anfrage(formular()), env: COCKPIT })).status, 502);
+}, { aus: ["sb.example", "brevo"] })));
+test("Cockpit gespeichert, Hinweis-Mail scheitert: trotzdem 200", () => netz(async () => {
+  assert.equal((await onRequestPost({ request: anfrage(formular()), env: COCKPIT })).status, 200);
+}, { aus: ["brevo"] }));
+test("Automation gekauft: Link «Auto fertig» in der Mail, in der Datenbank nur der Hash", () => netz(async (a) => {
+  await onRequestPost({ request: anfrage(formular({ email: "kunde@beispiel.ch" })), env: COCKPIT });
+  const zeile = a.find((x) => x.url.endsWith("/rest/v1/meldungen")).body;
+  const link = mails(a)[0].textContent.match(/cockpit\.example\/auftrag\/([0-9a-f]{64})/);
+  assert.ok(link, "Link in der Mail"); assert.match(zeile.erledigt_token_hash, /^[0-9a-f]{64}$/); assert.notEqual(zeile.erledigt_token_hash, link[1]);
+}, { betrieb: { aktiv: true, automation_bewertung: true } }));
+
+// ---- Bestätigung an den Kunden, Turnstile
+test("Bestätigung an den Kunden: ohne Inhalt der Meldung", () => netz(async (a) => {
+  await onRequestPost({ request: anfrage(formular({ email: "Kunde@Beispiel.ch", bemerkung: "geheim" })), env: MAIL });
+  const b = mails(a).find((m) => m.to[0].email === "kunde@beispiel.ch");
+  assert.match(b.textContent, /angekommen/); assert.doesNotMatch(b.textContent, /geheim/);
 }));
-test("mit Mail des Kunden: zweite Mail als Bestätigung an ihn, ohne Inhalt der Meldung", () => mitMail(200, async (a) => {
-  await onRequestPost({ request: anfrage(formular({ email: "kunde@beispiel.ch", bemerkung: "geheim" })), env });
-  assert.equal(a.length, 2);
-  const b = JSON.parse(a[1].opt.body);
-  assert.equal(b.an, "kunde@beispiel.ch"); assert.match(b.text, /angekommen/); assert.doesNotMatch(b.text, /geheim/);
-}));
-test("Tesla-Modell: gewähltes Modell steht in der Mail, unbekanntes gibt 422", () => mitMail(200, async (a) => {
-  assert.equal((await onRequestPost({ request: anfrage(formular({ tesla: "ja", tesla_modell: "Model Y" })), env })).status, 200);
-  assert.match(JSON.parse(a[0].opt.body).text, /Tesla: ja, Model Y/);
-  const r = await onRequestPost({ request: anfrage(formular({ tesla: "ja", tesla_modell: "Roadster 2049" })), env });
-  assert.equal(r.status, 422); assert.deepEqual((await r.json()).fehler, ["tesla_modell"]);
-  assert.equal(pruefe({ art: "Hagel", name: "A", telefon: "071 555 00 00", teslaModell: "Model 3" }).daten.teslaModell, "", "ohne Tesla kein Modell");
-}));
+test("Grenze: an dieselbe Adresse höchstens 2 Bestätigungen in 24 h", () => netz(async (a) => {
+  await onRequestPost({ request: anfrage(formular({ email: "kunde@beispiel.ch" })), env: COCKPIT });
+  assert.equal(mails(a).filter((m) => m.to[0].email === "kunde@beispiel.ch").length, 0);
+}, { frueher: 2 }));
+test("Turnstile: mit Geheimnis Pflicht, falscher oder fehlender Nachweis gibt 403", () => netz(async (a) => {
+  const env = { ...MAIL, TURNSTILE_SECRET: "T" };
+  assert.equal((await onRequestPost({ request: anfrage(formular()), env })).status, 403);
+  assert.equal((await onRequestPost({ request: anfrage(formular({ "cf-turnstile-response": "falsch" })), env })).status, 403);
+  assert.equal(mails(a).length, 0);
+}, { turnstile: false }).then(() => netz(async () => {
+  assert.equal((await onRequestPost({ request: anfrage(formular({ "cf-turnstile-response": "gut" })), env: { ...MAIL, TURNSTILE_SECRET: "T" } })).status, 200);
+})));

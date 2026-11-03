@@ -3,8 +3,8 @@ import Klar from "../layouts/Klar.astro";
 import Kopfbild from "../components/Kopfbild.astro";
 import Luecke from "../components/Luecke.astro";
 import Abschluss from "../components/Abschluss.astro";
-import teamDaten from "../../../astro/src/content/team.json";
-const gruppen = (teamDaten as any).gruppen.filter((g: any) => g.leute.length);
+import { site } from "../../../astro/bau/daten.mjs";
+const gruppen = site.team.filter((g: any) => g.leute.length);
 ---
 <Klar seite="team">
 <Kopfbild kicker="Team" titel="Zehn Leute, fünf Bereiche." foto="team-kabine" alt="Mitarbeiter in der Lackierkabine neben einer abgeklebten Fahrzeugtür">

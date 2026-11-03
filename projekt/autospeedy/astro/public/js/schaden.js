@@ -156,6 +156,7 @@
       daten.append("bemerkung", wert("bemerkung")); if (wert("email")) daten.append("email", wert("email")); daten.append("website", wert("website")); if (tesla()) daten.append("tesla", "ja"); if (modell()) daten.append("tesla_modell", modell());
       gewaehlt().forEach(function (s) { daten.append("stelle", s); });
       fotos.forEach(function (x, i) { daten.append("foto", x.blob, "schaden-" + (i + 1) + ".jpg"); });
+      var ts = f.querySelector('[name="cf-turnstile-response"]'); if (ts) daten.append("cf-turnstile-response", ts.value); // Cloudflare Turnstile, falls eingebaut
       sendet = true; melde("Ihre Meldung wird gesendet …");
       fetch(ep, { method: "POST", body: daten })
         .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })

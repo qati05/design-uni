@@ -7,8 +7,8 @@
     "build": "astro build",
     "bau:abgabe": "STUFE=abgabe astro build",
     "bau:test": "DATEN=test astro build",
-    "test": "node --test test/schaden.test.mjs test/zaehl.test.mjs test/pflege.test.mjs",
-    "prebuild": "node bau/pflege-holen.mjs"
+    "test": "node --test test/schaden.test.mjs test/zaehl.test.mjs",
+    "prebuild": "npm ci --prefix ../gemeinsam --silent"
   },
   "dependencies": {
     "astro": "7.4.1"

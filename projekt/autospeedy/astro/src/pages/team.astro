@@ -2,8 +2,8 @@
 import Seite from "../layouts/Seite.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
 import Foto from "../components/Foto.astro";
-import teamDaten from "../content/team.json";
-const gruppen = (teamDaten as any).gruppen;
+import { site } from "../../bau/daten.mjs";
+const gruppen = site.team;
 ---
 <Seite seite="team" eigeneH1>
 <SeitenKopf seite="team" idee="Zehn Leute, fünf Bereiche." foto="team-kabine" alt="Mitarbeiter in der Lackierkabine neben einer abgeklebten Fahrzeugtür">

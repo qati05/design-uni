@@ -36,14 +36,18 @@ function leere(wert, pfad, aus) {
   return aus;
 }
 
-// Pflege durch den Betrieb (Cockpit, «Website pflegen»; bau/pflege-holen.mjs holt sie vor dem Bau): pflege.json ersetzt Zeiten und Ausnahmen aus betrieb.json, falls vorhanden.
-const pflegeDatei = path.join(ORDNER, "pflege.json");
-export const pflege = fs.existsSync(pflegeDatei) ? JSON.parse(fs.readFileSync(pflegeDatei, "utf8")) : null;
+// Was der Betrieb selbst ändert (Zeiten, Feiertage, Hinweis, Team) steht in src/daten/site.json. Der Bau prüft die Datei
+// mit dem gemeinsamen Schema und bricht bei Fehlern ab: lieber kein neuer Stand als eine kaputte Seite.
+import { siteSchema } from "../../gemeinsam/site.ts";
+import siteRoh from "../src/daten/site.json" with { type: "json" };
+const siteGeprueft = siteSchema.safeParse(siteRoh);
+if (!siteGeprueft.success) throw new Error(`src/daten/site.json ungültig: ${siteGeprueft.error.issues.map((i) => i.path.join(".") + ": " + i.message).join("; ")}`);
+export const site = siteGeprueft.data;
+export const pflege = site; // Name, den Layouts und Seiten schon nutzen
 function mitPflege(b, p) {
-  if (!p) return b;
-  const zeiten = (p.zeiten || []).map((z) => z.geschlossen ? { tage: z.tage, kurz: z.kurz, zu: true } : { tage: z.tage, kurz: z.kurz, ld: z.wochentage, fenster: (z.fenster || []).map((f) => [f.von, f.bis]) });
-  const ausnahmen = (p.ausnahmen || []).map((a) => a.geschlossen ? { name: a.name, datum: String(a.datum).slice(0, 10), zu: true } : { name: a.name, datum: String(a.datum).slice(0, 10), fenster: [[a.von, a.bis]] });
-  return { ...b, zeiten: zeiten.length ? zeiten : b.zeiten, ausnahmen: ausnahmen.length ? ausnahmen : b.ausnahmen };
+  const zeiten = p.zeiten.map((z) => z.geschlossen ? { tage: z.tage, kurz: z.kurz, zu: true } : { tage: z.tage, kurz: z.kurz, ld: z.wochentage, fenster: z.fenster.map((f) => [f.von, f.bis]) });
+  const ausnahmen = p.ausnahmen.map((a) => a.geschlossen ? { name: a.name, datum: a.datum, zu: true } : { name: a.name, datum: a.datum, fenster: [[a.von, a.bis]] });
+  return { ...b, zeiten, ausnahmen: ausnahmen.length ? ausnahmen : null }; // keine Ausnahmen: bewusst nichts zeigen
 }
 export const betrieb = mitPflege(lies("betrieb.json"), pflege);
 /** Eine Zeile für den ersten Bildschirm, z. B. «Mo bis Do 7.30 bis 12.00 und 13.15 bis 17.30 Uhr, Fr 7.30 bis …». */

@@ -16,6 +16,8 @@ const arten = (artenDaten as any).arten;
 // FORMULAR_ENDPUNKT (nur Demo-Bau) überschreibt bau.json, z. B. für das lokale Cockpit.
 const endpunkt = process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt || "";
 const wa = b.whatsapp;
+// Cloudflare Turnstile gegen Missbrauch (nur im Betrieb gesetzt; die Funktion prüft mit TURNSTILE_SECRET)
+const turnstile = process.env.TURNSTILE_SITEKEY || "";
 ---
 <Seite seite="schaden-melden" eigeneH1 abschluss={false}>
 <div class="formularseite">
@@ -76,7 +78,8 @@ const wa = b.whatsapp;
       <button class="knopf knopf--gross weg weg--a" type="button" data-senden="website" data-zaehl="schaden-website">Hier auf der Website senden<small data-weg-a-hilfe>Mit Fotos, ohne weitere App</small></button>
       <button class="knopf knopf--gross weg weg--b" type="button" data-senden="whatsapp" data-zaehl="schaden-whatsapp">Per WhatsApp senden<small>Fotos hängen Sie in WhatsApp an</small></button>
       {wa && !wa.nummer_bestaetigt && <Luecke>Lücke: Die WhatsApp-Nummer {wa.anzeige} stammt von der Website; der Betrieb bestätigt sie noch.</Luecke>}
-      <p class="hilfe">Verantwortlich: {b.name}. Ihre Angaben dienen nur der Bearbeitung Ihrer Meldung.</p>
+      {turnstile && <div class="cf-turnstile" data-sitekey={turnstile} data-language="de"></div>}
+        <p class="hilfe">Verantwortlich: {b.name}. Ihre Angaben dienen nur der Bearbeitung Ihrer Meldung.</p>
     </div>
     <noscript><button class="knopf knopf--gross" type="submit">Meldung im E-Mail-Programm öffnen</button><p class="hilfe">Fotos hängen Sie in Ihrem E-Mail-Programm an.</p></noscript>
     <div class="melden__weiter" data-nur-js hidden><button class="knopf knopf--zweit" type="button" data-zurueck="2">Zurück</button></div>
@@ -102,3 +105,4 @@ const wa = b.whatsapp;
 </div>
 </Seite>
 <script is:inline src="/js/schaden.js" defer></script>
+{turnstile && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}

@@ -4,6 +4,7 @@ import { betrieb as b, bau, vorschau } from "../../../astro/bau/daten.mjs";
 const { anliegen = ["Allgemein"], titel = "Wir rufen Sie zurück", text, ort = "rueckruf" } = Astro.props;
 const endpunkt = process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt || "";
 const id = `rr-${ort}`;
+const turnstile = process.env.TURNSTILE_SITEKEY || "";
 ---
 <form class="karte rueckruf" data-rueckruf action={`mailto:${b.mail}?subject=R%C3%BCckruf`} method="post" enctype="text/plain" data-endpunkt={endpunkt} data-ist-vorschau={vorschau ? "ja" : "nein"} data-zaehl-start={`rueckruf-${ort}`}>
   <h2 class="karte__titel">{titel}</h2>
@@ -17,6 +18,8 @@ const id = `rr-${ort}`;
   </div>
   <div class="honig" aria-hidden="true"><label for={`${id}-web`}>Bitte leer lassen (freiwillig)</label><input id={`${id}-web`} name="website" type="text" tabindex="-1" autocomplete="off"></div>
   <button class="k k--blau" type="submit" data-zaehl={`rueckruf-${ort}`} data-ort={ort}>Rückruf anfordern</button>
+  {turnstile && <div class="cf-turnstile" data-sitekey={turnstile} data-language="de"></div>}
   <p class="hilfe">Verantwortlich: {b.name}. Wir nutzen Name und Telefon nur für den Rückruf.</p>
+  {turnstile && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
   <p class="rueckmeldung" data-rueckmeldung hidden role="status"></p>
 </form>
