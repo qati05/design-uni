@@ -685,6 +685,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
         <button class="k k--blau k--gross" type="button" data-senden="website" data-zaehl="schaden-website">Hier auf der Website senden<small data-weg-a-hilfe>Mit Fotos, ohne weitere App</small></button>
         <button class="k k--hell k--gross" type="button" data-senden="whatsapp" data-zaehl="schaden-whatsapp">Per WhatsApp senden<small>Fotos hängen Sie in WhatsApp an</small></button>
         <p class="luecke" data-luecke>Lücke: Die WhatsApp-Nummer 076 615 44 41 stammt von der Website; der Betrieb bestätigt sie noch.</p>
+        
         <p class="hilfe">Verantwortlich: Auto Speedy AG. Ihre Angaben dienen nur der Bearbeitung Ihrer Meldung.</p>
       </div>
       <noscript><button class="k k--blau k--gross" type="submit">Meldung im E-Mail-Programm öffnen</button><p class="hilfe">Fotos hängen Sie in Ihrem E-Mail-Programm an.</p></noscript>
@@ -840,7 +841,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   </div>
   <div class="honig" aria-hidden="true"><label for="rr-occasionen-web">Bitte leer lassen (freiwillig)</label><input id="rr-occasionen-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
   <button class="k k--blau" type="submit" data-zaehl="rueckruf-occasionen" data-ort="occasionen">Rückruf anfordern</button>
+  
   <p class="hilfe">Verantwortlich: Auto Speedy AG. Wir nutzen Name und Telefon nur für den Rückruf.</p>
+  
   <p class="rueckmeldung" data-rueckmeldung hidden role="status"></p>
 </form>
   </div>
@@ -963,7 +966,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   </div>
   <div class="honig" aria-hidden="true"><label for="rr-kontakt-web">Bitte leer lassen (freiwillig)</label><input id="rr-kontakt-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
   <button class="k k--blau" type="submit" data-zaehl="rueckruf-kontakt" data-ort="kontakt">Rückruf anfordern</button>
+  
   <p class="hilfe">Verantwortlich: Auto Speedy AG. Wir nutzen Name und Telefon nur für den Rückruf.</p>
+  
   <p class="rueckmeldung" data-rueckmeldung hidden role="status"></p>
 </form>
     </div>
@@ -1003,7 +1008,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   </div>
   <div class="honig" aria-hidden="true"><label for="rr-flotten-web">Bitte leer lassen (freiwillig)</label><input id="rr-flotten-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
   <button class="k k--blau" type="submit" data-zaehl="rueckruf-flotten" data-ort="flotten">Rückruf anfordern</button>
+  
   <p class="hilfe">Verantwortlich: Auto Speedy AG. Wir nutzen Name und Telefon nur für den Rückruf.</p>
+  
   <p class="rueckmeldung" data-rueckmeldung hidden role="status"></p>
 </form>
   </div>
@@ -1048,9 +1055,11 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <h2>Verantwortlich</h2>
 <p>Auto Speedy AG, Alte Landstrasse 63, 9450 Altstätten, <a href="mailto:info@autospeedy.ch" data-zaehl="mail" data-ort="datenschutz">info@autospeedy.ch</a></p>
 <h2>Was diese Website speichert</h2>
-<p>Diese Website setzt keine Cookies und lädt keine Inhalte von fremden Servern. Schriften und Bilder liegen auf dem eigenen Server.</p>
+<p>Diese Website setzt keine Cookies. Schriften und Bilder liefern wir selbst aus. Sie lädt keine Inhalte von fremden Servern.</p>
 <h2>Schadenmeldung</h2>
-<p>Senden Sie die Meldung hier auf der Website, speichern wir Ihre Angaben und Fotos in unserem Werkstatt-System (Datenbank in Zürich). Nur unser Team sieht sie. Wir erhalten dazu eine kurze Mail ohne Ihren Namen und Ihre Telefonnummer.</p>
+<p>Senden Sie die Meldung hier auf der Website, speichern wir Ihre Angaben und Fotos in unserem Werkstatt-System (Datenbank in Zürich). Wir erhalten dazu eine kurze Mail ohne Ihren Namen und Ihre Telefonnummer. Ist das Werkstatt-System nicht erreichbar oder nicht eingerichtet, erhalten wir die ganze Meldung mit den Fotos per Mail. Nur unser Team sieht sie.</p>
+
+
 <p>Geben Sie freiwillig Ihre Mail-Adresse an, schicken wir Ihnen eine Bestätigung und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nutzen wir die Adresse nicht.</p>
 <p class="luecke" data-luecke>Lücke: Anbieter und Sitz von Datenbank und Mail-Dienst (Vorschlag: Supabase, Region Zürich; Brevo) sowie die Löschfrist werden ergänzt, sobald sie gewählt sind. Rechtsprüfung nötig.</p>
 <p>Wählen Sie «Per WhatsApp senden», öffnet sich WhatsApp mit Ihrer Nachricht. Gesendet wird erst, wenn Sie dort senden; dann gelten die Datenschutzbestimmungen von WhatsApp.</p>
@@ -1243,11 +1252,12 @@ document.addEventListener('click',function(e){var z=e.target.closest('[data-abfr
       daten.append("bemerkung", wert("bemerkung")); if (wert("email")) daten.append("email", wert("email")); daten.append("website", wert("website")); if (tesla()) daten.append("tesla", "ja"); if (modell()) daten.append("tesla_modell", modell());
       gewaehlt().forEach(function (s) { daten.append("stelle", s); });
       fotos.forEach(function (x, i) { daten.append("foto", x.blob, "schaden-" + (i + 1) + ".jpg"); });
+      var ts = f.querySelector('[name="cf-turnstile-response"]'); if (ts) daten.append("cf-turnstile-response", ts.value); // Cloudflare Turnstile, falls eingebaut
       sendet = true; melde("Ihre Meldung wird gesendet …");
       fetch(ep, { method: "POST", body: daten })
         .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
         .then(function () { if (window.__zaehl) window.__zaehl("meldung-gesendet", "website"); melde(""); bestaetige("Schadenmeldung angekommen", "Angekommen bei Auto Speedy. Wir melden uns bei Ihnen.", null); })
-        .catch(function () { melde("Das Senden hat nicht geklappt. Bitte senden Sie die Meldung per WhatsApp oder rufen Sie uns an: 071 755 88 61."); })
+        .catch(function () { if (window.turnstile) window.turnstile.reset(); melde("Das Senden hat nicht geklappt. Bitte senden Sie die Meldung per WhatsApp oder rufen Sie uns an: 071 755 88 61."); })
         .then(function () { sendet = false; });
     });
   });
@@ -1277,10 +1287,11 @@ document.addEventListener('click',function(e){var z=e.target.closest('[data-abfr
       if (!ep) { melde(f.dataset.istVorschau === "ja" ? "Vorschau: Auf der fertigen Website käme Ihre Rückruf-Bitte jetzt bei Auto Speedy an. Hier wird nichts gesendet." : "Bitte rufen Sie uns an: 071 755 88 61."); return; }
       var d = new FormData();
       d.append("art", "Rückruf"); d.append("name", wert("name")); d.append("telefon", wert("telefon")); d.append("bemerkung", "Anliegen: " + anliegen()); d.append("website", wert("website"));
+      var ts = f.querySelector('[name="cf-turnstile-response"]'); if (ts) d.append("cf-turnstile-response", ts.value);
       sendet = true; melde("Wird gesendet …");
       fetch(ep, { method: "POST", body: d }).then(function (x) { if (!x.ok) throw 0; return x.json(); })
         .then(function () { melde("Angekommen. Wir rufen Sie zurück. Anliegen: " + anliegen() + "."); f.querySelector('button[type="submit"]').disabled = true; })
-        .catch(function () { melde("Das hat nicht geklappt. Bitte rufen Sie uns an: 071 755 88 61."); })
+        .catch(function () { if (window.turnstile) window.turnstile.reset(); melde("Das hat nicht geklappt. Bitte rufen Sie uns an: 071 755 88 61."); })
         .then(function () { sendet = false; });
     });
   });
