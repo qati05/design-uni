@@ -1,3 +1,9 @@
 node_modules/
 dist/
 .astro/
+
+# Impeccable: Engine-Binary (lädt der Launcher beim ersten Start nach) und lokale Einstellungen
+.claude/skills/impeccable/scripts/bin/
+.claude/settings.local.json
+.impeccable/config.local.json
+**/.impeccable/config.local.json
