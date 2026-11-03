@@ -23,7 +23,7 @@
       sendet = true; melde("Wird gesendet …");
       fetch(ep, { method: "POST", body: d }).then(function (x) { if (!x.ok) throw 0; return x.json(); })
         .then(function () { melde("Angekommen. Wir rufen Sie zurück. Anliegen: " + anliegen() + "."); f.querySelector('button[type="submit"]').disabled = true; })
-        .catch(function () { melde("Das hat nicht geklappt. Bitte rufen Sie uns an: 071 755 88 61."); })
+        .catch(function () { if (window.turnstile) window.turnstile.reset(); melde("Das hat nicht geklappt. Bitte rufen Sie uns an: 071 755 88 61."); })
         .then(function () { sendet = false; });
     });
   });

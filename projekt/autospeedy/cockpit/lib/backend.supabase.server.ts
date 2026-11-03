@@ -151,12 +151,15 @@ export const supabaseBackend: Backend = {
     await ohneSitzung().rpc("bewertung_zuruecklegen", { p_geheimnis: geheimnis, p_id: id });
   },
   async aufraeumen(geheimnis) {
-    // Supabase erlaubt kein Löschen im Speicher per SQL: die Storage-API löscht, die Policy lässt nur abgelaufene Fotos zu.
+    // Supabase erlaubt kein Löschen im Speicher per SQL: die Storage-API löscht, mit dem service_role-Schlüssel nur hier im Server.
+    // Ohne Schlüssel bleiben Meldungen mit Fotos liegen, bis er eingerichtet ist (nichts wird halb gelöscht).
     const c = ohneSitzung();
     const { data: pfade, error } = await c.rpc("fotos_abgelaufen", { p_geheimnis: geheimnis });
     if (error) return null;
-    const liste = (pfade ?? []) as string[];
-    const { data: weg } = liste.length ? await c.storage.from("schadenfotos").remove(liste) : { data: [] };
+    const liste = (pfade ?? []) as string[], dienst = process.env.SUPABASE_SERVICE_KEY;
+    const { data: weg } = liste.length && dienst
+      ? await createClient(oeffentlich().url, dienst, { auth: { persistSession: false, autoRefreshToken: false } }).storage.from("schadenfotos").remove(liste)
+      : { data: [] };
     const { data: n, error: e2 } = await c.rpc("meldungen_aufraeumen", { p_geheimnis: geheimnis });
     return e2 ? null : { fotos: (weg ?? []).length, meldungen: Number(n ?? 0) };
   },

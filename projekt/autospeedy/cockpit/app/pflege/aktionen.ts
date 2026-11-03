@@ -45,6 +45,10 @@ export async function pflegeSpeichern(_v: PflegeZustand, form: FormData): Promis
   const ergebnis = await b.pflegeSpeichern(r.data, sha);
   await b.audit({ aktion: "pflege", ergebnis: ergebnis === "ok" ? "ok" : "fehler" }).catch(() => log({ aktion: "pflege", status: "audit_fehler" }));
   log({ aktion: "pflege", status: ergebnis });
+  if (ergebnis === "unklar") {
+    // Keine Antwort von GitHub: vielleicht doch gespeichert. Fotos behalten (lieber ein übriges Bild als ein kaputtes auf der Website).
+    return { meldung: "Keine Antwort von der Website. Bitte die Seite in einer Minute neu laden und prüfen, ob die Änderung da ist." };
+  }
   if (ergebnis !== "ok") {
     await aufraeumen();
     return { meldung: ergebnis === "konflikt" ? "Inzwischen hat jemand anderes gespeichert. Bitte die Seite neu laden und die Änderung nochmals machen."

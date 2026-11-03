@@ -1,6 +1,24 @@
-# Auto Speedy AG: Case Study, Stand 02.11.2026
+# Auto Speedy AG: Case Study und Medaur-Starter, Stand 03.11.2026
 
 **Nichts ist live, nichts ist deployt, nichts ging an den Betrieb.** Alles liegt nur im Branch `claude/autospeedy-bau`.
+
+## Umbau zum Starter (03.11.2026)
+Regel: **Website kaufen, Cockpit mieten.** Die Website läuft ohne Cockpit; das Cockpit ist die eine Oberfläche für den Betrieb.
+- **`astro/src/daten/site.json`**: alles, was der Betrieb selbst ändert (Zeiten, Feiertage, Hinweis, Team). Eine Prüfung für Bau, Cockpit und Editor in `gemeinsam/site.ts`; ungültig = Bau bricht ab, die alte Website bleibt online. `betrieb.json` (Fakten) bleibt.
+- **Cockpit «Website pflegen»** schreibt `site.json` über die GitHub-API (Konfliktschutz über die Version); der Commit baut die Website neu. **Teamfotos liegen im Bild-Speicher R2, nie im Git**; in `site.json` steht nur der Verweis, «Foto entfernen» löscht das Bild wirklich.
+- **Formular ohne Cockpit:** Ohne Supabase oder wenn es scheitert, kommt die ganze Meldung mit Fotos per Mail (Brevo). Ist das Cockpit eines Betriebs aus, wird gespeichert **und** die ganze Meldung gemailt. Bestätigung an den Kunden höchstens 2-mal in 24 Stunden an dieselbe Adresse (ohne Datenbank nur mit Turnstile), Cloudflare Turnstile gegen Missbrauch (wenn eingerichtet). Regeln für Website und Cockpit in `gemeinsam/meldung.ts`. Die Linie «Klar» nutzt dieselben Funktionen.
+- **Automation «Auto fertig»** (einzeln kaufbar): Link schon in der ersten Mail, läuft auch ohne gemietetes Cockpit.
+- **Mehrere Betriebe in einer Datenbank** (`cockpit/supabase/migrations/20261103100000_cockpit.sql`): Tabelle `betrieb` mit `aktiv`; `aktiv = false` sperrt den Login, Website und gekaufte Automationen laufen weiter. CSV-Export pro Betrieb nur fürs Studio (`/studio`).
+- **Editor nach Kündigung:** Sveltia unter `/admin/`, Standard aus (`EDITOR_AKTIV=true` beim Bau). Anleitung für den Kunden: `UEBERGABE.md`.
+- Entfernt: Authenticator-Code, Pflege-Tabelle, Teamfoto-Bucket, `pflege-holen.mjs`, Deploy Hook (der Commit baut neu), Auftrags-Mail beim Status «Auftrag» (Link kommt jetzt mit der ersten Mail).
+- Geprüft: Website 25 Tests, Cockpit 45 Tests, Rauchprobe 72 Regeln, Ende-zu-Ende beider Abläufe grün; Website baut ohne Supabase-Variablen. Nicht geprüft: echte Dienste (Supabase, GitHub, R2, Brevo, Turnstile), Deploy, echte Handys.
+- **Offen:** zweites Gerät (Befund 3) erst gegen echtes Supabase prüfen; siehe `cockpit/LIESMICH.md`.
+
+## Neuen Kunden anlegen
+1. **Website:** Repo aus diesem Starter, `betrieb.json` (Fakten), `texte.json`, `src/daten/site.json` (Startwerte) füllen. Cloudflare Pages mit dem Repo verbinden (Bau bei jedem Commit).
+2. **Formular per Mail (immer):** in Cloudflare Pages `BREVO_SCHLUESSEL`, `MAIL_ABSENDER`, `MAIL_BETRIEB`, `ERLAUBTE_HERKUNFT`; gegen Missbrauch `TURNSTILE_SITEKEY` (Bau) und `TURNSTILE_SECRET`.
+3. **Cockpit (wenn gemietet):** in Supabase `insert into betrieb (id, name, website_url, github_repo, github_pfad, automation_bewertung) values (…)`; Konten in `betrieb_mitglied`. Im Cockpit-Hosting `GITHUB_TOKEN_<ID>` (fein abgestuft, nur dieses Repo). In Cloudflare Pages `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `BETRIEB_ID`, `COCKPIT_URL`.
+4. **Kündigung:** `update betrieb set aktiv = false`, CSV unter `/studio` an den Kunden, Editor mit `EDITOR_AKTIV=true`, `EDITOR_REPO`, `EDITOR_PFAD` einschalten, `UEBERGABE.md` übergeben.
 
 ## Was gebaut ist (Überblick)
 | Teil | Wo | Stand |
@@ -9,7 +27,7 @@
 | Schadenmeldung in 3 Tipps, Rückruf in einem Schritt, Senden über Website oder WhatsApp | `astro/src/pages/schaden-melden.astro`, `components/Rueckruf.astro` | gebaut, Ende-zu-Ende grün |
 | Serverfunktionen: Meldung + Fotos ins Cockpit (Supabase), Hinweis-Mail ohne Personendaten, Zählung ohne Cookies | `astro/functions/api/schaden.js`, `zaehl.js` | gebaut, 18 Tests grün, **nicht deployt** |
 | Werkstatt-Cockpit (Next.js, Muster qati05/medaur), **eine App für Handy und Computer** (installierbar): Mail-Code + Fingerabdruck/Gesicht, Meldungen, Status bis Auftrag, Notizen, «Bewertung erbitten», Zahlen, **Website pflegen** (Zeiten, Feiertage, Hinweis, Team mit Fotos), Geräte | `cockpit/` | gebaut, 32 Tests, Rauchprobe 31 Regeln gegen Postgres 16, Ende-zu-Ende 28/28 grün, **nicht deployt**, Demo-Modus |
-| Pflege: vom Git-Editor (Decap) ins Cockpit verlegt; der Website-Bau holt sie | `astro/bau/pflege-holen.mjs`, `PFLEGE.md` | gebaut, 4 Tests |
+| Pflege: `site.json` im Repo, geändert im Cockpit (GitHub-API) oder nach Kündigung im Editor | `astro/src/daten/site.json`, `gemeinsam/site.ts`, `astro/bau/editor.mjs` | gebaut, getestet |
 | AutoScout24-Widget, lädt erst nach Klick | `astro/src/components/FremdInhalt.astro` | gebaut, Widget-Code fehlt (Lücke) |
 | Skizze für das Gespräch | Excalidraw im Chat; Video und Bilder in `vorschau/` | fertig |
 
@@ -21,7 +39,7 @@
 WhatsApp-Nummer (dass der Betrieb WhatsApp nutzt, ist laut Studio bestätigt) · wer im Team ein Cockpit-Konto bekommt · Rückruf-Zeit und wer Meldungen liest · Google-Link «Rezension schreiben» · AutoScout24-Widget-Code · Logo als Vektordatei · Rechte an Fotos und Einwilligung des Teams · Samstag, Feiertage, Ferien · Löschfrist für Meldungen · Konditionen für Firmenkunden, Ersatzwagen.
 
 ## Vor dem echten Betrieb (Freigabe des Studios)
-Supabase-Projekt (Region Zürich) und Migration · Mail-Dienst mit SPF/DKIM/DMARC · Hoster und Domain · Datenschutzerklärung nachführen (Supabase, Mail-Dienst, AutoScout24) und Rechtsprüfung · WebAuthn-MFA (Supabase Beta) mit echten Handys prüfen · Website-Neubau per Deploy Hook verbinden. Details: `cockpit/LIESMICH.md`, `technik.md`, `PFLEGE.md`.
+Supabase-Projekt (Region Zürich) und Migration · Mail-Dienst mit SPF/DKIM/DMARC · Hoster und Domain · Datenschutzerklärung nachführen (Supabase, Mail-Dienst, AutoScout24) und Rechtsprüfung · WebAuthn-MFA (Supabase Beta) mit echten Handys prüfen · Bild-Speicher R2 und GitHub-Tokens je Betrieb einrichten. Details: `cockpit/LIESMICH.md`, `technik.md`, `PFLEGE.md`.
 
 ---
 

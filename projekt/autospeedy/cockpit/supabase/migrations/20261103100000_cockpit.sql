@@ -248,14 +248,9 @@ create policy mitglied_liest_schadenfotos on storage.objects for select to authe
   using (bucket_id = 'schadenfotos' and split_part(name, '/', 1) = public.mein_betrieb());
 
 -- Löschfrist [Annahme 365 Tage]. Supabase verbietet DELETE auf storage.objects per SQL; darum zwei Schritte im Zeitplan:
---   1. fotos_abgelaufen() nennt die Pfade; das Cockpit löscht sie über die Storage-API (die Policy unten erlaubt genau diese).
+--   1. fotos_abgelaufen() nennt die Pfade; das Cockpit löscht sie über die Storage-API mit dem service_role-Schlüssel
+--      (nur serverseitig, nur für diesen Schritt). anon bekommt bewusst keine Regel im Speicher: sonst wären überfällige Fotos öffentlich.
 --   2. meldungen_aufraeumen() löscht Meldungen über der Frist, deren Fotos nicht mehr im Speicher liegen.
-create function public.foto_abgelaufen(p_pfad text) returns boolean
-language sql stable security definer set search_path = '' as $$
-  select exists (select 1 from public.meldung_fotos f join public.meldungen m on m.id = f.meldung_id where f.pfad = p_pfad and m.erstellt < now() - interval '365 days')
-$$;
-create policy frist_abgelaufen_lesen on storage.objects for select to anon using (bucket_id = 'schadenfotos' and public.foto_abgelaufen(name));
-create policy frist_abgelaufen_loeschen on storage.objects for delete to anon using (bucket_id = 'schadenfotos' and public.foto_abgelaufen(name));
 create function public.fotos_abgelaufen(p_geheimnis text) returns setof text
 language plpgsql stable security definer set search_path = '' as $$
 begin
@@ -300,7 +295,6 @@ grant execute on function public.mein_betrieb(), public.ist_mitglied(), public.i
   public.export_meldungen(text), public.betriebe_liste() to authenticated;
 grant execute on function public.auftrag_link_ansehen(text), public.auftrag_erledigt_mit_token(text),
   public.bewertungen_abholen(text, integer), public.bewertung_zuruecklegen(text, text), public.fotos_abgelaufen(text), public.meldungen_aufraeumen(text) to anon, authenticated;
-grant execute on function public.foto_abgelaufen(text) to anon; -- nur für die Storage-Policy
 grant execute on function public.zaehlen(text, text, text) to service_role;
 
 -- Einrichten (einmal):

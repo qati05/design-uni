@@ -6,7 +6,8 @@
 //     Scheitert das Speichern, wird die halbe Meldung entfernt und die ganze Meldung geht per Mail (Rückfall).
 //   Cockpit nicht eingerichtet: die ganze Meldung mit Fotos per Mail an MAIL_BETRIEB.
 // Mail: Brevo (BREVO_SCHLUESSEL, MAIL_ABSENDER), gemeinsam/brevo.ts. Schutz: Herkunft, Grösse, Bildtyp, Honigtopf «website»,
-// Cloudflare Turnstile (TURNSTILE_SECRET gesetzt = Pflicht), Bestätigung an dieselbe Kundenadresse höchstens 2-mal in 24 h.
+// Cloudflare Turnstile (TURNSTILE_SECRET gesetzt = Pflicht), Bestätigung an dieselbe Kundenadresse höchstens 2-mal in 24 h
+// (ohne Datenbank nur mit Turnstile).
 import { pruefe, GRENZEN, mailVoll, hinweisText, bestaetigungText, betreff } from "../../../gemeinsam/meldung.ts";
 import { mailSenden, mailBereit, base64 } from "../../../gemeinsam/brevo.ts";
 import betriebDaten from "../../src/content/betrieb.json" with { type: "json" };
@@ -69,9 +70,10 @@ export async function insCockpit(env, d, tokenHash) {
   return id;
 }
 
-/** Wie oft ging in 24 h schon eine Bestätigung an diese Adresse? (nur mit Cockpit zählbar; ohne gilt nur Turnstile) */
+/** Bestätigung an den Kunden: mit Datenbank höchstens 2 in 24 h an dieselbe Adresse. Ohne Datenbank lässt sich nicht zählen:
+ *  dann nur, wenn Turnstile eingerichtet ist (jede Sendung von einem Menschen), sonst keine Bestätigung (kein offenes Mail-Relais). */
 async function bestaetigungErlaubt(env, email, gespeichert) {
-  if (!gespeichert) return true;
+  if (!gespeichert) return !!env.TURNSTILE_SECRET;
   const seit = new Date(Date.now() - 864e5).toISOString();
   const r = await supabase(env, `/rest/v1/meldungen?betrieb_id=eq.${encodeURIComponent(env.BETRIEB_ID)}&email=eq.${encodeURIComponent(email)}&erstellt=gte.${seit}&select=id&limit=3`).catch(() => null);
   if (!r) return false;

@@ -114,9 +114,15 @@ test("Automation gekauft: Link «Auto fertig» in der Mail, in der Datenbank nur
 
 // ---- Bestätigung an den Kunden, Turnstile
 test("Bestätigung an den Kunden: ohne Inhalt der Meldung", () => netz(async (a) => {
-  await onRequestPost({ request: anfrage(formular({ email: "Kunde@Beispiel.ch", bemerkung: "geheim" })), env: MAIL });
+  await onRequestPost({ request: anfrage(formular({ email: "Kunde@Beispiel.ch", bemerkung: "geheim" })), env: COCKPIT });
   const b = mails(a).find((m) => m.to[0].email === "kunde@beispiel.ch");
   assert.match(b.textContent, /angekommen/); assert.doesNotMatch(b.textContent, /geheim/);
+}));
+test("ohne Datenbank (nicht zählbar): Bestätigung nur mit Turnstile, sonst keine (kein offenes Mail-Relais)", () => netz(async (a) => {
+  await onRequestPost({ request: anfrage(formular({ email: "opfer@beispiel.ch" })), env: MAIL });
+  assert.equal(mails(a).filter((m) => m.to[0].email === "opfer@beispiel.ch").length, 0);
+  await onRequestPost({ request: anfrage(formular({ email: "kunde@beispiel.ch", "cf-turnstile-response": "gut" })), env: { ...MAIL, TURNSTILE_SECRET: "T" } });
+  assert.equal(mails(a).filter((m) => m.to[0].email === "kunde@beispiel.ch").length, 1);
 }));
 test("Grenze: an dieselbe Adresse höchstens 2 Bestätigungen in 24 h", () => netz(async (a) => {
   await onRequestPost({ request: anfrage(formular({ email: "kunde@beispiel.ch" })), env: COCKPIT });

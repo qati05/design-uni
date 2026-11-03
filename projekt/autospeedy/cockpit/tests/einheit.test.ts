@@ -27,7 +27,7 @@ describe("CSV-Export", async () => {
   const { csv, zelle } = await import("../lib/csv");
   it("Formeln werden entschärft, Trennzeichen und Anführungszeichen maskiert", () => {
     expect(zelle("=HYPERLINK(\"http://x\")")).toBe("\"'=HYPERLINK(\"\"http://x\"\")\"");
-    expect(zelle("+41 71 555 00 00")).toBe("'+41 71 555 00 00");
+    expect(zelle("+41 71 555 00 00")).toBe("+41 71 555 00 00"); expect(zelle("+1+cmd|x")).toBe("'+1+cmd|x");
     expect(zelle("@SUM(A1)")).toBe("'@SUM(A1)");
     expect(zelle("a;b")).toBe("\"a;b\"");
     expect(zelle(null)).toBe("");

@@ -5,7 +5,7 @@ import type { Pflege } from "./pflege";
 
 /** Stand der Website-Pflege: Inhalt von site.json und ihre Version (sha) für den Konfliktschutz beim Speichern. */
 export type PflegeStand = { daten: Pflege; sha: string; geaendert: string | null; von: string | null };
-export type PflegeSpeichern = "ok" | "konflikt" | "fehler" | "nicht_eingerichtet";
+export type PflegeSpeichern = "ok" | "konflikt" | "fehler" | "unklar" | "nicht_eingerichtet";
 
 export type SitzungsStand = { userId: string; email: string; aal: "aal1" | "aal2"; naechste: "aal1" | "aal2"; mitglied: boolean } | null;
 export type CodeAntwort = { status: "gesendet" | "zu_viele" | "fehler" };

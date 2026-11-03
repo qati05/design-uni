@@ -147,18 +147,18 @@ select pg_temp.erwarte(public.meldungen_aufraeumen('geheim-test'), 0, 'Meldungen
 set role anon;
 select pg_temp.erwarte((select count(*) from public.fotos_abgelaufen('geheim-test'))::bigint, 2, 'Zeitplan bekommt die Pfade abgelaufener Fotos');
 do $$ begin perform public.fotos_abgelaufen('falsch'); raise exception 'Pfade ohne Geheimnis'; exception when insufficient_privilege then raise notice 'ok  Pfade nur mit Geheimnis'; end $$;
--- so wie die Storage-API löscht: mit allow_delete_query und den Policies der Rolle
+-- anon hat im Speicher keine Regel: auch überfällige Fotos sind nicht öffentlich und nicht löschbar
 set storage.allow_delete_query = 'true';
+select pg_temp.erwarte((select count(*) from storage.objects), 0, 'anon sieht auch überfällige Fotos nicht');
 delete from storage.objects where bucket_id = 'schadenfotos';
 reset role;
-select pg_temp.erwarte((select count(*) from storage.objects), 0, 'abgelaufene Fotos über die Storage-Regeln gelöscht');
+select pg_temp.erwarte((select count(*) from storage.objects), 2, 'anon löscht keine Fotos');
+-- so wie die Storage-API mit dem service_role-Schlüssel löscht
+set role service_role; delete from storage.objects where bucket_id = 'schadenfotos' and name in (select public.fotos_abgelaufen('geheim-test')); reset role; reset storage.allow_delete_query;
+select pg_temp.erwarte((select count(*) from storage.objects), 0, 'abgelaufene Fotos über die Storage-API gelöscht');
 select pg_temp.erwarte(public.meldungen_aufraeumen('geheim-test'), 2, 'danach Meldungen nach Frist gelöscht');
 select pg_temp.erwarte((select count(*) from public.meldung_fotos), 0, 'Fotozeilen mitgelöscht');
 set role service_role; insert into storage.objects (bucket_id, name) values ('schadenfotos', 'auto-speedy/neu1/foto-1.jpg'); reset role;
-set role anon; set storage.allow_delete_query = 'true';
-delete from storage.objects where bucket_id = 'schadenfotos';
-reset role; reset storage.allow_delete_query;
-select pg_temp.erwarte((select count(*) from storage.objects), 1, 'nicht abgelaufene Fotos löscht anon nicht');
 do $$ begin delete from storage.objects; raise exception 'SQL-DELETE im Speicher'; exception when insufficient_privilege then raise notice 'ok  SQL-DELETE im Speicher gesperrt'; end $$;
 
 -- Tesla-Modell: nur aus der Liste, nur bei Tesla

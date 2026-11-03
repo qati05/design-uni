@@ -38,11 +38,15 @@ describe("site.json über GitHub", () => {
     expect(b.sha).toBe(SHA); expect(b.branch).toBe("main"); expect(b.message).toBe("Website pflegen (Cockpit)");
     expect(JSON.parse(Buffer.from(b.content, "base64").toString())).toEqual(start);
   });
-  it("jemand anderes hat inzwischen gespeichert: «konflikt»; GitHub weg: «fehler»", async () => {
+  it("jemand anderes hat inzwischen gespeichert: «konflikt»; Fehler: «fehler»; keine Antwort: «unklar»", async () => {
     netz(() => new Response("{}", { status: 409 }));
     expect(await siteSchreiben(REPO, start as never, SHA)).toBe("konflikt");
     netz(() => new Response("{}", { status: 500 }));
     expect(await siteSchreiben(REPO, start as never, SHA)).toBe("fehler");
+    netz(() => new Response("{}", { status: 422 }));
+    expect(await siteSchreiben(REPO, start as never, SHA)).toBe("fehler"); // z. B. Zweig fehlt: kein Konflikt
+    vi.stubGlobal("fetch", async () => { throw new Error("Zeitüberschreitung"); });
+    expect(await siteSchreiben(REPO, start as never, SHA)).toBe("unklar");
   });
   it("ungültige Daten oder Repo-Angaben gehen gar nicht erst raus", async () => {
     const a = netz(() => Response.json({}));

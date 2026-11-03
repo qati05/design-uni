@@ -7,7 +7,7 @@ import { siteSchema, TEAMFOTO, type Site } from "../../gemeinsam/site";
 /** Wo die site.json eines Betriebs liegt. Token: fein abgestuft, nur dieses eine Repo, nur «Contents: Read and write». */
 export type Repo = { repo: string; pfad: string; zweig: string; token: string };
 export type SiteStand = { daten: Site; sha: string };
-export type Schreiben = "ok" | "konflikt" | "fehler";
+export type Schreiben = "ok" | "konflikt" | "fehler" | "unklar"; // unklar: keine Antwort (Zeitüberschreitung), GitHub kann trotzdem gespeichert haben
 
 const REPO = /^[A-Za-z0-9-]{1,39}\/[A-Za-z0-9._-]{1,100}$/;
 const PFAD = /^[A-Za-z0-9._/-]{1,200}\.json$/;
@@ -40,8 +40,9 @@ export async function siteSchreiben(r: Repo, daten: Site, sha: string): Promise<
     // Keine Namen in der Commit-Nachricht: Git vergisst nicht. Wer gespeichert hat, steht im Audit-Log des Cockpits.
     body: JSON.stringify({ message: "Website pflegen (Cockpit)", content: inhalt, sha, branch: r.zweig }),
   }).catch(() => null);
-  if (a?.ok) return "ok";
-  return a && (a.status === 409 || a.status === 422) ? "konflikt" : "fehler";
+  if (!a) return "unklar";
+  if (a.ok) return "ok";
+  return a.status === 409 ? "konflikt" : "fehler"; // 409: sha passt nicht mehr (jemand anderes hat gespeichert)
 }
 
 /** Bild-Speicher Cloudflare R2 (S3-Schnittstelle). basis: öffentliche Adresse des Buckets, z. B. https://fotos.beispiel.ch */
