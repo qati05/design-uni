@@ -1,0 +1,98 @@
+---
+// Schadenmeldung in der Linie «Klar»: dieselben Felder, dieselbe Logik (/js/schaden.js), derselbe Empfang wie die erste Linie.
+// Ohne JavaScript: ein Formular über mailto, alle Schritte untereinander.
+import Klar from "../layouts/Klar.astro";
+import Luecke from "../components/Luecke.astro";
+import stellenDaten from "../../../astro/src/content/stellen.json";
+import artenDaten from "../../../astro/src/content/arten.json";
+import { betrieb as b, bau, vorschau } from "../../../astro/bau/daten.mjs";
+const stellen = (stellenDaten as any).stellen;
+const arten = (artenDaten as any).arten;
+const endpunkt = process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt || "";
+const wa = b.whatsapp;
+const modelle = ["Model 3", "Model Y", "Model S", "Model X", "Anderes Modell"];
+---
+<Klar seite="schaden-melden">
+<div class="melden-seite">
+  <div class="melden-seite__links">
+    <p class="kicker">Schaden melden</p>
+    <h1>In drei Schritten gemeldet.</h1>
+    <p class="melden-seite__einleitung">Sagen Sie uns, was passiert ist, zeigen Sie es mit Fotos, und wir melden uns. Die Abwicklung mit Ihrer Versicherung übernehmen wir.</p>
+    <p class="melden-seite__tel">Lieber sprechen? <a href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="schaden">{b.tel.anzeige}</a></p>
+    <p class="melden-seite__tesla"><span class="punkt-blau" aria-hidden="true"></span> Tesla Approved Body Shop. Tesla-Fahrer wählen im letzten Schritt das Modell.</p>
+  </div>
+
+  <div class="melden-seite__rechts">
+  <form id="schaden-form" class="karte melden" action={`mailto:${b.mail}?subject=Schadenmeldung`} method="post" enctype="text/plain"
+    data-endpunkt={endpunkt} data-ist-vorschau={vorschau ? "ja" : "nein"} data-mail={b.mail} data-wa={wa && wa.nummer} data-zaehl-start="schaden-start">
+    <ol class="fortschritt" data-nur-js hidden aria-label="Fortschritt">
+      <li data-anzeige="1"><span>Schaden</span></li><li data-anzeige="2"><span>Fotos</span></li><li data-anzeige="3"><span>Kontakt</span></li>
+    </ol>
+
+    <fieldset class="schritt" data-schritt="1">
+      <legend>Was ist passiert? <span class="pflicht">(Pflicht)</span></legend>
+      <div class="arten">
+        {arten.map((a: any) => <label class="art"><input type="radio" name="art" value={a.name} data-art={a.id} required><span class="art__name">{a.name}</span><span class="art__hilfe">{a.hilfe}</span></label>)}
+      </div>
+      <details class="stellen">
+        <summary>Stelle am Auto genauer zeigen (freiwillig)</summary>
+        <div class="chips__wahl chips__wahl--klein">{stellen.map((s: any) => <label><input type="checkbox" name="stelle" value={s.name} data-stelle={s.id}> <span>{s.name}</span></label>)}</div>
+      </details>
+      <div class="schritt__fuss" data-nur-js hidden><button class="k k--blau" type="button" data-weiter="2">Weiter zu den Fotos</button></div>
+    </fieldset>
+
+    <fieldset class="schritt" data-schritt="2" data-nur-js hidden>
+      <legend>Fotos vom Schaden <span class="pflicht">(freiwillig)</span></legend>
+      <p class="hilfe">Ein Foto aus etwas Abstand und eines von nah helfen uns am meisten. Höchstens 6.</p>
+      <label class="fotos__knopf" for="f-fotos"><span aria-hidden="true" class="fotos__plus">+</span> Foto machen oder auswählen</label>
+      <input id="f-fotos" class="fotos__eingabe" type="file" accept="image/*" multiple data-fotos>
+      <ul class="fotos__liste" data-fotoliste aria-live="polite"></ul>
+      <div class="schritt__fuss"><button class="k k--hell" type="button" data-zurueck="1">Zurück</button><button class="k k--blau" type="button" data-weiter="3" data-fotoweiter>Ohne Foto weiter</button></div>
+    </fieldset>
+
+    <fieldset class="schritt" data-schritt="3">
+      <legend>Wie erreichen wir Sie?</legend>
+      <p class="zusammen" data-zusammen data-nur-js hidden></p>
+      <div class="feld"><label for="f-name">Name (Pflicht)</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+      <div class="feld"><label for="f-tel">Telefon (Pflicht)</label><input id="f-tel" name="telefon" type="tel" autocomplete="tel" required><p class="hilfe">Damit wir Sie zurückrufen können.</p></div>
+      <div class="feld"><label for="f-mail">Mail (freiwillig)</label><input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254"><p class="hilfe">Für eine Bestätigung und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nichts.</p></div>
+      <label class="schalter"><input type="checkbox" name="tesla" value="ja" data-tesla><span class="schalter__bahn" aria-hidden="true"></span><span>Es ist ein Tesla <small>Auto Speedy ist Tesla Approved Body Shop</small></span></label>
+      <fieldset class="chips tesla-modell" data-tesla-modell hidden>
+        <legend>Welches Modell? (freiwillig)</legend>
+        <div class="chips__wahl">{modelle.map((m) => <label><input type="radio" name="tesla_modell" value={m}> <span>{m}</span></label>)}</div>
+      </fieldset>
+      <div class="feld"><label for="f-bem">Bemerkung (freiwillig)</label><textarea id="f-bem" name="bemerkung" rows="3"></textarea><p class="hilfe">Zum Beispiel: hinten links, beim Parkieren.</p></div>
+      <div class="honig" aria-hidden="true"><label for="f-web">Bitte leer lassen</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+
+      <div class="senden" data-nur-js hidden>
+        <p class="senden__titel">So senden Sie die Meldung</p>
+        <button class="k k--blau k--gross" type="button" data-senden="website" data-zaehl="schaden-website">Hier auf der Website senden<small data-weg-a-hilfe>Mit Fotos, ohne weitere App</small></button>
+        <button class="k k--hell k--gross" type="button" data-senden="whatsapp" data-zaehl="schaden-whatsapp">Per WhatsApp senden<small>Fotos hängen Sie in WhatsApp an</small></button>
+        {wa && !wa.nummer_bestaetigt && <Luecke>Lücke: Die WhatsApp-Nummer {wa.anzeige} stammt von der Website; der Betrieb bestätigt sie noch.</Luecke>}
+        <p class="hilfe">Verantwortlich: {b.name}. Ihre Angaben dienen nur der Bearbeitung Ihrer Meldung.</p>
+      </div>
+      <noscript><button class="k k--blau k--gross" type="submit">Meldung im E-Mail-Programm öffnen</button><p class="hilfe">Fotos hängen Sie in Ihrem E-Mail-Programm an.</p></noscript>
+      <div class="schritt__fuss" data-nur-js hidden><button class="k k--hell" type="button" data-zurueck="2">Zurück</button></div>
+    </fieldset>
+    <p class="rueckmeldung" data-rueckmeldung hidden role="status"></p>
+  </form>
+
+  <article class="karte bestaetigung" data-rapport hidden aria-labelledby="rapport-titel" tabindex="-1">
+    <p class="bestaetigung__haken" aria-hidden="true">✓</p>
+    <h2 id="rapport-titel" data-r-titel>Schadenmeldung</h2>
+    <p class="hilfe" data-r-datum></p>
+    <div class="bestaetigung__fotos" data-r-fotos></div>
+    <dl class="bestaetigung__liste">
+      <div><dt>Was ist passiert?</dt><dd data-r-art></dd></div>
+      <div><dt>Stellen</dt><dd data-r-stellen></dd></div>
+      <div><dt>Bemerkung</dt><dd data-r-text></dd></div>
+      <div><dt>Kontakt</dt><dd data-r-kontakt></dd></div>
+    </dl>
+    <p class="bestaetigung__stand" data-r-stand></p>
+    <div class="knoepfe knoepfe--links"><a class="k k--blau" data-r-nochmal href="#" hidden>Nochmals öffnen</a><button class="k k--hell" type="button" data-r-zurueck>Angaben ändern</button><a class="k k--rand" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="bestaetigung">{b.tel.anzeige}</a></div>
+  </article>
+  </div>
+</div>
+</Klar>
+<script is:inline src="/js/schaden.js" defer></script>
+<script is:inline src="/js/rueckruf.js" defer></script>

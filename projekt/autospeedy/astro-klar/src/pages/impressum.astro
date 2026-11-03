@@ -1,0 +1,20 @@
+---
+import Klar from "../layouts/Klar.astro";
+import Luecke from "../components/Luecke.astro";
+import { betrieb as b } from "../../../astro/bau/daten.mjs";
+---
+<Klar seite="impressum">
+<section class="abschnitt textseite"><div class="abschnitt__innen schmal">
+<h1>Impressum</h1>
+<Luecke>Entwurf, Rechtsprüfung nötig. UID und Verantwortlicher stammen aus Verzeichnissen und der bisherigen Website, nicht aus dem Handelsregister selbst.</Luecke>
+<h2>Betreiber</h2>
+<p>{b.name}<br>{b.strasse}<br>{b.plz} {b.ort} {b.kanton}<br>Schweiz</p>
+<p>Telefon <a href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="impressum">{b.tel.anzeige}</a><br>E-Mail <a href={`mailto:${b.mail}`} data-zaehl="mail" data-ort="impressum">{b.mail}</a></p>
+<h2>Vertretung</h2>
+<p>Shpejtim Pirku, Geschäftsführer</p>
+<h2>Handelsregister</h2>
+<p>UID CHE-221.907.243</p>
+<h2>Fotos und Schrift</h2>
+<p>Fotos und Logo: {b.name}. Schrift: Hanken Grotesk, SIL Open Font License.</p>
+</div></section>
+</Klar>

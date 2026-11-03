@@ -1,0 +1,12 @@
+---
+// Ruhiger Abschluss jeder Unterseite: eine Zeile, zwei Wege (wie Tesla am Seitenende).
+import { betrieb as b } from "../../../astro/bau/daten.mjs";
+const { ort = "abschluss" } = Astro.props;
+---
+<section class="abschluss" aria-label="Schaden melden oder anrufen">
+  <h2>Ein Schaden am Auto?</h2>
+  <div class="knoepfe">
+    <a class="k k--blau" href="/schaden-melden/" data-zaehl="anfrage" data-ort={ort}>Schaden melden</a>
+    <a class="k k--hell" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort={ort}>{b.tel.anzeige}</a>
+  </div>
+</section>

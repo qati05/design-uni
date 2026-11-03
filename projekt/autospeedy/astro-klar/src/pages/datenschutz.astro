@@ -1,0 +1,26 @@
+---
+import Klar from "../layouts/Klar.astro";
+import Luecke from "../components/Luecke.astro";
+import { betrieb as b } from "../../../astro/bau/daten.mjs";
+---
+<Klar seite="datenschutz">
+<section class="abschnitt textseite"><div class="abschnitt__innen schmal">
+<h1>Datenschutz</h1>
+<Luecke>Entwurf, Rechtsprüfung nötig. Der Hoster ist noch nicht gewählt; sein Name und Standort fehlen hier.</Luecke>
+<h2>Verantwortlich</h2>
+<p>{b.name}, {b.strasse}, {b.plz} {b.ort}, <a href={`mailto:${b.mail}`} data-zaehl="mail" data-ort="datenschutz">{b.mail}</a></p>
+<h2>Was diese Website speichert</h2>
+<p>Diese Website setzt keine Cookies und lädt keine Inhalte von fremden Servern. Schriften und Bilder liegen auf dem eigenen Server.</p>
+<h2>Schadenmeldung</h2>
+<p>Senden Sie die Meldung hier auf der Website, speichern wir Ihre Angaben und Fotos in unserem Werkstatt-System (Datenbank in Zürich). Nur unser Team sieht sie. Wir erhalten dazu eine kurze Mail ohne Ihren Namen und Ihre Telefonnummer.</p>
+<p>Geben Sie freiwillig Ihre Mail-Adresse an, schicken wir Ihnen eine Bestätigung und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nutzen wir die Adresse nicht.</p>
+<Luecke>Lücke: Anbieter und Sitz von Datenbank und Mail-Dienst (Vorschlag: Supabase, Region Zürich; Brevo) sowie die Löschfrist werden ergänzt, sobald sie gewählt sind. Rechtsprüfung nötig.</Luecke>
+<p>Wählen Sie «Per WhatsApp senden», öffnet sich WhatsApp mit Ihrer Nachricht. Gesendet wird erst, wenn Sie dort senden; dann gelten die Datenschutzbestimmungen von WhatsApp.</p>
+<p>Wir nutzen Ihre Angaben nur, um Ihre Meldung zu bearbeiten.</p>
+<h2>Occasionen von AutoScout24</h2>
+<p>Auf der Seite Occasionen können Sie die Fahrzeugliste von AutoScout24 anzeigen lassen. Erst wenn Sie auf «Occasionen anzeigen» tippen, lädt AutoScout24 Inhalte von seinen Servern; dabei kann AutoScout24 Daten wie Ihre IP-Adresse erhalten und Cookies setzen. Es gelten die Datenschutzbestimmungen von AutoScout24.</p>
+<Luecke>Lücke: Betreiber und Sitz von AutoScout24 Schweiz sowie Art der Cookies ergänzen, sobald das Widget feststeht. Rechtsprüfung nötig.</Luecke>
+<h2>Links zu anderen Diensten</h2>
+<p>Die Links zu Google Maps und AutoScout24 öffnen diese Dienste erst, wenn Sie darauf tippen. Dann gelten deren Datenschutzbestimmungen.</p>
+</div></section>
+</Klar>

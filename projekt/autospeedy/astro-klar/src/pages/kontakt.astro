@@ -1,0 +1,27 @@
+---
+import Klar from "../layouts/Klar.astro";
+import Kopfbild from "../components/Kopfbild.astro";
+import Rueckruf from "../components/Rueckruf.astro";
+import Zeiten from "../components/Zeiten.astro";
+import Luecke from "../components/Luecke.astro";
+import { betrieb as b } from "../../../astro/bau/daten.mjs";
+---
+<Klar seite="kontakt">
+<Kopfbild kicker="Kontakt" titel="Alte Landstrasse 63." foto="fassade" alt="Gebäude der Auto Speedy AG mit Schild und Eingang «Büro – Empfang»">
+  <p>{b.name}, {b.strasse}, {b.plz} {b.ort} {b.kanton}</p>
+</Kopfbild>
+<section class="abschnitt">
+  <div class="abschnitt__innen">
+    <div class="kontakt">
+      <div class="kontakt__karte"><h3>Telefon</h3><a href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="kontakt">{b.tel.anzeige}</a><small>Mobil <a class="klein" href={`tel:${b.mobil.e164}`} data-zaehl="anruf-mobil" data-ort="kontakt">{b.mobil.anzeige}</a></small></div>
+      <div class="kontakt__karte"><h3>Adresse</h3><p>{b.strasse}<br>{b.plz} {b.ort}</p><small><a class="klein" href={b.route} data-zaehl="route" data-ort="kontakt">Route planen →</a></small></div>
+      <div class="kontakt__karte"><h3>Mail</h3><a href={`mailto:${b.mail}`} data-zaehl="mail" data-ort="kontakt">{b.mail}</a><small>Für Schäden schneller: <a class="klein" href="/schaden-melden/">Schaden melden</a></small></div>
+    </div>
+    <div class="zwei-spalten abstand">
+      <div class="karte"><h2 class="karte__titel">Öffnungszeiten</h2><Zeiten /><Luecke>Lücke: Zu Samstag, Feiertagen, Betriebsferien und einem Notfalldienst fand das Studio keine Angabe des Betriebs.</Luecke></div>
+      <Rueckruf ort="kontakt" titel="Lieber zurückgerufen werden?" text="Hinterlassen Sie Name und Telefon. Wir melden uns." anliegen={["Allgemein"]} />
+    </div>
+  </div>
+</section>
+</Klar>
+<script is:inline src="/js/rueckruf.js" defer></script>

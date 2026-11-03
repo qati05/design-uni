@@ -1,0 +1,22 @@
+---
+// Rückruf in einem Schritt (gleiche Logik und Felder wie die erste Linie: /js/rueckruf.js, art «Rückruf», landet im Cockpit).
+import { betrieb as b, bau, vorschau } from "../../../astro/bau/daten.mjs";
+const { anliegen = ["Allgemein"], titel = "Wir rufen Sie zurück", text, ort = "rueckruf" } = Astro.props;
+const endpunkt = process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt || "";
+const id = `rr-${ort}`;
+---
+<form class="karte rueckruf" data-rueckruf action={`mailto:${b.mail}?subject=R%C3%BCckruf`} method="post" enctype="text/plain" data-endpunkt={endpunkt} data-ist-vorschau={vorschau ? "ja" : "nein"} data-zaehl-start={`rueckruf-${ort}`}>
+  <h2 class="karte__titel">{titel}</h2>
+  {text && <p class="karte__text">{text}</p>}
+  {anliegen.length > 1 ? (
+    <fieldset class="chips"><legend>Worum geht es? (Pflicht)</legend><div class="chips__wahl">{anliegen.map((a: string, i: number) => <label><input type="radio" name="anliegen" value={a} required checked={i === 0}> <span>{a}</span></label>)}</div></fieldset>
+  ) : <input type="hidden" name="anliegen" value={anliegen[0]} />}
+  <div class="felder felder--zwei">
+    <div class="feld"><label for={`${id}-name`}>Name (Pflicht)</label><input id={`${id}-name`} name="name" type="text" autocomplete="name" required></div>
+    <div class="feld"><label for={`${id}-tel`}>Telefon (Pflicht)</label><input id={`${id}-tel`} name="telefon" type="tel" autocomplete="tel" required></div>
+  </div>
+  <div class="honig" aria-hidden="true"><label for={`${id}-web`}>Bitte leer lassen</label><input id={`${id}-web`} name="website" type="text" tabindex="-1" autocomplete="off"></div>
+  <button class="k k--blau" type="submit" data-zaehl={`rueckruf-${ort}`} data-ort={ort}>Rückruf anfordern</button>
+  <p class="hilfe">Verantwortlich: {b.name}. Wir nutzen Name und Telefon nur für den Rückruf.</p>
+  <p class="rueckmeldung" data-rueckmeldung hidden role="status"></p>
+</form>

@@ -1,0 +1,54 @@
+---
+// Alle Leistungen auf einer Seite (Carrosserie, Lackiererei, Felgen und Folien, Firmenkunden); Wortlaut aus der ersten Linie.
+import Klar from "../layouts/Klar.astro";
+import Kopfbild from "../components/Kopfbild.astro";
+import Bild from "../components/Bild.astro";
+import Abschluss from "../components/Abschluss.astro";
+import Luecke from "../components/Luecke.astro";
+---
+<Klar seite="carrosserie" titel="Leistungen: Carrosserie, Lack, Felgen | Auto Speedy AG, Altstätten">
+<Kopfbild kicker="Leistungen" titel="Carrosserie, Lack, Felgen. Unter einem Dach." foto="hebebuehne" alt="Schwarzer Audi mit abgebauter Front auf der Hebebühne in der hellen Halle">
+  <p>Wir reparieren Unfallschäden nach Herstellervorgaben und verwenden ausschliesslich Original-Ersatzteile. Die Schadenabwicklung mit der Versicherung erledigen wir für Sie.</p>
+</Kopfbild>
+<nav class="sprungleiste" aria-label="Leistungen"><a href="#carrosserie">Carrosserie</a><a href="#lackiererei">Lackiererei</a><a href="#felgen">Felgen und Folien</a><a href="/flotten/">Firmenkunden</a></nav>
+
+<section class="abschnitt" id="carrosserie" aria-labelledby="c-titel">
+  <div class="abschnitt__innen">
+    <div class="abschnitt__kopf"><p class="kicker">01 · Carrosserie</p><h2 id="c-titel">Vom Blechschaden bis zum Chassisschaden.</h2></div>
+    <div class="zeilen">
+      <div class="zeile"><Bild name="abgeklebt" alt="Roter Transporter, an der Front mit Folie abgedeckt" sizes="(max-width: 960px) 100vw, 50vw" /><div><h3>Unfall und Blech</h3><ul class="liste"><li>Unfallschäden</li><li>Stossstangen-Reparatur</li><li>Rostreparatur</li><li>Schweissarbeiten</li></ul></div></div>
+      <div class="zeile" id="hagel"><Bild name="dellen" alt="Mitarbeiter mit Werkzeug zum Dellendrücken an einem weissen Auto" sizes="(max-width: 960px) 100vw, 50vw" /><div><h3>Hagel und Dellen</h3><p>Dellendrücken und Hagelschäden.</p></div></div>
+      <div class="zeile"><Bild name="werkstatt" alt="Werkstatt mit Fahrzeug, offener Motorhaube und Messgerät" sizes="(max-width: 960px) 100vw, 50vw" /><div><h3>Scheiben</h3><ul class="liste"><li>Scheibenwechsel</li><li>Scheibenreparatur</li></ul><p class="quelle">Carrosserie Suisse führt Auto Speedy im Branchenverzeichnis als Partner im Bereich Windschutzscheiben.</p></div></div>
+      <div class="zeile"><Bild name="transporter" alt="Weiss-roter Transporter mit offener Front in der Halle" sizes="(max-width: 960px) 100vw, 50vw" /><div><h3>Nutzfahrzeuge und Oldtimer</h3><p>Laut Branchenverzeichnis repariert Auto Speedy auch Nutzfahrzeuge und Anhänger unter und über 3,5 t, Oldtimer und Youngtimer sowie Wohnmobile.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="abschnitt abschnitt--flaeche" id="lackiererei" aria-labelledby="l-titel">
+  <div class="abschnitt__innen">
+    <div class="abschnitt__kopf"><p class="kicker">02 · Lackiererei</p><h2 id="l-titel">Kleine Lackschäden, ganze Lackierungen.</h2><p>Kleine Lackschäden reparieren wir mit möglichst wenig Aufwand, ohne grosse Demontage. Für ganze Lackierungen haben wir neue, grössere Lackierkabinen.</p></div>
+    <div class="zeilen">
+      <div class="zeile"><Bild name="lackierkabine" alt="Lackierer in Schutzkleidung in der Lackierkabine, Fahrzeug blau abgeklebt" sizes="(max-width: 960px) 100vw, 50vw" /><div><h3>Was wir lackieren</h3><ul class="liste"><li>einfache Lackschäden</li><li>komplette Neulackierung</li><li>Versicherungsfälle</li><li>Restaurationen</li><li>Lackieren aller Gegenstände</li></ul></div></div>
+      <div class="zeile"><Bild name="politur" alt="Mitarbeiterin poliert die Tür eines roten Ferrari" sizes="(max-width: 960px) 100vw, 50vw" /><div><h3>Aufpolieren und Aufbereitung</h3><ul class="liste"><li>Aufpolieren</li><li>Fahrzeugaufbereitung</li></ul></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="abschnitt" id="felgen" aria-labelledby="f-titel">
+  <div class="abschnitt__innen">
+    <div class="abschnitt__kopf"><p class="kicker">03 · Felgen und Folien</p><h2 id="f-titel">Felgen und Folien.</h2><p>Bilder aus unserer Arbeit an Alufelgen und Folierungen.</p></div>
+    <div class="raster raster--vier">
+      <Bild name="felge-schaden" alt="Alufelge mit Kratzern am Rand" sizes="(max-width: 960px) 50vw, 25vw" />
+      <Bild name="felge-fertig" alt="Schwarze Alufelge mit glanzgedrehter Front" sizes="(max-width: 960px) 50vw, 25vw" />
+      <Bild name="felge-gold" alt="Goldene Kreuzspeichen-Felge" sizes="(max-width: 960px) 50vw, 25vw" />
+      <Bild name="felge-pink" alt="Pink lackierte Felge auf dem Gitter" sizes="(max-width: 960px) 50vw, 25vw" />
+    </div>
+    <div class="raster raster--zwei">
+      <Bild name="defender-folie" alt="Defender in mattem Grau auf blauem Werkstattboden" sizes="(max-width: 960px) 100vw, 50vw" />
+      <Bild name="defender-seite" alt="Defender in Grau von der Seite, Türen offen" sizes="(max-width: 960px) 100vw, 50vw" />
+    </div>
+    <Luecke>Lücke: Welche Arbeiten an Felgen und welche Folierungen Auto Speedy anbietet, steht auf der bisherigen Website nur als Bild. Den Text liefert der Betrieb.</Luecke>
+  </div>
+</section>
+<Abschluss ort="leistungen" />
+</Klar>

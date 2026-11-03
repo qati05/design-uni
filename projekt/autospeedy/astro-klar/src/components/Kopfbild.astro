@@ -1,0 +1,14 @@
+---
+// Kopf einer Unterseite: Foto über die halbe Höhe, darunter Titel und Einleitung in einer ruhigen Spalte.
+// Ohne Foto: nur der Text auf Weiss (Texte-Seiten wie Impressum).
+import Bild from "./Bild.astro";
+const { kicker, titel, foto, alt } = Astro.props;
+---
+<header class={foto ? "seitenkopf seitenkopf--bild" : "seitenkopf"}>
+  {foto && <div class="seitenkopf__bild"><Bild name={foto} alt={alt} lcp /></div>}
+  <div class="seitenkopf__text">
+    {kicker && <p class="kicker">{kicker}</p>}
+    <h1>{titel}</h1>
+    <div class="seitenkopf__einleitung"><slot /></div>
+  </div>
+</header>

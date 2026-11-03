@@ -1,0 +1,34 @@
+---
+import Klar from "../layouts/Klar.astro";
+import Abschluss from "../components/Abschluss.astro";
+import Luecke from "../components/Luecke.astro";
+---
+<Klar seite="tesla">
+<section class="tesla tesla--seite" aria-labelledby="t-titel">
+  <div class="tesla__innen">
+    <div>
+      <span class="tesla__marke">Tesla Approved Body Shop</span>
+      <h1 id="t-titel">Ihr Tesla. In zugelassenen Händen.</h1>
+      <p>Auto Speedy ist von Tesla als Karosseriewerkstatt zugelassen. Melden Sie den Schaden an Ihrem Tesla direkt hier; das Formular wählt «Tesla» schon aus, das Modell tippen Sie an.</p>
+      <div class="knoepfe"><a class="k k--blau" href="/schaden-melden/?fahrzeug=tesla" data-zaehl="anfrage-tesla" data-ort="tesla">Tesla-Schaden melden</a></div>
+    </div>
+    <ul class="tesla__liste">
+      <li>Unfall- und Blechschäden <span>01</span></li>
+      <li>Lackschäden und Neulackierung <span>02</span></li>
+      <li>Hagelschäden und Dellen <span>03</span></li>
+      <li>Abwicklung mit Ihrer Versicherung <span>04</span></li>
+    </ul>
+  </div>
+</section>
+<section class="abschnitt">
+  <div class="abschnitt__innen schmal">
+    <h2>Modelle</h2>
+    <p class="text-gross">Im Formular wählen Sie Model 3, Model Y, Model S oder Model X. So wissen wir vor dem Rückruf, welches Auto kommt.</p>
+    <div class="modelle" aria-hidden="true">{["Model 3", "Model Y", "Model S", "Model X"].map((m) => <span>{m}</span>)}</div>
+    <Luecke>Lücke: Ob für Tesla weitere Leistungen gelten (zum Beispiel Kalibrierung, Ersatzwagen oder ein eigener Ablauf mit Tesla), sagt der Betrieb noch. Die Liste oben nennt die allgemeinen Leistungen der Carrosserie.</Luecke>
+    <h2>Gut zu wissen</h2>
+    <p>«Tesla Approved Body Shop» steht auf der bisherigen Website des Betriebs bei seinen zertifizierten Partnern. In Teslas eigener Werkstattsuche hat das Studio den Eintrag nicht nachgeprüft.</p>
+  </div>
+</section>
+<Abschluss ort="tesla" />
+</Klar>

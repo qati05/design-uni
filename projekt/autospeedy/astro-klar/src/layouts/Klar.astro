@@ -3,8 +3,8 @@
 import { texte, vorschau, seite as lies } from "../../../astro/bau/daten.mjs";
 import Kopf from "../components/Kopf.astro";
 import Fuss from "../components/Fuss.astro";
-const { seite } = Astro.props;
-const s = lies(seite);
+const { seite, titel } = Astro.props;
+const s = { ...lies(seite), ...(titel ? { titel } : {}) };
 ---
 <!doctype html>
 <html lang="de-CH" data-zaehl-endpunkt={process.env.ZAEHL_ENDPUNKT || undefined}>
@@ -21,7 +21,7 @@ const s = lies(seite);
 <script is:inline src="/js/klar.js" defer></script>
 <script is:inline src="/js/zaehl.js" defer></script>
 </head>
-<body>
+<body data-seite={seite}>
 <a class="sprung" href="#inhalt">{texte.mikrotexte.sprunglink}</a>
 {vorschau && <p data-vorschau>{texte.mikrotexte.vorschauHinweis}</p>}
 <Kopf aktiv={Astro.url.pathname} />

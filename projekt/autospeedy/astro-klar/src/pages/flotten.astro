@@ -1,0 +1,26 @@
+---
+import Klar from "../layouts/Klar.astro";
+import Kopfbild from "../components/Kopfbild.astro";
+import Rueckruf from "../components/Rueckruf.astro";
+import Luecke from "../components/Luecke.astro";
+---
+<Klar seite="flotten">
+<Kopfbild kicker="Firmenkunden" titel="Firmenautos zurück auf die Strasse." foto="transporter" alt="Weiss-roter Transporter mit offener Front in der Halle">
+  <p>Für Garagen, Leasingfirmen und Betriebe mit eigenen Fahrzeugen: Carrosserie und Lack für Personenwagen und Nutzfahrzeuge, mit Schadenabwicklung über die Versicherung.</p>
+</Kopfbild>
+<section class="abschnitt">
+  <div class="abschnitt__innen zwei-spalten">
+    <div>
+      <h2>Was wir für Flotten machen</h2>
+      <ul class="liste"><li>Personenwagen, Nutzfahrzeuge und Anhänger unter und über 3,5 t</li><li>Unfall-, Hagel- und Lackschäden nach Herstellervorgaben</li><li>ausschliesslich Original-Ersatzteile</li><li>Schadenabwicklung mit der Versicherung</li></ul>
+      <p class="quelle">Fahrzeugklassen laut Branchenverzeichnis von Carrosserie Suisse.</p>
+      <h2 class="abstand">Zertifizierte K + L Partner von</h2>
+      <ul class="liste"><li>Tesla (Approved Body Shop)</li><li>AMAG</li><li>Land Rover</li><li>Ayvens</li></ul>
+      <p class="quelle">Laut der bisherigen Website des Betriebs.</p>
+      <Luecke>Lücke: Ansprechperson für Firmenkunden, Ersatzwagen, Abholung und Rückgabe, Rahmenkonditionen. Ergänzt der Betrieb.</Luecke>
+    </div>
+    <Rueckruf ort="flotten" titel="Rückruf für Firmenkunden" text="Sagen Sie uns, worum es geht. Wir rufen Sie zurück." anliegen={["Flotte oder Firmenfahrzeuge", "Garage oder Händler", "Leasing"]} />
+  </div>
+</section>
+</Klar>
+<script is:inline src="/js/rueckruf.js" defer></script>

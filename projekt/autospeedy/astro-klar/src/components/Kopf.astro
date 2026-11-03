@@ -16,6 +16,10 @@ const wege = [["/leistungen/", "Leistungen"], ["/tesla/", "Tesla"], ["/occasione
     <button class="kopf__menu" type="button" data-menu-auf aria-haspopup="dialog">Menü</button>
   </div>
 </header>
+<div class="handyleiste" aria-label="Schnellwahl">
+  <a class="k k--hell" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="leiste">Anrufen</a>
+  <a class="k k--blau" href="/schaden-melden/" data-zaehl="anfrage" data-ort="leiste">Schaden melden</a>
+</div>
 <dialog class="blatt" data-menu aria-label="Menü">
   <div class="blatt__innen">
     <button class="blatt__zu" type="button" data-menu-zu>Schliessen</button>

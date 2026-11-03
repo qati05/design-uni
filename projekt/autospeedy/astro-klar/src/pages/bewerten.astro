@@ -1,0 +1,20 @@
+---
+import Klar from "../layouts/Klar.astro";
+import Luecke from "../components/Luecke.astro";
+import { betrieb as b } from "../../../astro/bau/daten.mjs";
+const bw = b.bewertungen || {};
+---
+<Klar seite="bewerten">
+<section class="abschnitt textseite">
+  <div class="abschnitt__innen schmal mitte">
+    <p class="kicker">Bewerten</p>
+    <h1>Danke für Ihren Auftrag.</h1>
+    <p class="text-gross">Danke, dass Sie Ihr Auto zu uns gebracht haben. Eine kurze Bewertung hilft anderen Autofahrerinnen und Autofahrern in der Region bei der Wahl ihrer Carrosserie.</p>
+    <div class="knoepfe">
+      {bw.google ? <a class="k k--blau" href={bw.google} rel="noopener" target="_blank" data-zaehl="bewertung-google" data-ort="bewerten">Auf Google bewerten</a> : <Luecke>Lücke: Den Link «Rezension schreiben» aus dem Google-Unternehmensprofil trägt der Betrieb ein.</Luecke>}
+      {bw.facebook && <a class="k k--hell" href={bw.facebook} rel="noopener" target="_blank" data-zaehl="bewertung-facebook" data-ort="bewerten">Auf Facebook empfehlen</a>}
+    </div>
+    <p class="hilfe">Etwas hat nicht gepasst? Sagen Sie es uns direkt: <a href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="bewerten">{b.tel.anzeige}</a>.</p>
+  </div>
+</section>
+</Klar>

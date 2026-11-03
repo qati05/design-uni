@@ -1,0 +1,12 @@
+---
+// Öffnungszeiten als Tabelle, nur aus betrieb.json (wie die erste Linie).
+import { betrieb as b, texte as t, bau } from "../../../astro/bau/daten.mjs";
+const w = t.mikrotexte.zeiten;
+const datum = new Intl.DateTimeFormat(bau.sprache, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+const heute = new Date().toISOString().slice(0, 10);
+const zeile = (z: any) => z.zu ? w.geschlossen : z.fenster.map(([von, bis]: string[]) => w.fenster.replace("{von}", von).replace("{bis}", bis)).join(w.trenner);
+---
+<table class="zeiten"><tbody>
+{b.zeiten.map((z: any) => <tr><th scope="row">{z.tage}</th><td>{zeile(z)}</td></tr>)}
+{(b.ausnahmen || []).filter((a: any) => a.datum >= heute).map((a: any) => <tr><th scope="row">{a.name}, <time datetime={a.datum}>{datum.format(new Date(a.datum + "T00:00:00Z"))}</time></th><td>{zeile(a)}</td></tr>)}
+</tbody></table>
