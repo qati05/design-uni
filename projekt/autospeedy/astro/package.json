@@ -7,7 +7,7 @@
     "build": "astro build",
     "bau:abgabe": "STUFE=abgabe astro build",
     "bau:test": "DATEN=test astro build",
-    "test": "node --test test/schaden.test.mjs test/zaehl.test.mjs",
+    "test": "node --test test/schaden.test.mjs test/zaehl.test.mjs test/site.test.mjs",
     "prebuild": "npm ci --prefix ../gemeinsam --silent"
   },
   "dependencies": {
@@ -15,5 +15,8 @@
   },
   "engines": {
     "node": ">=22.22.0"
+  },
+  "devDependencies": {
+    "@sveltia/cms": "0.248.1"
   }
 }

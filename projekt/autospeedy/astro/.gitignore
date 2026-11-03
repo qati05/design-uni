@@ -4,3 +4,4 @@ dist/
 .bau-tmp.mjs
 dist-demo/
 dist-widgettest/
+dist-editor/

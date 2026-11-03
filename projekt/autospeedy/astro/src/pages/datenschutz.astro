@@ -1,6 +1,7 @@
 ---
 import Seite from "../layouts/Seite.astro";
 import Mail from "../components/Mail.astro";
+const turnstile = !!process.env.TURNSTILE_SITEKEY; // Prüfung gegen Missbrauch nur, wenn beim Bau eingerichtet
 import { betrieb as b } from "../../bau/daten.mjs";
 ---
 <Seite seite="datenschutz" abschluss={false}>
@@ -9,9 +10,11 @@ import { betrieb as b } from "../../bau/daten.mjs";
 <h2>Verantwortlich</h2>
 <p>{b.name}, {b.strasse}, {b.plz} {b.ort}, <Mail ort="datenschutz" /></p>
 <h2>Was diese Website speichert</h2>
-<p>Diese Website setzt keine Cookies und lädt keine Inhalte von fremden Servern. Schriften und Bilder liegen auf dem eigenen Server.</p>
+<p>Diese Website setzt keine Cookies. Schriften und Bilder liefern wir selbst aus.{turnstile ? " Nur das Formular lädt zusätzlich die Prüfung von Cloudflare (siehe unten)." : " Sie lädt keine Inhalte von fremden Servern."}</p>
 <h2>Schadenmeldung</h2>
-<p>Senden Sie die Meldung hier auf der Website, speichern wir Ihre Angaben und Fotos in unserem Werkstatt-System (Datenbank in Zürich). Nur unser Team sieht sie. Wir erhalten dazu eine kurze Mail ohne Ihren Namen und Ihre Telefonnummer.</p>
+<p>Senden Sie die Meldung hier auf der Website, speichern wir Ihre Angaben und Fotos in unserem Werkstatt-System (Datenbank in Zürich). Wir erhalten dazu eine kurze Mail ohne Ihren Namen und Ihre Telefonnummer. Ist das Werkstatt-System nicht erreichbar oder nicht eingerichtet, erhalten wir die ganze Meldung mit den Fotos per Mail. Nur unser Team sieht sie.</p>
+{turnstile ? <p>Damit das Formular nicht von Programmen missbraucht wird, prüft Cloudflare Turnstile beim Senden, ob ein Mensch es ausfüllt. Dafür lädt das Formular ein Skript von Cloudflare, und Cloudflare erhält technische Angaben wie Ihre IP-Adresse.</p> : null}
+{turnstile ? <p data-luecke>Lücke: Sitz von Cloudflare, Zweck und Speicherdauer der Turnstile-Daten ergänzen. Rechtsprüfung nötig.</p> : null}
 <p>Geben Sie freiwillig Ihre Mail-Adresse an, schicken wir Ihnen eine Bestätigung und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nutzen wir die Adresse nicht.</p>
 <p data-luecke>Lücke: Anbieter und Sitz von Datenbank und Mail-Dienst (Vorschlag: Supabase, Region Zürich; Brevo) sowie die Löschfrist werden ergänzt, sobald sie gewählt sind. Rechtsprüfung nötig.</p>
 <p>Wählen Sie «Per WhatsApp senden», öffnet sich WhatsApp mit Ihrer Nachricht. Gesendet wird erst, wenn Sie dort senden; dann gelten die Datenschutzbestimmungen von WhatsApp.</p>
