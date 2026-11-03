@@ -466,3 +466,20 @@ body:has(.saison) .kopf.ist-unten { top: 0; }
 body[data-seite="index"] .kopf:not(.ist-unten) { background-color: rgba(8, 10, 12, .58); backdrop-filter: blur(12px) saturate(120%); -webkit-backdrop-filter: blur(12px) saturate(120%); }
 .buehne__tesla { background-color: rgba(8, 10, 12, .58); }
 .buehne__tesla:hover { background-color: rgba(8, 10, 12, .72); }
+
+/* Platzhalter für Widgets, die erst nach Klick laden (Occasionen, Google-Bewertungen) */
+.platzhalter-widget { display: grid; gap: 6px; place-content: center; min-height: 220px; margin: 16px 0; padding: 24px; border: 2px dashed #b9c3cf; border-radius: var(--rund-gross); background: #f4f6f9; color: #3d4652; text-align: center; }
+.platzhalter-widget b { font-size: 17px; color: #171a20; }
+.platzhalter-widget span { font-size: 14px; max-width: 46ch; margin: 0 auto; }
+
+/* Google-Bewertungen auf der Startseite: Platzhalter, bis der Widget-Code vom Betrieb da ist. */
+.bewertungen__platzhalter { padding: 20px; border-radius: var(--rund); border: 2px dashed var(--linie); color: var(--grau); }
+.bewertungen__platzhalter p { margin: 0; }
+
+/* Partner-Logos (von autospeedy.ch übernommen) */
+.partner-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; margin: 0 0 12px; padding: 0; list-style: none; }
+.partner-logos li { display: flex; align-items: center; }
+.partner-logos img { display: block; height: 40px; width: auto; max-width: 100%; }
+
+/* Logos einheitlich: jedes auf einer gleichen weissen Karte (einige Dateien haben weissen Hintergrund) */
+.partner-logos img { background: #fff; padding: 10px 14px; box-sizing: content-box; border: 1px solid #dde3ea; }

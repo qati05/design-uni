@@ -804,3 +804,17 @@ header .aktionen .knopf[aria-current="page"] { display: none; }
 .tesla-modell__wahl span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 2px solid var(--babyblau-tief); background: var(--tafel, #fff); font-weight: 600; }
 .tesla-modell__wahl input:checked + span { background: var(--gebotsblau); border-color: var(--gebotsblau); color: #fff; }
 .tesla-modell__wahl input:focus-visible + span { outline: 3px solid var(--gebotsblau); outline-offset: 2px; }
+
+/* Google-Bewertungen auf der Startseite: Platzhalter, bis der Widget-Code vom Betrieb da ist. */
+.band__kicker { margin: 0 0 8px; font-size: 14px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--hallengrau); }
+.bewertungen__platzhalter { padding: clamp(20px, 3vw, 32px); border: 2px dashed var(--babyblau-tief); }
+.bewertungen__platzhalter p { margin: 0; max-width: 64ch; }
+
+/* Partner-Logos (von autospeedy.ch übernommen) */
+.partner-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 40px; margin: 0 0 16px; padding: 0; list-style: none; }
+.partner-logos li { display: flex; align-items: center; }
+.partner-logos a { display: flex; }
+.partner-logos img { display: block; height: 44px; width: auto; max-width: 100%; }
+
+/* Logos einheitlich: jedes auf einer gleichen weissen Karte (einige Dateien haben weissen Hintergrund) */
+.partner-logos img { background: #fff; padding: 10px 14px; box-sizing: content-box; border: 1px solid #dde3ea; }

@@ -52,12 +52,13 @@ const arten = (artenDaten as any).arten;
 
 <section class="band band--silber" aria-labelledby="partner-titel">
   <h2 id="partner-titel" class="band__titel">Zertifizierte K + L Partner von</h2>
-  <ul class="partner">
-    <li><a href="/tesla/">Tesla <small>Approved Body Shop</small></a></li>
-    <li>AMAG</li>
-    <li>Land Rover</li>
-    <li>Ayvens</li>
+  <ul class="partner-logos">
+    <li><a href="/tesla/"><img src="/bilder/partner/tesla-approved-body-shop.webp" alt="Tesla Approved Body Shop" width="300" height="84" loading="lazy" decoding="async"></a></li>
+    <li><img src="/bilder/partner/amag.webp" alt="AMAG" width="300" height="102" loading="lazy" decoding="async"></li>
+    <li><img src="/bilder/partner/land-rover.webp" alt="Land Rover" width="300" height="155" loading="lazy" decoding="async"></li>
+    <li><img src="/bilder/partner/ayvens.webp" alt="Ayvens" width="300" height="61" loading="lazy" decoding="async"></li>
   </ul>
+  <p data-luecke>Lücke: Logos von autospeedy.ch übernommen; Nutzung mit den Partnern zu bestätigen.</p>
   <p class="quelle">Laut der bisherigen Website des Betriebs. Ausbildungsbetrieb und Mitglied von Carrosserie Suisse, Sektion Ostschweiz.</p>
 </section>
 
@@ -71,6 +72,35 @@ const arten = (artenDaten as any).arten;
     <Foto name="felge-fertig" alt="Schwarze Alufelge mit glanzgedrehter Front" sizes="(max-width: 860px) 50vw, 25vw" />
   </div>
 </section>
+
+<section class="band band--weiss" aria-labelledby="bewertungen-titel">
+  <p class="band__kicker">Google-Bewertungen</p>
+  <h2 id="bewertungen-titel" class="band__titel">Was Kunden sagen</h2>
+  <div class="fremd" data-bewertungen>
+    <div class="fremd__platz">
+      <p class="fremd__titel">Google-Bewertungen</p>
+      <p>Die Bewertungen unserer Kundinnen und Kunden zeigen wir direkt von Google, so wie sie dort stehen.</p>
+      <p class="fremd__datenschutz">Beim Anzeigen lädt Google Inhalte von seinen Servern und kann dabei Cookies setzen. Vorher wird nichts geladen. Mehr in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+      <button class="knopf" type="button" data-bewertungen-laden onclick="this.hidden=true;this.closest('section').querySelector('[data-bewertungen-ziel]').hidden=false">Google-Bewertungen anzeigen</button>
+    </div>
+    <div class="fremd__inhalt bewertungen__platzhalter" data-bewertungen-ziel hidden>
+      <p>Hier erscheinen die Google-Bewertungen des Betriebs, live von Google.</p>
+    </div>
+  </div>
+  <p data-luecke>Lücke: Google-Profil und Widget-Code vom Betrieb. Bewertungen werden nicht abgeschrieben, sondern live angezeigt.</p>
+</section>
+<script is:inline>
+(function () {
+  [].forEach.call(document.querySelectorAll("[data-bewertungen]"), function (box) {
+    var knopf = box.querySelector("[data-bewertungen-laden]"); if (!knopf) return;
+    knopf.hidden = false;
+    knopf.addEventListener("click", function () {
+      box.querySelector("[data-bewertungen-ziel]").hidden = false;
+      box.classList.add("ist-geladen"); knopf.hidden = true;
+    });
+  });
+})();
+</script>
 
 <section class="anfahrt" aria-labelledby="anfahrt-titel">
   <figure class="anfahrt__bild"><Foto name="fassade" alt="Gebäude der Auto Speedy AG mit Schild und Eingang «Büro – Empfang», davor ein Defender" sizes="(max-width: 860px) 100vw, 50vw" /></figure>

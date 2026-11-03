@@ -2,6 +2,7 @@
 // Startseite der Linie «Klar». Wortlaut nur aus fakten.md und der ersten Linie (texte.json, arten.json), nichts Neues behauptet.
 import Klar from "../layouts/Klar.astro";
 import Bild from "../components/Bild.astro";
+import Luecke from "../components/Luecke.astro";
 import { betrieb as b, zeitenKurz } from "../../../astro/bau/daten.mjs";
 import { site } from "../../../astro/bau/daten.mjs";
 const leute = site.team.flatMap((g: any) => g.leute.map((p: any) => ({ ...p, gruppe: g.name }))).filter((p: any) => p.foto).slice(0, 5);
@@ -112,6 +113,30 @@ const leute = site.team.flatMap((g: any) => g.leute.map((p: any) => ({ ...p, gru
     <div class="mehr"><a class="k k--rand" href="/team/">Ganzes Team</a></div>
   </div>
 </section>
+
+<section class="abschnitt" aria-labelledby="bewertungen-titel">
+  <div class="abschnitt__innen">
+    <div class="abschnitt__kopf zeigen"><p class="kicker">Google-Bewertungen</p><h2 id="bewertungen-titel">Was Kunden sagen.</h2></div>
+    <div class="karte" data-bewertungen>
+      <p class="karte__text">Die Bewertungen unserer Kundinnen und Kunden zeigen wir direkt von Google, so wie sie dort stehen.</p>
+      <p class="hilfe">Beim Anzeigen lädt Google Inhalte von seinen Servern und kann dabei Cookies setzen. Vorher wird nichts geladen. Mehr in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+      <div><button class="k k--blau" type="button" data-bewertungen-laden onclick="this.hidden=true;this.closest('section').querySelector('[data-bewertungen-ziel]').hidden=false">Google-Bewertungen anzeigen</button></div>
+      <div class="bewertungen__platzhalter" data-bewertungen-ziel hidden><p>Hier erscheinen die Google-Bewertungen des Betriebs, live von Google.</p></div>
+      <Luecke>Lücke: Google-Profil und Widget-Code vom Betrieb. Bewertungen werden nicht abgeschrieben, sondern live angezeigt.</Luecke>
+    </div>
+  </div>
+</section>
+<script is:inline>
+(function () {
+  [].forEach.call(document.querySelectorAll("[data-bewertungen]"), function (box) {
+    var knopf = box.querySelector("[data-bewertungen-laden]"); if (!knopf) return;
+    knopf.hidden = false;
+    knopf.addEventListener("click", function () {
+      box.querySelector("[data-bewertungen-ziel]").hidden = false; knopf.hidden = true;
+    });
+  });
+})();
+</script>
 
 <section class="abschnitt abschnitt--flaeche" aria-labelledby="kontakt-titel">
   <div class="abschnitt__innen">

@@ -12,7 +12,7 @@ def best(name):
 cache={}
 def img(m):
     tag=m.group(0)
-    team=re.search(r'src="bilder/(team/[a-z0-9-]+\.webp)"',tag)
+    team=re.search(r'src="bilder/((?:team|partner)/[a-z0-9-]+\.webp)"',tag)
     if team:
         p='bilder/'+team.group(1)
         if p not in cache: cache[p]=uri(p,'image/webp')

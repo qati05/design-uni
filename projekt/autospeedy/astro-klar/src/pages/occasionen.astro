@@ -18,6 +18,7 @@ const w = b.occasionen?.widget;
       <p class="hilfe">Beim Anzeigen lädt AutoScout24 Inhalte von seinen Servern und kann dabei Cookies setzen. Vorher wird nichts geladen. Mehr in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
       {w?.src ? <button class="k k--blau" type="button" data-fremd-laden hidden>Occasionen anzeigen</button> : <Luecke>Lücke: Den Code für das Widget stellt AutoScout24 dem Betrieb zur Verfügung. Bis dahin führt der Link direkt zur Liste.</Luecke>}
       <a class="k k--hell" href={b.occasionen?.liste} rel="noopener" target="_blank" data-zaehl="autoscout" data-ort="occasionen">Liste auf AutoScout24 öffnen</a>
+      {w?.src ? null : <div class="platzhalter-widget" aria-label="Platzhalter für die Occasionen-Liste"><b>Hier erscheint die Occasionen-Liste von AutoScout24</b><span>So wird sie eingebaut: 1. AutoScout24 gibt dem Betrieb den Code für das Widget. 2. Wir tragen ihn ein. 3. Tippt jemand auf «Occasionen anzeigen», lädt die aktuelle Liste genau hier, mit Fotos und Preisen von AutoScout24.</span></div>}
       <div data-fremd-ziel></div>
       <h3>Was wir anbieten</h3>
       <ul class="liste"><li>Verkauf von Occasionen</li><li>Autoankauf</li><li>Leasing</li><li>technische Beratung</li><li>Abwicklung von Versicherungen</li></ul>
