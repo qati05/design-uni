@@ -124,7 +124,7 @@
     rapport.querySelector("[data-r-titel]").textContent = titel;
     rapport.querySelector("[data-r-datum]").textContent = d + " Uhr";
     rapport.querySelector("[data-r-art]").textContent = art() + (tesla() ? " (" + teslaText() + ")" : "");
-    rapport.querySelector("[data-r-stellen]").textContent = gewaehlt().join(", ") || "nicht angegeben";
+    var rs = rapport.querySelector("[data-r-stellen]"); rs.textContent = gewaehlt().join(", "); var rz = rs.closest("div") && rs.closest("div").parentElement === rapport.querySelector("dl") ? rs.closest("div") : null; if (rz) rz.hidden = !gewaehlt().length; else { rs.hidden = !gewaehlt().length; if (rs.previousElementSibling) rs.previousElementSibling.hidden = !gewaehlt().length; }
     rapport.querySelector("[data-r-text]").textContent = wert("bemerkung") || "keine";
     rapport.querySelector("[data-r-kontakt]").textContent = wert("name") + ", " + wert("telefon");
     rapport.querySelector("[data-r-stand]").textContent = stand;

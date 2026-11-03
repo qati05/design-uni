@@ -13,6 +13,10 @@
 | AutoScout24-Widget, lädt erst nach Klick | `astro/src/components/FremdInhalt.astro` | gebaut, Widget-Code fehlt (Lücke) |
 | Skizze für das Gespräch | Excalidraw im Chat; Video und Bilder in `vorschau/` | fertig |
 
+## Zwei Gestaltungslinien
+- **Lack** (`astro/`): Babyblau, Lackpartikel, kursive Titel. Vorschau `vorschau/auto-speedy-vorschau.html`, Demo `vorschau/auto-speedy-demo.html`.
+- **Klar** (`astro-klar/`): ruhig, Vollbild-Foto, dunkle Lichtregel, eine Akzentfarbe. Vorschau `vorschau/auto-speedy-vorschau-klar.html`, Demo `vorschau/auto-speedy-demo-klar.html`, Prüfbericht `vorschau/klar/PRUEFBERICHT.md`.
+
 ## Noch vom Betrieb nötig
 WhatsApp-Nummer (dass der Betrieb WhatsApp nutzt, ist laut Studio bestätigt) · wer im Team ein Cockpit-Konto bekommt · Rückruf-Zeit und wer Meldungen liest · Google-Link «Rezension schreiben» · AutoScout24-Widget-Code · Logo als Vektordatei · Rechte an Fotos und Einwilligung des Teams · Samstag, Feiertage, Ferien · Löschfrist für Meldungen · Konditionen für Firmenkunden, Ersatzwagen.
 

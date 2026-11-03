@@ -799,6 +799,15 @@ header .aktionen .knopf[aria-current="page"] { display: none; }
 .teamkarten strong { font-size: 19px; }
 .teamkarten a { font-size: 15px; overflow-wrap: anywhere; }
 @media (max-width: 520px) { .teamkarten ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
+/* Tesla-Modell zum Antippen (erscheint mit «Es ist ein Tesla») */
+.tesla-modell { margin: 4px 0 0; padding: 0; border: 0; }
+.tesla-modell legend { font-weight: 600; margin-bottom: 8px; }
+.tesla-modell__wahl { display: flex; flex-wrap: wrap; gap: 8px; }
+.tesla-modell__wahl label { position: relative; display: inline-flex; cursor: pointer; }
+.tesla-modell__wahl input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.tesla-modell__wahl span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 2px solid var(--babyblau-tief); background: var(--tafel, #fff); font-weight: 600; }
+.tesla-modell__wahl input:checked + span { background: var(--gebotsblau); border-color: var(--gebotsblau); color: #fff; }
+.tesla-modell__wahl input:focus-visible + span { outline: 3px solid var(--gebotsblau); outline-offset: 2px; }
 
 header{top:env(safe-area-inset-top,0px)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:25;background:#f3f5f6}
@@ -987,6 +996,10 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     <div><label for="f-tel">Telefon (Pflicht)</label><input id="f-tel" name="telefon" type="tel" autocomplete="tel" required><p class="hilfe">Damit wir Sie zurückrufen können.</p></div>
     <div><label for="f-mail">Mail (freiwillig)</label><input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254"><p class="hilfe">Für eine Bestätigung und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nichts.</p></div>
     <label class="tesla-wahl"><input type="checkbox" name="tesla" value="ja" data-tesla> Es ist ein Tesla <small>Auto Speedy ist Tesla Approved Body Shop</small></label>
+    <fieldset class="tesla-modell" data-tesla-modell hidden>
+      <legend>Welches Modell? (freiwillig)</legend>
+      <div class="tesla-modell__wahl"><label><input type="radio" name="tesla_modell" value="Model 3"> <span>Model 3</span></label><label><input type="radio" name="tesla_modell" value="Model Y"> <span>Model Y</span></label><label><input type="radio" name="tesla_modell" value="Model S"> <span>Model S</span></label><label><input type="radio" name="tesla_modell" value="Model X"> <span>Model X</span></label><label><input type="radio" name="tesla_modell" value="Anderes Modell"> <span>Anderes Modell</span></label></div>
+    </fieldset>
     <div><label for="f-bem">Bemerkung (freiwillig)</label><textarea id="f-bem" name="bemerkung" rows="3"></textarea><p class="hilfe">Zum Beispiel: hinten links, beim Parkieren.</p></div>
     <div class="honig" aria-hidden="true"><label for="f-web">Bitte leer lassen</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 
@@ -1513,7 +1526,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 var T={"start": "Carrosserie und Spritzwerk in Altstätten SG | Auto Speedy", "schaden-melden": "Schaden melden in Altstätten SG | Auto Speedy AG", "tesla": "Tesla Approved Body Shop in Altstätten SG | Auto Speedy", "carrosserie": "Carrosserie und Unfallreparatur in Altstätten | Auto Speedy", "lackiererei": "Autolackiererei und Spritzwerk in Altstätten | Auto Speedy", "felgen-folierung": "Alufelgen und Folierung in Altstätten SG | Auto Speedy AG", "occasionen": "Occasionen, Ankauf und Leasing in Altstätten | Auto Speedy", "team": "Team der Carrosserie Auto Speedy in Altstätten SG", "kontakt": "Kontakt und Anfahrt, Carrosserie Altstätten | Auto Speedy", "flotten": "Carrosserie für Firmen und Flotten in Altstätten | Auto Speedy", "bewerten": "Bewertung abgeben | Auto Speedy AG, Carrosserie Altstätten", "impressum": "Impressum | Auto Speedy AG, Carrosserie Altstätten SG", "datenschutz": "Datenschutz | Auto Speedy AG, Carrosserie Altstätten SG"}, ans=[].slice.call(document.querySelectorAll('[data-ansicht]'));
 function zeig(){var h=(location.hash||'#start').slice(1); if(!T[h]) h='start';
  ans.forEach(function(a){a.hidden=a.getAttribute('data-ansicht')!==h});
- document.title=T[h];
+ document.title=T[h]; document.body.setAttribute('data-seite', h==='start'?'index':h);
  [].forEach.call(document.querySelectorAll('header a[href^="#"]'),function(a){var p=a.getAttribute('href').slice(1); if(p===h&&h!=='start') a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');});
  [].forEach.call(document.querySelectorAll('details.menue,[data-leistungen]'),function(d){d.open=false;}); window.scrollTo(0,0);}
 window.addEventListener('hashchange',zeig); zeig();
@@ -1552,6 +1565,12 @@ document.addEventListener('click',function(e){var z=e.target.closest('[data-abfr
   function gewaehlt() { return kaestchen.filter(function (k) { return k.checked; }).map(function (k) { return k.value; }); }
   function wert(n) { var e = f.elements[n]; return e && e.value ? e.value.trim() : ""; }
   function tesla() { var t = f.querySelector("[data-tesla]"); return !!(t && t.checked); }
+  // Tesla: Modell zum Antippen, nur wenn «Es ist ein Tesla» gewählt ist (Empfang bleibt gleich, das Modell steht in Meldung und Mail)
+  var modellFeld = f.querySelector("[data-tesla-modell]");
+  function modell() { var r = tesla() && f.querySelector('input[name="tesla_modell"]:checked'); return r ? r.value : ""; }
+  function teslaText() { return tesla() ? "Tesla" + (modell() && modell() !== "Anderes Modell" ? " " + modell() : "") : ""; }
+  function zeigeModell() { if (modellFeld) modellFeld.hidden = !tesla(); }
+  var teslaKasten = f.querySelector("[data-tesla]"); if (teslaKasten) teslaKasten.addEventListener("change", zeigeModell);
   function fasseZusammen() {
     var z = f.querySelector("[data-zusammen]"); if (!z) return;
     var teile = [art() || "Art fehlt"]; if (gewaehlt().length) teile.push(gewaehlt().join(", "));
@@ -1613,6 +1632,7 @@ document.addEventListener('click',function(e){var z=e.target.closest('[data-abfr
   // Vorwahl über die Adresse oder die Vorschau-Datei: ?art=hagel, ?fahrzeug=tesla, ?stelle=dach
   function anwenden(q) {
     if (q.get("fahrzeug") === "tesla") { var t = f.querySelector("[data-tesla]"); if (t) t.checked = true; }
+    zeigeModell();
     kaestchen.forEach(function (k) { if (q.getAll("stelle").indexOf(k.dataset.stelle) > -1) k.checked = true; }); zeichne();
     var a = q.get("art") && f.querySelector('input[data-art="' + q.get("art") + '"]');
     if (a) { a.checked = true; zeige(2, false); requestAnimationFrame(function () { f.scrollIntoView({ block: "start" }); }); } else zeige(1, false);
@@ -1623,7 +1643,7 @@ document.addEventListener('click',function(e){var z=e.target.closest('[data-abfr
 
   // Senden
   function nachricht() {
-    return "Schadenmeldung über autospeedy.ch\n\nWas ist passiert: " + art() + "\nTesla: " + (tesla() ? "ja" : "nein") +
+    return "Schadenmeldung über autospeedy.ch\n\nWas ist passiert: " + art() + "\nTesla: " + (tesla() ? "ja" + (modell() ? ", " + modell() : "") : "nein") +
       "\nStellen: " + (gewaehlt().join(", ") || "nicht angegeben") + "\nBemerkung: " + (wert("bemerkung") || "keine") +
       "\nName: " + wert("name") + "\nTelefon: " + wert("telefon") + "\n";
   }
@@ -1638,8 +1658,8 @@ document.addEventListener('click',function(e){var z=e.target.closest('[data-abfr
     var d = new Intl.DateTimeFormat("de-CH", { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }).format(new Date());
     rapport.querySelector("[data-r-titel]").textContent = titel;
     rapport.querySelector("[data-r-datum]").textContent = d + " Uhr";
-    rapport.querySelector("[data-r-art]").textContent = art() + (tesla() ? " (Tesla)" : "");
-    rapport.querySelector("[data-r-stellen]").textContent = gewaehlt().join(", ") || "nicht angegeben";
+    rapport.querySelector("[data-r-art]").textContent = art() + (tesla() ? " (" + teslaText() + ")" : "");
+    var rs = rapport.querySelector("[data-r-stellen]"); rs.textContent = gewaehlt().join(", "); var rz = rs.closest("div") && rs.closest("div").parentElement === rapport.querySelector("dl") ? rs.closest("div") : null; if (rz) rz.hidden = !gewaehlt().length; else { rs.hidden = !gewaehlt().length; if (rs.previousElementSibling) rs.previousElementSibling.hidden = !gewaehlt().length; }
     rapport.querySelector("[data-r-text]").textContent = wert("bemerkung") || "keine";
     rapport.querySelector("[data-r-kontakt]").textContent = wert("name") + ", " + wert("telefon");
     rapport.querySelector("[data-r-stand]").textContent = stand;
@@ -1668,7 +1688,7 @@ document.addEventListener('click',function(e){var z=e.target.closest('[data-abfr
       }
       var daten = new FormData();
       daten.append("art", art()); daten.append("name", wert("name")); daten.append("telefon", wert("telefon"));
-      daten.append("bemerkung", wert("bemerkung")); if (wert("email")) daten.append("email", wert("email")); daten.append("website", wert("website")); if (tesla()) daten.append("tesla", "ja");
+      daten.append("bemerkung", wert("bemerkung")); if (wert("email")) daten.append("email", wert("email")); daten.append("website", wert("website")); if (tesla()) daten.append("tesla", "ja"); if (modell()) daten.append("tesla_modell", modell());
       gewaehlt().forEach(function (s) { daten.append("stelle", s); });
       fotos.forEach(function (x, i) { daten.append("foto", x.blob, "schaden-" + (i + 1) + ".jpg"); });
       sendet = true; melde("Ihre Meldung wird gesendet …");

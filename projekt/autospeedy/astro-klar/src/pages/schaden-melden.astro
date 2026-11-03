@@ -15,7 +15,7 @@ const modelle = ["Model 3", "Model Y", "Model S", "Model X", "Anderes Modell"];
 <Klar seite="schaden-melden">
 <div class="melden-seite">
   <div class="melden-seite__links">
-    <p class="kicker">Schaden melden</p>
+    <p class="kicker">Schaden melden · Auto Speedy, Altstätten SG</p>
     <h1>In drei Schritten gemeldet.</h1>
     <p class="melden-seite__einleitung">Sagen Sie uns, was passiert ist, zeigen Sie es mit Fotos, und wir melden uns. Die Abwicklung mit Ihrer Versicherung übernehmen wir.</p>
     <p class="melden-seite__tel">Lieber sprechen? <a href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="schaden">{b.tel.anzeige}</a></p>
@@ -62,7 +62,7 @@ const modelle = ["Model 3", "Model Y", "Model S", "Model X", "Anderes Modell"];
         <div class="chips__wahl">{modelle.map((m) => <label><input type="radio" name="tesla_modell" value={m}> <span>{m}</span></label>)}</div>
       </fieldset>
       <div class="feld"><label for="f-bem">Bemerkung (freiwillig)</label><textarea id="f-bem" name="bemerkung" rows="3"></textarea><p class="hilfe">Zum Beispiel: hinten links, beim Parkieren.</p></div>
-      <div class="honig" aria-hidden="true"><label for="f-web">Bitte leer lassen</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <div class="honig" aria-hidden="true"><label for="f-web">Bitte leer lassen (freiwillig)</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 
       <div class="senden" data-nur-js hidden>
         <p class="senden__titel">So senden Sie die Meldung</p>

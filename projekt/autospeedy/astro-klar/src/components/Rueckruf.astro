@@ -15,7 +15,7 @@ const id = `rr-${ort}`;
     <div class="feld"><label for={`${id}-name`}>Name (Pflicht)</label><input id={`${id}-name`} name="name" type="text" autocomplete="name" required></div>
     <div class="feld"><label for={`${id}-tel`}>Telefon (Pflicht)</label><input id={`${id}-tel`} name="telefon" type="tel" autocomplete="tel" required></div>
   </div>
-  <div class="honig" aria-hidden="true"><label for={`${id}-web`}>Bitte leer lassen</label><input id={`${id}-web`} name="website" type="text" tabindex="-1" autocomplete="off"></div>
+  <div class="honig" aria-hidden="true"><label for={`${id}-web`}>Bitte leer lassen (freiwillig)</label><input id={`${id}-web`} name="website" type="text" tabindex="-1" autocomplete="off"></div>
   <button class="k k--blau" type="submit" data-zaehl={`rueckruf-${ort}`} data-ort={ort}>Rückruf anfordern</button>
   <p class="hilfe">Verantwortlich: {b.name}. Wir nutzen Name und Telefon nur für den Rückruf.</p>
   <p class="rueckmeldung" data-rueckmeldung hidden role="status"></p>

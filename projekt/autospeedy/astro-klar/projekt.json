@@ -1,0 +1,84 @@
+{
+  "_hinweis": "Prüfangaben für design-uni/werkzeuge/pruefen.cjs (DP6), Linie «Klar». Werte aus fakten.md (siehe ../astro, gleiche Quelle).",
+  "name": "Auto Speedy AG, Linie Klar (Vorschau)",
+  "site": "dist",
+  "seiten": [
+    "index",
+    "schaden-melden",
+    "tesla",
+    "leistungen",
+    "occasionen",
+    "team",
+    "kontakt",
+    "flotten",
+    "bewerten",
+    "impressum",
+    "datenschutz",
+    "404"
+  ],
+  "seitenOhneKontakt": [
+    "404",
+    "impressum",
+    "datenschutz"
+  ],
+  "telefon": [
+    "071 755 88 61",
+    "076 615 44 41"
+  ],
+  "landesvorwahl": "+41",
+  "telefonImMenueReicht": false,
+  "hauptaktion": {
+    "text": "Schaden melden",
+    "selektor": "header a[href=\"/schaden-melden/\"]",
+    "href": "/schaden-melden/",
+    "fest": true,
+    "mehrfach": false,
+    "ausnahmen": [
+      "404",
+      "schaden-melden"
+    ]
+  },
+  "formular": {
+    "_hinweis": "Die Schadenmeldung hat drei Schritte; pruefen.cjs spielt nur einschrittige Formulare durch. Geprüft wird hier der Rückruf auf Kontakt; die Schadenmeldung prüft bau/pruefen-tesla-formular.cjs.",
+    "seite": "kontakt/index.html",
+    "selektor": "[data-rueckruf]",
+    "senden": "[data-rueckruf] button[type=submit]",
+    "bestaetigung": "[data-rueckruf] [data-rueckmeldung]:not([hidden])",
+    "felder": [
+      3,
+      5
+    ],
+    "pflicht": 2,
+    "verantwortlich": "Auto Speedy AG",
+    "fuellen": {
+      "#rr-kontakt-name": "Test Person",
+      "#rr-kontakt-tel": "079 000 00 00"
+    },
+    "endpunkt": false
+  },
+  "text": {
+    "anrede": "Sie",
+    "eszett": false,
+    "guillemets": true,
+    "gedankenstriche": false,
+    "uhrzeitMitPunkt": true
+  },
+  "jsonld": {
+    "typ": "AutoBodyShop"
+  },
+  "vorschau": true,
+  "zahlen": {
+    "071 755 88 61": "fakten.md F2",
+    "076 615 44 41": "fakten.md F2",
+    "9450": "PLZ, fakten.md",
+    "63": "Hausnummer, fakten.md",
+    "7.30": "Öffnungszeiten F3",
+    "12.00": "Öffnungszeiten F3",
+    "13.15": "Öffnungszeiten F3",
+    "17.30": "Öffnungszeiten F3",
+    "17.15": "Öffnungszeiten F3",
+    "3,5": "Branchenverzeichnis",
+    "221.907.243": "UID",
+    "404": "Fehlerseite (HTTP-Status)"
+  }
+}

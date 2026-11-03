@@ -136,7 +136,7 @@ p { margin: 0; text-wrap: pretty; }
 .kachel:hover img { transform: scale(1.035); }
 .kachel__text { padding: 24px; display: grid; gap: 6px; }
 .kachel h3 { font-size: 26px; }
-.kachel p { color: rgba(255, 255, 255, .85); font-size: 15px; }
+.kachel p { color: #fff; font-size: 15px; }
 .kachel__pfeil { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 14px; font-weight: 500; }
 .kachel__pfeil::after { content: "→"; transition: transform .2s; }
 .kachel:hover .kachel__pfeil::after { transform: translateX(3px); }
@@ -407,3 +407,62 @@ p { margin: 0; text-wrap: pretty; }
 .chips__wahl label input:checked + span, .chips__wahl label:hover input:checked + span { background: var(--tinte); color: #fff; }
 .tesla-modell .chips__wahl label input:checked + span, .tesla-modell .chips__wahl label:hover input:checked + span { background: var(--blau); color: #fff; }
 @media (max-width: 960px) { [data-seite="schaden-melden"] .handyleiste { display: none; } body[data-seite="schaden-melden"] { padding-bottom: 0; } }
+
+/* Prüflauf DP6: lesbare Zeilen, Text über Bildern auf eigener Fläche, Kopf am Handy */
+main p, main li { max-width: 62ch; }
+.mitte p { margin-inline: auto; }
+.honig { display: none; }
+.kachel__text { margin: 12px; padding: 18px 20px; border-radius: 12px; background-color: rgba(14, 16, 19, .62); backdrop-filter: blur(10px) saturate(130%); -webkit-backdrop-filter: blur(10px) saturate(130%); }
+.kachel::before { display: none; }
+.kontakt__karte h2 { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--grau); }
+body[data-seite="index"] .kopf:not(.ist-unten) .kopf__aktion { visibility: hidden; }
+.tel__symbol { display: none; }
+@media (max-width: 960px) {
+  .handyleiste { display: none !important; }
+  body { padding-bottom: 0 !important; }
+  .kopf__rechts a.tel { display: inline-flex !important; width: 44px; justify-content: center; padding: 0; }
+  .tel__symbol { display: block; }
+  .tel__nummer { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .kopf__rechts .k--klein { display: inline-flex !important; padding: 0 12px; }
+  body[data-seite="index"] .kopf:not(.ist-unten) .kopf__aktion { visibility: visible; }
+  .buehne .knoepfe .k--blau { display: none; }
+  [data-vorschau] { top: auto; bottom: 10px; }
+}
+
+/* Startseite, Runde 2 nach dem blinden Bildtest: dunkle Lichtregel statt Weissschleier, Text unten links,
+   eine Aktion im Bild, Tesla als ruhige Marke oben (Porsche/Polestar-Haltung, eigene Umsetzung) */
+.buehne--start { color: #fff; grid-template-rows: auto 1fr; padding: calc(var(--kopf) + 20px) var(--rand) clamp(48px, 10vh, 104px); }
+.buehne--start > img { object-position: 50% 30%; filter: saturate(.9) contrast(1.04); }
+.buehne--start::before { background: linear-gradient(90deg, rgba(8, 10, 12, .62) 0%, rgba(8, 10, 12, .3) 38%, rgba(8, 10, 12, 0) 62%), linear-gradient(180deg, rgba(8, 10, 12, .55) 0%, rgba(8, 10, 12, .1) 26%, rgba(8, 10, 12, 0) 44%, rgba(8, 10, 12, .4) 66%, rgba(8, 10, 12, .85) 100%); }
+.buehne--start .buehne__text { align-self: end; justify-items: start; text-align: left; max-width: var(--breit); width: 100%; margin: 0 auto; gap: 14px; }
+.buehne--start .buehne__kicker { color: #fff; letter-spacing: .12em; }
+.buehne--start h1 { font-size: clamp(44px, 6.6vw, 96px); font-weight: 400; letter-spacing: -.035em; line-height: .98; max-width: 14ch; text-wrap: balance; }
+.buehne--start .buehne__unter { color: rgba(255, 255, 255, .86); font-size: clamp(16px, 1.4vw, 19px); }
+.buehne--start .knoepfe { margin-top: 12px; }
+.buehne__oben { max-width: var(--breit); width: 100%; margin: 0 auto; padding-top: 8px; }
+.buehne__tesla { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px; border-radius: 999px; background: rgba(255, 255, 255, .14); color: #fff; font-size: 14px; font-weight: 500; text-decoration: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22); transition: background-color .2s; }
+.buehne__tesla:hover { background: rgba(255, 255, 255, .24); }
+.buehne__tesla .punkt-blau { background: #6fb0f0; box-shadow: 0 0 0 4px rgba(111, 176, 240, .25); transform: none; }
+.k--weiss { background: #fff; color: var(--tinte); }
+.k--weiss:hover { background: #e9ecef; }
+/* Kopf über dem dunklen Bild hell, bis gescrollt wird */
+body[data-seite="index"] .kopf:not(.ist-unten) .kopf__nav a, body[data-seite="index"] .kopf:not(.ist-unten) .kopf__rechts a:not(.k), body[data-seite="index"] .kopf:not(.ist-unten) .kopf__menu { color: #fff; }
+body[data-seite="index"] .kopf:not(.ist-unten) .kopf__nav a:hover, body[data-seite="index"] .kopf:not(.ist-unten) .kopf__menu:hover { background: rgba(255, 255, 255, .14); }
+body[data-seite="index"] .kopf:not(.ist-unten) .kopf__marke { background: rgba(255, 255, 255, .92); border-radius: 8px; padding: 4px 10px; }
+@media (max-width: 960px) {
+  .buehne--start .knoepfe .k--weiss { display: inline-flex; width: 100%; }
+  body[data-seite="index"] .kopf:not(.ist-unten) .kopf__aktion { visibility: hidden; }
+  .buehne--start > img { object-position: 78% 50%; }
+}
+
+@media (max-width: 960px) { .buehne--start::before { background: linear-gradient(180deg, rgba(8, 10, 12, .5) 0%, rgba(8, 10, 12, .05) 24%, rgba(8, 10, 12, .2) 44%, rgba(8, 10, 12, .75) 64%, rgba(8, 10, 12, .9) 100%); } }
+
+/* Hinweis aus dem Cockpit («Website pflegen»), z. B. nach Hagel: ruhige Zeile über dem Kopf */
+.saison { position: relative; z-index: 31; margin: 0; background: var(--blau); text-align: center; }
+.saison a { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 6px var(--rand); color: #fff; font-size: 14px; font-weight: 500; text-decoration: none; }
+body:has(.saison) .kopf { top: 40px; }
+body:has(.saison) .kopf.ist-unten { top: 0; }
+/* Startseite: Kopf und Tesla-Marke über dem Foto auf eigener dunkler Glasfläche (Kontrast messbar, nicht vom Foto abhängig) */
+body[data-seite="index"] .kopf:not(.ist-unten) { background-color: rgba(8, 10, 12, .58); backdrop-filter: blur(12px) saturate(120%); -webkit-backdrop-filter: blur(12px) saturate(120%); }
+.buehne__tesla { background-color: rgba(8, 10, 12, .58); }
+.buehne__tesla:hover { background-color: rgba(8, 10, 12, .72); }

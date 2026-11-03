@@ -6,21 +6,18 @@ import teamDaten from "../../../astro/src/content/team.json";
 import { betrieb as b, zeitenKurz } from "../../../astro/bau/daten.mjs";
 const leute = (teamDaten as any).gruppen.flatMap((g: any) => g.leute.map((p: any) => ({ ...p, gruppe: g.name }))).filter((p: any) => p.foto).slice(0, 5);
 ---
-<Klar seite="index">
+<Klar seite="index" jsonld>
 
-<section class="buehne" aria-labelledby="start-titel">
+<section class="buehne buehne--start" aria-labelledby="start-titel">
   <Bild name="maserati" alt="Helle Halle von Auto Speedy mit dem Firmenschild an der Wand, ein Mitarbeiter arbeitet an einem blauen Sportwagen" lcp />
-  <div class="buehne__text">
-    <p class="buehne__kicker">Carrosserie und Spritzwerk · {b.ort} {b.kanton}</p>
-    <h1 id="start-titel">Vom Kratzer bis zum Blechschaden.</h1>
-    <p class="buehne__unter">Tesla Approved Body Shop. Die Abwicklung mit Ihrer Versicherung übernehmen wir.</p>
+  <div class="buehne__oben">
+    <a class="buehne__tesla" href="/tesla/" data-zaehl="tesla" data-ort="start"><span class="punkt-blau" aria-hidden="true"></span>Tesla Approved Body Shop <span aria-hidden="true">→</span></a>
   </div>
-  <div class="buehne__fuss">
-    <div class="knoepfe">
-      <a class="k k--blau" href="/schaden-melden/" data-zaehl="anfrage" data-ort="start">Schaden melden</a>
-      <a class="k k--glas" href="/tesla/" data-zaehl="tesla" data-ort="start">Tesla Body Shop</a>
-    </div>
-    <p class="buehne__info"><span class="zeiten">{zeitenKurz} · </span><a href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="start">{b.tel.anzeige}</a></p>
+  <div class="buehne__text">
+    <p class="buehne__kicker">Carrosserie und Spritzwerk für alle Marken · {b.ort} {b.kanton}</p>
+    <h1 id="start-titel">Vom Kratzer bis zum Blechschaden.</h1>
+    <p class="buehne__unter">Die Abwicklung mit Ihrer Versicherung übernehmen wir.</p>
+    <div class="knoepfe knoepfe--links"><a class="k k--weiss" href="/schaden-melden/" data-zaehl="anfrage" data-ort="start">Schaden melden</a></div>
   </div>
 </section>
 
@@ -120,9 +117,9 @@ const leute = (teamDaten as any).gruppen.flatMap((g: any) => g.leute.map((p: any
   <div class="abschnitt__innen">
     <div class="abschnitt__kopf zeigen"><p class="kicker">Kontakt</p><h2 id="kontakt-titel">Wir sind in {b.ort}.</h2></div>
     <div class="kontakt">
-      <div class="kontakt__karte zeigen"><h3>Telefon</h3><a href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="kontakt">{b.tel.anzeige}</a><small>{zeitenKurz}</small></div>
-      <div class="kontakt__karte zeigen"><h3>Adresse</h3><p>{b.strasse}<br>{b.plz} {b.ort}</p><small><a href={b.route} data-zaehl="route" data-ort="start" style="font-size:14px">Route planen →</a></small></div>
-      <div class="kontakt__karte zeigen"><h3>Mail</h3><a href={`mailto:${b.mail}`} data-zaehl="mail" data-ort="start">{b.mail}</a><small>Für Schäden schneller: Schaden melden.</small></div>
+      <div class="kontakt__karte zeigen"><h2>Telefon</h2><a href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="kontakt">{b.tel.anzeige}</a><small>{zeitenKurz}</small></div>
+      <div class="kontakt__karte zeigen"><h2>Adresse</h2><p>{b.strasse}<br>{b.plz} {b.ort}</p><small><a href={b.route} data-zaehl="route" data-ort="start" style="font-size:14px">Route planen →</a></small></div>
+      <div class="kontakt__karte zeigen"><h2>Mail</h2><a href={`mailto:${b.mail}`} data-zaehl="mail" data-ort="start">{b.mail}</a><small>Für Schäden schneller: Schaden melden.</small></div>
     </div>
   </div>
 </section>

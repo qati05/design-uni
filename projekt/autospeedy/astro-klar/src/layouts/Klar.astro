@@ -1,9 +1,15 @@
 ---
 // Rahmen der Linie «Klar». Titel und Beschreibung aus texte.json wie in der ersten Linie (dieselbe Quelle, dieselben Prüfungen).
-import { texte, vorschau, seite as lies } from "../../../astro/bau/daten.mjs";
+import { texte, vorschau, seite as lies, pflege } from "../../../astro/bau/daten.mjs";
 import Kopf from "../components/Kopf.astro";
 import Fuss from "../components/Fuss.astro";
-const { seite, titel } = Astro.props;
+const { seite, titel, jsonld = false } = Astro.props;
+import { betrieb as b } from "../../../astro/bau/daten.mjs";
+const pad = (z: string) => z.replace(".", ":").padStart(5, "0");
+const ld = { "@context": "https://schema.org", "@type": b.typ, name: b.name,
+  address: { "@type": "PostalAddress", streetAddress: b.strasse, postalCode: b.plz, addressLocality: b.ort, addressRegion: b.kanton, addressCountry: b.land },
+  telephone: b.tel.e164, email: b.mail,
+  openingHoursSpecification: b.zeiten.filter((z: any) => z.fenster).flatMap((z: any) => z.fenster.map(([von, bis]: string[]) => ({ "@type": "OpeningHoursSpecification", dayOfWeek: z.ld.length === 1 ? z.ld[0] : z.ld, opens: pad(von), closes: pad(bis) }))) };
 const s = { ...lies(seite), ...(titel ? { titel } : {}) };
 ---
 <!doctype html>
@@ -17,6 +23,7 @@ const s = { ...lies(seite), ...(titel ? { titel } : {}) };
 <meta name="theme-color" content="#ffffff">
 <link rel="preload" href="/fonts/hanken-grotesk-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/klar.css">
+{jsonld && <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)}></script>}
 <script is:inline>document.documentElement.classList.add("js")</script>
 <script is:inline src="/js/klar.js" defer></script>
 <script is:inline src="/js/zaehl.js" defer></script>
@@ -24,6 +31,7 @@ const s = { ...lies(seite), ...(titel ? { titel } : {}) };
 <body data-seite={seite}>
 <a class="sprung" href="#inhalt">{texte.mikrotexte.sprunglink}</a>
 {vorschau && <p data-vorschau>{texte.mikrotexte.vorschauHinweis}</p>}
+{pflege?.hinweis?.aktiv && pflege.hinweis.text && <p class="saison"><a href={pflege.hinweis.link || "/schaden-melden/"} data-zaehl="saison" data-ort="band">{pflege.hinweis.text} <span aria-hidden="true">→</span></a></p>}
 <Kopf aktiv={Astro.url.pathname} />
 <main id="inhalt">
 <slot />

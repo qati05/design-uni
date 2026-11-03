@@ -5,11 +5,12 @@ import base64, json, os, re, subprocess, sys, tempfile
 
 HIER = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.dirname(HIER)
-DIST = os.path.join(PROJ, 'astro', 'dist')
-ZIEL = os.path.join(PROJ, 'vorschau', 'auto-speedy-demo.html')
+KLAR = '--linie' in sys.argv and sys.argv[sys.argv.index('--linie') + 1] == 'klar'
+DIST = os.path.join(PROJ, 'astro-klar' if KLAR else 'astro', 'dist')
+ZIEL = os.path.join(PROJ, 'vorschau', 'auto-speedy-demo-klar.html' if KLAR else 'auto-speedy-demo.html')
 
 tmp = tempfile.mkdtemp()
-subprocess.run([sys.executable, os.path.join(HIER, 'art_bau.py'), DIST, tmp, 'demo'], check=True)
+subprocess.run([sys.executable, os.path.join(HIER, 'art_bau.py'), DIST, tmp, 'demo'], check=True, env={**os.environ, 'LINIE': 'klar' if KLAR else 'lack'})
 subprocess.run([sys.executable, os.path.join(HIER, 'einzel.py'), tmp, os.path.join(tmp, 'website.html')], check=True)
 website = open(os.path.join(tmp, 'website.html'), encoding='utf8').read()
 
@@ -20,6 +21,7 @@ cockpit = os.path.join(PROJ, 'cockpit')
 css = open(os.path.join(cockpit, 'app', 'globals.css'), encoding='utf8').read()
 css = re.sub(r'url\("/fonts/([^"]+)"\)', lambda m: 'url("' + uri(os.path.join(cockpit, 'public', 'fonts', m.group(1)), 'font/woff2') + '")', css)
 css += '\n' + open(os.path.join(HIER, 'demo.css'), encoding='utf8').read()
+if KLAR: css += '\nbody { background: #f4f5f7; } .d-band { background: #fff; border-bottom-color: #e1e4e8; }'
 js = open(os.path.join(HIER, 'demo.js'), encoding='utf8').read()
 logo = uri(os.path.join(cockpit, 'public', 'bilder', 'logo-96.webp'), 'image/webp')
 # JSON in <script>: «</» maskieren, damit der Website-Text das Skript nicht beendet
@@ -33,7 +35,7 @@ seite = f'''<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Auto Speedy Demo</title>
+<title>Auto Speedy Demo{' (Linie Klar)' if KLAR else ''}</title>
 <style>{css}</style>
 </head>
 <body>
