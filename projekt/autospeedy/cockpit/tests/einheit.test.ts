@@ -1,13 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { entscheideZugang } from "../lib/zugang";
 import { kennzahlen, naechsteSchritte, websiteZahlen, type Meldung } from "../lib/status";
-import { totp, totpPruefen } from "../lib/totp";
-import { meldungEingangSchema, sichererPfad, statusSchema } from "../lib/validierung";
+import { sichererPfad, statusSchema } from "../lib/validierung";
 import { sitzungLesen, sitzungSignieren } from "../lib/demo-speicher";
 import { e164 } from "../lib/anzeige";
 
-const q = (o: Partial<{ s: boolean; uid: string | null; aal: string | null; nae: string | null; m: boolean }> = {}) => ({
-  hatSitzung: o.s ?? true, nutzerId: async () => (o.uid === undefined ? "u1" : o.uid), stufe: async () => ({ aktuell: o.aal ?? "aal2", naechste: o.nae ?? "aal2" }), istMitglied: async () => o.m ?? true,
+const q = (o: Partial<{ s: boolean; uid: string | null; aal: string | null; nae: string | null; m: boolean; admin: boolean }> = {}) => ({
+  hatSitzung: o.s ?? true, nutzerId: async () => (o.uid === undefined ? "u1" : o.uid), stufe: async () => ({ aktuell: o.aal ?? "aal2", naechste: o.nae ?? "aal2" }), istMitglied: async () => o.m ?? true, istStudioAdmin: async () => o.admin ?? false,
 });
 
 describe("Zugang (Muster medaur)", () => {
@@ -16,6 +15,26 @@ describe("Zugang (Muster medaur)", () => {
   it("nur Mail-Code (aal1) führt zum zweiten Code", async () => { expect(await entscheideZugang("/", q({ aal: "aal1" }))).toEqual({ art: "mfa" }); expect(await entscheideZugang("/", q({ aal: "aal1", nae: "aal1" }))).toEqual({ art: "mfa_einrichten" }); expect(await entscheideZugang("/mfa", q({ aal: "aal1" }))).toEqual({ art: "weiter" }); });
   it("Konto ohne Mitgliedschaft bekommt 403", async () => { expect(await entscheideZugang("/", q({ m: false }))).toEqual({ art: "verboten" }); });
   it("Mitglied mit aal2 darf", async () => { expect(await entscheideZugang("/meldung/abcdef1", q())).toEqual({ art: "weiter" }); });
+  it("Studio: nur Admins unter /studio, Admin ohne Betrieb landet dort; Mitglieder kommen nicht hinein", async () => {
+    expect(await entscheideZugang("/studio/export/auto-speedy", q({ m: false, admin: true }))).toEqual({ art: "weiter" });
+    expect(await entscheideZugang("/", q({ m: false, admin: true }))).toEqual({ art: "studio" });
+    expect(await entscheideZugang("/studio", q())).toEqual({ art: "verboten" });
+    expect(await entscheideZugang("/studio", q({ aal: "aal1", admin: true }))).toEqual({ art: "mfa" });
+  });
+});
+
+describe("CSV-Export", async () => {
+  const { csv, zelle } = await import("../lib/csv");
+  it("Formeln werden entschärft, Trennzeichen und Anführungszeichen maskiert", () => {
+    expect(zelle("=HYPERLINK(\"http://x\")")).toBe("\"'=HYPERLINK(\"\"http://x\"\")\"");
+    expect(zelle("+41 71 555 00 00")).toBe("'+41 71 555 00 00");
+    expect(zelle("@SUM(A1)")).toBe("'@SUM(A1)");
+    expect(zelle("a;b")).toBe("\"a;b\"");
+    expect(zelle(null)).toBe("");
+  });
+  it("Kopfzeile, BOM für Excel, CRLF", () => {
+    expect(csv(["a", "b"], [{ a: 1, b: "x\ny" }])).toBe("\uFEFFa;b\r\n1;\"x\ny\"\r\n");
+  });
 });
 
 describe("Status und Kennzahlen", () => {
@@ -30,15 +49,8 @@ describe("Status und Kennzahlen", () => {
   it("nur erlaubte Schritte", () => { expect(naechsteSchritte("neu")).toEqual(["zurueckgerufen", "verloren"]); expect(naechsteSchritte("erledigt")).not.toContain("neu"); });
 });
 
-describe("TOTP (RFC 6238, Anhang B, SHA-1)", () => {
-  const geheimnis = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ"; // «12345678901234567890»
-  it("Testvektoren (letzte 6 Ziffern)", () => { expect(totp(geheimnis, 59_000)).toBe("287082"); expect(totp(geheimnis, 1111111109_000)).toBe("081804"); expect(totp(geheimnis, 1234567890_000)).toBe("005924"); });
-  it("akzeptiert vorherigen Schritt, nicht zwei zurück", () => { const t = 1234567890_000; expect(totpPruefen(geheimnis, totp(geheimnis, t - 30_000), t)).toBe(true); expect(totpPruefen(geheimnis, totp(geheimnis, t - 60_000), t)).toBe(false); });
-});
-
 describe("Validierung", () => {
   it("Status nur aus der Liste, ID nur sicher", () => { expect(statusSchema.safeParse({ id: "abcdef12", status: "auftrag" }).success).toBe(true); expect(statusSchema.safeParse({ id: "abcdef12", status: "geloescht" }).success).toBe(false); expect(statusSchema.safeParse({ id: "../etc", status: "neu" }).success).toBe(false); });
-  it("Meldung der Website", () => { expect(meldungEingangSchema.safeParse({ art: "Hagel", name: "A", telefon: "071 555 00 00" }).success).toBe(true); expect(meldungEingangSchema.safeParse({ art: "Bombe", name: "A", telefon: "071 555 00 00" }).success).toBe(false); });
   it("keine offenen Weiterleitungen", () => { expect(sichererPfad("//boese.example")).toBe("/"); expect(sichererPfad("https://x.example")).toBe("/"); expect(sichererPfad("/meldung/abc")).toBe("/meldung/abc"); });
 });
 

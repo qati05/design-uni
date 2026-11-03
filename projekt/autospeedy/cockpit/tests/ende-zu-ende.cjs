@@ -62,8 +62,17 @@ async function mailSchritt(b, c, an){ await c.goto(C+'/login'); await c.fill('#e
  await h.setInputFiles('[name="team.1.p.2.fotoneu"]',S+'/testfotos/b.jpg'); await h.waitForTimeout(600);
  await h.click('button:has-text("Speichern")'); await h.waitForSelector('.ok-text'); await h.reload(); await h.click('summary:has-text("Team auf der Website")');
  const lea=await h.getAttribute('img[alt="Foto Lea Schlegel"]','src'), neu=await h.getAttribute('img[alt="Foto Neue Person (Test)"]','src');
- ok(lea.startsWith('data:image/webp') && neu.startsWith('data:image/webp') && lea.length<200000,'nach Speichern: beide Fotos gespeichert, klein (WebP, '+Math.round(lea.length/1024)+' KB)');
+ ok(/^\/api\/demo-foto\/[0-9a-f-]{36}\.webp$/.test(lea) && /^\/api\/demo-foto\/[0-9a-f-]{36}\.webp$/.test(neu),'nach Speichern: beide Fotos im Bild-Speicher (nicht im Git), nur der Verweis in site.json');
+ const groesse=(await h.evaluate(async(u)=>(await (await fetch(u)).arrayBuffer()).byteLength, lea)); ok(groesse>0 && groesse<200000,'Foto klein (WebP, '+Math.round(groesse/1024)+' KB) und abrufbar');
+ await h.check('[name="team.1.p.0.fotoweg"]'); await h.click('button:has-text("Speichern")'); await h.waitForSelector('.ok-text'); await h.waitForTimeout(300);
+ ok((await h.evaluate(async(u)=>(await fetch(u)).status, lea))===404,'Foto entfernen löscht das Bild wirklich aus dem Speicher');
+ await h.reload(); await h.click('summary:has-text("Team auf der Website")');
  await h.evaluate(()=>document.querySelector('.team-gruppe:nth-of-type(2)').scrollIntoView()); await h.waitForTimeout(300); await h.screenshot({path:S+'/e2e3/7-team-fotos.png'});
+ // Konfliktschutz: zwei Fenster, beide speichern
+ const h2=await hc.newPage(); await h2.goto(C+'/pflege'); await h.goto(C+'/pflege');
+ await h.click('button:has-text("Speichern")'); await h.waitForSelector('.ok-text');
+ await h2.click('button:has-text("Speichern")'); await h2.waitForSelector('[role=alert]');
+ ok(/jemand anderes gespeichert/.test(await h2.textContent('main')),'zwei Fenster: das zweite überschreibt nicht, sondern meldet den Konflikt'); await h2.close();
  // Geräte
  await h.goto(C+'/geraete'); ok(/letztes Gerät/.test(await h.textContent('main')),'Geräte: das letzte Gerät lässt sich nicht entfernen');
  await h.screenshot({path:S+'/e2e3/6-geraete.png'});

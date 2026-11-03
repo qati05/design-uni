@@ -2,9 +2,8 @@ import "server-only";
 import { createServerClient } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
 import { cookies, headers } from "next/headers";
-import type { AuftragAnsicht, BewertungFaellig, AuditEintrag, Backend, Zaehlzeile, CodeAntwort, Einrichten, SitzungsStand, TotpAntwort, PasskeyStart, PasskeyAntwort, Rp } from "./backend";
-import { pflegeSchema } from "./pflege";
-import pflegeStart from "./pflege-start.json";
+import type { BetriebZeile, ExportZeile, AuftragAnsicht, BewertungFaellig, AuditEintrag, Backend, Zaehlzeile, CodeAntwort, SitzungsStand, PasskeyStart, PasskeyAntwort, Rp } from "./backend";
+import { siteLesen, siteSchreiben, fotoHochladen, fotoLoeschen, type Repo, type BildSpeicher } from "./website.server";
 import { COOKIE_GRUNDLAGE, haerte } from "./cookies";
 import type { Meldung, Status } from "./status";
 
@@ -28,14 +27,16 @@ async function sb() {
 
 type Zeile = { id: string; erstellt: string; art: string; tesla: boolean; tesla_modell: string | null; stellen: string[]; bemerkung: string; name: string; telefon: string; quelle: Meldung["quelle"]; status: Status; notiz: string; email: string | null; bewertung_faellig: string | null; bewertung_gesendet: string | null; meldung_fotos: { id: string; pfad: string }[] };
 
-async function mitFotos(client: Awaited<ReturnType<typeof sb>>, zeilen: Zeile[]): Promise<Meldung[]> {
-  const pfade = zeilen.flatMap((z) => z.meldung_fotos.map((f) => f.pfad));
+/** Fotos nur in der Detailansicht signieren (10 Minuten gültig); die Liste braucht nur die Anzahl. */
+async function mitFotos(client: Awaited<ReturnType<typeof sb>>, zeilen: Zeile[], signieren: boolean): Promise<Meldung[]> {
+  const pfade = signieren ? zeilen.flatMap((z) => z.meldung_fotos.map((f) => f.pfad)) : [];
   const urls = new Map<string, string>();
+  if (!signieren) for (const z of zeilen) for (const f of z.meldung_fotos) urls.set(f.pfad, "");
   if (pfade.length) {
     const { data } = await client.storage.from("schadenfotos").createSignedUrls(pfade, 600); // 10 Minuten gültig
     for (const d of data ?? []) if (d.path && d.signedUrl) urls.set(d.path, d.signedUrl);
   }
-  return zeilen.map(({ meldung_fotos, bewertung_faellig, bewertung_gesendet, tesla_modell, ...z }) => ({ ...z, teslaModell: tesla_modell, bewertungFaellig: bewertung_faellig, bewertungGesendet: bewertung_gesendet, fotos: meldung_fotos.flatMap((f) => (urls.get(f.pfad) ? [{ id: f.id, url: urls.get(f.pfad)! }] : [])) }));
+  return zeilen.map(({ meldung_fotos, bewertung_faellig, bewertung_gesendet, tesla_modell, ...z }) => ({ ...z, teslaModell: tesla_modell, bewertungFaellig: bewertung_faellig, bewertungGesendet: bewertung_gesendet, fotos: meldung_fotos.flatMap((f) => (urls.has(f.pfad) ? [{ id: f.id, url: urls.get(f.pfad)! }] : [])) }));
 }
 
 // Fingerabdruck/Gesicht als zweiter Faktor (Supabase MFA «webauthn»). supabase-js macht die Zeremonie im Browser
@@ -57,6 +58,22 @@ async function webauthnChallenge(faktorId: string, rp: Rp): Promise<PasskeyStart
   const id = r.daten.id;
   if (!r.ok || typeof id !== "string" || !w?.credential_options?.publicKey || (w.type !== "create" && w.type !== "request")) return { status: "fehler" };
   return { status: "bereit", vorgang: `${faktorId}.${id}.${w.type}`, art: w.type, optionen: w.credential_options.publicKey };
+}
+
+/** Wo die Website des eigenen Betriebs liegt (Tabelle «betrieb»). Das Token kommt aus der Umgebung:
+ *  GITHUB_TOKEN_<BETRIEB>, z. B. GITHUB_TOKEN_AUTO_SPEEDY. Es steht nie in der Datenbank. */
+async function ziel(): Promise<{ betrieb: string; repo: Repo } | null> {
+  const { data } = await (await sb()).rpc("mein_betrieb_website");
+  const b = (data as { id: string; github_repo: string | null; github_pfad: string | null; github_zweig: string | null }[] | null)?.[0];
+  if (!b?.github_repo || !b.github_pfad) return null;
+  const token = process.env[`GITHUB_TOKEN_${b.id.toUpperCase().replace(/[^A-Z0-9]/g, "_")}`];
+  return token ? { betrieb: b.id, repo: { repo: b.github_repo, pfad: b.github_pfad, zweig: b.github_zweig || "main", token } } : null;
+}
+/** Ein Bild-Speicher (R2-Bucket) für alle Betriebe; Fotos heissen zufällig (UUID). */
+function bildSpeicher(): BildSpeicher | null {
+  const e = process.env;
+  return e.R2_KONTO && e.R2_SCHLUESSEL_ID && e.R2_GEHEIMNIS && e.R2_BUCKET && e.TEAMFOTO_BASIS
+    ? { konto: e.R2_KONTO, schluesselId: e.R2_SCHLUESSEL_ID, geheimnis: e.R2_GEHEIMNIS, bucket: e.R2_BUCKET, basis: e.TEAMFOTO_BASIS } : null;
 }
 
 const SPALTEN = "id, erstellt, art, tesla, tesla_modell, stellen, bemerkung, name, telefon, quelle, status, notiz, email, bewertung_faellig, bewertung_gesendet, meldung_fotos(id, pfad)";
@@ -85,30 +102,9 @@ export const supabaseBackend: Backend = {
     const { data: m } = await c.rpc("ist_mitglied");
     return { userId: u.user.id, email: u.user.email ?? "", aal: a?.currentLevel === "aal2" ? "aal2" : "aal1", naechste: a?.nextLevel === "aal2" ? "aal2" : "aal1", mitglied: m === true };
   },
-  async totpPruefen(code): Promise<TotpAntwort> {
-    const c = await sb();
-    const { data } = await c.auth.mfa.listFactors();
-    const f = data?.totp?.[0];
-    if (!f) return { status: "kein_faktor" };
-    const { error } = await c.auth.mfa.challengeAndVerify({ factorId: f.id, code });
-    return { status: error ? "falsch" : "ok" };
-  },
-  async totpEinrichten(): Promise<Einrichten> {
-    const c = await sb();
-    const { data: liste } = await c.auth.mfa.listFactors();
-    if ((liste?.totp ?? []).some((f) => f.status === "verified")) return { status: "vorhanden" };
-    for (const f of liste?.all ?? []) if (f.factor_type === "totp" && f.status === "unverified") await c.auth.mfa.unenroll({ factorId: f.id });
-    const { data, error } = await c.auth.mfa.enroll({ factorType: "totp", friendlyName: "Auto Speedy Cockpit" });
-    if (error || !data || data.type !== "totp") return { status: "fehler" };
-    return { status: "bereit", faktorId: data.id, geheimnis: data.totp.secret, qr: data.totp.qr_code };
-  },
-  async totpEinrichtenBestaetigen(faktorId, code): Promise<TotpAntwort> {
-    const { error } = await (await sb()).auth.mfa.challengeAndVerify({ factorId: faktorId, code });
-    return { status: error ? "falsch" : "ok" };
-  },
   async zweitfaktoren() {
     const { data } = await (await sb()).auth.mfa.listFactors();
-    return { geraete: (data?.webauthn ?? []).map((f) => ({ id: f.id, name: f.friendly_name ?? "Gerät" })), totp: (data?.totp ?? []).length > 0 };
+    return { geraete: (data?.webauthn ?? []).map((f) => ({ id: f.id, name: f.friendly_name ?? "Gerät" })) };
   },
   async passkeyStart(zweck, rp, geraetename = "Gerät"): Promise<PasskeyStart> {
     const c = await sb();
@@ -138,10 +134,6 @@ export const supabaseBackend: Backend = {
     const { error } = await c.auth.mfa.unenroll({ factorId: id });
     return !error;
   },
-  async auftragLink(id) {
-    const { data, error } = await (await sb()).rpc("auftrag_link_erzeugen", { p_id: id });
-    return error || typeof data !== "string" ? null : data;
-  },
   async auftragAnsehen(token): Promise<AuftragAnsicht | null> {
     const { data } = await ohneSitzung().rpc("auftrag_link_ansehen", { p_token: token });
     const z = (data as { art: string; tesla: boolean; erstellt: string; mit_mail: boolean }[] | null)?.[0];
@@ -158,34 +150,65 @@ export const supabaseBackend: Backend = {
   async bewertungZuruecklegen(geheimnis, id) {
     await ohneSitzung().rpc("bewertung_zuruecklegen", { p_geheimnis: geheimnis, p_id: id });
   },
-  async pflegeLesen() {
-    const { data } = await (await sb()).from("pflege").select("daten, geaendert, geaendert_von").eq("id", 1).maybeSingle();
-    const g = pflegeSchema.safeParse(data?.daten);
-    const { _quelle, ...start } = pflegeStart as Record<string, unknown>; void _quelle;
-    return { daten: g.success ? g.data : pflegeSchema.parse(start), geaendert: data?.geaendert ?? null, von: data?.geaendert_von ?? null };
+  async aufraeumen(geheimnis) {
+    // Supabase erlaubt kein Löschen im Speicher per SQL: die Storage-API löscht, die Policy lässt nur abgelaufene Fotos zu.
+    const c = ohneSitzung();
+    const { data: pfade, error } = await c.rpc("fotos_abgelaufen", { p_geheimnis: geheimnis });
+    if (error) return null;
+    const liste = (pfade ?? []) as string[];
+    const { data: weg } = liste.length ? await c.storage.from("schadenfotos").remove(liste) : { data: [] };
+    const { data: n, error: e2 } = await c.rpc("meldungen_aufraeumen", { p_geheimnis: geheimnis });
+    return e2 ? null : { fotos: (weg ?? []).length, meldungen: Number(n ?? 0) };
   },
-  async pflegeSpeichern(p) {
-    const { error } = await (await sb()).rpc("pflege_speichern", { p_daten: p });
-    return !error;
+  async istStudioAdmin() {
+    const { data } = await (await sb()).rpc("ist_studio_admin");
+    return data === true;
+  },
+  async betriebe(): Promise<BetriebZeile[]> {
+    const { data, error } = await (await sb()).rpc("betriebe_liste");
+    return error ? [] : (data as BetriebZeile[]);
+  },
+  async exportMeldungen(betrieb): Promise<ExportZeile[] | null> {
+    const { data, error } = await (await sb()).rpc("export_meldungen", { p_betrieb: betrieb });
+    return error ? null : (data as ExportZeile[]);
+  },
+  async pflegeLesen() {
+    const z = await ziel();
+    const stand = z ? await siteLesen(z.repo) : null;
+    if (!stand) return null;
+    const { data } = await (await sb()).rpc("pflege_zuletzt");
+    const l = (data as { zeit: string; email: string | null }[] | null)?.[0];
+    return { ...stand, geaendert: l?.zeit ?? null, von: l?.email ?? null };
+  },
+  async pflegeSpeichern(p, sha) {
+    const z = await ziel();
+    return z ? siteSchreiben(z.repo, p, sha) : "nicht_eingerichtet";
   },
   async teamFotoSpeichern(bytes, typ) {
-    const c = await sb();
-    const pfad = `${crypto.randomUUID()}.${typ === "image/jpeg" ? "jpg" : typ.slice(6)}`;
-    const { error } = await c.storage.from("teamfotos").upload(pfad, bytes, { contentType: typ, upsert: false });
-    if (error) return null;
-    return c.storage.from("teamfotos").getPublicUrl(pfad).data.publicUrl;
+    const s = bildSpeicher();
+    return s ? fotoHochladen(s, bytes, typ) : null;
+  },
+  async teamFotoLoeschen(url) {
+    const s = bildSpeicher();
+    return s ? fotoLoeschen(s, url) : false;
   },
   async abmelden() { await (await sb()).auth.signOut(); },
   async meldungen() {
     const c = await sb();
-    const { data, error } = await c.from("meldungen").select(SPALTEN).order("erstellt", { ascending: false }).limit(200);
-    if (error) throw new Error("Meldungen nicht gelesen");
-    return mitFotos(c, (data ?? []) as unknown as Zeile[]);
+    // Alle Meldungen, seitenweise (Supabase liefert höchstens 1000 Zeilen pro Abfrage). Alte Meldungen löscht die Aufbewahrungsfrist.
+    const alle: Zeile[] = [];
+    for (let ab = 0; ; ab += 1000) {
+      const { data, error } = await c.from("meldungen").select(SPALTEN).order("erstellt", { ascending: false }).order("id").range(ab, ab + 999);
+      if (error) throw new Error("Meldungen nicht gelesen");
+      alle.push(...((data ?? []) as unknown as Zeile[]));
+      if ((data ?? []).length < 1000) break;
+    }
+    return mitFotos(c, alle, false);
   },
   async meldung(id) {
     const c = await sb();
     const { data } = await c.from("meldungen").select(SPALTEN).eq("id", id).maybeSingle();
-    return data ? (await mitFotos(c, [data as unknown as Zeile]))[0]! : null;
+    return data ? (await mitFotos(c, [data as unknown as Zeile], true))[0]! : null;
   },
   async statusSetzen(id, status) {
     const { error } = await (await sb()).rpc("meldung_status_setzen", { p_id: id, p_status: status });

@@ -1,10 +1,12 @@
 import "server-only";
 import { cookies } from "next/headers";
 import { randomBytes } from "node:crypto";
-import type { Backend, CodeAntwort, Einrichten, SitzungsStand, TotpAntwort, AuditEintrag, PasskeyStart, PasskeyAntwort } from "./backend";
-import { DEMO_COOKIE, DEMO_MITGLIED, DEMO_SITZUNG_SEKUNDEN, demoJetzt, neueId, postfachSchreiben, sechsZiffern, sitzungLesen, sitzungSignieren, speicher } from "./demo-speicher";
+import type { Backend, CodeAntwort, SitzungsStand, AuditEintrag, PasskeyStart, PasskeyAntwort } from "./backend";
+import { DEMO_COOKIE, DEMO_MITGLIED, DEMO_STUDIO, DEMO_SITZUNG_SEKUNDEN, demoJetzt, neueId, postfachSchreiben, sechsZiffern, sitzungLesen, sitzungSignieren, speicher } from "./demo-speicher";
 import type { Meldung, Status } from "./status";
 import { createHash } from "node:crypto";
+import { DEMO_FOTO_BASIS } from "./pflege";
+import { betriebDemo } from "./demo-speicher";
 import { anmeldungPruefen, registrierungPruefen, ERLAUBTE_ALGORITHMEN } from "./webauthn-pruefung";
 import { COOKIE_GRUNDLAGE, haerte } from "./cookies";
 
@@ -12,15 +14,16 @@ const MITGLIEDER = [DEMO_MITGLIED.email];
 export const DEMO_VERSAND_GEHEIMNIS = () => process.env.VERSAND_GEHEIMNIS || "demo-versand-nur-lokal";
 const hash = (t: string) => createHash("sha256").update(t).digest("hex");
 
-/** Wie der Datenbank-Trigger (Migration 20261102030000): Bewertung 24 h nach «erledigt» planen, Token nur bei «Auftrag». */
+/** Wie der Datenbank-Trigger: Bewertung 24 h nach «erledigt» planen; «erledigt» oder «verloren» macht den Link «Auto fertig» ungültig. */
 function statusAendern(m: Meldung, status: Status) {
   const vorher = m.status;
   m.status = status;
   if (status === "erledigt" && vorher !== "erledigt" && m.email && !m.bewertungGesendet) m.bewertungFaellig = new Date(demoJetzt() + 24 * 3600e3).toISOString();
   else if (status !== "erledigt" && !m.bewertungGesendet) m.bewertungFaellig = null;
-  if (status !== "auftrag") for (const [k, v] of speicher().auftragTokens) if (v.id === m.id) speicher().auftragTokens.delete(k);
+  if (status === "erledigt" || status === "verloren") for (const [k, v] of speicher().auftragTokens) if (v.id === m.id) speicher().auftragTokens.delete(k);
 }
 function hatGeraet(uid: string) { return (speicher().passkeys.get(uid) ?? []).length > 0; }
+const OFFEN: Status[] = ["neu", "zurueckgerufen", "offerte", "auftrag"];
 const ZWEITES_KONTO = "fremd@beispiel.example"; // Demo: Konto ohne Mitgliedschaft -> 403
 
 async function setzen(wert: string | null) {
@@ -41,7 +44,7 @@ export const demoBackend: Backend = {
     if (s.anfragen.length >= 5) return { status: "zu_viele" };
     s.anfragen.push(jetzt);
     // Wie Supabase mit shouldCreateUser:false: nur bekannte Konten bekommen einen Code; die Antwort ist immer gleich.
-    if (MITGLIEDER.includes(email) || email === ZWEITES_KONTO) {
+    if (MITGLIEDER.includes(email) || email === ZWEITES_KONTO || email === DEMO_STUDIO.email) {
       const code = sechsZiffern();
       s.codes.set(email, { code, bis: jetzt + 10 * 60e3, versuche: 0 });
       postfachSchreiben(email, "Ihr Anmelde-Code für das Auto Speedy Cockpit", `Ihr Code: ${code}\nGültig 10 Minuten. Haben Sie keinen Code angefordert, ignorieren Sie diese Mail.`);
@@ -54,7 +57,7 @@ export const demoBackend: Backend = {
     e.versuche++;
     if (e.code !== code) return false;
     speicher().codes.delete(email);
-    await setzen(sitzungSignieren({ uid: email === DEMO_MITGLIED.email ? DEMO_MITGLIED.userId : "demo-fremd", email, aal: "aal1" }));
+    await setzen(sitzungSignieren({ uid: email === DEMO_MITGLIED.email ? DEMO_MITGLIED.userId : email === DEMO_STUDIO.email ? DEMO_STUDIO.userId : "demo-fremd", email, aal: "aal1" }));
     return true;
   },
   async sitzung(): Promise<SitzungsStand> {
@@ -62,11 +65,9 @@ export const demoBackend: Backend = {
     if (!d) return null;
     return { userId: d.uid, email: d.email, aal: d.aal, naechste: hatGeraet(d.uid) ? "aal2" : "aal1", mitglied: MITGLIEDER.includes(d.email) };
   },
-  // Demo ohne Authenticator-App: der zweite Schritt ist Fingerabdruck oder Gesicht (siehe passkey*).
-  async totpPruefen(): Promise<TotpAntwort> { return { status: "kein_faktor" }; },
   async zweitfaktoren() {
     const d = await lesen();
-    return { geraete: (d ? speicher().passkeys.get(d.uid) ?? [] : []).map((k) => ({ id: k.id, name: k.name })), totp: false };
+    return { geraete: (d ? speicher().passkeys.get(d.uid) ?? [] : []).map((k) => ({ id: k.id, name: k.name })) };
   },
   async passkeyStart(zweck, rp, geraetename = "Gerät"): Promise<PasskeyStart> {
     const d = await lesen();
@@ -120,31 +121,22 @@ export const demoBackend: Backend = {
     speicher().passkeys.set(d.uid, liste.filter((k) => k.id !== id));
     return true;
   },
-  async totpEinrichten(): Promise<Einrichten> { return { status: "vorhanden" }; },
-  async totpEinrichtenBestaetigen(): Promise<TotpAntwort> { return { status: "kein_faktor" }; },
   async abmelden() { await setzen(null); },
   async meldungen() { return [...speicher().meldungen].sort((a, b) => b.erstellt.localeCompare(a.erstellt)); },
   async meldung(id) { return speicher().meldungen.find((m) => m.id === id) ?? null; },
   async statusSetzen(id, status: Status) {
     const m = speicher().meldungen.find((x) => x.id === id); if (!m) return false; statusAendern(m, status); return true;
   },
-  async auftragLink(id) {
-    const m = speicher().meldungen.find((x) => x.id === id);
-    if (!m || m.status !== "auftrag") return null;
-    const token = randomBytes(32).toString("hex");
-    speicher().auftragTokens.set(hash(token), { id, bis: demoJetzt() + 60 * 864e5 });
-    return token;
-  },
   async auftragAnsehen(token) {
     if (!/^[0-9a-f]{64}$/.test(token)) return null;
     const t = speicher().auftragTokens.get(hash(token));
-    const m = t && t.bis > demoJetzt() ? speicher().meldungen.find((x) => x.id === t.id && x.status === "auftrag") : undefined;
+    const m = t && t.bis > demoJetzt() ? speicher().meldungen.find((x) => x.id === t.id && OFFEN.includes(x.status)) : undefined;
     return m ? { art: m.art, tesla: m.tesla, erstellt: m.erstellt, mitMail: !!m.email } : null;
   },
   async auftragErledigt(token) {
     if (!/^[0-9a-f]{64}$/.test(token)) return false;
     const t = speicher().auftragTokens.get(hash(token));
-    const m = t && t.bis > demoJetzt() ? speicher().meldungen.find((x) => x.id === t.id && x.status === "auftrag") : undefined;
+    const m = t && t.bis > demoJetzt() ? speicher().meldungen.find((x) => x.id === t.id && OFFEN.includes(x.status)) : undefined;
     if (!m) return false;
     statusAendern(m, "erledigt");
     speicher().audit.unshift({ zeit: new Date().toISOString(), aktion: "auftrag_erledigt_link", ergebnis: "ok", ziel: m.id });
@@ -155,12 +147,25 @@ export const demoBackend: Backend = {
     const jetzt = demoJetzt();
     const faellig = speicher().meldungen.filter((m) => m.status === "erledigt" && m.email && m.bewertungFaellig && !m.bewertungGesendet && Date.parse(m.bewertungFaellig) <= jetzt);
     for (const m of faellig) m.bewertungGesendet = new Date(jetzt).toISOString();
-    return faellig.map((m) => ({ id: m.id, email: m.email!, name: m.name }));
+    return faellig.map((m) => ({ id: m.id, email: m.email!, name: m.name, website: betriebDemo.website, betrieb: betriebDemo.name }));
   },
   async bewertungZuruecklegen(geheimnis, id) {
     if (geheimnis !== DEMO_VERSAND_GEHEIMNIS()) return;
     const m = speicher().meldungen.find((x) => x.id === id && x.status === "erledigt");
     if (m) { m.bewertungGesendet = null; m.bewertungFaellig = new Date(demoJetzt() + 3600e3).toISOString(); }
+  },
+  async aufraeumen(geheimnis) {
+    if (geheimnis !== DEMO_VERSAND_GEHEIMNIS()) return null;
+    const s = speicher(), frist = demoJetzt() - 365 * 864e5, vorher = s.meldungen.length;
+    s.meldungen = s.meldungen.filter((m) => Date.parse(m.erstellt) >= frist); // Demo: Fotos liegen in der Meldung selbst
+    return { fotos: 0, meldungen: vorher - s.meldungen.length };
+  },
+  async istStudioAdmin() { const d = await lesen(); return d?.email === DEMO_STUDIO.email && d.aal === "aal2"; },
+  async betriebe() { return [{ id: "auto-speedy", name: betriebDemo.name, aktiv: true }]; },
+  async exportMeldungen(betrieb) {
+    if (!(await this.istStudioAdmin()) || betrieb !== "auto-speedy") return null;
+    speicher().audit.unshift({ zeit: new Date().toISOString(), aktion: "export", ergebnis: "ok", ziel: betrieb });
+    return [...speicher().meldungen].sort((a, b) => a.erstellt.localeCompare(b.erstellt)).map((m) => ({ erstellt: m.erstellt, art: m.art, tesla: m.tesla, tesla_modell: m.teslaModell ?? null, stellen: m.stellen.join(", "), bemerkung: m.bemerkung, name: m.name, telefon: m.telefon, email: m.email ?? null, quelle: m.quelle, status: m.status, notiz: m.notiz }));
   },
   async notizSetzen(id, notiz) {
     const m = speicher().meldungen.find((x) => x.id === id); if (!m) return false; m.notiz = notiz; return true;
@@ -169,13 +174,24 @@ export const demoBackend: Backend = {
     const ab = new Date(Date.now() - tage * 864e5).toISOString().slice(0, 10);
     return [...speicher().zaehlung.entries()].map(([k, anzahl]) => { const [tag, punkt, ort] = k.split("|") as [string, string, string]; return { tag, punkt, ort, anzahl }; }).filter((z) => z.tag >= ab);
   },
+  // Demo: spielt GitHub (site.json mit Version «sha») und den Bild-Speicher (Fotos im Speicher). Nichts verlässt den Rechner.
   async pflegeLesen() { return structuredClone(speicher().pflege); },
-  async pflegeSpeichern(p) {
+  async pflegeSpeichern(p, sha) {
+    const s = speicher();
+    if (sha !== s.pflege.sha) return "konflikt";
     const d = await lesen();
-    speicher().pflege = { daten: structuredClone(p), geaendert: new Date().toISOString(), von: d?.email ?? null };
+    s.pflege = { daten: structuredClone(p), sha: randomBytes(20).toString("hex"), geaendert: new Date().toISOString(), von: d?.email ?? null };
+    return "ok";
+  },
+  async teamFotoSpeichern(bytes, typ) {
+    const name = `${crypto.randomUUID()}.${typ === "image/jpeg" ? "jpg" : typ.slice(6)}`;
+    speicher().fotos.set(name, { typ, bytes });
+    return `${DEMO_FOTO_BASIS}/team/${name}`;
+  },
+  async teamFotoLoeschen(url) {
+    if (!url.startsWith(DEMO_FOTO_BASIS + "/team/")) return false;
+    speicher().fotos.delete(url.slice(DEMO_FOTO_BASIS.length + 6));
     return true;
   },
-  // Demo: Foto bleibt im Speicher (als data:-Adresse in der Pflege), nichts verlässt den Rechner.
-  async teamFotoSpeichern(bytes, typ) { return `data:${typ};base64,${Buffer.from(bytes).toString("base64")}`; },
   async audit(e: AuditEintrag) { speicher().audit.unshift({ zeit: new Date().toISOString(), ...e }); },
 };

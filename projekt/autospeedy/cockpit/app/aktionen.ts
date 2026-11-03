@@ -6,8 +6,6 @@ import { holeBackend } from "@/lib/backend.server";
 import { log } from "@/lib/log";
 import { naechsteSchritte, type Status } from "@/lib/status";
 import { notizSchema, statusSchema } from "@/lib/validierung";
-import { adressen, mailSenden } from "@/lib/mail.server";
-import { auftragMail } from "@/lib/mailtexte";
 
 /** Jede Änderung prüft Sitzung (aal2, Mitglied) selbst, nicht nur der Proxy. */
 async function mitglied() {
@@ -31,15 +29,6 @@ export async function statusSetzen(form: FormData) {
   const ok = await b.statusSetzen(r.data.id, r.data.status);
   if (b.art === "demo") await b.audit({ aktion: `status_${r.data.status}`, ergebnis: ok ? "ok" : "fehler", ziel: r.data.id });
   log({ aktion: "status", status: ok ? "ok" : "fehler" });
-  // Neuer Auftrag: Mail an den Betrieb mit Link «erledigt melden» (ein Tipp, ohne Anmelden).
-  if (ok && r.data.status === "auftrag") {
-    const token = await b.auftragLink(r.data.id);
-    const a = adressen();
-    if (token && a.betrieb && a.cockpit) {
-      const gesendet = await mailSenden({ an: a.betrieb, ...auftragMail({ art: m.art, tesla: m.tesla, link: `${a.cockpit}/auftrag/${token}`, mitMail: !!m.email }) });
-      log({ aktion: "auftrag_mail", status: gesendet ? "ok" : "fehler" });
-    }
-  }
   revalidatePath(`/meldung/${r.data.id}`);
 }
 

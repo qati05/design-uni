@@ -1,50 +1,23 @@
 // Pflege der Website im Cockpit: Öffnungszeiten, Ausnahmen (Feiertage, Ferien), Hinweis-Leiste, Team.
-// Dieselbe Form wie astro/src/content/pflege.json und team.json; der Website-Bau liest sie (astro/bau/pflege-holen.mjs).
-import { z } from "zod";
+// Regeln und Form kommen aus gemeinsam/site.ts (dieselben wie beim Website-Bau); hier nur das Formular des Cockpits.
+import type { z } from "zod";
+import { siteSchema, type Site } from "../../gemeinsam/site";
+export { HINWEIS_LINKS, TEAMFOTO, minuten, speicherFotos, zeitenZeile } from "../../gemeinsam/site";
 
-const ohneSteuerzeichen = /^[^\p{Cc}\p{Cf}<>]*$/u;
-const text = (max: number) => z.string().trim().max(max).regex(ohneSteuerzeichen, "Unerlaubte Zeichen");
-export const uhrzeit = z.string().trim().regex(/^([01]?\d|2[0-3])\.[0-5]\d$/, "Zeit als 7.30 oder 17.15");
-const LINKS = ["/schaden-melden/", "/schaden-melden/?art=hagel", "/tesla/", "/kontakt/", "/occasionen/", "/team/"] as const;
-export const HINWEIS_LINKS: readonly { wert: string; text: string }[] = [
-  { wert: "/schaden-melden/", text: "Schaden melden" },
-  { wert: "/schaden-melden/?art=hagel", text: "Schaden melden (Hagel)" },
-  { wert: "/tesla/", text: "Tesla" },
-  { wert: "/kontakt/", text: "Kontakt" },
-  { wert: "/occasionen/", text: "Occasionen" },
-  { wert: "/team/", text: "Team" },
-];
+export const pflegeSchema = siteSchema;
+export type Pflege = Site;
 
-/** Teamfoto: Startbilder der Website, Demo-Upload (data:), oder öffentlicher Supabase-Bucket «teamfotos». */
-export const fotoSchema = z.string().max(2_800_000).regex(/^(\/bilder\/team\/[a-z0-9-]{2,80}\.webp|data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+|https:\/\/[a-z0-9-]+\.supabase\.co\/storage\/v1\/object\/public\/teamfotos\/[A-Za-z0-9._-]{8,120})$/, "Foto ungültig");
-const fenster = z.object({ von: uhrzeit, bis: uhrzeit }).strict().refine((f) => minuten(f.von) < minuten(f.bis), "«bis» muss nach «von» liegen");
-export const pflegeSchema = z.object({
-  hinweis: z.object({ aktiv: z.boolean(), text: text(120), link: z.enum(LINKS) }).strict()
-    .refine((h) => !h.aktiv || h.text.length >= 3, "Hinweis braucht einen Text"),
-  zeiten: z.array(z.object({
-    tage: text(40).min(2), kurz: text(20).min(2),
-    wochentage: z.array(z.enum(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"])).min(1).max(7),
-    geschlossen: z.boolean(), fenster: z.array(fenster).max(2),
-  }).strict().refine((t) => t.geschlossen || t.fenster.length > 0, "Offen braucht mindestens ein Zeitfenster")).min(1).max(7),
-  ausnahmen: z.array(z.object({
-    name: text(60).min(2), datum: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Datum fehlt"), geschlossen: z.boolean(),
-    von: uhrzeit.optional(), bis: uhrzeit.optional(),
-  }).strict().refine((a) => a.geschlossen || (a.von && a.bis && minuten(a.von) < minuten(a.bis)), "Offen braucht «von» und «bis»")).max(40),
-  team: z.array(z.object({
-    name: text(40).min(2),
-    leute: z.array(z.object({ name: text(80).min(2), rolle: text(80), foto: fotoSchema.optional(), email: z.email("Mail-Adresse ungültig").max(120).optional() }).strict()).max(30),
-  }).strict()).max(12),
-}).strict();
-export type Pflege = z.infer<typeof pflegeSchema>;
-
-export function minuten(t: string): number {
-  const [h, m] = t.split(".").map(Number) as [number, number];
-  return h * 60 + m;
+/** Demo: Der Bild-Speicher wird vom Cockpit gespielt; Fotos liegen im Speicher und kommen über /api/demo-foto. */
+export const DEMO_FOTO_BASIS = "https://demo-fotos.invalid";
+export function fotoAnzeige(url: string): string {
+  return url.startsWith(DEMO_FOTO_BASIS + "/team/") ? `/api/demo-foto/${url.slice(DEMO_FOTO_BASIS.length + 6)}` : url;
 }
 
-/** Wie die Website die Zeiten im ersten Bildschirm schreibt (astro/bau/daten.mjs zeitenKurz). */
-export function zeitenZeile(p: Pflege): string {
-  return p.zeiten.filter((z) => !z.geschlossen && z.fenster.length).map((z) => `${z.kurz} ${z.fenster.map((f) => `${f.von} bis ${f.bis}`).join(" und ")} Uhr`).join(", ");
+/** Fotos im neuen Stand müssen aus dem alten Stand stammen oder eben hochgeladen sein: sonst könnte jemand eine fremde
+ *  Adresse eintragen und beim späteren Entfernen ein fremdes Bild löschen lassen. */
+export function fotosErlaubt(neu: Pflege, alt: Pflege, hochgeladen: string[]): boolean {
+  const ok = new Set([...alt.team.flatMap((g) => g.leute.map((l) => l.foto)), ...hochgeladen]);
+  return neu.team.every((g) => g.leute.every((l) => !l.foto || ok.has(l.foto)));
 }
 
 /** Liest das Pflege-Formular (Feldnamen wie «zeit.0.von1», «aus.2.name», «team.1.person.3.rolle»). */
@@ -78,6 +51,7 @@ export function pflegeAusFormular(form: FormData, alt: Pflege): z.ZodSafeParseRe
     return { name: g.name, leute };
   });
   return pflegeSchema.safeParse({
+    ...(alt._hinweis ? { _hinweis: alt._hinweis } : {}),
     hinweis: { aktiv: an("hinweis.aktiv"), text: w("hinweis.text"), link: w("hinweis.link") || alt.hinweis.link },
     zeiten, ausnahmen, team,
   });

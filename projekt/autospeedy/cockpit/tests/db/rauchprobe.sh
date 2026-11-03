@@ -8,4 +8,4 @@ runuser -u postgres -- $BIN/pg_ctl -D "$D/db" -o "-p 55432 -k $D" -l "$D/log" st
 H=$(dirname "$0"); P="psql -h $D -p 55432 -U postgres -v ON_ERROR_STOP=1 -q -t"
 $P -f "$H/stub.sql"
 for M in "$H"/../../supabase/migrations/*.sql; do $P -f "$M"; done
-$P -f "$H/rauchprobe.sql" 2>&1 | sed 's/^psql:[^ ]* NOTICE:  /  /'
+$P -f "$H/rauchprobe.sql" 2>&1 | sed 's/^psql:[^ ]* NOTICE:  /  /' | grep -v '^\s*$'

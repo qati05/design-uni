@@ -3,29 +3,32 @@
 import { createHmac, randomBytes, randomInt, timingSafeEqual } from "node:crypto";
 import type { Meldung } from "./status";
 import type { PasskeyGespeichert } from "./webauthn-pruefung";
-import type { Pflege } from "./pflege";
-import pflegeStart from "./pflege-start.json";
+import { pflegeSchema, type Pflege } from "./pflege";
+import siteStart from "../../astro/src/daten/site.json";
 
+/** Der Betrieb in der Demo (in echt: Tabelle «betrieb»). */
+export const betriebDemo = { name: "Auto Speedy AG", website: "https://www.autospeedy.ch" };
 export const DEMO_MITGLIED = { userId: "demo-werkstatt", email: "werkstatt@autospeedy.example", name: "Werkstatt (Demo)" };
+/** Demo-Konto des Studios (Medaur): nur CSV-Export unter /studio. */
+export const DEMO_STUDIO = { userId: "demo-studio", email: "studio@medaur.example" };
 export const DEMO_COOKIE = "as_demo_sitzung";
 export const DEMO_SITZUNG_SEKUNDEN = 60 * 60 * 24 * 30;
 
 export type PostfachMail = { id: string; zeit: string; an: string; betreff: string; text: string };
 type Speicher = { codes: Map<string, { code: string; bis: number; versuche: number }>; meldungen: Meldung[]; postfach: PostfachMail[]; audit: { zeit: string; aktion: string; ergebnis: string; ziel?: string }[]; anfragen: number[]; zaehlung: Map<string, number>;
   passkeys: Map<string, PasskeyGespeichert[]>; vorgaenge: Map<string, { uid: string; zweck: "anmelden" | "einrichten"; challenge: string; bis: number; name: string }>;
-  pflege: { daten: Pflege; geaendert: string | null; von: string | null };
+  pflege: { daten: Pflege; sha: string; geaendert: string | null; von: string | null }; fotos: Map<string, { typ: string; bytes: Uint8Array }>;
   auftragTokens: Map<string, { id: string; bis: number }>; zeitVersatz: number };
 
 const g = globalThis as unknown as { __asDemo?: Speicher };
 export function speicher(): Speicher {
-  if (!g.__asDemo) g.__asDemo = { codes: new Map(), meldungen: beispielMeldungen(), postfach: [], audit: [], anfragen: [], zaehlung: beispielZaehlung(), passkeys: new Map(), vorgaenge: new Map(), pflege: { daten: startPflege(), geaendert: null, von: null }, auftragTokens: new Map(), zeitVersatz: 0 };
+  if (!g.__asDemo) g.__asDemo = { codes: new Map(), meldungen: beispielMeldungen(), postfach: [], audit: [], anfragen: [], zaehlung: beispielZaehlung(), passkeys: new Map(), vorgaenge: new Map(), pflege: { daten: startPflege(), sha: randomBytes(20).toString("hex"), geaendert: null, von: null }, fotos: new Map(), auftragTokens: new Map(), zeitVersatz: 0 };
   return g.__asDemo;
 }
 
+/** Startstand der Demo: dieselbe site.json, aus der die Website gebaut wird. */
 function startPflege(): Pflege {
-  const { _quelle, ...d } = pflegeStart as unknown as Pflege & { _quelle: string };
-  void _quelle;
-  return structuredClone(d) as Pflege;
+  return pflegeSchema.parse(structuredClone(siteStart));
 }
 
 /** Demo-Uhr: «24 Stunden vorspulen» verschiebt sie, damit man die Bewertungs-Mail sofort sieht. */

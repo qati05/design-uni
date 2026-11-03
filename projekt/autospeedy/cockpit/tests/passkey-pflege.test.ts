@@ -2,7 +2,7 @@ import { createHash, generateKeyPairSync, sign } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { anmeldungPruefen, registrierungPruefen } from "../lib/webauthn-pruefung";
 import { pflegeAusFormular, pflegeSchema, zeitenZeile, type Pflege } from "../lib/pflege";
-import start from "../lib/pflege-start.json";
+import start from "../../astro/src/daten/site.json";
 import { entscheideZugang } from "../lib/zugang";
 
 // Ein «Gerät» im Test: echter ES256-Schlüssel, Daten wie ein Handy sie liefert.
@@ -48,8 +48,7 @@ describe("Fingerabdruck/Gesicht (WebAuthn, Demo-Prüfung)", () => {
 });
 
 describe("Website-Pflege im Cockpit", () => {
-  const { _quelle, ...roh } = start as Record<string, unknown>; void _quelle;
-  const alt = pflegeSchema.parse(roh) as Pflege;
+  const alt = pflegeSchema.parse(start) as Pflege;
   const form = (f: Record<string, string>) => { const d = new FormData(); for (const [k, v] of Object.entries(f)) d.set(k, v); return d; };
   const basis = { "hinweis.text": "Hagel? Jetzt melden.", "hinweis.link": "/schaden-melden/?art=hagel", "zeit.0.von1": "7.30", "zeit.0.bis1": "12.00", "zeit.0.von2": "13.15", "zeit.0.bis2": "17.30", "zeit.1.von1": "7.30", "zeit.1.bis1": "12.00", "zeit.1.von2": "13.15", "zeit.1.bis2": "17.15" };
   it("Startwerte ergeben dieselbe Zeile wie die Website", () => { expect(zeitenZeile(alt)).toBe("Mo bis Do 7.30 bis 12.00 und 13.15 bis 17.30 Uhr, Fr 7.30 bis 12.00 und 13.15 bis 17.15 Uhr"); });
@@ -85,33 +84,36 @@ describe("App-Dateien sind ohne Login erreichbar, alles andere nicht", () => {
 
 describe("Teamfotos", async () => {
   const { fotoTyp } = await import("../lib/foto");
-  const { fotoSchema } = await import("../lib/pflege");
+  const { TEAMFOTO, fotosErlaubt } = await import("../lib/pflege");
   it("erkennt Bilder an den ersten Bytes, nicht am Namen", () => {
     expect(fotoTyp(new Uint8Array([0xff, 0xd8, 0xff, 0xe0]))).toBe("image/jpeg");
     expect(fotoTyp(new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0, 0, 0, 0, 0]))).toBe("image/png");
     expect(fotoTyp(new Uint8Array([...Buffer.from("RIFF0000WEBPVP8 ")]))).toBe("image/webp");
     expect(fotoTyp(new Uint8Array([...Buffer.from("<svg onload=alert(1)>")]))).toBeNull();
   });
-  it("nur erlaubte Foto-Adressen", () => {
-    expect(fotoSchema.safeParse("/bilder/team/anna-meier.webp").success).toBe(true);
-    expect(fotoSchema.safeParse("https://abcd.supabase.co/storage/v1/object/public/teamfotos/1234abcd.webp").success).toBe(true);
-    expect(fotoSchema.safeParse("data:image/webp;base64,UklGRg==").success).toBe(true);
-    expect(fotoSchema.safeParse("https://boese.example/x.webp").success).toBe(false);
-    expect(fotoSchema.safeParse("javascript:alert(1)").success).toBe(false);
-    expect(fotoSchema.safeParse("data:image/svg+xml;base64,PHN2Zz4=").success).toBe(false);
+  it("nur erlaubte Foto-Adressen: Startbild oder Bild-Speicher mit zufälligem Namen, nie data: im Git", () => {
+    expect(TEAMFOTO.test("/bilder/team/anna-meier.webp")).toBe(true);
+    expect(TEAMFOTO.test("https://fotos.beispiel.ch/team/0b5f6c1e-1a2b-4c3d-8e9f-001122334455.webp")).toBe(true);
+    expect(TEAMFOTO.test("data:image/webp;base64,UklGRg==")).toBe(false);
+    expect(TEAMFOTO.test("https://boese.example/x.webp")).toBe(false);
+    expect(TEAMFOTO.test("javascript:alert(1)")).toBe(false);
+    expect(TEAMFOTO.test("https://fotos.beispiel.ch/team/0b5f6c1e-1a2b-4c3d-8e9f-001122334455.svg")).toBe(false);
+  });
+  it("fremde Foto-Adresse im Formular wird abgewiesen (sonst liesse sich ein fremdes Bild löschen)", () => {
+    const fremd = "https://fotos.beispiel.ch/team/99999999-1a2b-4c3d-8e9f-001122334455.webp";
+    const mit = (foto: string) => ({ ...start, team: [{ name: "A", leute: [{ name: "Anna", rolle: "x", foto }] }] }) as Pflege;
+    expect(fotosErlaubt(mit(fremd), start as Pflege, [])).toBe(false);
+    expect(fotosErlaubt(mit(fremd), start as Pflege, [fremd])).toBe(true); // eben hochgeladen
+    expect(fotosErlaubt(mit("/bilder/team/" + "x".repeat(3) + ".webp"), mit("/bilder/team/xxx.webp"), [])).toBe(true);
   });
 });
 
 describe("Auftrag erledigt und Bewertung", async () => {
-  const { auftragMail, bewertungMail } = await import("../lib/mailtexte");
+  const { bewertungMail } = await import("../lib/mailtexte");
   const { trichter } = await import("../lib/zahlen");
-  it("Auftrags-Mail: Link, ohne Personendaten, sagt ob Bewertungs-Mail kommt", () => {
-    const a = auftragMail({ art: "Hagel", tesla: true, link: "https://cockpit.example/auftrag/abc", mitMail: true });
-    expect(a.betreff).toContain("Hagel (Tesla)"); expect(a.text).toContain("https://cockpit.example/auftrag/abc"); expect(a.text).toContain("24 Stunden");
-    expect(auftragMail({ art: "Felge", tesla: false, link: "x", mitMail: false }).text).toContain("WhatsApp");
-  });
   it("Bewertungs-Mail: Vorname, Link auf /bewerten/, sagt warum sie kommt", () => {
-    const b = bewertungMail({ name: "Peter Muster", website: "https://www.autospeedy.ch/" });
+    const b = bewertungMail({ name: "Peter Muster", website: "https://www.autospeedy.ch/", betrieb: "Auto Speedy AG" });
+    expect(b.betreff).toBe("Danke für Ihren Auftrag bei Auto Speedy AG");
     expect(b.text).toMatch(/^Guten Tag Peter\n/); expect(b.text).toContain("https://www.autospeedy.ch/bewerten/"); expect(b.text).toContain("einmal");
   });
   it("Trichter: Anteil vom ersten Schritt", () => {

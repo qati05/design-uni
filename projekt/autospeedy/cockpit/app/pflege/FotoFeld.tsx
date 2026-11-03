@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { fotoAnzeige } from "@/lib/pflege";
 
 /** Porträt wählen (Handy: Kamera oder Fotos). Der Browser schneidet es quadratisch zu und verkleinert auf 640 px. */
 export function FotoFeld({ name, foto, person }: { name: string; foto?: string; person: string }) {
-  const [vorschau, setVorschau] = useState(foto ?? "");
+  const [vorschau, setVorschau] = useState(foto ? fotoAnzeige(foto) : "");
   const [meldung, setMeldung] = useState("");
   async function gewaehlt(e: React.ChangeEvent<HTMLInputElement>) {
     const input = e.currentTarget, f = input.files?.[0];

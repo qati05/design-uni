@@ -85,7 +85,6 @@ table.zahlen th { width: 44%; font-weight: 600; }
 /* Fingerabdruck / Gesicht */
 .passkey { display: grid; gap: 10px; }
 .knopf.gross { min-height: 60px; font-size: 16px; width: 100%; }
-.ersatz summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; }
 .geraete { list-style: none; margin: 0; padding: 0; }
 .geraete li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--linie); min-height: 60px; }
 .geraete li:last-child { border-bottom: 0; }

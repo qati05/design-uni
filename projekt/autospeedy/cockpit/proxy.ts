@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import { COOKIE_GRUNDLAGE, haerte } from "./lib/cookies";
-import { DEMO_COOKIE, sitzungLesen, speicher } from "./lib/demo-speicher";
+import { DEMO_COOKIE, DEMO_STUDIO, sitzungLesen, speicher } from "./lib/demo-speicher";
 import { log } from "./lib/log";
 import { baueCsp, sicherheitsHeader } from "./lib/sicherheit";
 import { entscheideZugang, type Zugang, type ZugangsAbfragen } from "./lib/zugang";
@@ -36,6 +36,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
       nutzerId: async () => s?.uid ?? null,
       stufe: async () => ({ aktuell: s?.aal ?? null, naechste: s && (speicher().passkeys.get(s.uid) ?? []).length ? "aal2" : "aal1" }),
       istMitglied: async () => s?.email === "werkstatt@autospeedy.example",
+      istStudioAdmin: async () => s?.email === DEMO_STUDIO.email,
     };
   } else {
     let supabase: ReturnType<typeof createServerClient> | null = null;
@@ -61,6 +62,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
       nutzerId: async () => (await hole().auth.getUser()).data.user?.id ?? null,
       stufe: async () => { const { data } = await hole().auth.mfa.getAuthenticatorAssuranceLevel(); return { aktuell: data?.currentLevel ?? null, naechste: data?.nextLevel ?? null }; },
       istMitglied: async () => (await hole().rpc("ist_mitglied")).data === true,
+      istStudioAdmin: async () => (await hole().rpc("ist_studio_admin")).data === true,
     };
   }
 
@@ -79,6 +81,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   if (zugang.art === "login") antwort = umleiten("/login");
   else if (zugang.art === "mfa") antwort = umleiten("/mfa");
   else if (zugang.art === "mfa_einrichten") antwort = umleiten("/mfa/einrichten");
+  else if (zugang.art === "studio") antwort = umleiten("/studio");
   else if (zugang.art === "verboten") {
     log({ aktion: "zugang_abgelehnt", status: "abgelehnt" });
     const url = request.nextUrl.clone(); url.pathname = "/403"; url.search = "";

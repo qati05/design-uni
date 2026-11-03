@@ -4,24 +4,12 @@ import { redirect } from "next/navigation";
 import { holeBackend } from "@/lib/backend.server";
 import { log } from "@/lib/log";
 import { rp } from "@/lib/rp.server";
-import { sichererPfad, totpSchema } from "@/lib/validierung";
-
-export type TotpZustand = { meldung?: string };
+import { sichererPfad } from "@/lib/validierung";
 
 async function loginFertig(weiter: unknown): Promise<never> {
   const b = holeBackend();
   try { await b.audit({ aktion: "login", ergebnis: "ok" }); } catch { log({ aktion: "login", status: "audit_fehler" }); }
   redirect(sichererPfad(weiter));
-}
-
-/** Ersatzweg für Konten, die schon eine Authenticator-App haben (nur echter Betrieb). */
-export async function totpBestaetigen(_v: TotpZustand, form: FormData): Promise<TotpZustand> {
-  const r = totpSchema.safeParse({ code: String(form.get("code") ?? "").replace(/\s/g, "") });
-  if (!r.success) return { meldung: "Der Code hat 6 Ziffern." };
-  const a = await holeBackend().totpPruefen(r.data.code);
-  log({ aktion: "mfa_bestaetigt", status: a.status });
-  if (a.status !== "ok") return { meldung: "Der Code stimmt nicht. Bitte den aktuellen Code eingeben." };
-  return loginFertig(form.get("weiter"));
 }
 
 export type PasskeyStartAntwort = { ok: true; vorgang: string; art: "create" | "request"; optionen: Record<string, unknown> } | { ok: false; meldung: string };

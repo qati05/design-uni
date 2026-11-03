@@ -1,8 +1,8 @@
 // Entscheidet im Proxy, wohin eine Anfrage geht. Rein und mit eingespeisten Abfragen, damit testbar.
 // Muster aus qati05/medaur cockpit-app/lib/zugang.ts: ohne Sitzung -> /login, ohne aal2 -> /mfa (oder Einrichtung),
-// nicht Mitglied des Betriebs -> 403.
+// nicht Mitglied des Betriebs (oder Cockpit des Betriebs aus) -> 403. Studio-Admins nur unter /studio.
 
-export type Zugang = { art: "weiter" } | { art: "login" } | { art: "mfa" } | { art: "mfa_einrichten" } | { art: "verboten" };
+export type Zugang = { art: "weiter" } | { art: "login" } | { art: "mfa" } | { art: "mfa_einrichten" } | { art: "verboten" } | { art: "studio" };
 
 export const OEFFENTLICHE_PFADE = ["/login", "/403", "/favicon.ico", "/robots.txt", "/demo/postfach", "/manifest.webmanifest", "/sw.js", "/offline.html", "/apple-touch-icon.png", "/icon-192.png", "/icon-512.png", "/icon-maskable-512.png"];
 export const OEFFENTLICHE_PRAEFIXE = ["/api/meldung", "/api/zaehl", "/api/versand", "/auftrag/", "/bilder/", "/fonts/"];
@@ -17,6 +17,7 @@ export type ZugangsAbfragen = {
   nutzerId: () => Promise<string | null>;
   stufe: () => Promise<{ aktuell: string | null; naechste: string | null }>;
   istMitglied: () => Promise<boolean>;
+  istStudioAdmin?: () => Promise<boolean>;
 };
 
 export async function entscheideZugang(pfad: string, q: ZugangsAbfragen): Promise<Zugang> {
@@ -29,5 +30,7 @@ export async function entscheideZugang(pfad: string, q: ZugangsAbfragen): Promis
     return naechste === "aal2" ? { art: "mfa" } : { art: "mfa_einrichten" };
   }
   if (MFA_PFADE.includes(pfad)) return { art: "weiter" };
-  return (await q.istMitglied()) ? { art: "weiter" } : { art: "verboten" };
+  if (pfad === "/studio" || pfad.startsWith("/studio/")) return (await q.istStudioAdmin?.()) ? { art: "weiter" } : { art: "verboten" };
+  if (await q.istMitglied()) return { art: "weiter" };
+  return (await q.istStudioAdmin?.()) ? { art: "studio" } : { art: "verboten" };
 }

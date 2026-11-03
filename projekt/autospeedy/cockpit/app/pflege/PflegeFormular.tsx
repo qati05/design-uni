@@ -7,13 +7,14 @@ import { FotoFeld } from "./FotoFeld";
 
 const ZEIT = { inputMode: "decimal" as const, pattern: "([01]?[0-9]|2[0-3])\\.[0-5][0-9]", placeholder: "7.30", maxLength: 5, size: 5 };
 
-export function PflegeFormular({ daten }: { daten: Pflege }) {
+export function PflegeFormular({ daten, sha }: { daten: Pflege; sha: string }) {
   const [z, aktion, laeuft] = useActionState(pflegeSpeichern, {} as PflegeZustand);
   const [neueAusnahmen, setNeueAusnahmen] = useState(1);
   const [neueLeute, setNeueLeute] = useState<number[]>(daten.team.map(() => 0));
   const aus = daten.ausnahmen.length;
   return (
     <form action={aktion} className="pflege" noValidate>
+      <input type="hidden" name="sha" value={sha} />
       <fieldset className="karte">
         <legend>Hinweis oben auf der Website</legend>
         <p className="unterzeile">Zum Beispiel nach einem Hagelsturm. Aus = nichts zu sehen.</p>
