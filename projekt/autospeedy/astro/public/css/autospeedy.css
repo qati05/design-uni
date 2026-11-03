@@ -818,3 +818,20 @@ header .aktionen .knopf[aria-current="page"] { display: none; }
 
 /* Logos einheitlich: jedes auf einer gleichen weissen Karte (einige Dateien haben weissen Hintergrund) */
 .partner-logos img { background: #fff; padding: 10px 14px; box-sizing: content-box; border: 1px solid #dde3ea; }
+
+/* Partner-Laufband (Komponente Partnerband.astro): gleich grosse Karten, Ränder weich ausgeblendet, langsam nach links. */
+.partnerband { overflow: hidden; margin: 0 0 16px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.partnerband__spur { display: flex; gap: 16px; width: max-content; margin: 0; padding: 6px 0; list-style: none; animation: partnerband var(--dauer, 40s) linear infinite; }
+.partnerband:hover .partnerband__spur, .partnerband:focus-within .partnerband__spur { animation-play-state: paused; }
+.partnerband__karte { display: flex; align-items: center; justify-content: center; width: 196px; height: 84px; padding: 14px 22px; box-sizing: border-box; background: #fff; border: 1px solid #dde3ea; border-radius: 0; transition: border-color 200ms ease, transform 200ms ease; }
+.partnerband__karte:hover { border-color: var(--gebotsblau); transform: translateY(-2px); }
+.partnerband__karte a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.partnerband__karte img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+@keyframes partnerband { to { transform: translateX(calc(-50% - 8px)); } }
+@media (max-width: 860px) { .partnerband__karte { width: 150px; height: 68px; padding: 10px 16px; } }
+@media (prefers-reduced-motion: reduce) {
+  .partnerband { -webkit-mask-image: none; mask-image: none; }
+  .partnerband__spur { animation: none; flex-wrap: wrap; width: auto; }
+  .partnerband__karte[data-kopie] { display: none; }
+  .partnerband__karte, .partnerband__karte:hover { transition: none; transform: none; }
+}

@@ -1,4 +1,5 @@
 ---
+import Partnerband from "../components/Partnerband.astro";
 // Seite für Firmen, Flotten und Garagen (B2B). Nur Belegtes (fakten.md F5, F8, F12); Konditionen sind Lücken.
 import Seite from "../layouts/Seite.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
@@ -22,7 +23,7 @@ import Rueckruf from "../components/Rueckruf.astro";
     </div>
     <div>
       <h2>Zertifizierte K + L Partner von</h2>
-      <ul class="partner-logos"><li><img src="/bilder/partner/tesla-approved-body-shop.webp" alt="Tesla Approved Body Shop" width="300" height="84" loading="lazy" decoding="async"></li><li><img src="/bilder/partner/amag.webp" alt="AMAG" width="300" height="102" loading="lazy" decoding="async"></li><li><img src="/bilder/partner/land-rover.webp" alt="Land Rover" width="300" height="155" loading="lazy" decoding="async"></li><li><img src="/bilder/partner/ayvens.webp" alt="Ayvens" width="300" height="61" loading="lazy" decoding="async"></li></ul>
+      <Partnerband titel="Zertifizierte Partner" />
       <p class="quelle">Laut der bisherigen Website des Betriebs.</p>
       <p data-luecke>Lücke: Logos von autospeedy.ch übernommen; Nutzung mit den Partnern zu bestätigen.</p>
     </div>

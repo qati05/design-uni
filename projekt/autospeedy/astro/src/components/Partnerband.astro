@@ -1,0 +1,27 @@
+---
+// Partner-Logos als ruhiges Laufband (beide Linien). Neuer Partner: eine Zeile in PARTNER, Logo nach /bilder/partner/.
+// Die Logos laufen langsam nach links und halten bei Maus oder Tastatur an. Bei «Bewegung reduzieren» stehen sie still
+// in einer Reihe. Bilder laden sofort (klein), sonst rollen leere Karten ins Bild. Für eine nahtlose Schleife wird die Liste wiederholt; Screenreader hören jeden Partner nur einmal.
+const PARTNER = [
+  { name: "Tesla Approved Body Shop", datei: "tesla-approved-body-shop.webp", b: 300, h: 84, link: "/tesla/" },
+  { name: "AMAG", datei: "amag.webp", b: 300, h: 102 },
+  { name: "Land Rover", datei: "land-rover.webp", b: 300, h: 155 },
+  { name: "Ayvens", datei: "ayvens.webp", b: 300, h: 61 },
+];
+const runden = Math.max(2, Math.ceil(8 / PARTNER.length)); // eine Hälfte der Spur muss breiter als der Bildschirm sein
+const haelfte = Array.from({ length: runden }, (_, r) => PARTNER.map((p) => ({ ...p, kopie: r > 0 }))).flat();
+const spur = [...haelfte, ...haelfte.map((p) => ({ ...p, kopie: true }))];
+const { titel = "Partner" } = Astro.props;
+---
+<div class="partnerband" role="region" aria-label={titel}>
+  <ul class="partnerband__spur" style={`--dauer: ${haelfte.length * 5}s`}>
+    {spur.map((p) => {
+      const bild = <img src={`/bilder/partner/${p.datei}`} alt={p.kopie ? "" : p.name} width={p.b} height={p.h} decoding="async" />;
+      return (
+        <li class="partnerband__karte" aria-hidden={p.kopie ? "true" : undefined} data-kopie={p.kopie ? "" : undefined}>
+          {p.link ? <a href={p.link} tabindex={p.kopie ? -1 : undefined}>{bild}</a> : bild}
+        </li>
+      );
+    })}
+  </ul>
+</div>
