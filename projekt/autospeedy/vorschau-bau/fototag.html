@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Auto Speedy: Fototag für die neue Website</title>
+<style>
+@font-face { font-family: "Barlow"; font-weight: 400; src: url("FONT400") format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 600; src: url("FONT600") format("woff2"); }
+@font-face { font-family: "Barlow Semi Condensed"; font-weight: 700; src: url("FONT700") format("woff2"); }
+:root { --tinte: #14202a; --leise: #4a585d; --linie: #dde3e7; --blau: #1566b8; --blau-dunkel: #0f4f94; --blau-hell: #e8f1fb; --baby: #c4e0f8; --titel: "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--tinte); font: 400 17px/1.5 Barlow, Arial, sans-serif; background: #fff; }
+main { max-width: 1100px; margin: 0 auto; padding: 48px 32px 64px; display: grid; gap: 36px; }
+h1, h2, h3 { font-family: var(--titel); font-weight: 700; font-style: italic; text-transform: uppercase; line-height: 1.05; margin: 0; }
+h1 { font-size: 52px; } h2 { font-size: 28px; margin-bottom: 12px; } h3 { font-size: 19px; margin-bottom: 4px; }
+.kopf { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+.kopf p { margin: 10px 0 0; color: var(--leise); font-size: 20px; max-width: 720px; }
+.kopf img { width: 180px; height: auto; }
+.warum { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.karte { border: 1px solid var(--linie); padding: 18px 20px; display: grid; gap: 6px; align-content: start; background: #fff; }
+.karte p { margin: 0; color: var(--leise); }
+.karte b.zahl { font: italic 700 34px/1 var(--titel); color: var(--blau-dunkel); }
+table { width: 100%; border-collapse: collapse; border: 1px solid var(--linie); }
+th, td { padding: 10px 14px; border-bottom: 1px solid var(--linie); text-align: left; vertical-align: top; font-size: 16px; }
+thead th { background: var(--blau-hell); font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: .04em; }
+td.nr { width: 40px; font: italic 700 20px/1 var(--titel); color: var(--blau-dunkel); }
+td.wo { width: 200px; font-weight: 600; }
+td.fmt { width: 150px; color: var(--leise); font-size: 14px; }
+.prio { display: inline-block; padding: 1px 7px; margin-left: 6px; background: var(--blau); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; vertical-align: 2px; }
+.zwei { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+ul { margin: 0; padding-left: 20px; display: grid; gap: 5px; }
+.nein li::marker { content: "✕  "; color: #b42318; }
+.ja li::marker { content: "✓  "; color: #1f7a4d; }
+.fuss { font-size: 13px; color: var(--leise); }
+@media print { main { padding: 18px; gap: 24px; } .karte, tr, .zwei > div { break-inside: avoid; } h1 { font-size: 42px; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="kopf">
+    <div><h1>Fototag für die neue Website</h1><p>Die Website zeigt heute Bilder der bisherigen Website. Sie sind ehrlich, aber klein und unruhig. Ein halber bis ganzer Fototag macht aus der guten Website eine sehr gute.</p></div>
+    <img src="LOGO" alt="Auto Speedy AG">
+  </div>
+
+  <section class="warum">
+    <div class="karte"><b class="zahl">1600 px</b><p>So breit sind die heutigen Fotos. Für ein Bild über den ganzen Bildschirm braucht es etwa doppelt so viel; sonst wirkt es auf grossen Bildschirmen weich.</p></div>
+    <div class="karte"><b class="zahl">Licht</b><p>Die Bilder stammen aus verschiedenen Tagen und Lampen. Eine Serie in einem Licht wirkt sofort wie aus einem Guss, auch mit den gleichen Motiven.</p></div>
+    <div class="karte"><b class="zahl">Menschen</b><p>Was Kunden vertrauen lässt, sind Gesichter: wer annimmt, wer repariert, wer das Auto zurückgibt. Davon gibt es heute fast keine Bilder in guter Qualität.</p></div>
+  </section>
+
+  <section>
+    <h2>Die Motive, nach Wichtigkeit</h2>
+    <table>
+      <thead><tr><th></th><th>Wo auf der Website</th><th>Was im Bild ist</th><th>Format</th></tr></thead>
+      <tbody>
+        <tr><td class="nr">01</td><td class="wo">Startseite, grosses Bild <span class="prio">zuerst</span></td><td>Die Halle durchs offene Tor fotografiert: ein Auto im Licht, eine Person klein bei der Arbeit. Eine ruhige, leere Fläche für den Titel (links unten), aufgeräumter Boden.</td><td class="fmt">quer 16:9 und hoch 4:5</td></tr>
+        <tr><td class="nr">02</td><td class="wo">Startseite, Ablauf <span class="prio">zuerst</span></td><td>Übergabe an der Annahme: Mitarbeiterin gibt einer Kundin den Schlüssel zurück. Die Kundin von hinten oder mit Einwilligung.</td><td class="fmt">quer 3:2 und hoch 4:5</td></tr>
+        <tr><td class="nr">03</td><td class="wo">Tesla <span class="prio">zuerst</span></td><td>Ein Tesla in der Halle oder in der Lackierkabine, mit Einwilligung des Halters, Kontrollschild abgedeckt. Dazu, falls vorhanden: das Zertifikat «Tesla Approved Body Shop» an der Wand.</td><td class="fmt">quer 16:9 und Detail</td></tr>
+        <tr><td class="nr">04</td><td class="wo">Team</td><td>Porträts aller Personen, alle gleich: gleiche Wand, gleiche Höhe, Arbeitskleidung, Blick in die Kamera erlaubt. Dazu ein Gruppenbild vor der Fassade.</td><td class="fmt">hoch 4:5, Gruppe quer</td></tr>
+        <tr><td class="nr">05</td><td class="wo">Carrosserie</td><td>Hände am Blech, Dellen unter der Prüflampe (Hagel), die Richtbank mit Messsystem, ein Fahrzeug auf der Hebebühne.</td><td class="fmt">quer 3:2</td></tr>
+        <tr><td class="nr">06</td><td class="wo">Lackiererei</td><td>Lackierer in der Kabine im Gegenlicht, der Farbnebel sichtbar. Makro einer frischen Lackkante. Die Farbmischanlage.</td><td class="fmt">quer und hoch</td></tr>
+        <tr><td class="nr">07</td><td class="wo">Felgen</td><td>Dieselbe Felge vorher und nachher, vom selben Stativpunkt. Daraus wird ein Vorher-nachher-Schieber.</td><td class="fmt">quadratisch 1:1</td></tr>
+        <tr><td class="nr">08</td><td class="wo">Folierung</td><td>Hände legen die Folie an (Rakel, Föhn); ein fertig foliertes Auto von der Seite.</td><td class="fmt">quer 3:2</td></tr>
+        <tr><td class="nr">09</td><td class="wo">Kontakt, Occasionen</td><td>Die Fassade mit Schild bei schönem Wetter, der Platz mit den Occasionen, die Einfahrt so, wie Kunden sie sehen.</td><td class="fmt">quer 16:9</td></tr>
+        <tr><td class="nr">10</td><td class="wo">Schaden melden, Cockpit</td><td>Jemand an der Annahme schaut auf den Bildschirm oder telefoniert mit einem Kunden. Zeigt: «Ihre Meldung kommt hier an.»</td><td class="fmt">quer 3:2</td></tr>
+        <tr><td class="nr">11</td><td class="wo">Flächen und Hintergründe</td><td>Makro einer Lackoberfläche mit Metallic-Effekt, gebürstetes Metall, Reifenprofil. Ohne Motiv, nur Material.</td><td class="fmt">quer, sehr gross</td></tr>
+        <tr><td class="nr">12</td><td class="wo">Ablauf in drei Bildern</td><td>Derselbe Standpunkt dreimal: Schaden ansehen, reparieren, übergeben.</td><td class="fmt">quer 3:2, je gleich</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="zwei">
+    <div class="karte">
+      <h2>So wird fotografiert</h2>
+      <ul class="ja">
+        <li>Ein Vormittag, Tageslicht durchs offene Tor oder Fenster, keine Mittagssonne.</li>
+        <li>Deckenröhren aus, oder ein fester Weissabgleich. Nie Tages- und Lampenlicht mischen.</li>
+        <li>Jedes Hauptmotiv quer und hoch (für Laptop und Handy).</li>
+        <li>Mindestens 3000 Pixel breit, beste Qualität.</li>
+        <li>Menschen schauen auf die Arbeit, nicht in die Kamera; nur bei Porträts in die Kamera.</li>
+        <li>Vorher aufräumen: Boden, Kabel, Werkzeugwagen. Saubere Arbeitskleidung mit Logo.</li>
+        <li>Abends alle Bilder nebeneinander ansehen; was aus der Reihe fällt, kommt nicht auf die Website.</li>
+      </ul>
+    </div>
+    <div class="karte">
+      <h2>Das vermeiden wir</h2>
+      <ul class="nein">
+        <li>Stockfotos und KI-Bilder von Werkstatt, Team oder Autos.</li>
+        <li>Erkennbare Kunden oder Kontrollschilder ohne Einwilligung.</li>
+        <li>Mischlicht, Blitz direkt aufs Auto, schiefe Horizonte.</li>
+        <li>Unruhiger Hintergrund hinter dem Hauptmotiv.</li>
+        <li>Logos anderer Marken als Hauptmotiv.</li>
+        <li>Jedes Bild einzeln «schön» bearbeiten: eine Voreinstellung für alle.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="zwei">
+    <div class="karte">
+      <h2>Für die Linie «Lack»</h2>
+      <p>Helle Halle, viel Weiss und Babyblau. Lackoberflächen, Spiegelungen, Metallic im Detail. Die Lackkabine hell ausgeleuchtet.</p>
+    </div>
+    <div class="karte">
+      <h2>Für die Linie «Klar»</h2>
+      <p>Ein Auto, viel ruhige Fläche, eher dunkler Hintergrund. Wenige Motive, dafür perfekt: das Bild trägt die Seite, der Text steht in der leeren Fläche.</p>
+    </div>
+  </section>
+
+  <section class="karte">
+    <h2>Rechte und Einwilligung</h2>
+    <ul>
+      <li>Der Fotograf überträgt die Nutzungsrechte schriftlich: Website, Social Media, Werbung, zeitlich unbegrenzt.</li>
+      <li>Alle Mitarbeitenden auf Bildern geben ihr Einverständnis schriftlich; ebenso Kundinnen und Kunden, die erkennbar sind.</li>
+      <li>Halter der fotografierten Autos sind einverstanden; Kontrollschilder abgedeckt oder unkenntlich.</li>
+    </ul>
+  </section>
+
+  <section class="karte">
+    <h2>So läuft es ab</h2>
+    <p>Wir schicken die Motivliste, Auto Speedy bestimmt Autos, Personen und einen Termin. Am Fototag ist ein halber bis ganzer Tag nötig, je nach Auftragslage in der Halle. Danach bearbeiten wir alle Bilder mit einer Voreinstellung und setzen sie ein. Bis dahin bleiben die heutigen Bilder auf der Website.</p>
+  </section>
+  <p class="fuss">Empfehlung vom 3. November 2026. Kosten für Fotograf und Bearbeitung sind hier nicht enthalten.</p>
+</main>
+</body>
+</html>
