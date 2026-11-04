@@ -8,7 +8,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const wurzel = fileURLToPath(new URL("../", import.meta.url)); // astro-klar/
-const astroBin = path.join(wurzel, "node_modules", ".bin", "astro");
+const astroBin = path.join(wurzel, "node_modules", ".bin", process.platform === "win32" ? "astro.cmd" : "astro");
 const ausgabe = path.join(wurzel, "dist-bew");
 
 test("Fixture: Note und Anzahl erscheinen, keine Bewertungskarten, kein reviews-Feld", () => {
@@ -18,7 +18,7 @@ test("Fixture: Note und Anzahl erscheinen, keine Bewertungskarten, kein reviews-
   assert.ok(!("autor" in fix) && !("text" in fix), "Fixture ohne Autor/Text");
 
   fs.rmSync(ausgabe, { recursive: true, force: true });
-  execFileSync(astroBin, ["build"], {
+  execFileSync(astroBin, ["build"], { shell: process.platform === "win32",
     cwd: wurzel,
     stdio: "pipe",
     env: { ...process.env, DATEN: "../astro/src/content", BEWERTUNGEN_DATEI: "test/fixtures/bewertungen-beispiel.json", AUSGABE: "dist-bew" },

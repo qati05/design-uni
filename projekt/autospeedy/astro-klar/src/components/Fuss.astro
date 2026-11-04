@@ -34,13 +34,13 @@ const whatsapp = b.whatsapp && b.whatsapp.nutzung_bestaetigt && b.whatsapp.numme
 <footer class="fuss" data-fuss={JSON.stringify(statusDaten)}>
   <div class="fuss__blatt">
 
-    <!-- 1. Letzter Aufruf: Anrufen gefuellt (Haupt), Schaden melden als Kontur (sekundaer). -->
+    <!-- 1. Letzter Aufruf: Schaden melden gefuellt (Haupt), Anrufen daneben; auch nach Feierabend passt der Satz. -->
     <div class="fuss-aufruf">
-      <p class="fuss-aufruf__ruf">Schaden? Rufen Sie an.</p>
+      <p class="fuss-aufruf__ruf">{aufSchaden ? "Lieber sprechen? Rufen Sie an." : "Schaden? Melden Sie ihn online oder rufen Sie an."}</p>
       <div class="ctas">
-        <a class="knopf knopf--akzent knopf--gross" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort={ort}>
+        {!aufSchaden && <a class="knopf knopf--akzent knopf--gross" href="/schaden-melden/" data-zaehl="anfrage" data-ort={ort}>Schaden melden</a>}
+        <a class="knopf knopf--kontur knopf--gross" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort={ort}>
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a12 12 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6A2.1 2.1 0 0 1 18.4 19.5 15 15 0 0 1 4.5 5.6 2.1 2.1 0 0 1 6.6 3.5Z"/></svg><span>Anrufen <span class="nr">{b.tel.anzeige}</span></span></a>
-        {!aufSchaden && <a class="knopf knopf--kontur" href="/schaden-melden/" data-zaehl="anfrage" data-ort={ort}>Schaden melden</a>}
       </div>
     </div>
 

@@ -6,9 +6,10 @@ import assert from "node:assert/strict";
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { chromium } from "playwright-core";
 
-const dist = new URL("../dist/", import.meta.url).pathname;
+const dist = fileURLToPath(new URL("../dist/", import.meta.url));
 const csp = fs.readFileSync(path.join(dist, "_headers"), "utf8").match(/^\s+Content-Security-Policy: (.*)$/m)[1];
 const typen = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".webp": "image/webp", ".jpg": "image/jpeg", ".png": "image/png", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".json": "application/json", ".ico": "image/x-icon" };
 let server, basis, browser;
@@ -71,6 +72,7 @@ test("Ersatzwagen: Tesla-Unterfrage erscheint nur bei Haken; ?tesla=1 belegt sie
   await page.locator("[data-fotoweiter]").click();
   await page.waitForSelector('[data-schritt="3"]:not([hidden])'); // Schritt gleitet herein (BEWEGUNG.md 5)
   assert.ok(await page.locator("[data-ersatzwagen-tesla-feld]").isHidden(), "zuerst verborgen");
+  await page.locator("[data-ergaenzen] > summary").click();
   await page.locator("[data-ersatzwagen]").check({ force: true });
   await page.waitForSelector("[data-ersatzwagen-tesla-feld]:not([hidden])");
   await ctx.close();
@@ -91,6 +93,7 @@ test("lange Eingaben laufen nicht aus dem Feld oder aus der Erfolgsmeldung", asy
   await page.goto(basis + "/schaden-melden/?art=hagel");
   await page.locator("[data-fotoweiter]").click();
   await page.fill("#f-name", langerName);
+  await page.locator("[data-ergaenzen] > summary").click();
   await page.fill("#f-mail", "maximiliane.alexandra.von.hohenberg@sehr-lange-mailadresse-beispiel.example");
   assert.ok(await page.locator("#f-name").evaluate((e) => e.getBoundingClientRect().right <= window.innerWidth + 1), "Feld nicht breiter als der Bildschirm");
   // Erfolgsmeldung füllen (ohne echten Versand, über die interne Funktion)
@@ -100,5 +103,55 @@ test("lange Eingaben laufen nicht aus dem Feld oder aus der Erfolgsmeldung", asy
   await page.waitForSelector("[data-rapport]:not([hidden])");
   const kontaktBreit = await page.locator("[data-r-kontakt]").evaluate((e) => e.getBoundingClientRect().right <= window.innerWidth + 1);
   assert.ok(kontaktBreit, "Kontakt in der Erfolgsmeldung läuft nicht aus dem Bildschirm");
+  await ctx.close();
+});
+
+test("Schritt 3: offen sind nur Name und Telefon, eine falsche Mail klappt den Aufklapper auf", async () => {
+  const { ctx, page } = await form();
+  await page.goto(basis + "/schaden-melden/?art=hagel");
+  await page.locator("[data-fotoweiter]").click();
+  await page.waitForSelector('[data-schritt="3"]:not([hidden])');
+  assert.ok(await page.locator("#f-name").isVisible());
+  assert.ok(await page.locator("#f-tel").isVisible());
+  assert.ok(!(await page.locator("#f-mail").isVisible()), "Mail zuerst im Aufklapper");
+  await page.locator("[data-ergaenzen] > summary").click();
+  await page.fill("#f-mail", "kein-at");
+  await page.locator("[data-ergaenzen] > summary").click();
+  await page.fill("#f-name", "Test");
+  await page.fill("#f-tel", "071 755 88 61");
+  await page.locator('[data-senden="website"]').click();
+  await page.waitForSelector('#f-mail[aria-invalid="true"]');
+  assert.ok(await page.locator("#f-mail").isVisible(), "Fehlerfeld sichtbar");
+  await ctx.close();
+});
+
+test("Schritt 2: Foto ist blau und Hauptsache, «Ohne Foto weiter» bleibt schlicht", async () => {
+  const { ctx, page } = await form();
+  await page.goto(basis + "/schaden-melden/?art=hagel");
+  await page.waitForSelector('[data-schritt="2"]:not([hidden])');
+  const farbe = (sel) => page.$eval(sel, (e) => getComputedStyle(e).backgroundColor);
+  assert.equal(await farbe('[data-schritt="2"] > .fotos__knopf'), "rgb(21, 102, 184)");
+  assert.equal(await farbe("[data-fotoweiter]"), "rgba(0, 0, 0, 0)");
+  await ctx.close();
+});
+
+test("WhatsApp: alle Angaben im Text, Fotos nicht als mitgesendet gezeigt, Nachtrag bei der Bestätigung", async () => {
+  const { ctx, page } = await form();
+  await page.addInitScript(() => { window.__offen = []; window.open = (u) => { window.__offen.push(u); return null; }; });
+  await page.goto(basis + "/schaden-melden/?art=hagel");
+  await page.setInputFiles("[data-fotos]", { name: "a.png", mimeType: "image/png", buffer: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFBQIAX8jx0gAAAABJRU5ErkJggg==", "base64") });
+  await page.waitForSelector(".fotos__liste img");
+  await page.locator("[data-fotoweiter]").click();
+  await page.waitForSelector('[data-schritt="3"]:not([hidden])');
+  await page.fill("#f-name", "Test");
+  await page.fill("#f-tel", "071 755 88 61");
+  await page.locator("[data-ergaenzen] > summary").click();
+  await page.fill("#f-mail", "test@example.ch");
+  await page.locator('[data-senden="whatsapp"]').click();
+  await page.waitForSelector("[data-rapport]:not([hidden])");
+  const url = (await page.evaluate(() => window.__offen))[0];
+  assert.match(decodeURIComponent(url), /Mail: test@example\.ch/);
+  assert.ok(await page.locator("[data-r-fotos]").isHidden(), "keine Vorschau, als wären die Fotos dabei");
+  assert.match(await page.locator("[data-r-stand]").textContent(), /1 Foto an\./);
   await ctx.close();
 });

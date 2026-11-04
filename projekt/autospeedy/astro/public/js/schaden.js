@@ -183,14 +183,14 @@
       weg.addEventListener("click", function () { URL.revokeObjectURL(x.url); fotos.splice(i, 1); zeichneFotos(); });
       li.appendChild(im); li.appendChild(weg); liste.appendChild(li);
     });
-    if (fotoWeiter) fotoWeiter.textContent = fotos.length ? "Weiter" : "Ohne Foto weiter";
+    if (fotoWeiter) { fotoWeiter.textContent = fotos.length ? "Weiter" : "Ohne Foto weiter"; fotoWeiter.classList.toggle("hat-foto", fotos.length > 0); var sf = fotoWeiter.closest("[data-schritt]"); if (sf) sf.classList.toggle("hat-fotos", fotos.length > 0); }
   }
   if (eingabe) eingabe.addEventListener("change", function () {
     var neu = [].slice.call(eingabe.files || []).slice(0, MAX - fotos.length);
-    if ((eingabe.files || []).length > neu.length) melde("Höchstens " + MAX + " Fotos.", true);
+    var zuviel = (eingabe.files || []).length > neu.length;
     melde("Foto wird vorbereitet …");
     Promise.all(neu.map(function (d) { return verkleinere(d).then(function (b) { return { blob: b, url: URL.createObjectURL(b) }; }, function () { return null; }); }))
-      .then(function (r) { r.forEach(function (x) { if (x) fotos.push(x); }); melde(r.some(function (x) { return !x; }) ? "Ein Bild liess sich nicht lesen. Bitte als Foto (JPEG) wählen." : "", r.some(function (x) { return !x; })); zeichneFotos(); eingabe.value = ""; });
+      .then(function (r) { r.forEach(function (x) { if (x) fotos.push(x); }); var kaputt = r.some(function (x) { return !x; }); melde(kaputt ? "Ein Bild liess sich nicht lesen. Bitte als Foto (JPEG) wählen." : zuviel ? "Höchstens " + MAX + " Fotos. Die weiteren wurden nicht übernommen." : "", kaputt || zuviel); zeichneFotos(); eingabe.value = ""; });
   });
 
   // Fahrzeugausweis (freiwillig, höchstens eins, zählt nicht zu den 6 Schadenfotos)
@@ -216,6 +216,7 @@
     teslaWunsch = q.get("fahrzeug") === "tesla" || q.get("tesla") === "1";
     if (teslaWunsch) { var t = f.querySelector("[data-tesla]"); if (t) t.checked = true; }
     zeigeModell(); zeigeErsatzTesla();
+    var ergaenzen = f.querySelector("[data-ergaenzen]"); if (ergaenzen && (teslaWunsch || q.getAll("stelle").length)) ergaenzen.open = true; // Vorbelegtes bleibt sichtbar
     kaestchen.forEach(function (k) { if (q.getAll("stelle").indexOf(k.dataset.stelle) > -1) k.checked = true; }); zeichne();
     var a = q.get("art") && f.querySelector('input[data-art="' + q.get("art") + '"]');
     if (a) { a.checked = true; zeige(2, false); requestAnimationFrame(function () { f.scrollIntoView({ block: "start" }); }); } else zeige(1, false);
@@ -243,6 +244,10 @@
     if (ersatzText()) z += "\n" + ersatzText();
     z += "\nStellen: " + (gewaehlt().join(", ") || "nicht angegeben") + "\nBemerkung: " + (wert("bemerkung") || "keine") +
       "\nName: " + wert("name") + "\nTelefon: " + wert("telefon") + "\n";
+    if (wert("email")) z += "Mail: " + wert("email") + "\n";
+    if (wert("kontrollschild")) z += "Kontrollschild: " + wert("kontrollschild") + "\n";
+    if (wert("versicherung")) z += "Versicherung: " + wert("versicherung") + "\n";
+    if (wert("schadennummer")) z += "Schadennummer: " + wert("schadennummer") + "\n";
     return z;
   }
 
@@ -258,14 +263,14 @@
     if (!ok) {
       melde("Bitte ergänzen Sie die rot markierten Felder.", true);
       // Zum ersten Fehlerfeld, nicht an den Seitenanfang: Fokus ohne Sprung, dann ruhig in die Mitte
-      var erstes = f.querySelector('[aria-invalid="true"]'); if (erstes) { erstes.focus({ preventScroll: true }); sanftZu(erstes, "center"); }
+      var erstes = f.querySelector('[aria-invalid="true"]'); if (erstes) { var zu = erstes.closest("details"); if (zu) zu.open = true; erstes.focus({ preventScroll: true }); sanftZu(erstes, "center"); }
       return false;
     }
     return !wert("website");
   }
 
   function datumJetzt() { return new Intl.DateTimeFormat("de-CH", { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }).format(new Date()) + " Uhr"; }
-  function bestaetige(titel, stand, link, echterVersand) {
+  function bestaetige(titel, stand, link, echterVersand, ohneFotos) {
     if (!rapport) return;
     rapport.querySelector("[data-r-titel]").textContent = titel;
     rapport.querySelector("[data-r-datum]").textContent = datumJetzt();
@@ -278,7 +283,9 @@
     rapport.querySelector("[data-r-stand]").textContent = stand;
     var bilder = rapport.querySelector("[data-r-fotos]"); bilder.innerHTML = "";
     fotos.forEach(function (x, i) { var im = document.createElement("img"); im.src = x.url; im.alt = "Foto " + (i + 1); bilder.appendChild(im); });
-    bilder.hidden = !fotos.length;
+    if (ohneFotos) bilder.innerHTML = ""; // WhatsApp: die Fotos gehen nicht von hier mit, also nicht so tun
+    bilder.hidden = ohneFotos || !fotos.length;
+    var aendern = rapport.querySelector("[data-r-zurueck]"); if (aendern) aendern.hidden = !!echterVersand; // nach echtem Versand keine zweite Meldung über dasselbe Formular
     // Ruhiger Hinweis: wenn keine «zur Hand»-Angabe da ist, Fahrzeugausweis per WhatsApp nachreichen (kein zweiter Zwang)
     var hinweis = rapport.querySelector("[data-r-ausweis-hinweis]");
     if (hinweis) {
@@ -377,13 +384,14 @@
         if (!waNr) { melde("WhatsApp ist hier nicht hinterlegt. Bitte rufen Sie uns an: " + TEL + ".", true); return; }
         var wa = "https://wa.me/" + waNr + "?text=" + encodeURIComponent(text);
         window.open(wa, "_blank", "noopener");
-        bestaetige("Meldung für WhatsApp", "WhatsApp ist geöffnet. Gesendet ist die Nachricht erst, wenn Sie dort auf Senden tippen. Fotos hängen Sie in WhatsApp an.", wa);
+        var anhang = fotos.length ? "Bitte hängen Sie dort Ihre " + (fotos.length === 1 ? "1 Foto" : fotos.length + " Fotos") + (ausweis ? " und den Fahrzeugausweis" : "") + " an." : ausweis ? "Bitte hängen Sie dort den Fahrzeugausweis an." : "Fotos hängen Sie in WhatsApp an.";
+        bestaetige("Meldung für WhatsApp", "WhatsApp ist geöffnet. Gesendet ist die Nachricht erst, wenn Sie dort auf Senden tippen. " + anhang, wa, false, true);
         return;
       }
       sendeWebsite(k);
     });
   });
   // Ohne Endpunkt und ausserhalb der Vorschau gibt es Weg A nicht
-  if (!f.dataset.endpunkt && f.dataset.istVorschau !== "ja") { var a = knopf("website"); if (a) a.hidden = true; }
+  if (!f.dataset.endpunkt && f.dataset.istVorschau !== "ja") { var a = knopf("website"); if (a) a.hidden = true; var wk = knopf("whatsapp"); if (wk && wk.classList.contains("senden__wa")) wk.className = "k k--blau k--gross"; } // ohne Weg A ist WhatsApp der Hauptweg
   else if (!f.dataset.endpunkt) { var h = f.querySelector("[data-weg-a-hilfe]"); if (h) h.textContent = "In der Vorschau nur vorgeführt, es wird nichts gesendet"; }
 })();

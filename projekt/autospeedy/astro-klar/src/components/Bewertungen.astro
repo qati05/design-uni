@@ -6,6 +6,7 @@
 // BEWERTUNGEN_DATEI (nur test/fixtures). Der Schluessel taucht hier nie auf.
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { betrieb, site, vorschau } from "../../../astro/bau/daten.mjs";
 import Luecke from "./Luecke.astro";
 import zitDaten from "../daten/bewertungen-zitate.json";
@@ -14,7 +15,7 @@ const zeigen = (site as any).bewertungen ? (site as any).bewertungen.zeigen !== 
 
 const datei = process.env.BEWERTUNGEN_DATEI
   ? path.resolve(process.cwd(), process.env.BEWERTUNGEN_DATEI)
-  : new URL("../daten/bewertungen.json", import.meta.url).pathname;
+  : fileURLToPath(new URL("../daten/bewertungen.json", import.meta.url));
 let daten: any = { status: "leer" };
 try { daten = JSON.parse(fs.readFileSync(datei, "utf8")); } catch { daten = { status: "leer" }; }
 

@@ -1,8 +1,8 @@
 ---
 // Leistungen Entwurf C (Nachtrag 04.11.2026): 6 Karten in fester Reihenfolge, jede mit Bild im Format 3:2
 // (Desktop Bild oben, Handy 88-px-Quadrat links). Jede Karte ist ganz klickbar (genau ein Link) und zeigt
-// auf die Sprungmarke der Leistung in /leistungen/. Darunter ein gefuellter CTA «Schaden melden» und die
-// Zeile «Ausserdem: Occasionen, Ankauf und Leasing.». Kein Felgen-Vorher/Nachher auf der Startseite.
+// auf die Sprungmarke der Leistung in /leistungen/. Darunter die
+// Zeile «Ausserdem: Occasionen, Ankauf und Leasing.». Der Aufruf folgt direkt danach im Band (Anfrage). Kein Felgen-Vorher/Nachher auf der Startseite.
 // Bilder sind Stock-Platzhalter aus public/bilder/leistungen/ (erzeugt von bau/bilder-c.mjs), spaeter durch das
 // Shooting ersetzbar (S03-S08, gleiche Dateinamen). Bildnachweise sind nicht noetig (betriebseigene Quelle).
 // Felgen heisst nur «Felgen», nie «Alufelgen» (Reshat 04.11.).
@@ -35,9 +35,5 @@ const karten = [
       </li>
     ))}
   </ul>
-  <div class="leistungen__cta knoepfe">
-    <a class="knopf knopf--akzent" href="/schaden-melden/" data-zaehl="anfrage" data-ort="leistungen">
-      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15.5 5.6 10a2 2 0 0 1 1.9-1.5h9a2 2 0 0 1 1.9 1.5l1.6 5.5"/><path d="M3.5 15.5h17v3h-17z"/><path d="M7 18.5v1.5M17 18.5v1.5"/><path d="m12 2.8.9 2.3 2.1-.7-.9 2"/></svg>Schaden melden</a>
-  </div>
   <p class="ausserdem">Ausserdem: Occasionen, Ankauf und Leasing. <a href="/occasionen/">Occasionen ansehen</a>.</p>
 </section>

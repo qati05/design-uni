@@ -1,37 +1,23 @@
 ---
-// Partnerband Entwurf C (Nachtrag 04.11.2026): echte Logos in Graustufen, automatisches Laufband von links nach
-// rechts, nahtlos (Spur doppelt), Pause bei Hover/Fokus und per Knopf, bei prefers-reduced-motion statisch.
-// Nur CSS-Animation von transform (@keyframes partnerband, animation-direction: reverse = links nach rechts).
+// Partner als ruhige Reihe: vier Logos in Graustufen brauchen kein Laufband (Critique 04.11.2026, ersetzt BAUPLAN 3.9).
 // Logos sind vom Betrieb freigegeben (Reshat 04.11.). Land Rover ohne Logo als Wortmarke im gleichen Grau.
 // Tesla-Logo optisch gleich schwer gemacht (kleinere Kappenhöhe, .partnerband__karte--tesla in klar.css).
 const PARTNER = [
-  { name: "Tesla Approved Body Shop", datei: "tesla-approved-body-shop.webp", b: 300, h: 84, link: "/tesla/", karte: "partnerband__karte--tesla" },
+  { name: "Tesla Approved Body Shop", datei: "tesla-approved-body-shop.webp", b: 300, h: 84, link: "/tesla/", karte: "partner__karte--tesla" },
   { name: "AMAG", datei: "amag.webp", b: 300, h: 102 },
   { name: "Land Rover", wortmarke: true },
   { name: "Ayvens", datei: "ayvens.webp", b: 300, h: 61 },
 ];
-const runden = Math.max(2, Math.ceil(8 / PARTNER.length)); // eine Haelfte der Spur muss breiter als der Bildschirm sein
-const haelfte = Array.from({ length: runden }, (_, r) => PARTNER.map((p) => ({ ...p, kopie: r > 0 }))).flat();
-const spur = [...haelfte, ...haelfte.map((p) => ({ ...p, kopie: true }))];
 const { titel = "Zertifizierte Partner" } = Astro.props;
 ---
 <section class="partner" aria-labelledby="partner-label">
-  <div class="partner__kopf">
-    <h2 class="partner__label" id="partner-label">{titel}</h2>
-    <button class="partner__pause" type="button" data-partner-pause aria-pressed="false">Anhalten</button>
-  </div>
-  <div class="partnerband partnerband--logos">
-    <ul class="partnerband__spur" style={`--dauer: ${haelfte.length * 5}s`}>
-      {spur.map((p: any) => {
-        const inhalt = p.wortmarke
-          ? <span class="partnerband__wortmarke">{p.name}</span>
-          : <img src={`/bilder/partner/${p.datei}`} alt={p.kopie ? "" : p.name} width={p.b} height={p.h} decoding="async" loading="lazy" />;
-        return (
-          <li class={`partnerband__karte${p.karte ? " " + p.karte : ""}`} aria-hidden={p.kopie ? "true" : undefined} data-kopie={p.kopie ? "" : undefined}>
-            {p.link ? <a href={p.link} tabindex={p.kopie ? -1 : undefined}>{inhalt}</a> : inhalt}
-          </li>
-        );
-      })}
-    </ul>
-  </div>
+  <h2 class="partner__label" id="partner-label">{titel}</h2>
+  <ul class="partner__reihe">
+    {PARTNER.map((p: any) => {
+      const inhalt = p.wortmarke
+        ? <span class="partner__wortmarke">{p.name}</span>
+        : <img src={`/bilder/partner/${p.datei}`} alt={p.name} width={p.b} height={p.h} decoding="async" loading="lazy" />;
+      return <li class={`partner__karte${p.karte ? " " + p.karte : ""}`}>{p.link ? <a href={p.link}>{inhalt}</a> : inhalt}</li>;
+    })}
+  </ul>
 </section>

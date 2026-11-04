@@ -7,10 +7,11 @@ import http from "node:http";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
 import { chromium } from "playwright-core";
 
-const wurzel = new URL("../", import.meta.url).pathname;
+const wurzel = fileURLToPath(new URL("../", import.meta.url));
 const sitePfad = path.join(wurzel, "../astro/src/daten/site.json");
 const typen = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".webp": "image/webp", ".jpg": "image/jpeg", ".png": "image/png", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".json": "application/json", ".ico": "image/x-icon" };
 

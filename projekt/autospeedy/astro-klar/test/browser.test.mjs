@@ -5,9 +5,10 @@ import assert from "node:assert/strict";
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { chromium } from "playwright-core";
 
-const dist = new URL("../dist/", import.meta.url).pathname;
+const dist = fileURLToPath(new URL("../dist/", import.meta.url));
 const csp = fs.readFileSync(path.join(dist, "_headers"), "utf8").match(/^\s+Content-Security-Policy: (.*)$/m)[1];
 const typen = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".webp": "image/webp", ".jpg": "image/jpeg", ".png": "image/png", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".json": "application/json", ".ico": "image/x-icon" };
 let server, basis, browser;
@@ -36,6 +37,7 @@ async function seite(opt = {}) {
   page.on("pageerror", (e) => fehler.push(String(e)));
   return { ctx, page, fehler };
 }
+const window_hoehe = (page) => page.viewportSize().height;
 const pos = (page) => page.$eval("[data-vergleich] input", (i) => Number(i.value));
 
 test("Slider folgt der Maus ohne Klick, Pfeiltasten, aria-valuetext", async () => {
@@ -209,10 +211,10 @@ test("Handyleiste: im Fuss aus (dort stehen dieselben Knöpfe, BAUPLAN 3.11)", a
   await ctx.close();
 });
 
-test("Hero ohne JS: h1, Lead, CTAs und Faktenleiste nach 800 ms mit opacity 1 (BAUPLAN 3.4/3.6)", async () => {
+test("Hero ohne JS: h1, Lead, CTAs und Faktenleiste nach 1000 ms mit opacity 1 (BAUPLAN 3.4/3.6)", async () => {
   const { ctx, page, fehler } = await seite({ viewport: { width: 1280, height: 800 }, javaScriptEnabled: false });
   await page.goto(basis + "/", { waitUntil: "load" });
-  await page.waitForTimeout(800);
+  await page.waitForTimeout(1000);
   const deckkraft = (sel) => page.$eval(sel, (el) => getComputedStyle(el).opacity);
   assert.equal(await deckkraft(".hero-text h1"), "1", "h1 sichtbar");
   assert.equal(await deckkraft(".hero-text h1 span"), "1", "h1 Zeile 1 sichtbar");
@@ -287,30 +289,25 @@ test("Handyleiste und Hero-CTAs sind beim Scrollen nie gleichzeitig sichtbar (De
   await ctx.close();
 });
 
-test("Partnerband: Pausieren-Knopf haelt das Laufband an (BAUPLAN 3.9)", async () => {
+test("Partner: vier Karten in ruhiger Reihe, ohne Laufband und ohne Pausieren-Knopf", async () => {
   const { ctx, page, fehler } = await seite({ viewport: { width: 1280, height: 800 } });
   await page.goto(basis + "/");
-  const spur = page.locator(".partner .partnerband__spur");
-  const knopf = page.locator("[data-partner-pause]");
-  const lauf = () => spur.evaluate((el) => getComputedStyle(el).animationPlayState);
-  assert.equal(await lauf(), "running", "laeuft zuerst");
-  await knopf.click();
-  assert.equal(await lauf(), "paused", "nach Klick pausiert");
-  assert.equal(await knopf.getAttribute("aria-pressed"), "true");
-  assert.equal((await knopf.textContent()).trim(), "Weiter");
-  await knopf.click();
-  assert.equal(await lauf(), "running", "zweiter Klick: laeuft wieder");
-  assert.equal(await knopf.getAttribute("aria-pressed"), "false");
+  assert.equal(await page.locator(".partner__karte").count(), 4);
+  assert.equal(await page.locator("[data-partner-pause]").count(), 0);
+  assert.equal(await page.$eval(".partner__reihe", (el) => getComputedStyle(el).animationName), "none");
   assert.deepEqual(fehler, []);
   await ctx.close();
 });
 
-test("Partnerband unter Reduced Motion: Band steht, kein Knopf (BAUPLAN 3.9)", async () => {
-  const { ctx, page } = await seite({ viewport: { width: 1280, height: 800 }, reducedMotion: "reduce" });
+test("Handy: Leiste bleibt beim Runterscrollen stehen", async () => {
+  const { ctx, page } = await seite({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: "reduce" });
   await page.goto(basis + "/");
-  const spur = page.locator(".partner .partnerband__spur");
-  assert.equal(await spur.evaluate((el) => getComputedStyle(el).animationName), "none", "kein Lauf");
-  assert.ok(!(await page.locator("[data-partner-pause]").isVisible()), "kein Pausieren-Knopf");
+  await page.evaluate(() => window.scrollTo(0, 800));
+  await page.waitForFunction(() => document.body.classList.contains("leiste-an"));
+  await page.evaluate(() => window.scrollTo(0, 1600));
+  await page.waitForTimeout(150);
+  const unten = await page.$eval(".handyleiste", (el) => el.getBoundingClientRect().bottom);
+  assert.ok(unten <= window_hoehe(page), `Leiste im Bild (${unten})`);
   await ctx.close();
 });
 
@@ -468,12 +465,12 @@ test("Kopfleiste verdeckt die H1 nicht (A1): H1-Oberkante unter der Kopf-Unterka
   }
 });
 
-test("Fuss: Tippziele mindestens 44 px, Haupt-CTA «Anrufen» mindestens 48 px (A2)", async () => {
+test("Fuss: Tippziele mindestens 44 px, beide Aufruf-Knöpfe mindestens 48 px", async () => {
   const { ctx, page, fehler } = await seite({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, permissions: ["clipboard-read", "clipboard-write"] });
   await page.goto(basis + "/", { waitUntil: "load" });
   await page.locator(".fuss").scrollIntoViewIfNeeded();
   await page.waitForFunction(() => { const b = document.querySelector(".fuss-ort__tel .fuss-kopf"); return b && !b.hidden; });
-  // Haupt-CTA «Anrufen» im Fuss: >= 48 px wie im Hero.
+  // Aufruf-Knöpfe im Fuss: >= 48 px wie im Hero.
   const anruf = await page.locator('.fuss .ctas a[href^="tel:"]').boundingBox();
   assert.ok(anruf.height >= 48, `Anrufen ${anruf.height} >= 48`);
   // Alle uebrigen sichtbaren Tippziele (Links und Knoepfe) im Fuss: >= 44 px.

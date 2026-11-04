@@ -1,6 +1,7 @@
 // Erzeugt ein kleines, gültiges JPEG-Gerüst mit einem APP1-Segment (EXIF inkl. GPS) und einem APP13-Segment (IPTC).
 // Kein echtes Foto, nur die Segmentkette, damit gemeinsam/jpeg.js das Entfernen der Metadaten prüfbar ist.
 // Beim Lauf von jpeg.test.mjs wird die Datei test/fixtures/exif-gps.jpg daraus geschrieben.
+import { fileURLToPath } from "node:url";
 import fs from "node:fs";
 
 function segment(marke, nutzlast) {
@@ -24,7 +25,7 @@ export function machExifJpeg() {
 
 /** Schreibt die Fixture neben dieses Modul und gibt den Pfad zurück. */
 export function schreibeFixture() {
-  const pfad = new URL("./exif-gps.jpg", import.meta.url).pathname;
+  const pfad = fileURLToPath(new URL("./exif-gps.jpg", import.meta.url));
   fs.writeFileSync(pfad, machExifJpeg());
   return pfad;
 }

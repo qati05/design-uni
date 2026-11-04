@@ -88,19 +88,8 @@
         });
         schlussEls.forEach(function (el) { ioSchluss.observe(el); });
       }
-      // Auto-verstecken beim Runterscrollen ab 200 px, sofort zurueck beim Hochscrollen; nie bei Feldfokus (Korrektur Motion 3).
-      var letzteY = window.scrollY, leisteAb = false;
-      function setzeAb(ab) { if (ab === leisteAb) return; leisteAb = ab; document.body.classList.toggle("leiste-ab", ab); }
-      function scrollLeiste() {
-        var y = window.scrollY;
-        if (fokusFeld || y <= 200) setzeAb(false);
-        else if (y > letzteY + 4) setzeAb(true);
-        else if (y < letzteY - 4) setzeAb(false);
-        letzteY = y;
-      }
-      document.addEventListener("focusin", function (e) { if (feld(e.target)) { fokusFeld = true; setzeAb(false); stelleLeiste(); } });
+      document.addEventListener("focusin", function (e) { if (feld(e.target)) { fokusFeld = true; stelleLeiste(); } });
       document.addEventListener("focusout", function (e) { if (feld(e.target)) { fokusFeld = false; stelleLeiste(); } });
-      window.addEventListener("scroll", scrollLeiste, { passive: true });
       stelleLeiste();
     } else {
       // Ohne IntersectionObserver bleibt die Leiste sichtbar: kein JS versteckt Inhalt.
@@ -262,18 +251,6 @@
       }, { threshold: 0.6 });
       io.observe(fig);
     }
-  });
-
-  // Partnerband: Pausieren-Knopf (BAUPLAN 3.9, WCAG 2.2.2). Klasse .ist-pausiert haelt das Laufband an.
-  // Unter Reduced Motion laeuft nichts und der Knopf ist per CSS ausgeblendet.
-  [].forEach.call(document.querySelectorAll("[data-partner-pause]"), function (knopf) {
-    var band = knopf.closest(".partner") && knopf.closest(".partner").querySelector(".partnerband");
-    if (!band) return;
-    knopf.addEventListener("click", function () {
-      var pausiert = band.classList.toggle("ist-pausiert");
-      knopf.setAttribute("aria-pressed", pausiert ? "true" : "false");
-      knopf.textContent = pausiert ? "Weiter" : "Anhalten";
-    });
   });
 
   // Kleiner Helfer (BAUPLAN 3.5/3.7): beobachtet Elemente, setzt einmal .ist-da und hoert dann auf (unobserve).

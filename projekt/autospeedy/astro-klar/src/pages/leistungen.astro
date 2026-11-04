@@ -13,14 +13,14 @@ import { faqStart } from "../daten/faq";
 const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfad: "/leistungen/" }];
 ---
 <Klar seite="carrosserie" titel="Leistungen: Unfall, Lack, Felgen, Folierung | Auto Speedy" brotkrumen={brotkrumen} faq={faqStart}>
-<Kopfbild kicker="Leistungen" titel="Carrosserie, Lack, Felgen. Unter einem Dach." foto="hebebuehne" alt="Schwarzer Audi mit abgebauter Front auf der Hebebühne in der hellen Halle">
+<Kopfbild titel="Carrosserie, Lack, Felgen. Unter einem Dach." foto="hebebuehne" alt="Schwarzer Audi mit abgebauter Front auf der Hebebühne in der hellen Halle">
   <p>Wir reparieren Unfallschäden nach Herstellervorgaben und verwenden ausschliesslich Original-Ersatzteile. Die Schadenabwicklung mit der Versicherung erledigen wir für Sie.</p>
 </Kopfbild>
 <nav class="sprungleiste" aria-label="Leistungen"><a href="#unfall">Unfall und Carrosserie</a><a href="#hagel">Hagel und Dellen</a><a href="#lack">Lack</a><a href="#felgen">Felgen</a><a href="#folierung">Folierung</a><a href="#scheiben">Scheiben</a><a href="/flotten/">Firmenkunden</a></nav>
 
 <section class="abschnitt" id="unfall" aria-labelledby="unfall-titel">
   <div class="abschnitt__innen">
-    <div class="abschnitt__kopf"><p class="kicker">01 · Unfall und Carrosserie</p><h2 id="unfall-titel">Vom Blechschaden bis zum Chassisschaden.</h2><p>Unfallschäden reparieren wir für alle Marken. Die Abwicklung mit Ihrer Versicherung übernehmen wir.</p></div>
+    <div class="abschnitt__kopf"><h2 id="unfall-titel">Vom Blechschaden bis zum Chassisschaden.</h2><p>Unfallschäden reparieren wir für alle Marken. Die Abwicklung mit Ihrer Versicherung übernehmen wir.</p></div>
     <div class="zeilen">
       <div class="zeile"><Bild name="abgeklebt" alt="Fahrzeug an der Front mit Folie abgeklebt, zum Lackieren vorbereitet" sizes="(max-width: 960px) 100vw, 50vw" /><div><h3>Unfall und Blech</h3><ul class="liste"><li>Unfallschäden</li><li>Stossstangen-Reparatur</li><li>Rostreparatur</li><li>Schweissarbeiten</li></ul></div></div>
       <div class="zeile"><Bild name="transporter" alt="Weiss-roter Transporter mit offener Front in der Halle" sizes="(max-width: 960px) 100vw, 50vw" /><div><h3>Nutzfahrzeuge und Oldtimer</h3><p>Laut Branchenverzeichnis repariert Auto Speedy auch Nutzfahrzeuge und Anhänger unter und über 3,5 t, Oldtimer und Youngtimer sowie Wohnmobile.</p></div></div>
@@ -30,7 +30,7 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfa
 
 <section class="abschnitt abschnitt--flaeche" id="hagel" aria-labelledby="hagel-titel">
   <div class="abschnitt__innen">
-    <div class="abschnitt__kopf"><p class="kicker">02 · Hagel und Dellen</p><h2 id="hagel-titel">Dellen drücken, Hagel richten.</h2></div>
+    <div class="abschnitt__kopf"><h2 id="hagel-titel">Dellen drücken, Hagel richten.</h2></div>
     <div class="zeilen">
       <div class="zeile"><Bild name="dellen" alt="Mitarbeiter mit Werkzeug zum Dellendrücken an einem weissen Auto" sizes="(max-width: 960px) 100vw, 50vw" /><div><h3>Hagel und Dellen</h3><p>Dellen drücken wir ohne Lackieren, wo es geht. Sonst richten und lackieren wir.</p></div></div>
     </div>
@@ -39,7 +39,7 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfa
 
 <section class="abschnitt" id="lack" aria-labelledby="lack-titel">
   <div class="abschnitt__innen">
-    <div class="abschnitt__kopf"><p class="kicker">03 · Lack</p><h2 id="lack-titel">Kleine Lackschäden, ganze Lackierungen.</h2><p>Kleine Lackschäden reparieren wir mit möglichst wenig Aufwand, ohne grosse Demontage. Für ganze Lackierungen haben wir neue, grössere Lackierkabinen.</p></div>
+    <div class="abschnitt__kopf"><h2 id="lack-titel">Kleine Lackschäden, ganze Lackierungen.</h2><p>Kleine Lackschäden reparieren wir mit möglichst wenig Aufwand, ohne grosse Demontage. Für ganze Lackierungen haben wir neue, grössere Lackierkabinen.</p></div>
     <div class="zeilen">
       <div class="zeile"><Bild name="lackierkabine" alt="Lackierer in Schutzkleidung in der Lackierkabine, Fahrzeug blau abgeklebt" sizes="(max-width: 960px) 100vw, 50vw" /><div><h3>Was wir lackieren</h3><ul class="liste"><li>einfache Lackschäden</li><li>komplette Neulackierung</li><li>Versicherungsfälle</li><li>Restaurationen</li><li>Lackieren aller Gegenstände</li></ul></div></div>
       <div class="zeile"><Bild name="ferrari-streifen" alt="Roter Ferrari mit Zierstreifen in der Werkstatt" sizes="(max-width: 960px) 100vw, 50vw" /><div><h3>Aufpolieren und Aufbereitung</h3><ul class="liste"><li>Aufpolieren</li><li>Fahrzeugaufbereitung</li></ul></div></div>
@@ -49,7 +49,7 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfa
 
 <section class="abschnitt abschnitt--flaeche" id="felgen" aria-labelledby="felgen-titel">
   <div class="abschnitt__innen">
-    <div class="abschnitt__kopf"><p class="kicker">04 · Felgen</p><h2 id="felgen-titel">Felgen, vorher und nachher.</h2><p>Randstein- und Kratzerschäden an Felgen bereiten wir wieder auf. Fahren Sie über das Bild, am Handy wischen Sie.</p></div>
+    <div class="abschnitt__kopf"><h2 id="felgen-titel">Felgen, vorher und nachher.</h2><p>Randstein- und Kratzerschäden an Felgen bereiten wir wieder auf. Fahren Sie über das Bild, am Handy wischen Sie.</p></div>
     <Vergleich titel="Felge vorher und nachher" vorher="felge-schaden" altVorher="Felge mit Kratzern am Rand" nachher="felge-fertig" altNachher="aufbereitete schwarze Felge" caption="Beispielbilder, gleicher Blickwinkel folgt vom Shooting" sizes="(max-width: 1240px) 100vw, 1240px" />
     <div class="raster raster--vier">
       <Bild name="felge-schaden" alt="Felge mit Kratzern am Rand" sizes="(max-width: 960px) 50vw, 25vw" />
@@ -63,7 +63,7 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfa
 
 <section class="abschnitt" id="folierung" aria-labelledby="folierung-titel">
   <div class="abschnitt__innen">
-    <div class="abschnitt__kopf"><p class="kicker">05 · Folierung</p><h2 id="folierung-titel">Fahrzeuge ganz oder teilweise folieren.</h2></div>
+    <div class="abschnitt__kopf"><h2 id="folierung-titel">Fahrzeuge ganz oder teilweise folieren.</h2></div>
     <div class="raster raster--zwei">
       <Bild name="defender-folie" alt="Defender in mattem Grau auf blauem Werkstattboden" sizes="(max-width: 960px) 100vw, 50vw" />
       <Bild name="defender-seite" alt="Defender in Grau von der Seite, Türen offen" sizes="(max-width: 960px) 100vw, 50vw" />
@@ -74,7 +74,7 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfa
 
 <section class="abschnitt abschnitt--flaeche" id="scheiben" aria-labelledby="scheiben-titel">
   <div class="abschnitt__innen">
-    <div class="abschnitt__kopf"><p class="kicker">06 · Scheiben</p><h2 id="scheiben-titel">Scheiben wechseln und reparieren.</h2></div>
+    <div class="abschnitt__kopf"><h2 id="scheiben-titel">Scheiben wechseln und reparieren.</h2></div>
     <div class="zeilen">
       <div class="zeile"><Bild name="werkstatt" alt="Werkstatt mit Fahrzeug, offener Motorhaube und Messgerät" sizes="(max-width: 960px) 100vw, 50vw" /><div><h3>Scheiben</h3><ul class="liste"><li>Scheibenwechsel</li><li>Scheibenreparatur</li></ul><p class="quelle">Carrosserie Suisse führt Auto Speedy im Branchenverzeichnis als Partner im Bereich Windschutzscheiben.</p></div></div>
     </div>

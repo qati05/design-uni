@@ -2,10 +2,10 @@
 // Genutzt als sichtbarer Text (Faq.astro) und als FAQPage-JSON-LD (Klar.astro, Prop `faq`).
 export const faqStart = [
   { frage: "Wer zahlt die Reparatur?", antwort: "Bei einem Versicherungsfall wickeln wir die Reparatur direkt mit Ihrer Versicherung ab. Um die Abrechnung müssen Sie sich nicht kümmern." },
+  { frage: "Muss ich zuerst zur Versicherung?", antwort: "Nein. Melden Sie den Schaden direkt bei uns. Wir nehmen danach mit Ihrer Versicherung Kontakt auf und klären das Weitere." },
   { frage: "Bekomme ich einen Ersatzwagen?", antwort: "Auf Anfrage. Wir haben sechs Ersatzautos, darunter einen Tesla. Eine Verfügbarkeit können wir aber nicht garantieren." },
   { frage: "Reparieren Sie auch Tesla?", antwort: "Ja. Auto Speedy ist Tesla Approved Body Shop und repariert Ihren Tesla nach den Vorgaben von Tesla mit Original-Ersatzteilen." },
   { frage: "Für welche Marken arbeiten Sie?", antwort: "Für alle Marken. Unfall, Lack, Hagel, Felgen, Folierung und Scheiben erledigen wir markenübergreifend." },
-  { frage: "Muss ich zuerst zur Versicherung?", antwort: "Nein. Melden Sie den Schaden direkt bei uns. Wir nehmen danach mit Ihrer Versicherung Kontakt auf und klären das Weitere." },
   { frage: "Wo finde ich Auto Speedy?", antwort: "An der Alten Landstrasse 63 in 9450 Altstätten SG, im Rheintal. Die genauen Öffnungszeiten stehen im Fuss der Seite." },
 ];
 export const faqTesla = [

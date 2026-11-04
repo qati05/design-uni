@@ -378,9 +378,6 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
   .handyleiste .k, .handyleiste .knopf { min-width: 0; width: 100%; min-height: 48px; padding: 0 12px; }
   body:has(.handyleiste) { padding-bottom: calc(70px + env(safe-area-inset-bottom)) !important; }
   body.leiste-spaeter:not(.leiste-an) .handyleiste { transform: translateY(110%); transition: transform 200ms var(--hinaus); }
-  /* Beim Runterscrollen (ab 200 px) weg, beim Hochscrollen sofort zurueck (klar.js setzt .leiste-ab); nie bei Feldfokus.
-     Verstecken kurz (200 ms --hinaus), Zurueckkommen federnd ueber den Grundzustand (320 ms --feder-ruhig). (Korrektur Motion 3) */
-  body.leiste-an.leiste-ab .handyleiste { transform: translateY(110%); transition: transform 200ms var(--hinaus); }
   [data-vorschau] { top: auto; bottom: calc(80px + env(safe-area-inset-bottom)); }
   body[data-seite="schaden-melden"] [data-vorschau], body.leiste-spaeter:not(.leiste-an) [data-vorschau] { bottom: 10px; }
 }
@@ -406,7 +403,7 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
   /* Federknopf (Korrektur Motion 2): beim Loslassen Feder zurueck; Druecken staucht kurz. Nur transform und Farbe. */
   transition: transform var(--feder-knopf-dauer) var(--feder-knopf), background-color var(--dauer-kurz) linear, color var(--dauer-kurz) linear; }
 .k:active { transform: scale(var(--druck-skala)); transition-duration: var(--dauer-tipp); transition-timing-function: var(--hinein); }
-.k--blau { background: linear-gradient(180deg, #1b70c6 0%, var(--blau) 100%); box-shadow: 0 1px 0 rgba(255, 255, 255, .18) inset, 0 6px 18px rgba(21, 102, 184, .28); }
+.k--blau { background: var(--blau); box-shadow: 0 2px 8px rgba(22, 25, 29, .14); }
 .k--hell { background: var(--weiss); box-shadow: inset 0 0 0 1px var(--linie); }
 .k--rand { box-shadow: inset 0 0 0 1px var(--tinte); }
 .k--glas-dunkel { background: rgba(255, 255, 255, .12); color: #fff; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); font-variant-numeric: tabular-nums; }
@@ -496,24 +493,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 /* Partnerband Entwurf C (BAUPLAN 2 Zeile 4, 3.9): Abschnitt unter der Faktenleiste, Label links,
    Pausieren-Knopf rechts, darunter das ruhige Laufband. Optik und Laufband wie in der ersten Linie. */
 .partner { max-width: var(--breit); margin-inline: auto; padding: 22px var(--rand) 28px; border-bottom: 1px solid var(--linie); }
-.partner__kopf { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
-.partner__label { margin: 0; font-family: var(--schrift); font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--leise); }
-/* Leiser Text-Knopf «Anhalten»/«Weiter» (Hanken 13 px, --leise, aria-pressed) */
-.partner__pause { background: none; border: 0; padding: 14px 6px; margin: -14px -6px; font: 500 13px/1 var(--schrift); color: var(--leise); cursor: pointer; border-radius: var(--rund); }
-@media (hover: hover) and (pointer: fine) { .partner__pause:hover { color: var(--tinte); } }
-.partnerband { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.partnerband__spur { display: flex; gap: 16px; width: max-content; margin: 0; padding: 6px 0; list-style: none; animation: partnerband var(--dauer, 40s) linear infinite; }
-.partnerband:focus-within .partnerband__spur { animation-play-state: paused; }
-@media (hover: hover) and (pointer: fine) { .partnerband:hover .partnerband__spur { animation-play-state: paused; } }
-/* Pausieren-Knopf (BAUPLAN 3.9): Klasse .ist-pausiert haelt das Laufband an */
-.partnerband.ist-pausiert .partnerband__spur { animation-play-state: paused; }
-.partnerband__karte { display: flex; align-items: center; justify-content: center; width: 196px; height: 84px; padding: 14px 22px; box-sizing: border-box; background: var(--papier); border: 1px solid var(--linie); border-radius: var(--rund); transition: border-color var(--farbe) linear, transform var(--feder-ruhig-dauer) var(--feder-ruhig); }
-@media (hover: hover) and (pointer: fine) { .partnerband__karte:hover { border-color: var(--akzent); transform: translateY(-2px); } }
-.partnerband__karte a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
-.partnerband__karte img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
 /* Textvariante (Vorgabe, rechte.md): Partnernamen in Archivo statt Logo */
-.partnerband__name { font-family: "Archivo", var(--schrift); font-size: 16px; font-weight: 500; color: var(--tinte); text-align: center; line-height: 1.2; }
-@media (max-width: 860px) { .partnerband__karte { width: 150px; height: 68px; padding: 10px 16px; } .partnerband__name { font-size: 14px; } }
 
 /* Schadenmeldung: Karte mit Tiefe, Auswahl antwortet sichtbar */
 .melden.karte { box-shadow: 0 1px 0 var(--linie), var(--schatten); background: var(--weiss); }
@@ -610,7 +590,6 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .abschnitt__kopf--mitte { margin-inline: auto; text-align: center; justify-items: center; }
 .abschnitt h2 { font-size: clamp(28px, 3.4vw, 42px); }
 .abschnitt__kopf p { color: var(--grau); font-size: 17px; }
-.kicker { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--blau); }
 
 /* Leistungen: Kacheln mit Foto */
 .kacheln { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -881,12 +860,11 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .fuss { background: var(--grund); }
 .abschnitt--rand { background: var(--weiss); border-block: 1px solid var(--linie); }
 .abschnitt h2 { font-size: clamp(36px, 4.6vw, 60px); }
-.seitenkopf h1, .melden-seite h1 { font-size: clamp(42px, 5.6vw, 72px); }
-.tesla h2, .tesla h1 { font-size: clamp(40px, 5vw, 66px); }
+.seitenkopf h1, .melden-seite h1 { font-size: clamp(38px, 4.6vw, 62px); }
+.tesla h2, .tesla h1 { font-size: clamp(38px, 4.6vw, 62px); }
 .abschluss h2 { font-size: clamp(36px, 4.4vw, 56px); }
-.kicker, .buehne__kicker { font-size: 12px; letter-spacing: .16em; font-weight: 600; color: var(--grau); }
-.kicker::before { content: ""; display: inline-block; width: 18px; height: 1px; margin: 0 10px 0 0; vertical-align: middle; background: currentColor; opacity: .6; }
-.abschnitt__kopf p:not(.kicker) { font-size: 18px; line-height: 1.6; }
+.buehne__kicker { font-size: 12px; letter-spacing: .16em; font-weight: 600; color: var(--grau); }
+.abschnitt__kopf p { font-size: 18px; line-height: 1.6; }
 .abschnitt { padding-block: clamp(88px, 14vh, 160px); }
 
 /* ---------- Hero (BAUPLAN 2 Zeile 2, 3.4, 3.5): 7fr Text | Spaltenlinie | 5fr Rahmen 4:5 ---------- */
@@ -975,7 +953,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .naehe { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: center; margin-bottom: clamp(48px, 8vh, 88px); }
 .naehe__bild img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 .naehe__text { display: grid; gap: 16px; }
-.naehe__text p:not(.kicker) { color: var(--grau); font-size: 18px; line-height: 1.6; }
+.naehe__text p { color: var(--grau); font-size: 18px; line-height: 1.6; }
 .leute img { aspect-ratio: 4 / 5; filter: saturate(.9); transition: transform .6s var(--sanft); }
 @media (hover: hover) and (pointer: fine) { .leute figure:hover img { transform: translateY(-3px); } }
 
@@ -1070,7 +1048,6 @@ a.klein { font-size: 14px; }
 
 /* Keyframes der Bewegungsliste (Abschnitt 3). Jede Regel ist unten mit ihrer BAUPLAN-Nummer vermerkt.
    Das generische Einblenden jeder Sektion (fruehere .zeigen-Klasse) ist bewusst entfernt (3.15). */
-@keyframes partnerband { to { transform: translateX(calc(-50% - 8px)); } }       /* 3.9 Partnerband-Laufband */
 @keyframes haken-ein { to { stroke-dashoffset: 0; } }                            /* 3.13 Erfolgs-Haeckchen zeichnet sich */
 @keyframes vergleichHinweis { 0% { --pos: 50; } 33% { --pos: 42; } 66% { --pos: 56; } 100% { --pos: 50; } } /* 3.8 Slider-Hinweis */
 
@@ -1100,7 +1077,6 @@ a.klein { font-size: 14px; }
 .leist-bild img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; filter: saturate(.9) contrast(1.03); }
 .karten--bild h3, .karten--bild p { padding-inline: 22px; }
 .karten--bild .pfeil { margin-right: 20px; }
-.leistungen__cta { justify-content: flex-start; margin-top: 32px; }
 @media (max-width: 960px) { .karten--bild { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 720px) {
   /* Handy: Zeile mit 88-px-Quadrat links, Text rechts, Pfeil aussen. */
@@ -1224,12 +1200,6 @@ a.klein { font-size: 14px; }
   .bestaetigung__pfad { stroke-dashoffset: 0 !important; }
   /* Knopf ohne Weg: kein transform, nur Farbe (BAUPLAN 3.2) */
   .knopf, .knopf:hover, .knopf:active { transform: none; }
-  /* Partnerband (BAUPLAN 3.9): kein Lauf, kein Knopf; Namen/Logos umbrochen auf ein bis zwei Zeilen */
-  .partner__pause { display: none; }
-  .partnerband { -webkit-mask-image: none; mask-image: none; }
-  .partnerband__spur { animation: none; flex-wrap: wrap; width: auto; }
-  .partnerband__karte[data-kopie] { display: none; }
-  .partnerband__karte, .partnerband__karte:hover { transition: none; transform: none; }
   /* Slider (BAUPLAN 3.8): alle Eingaben springen direkt, kein Hinweis */
   .vergleich, .vergleich[data-quelle] { transition: none; }
   .kachel:hover, .kontakt__karte:hover, .art:hover { transform: none; }
@@ -1349,15 +1319,6 @@ a.klein { font-size: 14px; }
 
 /* Partnerband-Logos (Nachtrag): Graustufen, von links nach rechts laufend, Land Rover als Wortmarke,
    Tesla optisch gleich schwer (kleinere Kappenhöhe). Nur CSS-Animation von transform (schon vorhanden). */
-.partnerband--logos .partnerband__spur { animation-direction: reverse; }
-.partnerband--logos .partnerband__karte img { max-height: 40px; filter: grayscale(1); opacity: .72; transition: filter var(--farbe) linear, opacity var(--farbe) linear; }
-.partnerband--logos .partnerband__karte--tesla img { max-height: 30px; }
-.partnerband--logos .partnerband__wortmarke { font-family: "Archivo", var(--schrift); font-size: 19px; font-weight: 500; letter-spacing: .04em; color: #6b7076; text-transform: uppercase; }
-@media (hover: hover) and (pointer: fine) {
-  .partnerband--logos .partnerband__karte:hover img { filter: grayscale(0); opacity: 1; }
-  .partnerband--logos .partnerband__karte:hover .partnerband__wortmarke { color: var(--tinte); }
-}
-@media (max-width: 860px) { .partnerband--logos .partnerband__karte img { max-height: 32px; } .partnerband--logos .partnerband__karte--tesla img { max-height: 24px; } .partnerband--logos .partnerband__wortmarke { font-size: 16px; } }
 
 /* Google-Bewertungen mit Zitaten (Nachtrag): nur in der Vorschau sichtbar (Lücke-Schalter), «Name folgt». */
 .bew-zitate { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 28px 0 0; padding: 0; list-style: none; }
@@ -1370,8 +1331,6 @@ a.klein { font-size: 14px; }
 @media (max-width: 960px) { .bew-zitate { grid-template-columns: 1fr; } }
 
 /* Tesla-Seite (Nachtrag, C14): Marke als ruhiger Eyebrow statt Pille mit Punkt; Schritte auf einer Linie. */
-.tesla--seite .kicker { color: rgba(255, 255, 255, .72); }
-.tesla--seite .kicker::before { background: rgba(255, 255, 255, .72); }
 .tesla-schritte { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; position: relative; }
 .tesla-schritte::before { content: ""; position: absolute; left: 5px; right: 0; top: 5px; border-top: 1px solid var(--linie); }
 .tesla-schritte li { position: relative; padding-top: 26px; }
@@ -1387,3 +1346,62 @@ a.klein { font-size: 14px; }
 
 }
 
+
+/* Verbesserungen nach der Critique (04.11.2026) */
+/* Partner: ruhige Reihe */
+.partner__label { margin-bottom: 14px; }
+.partner__reihe { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; }
+.partner__karte { display: flex; align-items: center; justify-content: center; height: 84px; padding: 14px 22px; box-sizing: border-box; background: var(--papier); border: 1px solid var(--linie); border-radius: 14px; }
+.partner__karte a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.partner__karte img { display: block; max-width: 100%; max-height: 40px; width: auto; height: auto; object-fit: contain; filter: grayscale(1); opacity: .72; transition: filter var(--farbe) linear, opacity var(--farbe) linear; }
+.partner__karte--tesla img { max-height: 30px; }
+.partner__wortmarke { font-family: "Archivo", var(--schrift); font-size: 19px; font-weight: 500; letter-spacing: .04em; color: #6b7076; text-transform: uppercase; }
+@media (hover: hover) and (pointer: fine) { .partner__karte:hover img { filter: grayscale(0); opacity: 1; } .partner__karte:hover .partner__wortmarke { color: var(--tinte); } }
+@media (max-width: 860px) { .partner__reihe { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .partner__karte { height: 68px; padding: 10px 16px; } .partner__karte img { max-height: 32px; } .partner__karte--tesla img { max-height: 24px; } .partner__wortmarke { font-size: 15px; } }
+
+/* Faktenleiste: mit Skript der Live-Status statt der langen Zeiten (die stehen im Fuss) */
+.fakt-status { display: block; }
+.fakt-status[data-zustand] + .fakt-zeiten { display: none; }
+
+/* Bewertungen: Luft zwischen Titel und Sternen, Karten gleich hoch */
+.bewertungen-vorschau .bew-kopf { display: grid; gap: 16px; }
+.bew-zitate > li { display: grid; }
+
+/* Platzhalter: bis zum Shooting wenig Raum */
+.inhaber { grid-template-columns: 260px minmax(0, 1fr); }
+.platz.hoch { aspect-ratio: auto; min-height: 240px; }
+.team-bild .platz { aspect-ratio: auto; min-height: 150px; }
+@media (max-width: 760px) { .inhaber { grid-template-columns: 1fr; } .inhaber .platz.hoch { max-width: none; min-height: 150px; } .team-bild .platz { aspect-ratio: auto; } }
+
+/* Schadenmeldung: Schritt 1 ohne leeren Weiter-Knopf */
+[data-schritt="1"]:not(:has(input[name="art"]:checked)) .schritt__fuss { display: none; }
+
+/* Schritt 2: Foto ist die Hauptsache */
+[data-schritt="2"] > .fotos__knopf { min-height: 88px; border: 0; background: var(--blau); color: #fff; font-size: 17px; }
+[data-schritt="2"] > .fotos__knopf .fotos__plus { background: rgba(255, 255, 255, .16); box-shadow: none; color: #fff; }
+[data-schritt="2"].hat-fotos > .fotos__knopf { min-height: 64px; border: 1.5px dashed #c3c8cf; background: var(--grund); color: var(--tinte); font-size: 15px; }
+[data-schritt="2"].hat-fotos > .fotos__knopf .fotos__plus { background: var(--weiss); box-shadow: inset 0 0 0 1px var(--linie); color: var(--tinte); }
+@media (hover: hover) and (pointer: fine) { [data-schritt="2"]:not(.hat-fotos) > .fotos__knopf:hover { background: var(--akzent-tief, #0f4f94); } }
+.schritt__fuss .k[data-fotoweiter]:not(.hat-foto) { background: none; box-shadow: none; color: var(--blau); text-decoration: underline; text-underline-offset: 4px; }
+
+/* Schritt 3: nur das Nötige offen */
+.ergaenzen { border-top: 1px solid var(--linie); padding-top: 4px; }
+.ergaenzen > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 500; color: var(--blau); }
+.ergaenzen__inhalt { display: grid; gap: 16px; padding-top: 10px; }
+.ergaenzen[open] > .ergaenzen__inhalt { animation: aufklappen 200ms var(--sanft) both; }
+.senden__beruhigung { margin: 0; font-size: 15px; line-height: 1.5; color: var(--leise); }
+.senden__wa { justify-self: center; min-height: 44px; padding: 0 12px; border: 0; background: none; font: 500 15px/1 var(--schrift); color: var(--blau); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.schritt legend { margin-bottom: 12px; }
+
+/* Am Handy: Formular früher im Bild */
+@media (max-width: 860px) {
+  .nur-gross, .melden-seite__tesla { display: none; }
+  .melden-seite { padding-top: calc(var(--kopf) + 16px); gap: 18px; }
+  .melden-seite__links { gap: 8px; }
+  .leiste-fakten .fakt-zeiten { white-space: normal; }
+}
+
+/* Handy: Telefon steht im Kopf, das Formular kommt früher; kein Umbruch im schlichten Weiter */
+@media (max-width: 860px) { .melden-seite__tel { display: none; } }
+.schritt__fuss .k[data-fotoweiter]:not(.hat-foto) { padding: 0 8px; white-space: nowrap; }
+[data-schritt="2"] > legend .pflicht { white-space: nowrap; }

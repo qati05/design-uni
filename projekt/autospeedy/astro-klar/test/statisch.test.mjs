@@ -5,10 +5,11 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
 
-const dist = new URL("../dist/", import.meta.url).pathname;
-const wurzel = new URL("../", import.meta.url).pathname;
+const dist = fileURLToPath(new URL("../dist/", import.meta.url));
+const wurzel = fileURLToPath(new URL("../", import.meta.url));
 const html = [];
 (function lauf(d) { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, e.name); if (e.isDirectory()) lauf(p); else if (p.endsWith(".html")) html.push(p); } })(dist);
 const lies = (p) => fs.readFileSync(p, "utf8");
@@ -133,7 +134,6 @@ test("Nachtrag: 6 Leistungskarten in fester Reihenfolge, Titel «Felgen» (nie �
   const hrefs = [...sec.matchAll(/href="(\/leistungen\/#[a-z]+)"/g)].map((m) => m[1]);
   assert.deepEqual(hrefs, ["/leistungen/#unfall", "/leistungen/#hagel", "/leistungen/#lack", "/leistungen/#felgen", "/leistungen/#folierung", "/leistungen/#scheiben"], "6 Karten in der bestellten Reihenfolge");
   assert.match(sec, /<h3>Felgen<\/h3>/, "Karte heisst «Felgen»");
-  assert.match(sec, /Schaden melden/, "CTA «Schaden melden» unter den Karten");
   assert.match(sec, /Ausserdem: Occasionen, Ankauf und Leasing\./, "Ausserdem-Zeile");
   // «Alufelgen» darf auf KEINER gebauten Seite vorkommen (Reshat 04.11.).
   for (const p of html) assert.ok(!lies(p).includes("Alufelgen"), `${p}: «Alufelgen» verboten`);

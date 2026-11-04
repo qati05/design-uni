@@ -6,9 +6,10 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
 
-const wurzel = new URL("../", import.meta.url).pathname;
+const wurzel = fileURLToPath(new URL("../", import.meta.url));
 const dist = path.join(wurzel, "dist");
 const lies = (p) => fs.readFileSync(p, "utf8");
 const sitePfad = path.join(wurzel, "../astro/src/daten/site.json");
@@ -31,10 +32,10 @@ test("Startseite JSON-LD: openingHoursSpecification entspricht site.zeiten", () 
 
 test("Fuss: letzter Aufruf, Status, Wochen-Tabelle, Adresse, Slogan, Rechtszeile", () => {
   const f = fussVon(lies(path.join(dist, "index.html")));
-  // 1. Letzter Aufruf: Anrufen gefuellt (Haupt), Schaden melden als Kontur – ein Aufruf, keine zwei.
-  assert.match(f, /Schaden\? Rufen Sie an\./, "Aufruf-Titel");
-  assert.match(f, /knopf knopf--akzent[^>]*href="tel:\+41717558861"/, "Anrufen als gefuellter Haupt-CTA");
-  assert.match(f, /href="\/schaden-melden\/"/, "Schaden melden als sekundaerer CTA");
+  // 1. Letzter Aufruf: Schaden melden gefuellt (Haupt), Anrufen daneben – ein Aufruf, keine zwei.
+  assert.match(f, /Schaden\? Melden Sie ihn online oder rufen Sie an\./, "Aufruf-Titel");
+  assert.match(f, /knopf knopf--akzent[^>]*href="\/schaden-melden\/"/, "Schaden melden als gefuellter Haupt-CTA");
+  assert.match(f, /knopf knopf--kontur[^>]*href="tel:\+41717558861"/, "Anrufen daneben");
   // 2. Status als Text; ohne Skript neutrale Zeile, kein falscher Zustand (kein data-zustand im HTML).
   assert.match(f, /<p class="fuss-status" data-status>Öffnungszeiten siehe Kontakt\.<\/p>/, "neutrale Status-Zeile ohne Skript");
   assert.ok(!/data-zustand/.test(f), "kein voreingestellter Zustand im HTML");
@@ -64,7 +65,7 @@ test("Fuss: letzter Aufruf, Status, Wochen-Tabelle, Adresse, Slogan, Rechtszeile
 test("Fuss ist auf jeder Seite vorhanden (auch ohne frueheren Abschluss)", () => {
   for (const p of ["kontakt", "schaden-melden", "flotten", "occasionen", "impressum"]) {
     const f = fussVon(lies(path.join(dist, p, "index.html")));
-    assert.match(f, /Schaden\? Rufen Sie an\./, `${p}: letzter Aufruf`);
+    assert.match(f, /class="fuss-aufruf__ruf"/, `${p}: letzter Aufruf`);
     assert.match(f, /fuss-slogan/, `${p}: Slogan`);
   }
 });
