@@ -55,24 +55,22 @@
           "name": "Shpejtim Pirku «Speedy»",
           "rolle": "Geschäftsführer",
           "foto": "/bilder/team/shpejtim-pirku.webp",
-          "email": "speedy@autospeedy.ch"
-        }
-      ]
-    },
-    {
-      "name": "Annahme",
-      "leute": [
+          "email": "speedy@autospeedy.ch",
+          "einverstaendnis": true
+        },
         {
           "name": "Lea Schlegel",
-          "rolle": "HR-Assistentin",
+          "rolle": "Annahme, HR-Assistentin",
           "foto": "/bilder/team/lea-schlegel.webp",
-          "email": "lea.schlegel@autospeedy.ch"
+          "email": "lea.schlegel@autospeedy.ch",
+          "einverstaendnis": true
         },
         {
           "name": "Martyna Skweres",
           "rolle": "Kauffrau EBA in Ausbildung",
           "foto": "/bilder/team/martyna-skweres.webp",
-          "email": "martyna.skweres@autospeedy.ch"
+          "email": "martyna.skweres@autospeedy.ch",
+          "einverstaendnis": true
         }
       ]
     },
@@ -82,17 +80,20 @@
         {
           "name": "Arsim Selmani",
           "rolle": "Teamleiter Carrosserie-Spengler, Hagel- und Dellendrücken",
-          "foto": "/bilder/team/arsim-selmani.webp"
+          "foto": "/bilder/team/arsim-selmani.webp",
+          "einverstaendnis": true
         },
         {
           "name": "Dragan Tejic",
           "rolle": "Carrosserie-Spengler, Schweisstechniker",
-          "foto": "/bilder/team/dragan-tejic.webp"
+          "foto": "/bilder/team/dragan-tejic.webp",
+          "einverstaendnis": true
         },
         {
           "name": "Enes Rushiti",
           "rolle": "Carrosserie-Spengler",
-          "foto": "/bilder/team/enes-rushiti.webp"
+          "foto": "/bilder/team/enes-rushiti.webp",
+          "einverstaendnis": true
         }
       ]
     },
@@ -102,17 +103,20 @@
         {
           "name": "Sheref Kamili",
           "rolle": "Carrosserie-Lackierer",
-          "foto": "/bilder/team/sheref-kamili.webp"
+          "foto": "/bilder/team/sheref-kamili.webp",
+          "einverstaendnis": true
         },
         {
           "name": "Fabio Cezza",
           "rolle": "Carrosserie-Lackierer",
-          "foto": "/bilder/team/fabio-cezza.webp"
+          "foto": "/bilder/team/fabio-cezza.webp",
+          "einverstaendnis": true
         },
         {
           "name": "Anna Meier",
           "rolle": "Carrosserie-Lackiererin EFZ in Ausbildung",
-          "foto": "/bilder/team/anna-meier.webp"
+          "foto": "/bilder/team/anna-meier.webp",
+          "einverstaendnis": true
         }
       ]
     },
@@ -122,7 +126,8 @@
         {
           "name": "Armend Nuhii",
           "rolle": "Aufbereiter, Finisher",
-          "foto": "/bilder/team/armend-nuhii.webp"
+          "foto": "/bilder/team/armend-nuhii.webp",
+          "einverstaendnis": true
         }
       ]
     }

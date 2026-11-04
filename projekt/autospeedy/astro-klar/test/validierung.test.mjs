@@ -14,11 +14,19 @@ test("die echte site.json besteht die Pruefung", () => {
 });
 
 test("Migration: team-Eintraege ohne Feld bekommen einverstaendnis = false", () => {
-  const r = siteSchema.safeParse(echt());
+  const ohneFeld = echt();
+  for (const g of ohneFeld.team) for (const p of g.leute) delete p.einverstaendnis;
+  const r = siteSchema.safeParse(ohneFeld);
   assert.ok(r.success);
   const leute = r.data.team.flatMap((g) => g.leute);
   assert.ok(leute.length > 0, "Team nicht leer");
   for (const p of leute) assert.equal(p.einverstaendnis, false);
+});
+
+test("Team wie auf autospeedy.ch: zehn Personen, alle freigegeben", () => {
+  const leute = echt().team.flatMap((g) => g.leute);
+  assert.equal(leute.length, 10);
+  for (const p of leute) assert.equal(p.einverstaendnis, true, p.name);
 });
 
 test("stimme ist optional und setzt freigegeben auf false als Vorgabe", () => {

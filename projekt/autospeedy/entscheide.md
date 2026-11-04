@@ -29,3 +29,4 @@
 - Studio, 03.11.2026: **Zweite Linie «Klar»** (clean, Tesla-artig) als Alternative zur Linie «Lack»; gleiche Inhalte, Bilder, Formular-Logik und gleicher Empfang (Cockpit). Ordner `astro-klar/`.
 - Studio, 03.11.2026: **Tesla-Modell im Formular** zum Antippen (Model 3, Y, S, X, anderes), nur bei «Es ist ein Tesla»; in Mail und Cockpit sichtbar.
 - Studio, 03.11.2026: Prüfung mit den Skills, **je 1 blinder Bewerter statt 6**, um Kosten zu sparen. Ergebnisse sind darum nur ein grober Vorfilter (vorschau/klar/PRUEFBERICHT.md).
+- Roni, 04.11.2026: **Die aktuelle Teamseite von autospeedy.ch darf verwendet werden.** Namen, Rollen, Porträts und Mail-Adressen werden auf der Seite Team gezeigt, gegliedert wie dort.

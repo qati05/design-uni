@@ -1,15 +1,14 @@
 ---
 import Klar from "../layouts/Klar.astro";
 import Kopfbild from "../components/Kopfbild.astro";
-import Luecke from "../components/Luecke.astro";
 import { site } from "../../../astro/bau/daten.mjs";
-// Nur Personen mit Einverstaendnis werden gezeigt (site.ts, BAUPLAN 2 Zeile 9 / 4.2). Ohne Zustimmung: Platzhalter unten.
+// Namen, Rollen und Porträts wie auf autospeedy.ch/team; der Betrieb erlaubt die Übernahme (Roni, 04.11.2026). Das Feld einverstaendnis bleibt die Pflege-Sperre im Cockpit.
 const gruppen = site.team
   .map((g: any) => ({ ...g, leute: g.leute.filter((p: any) => p.einverstaendnis) }))
   .filter((g: any) => g.leute.length);
 ---
 <Klar seite="team">
-<Kopfbild titel="Zehn Leute, fünf Bereiche." foto="team-kabine" alt="Mitarbeiter in der Lackierkabine neben einer abgeklebten Fahrzeugtür">
+<Kopfbild titel="Zehn Leute, vier Bereiche." foto="team-kabine" alt="Mitarbeiter in der Lackierkabine neben einer abgeklebten Fahrzeugtür">
   <p>Von der Annahme bis zum Finish: So ist das Team von Auto Speedy aufgeteilt.</p>
 </Kopfbild>
 <section class="abschnitt">
@@ -27,7 +26,6 @@ const gruppen = site.team
         </div>
       </div>
     ))}
-    <Luecke>Lücke: Wir zeigen hier nur Personen, die der Veröffentlichung zugestimmt haben. Namen, Rollen und Porträts stammen von der bisherigen Website; das Einverständnis klärt der Betrieb.</Luecke>
     <h2 class="abstand">Ausbildung und Stellen</h2>
     <p class="text-gross">Auto Speedy ist Ausbildungsbetrieb, unter anderem für Carrosserielackierer/-in EFZ (laut Carrosserie Suisse). Zurzeit sind keine Stellen offen (Stand der bisherigen Website).</p>
   </div>

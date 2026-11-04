@@ -8,8 +8,8 @@ Stand 02.11.2026. **Kein Recht ist schriftlich bestätigt.** Der Auftrag erlaubt
 | 25 Werkstattfotos (Liste in `astro/src/content/bilder.json`, Feld `quelle` = Dateiname auf wixstatic.com) | Seiten Alufelgen, Folierung, Team, Unternehmen, Spenglerei, Dienstleistungen der Betriebs-Website | ja | verkleinert, WebP, Metadaten entfernt |
 | Kennzeichen auf dem Maserati-Foto | – | unkenntlich gemacht | übrige Kennzeichen nicht lesbar |
 | Fotos mit erkennbaren Mitarbeitenden (team-buero, team-lack, team-kabine, team-politur, team-rad, dellen, dellen-zug, maserati, politur) | Teamseite und Galerien des Betriebs | ja, **ohne Namen am Foto** | Einwilligung der Personen beim Betrieb bestätigen |
-| Namen und Rollen der 10 Mitarbeitenden | autospeedy.ch/team | ja, Seite Team | Einwilligung zur Nennung auf der neuen Website bestätigen |
-| 10 Porträts und 3 Mail-Adressen (Administration) der Teamseite, `astro/public/bilder/team/` | autospeedy.ch/team (wixstatic.com), geladen 02.11.2026 | ja, Seite Team, wie auf der bisherigen Website | quadratisch 320 px, WebP, Metadaten entfernt; Einwilligung der Personen beim Betrieb bestätigen; im Cockpit austauschbar |
+| Namen und Rollen der 10 Mitarbeitenden | autospeedy.ch/team | ja, Seite Team | Übernahme der aktuellen Teamseite erlaubt (Roni, 04.11.2026) |
+| 10 Porträts und 3 Mail-Adressen (Administration) der Teamseite, `astro/public/bilder/team/` | autospeedy.ch/team (wixstatic.com), geladen 02.11.2026 | ja, Seite Team, wie auf der bisherigen Website | quadratisch 320 px, WebP, Metadaten entfernt; Übernahme der aktuellen Teamseite erlaubt (Roni, 04.11.2026); im Cockpit austauschbar |
 | Stockfoto-Anmutung (Mechaniker schwarzweiss, Handschlag, Motorraum) | autospeedy.ch Kontakt, Book Online, Stellen | **nein** | vermutlich nicht vom Betrieb |
 | Grafik «20 Jahre», Areal-Foto stark bearbeitet | autospeedy.ch | nein | Widerspruch zum Register (F10) bzw. schwache Qualität |
 | Logos Tesla, AMAG, Land Rover, Ayvens | autospeedy.ch | **nein**, nur als Text | Markenrechte der Inhaber |
