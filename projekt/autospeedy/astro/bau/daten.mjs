@@ -39,7 +39,12 @@ function leere(wert, pfad, aus) {
 // Was der Betrieb selbst ändert (Zeiten, Feiertage, Hinweis, Team) steht in src/daten/site.json. Der Bau prüft die Datei
 // mit dem gemeinsamen Schema und bricht bei Fehlern ab: lieber kein neuer Stand als eine kaputte Seite.
 import { siteSchema } from "../../gemeinsam/site.ts";
-import siteRoh from "../src/daten/site.json" with { type: "json" };
+import siteStandard from "../src/daten/site.json" with { type: "json" };
+// Normalfall: die eingebundene astro/src/daten/site.json. Im Test ueber SITE_JSON eine Fixture (nur test/fixtures),
+// nie in Produktion; so laesst sich z. B. eine Ausnahme mit einem Datum relativ zum Build-Tag pruefen.
+const siteRoh = process.env.SITE_JSON
+  ? JSON.parse(fs.readFileSync(path.resolve(process.cwd(), process.env.SITE_JSON), "utf8"))
+  : siteStandard;
 const siteGeprueft = siteSchema.safeParse(siteRoh);
 if (!siteGeprueft.success) throw new Error(`src/daten/site.json ungültig: ${siteGeprueft.error.issues.map((i) => i.path.join(".") + ": " + i.message).join("; ")}`);
 export const site = siteGeprueft.data;

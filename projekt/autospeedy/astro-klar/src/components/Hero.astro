@@ -1,0 +1,33 @@
+---
+// Hero (BAUPLAN 2 Zeile 2, 3.4, 3.5): 7fr Text | Spaltenlinie | 5fr Rahmen 4:5 mit Bild und figcaption.
+// h1 = Slogan des Betriebs (Reshat 03.11.2026). Lead woertlich von Reshat (Korrektur 03.11.2026, Endfassung Punkt 7).
+// Bild B1 als WebP 480/960/1440 aus public/bilder/stock/ (erzeugt von bau/stock-c.mjs). Platzhalter von Pexels, Credit unter /bildnachweise/.
+import { betrieb as b } from "../../../astro/bau/daten.mjs";
+const stock = "/bilder/stock/b1-hero";
+---
+<section class="hero">
+  <div class="hero-text">
+    <h1><span>Qualität,</span><br><em>die man sieht und fährt.</em></h1>
+    <p class="lead">Carrosserie und Lack in Altstätten, für alle Marken und als Tesla Approved Body Shop. Die Abwicklung mit Ihrer Versicherung übernehmen wir. Einen Ersatzwagen erhalten Sie auf Anfrage.</p>
+    <div class="ctas">
+      <a class="knopf knopf--akzent" href="/schaden-melden/" data-zaehl="anfrage" data-ort="hero">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15.5 5.6 10a2 2 0 0 1 1.9-1.5h9a2 2 0 0 1 1.9 1.5l1.6 5.5"/><path d="M3.5 15.5h17v3h-17z"/><path d="M7 18.5v1.5M17 18.5v1.5"/><path d="m12 2.8.9 2.3 2.1-.7-.9 2"/></svg>Schaden melden</a>
+      <a class="knopf knopf--kontur" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="hero">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a12 12 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6A2.1 2.1 0 0 1 18.4 19.5 15 15 0 0 1 4.5 5.6 2.1 2.1 0 0 1 6.6 3.5Z"/></svg><span>Anrufen <span class="nr">{b.tel.anzeige}</span></span></a>
+    </div>
+  </div>
+  <figure class="hero-bild">
+    <span class="hero-bild__rahmen">
+      <picture>
+        <source type="image/avif" srcset={`${stock}-480.avif 480w, ${stock}-800.avif 800w, ${stock}-960.avif 960w, ${stock}-1440.avif 1440w`} sizes="(max-width: 760px) 100vw, 42vw" />
+        <source type="image/webp" srcset={`${stock}-480.webp 480w, ${stock}-800.webp 800w, ${stock}-960.webp 960w, ${stock}-1440.webp 1440w`} sizes="(max-width: 760px) 100vw, 42vw" />
+        <img
+          src={`${stock}-960.webp`}
+          width="856" height="1070"
+          fetchpriority="high" decoding="async"
+          alt="Hände in Handschuhen polieren einen dunklen Lack">
+      </picture>
+    </span>
+    <figcaption>Platzhalter von Pexels, wird durch ein eigenes Foto ersetzt.</figcaption>
+  </figure>
+</section>

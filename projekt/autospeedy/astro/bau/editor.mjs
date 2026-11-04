@@ -8,7 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { HINWEIS_LINKS } from "../../gemeinsam/site.ts";
+import { HINWEIS_LINKS, HINWEIS_ARTEN } from "../../gemeinsam/site.ts";
 
 const WOCHENTAGE = [["Monday", "Montag"], ["Tuesday", "Dienstag"], ["Wednesday", "Mittwoch"], ["Thursday", "Donnerstag"], ["Friday", "Freitag"], ["Saturday", "Samstag"], ["Sunday", "Sonntag"]];
 const ZEIT = ["^([01]?\\d|2[0-3])\\.[0-5]\\d$", "Zeit als 7.30 oder 17.15"];
@@ -28,10 +28,19 @@ export function editorKonfiguration({ repo, zweig = "main", pfad = "astro/src/da
         name: "site", label: "Öffnungszeiten, Hinweis und Team", file: pfad,
         fields: [
           { name: "_hinweis", widget: "hidden", required: false },
-          { name: "hinweis", label: "Hinweis oben auf der Website", widget: "object", fields: [
+          { name: "hinweis", label: "Hinweis oben auf der Website (altes Einzelfeld)", widget: "object", required: false, fields: [
             { name: "aktiv", label: "Hinweis zeigen", widget: "boolean", default: false },
             text("text", "Text (höchstens 120 Zeichen)", { required: false, pattern: ["^[^<>]{0,120}$", "Höchstens 120 Zeichen, ohne < und >"] }),
             { name: "link", label: "Führt zu", widget: "select", options: HINWEIS_LINKS.map((l) => ({ label: l.text, value: l.wert })) },
+          ] },
+          { name: "hinweise", label: "Hinweis-Vorlagen (höchstens 3, höchstens ein Pop-up)", widget: "list", max: 3, required: false, fields: [
+            { name: "art", label: "Art", widget: "select", options: HINWEIS_ARTEN.map((a) => ({ label: a, value: a })) },
+            { name: "form", label: "Form", widget: "select", default: "banner", options: [{ label: "Banner", value: "banner" }, { label: "Pop-up (nur Hagel/Aktion)", value: "popup" }] },
+            text("titel", "Titel (höchstens 50 Zeichen)", { required: false, pattern: ["^[^<>]{0,50}$", "Höchstens 50 Zeichen, ohne < und >"] }),
+            text("text", "Text (höchstens 160 Zeichen)", { pattern: ["^[^<>]{1,160}$", "1 bis 160 Zeichen, ohne < und >"] }),
+            { name: "link", label: "Führt zu", widget: "select", required: false, default: "", options: [{ label: "(kein Link)", value: "" }, ...HINWEIS_LINKS.map((l) => ({ label: l.text, value: l.wert }))] },
+            { name: "von", label: "Zeigen ab", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" },
+            { name: "bis", label: "Zeigen bis", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" },
           ] },
           { name: "zeiten", label: "Öffnungszeiten", widget: "list", min: 1, max: 7, fields: [
             text("tage", "Tage, ausgeschrieben (z. B. Montag bis Donnerstag)"),
@@ -53,7 +62,17 @@ export function editorKonfiguration({ repo, zweig = "main", pfad = "astro/src/da
               text("name", "Name"), text("rolle", "Rolle", { required: false }),
               text("foto", "Foto (Verweis, z. B. /bilder/team/anna-muster.webp)", { required: false, hint: "Die Bilddatei liegt im Ordner bilder/team. Foto entfernen: Feld leeren und die Datei löschen. Siehe Übergabe-Anleitung." }),
               text("email", "Mail (freiwillig)", { required: false }),
+              { name: "einverstaendnis", label: "Auf der Website zeigen", widget: "boolean", default: false, hint: "Nur mit Zustimmung der Person" },
             ] },
+          ] },
+          { name: "stimme", label: "Satz vom Inhaber", widget: "object", required: false, fields: [
+            text("text", "Satz (höchstens 240 Zeichen)", { required: false, pattern: ["^[^<>]{0,240}$", "Höchstens 240 Zeichen, ohne < und >"] }),
+            text("name", "Name", { required: false }),
+            text("rolle", "Rolle", { required: false }),
+            { name: "freigegeben", label: "Auf der Website zeigen", widget: "boolean", default: false, hint: "Nur mit Zustimmung des Inhabers" },
+          ] },
+          { name: "bewertungen", label: "Google-Bewertungen", widget: "object", required: false, fields: [
+            { name: "zeigen", label: "Bewertungen auf der Website zeigen", widget: "boolean", default: true, hint: "Zeigt Note, Anzahl und Link — keine einzelnen Bewertungstexte" },
           ] },
         ],
       }],

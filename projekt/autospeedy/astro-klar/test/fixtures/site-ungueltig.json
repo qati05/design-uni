@@ -1,0 +1,8 @@
+{
+  "_hinweis": "Absichtlich ungültig (nur für den Test): leere Zeitenliste und ein verbotenes < im Inhaber-Satz. Der Bau muss damit abbrechen.",
+  "hinweis": { "aktiv": false, "text": "", "link": "/schaden-melden/" },
+  "zeiten": [],
+  "ausnahmen": [],
+  "team": [],
+  "stimme": { "text": "Ein <Satz> mit verbotenen Zeichen", "name": "", "rolle": "", "freigegeben": true }
+}

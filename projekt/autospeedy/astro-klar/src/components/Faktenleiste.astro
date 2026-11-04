@@ -1,0 +1,49 @@
+---
+// Faktenleiste (BAUPLAN 2 Zeile 3, 3.6): <dl> mit Ort · Offen · Team · Zulassung.
+// «Offen» kommt aus der gepflegten site.zeiten (betrieb.zeiten nach mitPflege), Kurzform ohne fest geschriebene Zeiten,
+// dieselbe Quelle wie Zeiten.astro. Ort aus betrieb.json. Ersatzwagen aus betrieb.ersatzwagen (Fakt Reshat 03.11.2026,
+// nur auf Anfrage). Zulassung ist eine feste Angabe (woertlich aus dem Entwurf).
+// Mit echten Google-Daten kommt zusaetzlich eine Zelle «Bewertung» (Note · Anzahl) dazu (Reshat Design-Review 22:00, 3).
+import fs from "node:fs";
+import path from "node:path";
+import { betrieb as b } from "../../../astro/bau/daten.mjs";
+// Nur geoeffnete Tage, je Gruppe eine Zeile «Kurzform Fenster1, Fenster2» (z. B. «Mo bis Do 7.30–12.00, 13.15–17.30»).
+const offen = b.zeiten
+  .filter((z: any) => z.fenster)
+  .map((z: any) => `${z.kurz || z.tage} ${z.fenster.map(([von, bis]: string[]) => `${von}–${bis}`).join(", ")}`);
+
+// Bewertungsdaten wie in Bewertungen.astro: nur mit echten Daten eine Zelle; nie «–,–».
+const bewDatei = process.env.BEWERTUNGEN_DATEI
+  ? path.resolve(process.cwd(), process.env.BEWERTUNGEN_DATEI)
+  : new URL("../daten/bewertungen.json", import.meta.url).pathname;
+let bew: any = { status: "leer" };
+try { bew = JSON.parse(fs.readFileSync(bewDatei, "utf8")); } catch { bew = { status: "leer" }; }
+const hatBew = bew && bew.status === "ok" && typeof bew.note === "number" && typeof bew.anzahl === "number";
+const bewNote = hatBew ? bew.note.toFixed(1).replace(".", ",") : "";
+
+const spalten = hatBew ? 5 : 4;
+---
+<dl class="leiste-fakten" data-spalten={spalten}>
+  <div>
+    <dt>Ort</dt>
+    <dd>{b.strasse}<br>{b.plz} {b.ort} {b.kanton}</dd>
+  </div>
+  <div>
+    <dt>Offen</dt>
+    <dd>{offen.map((zeile: string, i: number) => <>{i > 0 && <br />}{zeile}</>)}</dd>
+  </div>
+  <div>
+    <dt>Ersatzwagen</dt>
+    <dd><span class="zahl">{b.ersatzwagen.anzahl}</span> Ersatzautos auf Anfrage{b.ersatzwagen.tesla ? ", auch ein Tesla" : ""}</dd>
+  </div>
+  <div>
+    <dt>Zulassung</dt>
+    <dd>Tesla Approved Body Shop</dd>
+  </div>
+  {hatBew && (
+    <div>
+      <dt>Bewertung</dt>
+      <dd>{bewNote} von 5 · {bew.anzahl} auf Google</dd>
+    </div>
+  )}
+</dl>

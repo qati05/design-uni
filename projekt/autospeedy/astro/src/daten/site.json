@@ -126,5 +126,14 @@
         }
       ]
     }
-  ]
+  ],
+  "stimme": {
+    "text": "",
+    "name": "",
+    "rolle": "",
+    "freigegeben": false
+  },
+  "bewertungen": {
+    "zeigen": true
+  }
 }

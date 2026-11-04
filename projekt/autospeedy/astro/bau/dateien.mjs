@@ -22,12 +22,38 @@ function htmlDateien(dir, basis = dir, aus = []) {
 // Adresse einer Datei: index.html -> /, kontakt/index.html -> /kontakt/
 const adresseVon = (datei) => "/" + datei.replace(/index\.html$/, "");
 
-export default function dateien() {
+// Volle Content-Security-Policy, nur wenn eine Linie sie einschaltet: dateien({ csp: true }).
+// Voraussetzung: kein ausführbares Inline-Skript und keine onclick-Attribute (JSON-LD ist Daten und bleibt erlaubt).
+// Fremde Herkünfte kommen nur aus der Konfiguration: Turnstile, absolute Formular-/Zähl-Endpunkte, AutoScout-Widget.
+const herkunft = (u) => { try { return /^https:\/\//.test(u || "") ? new URL(u).origin : null; } catch { return null; } };
+export function cspZeile({ bau, betrieb }) {
+  // Turnstile (challenges.cloudflare.com) nur in die CSP, wenn ein Sitekey gesetzt ist; sonst gar nicht (BAUPLAN 4.3).
+  const ts = process.env.TURNSTILE_SITEKEY ? "https://challenges.cloudflare.com" : null;
+  const verbinden = [process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt, process.env.ZAEHL_ENDPUNKT || bau.zaehlEndpunkt].map(herkunft).filter(Boolean);
+  const widget = herkunft(betrieb?.occasionen?.widget?.src);
+  const liste = (...xs) => [...new Set(xs.filter(Boolean))].join(" ");
+  const rahmen = liste(ts, widget); // Turnstile und/oder AutoScout-Widget; sonst nichts einbetten
+  return [
+    "default-src 'self'",
+    `script-src ${liste("'self'", ts, widget)}`,
+    "style-src 'self' 'unsafe-inline'", // style="--dauer" im Partnerband und Turnstile
+    "img-src 'self' data: blob:",
+    "font-src 'self'",
+    `connect-src ${liste("'self'", ts, ...verbinden)}`,
+    `frame-src ${rahmen || "'none'"}`,
+    "form-action 'self' mailto:",
+    "base-uri 'self'",
+    "object-src 'none'",
+    "frame-ancestors 'none'",
+  ].join("; ");
+}
+
+export default function dateien({ csp = false } = {}) {
   return {
     name: "vorlage-dateien",
     hooks: {
       "astro:build:done": async ({ dir }) => {
-        const { bau, vorschau, RECHTSSEITEN, meldeSpaeter } = await import("./daten.mjs");
+        const { bau, betrieb, vorschau, RECHTSSEITEN, meldeSpaeter } = await import("./daten.mjs");
         const ziel = fileURLToPath(dir);
         const seiten = htmlDateien(ziel);
 
@@ -62,9 +88,20 @@ export default function dateien() {
           ...(vorschau ? ["  X-Robots-Tag: noindex"] : ["  Strict-Transport-Security: max-age=31536000"]),
           "  X-Content-Type-Options: nosniff",
           "  Referrer-Policy: strict-origin-when-cross-origin",
-          "  Content-Security-Policy: frame-ancestors 'none'",
+          `  Content-Security-Policy: ${csp ? cspZeile({ bau, betrieb }) : "frame-ancestors 'none'"}`,
           "  Permissions-Policy: camera=(), microphone=(), geolocation=()",
         ];
+        // Editor /admin/ (Linie Klar, BAUPLAN 4.1): eigene, enge CSP. Eigenes Vanilla-JS aus 'self', keine Fremdhosts,
+        // keine Einbettung. noindex und no-store. «! Content-Security-Policy» ersetzt (nicht ergänzt) die allgemeine Zeile.
+        if (csp) kopf.push(
+          "", "/admin/*",
+          "  ! Content-Security-Policy",
+          "  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'",
+          "  X-Robots-Tag: noindex",
+          "  Cache-Control: no-store",
+        );
+        // Druckvorlage /bewerten/druck/ (BAUPLAN 4.6): noindex, auch im Livegang (nur zum Ausdrucken, nicht für den Index).
+        if (fs.existsSync(path.join(ziel, "bewerten", "druck", "index.html"))) kopf.push("", "/bewerten/druck/*", "  X-Robots-Tag: noindex");
         // TI10: Die Hauptadresse <projekt>.pages.dev bleibt auch nach dem Livegang ausserhalb des Index.
         if (!vorschau && bau.pagesProjekt) kopf.push("", `https://${bau.pagesProjekt}.pages.dev/*`, "  X-Robots-Tag: noindex");
         fs.writeFileSync(path.join(ziel, "_headers"), kopf.join("\n") + "\n");
@@ -88,8 +125,8 @@ export default function dateien() {
         ];
         fs.writeFileSync(path.join(ziel, "robots.txt"), robots.join("\n") + "\n");
 
-        // TI12: nur indexierbare Seiten (404 nie, TI17); ohne lastmod, solange kein ehrliches Datum vorliegt (TI13).
-        const adressen = seiten.filter((s) => s !== "404.html").map(adresseVon).sort();
+        // TI12: nur indexierbare Seiten (404 nie, TI17; Editor /admin/ ist noindex und bleibt aus der Sitemap); ohne lastmod (TI13).
+        const adressen = seiten.filter((s) => s !== "404.html" && !s.startsWith("admin/") && s !== "bewerten/druck/index.html").map(adresseVon).sort();
         const xml = [
           '<?xml version="1.0" encoding="UTF-8"?>',
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',

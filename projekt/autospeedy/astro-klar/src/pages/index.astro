@@ -1,152 +1,35 @@
 ---
 // Startseite der Linie «Klar». Wortlaut nur aus fakten.md und der ersten Linie (texte.json, arten.json), nichts Neues behauptet.
+// Nachtrag 04.11.2026: 6 Leistungskarten (mit Bild), kein Felgen-Vorher/Nachher mehr auf der Startseite (wandert auf
+// /leistungen/#felgen), Google-Bewertungen mit Zitaten (nur Vorschau), Fragen/Antworten (AEO) und JSON-LD (FAQPage + Betrieb).
 import Klar from "../layouts/Klar.astro";
-import Bild from "../components/Bild.astro";
-import Luecke from "../components/Luecke.astro";
-import { betrieb as b, zeitenKurz } from "../../../astro/bau/daten.mjs";
-import { site } from "../../../astro/bau/daten.mjs";
-const leute = site.team.flatMap((g: any) => g.leute.map((p: any) => ({ ...p, gruppe: g.name }))).filter((p: any) => p.foto).slice(0, 5);
+import Hero from "../components/Hero.astro";
+import Faktenleiste from "../components/Faktenleiste.astro";
+import Partnerband from "../components/Partnerband.astro";
+import Leistungen from "../components/Leistungen.astro";
+import Anfrage from "../components/Anfrage.astro";
+import TeslaTeil from "../components/TeslaTeil.astro";
+import Inhaber from "../components/Inhaber.astro";
+import Bewertungen from "../components/Bewertungen.astro";
+import Faq from "../components/Faq.astro";
+import { faqStart } from "../daten/faq";
 ---
-<Klar seite="index" jsonld>
+<Klar seite="index" jsonld faq={faqStart} bildVorladen={{ href: "/bilder/stock/b1-hero-800.avif", srcset: "/bilder/stock/b1-hero-480.avif 480w, /bilder/stock/b1-hero-800.avif 800w, /bilder/stock/b1-hero-960.avif 960w, /bilder/stock/b1-hero-1440.avif 1440w", sizes: "(max-width: 760px) 100vw, 42vw" }}>
 
-<section class="buehne buehne--start" aria-labelledby="start-titel">
-  <Bild name="maserati" alt="Helle Halle von Auto Speedy mit dem Firmenschild an der Wand, ein Mitarbeiter arbeitet an einem blauen Sportwagen" lcp />
-  <div class="buehne__oben">
-    <a class="buehne__tesla" href="/tesla/" data-zaehl="tesla" data-ort="start"><span class="punkt-blau" aria-hidden="true"></span>Tesla Approved Body Shop <span aria-hidden="true">→</span></a>
-  </div>
-  <div class="buehne__text">
-    <p class="buehne__kicker">Carrosserie und Spritzwerk für alle Marken · {b.ort} {b.kanton}</p>
-    <h1 id="start-titel">Vom Kratzer bis zum Blechschaden.</h1>
-    <p class="buehne__unter">Die Abwicklung mit Ihrer Versicherung übernehmen wir.</p>
-    <div class="knoepfe knoepfe--links"><a class="k k--weiss" href="/schaden-melden/" data-zaehl="anfrage" data-ort="start">Schaden melden</a></div>
-  </div>
-</section>
+<Hero />
+<Faktenleiste />
+<Partnerband titel="Zertifizierte Partner" />
 
-<section class="tesla" aria-labelledby="tesla-titel">
-  <div class="tesla__innen">
-    <div class="zeigen">
-      <span class="tesla__marke">Tesla Approved Body Shop</span>
-      <h2 id="tesla-titel">Ihr Tesla. In zugelassenen Händen.</h2>
-      <p>Auto Speedy ist von Tesla als Karosseriewerkstatt zugelassen. Melden Sie den Schaden an Ihrem Tesla direkt hier; das Formular wählt «Tesla» schon aus.</p>
-      <div class="knoepfe">
-        <a class="k k--blau" href="/schaden-melden/?fahrzeug=tesla" data-zaehl="anfrage-tesla" data-ort="start">Tesla-Schaden melden</a>
-        <a class="k k--glas" href="/tesla/">Mehr zum Tesla Body Shop</a>
-      </div>
-    </div>
-    <ul class="tesla__liste zeigen">
-      <li>Unfall- und Blechschäden <span>01</span></li>
-      <li>Lackschäden und Neulackierung <span>02</span></li>
-      <li>Hagelschäden und Dellen <span>03</span></li>
-      <li>Abwicklung mit Ihrer Versicherung <span>04</span></li>
-    </ul>
-  </div>
-</section>
+<Leistungen />
 
-<section class="abschnitt" aria-labelledby="leistungen-titel">
-  <div class="abschnitt__innen">
-    <div class="abschnitt__kopf zeigen">
-      <p class="kicker">Leistungen</p>
-      <h2 id="leistungen-titel">Alles unter einem Dach.</h2>
-    </div>
-    <div class="kacheln">
-      <a class="kachel zeigen" href="/leistungen/#carrosserie">
-        <Bild name="dellen" alt="Mitarbeiter drückt eine Delle aus der Karosserie" sizes="(max-width: 960px) 100vw, 33vw" />
-        <div class="kachel__text"><h3>Carrosserie</h3><p>Vom Blechschaden bis zum Chassisschaden.</p><span class="kachel__pfeil">Mehr</span></div>
-      </a>
-      <a class="kachel zeigen" href="/leistungen/#lackiererei">
-        <Bild name="lackierkabine" alt="Lackierer in Schutzanzug in der Lackierkabine an einem abgeklebten Fahrzeugteil" sizes="(max-width: 960px) 100vw, 33vw" />
-        <div class="kachel__text"><h3>Lackiererei</h3><p>Kleine Lackschäden, ganze Lackierungen.</p><span class="kachel__pfeil">Mehr</span></div>
-      </a>
-      <a class="kachel zeigen" href="/leistungen/#felgen">
-        <Bild name="felge-fertig" alt="Aufbereitete Alufelge mit vielen Speichen in Nahaufnahme" sizes="(max-width: 960px) 100vw, 33vw" />
-        <div class="kachel__text"><h3>Felgen und Folien</h3><p>Alufelgen aufbereiten, Fahrzeuge folieren.</p><span class="kachel__pfeil">Mehr</span></div>
-      </a>
-    </div>
-  </div>
-</section>
+<Anfrage />
 
-<section class="abschnitt abschnitt--flaeche" aria-labelledby="melden-titel">
-  <div class="abschnitt__innen ablauf">
-    <div class="zeigen">
-      <div class="abschnitt__kopf">
-        <p class="kicker">Schaden melden</p>
-        <h2 id="melden-titel">In drei Schritten erledigt.</h2>
-        <p>Am Handy, in einer Minute. Senden Sie die Meldung hier oder per WhatsApp.</p>
-      </div>
-      <ol class="schritte">
-        <li><b>Was ist passiert?</b><span>Parkschaden, Unfall, Hagel, Lack, Scheibe oder Felge.</span></li>
-        <li><b>Fotos</b><span>Direkt mit der Kamera, so viele Sie möchten.</span></li>
-        <li><b>Name und Telefon</b><span>Wir melden uns bei Ihnen.</span></li>
-      </ol>
-      <div class="knoepfe">
-        <a class="k k--blau" href="/schaden-melden/" data-zaehl="anfrage" data-ort="ablauf">Schaden melden</a>
-        <a class="k k--hell" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="ablauf">Lieber anrufen</a>
-      </div>
-    </div>
-    <div class="ansicht zeigen" aria-hidden="true">
-      <div class="telefon"><div class="telefon__schirm">
-        <div class="t-fortschritt"><i class="an"></i><i></i><i></i></div>
-        <p class="t-titel">Was ist passiert?</p>
-        <div class="t-raster">
-          <span class="t-wahl">Parkschaden<i></i></span>
-          <span class="t-wahl">Unfall<i></i></span>
-          <span class="t-wahl an">Hagel<i></i></span>
-          <span class="t-wahl">Lack<i></i></span>
-          <span class="t-wahl">Scheibe<i></i></span>
-          <span class="t-wahl">Felge<i></i></span>
-        </div>
-      </div></div>
-      <div class="karte-schwebend"><span class="punkt">Angekommen</span><b>Schadenmeldung: Hagel</b><span>3 Fotos · Rückruf folgt</span></div>
-    </div>
-  </div>
-</section>
+<TeslaTeil />
 
-<section class="abschnitt" aria-labelledby="team-titel">
-  <div class="abschnitt__innen">
-    <div class="abschnitt__kopf abschnitt__kopf--mitte zeigen">
-      <p class="kicker">Team</p>
-      <h2 id="team-titel">Die Leute hinter Ihrem Auto.</h2>
-    </div>
-    <div class="leute">
-      {leute.map((p: any) => <figure class="zeigen"><img src={p.foto} width="320" height="320" loading="lazy" decoding="async" alt={`Porträt ${p.name.replace(/ «.*»/, "")}`}><figcaption><b>{p.name}</b><span>{p.rolle}</span></figcaption></figure>)}
-    </div>
-    <div class="mehr"><a class="k k--rand" href="/team/">Ganzes Team</a></div>
-  </div>
-</section>
+<Inhaber />
 
-<section class="abschnitt" aria-labelledby="bewertungen-titel">
-  <div class="abschnitt__innen">
-    <div class="abschnitt__kopf zeigen"><p class="kicker">Google-Bewertungen</p><h2 id="bewertungen-titel">Was Kunden sagen.</h2></div>
-    <div class="karte" data-bewertungen>
-      <p class="karte__text">Die Bewertungen unserer Kundinnen und Kunden zeigen wir direkt von Google, so wie sie dort stehen.</p>
-      <p class="hilfe">Beim Anzeigen lädt Google Inhalte von seinen Servern und kann dabei Cookies setzen. Vorher wird nichts geladen. Mehr in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
-      <div><button class="k k--blau" type="button" data-bewertungen-laden onclick="this.hidden=true;this.closest('section').querySelector('[data-bewertungen-ziel]').hidden=false">Google-Bewertungen anzeigen</button></div>
-      <div class="bewertungen__platzhalter" data-bewertungen-ziel hidden><p>Hier erscheinen die Google-Bewertungen des Betriebs, live von Google.</p></div>
-      <Luecke>Lücke: Google-Profil und Widget-Code vom Betrieb. Bewertungen werden nicht abgeschrieben, sondern live angezeigt.</Luecke>
-    </div>
-  </div>
-</section>
-<script is:inline>
-(function () {
-  [].forEach.call(document.querySelectorAll("[data-bewertungen]"), function (box) {
-    var knopf = box.querySelector("[data-bewertungen-laden]"); if (!knopf) return;
-    knopf.hidden = false;
-    knopf.addEventListener("click", function () {
-      box.querySelector("[data-bewertungen-ziel]").hidden = false; knopf.hidden = true;
-    });
-  });
-})();
-</script>
+<Bewertungen />
 
-<section class="abschnitt abschnitt--flaeche" aria-labelledby="kontakt-titel">
-  <div class="abschnitt__innen">
-    <div class="abschnitt__kopf zeigen"><p class="kicker">Kontakt</p><h2 id="kontakt-titel">Wir sind in {b.ort}.</h2></div>
-    <div class="kontakt">
-      <div class="kontakt__karte zeigen"><h2>Telefon</h2><a href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="kontakt">{b.tel.anzeige}</a><small>{zeitenKurz}</small></div>
-      <div class="kontakt__karte zeigen"><h2>Adresse</h2><p>{b.strasse}<br>{b.plz} {b.ort}</p><small><a href={b.route} data-zaehl="route" data-ort="start" style="font-size:14px">Route planen →</a></small></div>
-      <div class="kontakt__karte zeigen"><h2>Mail</h2><a href={`mailto:${b.mail}`} data-zaehl="mail" data-ort="start">{b.mail}</a><small>Für Schäden schneller: Schaden melden.</small></div>
-    </div>
-  </div>
-</section>
+<Faq fragen={faqStart} />
 
 </Klar>

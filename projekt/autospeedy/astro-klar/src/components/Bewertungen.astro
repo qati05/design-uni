@@ -1,0 +1,113 @@
+---
+// Abschnitt «Google-Bewertungen» (Entwurf C, BAUPLAN 2 Zeile 10, 3.10, 4.3, Entscheid 03.11.2026).
+// Nur Note, Anzahl und Link — KEINE Bewertungskarten, keine Texte, keine Namen.
+// OHNE echte Daten wird der Abschnitt GAR NICHT gerendert (Reshat Design-Review 22:00, 3): nie «–,– von 5» live.
+// Daten kommen aus src/daten/bewertungen.json (beim Build von bau/bewertungen.mjs geschrieben); im Test ueber
+// BEWERTUNGEN_DATEI (nur test/fixtures). Der Schluessel taucht hier nie auf.
+import fs from "node:fs";
+import path from "node:path";
+import { betrieb, site, vorschau } from "../../../astro/bau/daten.mjs";
+import Luecke from "./Luecke.astro";
+import zitDaten from "../daten/bewertungen-zitate.json";
+
+const zeigen = (site as any).bewertungen ? (site as any).bewertungen.zeigen !== false : true;
+
+const datei = process.env.BEWERTUNGEN_DATEI
+  ? path.resolve(process.cwd(), process.env.BEWERTUNGEN_DATEI)
+  : new URL("../daten/bewertungen.json", import.meta.url).pathname;
+let daten: any = { status: "leer" };
+try { daten = JSON.parse(fs.readFileSync(datei, "utf8")); } catch { daten = { status: "leer" }; }
+
+const hatDaten = daten && daten.status === "ok" && typeof daten.note === "number" && typeof daten.anzahl === "number";
+const note: number | null = hatDaten ? daten.note : null;
+const anzahl: number | null = hatDaten ? daten.anzahl : null;
+const mapsLink: string | null = hatDaten && typeof daten.maps_link === "string" ? daten.maps_link : null;
+const noteText = note == null ? "–,–" : note.toFixed(1).replace(".", ",");
+// Fuellgrad je Stern (0..1); ein Teilstern (z. B. 4.7) ueber die Breite der Fuellmaske, ohne Animation.
+const sterne = [0, 1, 2, 3, 4].map((i) => (note == null ? 0 : Math.max(0, Math.min(1, note - i))));
+const schreiben = (betrieb as any).bewertungen && (betrieb as any).bewertungen.google ? (betrieb as any).bewertungen.google : null;
+
+const sternPfad = "m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z";
+const pfeilPfad = "M14 4h6v6M20 4l-9 9M18 14v5H5V6h5";
+
+// Vorschau-Zitate (Nachtrag 04.11.): 3 Google-Zitate und Note 4,8, NUR in der Vorschau (gleicher Schalter wie die
+// Lücke-Boxen) und nur solange es noch keine echten Live-Daten gibt. Namen stehen auf «Name folgt», live ausgeblendet.
+const zitate: any[] = Array.isArray((zitDaten as any).zitate) ? (zitDaten as any).zitate : [];
+const zitNote: number | null = typeof (zitDaten as any).note === "number" ? (zitDaten as any).note : null;
+const zitNoteText = zitNote == null ? "" : zitNote.toFixed(1).replace(".", ",");
+const zitSterne = zitNote == null ? [] : [0, 1, 2, 3, 4].map((i) => Math.max(0, Math.min(1, zitNote - i)));
+const zeigeZitate = vorschau && !hatDaten && zitate.length > 0;
+---
+{zeigen && hatDaten && (
+<section class="abschnitt abschnitt--rand bewertungen-teil" aria-labelledby="bewertungen-titel">
+  <div class="abschnitt__innen">
+    <div class="bew-kopf bew-kopf--echt">
+      <h2 id="bewertungen-titel" class="titel">Was Kundinnen und Kunden auf Google schreiben.</h2>
+      <p class="schnitt">
+        <span class="sterne" role="img" aria-label={`${noteText} von 5 Sternen`}>
+          {sterne.map((f) => (
+            <span class="bew-stern">
+              <svg class="stern stern--leer" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d={sternPfad} /></svg>
+              <span class="stern-voll" style={`width:${Math.round(f * 100)}%`}>
+                <svg class="stern stern--voll" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d={sternPfad} /></svg>
+              </span>
+            </span>
+          ))}
+        </span>
+        <span class="zahl">{noteText} von 5 · {anzahl} Bewertungen</span>
+      </p>
+    </div>
+
+    <p class="bew-attribution leise">Bewertungen von Google</p>
+
+    <p class="bew-links">
+      {mapsLink && (
+        <a href={mapsLink} rel="noopener">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d={pfeilPfad} /></svg>
+          Alle Bewertungen auf Google
+        </a>
+      )}
+      {schreiben
+        ? <a href={schreiben} rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d={pfeilPfad} /></svg>Bewertung schreiben</a>
+        : <Luecke>Lücke: Link «Bewertung schreiben» aus dem Google-Unternehmensprofil (betrieb.bewertungen.google).</Luecke>}
+    </p>
+  </div>
+</section>
+)}
+
+{zeigeZitate && (
+<section class="abschnitt abschnitt--rand bewertungen-vorschau" aria-labelledby="bew-vorschau-titel">
+  <div class="abschnitt__innen">
+    <div class="bew-kopf">
+      <h2 id="bew-vorschau-titel" class="titel">Was Kundinnen und Kunden auf Google schreiben.</h2>
+      <p class="schnitt">
+        <span class="sterne" role="img" aria-label={`${zitNoteText} von 5 Sternen`}>
+          {zitSterne.map((f) => (
+            <span class="bew-stern">
+              <svg class="stern stern--leer" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d={sternPfad} /></svg>
+              <span class="stern-voll" style={`width:${Math.round(f * 100)}%`}><svg class="stern stern--voll" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d={sternPfad} /></svg></span>
+            </span>
+          ))}
+        </span>
+        <span class="zahl">{zitNoteText} von 5 auf Google</span>
+      </p>
+    </div>
+    <ul class="bew-zitate">
+      {zitate.slice(0, 3).map((z: any) => (
+        <li>
+          <figure class="bew-zitat">
+            <span class="bew-zitat__sterne sterne" role="img" aria-label={`${zitNoteText} von 5 Sternen`}>
+              {[0, 1, 2, 3, 4].map(() => (
+                <span class="bew-stern"><svg class="stern stern--voll" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d={sternPfad} /></svg></span>
+              ))}
+            </span>
+            <blockquote>{z.text}</blockquote>
+            <figcaption><span class="bew-zitat__name">{z.name || "Name folgt"}</span> · Google</figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+    <p class="bew-hinweis" data-luecke>Nur in der Vorschau. Vor dem Livegang übernehmen wir Zitate, Namen, Datum und Anzahl wörtlich aus dem Google-Unternehmensprofil; dann wird dieser Abschnitt live geschaltet.</p>
+  </div>
+</section>
+)}

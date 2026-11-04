@@ -13,6 +13,11 @@
     "e164": "+41717558861"
   },
   "geo": null,
+  "ersatzwagen": {
+    "anzahl": 6,
+    "tesla": true
+  },
+  "_ersatzwagen": "6 Ersatzautos, darunter ein Tesla; nur auf Anfrage, keine Garantie auf Verfügbarkeit (Auskunft Reshat, 03.11.2026).",
   "route": "https://www.google.com/maps/search/?api=1&query=Auto+Speedy+AG+Alte+Landstrasse+63+9450+Altst%C3%A4tten",
   "ausnahmen": null,
   "zeiten": [

@@ -1,6 +1,6 @@
-const {chromium}=require('playwright'); const S='/tmp/claude-0/-home-user/ff5e4086-c01b-5a3e-ac02-6019be6adfa2/scratchpad';
+const {chromium}=require('playwright'); const S=process.env.SCRATCH||'/tmp/claude-0/-home-user/ff5e4086-c01b-5a3e-ac02-6019be6adfa2/scratchpad';
 const ok=(b,t)=>{ if(!b) throw new Error('FEHLER: '+t); console.log('ok  '+t); };
-(async()=>{const b=await chromium.launch();
+(async()=>{const b=await chromium.launch(process.env.CHROME?{executablePath:process.env.CHROME,args:['--no-sandbox']}:{});
 for (const [linie,B] of [['Klar','http://localhost:4344'],['Lack','http://localhost:4333']]){
  const p=await (await b.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true})).newPage();
  await p.goto(B+'/schaden-melden/'); await p.waitForTimeout(400);

@@ -1,0 +1,64 @@
+/* Editor /admin/ (BAUPLAN 4.1/4.7). Gleiche Tokens wie die Website (klar.css), ruhige Bewegung ohne Überschwingen.
+   Kein Inline-Skript, kein Fremdhost. Reiterwechsel ohne Animation; Toast nach 4.7; Reduced Motion statisch. */
+body[data-seite="admin"] { background: var(--grund); color: var(--tinte); font: 400 16px/1.5 var(--schrift); padding-bottom: 80px; }
+
+.admin-kopf { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 12px clamp(16px, 4vw, 40px); background: rgba(250, 248, 245, .92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--linie); }
+.admin-kopf__titel { display: flex; align-items: baseline; gap: 12px; }
+.admin-kopf__titel strong { font-family: var(--titel); font-weight: 400; font-size: 22px; }
+.admin-kopf__mail { font-size: 13px; color: var(--leise); }
+
+.admin-meldung { margin: 12px clamp(16px, 4vw, 40px) 0; padding: 10px 14px; border-radius: var(--rund); background: #fff4e5; border: 1px solid #f0d8b0; color: #5a4320; font-size: 14px; }
+.admin-meldung--fehler { background: #fdecec; border-color: #f2c3c3; color: #7a2525; }
+
+.admin-reiter { display: flex; flex-wrap: wrap; gap: 6px; padding: 14px clamp(16px, 4vw, 40px) 0; }
+.admin-reiter__knopf { min-height: 40px; padding: 0 16px; border: 1px solid var(--linie); border-radius: var(--pille); background: var(--papier); color: var(--tinte); font: 500 14px/1 var(--schrift); cursor: pointer; transition: background-color var(--farbe) linear, color var(--farbe) linear, transform var(--druck) var(--aus); }
+.admin-reiter__knopf[aria-selected="true"] { background: var(--tinte); color: #fff; border-color: var(--tinte); }
+.admin-reiter__knopf:active { transform: scale(.97); }
+
+.admin-inhalt { padding: 20px clamp(16px, 4vw, 40px); max-width: 860px; }
+.admin-panel { display: grid; gap: 18px; }
+.admin-platzhalter, .admin-laedt { color: var(--leise); font-size: 15px; }
+
+/* Felder */
+.admin-feld { display: grid; gap: 6px; }
+.admin-feld > label, .admin-gruppe__titel { font-size: 13px; font-weight: 600; color: var(--leise); }
+.admin-feld input[type="text"], .admin-feld input[type="email"], .admin-feld input[type="date"], .admin-feld textarea, .admin-feld select {
+  width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid var(--linie); border-radius: var(--rund-feld); background: var(--papier); color: var(--tinte); font: 400 15px/1.4 var(--schrift); }
+.admin-feld textarea { min-height: 80px; resize: vertical; }
+.admin-feld input:focus-visible, .admin-feld textarea:focus-visible, .admin-feld select:focus-visible { outline: 2px solid var(--akzent); outline-offset: 1px; }
+.admin-zeile { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.admin-schalter { display: flex; align-items: center; gap: 10px; }
+.admin-schalter input { width: 20px; height: 20px; }
+.admin-schalter label { font-size: 14px; color: var(--tinte); font-weight: 500; }
+
+.admin-karte { display: grid; gap: 12px; padding: 16px; border: 1px solid var(--linie); border-radius: var(--rund-gross); background: var(--papier); }
+.admin-karte__kopf { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.admin-karte__kopf h3 { font-size: 16px; font-weight: 600; margin: 0; font-family: var(--schrift); }
+
+.admin-knopf { min-height: 40px; padding: 0 14px; border: 1px solid var(--linie); border-radius: var(--pille); background: var(--flaeche-2); color: var(--tinte); font: 500 14px/1 var(--schrift); cursor: pointer; transition: background-color var(--farbe) linear, transform var(--feder-ruhig-dauer) var(--feder-ruhig); }
+.admin-knopf:active { transform: scale(.97); transition-duration: var(--druck); transition-timing-function: var(--aus); }
+.admin-knopf--entfernen { background: transparent; color: #7a2525; border-color: #e7c2c2; }
+.admin-knopf--neu { justify-self: start; }
+
+/* Teamfoto */
+.admin-foto { display: flex; align-items: center; gap: 12px; }
+.admin-foto img { width: 64px; height: 64px; object-fit: cover; border-radius: 10px; border: 1px solid var(--linie); background: var(--flaeche); }
+
+/* Hinweis-Vorschau nutzt die .hinweis-Klassen aus klar.css */
+.admin-vorschau { border: 1px dashed var(--linie); border-radius: var(--rund); padding: 10px; background: var(--flaeche); }
+.admin-vorschau__marke { display: block; font-size: 12px; color: var(--leise); margin-bottom: 6px; }
+
+/* Toast (BAUPLAN 4.7): 200 ms ein, 2.4 s, 160 ms aus. aria-live polite. */
+.admin-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 50; max-width: calc(100vw - 32px); padding: 12px 18px; border-radius: var(--pille); background: var(--tinte); color: #fff; font-size: 14px; box-shadow: var(--schatten); }
+.admin-toast[hidden] { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .admin-toast { animation: admin-toast-ein 200ms var(--aus) both; }
+  .admin-toast.ist-aus { animation: admin-toast-aus 160ms var(--hinaus) both; }
+}
+@keyframes admin-toast-ein { from { opacity: 0; transform: translate(-50%, 10px); } }
+@keyframes admin-toast-aus { to { opacity: 0; transform: translate(-50%, 10px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-reiter__knopf, .admin-knopf, .admin-knopf:active, .admin-reiter__knopf:active { transform: none; transition: none; }
+}
+@media (max-width: 560px) { .admin-zeile { grid-template-columns: 1fr; } }

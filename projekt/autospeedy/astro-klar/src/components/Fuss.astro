@@ -1,11 +1,100 @@
 ---
-import { betrieb as b } from "../../../astro/bau/daten.mjs";
+// Fuss = der eine letzte Block (Korrektur Footer). Vorher lagen Abschluss.astro (grosser Anruf-CTA + Fakten) UND
+// eine schmale Fusszeile hintereinander. Weil Abschluss bereits der grosse Aufruf war, sind beide hier zu EINEM
+// Block verbunden (ein letzter Aufruf, nicht zwei): letzter Aufruf, Live-Status, ganze Woche, Adresse, Slogan,
+// Rechtszeile. Daten nur aus den Betriebsdaten (betrieb.json / site.json), nichts erfunden.
+import { betrieb as b, texte as t, bau } from "../../../astro/bau/daten.mjs";
+const { ort = "fuss" } = Astro.props;
+// A5: Auf /schaden-melden/ steht im Fuss nur «Anrufen», kein zweiter «Schaden melden»-Knopf, der auf die Seite selbst zeigt.
+const aufSchaden = ort === "schaden-melden";
+
+const w = t.mikrotexte.zeiten;
+const zeile = (z: any) => z.zu ? w.geschlossen : z.fenster.map(([von, bis]: string[]) => w.fenster.replace("{von}", von).replace("{bis}", bis)).join(w.trenner);
+
+// Wochentage als Zahl (0 = Sonntag), damit das Skript die heutige Zeile markieren kann (ohne Skript: nichts markiert).
+const tagNr: Record<string, number> = { Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6 };
+const datumF = new Intl.DateTimeFormat(bau.sprache, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+const heute = new Date().toISOString().slice(0, 10);
+const ausnahmen = (b.ausnahmen || []).filter((a: any) => a.datum >= heute);
+
+// Daten fuer das Skript in klar.js, als data-fuss am <footer> (kein Skript-Tag): Zeiten aus betrieb.json,
+// Wortlaut aus texte.json — eine Quelle. Ohne Skript ungenutzt; die Wochen-Tabelle steht unabhaengig im HTML.
+const min = (z: string) => { const [h, m] = z.split("."); return parseInt(h) * 60 + parseInt(m); };
+const zeitenMin: Record<number, number[][]> = {};
+for (const z of b.zeiten) if (z.fenster) for (const tag of z.ld) zeitenMin[tagNr[tag]] = z.fenster.map(([v, e]: string[]) => [min(v), min(e)]);
+const ausnahmenMin: Record<string, number[][]> = {};
+for (const a of b.ausnahmen || []) ausnahmenMin[a.datum] = a.zu ? [] : a.fenster.map(([v, e]: string[]) => [min(v), min(e)]);
+const statusDaten = { zeiten: zeitenMin, ausnahmen: ausnahmenMin, status: t.mikrotexte.status };
+
+const jahr = new Date().getFullYear();
+const adresse = `${b.strasse}, ${b.plz} ${b.ort}`;
+// WhatsApp nur, wenn Nutzung UND Nummer bestaetigt sind. Heute ist nummer_bestaetigt=false -> bewusst nichts zeigen (Luecke).
+const whatsapp = b.whatsapp && b.whatsapp.nutzung_bestaetigt && b.whatsapp.nummer_bestaetigt ? b.whatsapp : null;
 ---
-<footer class="fuss">
-  <div class="fuss__innen">
-    <span>{b.name} · {b.strasse}, {b.plz} {b.ort}</span>
-    <nav aria-label="Fuss">
-      <a href="/kontakt/">Kontakt</a><a href="/bewerten/">Bewerten</a><a href="/impressum/">Impressum</a><a href="/datenschutz/">Datenschutz</a>
-    </nav>
+<footer class="fuss" data-fuss={JSON.stringify(statusDaten)}>
+  <div class="fuss__blatt">
+
+    <!-- 1. Letzter Aufruf: Anrufen gefuellt (Haupt), Schaden melden als Kontur (sekundaer). -->
+    <div class="fuss-aufruf">
+      <p class="fuss-aufruf__ruf">Schaden? Rufen Sie an.</p>
+      <div class="ctas">
+        <a class="knopf knopf--akzent knopf--gross" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort={ort}>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a12 12 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6A2.1 2.1 0 0 1 18.4 19.5 15 15 0 0 1 4.5 5.6 2.1 2.1 0 0 1 6.6 3.5Z"/></svg><span>Anrufen <span class="nr">{b.tel.anzeige}</span></span></a>
+        {!aufSchaden && <a class="knopf knopf--kontur" href="/schaden-melden/" data-zaehl="anfrage" data-ort={ort}>Schaden melden</a>}
+      </div>
+    </div>
+
+    <div class="fuss-raster">
+      <!-- 2. + 6. Live-Status und die ganze Woche. Ohne Skript bleibt der neutrale Satz stehen; die Tabelle ist vollstaendig. -->
+      <section class="fuss-zeiten" aria-label="Öffnungszeiten">
+        <p class="fuss-status" data-status>{t.mikrotexte.status.ohneSkript}</p>
+        <table class="fuss-woche">
+          <tbody>
+            {b.zeiten.map((z: any) => (
+              <tr data-ld={(z.ld || []).map((tag: string) => tagNr[tag]).join(",")}>
+                <th scope="row">{z.tage}</th><td>{zeile(z)}</td>
+              </tr>
+            ))}
+            {ausnahmen.map((a: any) => (
+              <tr class="fuss-woche__aus">
+                <th scope="row">{a.name}, <time datetime={a.datum}>{datumF.format(new Date(a.datum + "T00:00:00Z"))}</time></th><td>{zeile(a)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 3. + 7. + 8. Adresse, Route, Kopieren, (WhatsApp nur mit Daten), Flotten-Zeile. -->
+      <section class="fuss-ort" aria-label="Kontakt">
+        <p class="fuss-ort__adr">{b.strasse}<br>{b.plz} {b.ort} {b.kanton}</p>
+        <p class="fuss-ort__akt">
+          <a href={b.route} target="_blank" rel="noopener">{t.mikrotexte.route} <span aria-hidden="true">↗</span></a>
+          <button type="button" class="fuss-kopf" hidden data-kopieren={adresse} data-kopiert="Adresse kopiert">Adresse kopieren</button>
+        </p>
+        <p class="fuss-ort__tel">
+          <a class="nr" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort={ort}>{b.tel.anzeige}</a>
+          <button type="button" class="fuss-kopf" hidden data-kopieren={b.tel.anzeige} data-kopiert="Telefon kopiert">Kopieren</button>
+        </p>
+        {whatsapp && (
+          <p class="fuss-ort__wa"><a href={`https://wa.me/${whatsapp.nummer}`} target="_blank" rel="noopener">WhatsApp schreiben <span aria-hidden="true">↗</span></a></p>
+        )}
+        <p class="fuss-ort__flotte">Für Flotten und Versicherungen: <a href="/flotten/">Firmenkunden</a></p>
+        <span class="fuss-meldung" data-kopiert-ziel role="status" aria-live="polite"></span>
+      </section>
+    </div>
+
+    <!-- 4. Slogan: sehr gross, blass (Kontrast fuer grossen Text >= 3:1), unten leicht angeschnitten. Echter Text (nicht aria-hidden). -->
+    <p class="fuss-slogan">Qualität, die man sieht und fährt.</p>
+
+    <!-- 5. Rechtszeile. «Nach oben» springt ohne Skript (href=#top), mit Skript ruhig (ausser bei reduzierter Bewegung). -->
+    <div class="fuss__innen">
+      <span class="fuss__c">© {jahr} {b.name}</span>
+      <nav class="fuss__recht" aria-label="Fuss">
+        <a href="/impressum/">Impressum</a>
+        <a href="/datenschutz/">Datenschutz</a>
+        <a href="/bildnachweise/">Bildnachweise</a>
+        <a class="fuss__oben" href="#top" data-nach-oben>Nach oben <span aria-hidden="true">↑</span></a>
+      </nav>
+    </div>
   </div>
 </footer>

@@ -1,0 +1,23 @@
+---
+// Bildnachweise: Credits der Stockfotos, die als Platzhalter wirklich verwendet werden (referenz-c/CREDITS.md).
+// Nur die beiden Platzhalter mit fremder Quelle (B1, B7); eigene Fotos vom Shooting brauchen keinen Nachweis.
+import Klar from "../layouts/Klar.astro";
+const nachweise = [
+  { nr: "B1", motiv: "Hero-Bild «Hand mit Poliermaschine»", quelle: "Pexels", url: "https://www.pexels.com/photo/hands-holding-device-near-vehicle-livery-14615261/", fotograf: "Dextar Studio", lizenz: "Pexels-Lizenz (frei, keine Namensnennung nötig)" },
+  { nr: "B7", motiv: "Tesla-Detail", quelle: "Unsplash", url: "https://unsplash.com/photos/a-close-up-of-a-cars-headlight-wbZ-k80yOqI", fotograf: "Philipp Mandler", lizenz: "Unsplash-Lizenz (frei, keine Namensnennung nötig)" },
+];
+---
+<Klar seite="bildnachweise">
+<section class="abschnitt textseite"><div class="abschnitt__innen schmal">
+<h1>Bildnachweise</h1>
+<p>Bis zum eigenen Fotoshooting stehen auf der Website lizenzfreie Platzhalter. Hier stehen die Nachweise dafür. Eigene Aufnahmen brauchen keinen Nachweis.</p>
+<dl class="nachweise">
+  {nachweise.map((n) => (
+    <div>
+      <dt>{n.nr} · {n.motiv}</dt>
+      <dd>{n.quelle}, {n.fotograf}. {n.lizenz}.<br><a href={n.url} rel="nofollow noopener">{n.quelle}-Seite des Bildes</a></dd>
+    </div>
+  ))}
+</dl>
+</div></section>
+</Klar>

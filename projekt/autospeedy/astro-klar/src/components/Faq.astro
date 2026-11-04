@@ -1,0 +1,20 @@
+---
+// Fragen und Antworten (AEO, Nachtrag 04.11.2026). Sichtbarer Text auf der Seite; dieselben Fragen gehen als
+// FAQPage-JSON-LD über die Layout-Prop `faq`. Nur belegte Aussagen aus den Betriebsdaten und fakten.md
+// (Versicherung, Ersatzwagen auf Anfrage, Tesla, Marken, Standort). Keine Dauer-Angaben (nicht belegt).
+// <details> ohne JavaScript bedienbar; die erste Frage ist offen.
+const { fragen, titel = "Häufige Fragen" } = Astro.props;
+---
+<section class="faq abschnitt" aria-labelledby="faq-titel">
+  <div class="abschnitt__innen schmal">
+    <h2 id="faq-titel" class="titel">{titel}</h2>
+    <div class="faq__liste">
+      {fragen.map((f: any, i: number) => (
+        <details class="faq__item" open={i === 0 ? true : undefined}>
+          <summary><h3>{f.frage}</h3><span class="faq__zeichen" aria-hidden="true"></span></summary>
+          <p>{f.antwort}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

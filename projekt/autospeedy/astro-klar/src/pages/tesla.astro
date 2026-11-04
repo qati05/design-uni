@@ -1,34 +1,64 @@
 ---
 import Klar from "../layouts/Klar.astro";
-import Abschluss from "../components/Abschluss.astro";
 import Luecke from "../components/Luecke.astro";
+import Faq from "../components/Faq.astro";
+import { faqTesla } from "../daten/faq";
+// Tesla-Seite (Nachtrag 04.11., C14/C15): kein Raster, kein Glow, keine Pill mit Punkt. Marke als ruhiger Eyebrow,
+// gerahmtes Foto wie auf der Startseite (AVIF + WebP), Liste ohne Pseudo-Navigation, Schritte auf einer Linie,
+// kurze Tesla-FAQ aus Fakten, am Ende CTA «Tesla-Schaden melden» (→ /schaden-melden/?fahrzeug=tesla, vom Formular unterstützt).
+// Nur belegte Aussagen (Tesla Approved Body Shop, Original-Ersatzteile, Ersatzwagen Tesla auf Anfrage).
+// Foto B7 als AVIF/WebP 640/1280/1920 aus public/bilder/stock/. Platzhalter von Unsplash (Philipp Mandler), Credit unter /bildnachweise/.
+const band = "/bilder/stock/b7-tesla";
+const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Tesla", pfad: "/tesla/" }];
 ---
-<Klar seite="tesla">
+<Klar seite="tesla" brotkrumen={brotkrumen} faq={faqTesla}>
 <section class="tesla tesla--seite" aria-labelledby="t-titel">
   <div class="tesla__innen">
-    <div>
-      <span class="tesla__marke">Tesla Approved Body Shop</span>
-      <h1 id="t-titel">Ihr Tesla. In zugelassenen Händen.</h1>
+    <div class="tesla__kopf">
+      <p class="kicker">Tesla Approved Body Shop</p>
+      <h1 id="t-titel">Ihr Tesla. <em>In zugelassenen Händen.</em></h1>
       <p>Auto Speedy ist von Tesla als Karosseriewerkstatt zugelassen. Melden Sie den Schaden an Ihrem Tesla direkt hier; das Formular wählt «Tesla» schon aus, das Modell tippen Sie an.</p>
+      <ul class="tesla__liste">
+        <li>Unfall- und Blechschäden</li>
+        <li>Lackschäden und Neulackierung</li>
+        <li>Hagelschäden und Dellen</li>
+        <li>Abwicklung mit Ihrer Versicherung</li>
+      </ul>
       <div class="knoepfe"><a class="k k--blau" href="/schaden-melden/?fahrzeug=tesla" data-zaehl="anfrage-tesla" data-ort="tesla">Tesla-Schaden melden</a></div>
     </div>
-    <ul class="tesla__liste">
-      <li>Unfall- und Blechschäden <span>01</span></li>
-      <li>Lackschäden und Neulackierung <span>02</span></li>
-      <li>Hagelschäden und Dellen <span>03</span></li>
-      <li>Abwicklung mit Ihrer Versicherung <span>04</span></li>
-    </ul>
+    <figure class="tesla__foto foto-ein">
+      <span class="tesla__rahmen">
+        <picture>
+          <source type="image/avif" srcset={`${band}-640.avif 640w, ${band}-1280.avif 1280w, ${band}-1920.avif 1920w`} sizes="(max-width: 960px) 100vw, 44vw" />
+          <source type="image/webp" srcset={`${band}-640.webp 640w, ${band}-1280.webp 1280w, ${band}-1920.webp 1920w`} sizes="(max-width: 960px) 100vw, 44vw" />
+          <img src={`${band}-1280.webp`} width="1280" height="549" loading="lazy" decoding="async" alt="Scheinwerfer eines schwarzen Tesla Model S">
+        </picture>
+      </span>
+      <figcaption>Platzhalter von Unsplash (Philipp Mandler), wird durch ein eigenes Foto ersetzt.</figcaption>
+    </figure>
   </div>
 </section>
 <section class="abschnitt">
   <div class="abschnitt__innen schmal">
+    <h2>So läuft es</h2>
+    <ol class="tesla-schritte">
+      <li><b>Melden</b><span>Online mit Fotos oder per Telefon.</span></li>
+      <li><b>Begutachten</b><span>Prüfung am Fahrzeug, Original-Teile bestellen, Versicherung klären.</span></li>
+      <li><b>Reparieren</b><span>Instandsetzung nach Tesla-Vorgaben, Übergabe mit Erklärung.</span></li>
+    </ol>
+    <Luecke>Entwurf: Den genauen Ablauf für Tesla bestätigt der Betrieb noch.</Luecke>
     <h2>Modelle</h2>
-    <p class="text-gross">Im Formular wählen Sie Model 3, Model Y, Model S oder Model X. So wissen wir vor dem Rückruf, welches Auto kommt.</p>
+    <p class="text-gross">Im Formular wählen Sie Model 3, Model Y, Model S oder Model X. So wissen wir gleich, welches Auto kommt.</p>
     <div class="modelle" aria-hidden="true">{["Model 3", "Model Y", "Model S", "Model X"].map((m) => <span>{m}</span>)}</div>
-    <Luecke>Lücke: Ob für Tesla weitere Leistungen gelten (zum Beispiel Kalibrierung, Ersatzwagen oder ein eigener Ablauf mit Tesla), sagt der Betrieb noch. Die Liste oben nennt die allgemeinen Leistungen der Carrosserie.</Luecke>
+    <Luecke>Lücke: Ob für Tesla weitere Leistungen gelten (zum Beispiel Kalibrierung oder ein eigener Ablauf mit Tesla), sagt der Betrieb noch. Die Liste oben nennt die allgemeinen Leistungen der Carrosserie.</Luecke>
     <h2>Gut zu wissen</h2>
-    <p>«Tesla Approved Body Shop» steht auf der bisherigen Website des Betriebs bei seinen zertifizierten Partnern. In Teslas eigener Werkstattsuche hat das Studio den Eintrag nicht nachgeprüft.</p>
+    <p>«Tesla Approved Body Shop» steht auf der bisherigen Website des Betriebs bei seinen zertifizierten Partnern. Ersatzwagen: Tesla auf Anfrage.</p>
+    <Luecke>Offene Frage: Den Eintrag in Teslas eigener Werkstattsuche bestätigt der Betrieb noch.</Luecke>
   </div>
 </section>
-<Abschluss ort="tesla" />
+<Faq fragen={faqTesla} titel="Fragen zum Tesla" />
+<section class="abschluss">
+  <h2>Ihren Tesla-Schaden melden?</h2>
+  <div class="knoepfe"><a class="k k--blau" href="/schaden-melden/?fahrzeug=tesla" data-zaehl="anfrage-tesla" data-ort="tesla-ende">Tesla-Schaden melden</a></div>
+</section>
 </Klar>

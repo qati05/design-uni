@@ -1,19 +1,20 @@
 ---
-// Kopf der Linie «Klar»: Logo links, wenige Wege in der Mitte (Tesla mit Punkt), rechts Telefon und Schaden melden.
-// Am Handy: Logo und «Menü», das Menü kommt als Blatt von rechts (dialog, ohne JS über das Formular-Fallback lesbar).
+// Kopf nach Entwurf C: Logo als Bild, Nav (Leistungen / Tesla / Team / Kontakt), Telefon mit Ziffern in Archivo,
+// kleiner Knopf «Schaden melden». Am Handy: Logo, Telefon-Symbol, Menü (Dialog wie bisher, kommt von rechts).
+// Kein Inline-JS; das Verhalten (Scrollen, Menü) liegt in klar.js (CSP: script-src 'self').
 import { betrieb as b } from "../../../astro/bau/daten.mjs";
 const { aktiv = "/" } = Astro.props;
-const wege = [["/leistungen/", "Leistungen"], ["/tesla/", "Tesla"], ["/occasionen/", "Occasionen"], ["/team/", "Team"], ["/kontakt/", "Kontakt"]];
+const wege = [["/leistungen/", "Leistungen"], ["/tesla/", "Tesla"], ["/team/", "Team"], ["/kontakt/", "Kontakt"]];
 ---
 <header class="kopf" data-kopf>
   <a class="kopf__marke" href="/" aria-label={`${b.name}, Startseite`}><img src="/bilder/logo-96.webp" srcset="/bilder/logo-48.webp 1x, /bilder/logo-96.webp 2x, /bilder/logo-144.webp 3x" width="90" height="32" alt={b.name}></a>
   <nav class="kopf__nav" aria-label="Hauptnavigation">
-    {wege.map(([href, name]) => <a href={href} class={href === "/tesla/" ? "ist-tesla" : undefined} aria-current={aktiv.startsWith(href) ? "page" : undefined}>{name}</a>)}
+    {wege.map(([href, name]) => <a href={href} aria-current={aktiv.startsWith(href) ? "page" : undefined}>{name}</a>)}
   </nav>
   <div class="kopf__rechts">
-    <a class="tel" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="kopf" aria-label={`Anrufen: ${b.tel.anzeige}`}><svg class="tel__symbol" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span class="tel__nummer">{b.tel.anzeige}</span></a>
-    <a class="k k--dunkel k--klein kopf__aktion" href="/schaden-melden/" data-zaehl="anfrage" data-ort="kopf">Schaden melden</a>
-    <button class="kopf__menu" type="button" data-menu-auf aria-haspopup="dialog">Menü</button>
+    <a class="tel kopf-tel" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="kopf" aria-label={`Anrufen: ${b.tel.anzeige}`}><svg class="tel__symbol" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a12 12 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6A2.1 2.1 0 0 1 18.4 19.5 15 15 0 0 1 4.5 5.6 2.1 2.1 0 0 1 6.6 3.5Z"/></svg><span class="tel__nummer">{b.tel.anzeige}</span></a>
+    <a class="knopf knopf--akzent knopf--klein kopf__aktion" href="/schaden-melden/" data-zaehl="anfrage" data-ort="kopf">Schaden melden</a>
+    <button class="kopf__menu" type="button" data-menu-auf aria-haspopup="dialog" aria-expanded="false" aria-label="Menü öffnen"><span class="kopf__menu-icon" aria-hidden="true"><span></span><span></span><span></span></span></button>
   </div>
 </header>
 <dialog class="blatt" data-menu aria-label="Menü">

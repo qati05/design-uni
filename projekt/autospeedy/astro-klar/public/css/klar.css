@@ -1,28 +1,76 @@
-/* Linie «Klar»: ruhig, hell, grosse Fotos, wenig Text, eine Akzentfarbe aus dem Logo.
-   Lehnt sich an die Haltung von Tesla und BoardUI an (Weissraum, präzise kleine Schrift, Bild trägt), ohne deren Schriften,
-   Farben oder Bauteile zu übernehmen. Schrift: Hanken Grotesk (OFL), selbst ausgeliefert. */
-@font-face { font-family: "Hanken Grotesk"; font-weight: 400; font-display: swap; src: url("/fonts/hanken-grotesk-latin-400-normal.woff2") format("woff2"); }
-@font-face { font-family: "Hanken Grotesk"; font-weight: 500; font-display: swap; src: url("/fonts/hanken-grotesk-latin-500-normal.woff2") format("woff2"); }
-@font-face { font-family: "Hanken Grotesk"; font-weight: 600; font-display: swap; src: url("/fonts/hanken-grotesk-latin-600-normal.woff2") format("woff2"); }
+/* Linie «Klar», Entwurf C «Werkbank x Messblatt».
+   Ruhig, hell, grosse Fotos, wenig Text, eine Akzentfarbe aus dem Logo.
+   Aufbau in Kaskadenschichten: basis (Tokens, Grundelemente), bausteine (wiederkehrende Bauteile),
+   abschnitte (Seitenbereiche), bewegung (Erscheinen, Keyframes, «Bewegung reduzieren»).
+   Schriften selbst ausgeliefert (OFL), als Untermengen subsettet. */
+@layer basis, bausteine, abschnitte, bewegung;
+
+/* ===================================================================== basis ===================================================================== */
+@layer basis {
+
+/* Titel: Source Serif 4 (opsz). Fliesstext: Hanken Grotesk 400/500/600. Zahlen und Fakten: Archivo (tabular-nums). */
+@font-face { font-family: "Source Serif 4"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/source-serif-4-latin-opsz-normal.woff2") format("woff2"); }
+@font-face { font-family: "Source Serif 4"; font-style: italic; font-weight: 400; font-display: swap; src: url("/fonts/source-serif-4-latin-opsz-italic.woff2") format("woff2"); }
+@font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/hanken-grotesk-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/hanken-grotesk-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/hanken-grotesk-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Archivo"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/archivo-latin-wdth-normal.woff2") format("woff2"); }
 
 :root {
-  --weiss: #ffffff;
-  --flaeche: #f4f5f7;
-  --flaeche-2: #eceef1;
-  --tinte: #16191d;
-  --grau: #5d6066;
-  --linie: #e1e4e8;
-  --blau: #1566b8;          /* aus dem Logo von Auto Speedy */
+  /* Farb-Tokens, Entwurf C (BAUPLAN 2, woertlich) */
+  --grund: #f4f4f2;
+  --papier: #fff;
+  --tinte: #1d1e20;
+  --leise: #5b5f66;
+  --linie: #dcd9d3;
+  --akzent: #1566b8;        /* Logo-Blau; Text auf Akzent #fff (5.2:1, AA) */
+
+  /* Alte Namen der bestehenden Unterseiten auf die neuen Tokens umgestellt */
+  --weiss: var(--papier);
+  --grau: var(--leise);
+  --blau: var(--akzent);
+
+  /* Weitere Werte der bestehenden Unterseiten (nicht in BAUPLAN 2, bleiben erhalten) */
+  --flaeche: #f2efea;
+  --flaeche-2: #e8e4dd;
   --blau-tief: #0f4f94;
-  --glas: rgba(244, 245, 247, .72);
+  --nacht: #101215;
+  --glas: rgba(244, 244, 242, .72);
   --schrift: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --rand: clamp(20px, 4vw, 48px);
+  --titel: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --rand: clamp(20px, 4vw, 56px);
   --breit: 1240px;
-  --rund: 6px;
-  --rund-gross: 14px;
-  --schatten: 0 1px 2px rgba(22, 25, 29, .06), 0 8px 24px rgba(22, 25, 29, .06);
-  --kopf: 60px;
+  --rund: 10px;
+  --pille: 999px;           /* Knoepfe als Pille */
+  --rund-feld: 10px;
+  --rund-gross: 20px;
+  --schatten: 0 1px 2px rgba(21, 24, 28, .05), 0 10px 30px rgba(21, 24, 28, .07);
+  --sanft: cubic-bezier(.22, .8, .24, 1);
+  --kopf: 64px;
   color-scheme: light;
+
+  /* Bewegungs-Tokens (BAUPLAN 3.1, woertlich). Federn mit feder.mjs erzeugt, einmalig eingetragen. */
+  /* Feder «knopf»: steif 420, daempf 26, 420 ms, 8 % Ueberschwingen. Nur fuer das Loslassen von Knoepfen. */
+  --feder-knopf: linear(0, 0.041, 0.144, 0.28, 0.427, 0.572, 0.703, 0.815, 0.905, 0.973, 1.022, 1.053, 1.07, 1.076, 1.074, 1.067, 1.057, 1.046, 1.035, 1.025, 1.016, 1.009, 1.003, 0.999, 0.996, 0.995, 0.994, 0.994, 1);
+  --feder-knopf-dauer: 420ms;
+  /* Feder «ruhig»: steif 260, daempf 30, 480 ms, 0 % Ueberschwingen (ueberkritisch). Karten, Leiste, Pfeile. */
+  --feder-ruhig: linear(0, 0.043, 0.14, 0.26, 0.384, 0.499, 0.601, 0.688, 0.76, 0.818, 0.864, 0.9, 0.927, 0.948, 0.963, 0.975, 0.983, 0.989, 0.993, 0.995, 0.997, 0.999, 0.999, 1, 1);
+  --feder-ruhig-dauer: 480ms;
+  /* Feder «weich»: steif 170, daempf 26, 700 ms, 0 %. Einstiege, Fotos, Tesla-Linie. */
+  --feder-weich: linear(0, 0.043, 0.139, 0.256, 0.375, 0.485, 0.583, 0.666, 0.735, 0.792, 0.838, 0.874, 0.903, 0.925, 0.943, 0.957, 0.967, 0.975, 0.981, 0.986, 0.989, 0.992, 0.994, 0.996, 0.997, 0.998, 0.998, 0.999, 1);
+  --feder-weich-dauer: 700ms;
+  /* Feder «regler»: steif 400, daempf 40, 340 ms, kritisch gedaempft. Slider-Sprung per Tastatur oder Tippen. */
+  --feder-regler: linear(0, 0.046, 0.149, 0.272, 0.394, 0.507, 0.605, 0.687, 0.755, 0.81, 0.853, 0.887, 0.914, 0.935, 0.951, 0.963, 0.972, 0.979, 0.984, 0.988, 1);
+  --feder-regler-dauer: 340ms;
+  --aus: cubic-bezier(0.05, 0.7, 0.1, 1);   /* hinein, kurze Wege */
+  --hinaus: cubic-bezier(0.4, 0, 1, 1);     /* hinaus, schneller als hinein */
+  --druck: 90ms;                             /* Knopf druecken */
+  --farbe: 160ms;                            /* Farb- und Randwechsel */
+}
+
+/* Fallback fuer Browser ohne linear(): alle Federn auf die Standardkurve */
+@supports not (transition-timing-function: linear(0, 1)) {
+  :root { --feder-knopf: var(--aus); --feder-ruhig: var(--aus); --feder-weich: var(--aus); --feder-regler: var(--aus); }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -33,59 +81,443 @@ a { color: inherit; }
 h1, h2, h3 { font-weight: 500; letter-spacing: -.015em; line-height: 1.1; margin: 0; text-wrap: balance; }
 p { margin: 0; text-wrap: pretty; }
 :focus-visible { outline: 2px solid var(--blau); outline-offset: 3px; border-radius: 2px; }
+/* Kein Fokusring beim Mausklick (BAUPLAN 3.12) */
+:focus:not(:focus-visible) { outline: none; }
+/* Auf Akzentflaechen und Fotos zusaetzlich ein weisser Innenring, damit der Kontrast ueberall >= 3:1 ist (BAUPLAN 3.12). Sofort, ohne Transition. */
+.knopf--akzent:focus-visible, .foto:focus-visible { box-shadow: 0 0 0 2px #fff; }
 .sprung { position: absolute; left: -9999px; top: 8px; z-index: 100; padding: 10px 14px; background: var(--tinte); color: #fff; border-radius: var(--rund); }
 .sprung:focus { left: 8px; }
 [hidden] { display: none !important; }
+main p, main li { max-width: 62ch; }
+
+/* Warmes Papierweiss als Grund, Titel in der Serifenschrift, ein Wort kursiv */
+body { background: var(--grund); }
+h1, h2, .schritt legend, .karte__titel { font-family: var(--titel); font-weight: 400; letter-spacing: -.012em; line-height: 1.02; }
+h1 em, h2 em { font-style: italic; }
+h3 { font-weight: 600; letter-spacing: -.01em; }
+
+/* Archivo mit tabular-nums nur fuer Zahlen und Fakten (BAUPLAN 2) */
+.zahl, .nr, .ziffer, .leiste-fakten dd, .spec dd, .fakten dd, .kopf-tel span { font-family: "Archivo", var(--schrift); font-variant-numeric: tabular-nums; }
+
+}
+
+/* ===================================================================== bausteine ===================================================================== */
+@layer bausteine {
 
 /* Vorschau-Hinweis */
 [data-vorschau] { position: fixed; left: 12px; bottom: 12px; z-index: 40; margin: 0; max-width: calc(100vw - 24px); padding: 7px 12px; border-radius: 999px; background: rgba(22, 25, 29, .82); color: #fff; font-size: 12px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 
-/* ---------- Knöpfe ---------- */
-.k { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; min-width: 200px; padding: 0 22px; border-radius: var(--rund); border: 0; font: 500 15px/1 var(--schrift); text-decoration: none; cursor: pointer; transition: background-color .2s, color .2s, box-shadow .2s; }
+/* ---------- Knoepfe ---------- */
+.k { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; min-width: 200px; padding: 0 22px; border-radius: var(--rund); border: 0; font: 500 15px/1 var(--schrift); text-decoration: none; cursor: pointer; transition: background-color .18s ease-out, color .18s ease-out, transform .18s ease-out; }
 .k--blau { background: var(--blau); color: #fff; }
-.k--blau:hover { background: var(--blau-tief); }
 .k--glas { background: var(--glas); color: var(--tinte); backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%); }
-.k--glas:hover { background: rgba(255, 255, 255, .92); }
 .k--hell { background: var(--flaeche); color: var(--tinte); }
-.k--hell:hover { background: var(--flaeche-2); }
 .k--dunkel { background: var(--tinte); color: #fff; }
-.k--dunkel:hover { background: #2b3036; }
 .k--rand { background: transparent; color: var(--tinte); box-shadow: inset 0 0 0 1.5px var(--tinte); }
-.k--rand:hover { background: var(--tinte); color: #fff; }
+@media (hover: hover) {
+  .k--blau:hover { background: var(--blau-tief); }
+  .k--glas:hover { background: rgba(255, 255, 255, .92); }
+  .k--hell:hover { background: var(--flaeche-2); }
+  .k--dunkel:hover { background: #2b3036; }
+  .k--rand:hover { background: var(--tinte); color: #fff; }
+}
 .knoepfe { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 16px; }
+.k--klein { min-height: 44px; min-width: 0; padding: 0 14px; font-size: 14px; }
+@media (max-width: 960px) { .kopf__rechts .k--klein { display: none; } }
+
+/* ---------- Knopf-System (Entwurf C, BAUPLAN 3.2) ---------- */
+/* Neues System .knopf / .knopf--akzent / .knopf--kontur. Die alten Klassen .k, .k--blau, .k--hell, .k--gross
+   bleiben oben als Aliase erhalten, damit die Unterseiten nicht brechen. Bewegung in @layer bewegung. */
+.knopf { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; border: 0; border-radius: var(--pille); font: 500 15px/1 var(--schrift); text-decoration: none; cursor: pointer; color: var(--tinte); background: var(--papier); box-shadow: inset 0 0 0 1px var(--linie); }
+.knopf svg { flex: none; }
+.knopf--akzent { background: var(--akzent); color: #fff; box-shadow: none; }
+@media (hover: hover) { .knopf--akzent:hover { background: var(--blau-tief); } }
+/* «Anrufen»: gefuellter, ruhiger Zweitknopf (Entscheid Reshat 03.11.). Nicht transparent, nicht als Ghost/Kontur.
+   Papier-Flaeche mit klarem Kontrast (Tinte auf --flaeche-2 ~13:1, AA); «Schaden melden» bleibt der staerkste Knopf. */
+.knopf--kontur { background: var(--flaeche-2); color: var(--tinte); box-shadow: none; }
+@media (hover: hover) { .knopf--kontur:hover { background: #ddd8ce; } }
+.knopf--klein { min-height: 44px; padding: 0 16px; font-size: 14px; }
+.knopf--gross { min-height: 64px; }
 
 /* ---------- Kopf ---------- */
-.kopf { position: fixed; inset: 0 0 auto; z-index: 30; height: var(--kopf); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 var(--rand); transition: background-color .25s, box-shadow .25s; }
-.kopf.ist-unten { background: rgba(255, 255, 255, .9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--linie); }
+.kopf { position: fixed; inset: 0 0 auto; z-index: 30; height: var(--kopf); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 var(--rand); transition: height .26s var(--aus); }
+/* Ab ca. 80 px Scroll (klar.js setzt .ist-unten): schmaler und milchig. Hintergrund und Blur sind ein Zustand,
+   nur die Hoehe laeuft ueber die Transition (Bewegung 20: kein Blur/Schatten animieren; kein Layoutsprung, da fix). */
+.kopf.ist-unten { height: 52px; background: rgba(255, 255, 255, .98); box-shadow: 0 1px 0 var(--linie); }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .kopf.ist-unten { background: rgba(255, 255, 255, .82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+}
 .kopf__marke { justify-self: start; display: flex; align-items: center; min-height: 44px; }
 .kopf__marke img { height: 32px; width: auto; }
 .kopf__nav { display: flex; gap: 2px; }
-.kopf__nav a, .kopf__rechts a:not(.k), .kopf__menu { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: var(--rund); font-size: 14px; font-weight: 500; text-decoration: none; color: var(--tinte); transition: background-color .2s; }
-.kopf__nav a:hover, .kopf__rechts a:not(.k):hover, .kopf__menu:hover { background: rgba(22, 25, 29, .06); }
+.kopf__nav a, .kopf__rechts a:not(.k):not(.knopf), .kopf__menu { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: var(--rund); font-size: 14px; font-weight: 500; text-decoration: none; color: var(--tinte); transition: background-color .2s; }
+@media (hover: hover) { .kopf__nav a:hover, .kopf__rechts a:not(.k):not(.knopf):hover, .kopf__menu:hover { background: rgba(22, 25, 29, .06); } }
 .kopf__nav a[aria-current="page"] { background: rgba(22, 25, 29, .06); }
 .kopf__nav .ist-tesla { gap: 6px; }
 .kopf__nav .ist-tesla::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--blau); }
 .kopf__rechts { justify-self: end; display: flex; align-items: center; gap: 4px; }
 .kopf__rechts .tel { font-variant-numeric: tabular-nums; }
-.kopf__menu { border: 0; background: transparent; font-family: inherit; cursor: pointer; display: none; }
-.blatt { border: 0; padding: 0; margin: 0 0 0 auto; width: min(360px, 100vw); height: 100dvh; max-height: none; background: var(--weiss); box-shadow: -20px 0 60px rgba(0, 0, 0, .12); }
+/* Handy-Menue: Hamburger-Knopf, Trefferflaeche 44x44, Striche federn beim Oeffnen zu einem X (Korrektur Motion 1) */
+.kopf__menu { border: 0; background: transparent; font-family: inherit; cursor: pointer; display: none; min-width: 44px; justify-content: center; padding: 0; }
+.kopf__menu-icon { position: relative; display: block; width: 22px; height: 16px; }
+.kopf__menu-icon span { position: absolute; left: 0; right: 0; height: 2px; border-radius: 2px; background: currentColor; transition: transform var(--feder-ruhig-dauer) var(--feder-ruhig), opacity .16s linear; }
+.kopf__menu-icon span:nth-child(1) { top: 0; }
+.kopf__menu-icon span:nth-child(2) { top: 7px; }
+.kopf__menu-icon span:nth-child(3) { top: 14px; }
+.kopf__menu[aria-expanded="true"] .kopf__menu-icon span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.kopf__menu[aria-expanded="true"] .kopf__menu-icon span:nth-child(2) { opacity: 0; }
+.kopf__menu[aria-expanded="true"] .kopf__menu-icon span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.blatt { border: 0; padding: 0; margin: 0 0 0 auto; width: min(360px, 100vw); height: 100dvh; max-height: none; background: var(--weiss); box-shadow: -20px 0 60px rgba(0, 0, 0, .12);
+  transform: translateX(0); opacity: 1;
+  /* Schliessen: kuerzer (200 ms, --hinaus). Nur transform und opacity; Schatten/Blur werden nicht uebergeblendet. */
+  transition: transform .2s var(--hinaus), opacity .2s var(--hinaus), overlay .2s allow-discrete, display .2s allow-discrete; }
+/* Oeffnen: ruhiger und etwas laenger (320 ms, --feder-ruhig, <= 450 ms) */
+.blatt[open] { transition: transform .32s var(--feder-ruhig), opacity .32s var(--feder-ruhig), overlay .32s allow-discrete, display .32s allow-discrete; }
 .blatt::backdrop { background: rgba(22, 25, 29, .25); backdrop-filter: blur(2px); }
-.blatt[open] { animation: blattRein .3s cubic-bezier(.2, .7, .2, 1); }
-@keyframes blattRein { from { transform: translateX(40px); opacity: 0; } }
+/* 3.12 Menue-Dialog: nur Weg (transform) und Deckkraft, gleiche Dauer/Kurve wie der fruehere Zeiger blattRein.
+   Schatten/Blur werden nicht animiert. Unter Reduced Motion schaltet die globale transition:none den Weg ab. */
+.blatt:not([open]) { transform: translateX(40px); opacity: 0; }
+@starting-style { .blatt[open] { transform: translateX(40px); opacity: 0; } }
+/* Links erscheinen leicht gestaffelt (30 ms Abstand, 8 px Versatz, Korrektur Motion 1). Nur transform/opacity. */
+@media (prefers-reduced-motion: no-preference) {
+  .blatt__innen > a { transition: transform .26s var(--feder-ruhig), opacity .2s var(--aus); }
+  @starting-style { .blatt[open] .blatt__innen > a { opacity: 0; transform: translateX(8px); } }
+  .blatt[open] .blatt__innen > a:nth-of-type(1) { transition-delay: .03s; }
+  .blatt[open] .blatt__innen > a:nth-of-type(2) { transition-delay: .06s; }
+  .blatt[open] .blatt__innen > a:nth-of-type(3) { transition-delay: .09s; }
+  .blatt[open] .blatt__innen > a:nth-of-type(4) { transition-delay: .12s; }
+  .blatt[open] .blatt__innen > a:nth-of-type(5) { transition-delay: .15s; }
+}
 .blatt__innen { display: grid; gap: 4px; padding: 16px; }
 .blatt__zu { justify-self: end; min-height: 44px; min-width: 44px; border: 0; background: transparent; font: 500 15px var(--schrift); cursor: pointer; border-radius: var(--rund); }
-.blatt__zu:hover { background: var(--flaeche); }
 .blatt a { display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 16px; border-radius: var(--rund); font-size: 17px; font-weight: 500; text-decoration: none; }
-.blatt a:hover { background: var(--flaeche); }
+@media (hover: hover) {
+  .blatt__zu:hover { background: var(--flaeche); }
+  .blatt a:hover { background: var(--flaeche); }
+}
+/* Pfeil rutscht bei Hover 4 px nach rechts (Korrektur Motion 2), nur feiner Zeiger, nur transform */
+.blatt a span { transition: transform var(--feder-knopf-dauer) var(--feder-knopf); }
+@media (hover: hover) and (pointer: fine) { .blatt a:hover span { transform: translateX(4px); } }
 .blatt__fuss { margin-top: 16px; padding: 16px; border-top: 1px solid var(--linie); color: var(--grau); font-size: 14px; display: grid; gap: 4px; }
-
 @media (max-width: 960px) {
   .kopf { grid-template-columns: 1fr auto; }
   .kopf__nav, .kopf__rechts a.tel { display: none; }
   .kopf__menu { display: inline-flex; }
 }
 
-/* ---------- Bühnen (Vollbild-Abschnitte mit Foto) ---------- */
+/* ---------- Knoepfe am Handy ---------- */
+@media (max-width: 560px) {
+  .k { width: 100%; min-width: 0; }
+  [data-vorschau] { font-size: 11px; max-width: 72vw; padding: 6px 10px; border-radius: 10px; }
+}
+
+/* ---------- Karten und Felder (Formulare) ---------- */
+.karte { background: var(--weiss); border-radius: var(--rund-gross); box-shadow: inset 0 0 0 1px var(--linie); padding: clamp(20px, 3vw, 32px); display: grid; gap: 16px; align-content: start; }
+.karte__titel { font-size: 24px; }
+.karte__text { color: var(--grau); }
+.abschnitt--flaeche .karte { box-shadow: none; }
+.feld { display: grid; gap: 6px; }
+.feld label, .feld .feld__label, .chips legend, .schritt legend { font-size: 14px; font-weight: 600; }
+/* Alle Eingabefelder mindestens 16 px, auch am Handy (gegen den iOS-Zoom, Feinschliff 4) */
+.feld input, .feld textarea, .feld select, .melden input, .melden textarea, .melden select { font-size: 16px; }
+.feld input, .feld textarea { width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid #c9cdd3; border-radius: 8px; background: var(--weiss); color: var(--tinte); font: 400 16px/1.4 var(--schrift); transition: border-color .15s ease-out; }
+.feld input:focus, .feld textarea:focus { outline: none; border-color: var(--blau); box-shadow: 0 0 0 3px rgba(21, 102, 184, .18); } /* Fokusring sofort, ohne Transition (3.12) */
+.feld input[aria-invalid="true"], .feld textarea[aria-invalid="true"] { border-color: #b3261e; }
+.feld input[aria-invalid="true"]:focus, .feld textarea[aria-invalid="true"]:focus { box-shadow: 0 0 0 3px rgba(179, 38, 30, .18); }
+.feld-fehler { margin: 2px 0 0; font-size: 13px; font-weight: 500; color: #b3261e; }
+.felder--zwei { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.hilfe { font-size: 13px; color: var(--grau); }
+.rueckmeldung { padding: 12px 14px; border-radius: 8px; background: var(--flaeche); font-size: 15px; }
+.rueckmeldung--fehler { background: #fdecea; color: #8f1d16; box-shadow: inset 0 0 0 1px #f2c3bf; }
+.honig { position: absolute; left: -9999px; }
+.chips { margin: 0; padding: 0; border: 0; display: grid; gap: 10px; }
+.chips__wahl { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips__wahl label { position: relative; display: inline-flex; cursor: pointer; }
+.chips__wahl input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.chips__wahl span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: var(--flaeche); font-size: 15px; font-weight: 500; transition: background-color .15s ease-out, color .15s ease-out, transform .15s ease-out; }
+@media (hover: hover) { .chips__wahl label:hover span { background: var(--flaeche-2); } }
+.chips__wahl label:active span { transform: scale(.97); }
+.chips__wahl input:checked + span { background: var(--tinte); color: #fff; }
+.chips__wahl input:focus-visible + span { outline: 2px solid var(--blau); outline-offset: 2px; }
+.chips__wahl--klein span { min-height: 40px; font-size: 14px; }
+.tesla-modell .chips__wahl input:checked + span { background: var(--blau); }
+.punkt-blau { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--blau); transform: translateY(-1px); }
+.melden { gap: 20px; }
+.fortschritt { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.fortschritt li { display: grid; gap: 8px; font-size: 13px; font-weight: 500; color: var(--grau); }
+.fortschritt li::before { content: ""; height: 4px; border-radius: 2px; background: var(--flaeche-2); transition: background-color .3s; }
+.fortschritt li.ist-jetzt, .fortschritt li.ist-fertig { color: var(--tinte); }
+.fortschritt li.ist-jetzt::before, .fortschritt li.ist-fertig::before { background: var(--blau); }
+.schritt { margin: 0; padding: 0; border: 0; display: grid; gap: 16px; }
+.schritt legend { font-size: 24px; font-weight: 500; letter-spacing: -.01em; margin-bottom: 4px; padding: 0; }
+.pflicht { font-size: 14px; font-weight: 400; color: var(--grau); }
+.arten { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.art { position: relative; display: grid; gap: 2px; padding: 16px; border-radius: 12px; background: var(--flaeche); cursor: pointer; transition: background-color .15s ease-out, transform .15s ease-out; }
+@media (hover: hover) { .art:hover { background: var(--flaeche-2); } }
+.art:active { transform: scale(.97); }
+.art input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.art__name { font-weight: 600; font-size: 16px; }
+.art__hilfe { font-size: 13px; color: var(--grau); }
+.art:has(input:checked) { background: var(--blau); box-shadow: 0 8px 20px rgba(21, 102, 184, .28); }
+.art:has(input:checked) .art__name, .art:has(input:checked) .art__hilfe { color: #fff; }
+.art:has(input:focus-visible) { outline: 2px solid var(--blau); outline-offset: 2px; }
+.stellen summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-size: 15px; font-weight: 500; color: var(--blau); }
+.stellen[open] summary { margin-bottom: 8px; }
+.schritt__fuss { display: flex; gap: 10px; justify-content: space-between; flex-wrap: wrap; }
+.schritt__fuss .k { min-width: 0; flex: 1; }
+.fotos__knopf { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 120px; border-radius: 12px; border: 1.5px dashed #c3c8cf; background: var(--flaeche); font-weight: 500; cursor: pointer; transition: border-color .15s ease-out, background-color .15s ease-out; }
+.fotos__knopf--klein { min-height: 64px; }
+@media (hover: hover) { .fotos__knopf:hover { border-color: var(--blau); background: #eef4fb; } }
+.fotos__plus { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--weiss); box-shadow: inset 0 0 0 1px var(--linie); font-size: 20px; }
+.fotos__eingabe { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.fotos__eingabe:focus-visible + .fotos__liste, .fotos__knopf:has(+ .fotos__eingabe:focus-visible) { outline: 2px solid var(--blau); }
+.fotos__liste { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.fotos__liste:empty { display: none; }
+.fotos__liste li { position: relative; }
+.fotos__liste img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; }
+.fotos__weg { position: absolute; right: 6px; bottom: 6px; min-height: 32px; padding: 0 10px; border: 0; border-radius: 999px; background: rgba(22, 25, 29, .78); color: #fff; font: 500 12px var(--schrift); cursor: pointer; }
+.zusammen { padding: 10px 14px; border-radius: 8px; background: var(--flaeche); font-size: 14px; color: #2d3136; }
+.schalter { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 0; cursor: pointer; font-weight: 500; }
+.schalter input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.schalter__bahn { flex: none; position: relative; width: 44px; height: 26px; border-radius: 13px; background: #c9cdd3; transition: background-color .2s; }
+.schalter__bahn::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .25); transition: transform .2s; }
+.schalter input:checked + .schalter__bahn { background: var(--blau); }
+.schalter input:checked + .schalter__bahn::after { transform: translateX(18px); }
+.schalter input:focus-visible + .schalter__bahn { outline: 2px solid var(--blau); outline-offset: 2px; }
+.schalter small { display: block; font-size: 13px; font-weight: 400; color: var(--grau); }
+.senden { display: grid; gap: 10px; padding-top: 8px; border-top: 1px solid var(--linie); }
+.senden__titel { font-weight: 600; }
+.k--gross { flex-direction: column; gap: 3px; min-height: 64px; width: 100%; }
+.k--gross small { font-size: 12px; font-weight: 400; opacity: .85; }
+.bestaetigung { text-align: left; }
+.bestaetigung__haken { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #e7f4ec; color: #1f7a4d; font-size: 24px; font-weight: 600; }
+.bestaetigung__fotos { display: flex; gap: 8px; }
+.bestaetigung__fotos:empty { display: none; }
+.bestaetigung__fotos img { width: 88px; height: 88px; object-fit: cover; border-radius: 10px; }
+.bestaetigung__liste { margin: 0; display: grid; gap: 0; border-top: 1px solid var(--linie); }
+.bestaetigung__liste div { display: grid; grid-template-columns: 160px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--linie); }
+.bestaetigung__liste dt { color: var(--grau); font-size: 14px; }
+.bestaetigung__liste dd { margin: 0; }
+.bestaetigung__stand { padding: 12px 14px; border-radius: 8px; background: #e7f4ec; color: #17633e; font-size: 15px; }
+.bestaetigung__liste dd { overflow-wrap: anywhere; } /* sehr lange Namen/Mails laufen nicht aus dem Feld */
+.bestaetigung__ausweis { margin: 0; padding: 12px 14px; border-radius: 8px; background: var(--flaeche); font-size: 14px; color: #2d3136; overflow-wrap: anywhere; }
+.knoepfe--links { justify-content: flex-start; }
+
+/* ---- Formular Schritt 12 (neue Teile) ---- */
+.fortschritt__text { margin: 0; font-size: 13px; font-weight: 500; color: var(--grau); }
+.schalter--unter { margin-left: 24px; min-height: 48px; } /* «Wenn möglich einen Tesla» unter dem Ersatzwagen-Schalter */
+.zurhand { border-top: 1px solid var(--linie); padding-top: 12px; display: grid; gap: 12px; }
+.zurhand > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 500; color: var(--blau); }
+.zurhand[open] > summary { margin-bottom: 2px; }
+.senden__balken { height: 6px; border-radius: 3px; background: var(--flaeche-2); overflow: hidden; }
+.senden__balken > span { display: block; height: 100%; width: 100%; border-radius: 3px; background: var(--blau); transform-origin: left; transform: scaleX(0); transition: transform .15s ease-out; }
+.senden__balken.ist-unbestimmt > span { transform: scaleX(1); opacity: .5; }
+/* Erfolgs-Häkchen zeichnet sich (stroke-dashoffset), ohne Bewegung unter Reduced Motion */
+.bestaetigung__pfad { stroke-dasharray: 26; stroke-dashoffset: 26; }
+.bestaetigung:not([hidden]) .bestaetigung__pfad { animation: haken-ein 400ms var(--aus) forwards; }
+@media (max-width: 560px) {
+  .arten { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .art { padding: 14px 12px; }
+  .felder--zwei { grid-template-columns: 1fr; }
+  .bestaetigung__liste div { grid-template-columns: 1fr; gap: 2px; }
+}
+
+/* Leiste am Handy */
+.handyleiste { display: none; }
+@media (max-width: 960px) {
+  .handyleiste { position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 -1px 0 var(--linie); }
+  .handyleiste .k { min-width: 0; width: 100%; }
+  body { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
+  [data-vorschau] { bottom: auto; top: calc(var(--kopf) + 6px); left: 8px; }
+}
+/* Leiste am Handy (Premium): gleitet herein, sobald JS «leiste-spaeter» setzt */
+@media (max-width: 960px) {
+  /* Ein: 320 ms --feder-ruhig (BAUPLAN 3.11). Aus steht am versteckten Zustand (200 ms --hinaus). */
+  .handyleiste { position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; display: grid !important; grid-template-columns: 1fr 1.35fr; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(250, 248, 245, .9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 -1px 0 var(--linie); transition: transform 320ms var(--feder-ruhig); }
+  .handyleiste .k, .handyleiste .knopf { min-width: 0; width: 100%; min-height: 48px; padding: 0 12px; }
+  body:has(.handyleiste) { padding-bottom: calc(70px + env(safe-area-inset-bottom)) !important; }
+  body.leiste-spaeter:not(.leiste-an) .handyleiste { transform: translateY(110%); transition: transform 200ms var(--hinaus); }
+  /* Beim Runterscrollen (ab 200 px) weg, beim Hochscrollen sofort zurueck (klar.js setzt .leiste-ab); nie bei Feldfokus.
+     Verstecken kurz (200 ms --hinaus), Zurueckkommen federnd ueber den Grundzustand (320 ms --feder-ruhig). (Korrektur Motion 3) */
+  body.leiste-an.leiste-ab .handyleiste { transform: translateY(110%); transition: transform 200ms var(--hinaus); }
+  [data-vorschau] { top: auto; bottom: calc(80px + env(safe-area-inset-bottom)); }
+  body[data-seite="schaden-melden"] [data-vorschau], body.leiste-spaeter:not(.leiste-an) [data-vorschau] { bottom: 10px; }
+}
+
+.schritt .chips legend { font-size: 14px; font-weight: 600; letter-spacing: 0; margin-bottom: 0; }
+.chips__wahl label input:checked + span { background: var(--tinte); color: #fff; }
+.tesla-modell .chips__wahl label input:checked + span { background: var(--blau); color: #fff; }
+@media (max-width: 960px) { [data-seite="schaden-melden"] .handyleiste { display: none; } body[data-seite="schaden-melden"] { padding-bottom: 0; } }
+
+.honig { display: none; }
+.tel__symbol { display: none; }
+@media (max-width: 960px) {
+  .kopf__rechts a.tel { display: inline-flex !important; width: 44px; justify-content: center; padding: 0; }
+  .tel__symbol { display: block; }
+  .tel__nummer { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  /* Am Handy traegt die Leiste unten «Anrufen» und «Schaden melden»; der Kopf bleibt ruhig (Logo, Telefon, Menue) */
+  .kopf__rechts .kopf__aktion { display: none !important; }
+}
+
+/* Knoepfe (Premium): Pille, weicher Schatten, beim Druecken kurz kleiner, Pfeil schiebt beim Darueberfahren.
+   box-shadow und filter werden NICHT animiert (Feinschliff 2): nur Farbe und transform in der Transition. */
+.k { border-radius: var(--pille); min-height: 50px; padding: 0 26px; font-weight: 500; letter-spacing: .005em;
+  /* Federknopf (Korrektur Motion 2): beim Loslassen Feder zurueck; Druecken staucht kurz. Nur transform und Farbe. */
+  transition: background-color .18s ease-out, color .18s ease-out, transform var(--feder-knopf-dauer) var(--feder-knopf); }
+.k:active { transform: scale(.97); transition: transform var(--druck) var(--aus), background-color .18s ease-out, color .18s ease-out; }
+.k--blau { background: linear-gradient(180deg, #1b70c6 0%, var(--blau) 100%); box-shadow: 0 1px 0 rgba(255, 255, 255, .18) inset, 0 6px 18px rgba(21, 102, 184, .28); }
+.k--hell { background: var(--weiss); box-shadow: inset 0 0 0 1px var(--linie); }
+.k--rand { box-shadow: inset 0 0 0 1px var(--tinte); }
+.k--glas-dunkel { background: rgba(255, 255, 255, .12); color: #fff; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); font-variant-numeric: tabular-nums; }
+.k--pfeil::after { content: "→"; transition: transform .18s ease-out; }
+.k--klein { min-height: 44px; padding: 0 18px; }
+.k--gross { border-radius: 16px; min-height: 68px; }
+.textlink { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 500; color: var(--blau); text-decoration: none; }
+.textlink span { transition: transform .18s ease-out; }
+.k--weiss { background: #fff; color: var(--tinte); }
+@media (hover: hover) {
+  .k--blau:hover { background: linear-gradient(180deg, #176ac0 0%, var(--blau-tief) 100%); box-shadow: 0 1px 0 rgba(255, 255, 255, .18) inset, 0 10px 26px rgba(21, 102, 184, .34); }
+  .k--hell:hover { background: var(--weiss); box-shadow: inset 0 0 0 1px #cfc8bd, 0 6px 16px rgba(21, 24, 28, .06); }
+  .k--glas-dunkel:hover { background: rgba(255, 255, 255, .2); }
+  .k--pfeil:hover::after { transform: translateX(4px); }
+  .textlink:hover span { transform: translateX(4px); }
+  .k--weiss:hover { background: #e9ecef; }
+}
+/* Deutlicher Fokusring auf allen Knoepfen und Link-Knoepfen (Feinschliff 1) */
+.k:focus-visible, .knopf:focus-visible, .textlink:focus-visible { outline: 2px solid var(--blau); outline-offset: 3px; }
+.schritt legend { font-size: 30px; }
+.karte__titel { font-size: 30px; }
+
+/* Kopf (Premium): milchiges Warmweiss, Fallback deckend ohne backdrop-filter (Korrektur Motion 4) */
+.kopf.ist-unten { background: rgb(250, 248, 245); }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .kopf.ist-unten { background: rgba(250, 248, 245, .82); }
+}
+.kopf__nav a, .kopf__rechts a:not(.k):not(.knopf), .kopf__menu { border-radius: 999px; }
+/* Hinweis-Banner (BAUPLAN 4.2) liegen über dem Kopf. Der Kopf rückt um die Banner-Höhe nach unten.
+   klar.js setzt --hinweis-hoehe genau; die :has()-Regeln sind der Fallback ohne JS (je Banner ~44 px). */
+.kopf { top: var(--hinweis-hoehe, 0px); }
+/* Nur die Hinweis-BANNER (im [data-hinweise]-Band) ruecken den Kopf nach unten. Die Klasse .hinweis kommt auch
+   an anderer Stelle vor (z. B. .tesla-ende .hinweis), darum hier auf das Band begrenzt (A1: kein leerer Streifen). */
+body:has(.hinweise .hinweis) { --hinweis-hoehe: 44px; }
+body:has(.hinweise .hinweis + .hinweis) { --hinweis-hoehe: 88px; }
+body:has(.hinweise .hinweis + .hinweis + .hinweis) { --hinweis-hoehe: 132px; }
+/* Startseite: heller Papierkopf mit feiner Linie wie im Entwurf (Reshat nach Schritt 09, a).
+   Logo und Nav in Tinte, «Schaden melden» rechts im Kopf sichtbar — kein weisses Logo-Kaestchen. */
+body[data-seite="index"] .kopf:not(.ist-unten) { background: rgba(255, 255, 255, .9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--linie); }
+/* Dunkle Unterseiten (/tesla/): Kopf von Anfang an auf heller Flaeche, damit das dunkle Logo und die
+   Navigation lesbar sind (Reshat nach Schritt 09, c). */
+body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245, .9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--linie); }
+
+/* Hinweis-Vorlagen (BAUPLAN 4.2). Feste Designs je Art; Farben aus den Tokens. Banner über dem Kopf, schliessbar. */
+.hinweise { position: relative; z-index: 31; }
+.hinweis { display: flex; align-items: center; gap: 10px; margin: 0; min-height: 44px; padding: 7px var(--rand); font-size: 14px; line-height: 1.35; border-bottom: 1px solid rgba(0, 0, 0, .08); }
+.hinweis__symbol { flex: none; }
+.hinweis__text { flex: 1 1 auto; min-width: 0; }
+.hinweis__text b { font-weight: 600; }
+.hinweis__link { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
+.hinweis__zu { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: var(--pille); background: transparent; color: inherit; cursor: pointer; opacity: .8; }
+.hinweis__zu:hover { opacity: 1; background: rgba(0, 0, 0, .08); }
+/* Farben je Art: hagel (Akzentblau), ferien (Papier), geschlossen (Tinte), aktion (Papier mit Akzentlinie), info (Grund) */
+.hinweis--hagel { background: var(--akzent); color: #fff; border-bottom-color: var(--blau-tief); }
+.hinweis--ferien { background: var(--papier); color: var(--tinte); border-bottom-color: var(--linie); }
+.hinweis--ferien .hinweis__symbol { color: var(--akzent); }
+.hinweis--geschlossen { background: var(--tinte); color: #fff; border-bottom-color: #000; }
+.hinweis--aktion { background: var(--papier); color: var(--tinte); border-bottom-color: var(--linie); box-shadow: inset 4px 0 0 var(--akzent); }
+.hinweis--aktion .hinweis__symbol { color: var(--akzent); }
+.hinweis--info { background: var(--grund); color: var(--tinte); border-bottom-color: var(--linie); }
+.hinweis--info .hinweis__symbol { color: var(--leise); }
+.hinweis--hagel .hinweis__zu:hover, .hinweis--geschlossen .hinweis__zu:hover { background: rgba(255, 255, 255, .18); }
+
+/* Pop-up als <dialog> (BAUPLAN 4.2): erst nach 2 s, einmal pro Sitzung, nie auf /schaden-melden/. */
+.hinweis-popup { max-width: min(420px, calc(100vw - 32px)); width: 100%; padding: 22px 22px 26px; border: 1px solid var(--linie); border-radius: var(--rund-gross); background: var(--papier); color: var(--tinte); box-shadow: var(--schatten); }
+.hinweis-popup::backdrop { background: rgba(16, 18, 21, .42); }
+.hinweis-popup__kopf { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
+.hinweis-popup__kopf .hinweis__symbol { color: var(--akzent); }
+.hinweis-popup--geschlossen { } /* Pop-up nur für hagel/aktion; Farbe bleibt Papier, Symbol im Akzent */
+.hinweis-popup__titel { font-family: var(--titel); font-weight: 400; font-size: 26px; margin: 0 0 8px; }
+.hinweis-popup__text { margin: 0 0 18px; color: #33363b; }
+.hinweis-popup .knopf { width: 100%; }
+/* Reduced Motion ohne Weg (BAUPLAN 4.2): nur unter «keine Vorgabe» ein ruhiges Einblenden. */
+@keyframes hinweis-popup-ein { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: no-preference) { .hinweis-popup[open] { animation: hinweis-popup-ein 220ms var(--feder-weich) both; } }
+
+/* Platzhalter fuer Widgets, die erst nach Klick laden */
+.platzhalter-widget { display: grid; gap: 6px; place-content: center; min-height: 220px; margin: 16px 0; padding: 24px; border: 2px dashed #b9c3cf; border-radius: var(--rund-gross); background: #f4f6f9; color: #3d4652; text-align: center; }
+.platzhalter-widget b { font-size: 17px; color: #171a20; }
+.platzhalter-widget span { font-size: 14px; max-width: 46ch; margin: 0 auto; }
+
+/* Partner-Logos (von autospeedy.ch uebernommen) */
+.partner-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; margin: 0 0 12px; padding: 0; list-style: none; }
+.partner-logos li { display: flex; align-items: center; }
+.partner-logos img { display: block; height: 40px; width: auto; max-width: 100%; }
+/* Logos einheitlich: jedes auf einer gleichen weissen Karte */
+.partner-logos img { background: #fff; padding: 10px 14px; box-sizing: content-box; border: 1px solid #dde3ea; }
+
+/* Partnerband Entwurf C (BAUPLAN 2 Zeile 4, 3.9): Abschnitt unter der Faktenleiste, Label links,
+   Pausieren-Knopf rechts, darunter das ruhige Laufband. Optik und Laufband wie in der ersten Linie. */
+.partner { max-width: var(--breit); margin-inline: auto; padding: 22px var(--rand) 28px; border-bottom: 1px solid var(--linie); }
+.partner__kopf { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.partner__label { margin: 0; font-family: var(--schrift); font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--leise); }
+/* Leiser Text-Knopf «Anhalten»/«Weiter» (Hanken 13 px, --leise, aria-pressed) */
+.partner__pause { background: none; border: 0; padding: 14px 6px; margin: -14px -6px; font: 500 13px/1 var(--schrift); color: var(--leise); cursor: pointer; border-radius: var(--rund); }
+@media (hover: hover) { .partner__pause:hover { color: var(--tinte); } }
+.partnerband { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.partnerband__spur { display: flex; gap: 16px; width: max-content; margin: 0; padding: 6px 0; list-style: none; animation: partnerband var(--dauer, 40s) linear infinite; }
+.partnerband:hover .partnerband__spur, .partnerband:focus-within .partnerband__spur { animation-play-state: paused; }
+/* Pausieren-Knopf (BAUPLAN 3.9): Klasse .ist-pausiert haelt das Laufband an */
+.partnerband.ist-pausiert .partnerband__spur { animation-play-state: paused; }
+.partnerband__karte { display: flex; align-items: center; justify-content: center; width: 196px; height: 84px; padding: 14px 22px; box-sizing: border-box; background: var(--papier); border: 1px solid var(--linie); border-radius: var(--rund); transition: border-color var(--farbe) linear, transform var(--feder-ruhig-dauer) var(--feder-ruhig); }
+@media (hover: hover) { .partnerband__karte:hover { border-color: var(--akzent); transform: translateY(-2px); } }
+.partnerband__karte a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.partnerband__karte img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+/* Textvariante (Vorgabe, rechte.md): Partnernamen in Archivo statt Logo */
+.partnerband__name { font-family: "Archivo", var(--schrift); font-size: 16px; font-weight: 500; color: var(--tinte); text-align: center; line-height: 1.2; }
+@media (max-width: 860px) { .partnerband__karte { width: 150px; height: 68px; padding: 10px 16px; } .partnerband__name { font-size: 14px; } }
+
+/* Schadenmeldung: Karte mit Tiefe, Auswahl antwortet sichtbar */
+.melden.karte { box-shadow: 0 1px 0 var(--linie), var(--schatten); background: var(--weiss); }
+.art { border-radius: 14px; background: var(--grund); box-shadow: inset 0 0 0 1px var(--linie); transition: background-color .2s var(--sanft), box-shadow .25s var(--sanft), transform .18s var(--sanft); }
+@media (hover: hover) { .art:hover { background: var(--weiss); box-shadow: inset 0 0 0 1px #cfc8bd, 0 6px 16px rgba(21, 24, 28, .06); transform: translateY(-1px); } }
+.art:active { transform: scale(.98); }
+.fotos__knopf { border-radius: 14px; background: var(--grund); }
+.feld input, .feld textarea { border-radius: var(--rund-feld); border-color: #cdc6bb; }
+.fremd__rahmen { width: 100%; border: 0; }
+
+/* Vorher-nachher-Regler. --pos als Zahl 0..100: clip-path mit *1%, Linie/Griff ueber transform: translateX
+   (Container-Query-Einheit cqi, 1cqi = 1 % der Buehnenbreite; kein Layout-Lesen pro Frame, BAUPLAN 3.8). */
+@property --pos { syntax: "<number>"; inherits: true; initial-value: 50; }
+.vergleich { --pos: 50; margin: 0; display: grid; gap: 12px; }
+.vergleich__buehne { position: relative; overflow: hidden; aspect-ratio: 4 / 3; border-radius: var(--rund-gross); background: var(--flaeche); touch-action: pan-y; cursor: ew-resize; user-select: none; -webkit-user-select: none; box-shadow: var(--schatten); container-type: inline-size; }
+.vergleich__buehne img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; border-radius: 0; filter: none; }
+.vergleich__vorher { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--pos) * 1%) 0 0); }
+.vergleich__linie { position: absolute; top: 0; bottom: 0; left: 0; width: 2px; margin-left: -1px; background: #fff; box-shadow: 0 0 12px rgba(0, 0, 0, .25); pointer-events: none; transform: translateX(calc(var(--pos) * 1cqi)); }
+.vergleich__griff { position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: rgba(255, 255, 255, .92); box-shadow: 0 4px 16px rgba(0, 0, 0, .22); backdrop-filter: blur(6px); transition: transform 160ms var(--aus); }
+.vergleich__griff::before, .vergleich__griff::after { content: ""; position: absolute; top: 50%; width: 7px; height: 7px; margin-top: -4px; border: solid var(--tinte); border-width: 0 0 2px 2px; }
+.vergleich__griff::before { left: 11px; transform: rotate(45deg); }
+.vergleich__griff::after { right: 11px; transform: rotate(-135deg); }
+.vergleich__buehne:has(.vergleich__regler:focus-visible) .vergleich__griff { transform: scale(1.1); }
+@media (hover: hover) and (pointer: fine) { .vergleich__buehne:hover .vergleich__griff { transform: scale(1.1); } }
+.vergleich.ist-zieht .vergleich__griff { transform: scale(.94); }
+.vergleich__marke { position: absolute; top: 16px; padding: 6px 12px; border-radius: 999px; background: rgba(16, 18, 21, .62); color: #fff; font-size: 13px; font-weight: 500; backdrop-filter: blur(8px); pointer-events: none; transition: opacity .3s var(--sanft); }
+.vergleich__marke--vorher { left: 16px; }
+.vergleich__marke--nachher { right: 16px; }
+.vergleich__platzhalter { position: absolute; left: 16px; bottom: 16px; padding: 6px 12px; border-radius: 6px; background: #fff7e6; color: #6b4300; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; pointer-events: none; }
+.vergleich__regler { position: absolute; inset: auto 0 0; width: 100%; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+.vergleich__buehne:has(.vergleich__regler:focus-visible) { outline: 3px solid var(--blau); outline-offset: 4px; }
+.vergleich__text { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; font-size: 14px; }
+.vergleich__text b { font-weight: 600; }
+.vergleich__hilfe { color: var(--grau); }
+.nur-touch { display: none; }
+@media (hover: none) { .nur-maus { display: none; } .nur-touch { display: inline; } }
+@media (max-width: 560px) { .vergleich__buehne { aspect-ratio: 1; } }
+
+}
+
+/* ===================================================================== abschnitte ===================================================================== */
+@layer abschnitte {
+
+/* ---------- Buehnen (Vollbild-Abschnitte mit Foto) ---------- */
 .buehne { position: relative; min-height: 100svh; display: grid; grid-template-rows: 1fr auto; padding: calc(var(--kopf) + 9vh) var(--rand) clamp(40px, 9vh, 88px); overflow: hidden; isolation: isolate; color: var(--tinte); }
 .buehne > img, .buehne > picture { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; }
 .buehne::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(255, 255, 255, .92) 0%, rgba(255, 255, 255, .78) 26%, rgba(255, 255, 255, .25) 44%, rgba(255, 255, 255, 0) 56%, rgba(0, 0, 0, 0) 68%, rgba(0, 0, 0, .38) 100%); }
@@ -102,20 +534,28 @@ p { margin: 0; text-wrap: pretty; }
 .buehne--dunkel .buehne__unter { color: rgba(255, 255, 255, .85); }
 .buehne--halb { min-height: 88svh; }
 
-/* Tesla: dunkle Fläche ohne Foto (kein freigegebenes Tesla-Bild), mit feinem Raster wie ein Datenblatt */
+/* Tesla (C14): ruhige dunkle Flaeche als Hinweis auf Tesla, OHNE Raster und OHNE Glow (wirkte wie eine KI-Vorlage).
+   Rechts ein gerahmtes Tesla-Foto wie auf der Startseite; der dunkle Grund bleibt. */
 .tesla { position: relative; padding: clamp(80px, 14vh, 140px) var(--rand); background: #0e1013; color: #fff; overflow: hidden; isolation: isolate; }
-.tesla::before { content: ""; position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at 50% 40%, #000 0%, transparent 72%); }
 .tesla__innen { max-width: var(--breit); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
 .tesla__marke { display: inline-flex; align-items: center; gap: 10px; padding: 7px 12px 7px 10px; border: 1px solid rgba(255, 255, 255, .18); border-radius: 999px; font-size: 13px; font-weight: 500; letter-spacing: .02em; }
-.tesla__marke::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #4f97e3; box-shadow: 0 0 0 4px rgba(79, 151, 227, .2); }
+.tesla__marke::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #4f97e3; }
+/* Gerahmtes Foto (C14): wie der Hero-Rahmen auf der Startseite, feiner heller Innenrand auf dunklem Grund. */
+.tesla__foto { margin: 0; }
+.tesla__rahmen { display: block; border-radius: 14px; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .16); }
+.tesla__foto img { aspect-ratio: 3 / 2; width: 100%; object-fit: cover; }
+.tesla__foto figcaption { margin-top: 10px; font-size: 13px; line-height: 1.4; color: rgba(255, 255, 255, .5); max-width: 40ch; }
 .tesla h2 { font-size: clamp(32px, 4.4vw, 52px); margin: 20px 0 16px; }
 .tesla p { color: rgba(255, 255, 255, .78); max-width: 48ch; }
 .tesla .knoepfe { justify-content: flex-start; margin-top: 28px; }
+/* C14: kein leuchtender Knopf auf dunklem Grund (wirkte wie eine KI-Vorlage); flacher, ohne Glow-Schatten. */
+.tesla .k--blau { background: var(--blau); box-shadow: none; }
+@media (hover: hover) { .tesla .k--blau:hover { background: var(--blau-tief); box-shadow: none; } }
 .tesla .k--glas { background: rgba(255, 255, 255, .1); color: #fff; }
-.tesla .k--glas:hover { background: rgba(255, 255, 255, .18); }
-.tesla__liste { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(255, 255, 255, .14); }
-.tesla__liste li { display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; border-bottom: 1px solid rgba(255, 255, 255, .14); font-size: 17px; }
-.tesla__liste span { color: rgba(255, 255, 255, .55); font-size: 14px; font-variant-numeric: tabular-nums; }
+@media (hover: hover) { .tesla .k--glas:hover { background: rgba(255, 255, 255, .18); } }
+/* C14: einfache Liste ohne Nummern, nicht wie eine Navigation. */
+.tesla__liste { list-style: none; margin: 24px 0 0; padding: 0; border-top: 1px solid rgba(255, 255, 255, .14); }
+.tesla__liste li { padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, .14); font-size: 17px; }
 .tesla__fuss { margin-top: 14px; font-size: 13px; color: rgba(255, 255, 255, .5) !important; }
 
 /* ---------- Abschnitte ---------- */
@@ -128,20 +568,20 @@ p { margin: 0; text-wrap: pretty; }
 .abschnitt__kopf p { color: var(--grau); font-size: 17px; }
 .kicker { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--blau); }
 
-/* Leistungen: drei Kacheln mit Foto, Titel unten, wie Fahrzeugkacheln */
+/* Leistungen: Kacheln mit Foto */
 .kacheln { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .kachel { position: relative; display: grid; align-content: end; min-height: 460px; border-radius: var(--rund-gross); overflow: hidden; isolation: isolate; color: #fff; text-decoration: none; }
 .kachel img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
 .kachel::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, .78) 100%); }
-.kachel:hover img { transform: scale(1.035); }
+@media (hover: hover) { .kachel:hover img { transform: scale(1.035); } }
 .kachel__text { padding: 24px; display: grid; gap: 6px; }
 .kachel h3 { font-size: 26px; }
 .kachel p { color: #fff; font-size: 15px; }
 .kachel__pfeil { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 14px; font-weight: 500; }
 .kachel__pfeil::after { content: "→"; transition: transform .2s; }
-.kachel:hover .kachel__pfeil::after { transform: translateX(3px); }
+@media (hover: hover) { .kachel:hover .kachel__pfeil::after { transform: translateX(3px); } }
 
-/* Schadenmeldung: drei Schritte und eine Produktansicht */
+/* Schadenmeldung: Schritte und Produktansicht */
 .ablauf { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
 .schritte { list-style: none; margin: 0 0 32px; padding: 0; display: grid; gap: 4px; counter-reset: s; }
 .schritte li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 4px 12px; padding: 18px 0; border-bottom: 1px solid var(--linie); }
@@ -150,7 +590,7 @@ p { margin: 0; text-wrap: pretty; }
 .schritte span { color: var(--grau); font-size: 15px; }
 .ablauf .knoepfe { justify-content: flex-start; }
 
-/* Produktansicht (Stageshow-Regeln: echtes Handy-Raster, wenige echte Wörter, ein Fokus, angeschnitten) */
+/* Produktansicht */
 .ansicht { position: relative; height: 560px; border-radius: var(--rund-gross); background: linear-gradient(160deg, #e9eef4 0%, #dfe6ee 100%); overflow: hidden; }
 .telefon { position: absolute; left: 50%; top: 44px; width: 300px; height: 620px; margin-left: -150px; border-radius: 44px; background: #0e1013; padding: 10px; box-shadow: 0 30px 60px rgba(22, 25, 29, .22), 0 2px 6px rgba(22, 25, 29, .2); }
 .telefon__schirm { position: relative; height: 100%; border-radius: 35px; background: var(--weiss); overflow: hidden; padding: 52px 18px 18px; display: grid; align-content: start; gap: 14px; }
@@ -170,7 +610,7 @@ p { margin: 0; text-wrap: pretty; }
 .karte-schwebend .punkt { display: inline-flex; align-items: center; gap: 6px; color: #1f7a4d; font-weight: 600; }
 .karte-schwebend .punkt::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #1f7a4d; }
 
-/* Team: Porträts in einer ruhigen Reihe */
+/* Team: Portraets in einer ruhigen Reihe */
 .leute { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
 .leute figure { margin: 0; display: grid; gap: 10px; }
 .leute img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--rund-gross); background: var(--flaeche); }
@@ -178,32 +618,93 @@ p { margin: 0; text-wrap: pretty; }
 .leute span { color: var(--grau); font-size: 14px; }
 .mehr { margin-top: 32px; display: flex; justify-content: center; }
 
+/* Inhaber und Team (Entwurf C, BAUPLAN 2 Zeile 9): Portraet 4:5 + Zitat (Source Serif kursiv), Teamband 3:1.
+   Alles Platzhalter (.platz) ohne Foto-Reveal; Zitat kursiv nur hier, nicht in Titeln. */
+.inhaber { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: clamp(32px, 5vw, 64px); align-items: center; max-width: 1080px; }
+.platz { display: grid; align-content: center; justify-items: center; gap: 6px; min-height: 200px; padding: 24px; border: 2px dashed var(--linie); border-radius: 14px; background: var(--flaeche); color: var(--grau); text-align: center; }
+.platz b { font-size: 17px; font-weight: 600; color: var(--tinte); }
+.platz span { font-size: 14px; max-width: 34ch; }
+.platz small { font-size: 12px; }
+.platz.hoch { aspect-ratio: 4 / 5; }
+.inhaber blockquote { margin: 0; }
+.inhaber blockquote p { font-family: var(--titel); font-style: italic; font-weight: 400; font-size: clamp(26px, 2.8vw, 40px); line-height: 1.3; }
+.inhaber blockquote footer { margin-top: 16px; font-size: 14.5px; color: var(--leise); }
+.team-bild { margin: clamp(40px, 6vh, 56px) 0 0; }
+.team-bild .platz { aspect-ratio: 3 / 1; }
+.team-bild figcaption { margin-top: 12px; color: var(--grau); font-size: 15px; }
+@media (max-width: 760px) {
+  .inhaber { grid-template-columns: 1fr; gap: 20px; }
+  .inhaber .platz.hoch { max-width: 220px; }
+  .inhaber blockquote p { font-size: 21px; }
+  .team-bild .platz { aspect-ratio: 3 / 2; }
+}
+
 /* Kontakt */
 .kontakt { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .kontakt__karte { padding: 28px; border-radius: var(--rund-gross); background: var(--weiss); box-shadow: inset 0 0 0 1px var(--linie); display: grid; gap: 8px; align-content: start; }
 .kontakt__karte h3 { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--grau); }
 .kontakt__karte p, .kontakt__karte a { font-size: 19px; font-weight: 500; text-decoration: none; }
 .kontakt__karte > a { display: inline-flex; align-items: center; min-height: 44px; justify-self: start; overflow-wrap: anywhere; }
-.kontakt__karte a:hover { color: var(--blau); }
+@media (hover: hover) { .kontakt__karte a:hover { color: var(--blau); } }
 .kontakt__karte small { color: var(--grau); font-size: 14px; }
 
-/* Fuss */
-.fuss { padding: 40px var(--rand) 48px; background: var(--weiss); border-top: 1px solid var(--linie); }
-.fuss__innen { max-width: var(--breit); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; justify-content: space-between; font-size: 13px; color: var(--grau); }
-.fuss nav { display: flex; flex-wrap: wrap; gap: 4px 20px; }
-.fuss a { text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }
-.fuss a:hover { color: var(--tinte); }
+/* Fuss = der eine letzte Block (Korrektur Footer): letzter Aufruf, Status + ganze Woche, Adresse, Slogan, Rechtszeile.
+   Abschluss.astro ist darin aufgegangen (ein Aufruf, nicht zwei hintereinander). overflow: hidden schneidet den Slogan unten an. */
+.fuss { background: var(--grund); border-top: 1px solid var(--linie); overflow: hidden; }
+.fuss__blatt { max-width: var(--breit); margin-inline: auto; padding: clamp(56px, 8vw, 96px) var(--rand) 0; display: grid; gap: clamp(40px, 6vw, 68px); }
 
-/* Ruhiges Erscheinen beim Scrollen (nur mit JS, nie bei «Bewegung reduzieren») */
-.js .zeigen { opacity: 0; transform: translateY(16px); transition: opacity .7s cubic-bezier(.2, .7, .2, 1), transform .7s cubic-bezier(.2, .7, .2, 1); }
-.js .zeigen.ist-da { opacity: 1; transform: none; }
-.buehne__text > * { animation: auf .9s cubic-bezier(.2, .7, .2, 1) both; }
-.buehne__text > :nth-child(2) { animation-delay: .08s; }
-.buehne__text > :nth-child(3) { animation-delay: .16s; }
-@keyframes auf { from { opacity: 0; transform: translateY(10px); } }
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
-  .js .zeigen { opacity: 1; transform: none; }
+/* 1. Letzter Aufruf: «Schaden? Rufen Sie an.» + Anrufen gefuellt (Haupt), Schaden melden als Kontur. */
+.fuss-aufruf { display: grid; gap: 22px; justify-items: start; }
+.fuss-aufruf__ruf { margin: 0; font-family: var(--titel); font-weight: 400; font-size: clamp(32px, 4.2vw, 54px); line-height: 1.04; letter-spacing: -.01em; }
+.fuss-aufruf .ctas { margin: 0; }
+.fuss-aufruf .nr { margin-left: .4ch; }
+
+/* 2. + 3. + 6. + 8. Zwei Spalten: links Status und ganze Woche, rechts Adresse/Route/Kopieren/Flotten. */
+.fuss-raster { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px 56px; border-top: 1px solid var(--linie); padding-top: 32px; }
+.fuss-zeiten, .fuss-ort { display: grid; gap: 14px; align-content: start; }
+
+/* 2. Status als Text; der Punkt ist nur zusaetzlich (Farbe). Ohne Skript kein Punkt, nur die neutrale Zeile. */
+.fuss-status { margin: 0; font-size: 16px; font-weight: 600; color: var(--tinte); display: inline-flex; align-items: center; gap: 10px; }
+.fuss-status[data-zustand]::before { content: ""; flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--leise); }
+.fuss-status[data-zustand="offen"]::before { background: #1b7f4b; }
+.fuss-status[data-zustand="zu"]::before { background: #c0392b; }
+
+/* 6. Ganze Woche als Tabelle, tabular-nums, heutige Zeile per Skript hervorgehoben. */
+.fuss-woche { border-collapse: collapse; font-size: 15px; }
+.fuss-woche th { font-weight: 400; text-align: left; padding: 3px 20px 3px 0; white-space: nowrap; vertical-align: top; color: var(--leise); }
+.fuss-woche td { padding: 3px 0; font-family: "Archivo", var(--schrift); font-variant-numeric: tabular-nums; color: var(--tinte); }
+.fuss-woche tr.ist-heute th, .fuss-woche tr.ist-heute td { color: var(--tinte); font-weight: 600; }
+/* C17: «heute» als kleines Label unter dem Wochentag, nicht in derselben Zeile angehaengt. */
+.fuss-woche__heute { display: block; margin-top: 1px; font-size: 12px; font-weight: 600; color: var(--akzent); }
+.fuss-woche__aus th { color: var(--leise); font-style: italic; }
+
+/* 3. + 7. + 8. Adresse, Route (neuer Tab), Kopieren-Knopf, (WhatsApp nur mit Daten), Flotten-Zeile. */
+.fuss-ort p { margin: 0; font-size: 15px; line-height: 1.5; }
+.fuss-ort__adr { font-family: "Archivo", var(--schrift); font-variant-numeric: tabular-nums; }
+.fuss-ort__akt, .fuss-ort__tel { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.fuss-ort a { color: var(--akzent); text-decoration: none; text-underline-offset: 3px; }
+@media (hover: hover) { .fuss-ort a:hover { text-decoration: underline; } }
+.fuss-ort__tel .nr { font-size: 17px; font-weight: 600; }
+.fuss-ort__flotte { color: var(--leise); }
+.fuss-kopf { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--linie); border-radius: var(--pille); background: var(--papier); color: var(--leise); font: 500 13px/1 var(--schrift); cursor: pointer; }
+@media (hover: hover) { .fuss-kopf:hover { color: var(--tinte); border-color: var(--leise); } }
+.fuss-meldung { min-height: 1.2em; font-size: 13px; color: #1b7f4b; }
+
+/* 4. Slogan: sehr gross, blass (>= 3:1 fuer grossen Text), unten leicht angeschnitten. Echter Text. */
+.fuss-slogan { margin: 0 0 -.14em; font-family: var(--titel); font-weight: 400; font-size: clamp(56px, 11vw, 150px); line-height: .92; letter-spacing: -.02em; color: #83858a; }
+
+/* 5. Rechtszeile: © Jahr, Impressum, Datenschutz, Bildnachweise, Nach oben. */
+.fuss__innen { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; justify-content: space-between; padding: 22px 0 40px; margin-top: clamp(24px, 4vw, 44px); border-top: 1px solid var(--linie); font-size: 13px; color: var(--grau); }
+.fuss__recht { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+/* A2: alle Tippziele im Fuss mindestens 44 px. Die grossen CTAs (.knopf …) behalten ihre eigene Hoehe (48/64 px). */
+.fuss a:not(.knopf) { text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; color: inherit; }
+.fuss__oben { gap: 6px; }
+@media (hover: hover) { .fuss__innen a:hover { color: var(--tinte); } }
+
+@media (max-width: 760px) {
+  /* Handy-Reihenfolge: Anruf -> Status -> Zeiten -> Adresse -> Slogan. Anruf-Knopf volle Breite (siehe .ctas .knopf). */
+  .fuss-raster { grid-template-columns: 1fr; gap: 28px; }
+  .fuss-slogan { font-size: clamp(44px, 20vw, 96px); }
 }
 
 @media (max-width: 960px) {
@@ -213,20 +714,18 @@ p { margin: 0; text-wrap: pretty; }
   .leute { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .kontakt { grid-template-columns: 1fr; }
   .ansicht { height: 500px; }
+  .buehne { padding-bottom: calc(clamp(40px, 9vh, 88px) + 64px); }
+  .buehne .knoepfe .k--blau { display: none; }
 }
 @media (max-width: 560px) {
-  .k { width: 100%; min-width: 0; }
   .buehne__kicker { letter-spacing: .08em; font-size: 12px; }
   .buehne__info .zeiten { display: none; }
   .buehne::before { background: linear-gradient(180deg, rgba(255, 255, 255, .94) 0%, rgba(255, 255, 255, .86) 34%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, 0) 58%, rgba(0, 0, 0, 0) 66%, rgba(0, 0, 0, .42) 100%); }
   .buehne > img { object-position: 80% 50%; }
-  [data-vorschau] { font-size: 11px; max-width: 72vw; padding: 6px 10px; border-radius: 10px; }
   .buehne .knoepfe { width: 100%; }
   .buehne { padding-top: calc(var(--kopf) + 7vh); }
   .karte-schwebend { right: 16px; width: 210px; }
 }
-.k--klein { min-height: 44px; min-width: 0; padding: 0 14px; font-size: 14px; }
-@media (max-width: 960px) { .kopf__rechts .k--klein { display: none; } }
 
 /* ================= Unterseiten ================= */
 .seitenkopf { padding: calc(var(--kopf) + 56px) var(--rand) 40px; }
@@ -240,7 +739,7 @@ p { margin: 0; text-wrap: pretty; }
 .seitenkopf__einleitung { max-width: 62ch; color: var(--grau); font-size: 18px; display: grid; gap: 10px; }
 .sprungleiste { position: sticky; top: var(--kopf); z-index: 20; display: flex; gap: 4px; overflow-x: auto; padding: 10px var(--rand); background: rgba(255, 255, 255, .92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--linie); }
 .sprungleiste a { flex: none; display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 999px; font-size: 14px; font-weight: 500; text-decoration: none; background: var(--flaeche); }
-.sprungleiste a:hover { background: var(--flaeche-2); }
+@media (hover: hover) { .sprungleiste a:hover { background: var(--flaeche-2); } }
 .schmal { max-width: 760px; }
 .mitte { text-align: center; margin-inline: auto; }
 .mitte .knoepfe { justify-content: center; }
@@ -281,31 +780,7 @@ p { margin: 0; text-wrap: pretty; }
 .zeiten th { font-weight: 500; width: 44%; padding-right: 16px; }
 .zeiten td { color: #2d3136; }
 
-/* Karten und Felder (Formulare) */
-.karte { background: var(--weiss); border-radius: var(--rund-gross); box-shadow: inset 0 0 0 1px var(--linie); padding: clamp(20px, 3vw, 32px); display: grid; gap: 16px; align-content: start; }
-.karte__titel { font-size: 24px; }
-.karte__text { color: var(--grau); }
-.abschnitt--flaeche .karte { box-shadow: none; }
-.feld { display: grid; gap: 6px; }
-.feld label, .chips legend, .schritt legend { font-size: 14px; font-weight: 600; }
-.feld input, .feld textarea { width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid #c9cdd3; border-radius: 8px; background: var(--weiss); color: var(--tinte); font: 400 16px/1.4 var(--schrift); transition: border-color .15s, box-shadow .15s; }
-.feld input:focus, .feld textarea:focus { outline: none; border-color: var(--blau); box-shadow: 0 0 0 3px rgba(21, 102, 184, .18); }
-.felder--zwei { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.hilfe { font-size: 13px; color: var(--grau); }
-.rueckmeldung { padding: 12px 14px; border-radius: 8px; background: var(--flaeche); font-size: 15px; }
-.honig { position: absolute; left: -9999px; }
-.chips { margin: 0; padding: 0; border: 0; display: grid; gap: 10px; }
-.chips__wahl { display: flex; flex-wrap: wrap; gap: 8px; }
-.chips__wahl label { position: relative; display: inline-flex; cursor: pointer; }
-.chips__wahl input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-.chips__wahl span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: var(--flaeche); font-size: 15px; font-weight: 500; transition: background-color .15s, color .15s, box-shadow .15s; }
-.chips__wahl label:hover span { background: var(--flaeche-2); }
-.chips__wahl input:checked + span { background: var(--tinte); color: #fff; }
-.chips__wahl input:focus-visible + span { outline: 2px solid var(--blau); outline-offset: 2px; }
-.chips__wahl--klein span { min-height: 40px; font-size: 14px; }
-.tesla-modell .chips__wahl input:checked + span { background: var(--blau); }
-
-/* Schadenmeldung */
+/* Schadenmeldung: Seitenlayout */
 .melden-seite { max-width: var(--breit); margin: 0 auto; padding: calc(var(--kopf) + 56px) var(--rand) 96px; display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 88px); align-items: start; }
 .melden-seite__links { position: sticky; top: calc(var(--kopf) + 40px); display: grid; gap: 14px; }
 .melden-seite h1 { font-size: clamp(32px, 4.4vw, 52px); }
@@ -313,64 +788,6 @@ p { margin: 0; text-wrap: pretty; }
 .melden-seite__tel { color: var(--grau); }
 .melden-seite__tel a { font-weight: 600; color: var(--tinte); }
 .melden-seite__tesla { display: flex; gap: 10px; align-items: baseline; padding-top: 14px; border-top: 1px solid var(--linie); color: var(--grau); font-size: 14px; }
-.punkt-blau { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--blau); transform: translateY(-1px); }
-.melden { gap: 20px; }
-.fortschritt { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.fortschritt li { display: grid; gap: 8px; font-size: 13px; font-weight: 500; color: var(--grau); }
-.fortschritt li::before { content: ""; height: 4px; border-radius: 2px; background: var(--flaeche-2); transition: background-color .3s; }
-.fortschritt li.ist-jetzt, .fortschritt li.ist-fertig { color: var(--tinte); }
-.fortschritt li.ist-jetzt::before, .fortschritt li.ist-fertig::before { background: var(--blau); }
-.schritt { margin: 0; padding: 0; border: 0; display: grid; gap: 16px; }
-.schritt legend { font-size: 24px; font-weight: 500; letter-spacing: -.01em; margin-bottom: 4px; padding: 0; }
-.pflicht { font-size: 14px; font-weight: 400; color: var(--grau); }
-.arten { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.art { position: relative; display: grid; gap: 2px; padding: 16px; border-radius: 12px; background: var(--flaeche); cursor: pointer; transition: background-color .15s, box-shadow .2s, transform .2s; }
-.art:hover { background: var(--flaeche-2); }
-.art input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
-.art__name { font-weight: 600; font-size: 16px; }
-.art__hilfe { font-size: 13px; color: var(--grau); }
-.art:has(input:checked) { background: var(--blau); box-shadow: 0 8px 20px rgba(21, 102, 184, .28); }
-.art:has(input:checked) .art__name, .art:has(input:checked) .art__hilfe { color: #fff; }
-.art:has(input:focus-visible) { outline: 2px solid var(--blau); outline-offset: 2px; }
-.stellen summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-size: 15px; font-weight: 500; color: var(--blau); }
-.stellen[open] summary { margin-bottom: 8px; }
-.schritt__fuss { display: flex; gap: 10px; justify-content: space-between; flex-wrap: wrap; }
-.schritt__fuss .k { min-width: 0; flex: 1; }
-.fotos__knopf { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 120px; border-radius: 12px; border: 1.5px dashed #c3c8cf; background: var(--flaeche); font-weight: 500; cursor: pointer; transition: border-color .15s, background-color .15s; }
-.fotos__knopf:hover { border-color: var(--blau); background: #eef4fb; }
-.fotos__plus { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--weiss); box-shadow: inset 0 0 0 1px var(--linie); font-size: 20px; }
-.fotos__eingabe { position: absolute; width: 1px; height: 1px; opacity: 0; }
-.fotos__eingabe:focus-visible + .fotos__liste, .fotos__knopf:has(+ .fotos__eingabe:focus-visible) { outline: 2px solid var(--blau); }
-.fotos__liste { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.fotos__liste:empty { display: none; }
-.fotos__liste li { position: relative; }
-.fotos__liste img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; }
-.fotos__weg { position: absolute; right: 6px; bottom: 6px; min-height: 32px; padding: 0 10px; border: 0; border-radius: 999px; background: rgba(22, 25, 29, .78); color: #fff; font: 500 12px var(--schrift); cursor: pointer; }
-.zusammen { padding: 10px 14px; border-radius: 8px; background: var(--flaeche); font-size: 14px; color: #2d3136; }
-.schalter { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 0; cursor: pointer; font-weight: 500; }
-.schalter input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-.schalter__bahn { flex: none; position: relative; width: 44px; height: 26px; border-radius: 13px; background: #c9cdd3; transition: background-color .2s; }
-.schalter__bahn::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .25); transition: transform .2s; }
-.schalter input:checked + .schalter__bahn { background: var(--blau); }
-.schalter input:checked + .schalter__bahn::after { transform: translateX(18px); }
-.schalter input:focus-visible + .schalter__bahn { outline: 2px solid var(--blau); outline-offset: 2px; }
-.schalter small { display: block; font-size: 13px; font-weight: 400; color: var(--grau); }
-.senden { display: grid; gap: 10px; padding-top: 8px; border-top: 1px solid var(--linie); }
-.senden__titel { font-weight: 600; }
-.k--gross { flex-direction: column; gap: 3px; min-height: 64px; width: 100%; }
-.k--gross small { font-size: 12px; font-weight: 400; opacity: .85; }
-.bestaetigung { text-align: left; }
-.bestaetigung__haken { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #e7f4ec; color: #1f7a4d; font-size: 24px; font-weight: 600; }
-.bestaetigung__fotos { display: flex; gap: 8px; }
-.bestaetigung__fotos:empty { display: none; }
-.bestaetigung__fotos img { width: 88px; height: 88px; object-fit: cover; border-radius: 10px; }
-.bestaetigung__liste { margin: 0; display: grid; gap: 0; border-top: 1px solid var(--linie); }
-.bestaetigung__liste div { display: grid; grid-template-columns: 160px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--linie); }
-.bestaetigung__liste dt { color: var(--grau); font-size: 14px; }
-.bestaetigung__liste dd { margin: 0; }
-.bestaetigung__stand { padding: 12px 14px; border-radius: 8px; background: #e7f4ec; color: #17633e; font-size: 15px; }
-.knoepfe--links { justify-content: flex-start; }
-
 @media (max-width: 960px) {
   .melden-seite { grid-template-columns: 1fr; padding-top: calc(var(--kopf) + 28px); }
   .melden-seite__links { position: static; }
@@ -381,56 +798,21 @@ p { margin: 0; text-wrap: pretty; }
   .seitenkopf__bild { height: 42svh; }
 }
 @media (max-width: 560px) {
-  .arten { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .art { padding: 14px 12px; }
-  .felder--zwei { grid-template-columns: 1fr; }
-  .bestaetigung__liste div { grid-template-columns: 1fr; gap: 2px; }
   .raster--zwei { grid-template-columns: 1fr; }
   .melden-seite__einleitung { font-size: 16px; }
 }
 
-/* Am Handy: Anrufen und Schaden melden immer in Daumenreichweite */
-.handyleiste { display: none; }
-@media (max-width: 960px) {
-  .handyleiste { position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 -1px 0 var(--linie); }
-  .handyleiste .k { min-width: 0; width: 100%; }
-  body { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
-  [data-vorschau] { bottom: auto; top: calc(var(--kopf) + 6px); left: 8px; }
-  .buehne { padding-bottom: calc(clamp(40px, 9vh, 88px) + 64px); }
-  .buehne .knoepfe .k--blau { display: none; }
-}
 .abschnitt__innen.schmal h2 { margin: 40px 0 12px; }
 .abschnitt__innen.schmal h2:first-child { margin-top: 0; }
 @media (max-width: 960px) { .buehne__info { display: none; } }
 
-.schritt .chips legend { font-size: 14px; font-weight: 600; letter-spacing: 0; margin-bottom: 0; }
-.chips__wahl label input:checked + span, .chips__wahl label:hover input:checked + span { background: var(--tinte); color: #fff; }
-.tesla-modell .chips__wahl label input:checked + span, .tesla-modell .chips__wahl label:hover input:checked + span { background: var(--blau); color: #fff; }
-@media (max-width: 960px) { [data-seite="schaden-melden"] .handyleiste { display: none; } body[data-seite="schaden-melden"] { padding-bottom: 0; } }
-
-/* Prüflauf DP6: lesbare Zeilen, Text über Bildern auf eigener Fläche, Kopf am Handy */
-main p, main li { max-width: 62ch; }
+/* Prueflauf DP6: Text ueber Bildern auf eigener Flaeche */
 .mitte p { margin-inline: auto; }
-.honig { display: none; }
 .kachel__text { margin: 12px; padding: 18px 20px; border-radius: 12px; background-color: rgba(14, 16, 19, .62); backdrop-filter: blur(10px) saturate(130%); -webkit-backdrop-filter: blur(10px) saturate(130%); }
 .kachel::before { display: none; }
 .kontakt__karte h2 { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--grau); }
-body[data-seite="index"] .kopf:not(.ist-unten) .kopf__aktion { visibility: hidden; }
-.tel__symbol { display: none; }
-@media (max-width: 960px) {
-  .handyleiste { display: none !important; }
-  body { padding-bottom: 0 !important; }
-  .kopf__rechts a.tel { display: inline-flex !important; width: 44px; justify-content: center; padding: 0; }
-  .tel__symbol { display: block; }
-  .tel__nummer { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-  .kopf__rechts .k--klein { display: inline-flex !important; padding: 0 12px; }
-  body[data-seite="index"] .kopf:not(.ist-unten) .kopf__aktion { visibility: visible; }
-  .buehne .knoepfe .k--blau { display: none; }
-  [data-vorschau] { top: auto; bottom: 10px; }
-}
 
-/* Startseite, Runde 2 nach dem blinden Bildtest: dunkle Lichtregel statt Weissschleier, Text unten links,
-   eine Aktion im Bild, Tesla als ruhige Marke oben (Porsche/Polestar-Haltung, eigene Umsetzung) */
+/* Startseite (Runde 2): dunkle Lichtregel, Text unten links, Tesla als ruhige Marke oben */
 .buehne--start { color: #fff; grid-template-rows: auto 1fr; padding: calc(var(--kopf) + 20px) var(--rand) clamp(48px, 10vh, 104px); }
 .buehne--start > img { object-position: 50% 30%; filter: saturate(.9) contrast(1.04); }
 .buehne--start::before { background: linear-gradient(90deg, rgba(8, 10, 12, .62) 0%, rgba(8, 10, 12, .3) 38%, rgba(8, 10, 12, 0) 62%), linear-gradient(180deg, rgba(8, 10, 12, .55) 0%, rgba(8, 10, 12, .1) 26%, rgba(8, 10, 12, 0) 44%, rgba(8, 10, 12, .4) 66%, rgba(8, 10, 12, .85) 100%); }
@@ -441,62 +823,475 @@ body[data-seite="index"] .kopf:not(.ist-unten) .kopf__aktion { visibility: hidde
 .buehne--start .knoepfe { margin-top: 12px; }
 .buehne__oben { max-width: var(--breit); width: 100%; margin: 0 auto; padding-top: 8px; }
 .buehne__tesla { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px; border-radius: 999px; background: rgba(255, 255, 255, .14); color: #fff; font-size: 14px; font-weight: 500; text-decoration: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22); transition: background-color .2s; }
-.buehne__tesla:hover { background: rgba(255, 255, 255, .24); }
+@media (hover: hover) { .buehne__tesla:hover { background: rgba(255, 255, 255, .24); } }
 .buehne__tesla .punkt-blau { background: #6fb0f0; box-shadow: 0 0 0 4px rgba(111, 176, 240, .25); transform: none; }
-.k--weiss { background: #fff; color: var(--tinte); }
-.k--weiss:hover { background: #e9ecef; }
-/* Kopf über dem dunklen Bild hell, bis gescrollt wird */
-body[data-seite="index"] .kopf:not(.ist-unten) .kopf__nav a, body[data-seite="index"] .kopf:not(.ist-unten) .kopf__rechts a:not(.k), body[data-seite="index"] .kopf:not(.ist-unten) .kopf__menu { color: #fff; }
-body[data-seite="index"] .kopf:not(.ist-unten) .kopf__nav a:hover, body[data-seite="index"] .kopf:not(.ist-unten) .kopf__menu:hover { background: rgba(255, 255, 255, .14); }
-body[data-seite="index"] .kopf:not(.ist-unten) .kopf__marke { background: rgba(255, 255, 255, .92); border-radius: 8px; padding: 4px 10px; }
 @media (max-width: 960px) {
   .buehne--start .knoepfe .k--weiss { display: inline-flex; width: 100%; }
-  body[data-seite="index"] .kopf:not(.ist-unten) .kopf__aktion { visibility: hidden; }
   .buehne--start > img { object-position: 78% 50%; }
 }
-
 @media (max-width: 960px) { .buehne--start::before { background: linear-gradient(180deg, rgba(8, 10, 12, .5) 0%, rgba(8, 10, 12, .05) 24%, rgba(8, 10, 12, .2) 44%, rgba(8, 10, 12, .75) 64%, rgba(8, 10, 12, .9) 100%); } }
-
-/* Hinweis aus dem Cockpit («Website pflegen»), z. B. nach Hagel: ruhige Zeile über dem Kopf */
-.saison { position: relative; z-index: 31; margin: 0; background: var(--blau); text-align: center; }
-.saison a { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 6px var(--rand); color: #fff; font-size: 14px; font-weight: 500; text-decoration: none; }
-body:has(.saison) .kopf { top: 40px; }
-body:has(.saison) .kopf.ist-unten { top: 0; }
-/* Startseite: Kopf und Tesla-Marke über dem Foto auf eigener dunkler Glasfläche (Kontrast messbar, nicht vom Foto abhängig) */
-body[data-seite="index"] .kopf:not(.ist-unten) { background-color: rgba(8, 10, 12, .58); backdrop-filter: blur(12px) saturate(120%); -webkit-backdrop-filter: blur(12px) saturate(120%); }
 .buehne__tesla { background-color: rgba(8, 10, 12, .58); }
-.buehne__tesla:hover { background-color: rgba(8, 10, 12, .72); }
+@media (hover: hover) { .buehne__tesla:hover { background-color: rgba(8, 10, 12, .72); } }
 
-/* Platzhalter für Widgets, die erst nach Klick laden (Occasionen, Google-Bewertungen) */
-.platzhalter-widget { display: grid; gap: 6px; place-content: center; min-height: 220px; margin: 16px 0; padding: 24px; border: 2px dashed #b9c3cf; border-radius: var(--rund-gross); background: #f4f6f9; color: #3d4652; text-align: center; }
-.platzhalter-widget b { font-size: 17px; color: #171a20; }
-.platzhalter-widget span { font-size: 14px; max-width: 46ch; margin: 0 auto; }
+/* Flaechen Premium */
+.fuss { background: var(--grund); }
+.abschnitt--rand { background: var(--weiss); border-block: 1px solid var(--linie); }
+.abschnitt h2 { font-size: clamp(36px, 4.6vw, 60px); }
+.seitenkopf h1, .melden-seite h1 { font-size: clamp(42px, 5.6vw, 72px); }
+.tesla h2, .tesla h1 { font-size: clamp(40px, 5vw, 66px); }
+.abschluss h2 { font-size: clamp(36px, 4.4vw, 56px); }
+.kicker, .buehne__kicker { font-size: 12px; letter-spacing: .16em; font-weight: 600; color: var(--grau); }
+.kicker::before { content: ""; display: inline-block; width: 18px; height: 1px; margin: 0 10px 0 0; vertical-align: middle; background: currentColor; opacity: .6; }
+.abschnitt__kopf p:not(.kicker) { font-size: 18px; line-height: 1.6; }
+.abschnitt { padding-block: clamp(88px, 14vh, 160px); }
 
-/* Google-Bewertungen auf der Startseite: Platzhalter, bis der Widget-Code vom Betrieb da ist. */
-.bewertungen__platzhalter { padding: 20px; border-radius: var(--rund); border: 2px dashed var(--linie); color: var(--grau); }
-.bewertungen__platzhalter p { margin: 0; }
+/* ---------- Hero (BAUPLAN 2 Zeile 2, 3.4, 3.5): 7fr Text | Spaltenlinie | 5fr Rahmen 4:5 ---------- */
+.hero { max-width: var(--breit); margin-inline: auto; padding-top: var(--kopf); display: grid; grid-template-columns: 7fr 5fr; align-items: stretch; }
+/* C19: keine senkrechte Trennlinie mehr zwischen Text und Foto (border-right entfernt) — das Foto traegt allein. */
+.hero-text { padding: clamp(32px, 5vw, 64px) clamp(24px, 3vw, 44px) clamp(32px, 5vw, 64px) var(--rand); display: flex; flex-direction: column; justify-content: center; }
+/* h1 so gross, dass «Carrosserie und Lack» auf 1440 einzeilig bleibt (zweizeilig gesamt, Reshat nach Schritt 09, b) */
+.hero-text h1 { font-family: var(--titel); font-weight: 400; font-size: clamp(42px, 4.4vw, 62px); line-height: 1.04; }
+.hero-text h1 em { font-style: italic; }
+.hero-text .lead { font-size: 19px; line-height: 1.55; max-width: 32em; margin: 26px 0 34px; color: #33363b; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-bild { margin: 0; padding: clamp(24px, 3vw, 36px) var(--rand) 28px clamp(28px, 3vw, 40px); display: flex; flex-direction: column; justify-content: center; }
+.hero-bild__rahmen { display: block; border-radius: 14px; overflow: hidden; }
+.hero-bild img { aspect-ratio: 4 / 5; width: 100%; max-height: 600px; object-fit: cover; }
+.hero-bild figcaption { margin-top: 10px; font-size: 13px; line-height: 1.4; color: var(--leise); max-width: 40ch; }
 
-/* Partner-Logos (von autospeedy.ch übernommen) */
-.partner-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; margin: 0 0 12px; padding: 0; list-style: none; }
-.partner-logos li { display: flex; align-items: center; }
-.partner-logos img { display: block; height: 40px; width: auto; max-width: 100%; }
+/* ---------- Faktenleiste (BAUPLAN 2 Zeile 3, 3.6): dl mit 4 Gruppen ---------- */
+.leiste-fakten { max-width: var(--breit); margin-inline: auto; display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid var(--linie); background: var(--papier); }
+/* Mit echten Google-Daten eine fuenfte Zelle «Bewertung» (Reshat Design-Review 22:00, 3) */
+.leiste-fakten[data-spalten="5"] { grid-template-columns: repeat(5, 1fr); }
+.leiste-fakten > div { margin: 0; padding: 16px 20px 18px; }
+.leiste-fakten > div:first-child { padding-left: var(--rand); }
+.leiste-fakten > div + div { border-left: 1px solid var(--linie); }
+.leiste-fakten dt { font-size: 13px; font-weight: 600; color: var(--leise); margin-bottom: 4px; }
+.leiste-fakten dd { margin: 0; font-size: 15px; line-height: 1.45; }
 
-/* Logos einheitlich: jedes auf einer gleichen weissen Karte (einige Dateien haben weissen Hintergrund) */
-.partner-logos img { background: #fff; padding: 10px 14px; box-sizing: content-box; border: 1px solid #dde3ea; }
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; padding-top: var(--kopf); }
+  /* Handy: H1, Lead und «Schaden melden» stehen VOR dem Foto, damit sie bei 390x844 im ersten
+     Bildschirm sichtbar sind (Reshat Design-Review 22:00, 1). Foto auf 3:2 gekuerzt. Kein order:-1. */
+  .hero-bild { padding: 8px var(--rand) 0; }
+  .hero-bild img { aspect-ratio: 3 / 2; max-height: none; }
+  .hero-text { padding: 20px var(--rand) 20px; border-right: 0; }
+  .hero-text h1 { font-size: 35px; }
+  .hero-text .lead { font-size: 17px; margin: 16px 0 24px; }
+  .ctas .knopf { flex: 1 1 100%; }
+  .leiste-fakten, .leiste-fakten[data-spalten="5"] { grid-template-columns: 1fr 1fr; }
+  .leiste-fakten > div, .leiste-fakten > div + div { border-left: 0; padding-left: var(--rand); }
+  .leiste-fakten > div:nth-child(even) { border-left: 1px solid var(--linie); padding-left: 20px; }
+  .leiste-fakten > div:nth-child(n + 3) { border-top: 1px solid var(--linie); }
+}
 
-/* Partner-Laufband (Komponente Partnerband.astro): gleich grosse Karten, Ränder weich ausgeblendet, langsam nach links. */
-.partnerband { overflow: hidden; margin: 0 0 16px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.partnerband__spur { display: flex; gap: 16px; width: max-content; margin: 0; padding: 6px 0; list-style: none; animation: partnerband var(--dauer, 40s) linear infinite; }
-.partnerband:hover .partnerband__spur, .partnerband:focus-within .partnerband__spur { animation-play-state: paused; }
-.partnerband__karte { display: flex; align-items: center; justify-content: center; width: 196px; height: 84px; padding: 14px 22px; box-sizing: border-box; background: #fff; border: 1px solid #dde3ea; border-radius: var(--rund, 10px); transition: border-color 200ms ease, transform 200ms ease; }
-.partnerband__karte:hover { border-color: #3e6ae1; transform: translateY(-2px); }
-.partnerband__karte a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
-.partnerband__karte img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
-@keyframes partnerband { to { transform: translateX(calc(-50% - 8px)); } }
-@media (max-width: 860px) { .partnerband__karte { width: 150px; height: 68px; padding: 10px 16px; } }
+/* Startbuehne: Titel gross in der Serifenschrift */
+.buehne--start > img { filter: saturate(.86) contrast(1.05) brightness(.96); }
+.buehne--start::before { background:
+  radial-gradient(120% 90% at 0% 100%, rgba(10, 12, 14, .82) 0%, rgba(10, 12, 14, .45) 45%, rgba(10, 12, 14, 0) 75%),
+  linear-gradient(180deg, rgba(10, 12, 14, .45) 0%, rgba(10, 12, 14, 0) 22%); }
+.buehne--start h1 { font-family: var(--titel); font-size: clamp(52px, 8vw, 120px); font-weight: 400; letter-spacing: -.02em; line-height: .95; max-width: 12ch; }
+.buehne--start .buehne__kicker { color: rgba(255, 255, 255, .82); }
+.buehne--start .buehne__kicker::before { content: ""; display: inline-block; width: 18px; height: 1px; margin-right: 10px; vertical-align: middle; background: currentColor; }
+.buehne--start .buehne__unter { max-width: 40ch; }
+.buehne--start .knoepfe { gap: 12px; }
+.buehne__tesla .pfeil { transition: transform .25s var(--sanft); }
+@media (hover: hover) { .buehne__tesla:hover .pfeil { transform: translateX(3px); } }
+
+/* Vertrauenszeile direkt unter dem ersten Bildschirm */
+.vertrauen { list-style: none; margin: 0; padding: 0 var(--rand); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--weiss); border-bottom: 1px solid var(--linie); }
+.vertrauen li { display: grid; gap: 2px; padding: 22px 20px; border-left: 1px solid var(--linie); max-width: none; }
+.vertrauen li:first-child { border-left: 0; padding-left: 0; }
+.vertrauen b { font-weight: 600; font-size: 15px; }
+.vertrauen span { color: var(--grau); font-size: 14px; }
+.vertrauen li:first-child b::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: var(--blau); vertical-align: 2px; }
+@media (min-width: 1352px) { .vertrauen { padding-inline: calc((100vw - var(--breit)) / 2); } }
+
+/* Tesla: ruhige Nachtflaeche, Marke als Text */
+.tesla { background: var(--nacht); }
+.tesla__marke { border-color: rgba(255, 255, 255, .22); padding: 8px 14px 8px 12px; }
+.tesla__liste li { font-size: 18px; padding: 18px 0; }
+
+/* Fotos: ruhige Bildsprache, weiche Ecken */
+.kachel, .zeile img, .raster img, .leute img, .naehe__bild img { border-radius: var(--rund-gross); }
+.kachel img, .zeile img, .raster img, .naehe__bild img, .seitenkopf__bild img { filter: saturate(.9) contrast(1.03); }
+.kachel img { transition: transform 1.2s var(--sanft); }
+@media (hover: hover) { .kachel:hover img { transform: scale(1.045); } }
+.kachel { min-height: 520px; box-shadow: var(--schatten); transition: transform .5s var(--sanft), box-shadow .5s var(--sanft); }
+@media (hover: hover) { .kachel:hover { transform: translateY(-4px); box-shadow: 0 2px 4px rgba(21, 24, 28, .06), 0 24px 48px rgba(21, 24, 28, .14); } }
+.kachel__text { background-color: rgba(16, 18, 21, .55); }
+.kachel h3 { font-family: var(--titel); font-weight: 400; font-size: 32px; letter-spacing: 0; }
+
+/* Vorher-nachher: Layout */
+.vorher-nachher { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+.vorher-nachher .abschnitt__kopf { margin-bottom: 0; }
+#felgen .vergleich { margin-bottom: 24px; }
+
+/* Naehe: Fassade und Text, darunter das Team */
+.naehe { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: center; margin-bottom: clamp(48px, 8vh, 88px); }
+.naehe__bild img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.naehe__text { display: grid; gap: 16px; }
+.naehe__text p:not(.kicker) { color: var(--grau); font-size: 18px; line-height: 1.6; }
+.leute img { aspect-ratio: 4 / 5; filter: saturate(.9); transition: transform .6s var(--sanft); }
+@media (hover: hover) { .leute figure:hover img { transform: translateY(-3px); } }
+
+/* Google-Bewertungen (Entwurf C, BAUPLAN 3.10): Kopf mit Note und 5 Sternen, keine Karten, darunter Links. */
+.bewertungen-teil .bew-kopf { display: flex; justify-content: space-between; align-items: end; gap: 20px 32px; flex-wrap: wrap; }
+.bewertungen-teil .bew-kopf .titel { max-width: 14em; }
+.bewertungen-teil .schnitt { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-weight: 600; margin: 0; }
+.bewertungen-teil .zahl { font-family: "Archivo", var(--schrift); font-variant-numeric: tabular-nums; }
+.bewertungen-teil .leise { font-weight: 400; color: var(--leise); font-size: 14px; }
+.bewertungen-teil .bew-attribution { margin: 20px 0 0; }
+.bewertungen-teil .bew-links { display: flex; gap: 28px; margin: 14px 0 0; }
+.bewertungen-teil .bew-links a { display: inline-flex; gap: 8px; align-items: center; font-weight: 600; color: var(--akzent); text-underline-offset: 4px; }
+/* Sterne: graue Umrisse, darueber die Fuellung (Akzent), ueber die Breite einer Maske beschnitten (Teilstern). */
+.sterne { display: inline-flex; gap: 3px; line-height: 0; }
+.bew-stern { position: relative; display: inline-block; width: 18px; height: 18px; }
+.bew-stern .stern { display: block; }
+.stern--leer { color: #c3bdb2; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; }
+.stern-voll { position: absolute; inset: 0; overflow: hidden; line-height: 0; }
+.stern--voll { color: var(--akzent); fill: currentColor; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; }
+
+/* Kontakt-Karten und Karten allgemein */
+.kontakt__karte { border-radius: var(--rund-gross); }
+.kontakt__karte h2, .gruppe h2 { font-family: var(--schrift); }
+.gruppe h2 { font-weight: 600; font-size: 20px; }
+.textseite h2 { font-size: 28px; }
+.kontakt__karte { transition: box-shadow .3s var(--sanft), transform .3s var(--sanft); }
+@media (hover: hover) { .kontakt__karte:hover { box-shadow: inset 0 0 0 1px #cfc8bd, 0 10px 30px rgba(21, 24, 28, .06); transform: translateY(-2px); } }
+.abschluss { background: var(--flaeche); }
+.ansicht { background: linear-gradient(160deg, #efebe5 0%, #e4dfd7 100%); }
+a.klein { font-size: 14px; }
+
+/* Schadenmeldung: Seitenlayout (Premium) */
+.melden-seite__tel { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.melden-seite__tel .k { color: var(--tinte); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 960px) {
+  .buehne--start .knoepfe .k { display: inline-flex; width: 100%; }
+  .vertrauen { grid-template-columns: 1fr 1fr; }
+  .vertrauen li { padding: 18px 14px; }
+  .vertrauen li:nth-child(odd) { border-left: 0; padding-left: 0; }
+  .vertrauen li:nth-child(n + 3) { border-top: 1px solid var(--linie); }
+  .vorher-nachher, .naehe { grid-template-columns: 1fr; }
+  .bewertungen-teil .bew-links { flex-direction: column; gap: 14px; }
+  .kachel { min-height: 420px; }
+}
+@media (max-width: 560px) {
+  .buehne--start h1 { font-size: clamp(48px, 13vw, 64px); }
+  .abschnitt { padding-block: 72px; }
+}
+
+/* Tesla-Abschnitt Entwurf C (BAUPLAN 2 Zeile 8). 5fr Kopf (mit .spec) | 7fr Fotoband 21:9 und .ablauf.
+   Masse und Farben woertlich aus referenz-c/entwurf-c.css (.tesla, .spec, .tesla-bild, .ablauf, .tesla-ende).
+   Eigene Klasse .tesla-teil, damit die alte dunkle .tesla-Sektion der Unterseiten unberuehrt bleibt. */
+.tesla-teil { max-width: var(--breit); margin-inline: auto; display: grid; grid-template-columns: 5fr 7fr; column-gap: 64px; padding: clamp(48px, 6vw, 84px) var(--rand); border-bottom: 1px solid var(--linie); }
+.tesla-teil .titel { font-size: clamp(30px, 2.9vw, 40px); }
+.tesla-kopf > p { margin: 20px 0 32px; color: #33363b; max-width: 30em; }
+.spec { border-top: 1px solid var(--tinte); margin: 0; }
+.spec div { display: grid; grid-template-columns: 120px 1fr; padding: 12px 0; border-bottom: 1px solid var(--linie); }
+.spec dt { margin: 0; font-size: 14px; font-weight: 500; color: var(--leise); }
+.spec dd { margin: 0; font-size: 15.5px; font-weight: 500; }
+.tesla-bild { margin: 0; }
+.tesla-bild img { aspect-ratio: 21 / 9; width: 100%; object-fit: cover; object-position: 40% 55%; border-radius: 14px; }
+.tesla-bild figcaption { margin-top: 10px; font-size: 13px; line-height: 1.4; color: var(--leise); max-width: 40ch; }
+/* C15: alle Schritte oben ausrichten, damit die Kreise 01/02/03 auf einer Linie sitzen (nicht nach Textlaenge versetzt). */
+.tesla-teil .ablauf { display: grid; grid-template-columns: repeat(3, 1fr); align-items: start; gap: 24px; margin: 36px 0 0; padding: 0; list-style: none; position: relative; }
+.tesla-teil .ablauf::before { content: ""; position: absolute; left: 5px; right: 0; top: 5px; border-top: 1px solid var(--tinte); }
+.tesla-teil .ablauf li { position: relative; padding-top: 28px; }
+.tesla-teil .ablauf li::before { content: ""; position: absolute; top: 0; left: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--grund); border: 1.5px solid var(--tinte); }
+.tesla-teil .ablauf b { display: flex; align-items: baseline; gap: 10px; font-weight: 600; font-size: 17px; margin-bottom: 6px; }
+.tesla-teil .ablauf .ziffer { font-size: 14px; font-weight: 500; color: var(--akzent); }
+.tesla-teil .ablauf li > span { color: #3f4247; font-size: 15.5px; display: block; }
+.tesla-ende { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--linie); }
+.tesla-ende .hinweis { margin: 0; font-size: 13px; color: var(--leise); }
+
+@media (max-width: 960px) {
+  .tesla-teil { grid-template-columns: 1fr; column-gap: 0; row-gap: 40px; }
+}
+/* Handy (≤720px): Fotoband flacher, Ablauf senkrecht mit Linie links (entwurf-c-handy-ganz.png) */
+@media (max-width: 720px) {
+  .tesla-bild img { aspect-ratio: 16 / 10; }
+  .tesla-teil .ablauf { grid-template-columns: 1fr; gap: 20px; padding-left: 28px; }
+  .tesla-teil .ablauf::before { left: 5px; top: 6px; bottom: 0; right: auto; border-top: 0; border-left: 1px solid var(--tinte); }
+  .tesla-teil .ablauf li { padding-top: 0; }
+  .tesla-teil .ablauf li::before { left: -28px; top: 6px; }
+  .tesla-ende { flex-direction: column; align-items: stretch; }
+}
+
+}
+
+/* ===================================================================== bewegung ===================================================================== */
+@layer bewegung {
+
+/* Keyframes der Bewegungsliste (Abschnitt 3). Jede Regel ist unten mit ihrer BAUPLAN-Nummer vermerkt.
+   Das generische Einblenden jeder Sektion (fruehere .zeigen-Klasse) ist bewusst entfernt (3.15). */
+@keyframes partnerband { to { transform: translateX(calc(-50% - 8px)); } }       /* 3.9 Partnerband-Laufband */
+@keyframes schrittRein { from { opacity: 0; transform: translateX(12px); } }     /* 3.13 Schrittwechsel (Formular) */
+@keyframes haken-ein { to { stroke-dashoffset: 0; } }                            /* 3.13 Erfolgs-Haeckchen zeichnet sich */
+@keyframes vergleichHinweis { 0% { --pos: 50; } 33% { --pos: 42; } 66% { --pos: 56; } 100% { --pos: 50; } } /* 3.8 Slider-Hinweis */
+
+/* Federknopf (BAUPLAN 3.2): Die Feder wirkt nur beim Loslassen (lange Transition im Grundzustand).
+   Hover hebt an (feder-ruhig), Druecken staucht kurz (var(--druck)/var(--aus)). Nur transform und Farbe. */
+.knopf { transition: transform var(--feder-knopf-dauer) var(--feder-knopf), background-color var(--farbe) linear, color var(--farbe) linear; }
+@media (hover: hover) and (pointer: fine) {
+  .knopf:hover { transform: translateY(-2px); transition: transform var(--feder-ruhig-dauer) var(--feder-ruhig), background-color var(--farbe) linear, color var(--farbe) linear; }
+}
+.knopf:active { transform: scale(.96); transition: transform var(--druck) var(--aus), background-color var(--farbe) linear, color var(--farbe) linear; }
+
+/* Leistungen (BAUPLAN 2 Zeile 5): Abschnitt und 4 ganz klickbare Karten. */
+.leistungen { max-width: var(--breit); margin-inline: auto; padding: clamp(48px, 6vw, 84px) var(--rand); border-bottom: 1px solid var(--linie); }
+.leistungen > .titel { font-size: clamp(32px, 3.3vw, 46px); line-height: 1.08; max-width: 18em; }
+.karten { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 44px 0 0; padding: 0; list-style: none; }
+.karten a { display: flex; flex-direction: column; gap: 12px; height: 100%; padding: 26px 24px 22px; background: var(--papier); border: 1px solid var(--linie); border-radius: 14px; text-decoration: none; color: var(--tinte); }
+.karten h3 { font-family: var(--titel); font-weight: 400; font-size: 24px; line-height: 1.15; letter-spacing: -.012em; }
+.karten p { margin: 0; color: #3f4247; font-size: 16px; line-height: 1.5; }
+.pfeil { margin-top: auto; align-self: flex-end; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--linie); color: var(--tinte); }
+.ausserdem { margin: 22px 0 0; color: var(--leise); }
+.ausserdem a { color: var(--akzent); text-underline-offset: 3px; }
+
+/* Nachtrag (04.11.): 6 Leistungskarten mit Bild. Desktop 3x2, Bild oben (3:2). Handy: 88-px-Quadrat links. */
+.karten--bild { grid-template-columns: repeat(3, 1fr); }
+.karten--bild a { padding: 0 0 20px; overflow: hidden; }
+.leist-bild { display: block; border-radius: 14px 14px 0 0; overflow: hidden; margin: -1px -1px 4px; background: var(--flaeche); }
+.leist-bild img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; filter: saturate(.9) contrast(1.03); }
+.karten--bild h3, .karten--bild p { padding-inline: 22px; }
+.karten--bild .pfeil { margin-right: 20px; }
+.leistungen__cta { justify-content: flex-start; margin-top: 32px; }
+@media (max-width: 960px) { .karten--bild { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 720px) {
+  /* Handy: Zeile mit 88-px-Quadrat links, Text rechts, Pfeil aussen. */
+  .karten--bild { grid-template-columns: 1fr; gap: 0; }
+  .karten--bild a { display: grid; grid-template-columns: 88px 1fr 38px; grid-template-rows: auto auto; gap: 2px 14px; align-items: center; padding: 14px 0; border-radius: 0; overflow: visible; }
+  .leist-bild { grid-row: 1 / 3; grid-column: 1; width: 88px; height: 88px; margin: 0; border-radius: 12px; }
+  .leist-bild img { width: 88px; height: 88px; aspect-ratio: 1; }
+  .karten--bild h3 { grid-column: 2; grid-row: 1; align-self: end; padding: 0; font-size: 20px; }
+  .karten--bild p { grid-column: 2; grid-row: 2; align-self: start; padding: 0; font-size: 15px; }
+  .karten--bild .pfeil { grid-column: 3; grid-row: 1 / 3; align-self: center; margin: 0; }
+}
+
+/* Kartenbewegung (BAUPLAN 3.3): Karte hebt an (feder-ruhig), Pfeil folgt 40 ms spaeter (feder-knopf).
+   Hover nur mit feinem Zeiger; :active staucht 90 ms; Fokus zeigt die Pfeilposition sofort ohne Transition. */
+.karten a { transition: border-color var(--farbe) linear, transform var(--feder-ruhig-dauer) var(--feder-ruhig); }
+.pfeil { transition: transform var(--feder-knopf-dauer) var(--feder-knopf) 40ms, background-color var(--farbe) linear, color var(--farbe) linear; }
+@media (hover: hover) and (pointer: fine) {
+  .karten a:hover { border-color: var(--tinte); transform: translateY(-3px); }
+  .karten a:hover .pfeil { transform: translateX(4px); background: var(--akzent); color: #fff; box-shadow: none; }
+}
+.karten a:active { transform: scale(.985); transition: transform var(--druck) var(--aus); }
+.karten a:focus-visible .pfeil { transform: translateX(4px); background: var(--akzent); color: #fff; box-shadow: none; transition: none; }
+
+/* Wiederkehrende CTA-Box «Anfrage» (BAUPLAN 2 Zeile 7) */
+.anfrage { max-width: var(--breit); margin-inline: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 28px var(--rand); background: var(--papier); border-bottom: 1px solid var(--linie); }
+.anfrage p { margin: 0; font-size: 18px; line-height: 1.5; max-width: 30em; }
+.anfrage .ctas { flex: none; }
+
+/* Felgen vorher/nachher (BAUPLAN 2 Zeile 6): C-Abschnitt mit Haarlinie, Rahmen und Bildunterschrift.
+   Rahmen 3:2 (Desktop) / 1:1 (Handy), object-fit: cover (Base). Flaeche ohne Schatten (BAUPLAN 2). */
+/* C13: Titel und Text links, der Regler rechts ueber ~60 % der Breite (statt schmal links mit toter Flaeche). */
+.vorher-nachher { max-width: var(--breit); margin-inline: auto; padding: clamp(48px, 6vw, 84px) var(--rand); border-bottom: 1px solid var(--linie); display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.4fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+.vorher-nachher__text .titel { font-size: clamp(32px, 3.3vw, 46px); line-height: 1.08; }
+.vorher-nachher__text > p { margin: 14px 0 0; font-size: 18px; line-height: 1.5; color: #3f4247; max-width: 46ch; }
+.vorher-nachher__slider { min-width: 0; }
+.vorher-nachher .vergleich { max-width: none; }
+.vorher-nachher .vergleich__buehne { aspect-ratio: 3 / 2; border: 1px solid var(--linie); border-radius: 14px; box-shadow: none; }
+.vorher-nachher .vergleich__text { display: block; margin-top: 10px; font-size: 13px; line-height: 1.4; color: var(--leise); }
+@media (max-width: 960px) { .vorher-nachher { grid-template-columns: 1fr; gap: 24px; } }
+@media (max-width: 560px) { .vorher-nachher .vergleich__buehne { aspect-ratio: 1; } }
+
+/* Tablet: zwei Spalten; Handy (≤720px): Karten werden Zeilen (entwurf-c-handy-ganz.png) */
+@media (max-width: 960px) { .karten { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 720px) {
+  .karten { grid-template-columns: 1fr; gap: 0; margin-top: 24px; border-top: 1px solid var(--tinte); }
+  .karten a { display: grid; grid-template-columns: 1fr 38px; gap: 4px 14px; padding: 18px 0; background: none; border: 0; border-bottom: 1px solid var(--linie); border-radius: 0; }
+  .karten a:active { transform: none; }
+  .karten a:active .pfeil { transform: translateX(3px); }
+  .karten p { grid-column: 1; }
+  .karten h3 { font-size: 22px; }
+  .karten .pfeil { grid-row: 1 / 3; grid-column: 2; align-self: center; margin-top: 0; }
+  .anfrage { flex-direction: column; align-items: stretch; }
+  .anfrage .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+}
+
+/* Nachfuehren je Eingabe (BAUPLAN 3.8): Maus weich (120 ms --aus), Touch 1:1 ohne Transition,
+   Tippen und Tastatur springen kritisch gedaempft (--feder-regler). */
+/* Maus: Nachlauf wird in klar.js pro Frame gelerpt (requestAnimationFrame), darum hier keine CSS-Transition.
+   Touch 1:1 ohne Transition (Korrektur Motion 9). */
+.vergleich[data-quelle="maus"] { transition: none; }
+.vergleich[data-quelle="touch"] { transition: none; }
+.vergleich[data-quelle="taste"], .vergleich[data-quelle="tipp"] { transition: --pos var(--feder-regler-dauer) var(--feder-regler); }
+.vergleich.ist-hinweis { animation: vergleichHinweis 1.6s var(--feder-weich); }
+
+/* Formular «Schaden melden» (BAUPLAN 3.13, Schritt 12): Auswahl per Transition (Farbe, kein Keyframe), Schrittwechsel
+   als Eintritt mit opacity + translateX genau nach 3.13 (240 ms --aus). «Art gewaehlt» ist nur ein Farbwechsel. */
+.js .schritt:not([hidden]) { animation: schrittRein 240ms var(--aus) both; }
+.fortschritt li::before { transition: background-color .3s var(--aus); }
+.bestaetigung:not([hidden]) { animation: schrittRein 240ms var(--aus) both; }
+
+/* View Transitions (Seitenuebergaenge) bewusst NICHT (BAUPLAN 3.15: «vorerst nicht»). */
+
+/* Reduced Motion ist eine eigene Fassung (BAUPLAN 3.0 Regel 1): 0 px Weg ueberall, nur Farb-/Deckkraftwechsel.
+   Kein Laufband, kein Slider-Hinweis, kein Linienzeichnen — ein Block fuer die ganze Seite. */
 @media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  /* Erfolgs-Haeckchen sofort vollstaendig (3.13: «Haekchen sofort»), nicht eingefroren versteckt */
+  .bestaetigung__pfad { stroke-dashoffset: 0 !important; }
+  /* Knopf ohne Weg: kein transform, nur Farbe (BAUPLAN 3.2) */
+  .knopf, .knopf:hover, .knopf:active { transform: none; }
+  /* Partnerband (BAUPLAN 3.9): kein Lauf, kein Knopf; Namen/Logos umbrochen auf ein bis zwei Zeilen */
+  .partner__pause { display: none; }
   .partnerband { -webkit-mask-image: none; mask-image: none; }
   .partnerband__spur { animation: none; flex-wrap: wrap; width: auto; }
   .partnerband__karte[data-kopie] { display: none; }
   .partnerband__karte, .partnerband__karte:hover { transition: none; transform: none; }
+  /* Slider (BAUPLAN 3.8): alle Eingaben springen direkt, kein Hinweis */
+  .vergleich, .vergleich[data-quelle] { transition: none; }
+  .kachel:hover, .kontakt__karte:hover, .art:hover { transform: none; }
+  /* CTAs, Pfeile und Hamburger springen ohne Weg (Korrektur Motion 1/2) */
+  .k, .k:active, .k:hover, .k--pfeil::after, .k--pfeil:hover::after, .textlink span, .textlink:hover span, .blatt a span, .blatt a:hover span { transform: none; }
+  .kopf__menu-icon span { transform: none; }
+  .kopf__menu[aria-expanded="true"] .kopf__menu-icon span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .kopf__menu[aria-expanded="true"] .kopf__menu-icon span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  /* Karten (BAUPLAN 3.3): nur Rand- und Pfeilfarbe, kein Weg */
+  .karten a:hover, .karten a:active, .karten a:hover .pfeil, .karten a:active .pfeil, .karten a:focus-visible .pfeil { transform: none; }
 }
+
+/* Hero-Einstieg (3.4), Hero-Foto (3.5), Faktenleiste (3.6): reines CSS, laeuft auch ohne JS und endet sichtbar.
+   CTAs werden nicht animiert. Nur unter «Bewegung nicht reduziert», darum kein animation-name bei Reduced Motion. */
+@keyframes hero-ein { from { opacity: 0; transform: translateY(12px); } }
+/* 21: Hero-Foto blendet sanft ein (opacity + translateY 8 px, <= 450 ms) statt eines Zooms. */
+@keyframes hero-bild-ein { from { opacity: 0; transform: translateY(8px); } }
+@keyframes leiste-ein { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-text h1 span, .hero-text h1 em, .hero-text .lead { animation: hero-ein 520ms var(--feder-weich) both; }
+  .hero-text h1 span { animation-delay: 0ms; }
+  .hero-text h1 em { animation-delay: 60ms; }
+  .hero-text .lead { animation-delay: 120ms; }
+  .hero-bild img { animation: hero-bild-ein 420ms var(--aus) both; }
+  .leiste-fakten > div { animation: leiste-ein 420ms var(--feder-weich) both; }
+  .leiste-fakten > div:nth-child(1) { animation-delay: 180ms; }
+  .leiste-fakten > div:nth-child(2) { animation-delay: 230ms; }
+  .leiste-fakten > div:nth-child(3) { animation-delay: 280ms; }
+  .leiste-fakten > div:nth-child(4) { animation-delay: 330ms; }
+  .leiste-fakten > div:nth-child(5) { animation-delay: 380ms; }
+}
+/* Handy: kuerzerer Weg (6 px statt 12 px) */
+@media (max-width: 760px) and (prefers-reduced-motion: no-preference) {
+  @keyframes hero-ein { from { opacity: 0; transform: translateY(6px); } }
+}
+
+/* Foto-Reveal im Rahmen (BAUPLAN 3.5, 21): opacity + translateY 8 px -> 0, <= 450 ms, einmal ueber .ist-da.
+   Ausgangszustand nur unter .js-bewegung -> ohne JS und bei Reduced Motion ist das Bild sofort sichtbar.
+   .ohne-uebergang schaltet die Transition fuer einen Frame aus (schon im Bild beim Laden). */
+.js-bewegung .foto-ein img { opacity: 0; transform: translateY(8px); }
+.js-bewegung .foto-ein.ist-da img { opacity: 1; transform: none; transition: opacity 400ms var(--aus), transform 420ms var(--aus); }
+.js-bewegung .foto-ein.ohne-uebergang img { transition: none; }
+
+/* 21: Der Vorher/Nachher-Regler blendet ebenfalls sanft ein. Reveal am Wrapper (.vorher-nachher__slider),
+   damit die eigene --pos-Transition der Figur (Maus/Tastatur/Tippen) unberuehrt bleibt. */
+.js-bewegung .vorher-nachher__slider { opacity: 0; transform: translateY(8px); }
+.js-bewegung .vorher-nachher__slider.ist-da { opacity: 1; transform: none; transition: opacity 400ms var(--aus), transform 420ms var(--aus); }
+.js-bewegung .vorher-nachher__slider.ohne-uebergang { transition: none; }
+
+/* Fuss-Slogan (Korrektur Footer 4): einmaliges weiches Einblenden, nur unter .js-bewegung (= keine Reduced Motion).
+   Nur opacity + transform; ohne JS und bei Reduced Motion steht der Slogan sofort. */
+.js-bewegung .fuss-slogan { opacity: 0; transform: translateY(14px); }
+.js-bewegung .fuss-slogan.ist-da { opacity: 1; transform: none; transition: opacity 400ms var(--aus), transform var(--feder-weich-dauer) var(--feder-weich); }
+.js-bewegung .fuss-slogan.ohne-uebergang { transition: none; }
+
+/* Tesla-Ablauf zeichnet sich Schritt fuer Schritt (BAUPLAN 3.7). Alles nur unter .js-bewegung, einmal ueber .ist-da.
+   Linie als ::before am <ol class="ablauf">: Desktop scaleX von links, Handy (≤720px) scaleY von oben, 900 ms --feder-weich.
+   Punkte scale .6->1 + opacity, 320 ms --feder-knopf, Verzoegerung 0/300/600 ms; Texte 420 ms --aus, 80/380/680 ms. */
+.js-bewegung .tesla-teil .ablauf::before { transform: scaleX(0); transform-origin: left; }
+.js-bewegung .tesla-teil .ablauf.ist-da::before { transform: scaleX(1); transition: transform 900ms var(--feder-weich); }
+.js-bewegung .tesla-teil .ablauf li::before { opacity: 0; transform: scale(.6); }
+.js-bewegung .tesla-teil .ablauf.ist-da li::before { opacity: 1; transform: none; transition: opacity 320ms var(--feder-knopf), transform 320ms var(--feder-knopf); }
+.js-bewegung .tesla-teil .ablauf.ist-da li:nth-child(1)::before { transition-delay: 0ms; }
+.js-bewegung .tesla-teil .ablauf.ist-da li:nth-child(2)::before { transition-delay: 300ms; }
+.js-bewegung .tesla-teil .ablauf.ist-da li:nth-child(3)::before { transition-delay: 600ms; }
+.js-bewegung .tesla-teil .ablauf li > b, .js-bewegung .tesla-teil .ablauf li > span { opacity: 0; transform: translateY(8px); }
+.js-bewegung .tesla-teil .ablauf.ist-da li > b, .js-bewegung .tesla-teil .ablauf.ist-da li > span { opacity: 1; transform: none; transition: opacity 420ms var(--aus), transform 420ms var(--aus); }
+.js-bewegung .tesla-teil .ablauf.ist-da li:nth-child(1) > b, .js-bewegung .tesla-teil .ablauf.ist-da li:nth-child(1) > span { transition-delay: 80ms; }
+.js-bewegung .tesla-teil .ablauf.ist-da li:nth-child(2) > b, .js-bewegung .tesla-teil .ablauf.ist-da li:nth-child(2) > span { transition-delay: 380ms; }
+.js-bewegung .tesla-teil .ablauf.ist-da li:nth-child(3) > b, .js-bewegung .tesla-teil .ablauf.ist-da li:nth-child(3) > span { transition-delay: 680ms; }
+/* Schon im Bild beim Laden: ohne Transition direkt im Endzustand (ein Frame .ohne-uebergang) */
+.js-bewegung .tesla-teil .ablauf.ohne-uebergang::before, .js-bewegung .tesla-teil .ablauf.ohne-uebergang li::before,
+.js-bewegung .tesla-teil .ablauf.ohne-uebergang li > b, .js-bewegung .tesla-teil .ablauf.ohne-uebergang li > span { transition: none; }
+/* Handy: Linie senkrecht (scaleY von oben) */
+@media (max-width: 720px) {
+  .js-bewegung .tesla-teil .ablauf::before { transform: scaleY(0); transform-origin: top; }
+  .js-bewegung .tesla-teil .ablauf.ist-da::before { transform: scaleY(1); }
+}
+
+/* Sterne-Einstieg (BAUPLAN 3.10): NUR mit echten Daten (.bew-kopf--echt), einmal ueber IO (.ist-da).
+   Die Sterne fuellen sich von links: opacity .25->1 + scale .85->1, 240 ms --aus, 50 ms Staffel.
+   Teilstern (Fuellmaske) und Note bleiben statisch — kein Hochzaehlen. */
+.js-bewegung .bew-kopf--echt .bew-stern { opacity: .25; transform: scale(.85); transform-origin: center; }
+.js-bewegung .bew-kopf--echt.ist-da .bew-stern { opacity: 1; transform: none; transition: opacity 240ms var(--aus), transform 240ms var(--aus); }
+.js-bewegung .bew-kopf--echt.ist-da .bew-stern:nth-child(1) { transition-delay: 0ms; }
+.js-bewegung .bew-kopf--echt.ist-da .bew-stern:nth-child(2) { transition-delay: 50ms; }
+.js-bewegung .bew-kopf--echt.ist-da .bew-stern:nth-child(3) { transition-delay: 100ms; }
+.js-bewegung .bew-kopf--echt.ist-da .bew-stern:nth-child(4) { transition-delay: 150ms; }
+.js-bewegung .bew-kopf--echt.ist-da .bew-stern:nth-child(5) { transition-delay: 200ms; }
+.js-bewegung .bew-kopf--echt.ohne-uebergang .bew-stern { transition: none; }
+
+}
+
+/* ===================================================================== Nachtrag 04.11.2026 ===================================================================== */
+@layer abschnitte {
+
+/* Fragen und Antworten (AEO): ruhige Liste, erste Frage offen, ohne JavaScript bedienbar. */
+.faq .abschnitt__innen { max-width: 820px; }
+.faq__liste { margin-top: clamp(24px, 4vh, 40px); border-top: 1px solid var(--linie); }
+.faq__item { border-bottom: 1px solid var(--linie); }
+.faq__item summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; cursor: pointer; list-style: none; }
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item h3 { font-family: var(--titel); font-weight: 400; font-size: clamp(19px, 2vw, 23px); letter-spacing: -.01em; margin: 0; }
+.faq__zeichen { flex: none; position: relative; width: 20px; height: 20px; }
+.faq__zeichen::before, .faq__zeichen::after { content: ""; position: absolute; top: 50%; left: 50%; width: 14px; height: 2px; margin: -1px 0 0 -7px; border-radius: 2px; background: var(--leise); transition: transform var(--farbe) var(--aus); }
+.faq__zeichen::after { transform: rotate(90deg); }
+.faq__item[open] .faq__zeichen::after { transform: rotate(0); }
+.faq__item p { margin: 0 0 22px; color: #3f4247; font-size: 16px; line-height: 1.6; max-width: 62ch; }
+@media (hover: hover) { .faq__item summary:hover h3 { color: var(--akzent); } }
+@media (prefers-reduced-motion: reduce) { .faq__zeichen::before, .faq__zeichen::after { transition: none; } }
+
+/* Partnerband-Logos (Nachtrag): Graustufen, von links nach rechts laufend, Land Rover als Wortmarke,
+   Tesla optisch gleich schwer (kleinere Kappenhöhe). Nur CSS-Animation von transform (schon vorhanden). */
+.partnerband--logos .partnerband__spur { animation-direction: reverse; }
+.partnerband--logos .partnerband__karte img { max-height: 40px; filter: grayscale(1); opacity: .72; transition: filter var(--farbe) linear, opacity var(--farbe) linear; }
+.partnerband--logos .partnerband__karte--tesla img { max-height: 30px; }
+.partnerband--logos .partnerband__wortmarke { font-family: "Archivo", var(--schrift); font-size: 19px; font-weight: 500; letter-spacing: .04em; color: #6b7076; text-transform: uppercase; }
+@media (hover: hover) {
+  .partnerband--logos .partnerband__karte:hover img { filter: grayscale(0); opacity: 1; }
+  .partnerband--logos .partnerband__karte:hover .partnerband__wortmarke { color: var(--tinte); }
+}
+@media (max-width: 860px) { .partnerband--logos .partnerband__karte img { max-height: 32px; } .partnerband--logos .partnerband__karte--tesla img { max-height: 24px; } .partnerband--logos .partnerband__wortmarke { font-size: 16px; } }
+
+/* Google-Bewertungen mit Zitaten (Nachtrag): nur in der Vorschau sichtbar (Lücke-Schalter), «Name folgt». */
+.bew-zitate { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 28px 0 0; padding: 0; list-style: none; }
+.bew-zitat { margin: 0; padding: 22px; border: 1px solid var(--linie); border-radius: 14px; background: var(--papier); display: grid; gap: 14px; align-content: start; }
+.bew-zitat__sterne { display: inline-flex; gap: 2px; }
+.bew-zitat blockquote { margin: 0; font-size: 16px; line-height: 1.55; color: #2d3136; }
+.bew-zitat figcaption { font-size: 14px; color: var(--leise); }
+.bew-zitat__name { font-weight: 600; color: var(--tinte); }
+.bew-hinweis { margin: 18px 0 0; padding: 12px 16px; border-radius: var(--rund); background: #fff7e6; color: #6b4300; font-size: 14px; }
+@media (max-width: 960px) { .bew-zitate { grid-template-columns: 1fr; } }
+
+/* Tesla-Seite (Nachtrag, C14): Marke als ruhiger Eyebrow statt Pille mit Punkt; Schritte auf einer Linie. */
+.tesla--seite .kicker { color: rgba(255, 255, 255, .72); }
+.tesla--seite .kicker::before { background: rgba(255, 255, 255, .72); }
+.tesla-schritte { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; position: relative; }
+.tesla-schritte::before { content: ""; position: absolute; left: 5px; right: 0; top: 5px; border-top: 1px solid var(--linie); }
+.tesla-schritte li { position: relative; padding-top: 26px; }
+.tesla-schritte li::before { content: ""; position: absolute; top: 0; left: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--papier); border: 1.5px solid var(--tinte); }
+.tesla-schritte b { display: block; font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+.tesla-schritte span { color: #3f4247; font-size: 15px; }
+@media (max-width: 720px) {
+  .tesla-schritte { grid-template-columns: 1fr; gap: 18px; padding-left: 26px; }
+  .tesla-schritte::before { left: 5px; top: 6px; bottom: 0; right: auto; border-top: 0; border-left: 1px solid var(--linie); }
+  .tesla-schritte li { padding-top: 0; }
+  .tesla-schritte li::before { left: -26px; top: 6px; }
+}
+
+}
+

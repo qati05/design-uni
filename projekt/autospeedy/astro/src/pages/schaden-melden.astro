@@ -74,9 +74,9 @@ const turnstile = process.env.TURNSTILE_SITEKEY || "";
     <div class="honig" aria-hidden="true"><label for="f-web">Bitte leer lassen</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 
     <div class="wege-senden" data-nur-js hidden>
-      <p class="wege-senden__titel">Fertig? Dann senden Sie die Meldung ab.</p>
-      <button class="knopf knopf--gross weg weg--a" type="button" data-senden="website" data-zaehl="schaden-website">Meldung absenden<small data-weg-a-hilfe>Mit Ihren Fotos direkt an Auto Speedy. Wir melden uns bei Ihnen.</small></button>
-      <button class="knopf knopf--gross weg weg--b" type="button" data-senden="whatsapp" data-zaehl="schaden-whatsapp">Lieber per WhatsApp<small>Öffnet WhatsApp mit Ihrer Nachricht. Fotos hängen Sie dort an.</small></button>
+      <p class="wege-senden__titel">So senden Sie die Meldung</p>
+      <button class="knopf knopf--gross weg weg--a" type="button" data-senden="website" data-zaehl="schaden-website">Hier auf der Website senden<small data-weg-a-hilfe>Mit Fotos, ohne weitere App</small></button>
+      <button class="knopf knopf--gross weg weg--b" type="button" data-senden="whatsapp" data-zaehl="schaden-whatsapp">Per WhatsApp senden<small>Fotos hängen Sie in WhatsApp an</small></button>
       {wa && !wa.nummer_bestaetigt && <Luecke>Lücke: Die WhatsApp-Nummer {wa.anzeige} stammt von der Website; der Betrieb bestätigt sie noch.</Luecke>}
       {turnstile && <div class="cf-turnstile" data-sitekey={turnstile} data-language="de"></div>}
         <p class="hilfe">Verantwortlich: {b.name}. Ihre Angaben dienen nur der Bearbeitung Ihrer Meldung.</p>

@@ -1,0 +1,8 @@
+{
+  "_hinweis": "Beispiel, nicht echt — nur fuer Tests (test/fixtures). Diese Zahlen stammen von niemandem.",
+  "status": "ok",
+  "note": 4.7,
+  "anzahl": 128,
+  "maps_link": "https://maps.google.com/?cid=0000000000000000000",
+  "geholt_am": "2026-01-01T00:00:00.000Z"
+}

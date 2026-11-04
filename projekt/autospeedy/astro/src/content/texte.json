@@ -82,74 +82,79 @@
     }
   },
   "seiten": {
+    "404": {
+      "titel": "Seite nicht gefunden | Auto Speedy AG Altstätten",
+      "beschreibung": "Diese Seite der Auto Speedy AG gibt es nicht. Zurück zur Startseite oder direkt zur Schadenmeldung der Carrosserie in Altstätten SG, Alte Landstrasse.",
+      "h1": "Diese Seite gibt es nicht"
+    },
     "index": {
-      "titel": "Carrosserie und Spritzwerk in Altstätten SG | Auto Speedy",
-      "beschreibung": "",
+      "titel": "Carrosserie und Lack in Altstätten SG | Auto Speedy",
+      "beschreibung": "Carrosserie, Lack und Felgen in Altstätten SG: Unfall, Hagel, Folierung und Scheiben für alle Marken. Tesla Approved Body Shop, Versicherung regeln wir.",
       "h1": "Carrosserie und Spritzwerk in Altstätten SG"
     },
     "kontakt": {
       "titel": "Kontakt und Anfahrt, Carrosserie Altstätten | Auto Speedy",
-      "beschreibung": "",
+      "beschreibung": "Adresse, Telefon und Öffnungszeiten von Auto Speedy an der Alten Landstrasse 63 in Altstätten SG. Route, Anfahrt und Kontakt für Ihren Carrosserie-Termin.",
       "h1": "Kontakt und Anfahrt: Auto Speedy in Altstätten"
     },
     "impressum": {
       "titel": "Impressum | Auto Speedy AG, Carrosserie Altstätten SG",
-      "beschreibung": "",
+      "beschreibung": "Impressum der Auto Speedy AG, Carrosserie an der Alten Landstrasse 63 in Altstätten SG. Angaben zum Betrieb und zur verantwortlichen Stelle.",
       "h1": "Impressum"
     },
     "datenschutz": {
       "titel": "Datenschutz | Auto Speedy AG, Carrosserie Altstätten SG",
-      "beschreibung": "",
+      "beschreibung": "Datenschutzerklärung der Auto Speedy AG in Altstätten SG: welche Daten wir beim Besuch und bei der Schadenmeldung erheben und wie wir damit umgehen.",
       "h1": "Datenschutzerklärung"
     },
-    "404": {
-      "titel": "Seite nicht gefunden | Auto Speedy AG Altstätten",
-      "beschreibung": "",
-      "h1": "Diese Seite gibt es nicht"
+    "bildnachweise": {
+      "titel": "Bildnachweise | Auto Speedy AG, Carrosserie Altstätten SG",
+      "beschreibung": "Bildnachweise der Auto Speedy AG: Herkunft und Lizenz der Platzhalter-Fotos, die bis zum eigenen Fotoshooting der Carrosserie in Altstätten gezeigt werden.",
+      "h1": "Bildnachweise"
     },
     "schaden-melden": {
       "titel": "Schaden melden in Altstätten SG | Auto Speedy AG",
-      "beschreibung": "",
+      "beschreibung": "Schaden online melden bei Auto Speedy in Altstätten SG: Fahrzeug und Schaden in wenigen Schritten beschreiben, Fotos anhängen. Versicherung regeln wir.",
       "h1": "Schaden melden bei Auto Speedy in Altstätten"
     },
     "tesla": {
       "titel": "Tesla Approved Body Shop in Altstätten SG | Auto Speedy",
-      "beschreibung": "",
+      "beschreibung": "Tesla Approved Body Shop in Altstätten SG: Unfall, Lack und Hagel am Tesla nach Tesla-Vorgaben mit Original-Ersatzteilen. Ersatzwagen Tesla auf Anfrage.",
       "h1": "Tesla-Carrosserie in Altstätten SG"
     },
     "carrosserie": {
       "titel": "Carrosserie und Unfallreparatur in Altstätten | Auto Speedy",
-      "beschreibung": "",
+      "beschreibung": "Alle Leistungen von Auto Speedy in Altstätten SG: Unfall und Carrosserie, Hagel, Lack, Felgen, Folierung und Scheiben für alle Marken und für Tesla.",
       "h1": "Carrosserie und Unfallreparatur in Altstätten SG"
     },
     "lackiererei": {
       "titel": "Autolackiererei und Spritzwerk in Altstätten | Auto Speedy",
-      "beschreibung": "",
+      "beschreibung": "Autolackiererei und Spritzwerk in Altstätten SG: kleine Lackschäden bis Neulackierung in neuen, grösseren Lackierkabinen. Versicherung regeln wir für Sie.",
       "h1": "Lackiererei und Spritzwerk in Altstätten SG"
     },
     "felgen-folierung": {
       "titel": "Alufelgen und Folierung in Altstätten SG | Auto Speedy AG",
-      "beschreibung": "",
+      "beschreibung": "Felgen aufbereiten und Fahrzeuge folieren in Altstätten SG: Randstein- und Kratzerschäden an Felgen, ganze oder teilweise Folierung bei Auto Speedy.",
       "h1": "Alufelgen und Folierung in Altstätten SG"
     },
     "occasionen": {
       "titel": "Occasionen, Ankauf und Leasing in Altstätten | Auto Speedy",
-      "beschreibung": "",
+      "beschreibung": "Occasionen, Autoankauf und Leasing bei Auto Speedy in Altstätten SG. Fahrzeuge aus dem Betrieb und Beratung rund um Kauf und Finanzierung im Rheintal.",
       "h1": "Occasionen und Autoankauf in Altstätten SG"
     },
     "team": {
       "titel": "Team der Carrosserie Auto Speedy in Altstätten SG",
-      "beschreibung": "",
+      "beschreibung": "Das Team von Auto Speedy in Altstätten SG: zehn Leute für Carrosserie, Lack und Service. Lernen Sie die Werkstatt an der Alten Landstrasse kennen.",
       "h1": "Das Team von Auto Speedy in Altstätten"
     },
     "flotten": {
       "titel": "Carrosserie für Firmen und Flotten in Altstätten | Auto Speedy",
-      "beschreibung": "",
+      "beschreibung": "Carrosserie für Firmen und Flotten in Altstätten SG: Auto Speedy wickelt Reparaturen und Versicherungsfälle für Firmenfahrzeuge zuverlässig ab.",
       "h1": "Carrosserie für Firmen und Flotten in Altstätten SG"
     },
     "bewerten": {
       "titel": "Bewertung abgeben | Auto Speedy AG, Carrosserie Altstätten",
-      "beschreibung": "",
+      "beschreibung": "Wie war Ihre Reparatur bei Auto Speedy in Altstätten SG? Geben Sie eine kurze Bewertung ab und helfen Sie anderen bei der Wahl der Carrosserie.",
       "h1": "Wie war Ihre Reparatur bei Auto Speedy?"
     }
   }

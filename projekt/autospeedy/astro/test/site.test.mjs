@@ -1,7 +1,7 @@
 // site.json: dieselbe Prüfung für Bau, Cockpit und Editor (gemeinsam/site.ts). Und die Einstellungen des Editors.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { siteSchema, TEAMFOTO } from "../../gemeinsam/site.ts";
+import { siteSchema, siteFelder, TEAMFOTO } from "../../gemeinsam/site.ts";
 import { editorKonfiguration } from "../bau/editor.mjs";
 import site from "../src/daten/site.json" with { type: "json" };
 
@@ -28,6 +28,6 @@ test("Editor: nur gültiges Repo und ein Pfad ohne «..»; Felder wie im Schema"
   assert.throws(() => editorKonfiguration({ repo: "a/b", pfad: "../geheim.json" }));
   const k = editorKonfiguration({ repo: "medaur/auto-speedy" });
   const felder = k.collections[0].files[0].fields.map((f) => f.name);
-  assert.deepEqual(felder.filter((n) => n !== "_hinweis").sort(), Object.keys(siteSchema.shape).filter((n) => n !== "_hinweis").sort());
+  assert.deepEqual(felder.filter((n) => n !== "_hinweis").sort(), Object.keys(siteFelder.shape).filter((n) => n !== "_hinweis").sort());
   assert.equal(k.backend.branch, "main");
 });

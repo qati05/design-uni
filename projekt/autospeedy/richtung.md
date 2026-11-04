@@ -90,3 +90,16 @@ Geprüft: Kontrast aller Seiten hell und dunkel, Handy und Desktop: 0 Befunde. B
 - Erste Fassung verworfen: im dunklen Lack wie ein Sternenhimmel, zu grobe Punkte hinter kleiner Schrift. Zweite Fassung: viele, sehr feine Partikel, wenige Funken, weniger Deckkraft.
 - Ehrlicher wäre eine Makroaufnahme echter Metallic-Lackierung aus der Lackierkabine (Fototag); die Kachel ist eine Annäherung `[Annahme]`.
 - Kontrast: das Prüfskript misst gegen die Grundfarbe, nicht gegen die Partikel; von Auge an Zoomaufnahmen geprüft, Schrift klar lesbar.
+
+## Runde «Premium» (Linie Klar, Branch claude/autospeedy-premium)
+
+Auftrag Reshat: Premiumgefühl, «qualitativ», Schadenmeldung und Anrufen sehr einfach, Tesla ohne Konzerngefühl, Nähe behalten, sanfte Bewegung. Idee aus dem Team: Vorher-nachher-Regler, der der Maus folgt (ohne Ziehen), am Handy wischen.
+
+- Typografie: Titel in Instrument Serif (OFL, selbst gehostet), Kursiv als Akzent; Fliesstext bleibt Hanken Grotesk.
+- Farbe: warmes Papier (#faf8f5), Tinte, ein Akzent (Blau #1566b8). Knöpfe als Pille, Druck = leichtes Einsinken.
+- Startseite: Hero ruhiger (Lichtfall, langsames Einzoomen), Vertrauensreihe (Tesla Approved als Text, Versicherung, Originalteile, Adresse), Abschnitt «Vorher, nachher», Abschnitt «Aus Altstätten» vor dem Team, Bewertungen als neutrale Platzhalter (keine erfundenen Sterne oder Texte).
+- Vorher-nachher (`Vergleich.astro`): Maus/Stift folgt ohne Klick, Touch wischt waagrecht (senkrecht scrollt weiter), Tastatur über einen versteckten Regler mit aria-label und aria-valuetext. Einmaliger Hinweis-Schwenk beim ersten Sichtkontakt, nicht bei «Bewegung reduzieren». Fotos sind Platzhalter (zwei verschiedene Felgen) und so beschriftet: echte Bilder braucht es vom Fototag, gleiche Felge, gleicher Standpunkt.
+- Handy: feste Leiste «Anrufen» / «Schaden melden» auf allen Seiten ausser der Schadenmeldung; auf der Startseite erst nach dem Hero.
+- Bewegung: Abschnitte blenden sanft ein, Seitenwechsel per View Transition (0.28 s), Schritte der Schadenmeldung gleiten ein. Alles aus unter prefers-reduced-motion. Keine Bibliothek.
+- Sicherheit: kein Inline-Skript und kein onclick mehr (alles in klar.js), daher volle CSP nur für Klar (`dateien({ csp: true })`); /admin/ bleibt ausgenommen. Linie Lack unverändert.
+- Tests: `npm test` in astro-klar (statisch + Browser mit playwright-core und installiertem Chrome, `CHROME=/pfad`).

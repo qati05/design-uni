@@ -1,7 +1,9 @@
 /* Schadenmeldung «in drei Tipps». Schritte 1 bis 3, Fotos im Browser verkleinert (JPEG, längste Seite 1600 px),
-   zwei Wege: A Website (POST an den Endpunkt; ohne Endpunkt in der Vorschau nur vorgeführt), B WhatsApp.
+   zwei Wege: A Website (POST an den Endpunkt mit Fortschritt; ohne Endpunkt in der Vorschau nur vorgeführt), B WhatsApp.
    «Angekommen» nur bei Antwort 200 des Servers. Keine Cookies, nichts im Speicher des Geräts.
-   Ohne JavaScript bleibt ein normales Formular über mailto. */
+   Rückmeldung nach BAUPLAN 3.13: Schrittwechsel, Fokus auf die Überschrift, Fortschrittstext, Foto-Vorschau,
+   Fehler mit aria-invalid/aria-describedby/role=alert (ohne Schütteln), Senden mit echtem Upload-Fortschritt,
+   Erfolg mit Häkchen und Fokus, Sendefehler mit «Nochmals senden» und Telefon. Ohne JavaScript bleibt ein mailto-Formular. */
 (function () {
   "use strict";
   var f = document.getElementById("schaden-form"); if (!f) return;
@@ -9,39 +11,80 @@
   [].forEach.call(document.querySelectorAll("[data-nur-js]"), function (e) { e.hidden = false; });
   var schritte = [].slice.call(f.querySelectorAll("[data-schritt]"));
   var anzeige = [].slice.call(f.querySelectorAll("[data-anzeige]"));
+  var fortschrittText = f.querySelector("[data-fortschritt-text]");
   var rueck = f.querySelector("[data-rueckmeldung]"), rapport = document.querySelector("[data-rapport]");
   var plan = f.querySelector(".plan--wahl");
   var kaestchen = [].slice.call(f.querySelectorAll('input[name="stelle"]'));
+  var TEL = f.dataset.tel || "071 755 88 61", TEL_E164 = f.dataset.telE164 || "";
   var fotos = []; // { blob, url }
-  var MAX = 6, aktuell = 1, sendet = false;
+  var ausweis = null; // { blob, url }
+  var MAX = 6, aktuell = 1, sendet = false, teslaWunsch = false;
 
-  function melde(t) { rueck.hidden = !t; rueck.textContent = t || ""; }
+  // Rückmeldung: info = ruhig (role=status), warnung = Fehler (role=alert)
+  function melde(t, warnung) { rueck.hidden = !t; rueck.textContent = t || ""; rueck.setAttribute("role", warnung ? "alert" : "status"); rueck.classList.toggle("rueckmeldung--fehler", !!warnung); }
   var gezaehlt = {};
   function trichter(n) { if (!window.__zaehl) { if (document.readyState !== "complete") window.addEventListener("load", function () { trichter(n); }, { once: true }); return; } if (!gezaehlt[n]) { gezaehlt[n] = true; window.__zaehl("trichter-" + n, "schaden"); } }
+
   function zeige(n, fokus) {
     aktuell = n; trichter(n);
     schritte.forEach(function (s) { s.hidden = Number(s.dataset.schritt) !== n; });
     anzeige.forEach(function (a) { var i = Number(a.dataset.anzeige); a.classList.toggle("ist-jetzt", i === n); a.classList.toggle("ist-fertig", i < n); if (i === n) a.setAttribute("aria-current", "step"); else a.removeAttribute("aria-current"); });
+    if (fortschrittText) { fortschrittText.hidden = false; fortschrittText.textContent = "Schritt " + n + " von 3"; }
     melde("");
     if (n === 3) fasseZusammen();
-    if (fokus !== false) { var l = schritte[n - 1].querySelector("legend"); l.setAttribute("tabindex", "-1"); l.focus({ preventScroll: true }); f.scrollIntoView({ block: "start" }); }
+    if (fokus !== false) { var l = schritte[n - 1].querySelector("legend"); if (l) { l.setAttribute("tabindex", "-1"); l.focus({ preventScroll: true }); } f.scrollIntoView({ block: "start" }); }
   }
+
   function art() { var r = f.querySelector('input[name="art"]:checked'); return r ? r.value : ""; }
   function gewaehlt() { return kaestchen.filter(function (k) { return k.checked; }).map(function (k) { return k.value; }); }
   function wert(n) { var e = f.elements[n]; return e && e.value ? e.value.trim() : ""; }
-  function tesla() { var t = f.querySelector("[data-tesla]"); return !!(t && t.checked); }
-  // Tesla: Modell zum Antippen, nur wenn «Es ist ein Tesla» gewählt ist (Empfang bleibt gleich, das Modell steht in Meldung und Mail)
+  function angehakt(n) { var e = f.querySelector('[name="' + n + '"]'); return !!(e && e.checked); }
+  function tesla() { return angehakt("tesla"); }
   var modellFeld = f.querySelector("[data-tesla-modell]");
   function modell() { var r = tesla() && f.querySelector('input[name="tesla_modell"]:checked'); return r ? r.value : ""; }
   function teslaText() { return tesla() ? "Tesla" + (modell() && modell() !== "Anderes Modell" ? " " + modell() : "") : ""; }
   function zeigeModell() { if (modellFeld) modellFeld.hidden = !tesla(); }
   var teslaKasten = f.querySelector("[data-tesla]"); if (teslaKasten) teslaKasten.addEventListener("change", zeigeModell);
+
+  // Ersatzwagen (freiwillig): Tesla-Unterfrage nur bei Haken; ?tesla=1 belegt sie vor
+  var ersatzKasten = f.querySelector("[data-ersatzwagen]"), ersatzTeslaFeld = f.querySelector("[data-ersatzwagen-tesla-feld]"), ersatzTesla = f.querySelector("[data-ersatzwagen-tesla]");
+  function zeigeErsatzTesla() {
+    if (!ersatzTeslaFeld) return;
+    var an = !!(ersatzKasten && ersatzKasten.checked);
+    ersatzTeslaFeld.hidden = !an;
+    if (an && teslaWunsch && ersatzTesla && !ersatzTesla.checked) ersatzTesla.checked = true;
+    if (!an && ersatzTesla) ersatzTesla.checked = false;
+  }
+  if (ersatzKasten) ersatzKasten.addEventListener("change", zeigeErsatzTesla);
+  function ersatzText() { return ersatzKasten && ersatzKasten.checked ? "Ersatzwagen gewünscht" + (ersatzTesla && ersatzTesla.checked ? ", Tesla wenn möglich" : "") : ""; }
+
   function fasseZusammen() {
     var z = f.querySelector("[data-zusammen]"); if (!z) return;
     var teile = [art() || "Art fehlt"]; if (gewaehlt().length) teile.push(gewaehlt().join(", "));
     teile.push(fotos.length === 1 ? "1 Foto" : fotos.length + " Fotos");
     z.textContent = teile.join(" · ");
   }
+
+  // Feld-Fehler: aria-invalid + beschreibender Text (role=alert), Fokus aufs erste fehlerhafte Feld
+  function feldFehler(input, text) {
+    if (!input) return;
+    var feld = input.closest(".feld") || input.parentElement;
+    var id = input.id ? input.id + "-fehler" : null;
+    var p = feld.querySelector(".feld-fehler");
+    if (!p) { p = document.createElement("p"); p.className = "feld-fehler"; p.setAttribute("role", "alert"); if (id) p.id = id; feld.appendChild(p); }
+    p.textContent = text;
+    input.setAttribute("aria-invalid", "true");
+    if (id) input.setAttribute("aria-describedby", ((input.getAttribute("aria-describedby") || "").replace(id, "").trim() + " " + id).trim());
+  }
+  function feldOk(input) {
+    if (!input) return;
+    input.removeAttribute("aria-invalid");
+    var feld = input.closest(".feld") || input.parentElement;
+    var p = feld && feld.querySelector(".feld-fehler"); if (p) p.remove();
+    var id = input.id ? input.id + "-fehler" : null;
+    if (id && input.getAttribute("aria-describedby")) input.setAttribute("aria-describedby", input.getAttribute("aria-describedby").replace(id, "").trim());
+  }
+  ["name", "telefon", "email"].forEach(function (n) { var e = f.elements[n]; if (e) e.addEventListener("input", function () { feldOk(e); }); });
 
   // Schritt 1: Art wählen führt weiter; Stellen im Plan und in den Kästchen gleich
   [].forEach.call(f.querySelectorAll('input[name="art"]'), function (r) {
@@ -55,14 +98,13 @@
   [].forEach.call(f.querySelectorAll("[data-weiter]"), function (k) {
     k.addEventListener("click", function () {
       var ziel = Number(k.dataset.weiter);
-      if (ziel === 2 && !art()) { melde("Bitte wählen Sie, was passiert ist."); f.querySelector('input[name="art"]').focus(); return; }
+      if (ziel === 2 && !art()) { melde("Bitte wählen Sie, was passiert ist.", true); var a1 = f.querySelector('input[name="art"]'); if (a1) a1.focus(); return; }
       zeige(ziel);
     });
   });
   [].forEach.call(f.querySelectorAll("[data-zurueck]"), function (k) { k.addEventListener("click", function () { zeige(Number(k.dataset.zurueck)); }); });
 
-  // Schritt 2: Fotos verkleinern und zeigen
-  var eingabe = f.querySelector("[data-fotos]"), liste = f.querySelector("[data-fotoliste]"), fotoWeiter = f.querySelector("[data-fotoweiter]");
+  // Fotos im Browser verkleinern (längste Seite 1600 px, JPEG 0.8)
   function verkleinere(datei) {
     return new Promise(function (ok, nein) {
       var url = URL.createObjectURL(datei), img = new Image();
@@ -76,96 +118,200 @@
       img.src = url;
     });
   }
+
+  // Schritt 2: Schadenfotos
+  var eingabe = f.querySelector("[data-fotos]"), liste = f.querySelector("[data-fotoliste]"), fotoWeiter = f.querySelector("[data-fotoweiter]");
   function zeichneFotos() {
     liste.innerHTML = "";
     fotos.forEach(function (x, i) {
       var li = document.createElement("li"), im = document.createElement("img"), weg = document.createElement("button");
-      im.src = x.url; im.alt = "Foto " + (i + 1) + " vom Schaden";
+      im.src = x.url; im.alt = "Foto " + (i + 1) + " vom Schaden"; li.className = "foto-neu";
       weg.type = "button"; weg.className = "fotos__weg"; weg.textContent = "Entfernen"; weg.setAttribute("aria-label", "Foto " + (i + 1) + " entfernen");
       weg.addEventListener("click", function () { URL.revokeObjectURL(x.url); fotos.splice(i, 1); zeichneFotos(); });
       li.appendChild(im); li.appendChild(weg); liste.appendChild(li);
     });
-    fotoWeiter.textContent = fotos.length ? "Weiter" : "Ohne Foto weiter";
+    if (fotoWeiter) fotoWeiter.textContent = fotos.length ? "Weiter" : "Ohne Foto weiter";
   }
-  eingabe.addEventListener("change", function () {
+  if (eingabe) eingabe.addEventListener("change", function () {
     var neu = [].slice.call(eingabe.files || []).slice(0, MAX - fotos.length);
-    if ((eingabe.files || []).length > neu.length) melde("Höchstens " + MAX + " Fotos.");
+    if ((eingabe.files || []).length > neu.length) melde("Höchstens " + MAX + " Fotos.", true);
+    melde("Foto wird vorbereitet …");
     Promise.all(neu.map(function (d) { return verkleinere(d).then(function (b) { return { blob: b, url: URL.createObjectURL(b) }; }, function () { return null; }); }))
-      .then(function (r) { r.forEach(function (x) { if (x) fotos.push(x); }); if (r.some(function (x) { return !x; })) melde("Ein Bild liess sich nicht lesen. Bitte als Foto (JPEG) wählen."); zeichneFotos(); eingabe.value = ""; });
+      .then(function (r) { r.forEach(function (x) { if (x) fotos.push(x); }); melde(r.some(function (x) { return !x; }) ? "Ein Bild liess sich nicht lesen. Bitte als Foto (JPEG) wählen." : "", r.some(function (x) { return !x; })); zeichneFotos(); eingabe.value = ""; });
   });
 
-  // Vorwahl über die Adresse oder die Vorschau-Datei: ?art=hagel, ?fahrzeug=tesla, ?stelle=dach
+  // Fahrzeugausweis (freiwillig, höchstens eins, zählt nicht zu den 6 Schadenfotos)
+  var ausweisEingabe = f.querySelector("[data-ausweis]"), ausweisListe = f.querySelector("[data-ausweisliste]");
+  function zeichneAusweis() {
+    if (!ausweisListe) return;
+    ausweisListe.innerHTML = "";
+    if (!ausweis) return;
+    var li = document.createElement("li"), im = document.createElement("img"), weg = document.createElement("button");
+    im.src = ausweis.url; im.alt = "Foto vom Fahrzeugausweis"; li.className = "foto-neu";
+    weg.type = "button"; weg.className = "fotos__weg"; weg.textContent = "Entfernen"; weg.setAttribute("aria-label", "Foto vom Fahrzeugausweis entfernen");
+    weg.addEventListener("click", function () { URL.revokeObjectURL(ausweis.url); ausweis = null; zeichneAusweis(); });
+    li.appendChild(im); li.appendChild(weg); ausweisListe.appendChild(li);
+  }
+  if (ausweisEingabe) ausweisEingabe.addEventListener("change", function () {
+    var d = (ausweisEingabe.files || [])[0]; if (!d) return;
+    verkleinere(d).then(function (b) { if (ausweis) URL.revokeObjectURL(ausweis.url); ausweis = { blob: b, url: URL.createObjectURL(b) }; zeichneAusweis(); }, function () { melde("Das Bild liess sich nicht lesen. Bitte als Foto (JPEG) wählen.", true); });
+    ausweisEingabe.value = "";
+  });
+
+  // Vorwahl über die Adresse: ?art=hagel, ?fahrzeug=tesla (auch ?tesla=1), ?stelle=dach
   function anwenden(q) {
-    if (q.get("fahrzeug") === "tesla") { var t = f.querySelector("[data-tesla]"); if (t) t.checked = true; }
-    zeigeModell();
+    teslaWunsch = q.get("fahrzeug") === "tesla" || q.get("tesla") === "1";
+    if (teslaWunsch) { var t = f.querySelector("[data-tesla]"); if (t) t.checked = true; }
+    zeigeModell(); zeigeErsatzTesla();
     kaestchen.forEach(function (k) { if (q.getAll("stelle").indexOf(k.dataset.stelle) > -1) k.checked = true; }); zeichne();
     var a = q.get("art") && f.querySelector('input[data-art="' + q.get("art") + '"]');
     if (a) { a.checked = true; zeige(2, false); requestAnimationFrame(function () { f.scrollIntoView({ block: "start" }); }); } else zeige(1, false);
-    rapport.hidden = true; f.hidden = false;
+    if (rapport) rapport.hidden = true; f.hidden = false;
   }
   window.__schaden = { anwenden: anwenden };
   anwenden(new URLSearchParams(location.search));
 
-  // Senden
+  // Zeitfalle-Token vom Server holen (GET endpunkt?t=1). Ohne Endpunkt oder bei Fehler bleibt das Feld leer.
+  (function holeToken() {
+    var tokenFeld = f.querySelector("[data-token]"), ep = f.dataset.endpunkt;
+    if (!tokenFeld || !ep) return;
+    try {
+      var x = new XMLHttpRequest();
+      x.open("GET", ep + (ep.indexOf("?") > -1 ? "&" : "?") + "t=1");
+      x.onload = function () { try { var j = JSON.parse(x.responseText); if (j && typeof j.t === "string") tokenFeld.value = j.t; } catch (e) {} };
+      x.send();
+    } catch (e) {}
+  })();
+
+  // WhatsApp-/mailto-Text
   function nachricht() {
-    return "Schadenmeldung über autospeedy.ch\n\nWas ist passiert: " + art() + "\nTesla: " + (tesla() ? "ja" + (modell() ? ", " + modell() : "") : "nein") +
-      "\nStellen: " + (gewaehlt().join(", ") || "nicht angegeben") + "\nBemerkung: " + (wert("bemerkung") || "keine") +
+    var z = "Schadenmeldung über autospeedy.ch\n\nWas ist passiert: " + art() + "\nTesla: " + (tesla() ? "ja" + (modell() ? ", " + modell() : "") : "nein");
+    if (ersatzText()) z += "\n" + ersatzText();
+    z += "\nStellen: " + (gewaehlt().join(", ") || "nicht angegeben") + "\nBemerkung: " + (wert("bemerkung") || "keine") +
       "\nName: " + wert("name") + "\nTelefon: " + wert("telefon") + "\n";
+    return z;
   }
+
   function pruefe() {
-    if (!art()) { zeige(1); melde("Bitte wählen Sie, was passiert ist."); return false; }
-    var fehlt = ["name", "telefon"].filter(function (n) { return !wert(n); });
-    if (fehlt.length) { melde("Bitte geben Sie " + (fehlt.length === 2 ? "Name und Telefon" : fehlt[0] === "name" ? "Ihren Namen" : "Ihre Telefonnummer") + " an."); f.elements[fehlt[0]].focus(); return false; }
-    if (wert("email") && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(wert("email"))) { melde("Bitte prüfen Sie die Mail-Adresse oder lassen Sie das Feld leer."); f.elements.email.focus(); return false; }
+    var ok = true;
+    if (!art()) { zeige(1); melde("Bitte wählen Sie, was passiert ist.", true); return false; }
+    var name = f.elements.name, tel = f.elements.telefon, mail = f.elements.email;
+    if (!wert("name")) { feldFehler(name, "Bitte geben Sie Ihren Namen an."); ok = false; } else feldOk(name);
+    if (!wert("telefon")) { feldFehler(tel, "Bitte geben Sie Ihre Telefonnummer an."); ok = false; }
+    else if (!/^[+0-9 ()./-]{6,40}$/.test(wert("telefon"))) { feldFehler(tel, "Bitte prüfen Sie die Telefonnummer."); ok = false; }
+    else feldOk(tel);
+    if (mail && wert("email") && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(wert("email"))) { feldFehler(mail, "Bitte prüfen Sie die Mail-Adresse oder lassen Sie das Feld leer."); ok = false; } else feldOk(mail);
+    if (!ok) {
+      melde("Bitte ergänzen Sie die rot markierten Felder.", true);
+      var erstes = f.querySelector('[aria-invalid="true"]'); if (erstes) erstes.focus({ preventScroll: false });
+      return false;
+    }
     return !wert("website");
   }
-  function bestaetige(titel, stand, link) {
-    var d = new Intl.DateTimeFormat("de-CH", { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }).format(new Date());
+
+  function datumJetzt() { return new Intl.DateTimeFormat("de-CH", { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }).format(new Date()) + " Uhr"; }
+  function bestaetige(titel, stand, link, echterVersand) {
+    if (!rapport) return;
     rapport.querySelector("[data-r-titel]").textContent = titel;
-    rapport.querySelector("[data-r-datum]").textContent = d + " Uhr";
+    rapport.querySelector("[data-r-datum]").textContent = datumJetzt();
     rapport.querySelector("[data-r-art]").textContent = art() + (tesla() ? " (" + teslaText() + ")" : "");
-    var rs = rapport.querySelector("[data-r-stellen]"); rs.textContent = gewaehlt().join(", "); var rz = rs.closest("div") && rs.closest("div").parentElement === rapport.querySelector("dl") ? rs.closest("div") : null; if (rz) rz.hidden = !gewaehlt().length; else { rs.hidden = !gewaehlt().length; if (rs.previousElementSibling) rs.previousElementSibling.hidden = !gewaehlt().length; }
+    var ez = rapport.querySelector("[data-r-ersatz-zeile]"), ed = rapport.querySelector("[data-r-ersatz]");
+    if (ez && ed) { if (ersatzText()) { ez.hidden = false; ed.textContent = ersatzText(); } else ez.hidden = true; }
+    var rs = rapport.querySelector("[data-r-stellen]"); rs.textContent = gewaehlt().join(", "); var wrap = rs.closest("div"); if (wrap) wrap.hidden = !gewaehlt().length;
     rapport.querySelector("[data-r-text]").textContent = wert("bemerkung") || "keine";
     rapport.querySelector("[data-r-kontakt]").textContent = wert("name") + ", " + wert("telefon");
     rapport.querySelector("[data-r-stand]").textContent = stand;
     var bilder = rapport.querySelector("[data-r-fotos]"); bilder.innerHTML = "";
     fotos.forEach(function (x, i) { var im = document.createElement("img"); im.src = x.url; im.alt = "Foto " + (i + 1); bilder.appendChild(im); });
     bilder.hidden = !fotos.length;
+    // Ruhiger Hinweis: wenn keine «zur Hand»-Angabe da ist, Fahrzeugausweis per WhatsApp nachreichen (kein zweiter Zwang)
+    var hinweis = rapport.querySelector("[data-r-ausweis-hinweis]");
+    if (hinweis) {
+      var etwasDa = ausweis || wert("kontrollschild") || wert("versicherung") || wert("schadennummer");
+      hinweis.hidden = !echterVersand || !!etwasDa; // nur beim echten Versand, wenn noch nichts «zur Hand» da ist
+      var waLink = hinweis.querySelector("[data-r-ausweis-wa]");
+      if (waLink && f.dataset.wa) waLink.href = "https://wa.me/" + f.dataset.wa + "?text=" + encodeURIComponent("Fahrzeugausweis zur Schadenmeldung von " + (wert("name") || ""));
+      else if (waLink) waLink.hidden = true;
+    }
     var n = rapport.querySelector("[data-r-nochmal]"); n.hidden = !link; if (link) n.href = link;
     f.hidden = true; rapport.hidden = false; rapport.focus({ preventScroll: true }); rapport.scrollIntoView({ block: "start" });
   }
-  rapport.querySelector("[data-r-zurueck]").addEventListener("click", function () { rapport.hidden = true; f.hidden = false; zeige(3); });
+  if (rapport) rapport.querySelector("[data-r-zurueck]").addEventListener("click", function () { rapport.hidden = true; f.hidden = false; zeige(3); });
+
+  // Fortschrittsbalken (echte Upload-Bytes, sonst unbestimmt)
+  var balken = f.querySelector("[data-sende-balken]"), balkenSpan = balken && balken.querySelector("span");
+  function balkenZeige(an) { if (!balken) return; balken.hidden = !an; if (balkenSpan) { balkenSpan.style.transform = "scaleX(0)"; } balken.classList.remove("ist-unbestimmt"); }
+  function balkenAuf(frac, unbestimmt) { if (!balken) return; if (unbestimmt) { balken.classList.add("ist-unbestimmt"); return; } balken.classList.remove("ist-unbestimmt"); if (balkenSpan) balkenSpan.style.transform = "scaleX(" + Math.max(0, Math.min(1, frac)) + ")"; }
+
+  function sammleDaten() {
+    var daten = new FormData();
+    daten.append("art", art()); daten.append("name", wert("name")); daten.append("telefon", wert("telefon"));
+    daten.append("bemerkung", wert("bemerkung")); if (wert("email")) daten.append("email", wert("email")); daten.append("website", wert("website"));
+    if (tesla()) daten.append("tesla", "ja"); if (modell()) daten.append("tesla_modell", modell());
+    if (ersatzKasten && ersatzKasten.checked) { daten.append("ersatzwagen", "ja"); if (ersatzTesla && ersatzTesla.checked) daten.append("ersatzwagen_tesla", "ja"); }
+    if (wert("kontrollschild")) daten.append("kontrollschild", wert("kontrollschild"));
+    if (wert("versicherung")) daten.append("versicherung", wert("versicherung"));
+    if (wert("schadennummer")) daten.append("schadennummer", wert("schadennummer"));
+    var tok = f.querySelector("[data-token]"); if (tok && tok.value) daten.append("t", tok.value);
+    gewaehlt().forEach(function (s) { daten.append("stelle", s); });
+    fotos.forEach(function (x, i) { daten.append("foto", x.blob, "schaden-" + (i + 1) + ".jpg"); });
+    if (ausweis) daten.append("ausweis", ausweis.blob, "fahrzeugausweis.jpg");
+    var ts = f.querySelector('[name="cf-turnstile-response"]'); if (ts) daten.append("cf-turnstile-response", ts.value);
+    return daten;
+  }
+
+  function knopf(weg) { return f.querySelector('[data-senden="' + weg + '"]'); }
+  function sendenAus(knopfEl, text) { knopfEl.disabled = true; knopfEl.setAttribute("aria-busy", "true"); knopfEl.dataset.text = knopfEl.dataset.text || knopfEl.firstChild.textContent; knopfEl.childNodes[0].textContent = text; }
+  function sendenEin(knopfEl, text) { knopfEl.disabled = false; knopfEl.removeAttribute("aria-busy"); knopfEl.childNodes[0].textContent = text || knopfEl.dataset.text; }
+
+  function sendeWebsite(knopfEl) {
+    var ep = f.dataset.endpunkt;
+    if (!ep) {
+      bestaetige("Schadenmeldung (Vorschau)", "Vorschau: Auf der fertigen Website käme die Meldung jetzt mit " + (fotos.length === 1 ? "1 Foto" : fotos.length + " Fotos") + " bei Auto Speedy an. In dieser Vorschau wird nichts gesendet.", null);
+      return;
+    }
+    var daten = sammleDaten();
+    sendet = true; sendenAus(knopfEl, "Wird gesendet …"); f.setAttribute("aria-busy", "true"); melde("Ihre Meldung wird gesendet …"); balkenZeige(true);
+    var x = new XMLHttpRequest();
+    x.open("POST", ep);
+    if (x.upload) x.upload.onprogress = function (e) { balkenAuf(e.lengthComputable ? e.loaded / e.total : 0, !e.lengthComputable); };
+    x.onload = function () {
+      sendet = false; f.removeAttribute("aria-busy");
+      if (x.status >= 200 && x.status < 300) {
+        if (window.__zaehl) window.__zaehl("meldung-gesendet", "website");
+        melde(""); balkenAuf(1);
+        bestaetige("Danke, Ihre Meldung ist bei uns.", "Angekommen bei Auto Speedy. Wir melden uns bei Ihnen, in der Regel telefonisch in den Öffnungszeiten.", null, true);
+      } else {
+        sendeFehler(knopfEl);
+      }
+    };
+    x.onerror = function () { sendet = false; f.removeAttribute("aria-busy"); sendeFehler(knopfEl); };
+    x.send(daten);
+  }
+  function sendeFehler(knopfEl) {
+    if (window.turnstile) window.turnstile.reset();
+    balkenZeige(false);
+    sendenEin(knopfEl, "Nochmals senden");
+    melde("Das Senden hat nicht geklappt. Ihre Angaben bleiben erhalten. Bitte nochmals senden oder rufen Sie uns an: " + TEL + ".", true);
+  }
 
   [].forEach.call(f.querySelectorAll("[data-senden]"), function (k) {
     k.addEventListener("click", function () {
       if (sendet || !pruefe()) return;
-      var weg = k.dataset.senden, text = nachricht();
+      var weg = k.dataset.senden;
       if (weg === "whatsapp") {
-        var wa = "https://wa.me/" + f.dataset.wa + "?text=" + encodeURIComponent(text);
+        var text = nachricht();
+        var waNr = f.dataset.wa;
+        if (!waNr) { melde("WhatsApp ist hier nicht hinterlegt. Bitte rufen Sie uns an: " + TEL + ".", true); return; }
+        var wa = "https://wa.me/" + waNr + "?text=" + encodeURIComponent(text);
         window.open(wa, "_blank", "noopener");
         bestaetige("Meldung für WhatsApp", "WhatsApp ist geöffnet. Gesendet ist die Nachricht erst, wenn Sie dort auf Senden tippen. Fotos hängen Sie in WhatsApp an.", wa);
         return;
       }
-      var ep = f.dataset.endpunkt;
-      if (!ep) {
-        bestaetige("Schadenmeldung (Vorschau)", "Vorschau: Auf der fertigen Website käme die Meldung jetzt mit " + (fotos.length === 1 ? "1 Foto" : fotos.length + " Fotos") + " bei Auto Speedy an. In dieser Vorschau wird nichts gesendet.", null);
-        return;
-      }
-      var daten = new FormData();
-      daten.append("art", art()); daten.append("name", wert("name")); daten.append("telefon", wert("telefon"));
-      daten.append("bemerkung", wert("bemerkung")); if (wert("email")) daten.append("email", wert("email")); daten.append("website", wert("website")); if (tesla()) daten.append("tesla", "ja"); if (modell()) daten.append("tesla_modell", modell());
-      gewaehlt().forEach(function (s) { daten.append("stelle", s); });
-      fotos.forEach(function (x, i) { daten.append("foto", x.blob, "schaden-" + (i + 1) + ".jpg"); });
-      var ts = f.querySelector('[name="cf-turnstile-response"]'); if (ts) daten.append("cf-turnstile-response", ts.value); // Cloudflare Turnstile, falls eingebaut
-      sendet = true; melde("Ihre Meldung wird gesendet …");
-      fetch(ep, { method: "POST", body: daten })
-        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-        .then(function () { if (window.__zaehl) window.__zaehl("meldung-gesendet", "website"); melde(""); bestaetige("Schadenmeldung angekommen", "Angekommen bei Auto Speedy. Wir melden uns bei Ihnen.", null); })
-        .catch(function () { if (window.turnstile) window.turnstile.reset(); melde("Das Senden hat nicht geklappt. Bitte senden Sie die Meldung per WhatsApp oder rufen Sie uns an: 071 755 88 61."); })
-        .then(function () { sendet = false; });
+      sendeWebsite(k);
     });
   });
   // Ohne Endpunkt und ausserhalb der Vorschau gibt es Weg A nicht
-  if (!f.dataset.endpunkt && f.dataset.istVorschau !== "ja") { var a = f.querySelector('[data-senden="website"]'); if (a) a.hidden = true; }
-  else if (!f.dataset.endpunkt) { var h = f.querySelector("[data-weg-a-hilfe]"); if (h) h.textContent = "Mit Ihren Fotos direkt an Auto Speedy (Vorschau: nichts wird gesendet)"; }
+  if (!f.dataset.endpunkt && f.dataset.istVorschau !== "ja") { var a = knopf("website"); if (a) a.hidden = true; }
+  else if (!f.dataset.endpunkt) { var h = f.querySelector("[data-weg-a-hilfe]"); if (h) h.textContent = "In der Vorschau nur vorgeführt, es wird nichts gesendet"; }
 })();

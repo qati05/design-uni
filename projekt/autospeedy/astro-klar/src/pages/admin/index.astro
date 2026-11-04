@@ -1,0 +1,67 @@
+---
+// Editor /admin/ (BAUPLAN 4.1): kleine, eigenständige Seite, hinter Cloudflare Access. noindex, keine Suchmaschine.
+// Eigene enge CSP (bau/dateien.mjs: script-src 'self'; connect-src 'self'; frame-ancestors 'none'). Kein Inline-Skript:
+// alles Verhalten liegt in /js/admin.js. Gestaltung aus /css/klar.css (Tokens, Hinweis-Design) und /css/admin.css.
+// Lokal ohne Access nur als Attrappe mit ADMIN_LOKAL=1 im Dev-Modus; im Build nie (import.meta.env.DEV ist dann false).
+import { betrieb as b, bau } from "../../../../astro/bau/daten.mjs";
+import { domainAus } from "../../../../gemeinsam/mailtexte.js";
+const lokal = import.meta.env.DEV && process.env.ADMIN_LOKAL === "1";
+const domain = domainAus(b, bau);
+const wa = (b.whatsapp && b.whatsapp.nummer) || "";
+const REITER = [
+  { id: "zeiten", name: "Zeiten" },
+  { id: "ferien", name: "Ferien" },
+  { id: "team", name: "Team" },
+  { id: "inhaber", name: "Inhaber" },
+  { id: "hinweise", name: "Hinweise" },
+  { id: "bewertungen", name: "Bewertungen" },
+  { id: "bewerten", name: "Bewertung anfragen" },
+];
+---
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Website bearbeiten · Auto Speedy</title>
+<link rel="stylesheet" href="/css/klar.css">
+<link rel="stylesheet" href="/css/admin.css">
+<script is:inline src="/js/admin.js" defer></script>
+</head>
+<body data-seite="admin" data-lokal={lokal ? "1" : undefined} data-domain={domain} data-wa={wa} data-betrieb={b.name}>
+<header class="admin-kopf">
+  <div class="admin-kopf__titel">
+    <strong>Website bearbeiten</strong>
+    <span class="admin-kopf__mail" data-mail hidden></span>
+  </div>
+  <button type="button" class="knopf knopf--akzent" data-speichern>Speichern und veröffentlichen</button>
+</header>
+
+<p class="admin-meldung" data-meldung hidden></p>
+
+<nav class="admin-reiter" aria-label="Bereiche">
+  {REITER.map((r, i) => (
+    <button type="button" class="admin-reiter__knopf" data-reiter={r.id} aria-selected={i === 0 ? "true" : "false"}>{r.name}</button>
+  ))}
+</nav>
+
+<main class="admin-inhalt" id="editor">
+  {REITER.map((r, i) => (
+    <section class="admin-panel" data-panel={r.id} hidden={i !== 0} aria-label={r.name}>
+      <p class="admin-laedt" data-laedt>Lädt …</p>
+    </section>
+  ))}
+</main>
+
+<div class="admin-toast" data-toast role="status" aria-live="polite" hidden></div>
+
+<!-- Vorlage für die Hinweis-Vorschau (gleiche Gestaltung wie auf der Website). Ohne Inline-Skript; admin.js füllt sie. -->
+<template data-vorlage-hinweis>
+  <p class="hinweis" data-vorschau-hinweis>
+    <svg class="hinweis__symbol" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></svg>
+    <span class="hinweis__text"><b data-vorschau-titel></b> <span data-vorschau-text></span></span>
+  </p>
+</template>
+</body>
+</html>

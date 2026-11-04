@@ -1,0 +1,30 @@
+---
+// Abschnitt «Inhaber und Team» (Entwurf C, BAUPLAN 2 Zeile 9, 3.5). Struktur und Texte woertlich aus
+// referenz-c/entwurf-c.html (#team, .inhaber, .platz.hoch, blockquote, .team-bild).
+// Portraet und Teamband bleiben Platzhalter (.platz, keine Foto-Reveal-Animation nach 3.5 – die gilt nur fuer echte Fotos).
+// Das Zitat zeigt echte Werte nur mit site.stimme.freigegeben, sonst den Platzhaltertext woertlich aus dem Entwurf.
+import { site } from "../../../astro/bau/daten.mjs";
+const stimme = (site as any).stimme;
+const freigegeben = !!(stimme && stimme.freigegeben);
+---
+<section id="team" class="abschnitt inhaber-teil" aria-label="Inhaber und Team">
+  <div class="abschnitt__innen">
+    <div class="inhaber">
+      <div class="platz hoch" role="img" aria-label="Bildplatzhalter B8: Porträt Inhaber in der Halle, 4:5">
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13.5" r="3.5"/></svg>
+        <b>B8</b><span>Porträt Inhaber in der Halle, 4:5</span><small>Platzhalter · Foto folgt vom Shooting</small>
+      </div>
+      {freigegeben
+        ? <blockquote><p>{stimme.text}</p><footer>{[stimme.name, stimme.rolle].filter(Boolean).join(", ")}</footer></blockquote>
+        : <blockquote><p>«Hier steht ein Satz vom Inhaber, in seinen eigenen Worten. Er wird nicht erfunden, sondern im Gespräch aufgenommen.»</p><footer>[Name], Inhaber · Platzhalter</footer></blockquote>}
+    </div>
+    <figure class="team-bild">
+      <div class="platz" role="img" aria-label="Bildplatzhalter B8: Teamporträt vor dem Hallentor, 3:1 (als Band beschnitten)">
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13.5" r="3.5"/></svg>
+        <b>B8</b><span>Teamporträt vor dem Hallentor, 3:1 (als Band beschnitten)</span><small>Platzhalter · Foto folgt vom Shooting</small>
+      </div>
+      <figcaption>Zehn Leute, eine Werkstatt an der Alten Landstrasse.</figcaption>
+    </figure>
+    <div class="mehr"><a class="k k--rand" href="/team/">Ganzes Team</a></div>
+  </div>
+</section>

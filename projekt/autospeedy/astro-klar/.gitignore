@@ -1,7 +1,10 @@
 node_modules/
 dist/
+dist-bew/
 .astro/
-public/bilder/
+public/bilder/*
+!public/bilder/stock/
 public/js/schaden.js
 public/js/rueckruf.js
 public/js/zaehl.js
+public/bewerten/qr.svg

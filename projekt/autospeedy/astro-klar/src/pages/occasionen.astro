@@ -28,18 +28,3 @@ const w = b.occasionen?.widget;
 </section>
 </Klar>
 <script is:inline src="/js/rueckruf.js" defer></script>
-<script is:inline>
-(function () {
-  [].forEach.call(document.querySelectorAll("[data-fremd]"), function (box) {
-    var knopf = box.querySelector("[data-fremd-laden]"); if (!knopf) return;
-    knopf.hidden = false;
-    knopf.addEventListener("click", function () {
-      var ziel = box.querySelector("[data-fremd-ziel]"), src = box.dataset.src;
-      if (!/^https:\/\//.test(src)) return;
-      if (box.dataset.art === "skript") { var s = document.createElement("script"); s.src = src; s.async = true; ziel.appendChild(s); }
-      else { var f = document.createElement("iframe"); f.src = src; f.title = box.dataset.titel; f.loading = "lazy"; f.style.width = "100%"; f.style.height = (parseInt(box.dataset.hoehe, 10) || 900) + "px"; f.style.border = "0"; ziel.appendChild(f); }
-      knopf.hidden = true;
-    });
-  });
-})();
-</script>

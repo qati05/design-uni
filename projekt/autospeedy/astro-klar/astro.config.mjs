@@ -6,9 +6,11 @@ import editor from "../astro/bau/editor.mjs"; // Editor /admin/ (Standard aus), 
 // Zweite Linie «Klar»: gleiche Inhalte (../astro/src/content), anderes Aussehen. Statisch, Verzeichnisformat wie die erste Linie.
 export default defineConfig({
   output: "static",
+  // Nur fuer den Test: anderes Ausgabeverzeichnis (sonst dist/), damit ein Fixture-Bau den normalen Bau nicht ueberschreibt.
+  ...(process.env.AUSGABE ? { outDir: `./${process.env.AUSGABE}` } : {}),
   build: { format: "directory" },
   trailingSlash: "always",
   compressHTML: false,
   devToolbar: { enabled: false },
-  integrations: [dateien(), editor()],
+  integrations: [dateien({ csp: true }), editor()], // volle CSP nur in Klar: kein Inline-Skript mehr
 });

@@ -1,4 +1,7 @@
 ---
 // Sichtbare Lücke statt erfundener Fakten (wie in der ersten Linie); data-luecke macht sie für Prüfungen zählbar.
+// A3: ein Schalter blendet die Lücke-Boxen aus, sobald «noindex» wegfällt. Der Schalter ist dieselbe Vorschau-Flagge,
+// die auch das noindex-Meta setzt (bau.json «vorschau»): in der Vorschau sichtbar, beim Livegang automatisch weg.
+import { vorschau } from "../../../astro/bau/daten.mjs";
 ---
-<p class="luecke" data-luecke><slot /></p>
+{vorschau && <p class="luecke" data-luecke><slot /></p>}
