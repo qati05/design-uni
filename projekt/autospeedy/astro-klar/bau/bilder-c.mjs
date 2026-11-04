@@ -10,11 +10,12 @@
 import { createRequire } from "node:module";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const require = createRequire(import.meta.url);
 const sharp = require("sharp");
 
-const hier = path.dirname(new URL(import.meta.url).pathname);
+const hier = path.dirname(fileURLToPath(import.meta.url));
 const pub = path.join(hier, "..", "public", "bilder");
 const stockQuelle = path.join(hier, "..", "..", "referenz-c", "bilder");
 

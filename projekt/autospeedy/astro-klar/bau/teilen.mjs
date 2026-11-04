@@ -2,7 +2,8 @@
 // dieselbe Logik nutzen. Die Kopien sind nicht im Git (.gitignore).
 import fs from "node:fs";
 import path from "node:path";
-const hier = path.dirname(new URL(import.meta.url).pathname);
+import { fileURLToPath } from "node:url";
+const hier = path.dirname(fileURLToPath(import.meta.url));
 const quelle = path.join(hier, "..", "..", "astro", "public");
 const ziel = path.join(hier, "..", "public");
 fs.cpSync(path.join(quelle, "bilder"), path.join(ziel, "bilder"), { recursive: true });

@@ -3,7 +3,7 @@
 // (gemeinsam/mailtexte.js → domainAus). Reines SVG, kein Raster; die Druckvorlage /bewerten/druck/ bindet es ein.
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import QRCode from "qrcode";
 import { domainAus } from "../../gemeinsam/mailtexte.js";
 
@@ -24,7 +24,7 @@ export async function erzeugeQr() {
 }
 
 // Direktaufruf (node bau/qr.mjs) und Einbindung im prebuild.
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const ziel = await erzeugeQr();
   console.log(`qr: ${QR_ZIEL} → ${path.relative(process.cwd(), ziel)}`);
 }

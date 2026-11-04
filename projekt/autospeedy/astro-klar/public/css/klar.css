@@ -247,7 +247,7 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
 /* ---------- Knoepfe am Handy ---------- */
 @media (max-width: 560px) {
   .k { width: 100%; min-width: 0; }
-  [data-vorschau] { font-size: 11px; max-width: 72vw; padding: 6px 10px; border-radius: 10px; }
+  [data-vorschau] { font-size: 12px; max-width: 72vw; padding: 6px 10px; border-radius: 10px; }
 }
 
 /* ---------- Karten und Felder (Formulare) ---------- */
@@ -735,7 +735,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .fuss-meldung { min-height: 1.2em; font-size: 13px; color: #1b7f4b; }
 
 /* 4. Slogan: sehr gross, blass (>= 3:1 fuer grossen Text), unten leicht angeschnitten. Echter Text. */
-.fuss-slogan { margin: 0 0 -.14em; font-family: var(--titel); font-weight: 400; font-size: clamp(56px, 11vw, 150px); line-height: .92; letter-spacing: -.02em; color: #83858a; }
+.fuss-slogan { margin: 0 0 -.14em; font-family: var(--titel); font-weight: 400; font-size: clamp(56px, 11vw, 150px); line-height: .92; letter-spacing: -.02em; color: #6c6e73; }
 
 /* 5. Rechtszeile: © Jahr, Impressum, Datenschutz, Bildnachweise, Nach oben. */
 .fuss__innen { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; justify-content: space-between; padding: 22px 0 40px; margin-top: clamp(24px, 4vw, 44px); border-top: 1px solid var(--linie); font-size: 13px; color: var(--grau); }
