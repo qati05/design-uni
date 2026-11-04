@@ -1,4 +1,4 @@
-/* Schadenmeldung «in drei Tipps». Schritte 1 bis 3, Fotos im Browser verkleinert (JPEG, längste Seite 1600 px),
+/* Schadenmeldung. Die Schritte kommen aus dem Formular (Linie Klar 2, Linie Lack 3), Fotos im Browser verkleinert (JPEG, längste Seite 1600 px),
    zwei Wege: A Website (POST an den Endpunkt mit Fortschritt; ohne Endpunkt in der Vorschau nur vorgeführt), B WhatsApp.
    «Angekommen» nur bei Antwort 200 des Servers. Keine Cookies, nichts im Speicher des Geräts.
    Rückmeldung nach BAUPLAN 3.13: Schrittwechsel, Fokus auf die Überschrift, Fortschrittstext, Foto-Vorschau,
@@ -67,9 +67,9 @@
     schritte.forEach(function (s) { if (!alt && s !== neu && !s.hidden) alt = s; });
     aktuell = n; trichter(n);
     anzeige.forEach(function (a) { var i = Number(a.dataset.anzeige); a.classList.toggle("ist-jetzt", i === n); a.classList.toggle("ist-fertig", i < n); if (i === n) a.setAttribute("aria-current", "step"); else a.removeAttribute("aria-current"); });
-    if (fortschrittText) { fortschrittText.hidden = false; fortschrittText.textContent = "Schritt " + n + " von 3"; }
+    if (fortschrittText) { fortschrittText.hidden = false; fortschrittText.textContent = "Schritt " + n + " von " + schritte.length; }
     melde("");
-    if (n === 3) fasseZusammen();
+    if (n === schritte.length) fasseZusammen();
     function zeigeNeu() {
       if (nr !== wechsel) return; // ein spaeterer Wechsel hat uebernommen
       schritte.forEach(function (s) { s.hidden = s !== neu; s.classList.remove("ist-hinaus", "ist-hinein"); });
@@ -114,7 +114,7 @@
   function fasseZusammen() {
     var z = f.querySelector("[data-zusammen]"); if (!z) return;
     var teile = [art() || "Art fehlt"]; if (gewaehlt().length) teile.push(gewaehlt().join(", "));
-    teile.push(fotos.length === 1 ? "1 Foto" : fotos.length + " Fotos");
+    if (fotos.length) teile.push(fotos.length === 1 ? "1 Foto" : fotos.length + " Fotos");
     z.textContent = teile.join(" · ");
   }
 
@@ -144,7 +144,7 @@
     r.addEventListener("change", function () { zeige(2); }); // sofort; die Kachel zeigt die Wahl, waehrend der Schritt hinausgleitet
   });
   function zeichne() { kaestchen.forEach(function (k) { var g = plan && plan.querySelector('[data-stelle="' + k.dataset.stelle + '"]'); if (g) g.classList.toggle("ist-gewaehlt", k.checked); }); }
-  kaestchen.forEach(function (k) { k.addEventListener("change", zeichne); });
+  kaestchen.forEach(function (k) { k.addEventListener("change", function () { zeichne(); fasseZusammen(); }); });
   if (plan) [].forEach.call(plan.querySelectorAll(".plan__stelle"), function (g) {
     g.addEventListener("click", function () { var k = f.querySelector('input[data-stelle="' + g.dataset.stelle + '"]'); if (k) { k.checked = !k.checked; zeichne(); } });
   });
@@ -183,6 +183,7 @@
       weg.addEventListener("click", function () { URL.revokeObjectURL(x.url); fotos.splice(i, 1); zeichneFotos(); });
       li.appendChild(im); li.appendChild(weg); liste.appendChild(li);
     });
+    fasseZusammen();
     if (fotoWeiter) { fotoWeiter.textContent = fotos.length ? "Weiter" : "Ohne Foto weiter"; fotoWeiter.classList.toggle("hat-foto", fotos.length > 0); var sf = fotoWeiter.closest("[data-schritt]"); if (sf) sf.classList.toggle("hat-fotos", fotos.length > 0); }
   }
   if (eingabe) eingabe.addEventListener("change", function () {
@@ -306,7 +307,7 @@
     // Formular gleitet kurz hinaus, dann kommt die Bestaetigung (CSS); ohne Animation sofort
     if (!ruhig && !f.hidden) { f.classList.add("ist-hinaus"); gleitet = animiert(f); nachAnimation(f, zeigeRapport); } else zeigeRapport();
   }
-  if (rapport) rapport.querySelector("[data-r-zurueck]").addEventListener("click", function () { rapport.hidden = true; f.hidden = false; f.classList.remove("ist-hinaus"); zeige(3); });
+  if (rapport) rapport.querySelector("[data-r-zurueck]").addEventListener("click", function () { rapport.hidden = true; f.hidden = false; f.classList.remove("ist-hinaus"); zeige(schritte.length); });
 
   // Fortschrittsbalken (echte Upload-Bytes, sonst unbestimmt)
   var balken = f.querySelector("[data-sende-balken]"), balkenSpan = balken && balken.querySelector("span");

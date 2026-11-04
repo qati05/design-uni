@@ -139,17 +139,15 @@ test("Handy: Leiste mit Anrufen und Schaden melden erscheint nach dem Hero", asy
   await ctx.close();
 });
 
-test("Schaden melden: drei Schritte ohne CSP-Fehler", async () => {
+test("Schaden melden: zwei Schritte ohne CSP-Fehler", async () => {
   const { ctx, page, fehler } = await seite({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: "reduce" });
   await page.goto(basis + "/schaden-melden/");
   await page.locator(".art").first().click();
   const weiter = page.locator('[data-weiter="2"]');
   if (await weiter.isVisible()) await weiter.click();
   await page.locator('[data-schritt="2"]').waitFor({ state: "visible" });
-  const ohne = page.locator('[data-schritt="2"] [data-weiter="3"]');
-  await ohne.click();
-  await page.locator('[data-schritt="3"]').waitFor({ state: "visible" });
-  assert.ok(await page.locator('[data-schritt="3"] input[type="tel"], [data-schritt="3"] input[name*="tel" i]').count() > 0, "Schritt Kontakt mit Telefon");
+  await page.locator('[data-schritt="2"]').waitFor({ state: "visible" });
+  assert.ok(await page.locator('[data-schritt="2"] input[type="tel"], [data-schritt="2"] input[name*="tel" i]').count() > 0, "Schritt Kontakt mit Telefon");
   assert.deepEqual(fehler.filter((f) => /Content Security Policy/i.test(f)), []);
   assert.deepEqual(fehler, []);
   await ctx.close();
