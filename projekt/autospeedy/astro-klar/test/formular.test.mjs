@@ -69,6 +69,7 @@ test("Ersatzwagen: Tesla-Unterfrage erscheint nur bei Haken; ?tesla=1 belegt sie
   const { ctx, page } = await form();
   await page.goto(basis + "/schaden-melden/?art=hagel");
   await page.locator("[data-fotoweiter]").click();
+  await page.waitForSelector('[data-schritt="3"]:not([hidden])'); // Schritt gleitet herein (BEWEGUNG.md 5)
   assert.ok(await page.locator("[data-ersatzwagen-tesla-feld]").isHidden(), "zuerst verborgen");
   await page.locator("[data-ersatzwagen]").check({ force: true });
   await page.waitForSelector("[data-ersatzwagen-tesla-feld]:not([hidden])");
@@ -77,6 +78,7 @@ test("Ersatzwagen: Tesla-Unterfrage erscheint nur bei Haken; ?tesla=1 belegt sie
   const { ctx: c2, page: p2 } = await form();
   await p2.goto(basis + "/schaden-melden/?tesla=1&art=hagel");
   await p2.locator("[data-fotoweiter]").click();
+  await p2.waitForSelector('[data-schritt="3"]:not([hidden])');
   await p2.locator("[data-ersatzwagen]").check({ force: true });
   await p2.waitForSelector("[data-ersatzwagen-tesla-feld]:not([hidden])");
   assert.equal(await p2.locator("[data-ersatzwagen-tesla]").isChecked(), true, "Tesla-Wunsch vorbelegt");

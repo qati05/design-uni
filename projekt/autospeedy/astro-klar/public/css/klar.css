@@ -45,7 +45,7 @@
   --rund-feld: 10px;
   --rund-gross: 20px;
   --schatten: 0 1px 2px rgba(21, 24, 28, .05), 0 10px 30px rgba(21, 24, 28, .07);
-  --sanft: cubic-bezier(.22, .8, .24, 1);
+  --sanft: cubic-bezier(.22, 1, .36, 1);
   --kopf: 64px;
   color-scheme: light;
 
@@ -66,11 +66,20 @@
   --hinaus: cubic-bezier(0.4, 0, 1, 1);     /* hinaus, schneller als hinein */
   --druck: 90ms;                             /* Knopf druecken */
   --farbe: 160ms;                            /* Farb- und Randwechsel */
+  /* Bewegung Handy (BEWEGUNG.md, 04.11.2026): eine Quelle fuer Dauer und Kurven */
+  --dauer-tipp: 90ms;                        /* Druck hinein */
+  --dauer-kurz: 140ms;                       /* Farbe, Rand, kleine Zustaende */
+  --dauer-hinaus: 160ms;                     /* Schritt/Formular hinaus */
+  --dauer-mittel: 260ms;                     /* Menue zu, Schritt hinein, Ausklappen */
+  --dauer-lang: 380ms;                       /* Menue auf, Erfolg */
+  --feder: cubic-bezier(.34, 1.56, .64, 1);  /* Loslassen mit leichtem Ueberschwinger (Fallback zu --feder-knopf) */
+  --hinein: cubic-bezier(.2, 0, 0, 1);       /* Druck, schnell */
+  --druck-skala: .97;
 }
 
 /* Fallback fuer Browser ohne linear(): alle Federn auf die Standardkurve */
 @supports not (transition-timing-function: linear(0, 1)) {
-  :root { --feder-knopf: var(--aus); --feder-ruhig: var(--aus); --feder-weich: var(--aus); --feder-regler: var(--aus); }
+  :root { --feder-knopf: var(--feder); --feder-ruhig: var(--aus); --feder-weich: var(--aus); --feder-regler: var(--aus); }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -83,6 +92,9 @@ p { margin: 0; text-wrap: pretty; }
 :focus-visible { outline: 2px solid var(--blau); outline-offset: 3px; border-radius: 2px; }
 /* Kein Fokusring beim Mausklick (BAUPLAN 3.12) */
 :focus:not(:focus-visible) { outline: none; }
+/* Touch (BEWEGUNG.md 2): kein grauer iOS-Blitz, kein Doppeltipp-Zoom-Warten. Das Feedback ist das :active-Druecken. */
+html { -webkit-tap-highlight-color: transparent; scrollbar-gutter: stable; }
+a, button, label, summary, input, select, textarea, [role="button"] { touch-action: manipulation; }
 /* Auf Akzentflaechen und Fotos zusaetzlich ein weisser Innenring, damit der Kontrast ueberall >= 3:1 ist (BAUPLAN 3.12). Sofort, ohne Transition. */
 .knopf--akzent:focus-visible, .foto:focus-visible { box-shadow: 0 0 0 2px #fff; }
 .sprung { position: absolute; left: -9999px; top: 8px; z-index: 100; padding: 10px 14px; background: var(--tinte); color: #fff; border-radius: var(--rund); }
@@ -114,7 +126,7 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 .k--hell { background: var(--flaeche); color: var(--tinte); }
 .k--dunkel { background: var(--tinte); color: #fff; }
 .k--rand { background: transparent; color: var(--tinte); box-shadow: inset 0 0 0 1.5px var(--tinte); }
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .k--blau:hover { background: var(--blau-tief); }
   .k--glas:hover { background: rgba(255, 255, 255, .92); }
   .k--hell:hover { background: var(--flaeche-2); }
@@ -131,27 +143,34 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 .knopf { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; border: 0; border-radius: var(--pille); font: 500 15px/1 var(--schrift); text-decoration: none; cursor: pointer; color: var(--tinte); background: var(--papier); box-shadow: inset 0 0 0 1px var(--linie); }
 .knopf svg { flex: none; }
 .knopf--akzent { background: var(--akzent); color: #fff; box-shadow: none; }
-@media (hover: hover) { .knopf--akzent:hover { background: var(--blau-tief); } }
+@media (hover: hover) and (pointer: fine) { .knopf--akzent:hover { background: var(--blau-tief); } }
 /* «Anrufen»: gefuellter, ruhiger Zweitknopf (Entscheid Reshat 03.11.). Nicht transparent, nicht als Ghost/Kontur.
    Papier-Flaeche mit klarem Kontrast (Tinte auf --flaeche-2 ~13:1, AA); «Schaden melden» bleibt der staerkste Knopf. */
 .knopf--kontur { background: var(--flaeche-2); color: var(--tinte); box-shadow: none; }
-@media (hover: hover) { .knopf--kontur:hover { background: #ddd8ce; } }
+@media (hover: hover) and (pointer: fine) { .knopf--kontur:hover { background: #ddd8ce; } }
 .knopf--klein { min-height: 44px; padding: 0 16px; font-size: 14px; }
 .knopf--gross { min-height: 64px; }
 
 /* ---------- Kopf ---------- */
-.kopf { position: fixed; inset: 0 0 auto; z-index: 30; height: var(--kopf); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 var(--rand); transition: height .26s var(--aus); }
+.kopf { position: fixed; inset: 0 0 auto; z-index: 30; height: var(--kopf); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 var(--rand); }
 /* Ab ca. 80 px Scroll (klar.js setzt .ist-unten): schmaler und milchig. Hintergrund und Blur sind ein Zustand,
    nur die Hoehe laeuft ueber die Transition (Bewegung 20: kein Blur/Schatten animieren; kein Layoutsprung, da fix). */
-.kopf.ist-unten { height: 52px; background: rgba(255, 255, 255, .98); box-shadow: 0 1px 0 var(--linie); }
-@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .kopf.ist-unten { background: rgba(255, 255, 255, .82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+/* Kopf (BEWEGUNG.md 5): Hoehe bleibt 64 px. Ab ca. 80 px Scroll (klar.js setzt .ist-unten) blendet nur die Flaeche
+   darunter ein (::before, opacity) und das Logo wird per transform etwas kleiner. Am Handy deckend ohne Blur. */
+.kopf::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: rgb(250, 248, 245); box-shadow: 0 1px 0 var(--linie); opacity: 0; transition: opacity var(--dauer-mittel) linear, background-color var(--dauer-kurz) linear; }
+.kopf.ist-unten::before { opacity: 1; }
+.kopf__marke img { transform-origin: left center; transition: transform var(--dauer-mittel) var(--sanft); }
+.kopf.ist-unten .kopf__marke img { transform: scale(.9); }
+@media (min-width: 961px) {
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .kopf::before { background: rgba(250, 248, 245, .82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  }
 }
 .kopf__marke { justify-self: start; display: flex; align-items: center; min-height: 44px; }
 .kopf__marke img { height: 32px; width: auto; }
 .kopf__nav { display: flex; gap: 2px; }
 .kopf__nav a, .kopf__rechts a:not(.k):not(.knopf), .kopf__menu { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: var(--rund); font-size: 14px; font-weight: 500; text-decoration: none; color: var(--tinte); transition: background-color .2s; }
-@media (hover: hover) { .kopf__nav a:hover, .kopf__rechts a:not(.k):not(.knopf):hover, .kopf__menu:hover { background: rgba(22, 25, 29, .06); } }
+@media (hover: hover) and (pointer: fine) { .kopf__nav a:hover, .kopf__rechts a:not(.k):not(.knopf):hover, .kopf__menu:hover { background: rgba(22, 25, 29, .06); } }
 .kopf__nav a[aria-current="page"] { background: rgba(22, 25, 29, .06); }
 .kopf__nav .ist-tesla { gap: 6px; }
 .kopf__nav .ist-tesla::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--blau); }
@@ -159,6 +178,9 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 .kopf__rechts .tel { font-variant-numeric: tabular-nums; }
 /* Handy-Menue: Hamburger-Knopf, Trefferflaeche 44x44, Striche federn beim Oeffnen zu einem X (Korrektur Motion 1) */
 .kopf__menu { border: 0; background: transparent; font-family: inherit; cursor: pointer; display: none; min-width: 44px; justify-content: center; padding: 0; }
+/* Der Hamburger ist ein Link (ohne JS auf #menue); die Link-Regel im Kopf darf ihm keinen Innenabstand geben */
+.kopf .kopf__rechts a.kopf__menu { display: none; padding: 0; width: 44px; } /* staerker als .kopf__rechts a:not(.k):not(.knopf) */
+@media (max-width: 960px) { .kopf .kopf__rechts a.kopf__menu { display: inline-flex; } }
 .kopf__menu-icon { position: relative; display: block; width: 22px; height: 16px; }
 .kopf__menu-icon span { position: absolute; left: 0; right: 0; height: 2px; border-radius: 2px; background: currentColor; transition: transform var(--feder-ruhig-dauer) var(--feder-ruhig), opacity .16s linear; }
 .kopf__menu-icon span:nth-child(1) { top: 0; }
@@ -167,31 +189,48 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 .kopf__menu[aria-expanded="true"] .kopf__menu-icon span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .kopf__menu[aria-expanded="true"] .kopf__menu-icon span:nth-child(2) { opacity: 0; }
 .kopf__menu[aria-expanded="true"] .kopf__menu-icon span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-.blatt { border: 0; padding: 0; margin: 0 0 0 auto; width: min(360px, 100vw); height: 100dvh; max-height: none; background: var(--weiss); box-shadow: -20px 0 60px rgba(0, 0, 0, .12);
-  transform: translateX(0); opacity: 1;
-  /* Schliessen: kuerzer (200 ms, --hinaus). Nur transform und opacity; Schatten/Blur werden nicht uebergeblendet. */
-  transition: transform .2s var(--hinaus), opacity .2s var(--hinaus), overlay .2s allow-discrete, display .2s allow-discrete; }
-/* Oeffnen: ruhiger und etwas laenger (320 ms, --feder-ruhig, <= 450 ms) */
-.blatt[open] { transition: transform .32s var(--feder-ruhig), opacity .32s var(--feder-ruhig), overlay .32s allow-discrete, display .32s allow-discrete; }
-.blatt::backdrop { background: rgba(22, 25, 29, .25); backdrop-filter: blur(2px); }
-/* 3.12 Menue-Dialog: nur Weg (transform) und Deckkraft, gleiche Dauer/Kurve wie der fruehere Zeiger blattRein.
-   Schatten/Blur werden nicht animiert. Unter Reduced Motion schaltet die globale transition:none den Weg ab. */
-.blatt:not([open]) { transform: translateX(40px); opacity: 0; }
-@starting-style { .blatt[open] { transform: translateX(40px); opacity: 0; } }
-/* Links erscheinen leicht gestaffelt (30 ms Abstand, 8 px Versatz, Korrektur Motion 1). Nur transform/opacity. */
-@media (prefers-reduced-motion: no-preference) {
-  .blatt__innen > a { transition: transform .26s var(--feder-ruhig), opacity .2s var(--aus); }
-  @starting-style { .blatt[open] .blatt__innen > a { opacity: 0; transform: translateX(8px); } }
-  .blatt[open] .blatt__innen > a:nth-of-type(1) { transition-delay: .03s; }
-  .blatt[open] .blatt__innen > a:nth-of-type(2) { transition-delay: .06s; }
-  .blatt[open] .blatt__innen > a:nth-of-type(3) { transition-delay: .09s; }
-  .blatt[open] .blatt__innen > a:nth-of-type(4) { transition-delay: .12s; }
-  .blatt[open] .blatt__innen > a:nth-of-type(5) { transition-delay: .15s; }
-}
+/* Menue-Blatt (BEWEGUNG.md 4). Der Dialog deckt den ganzen Bildschirm, ist selbst durchsichtig und hat keinen
+   ::backdrop-Blur. Abdunkeln = ::before (opacity), Blatt = .blatt__innen (transform + opacity). klar.js setzt
+   .ist-auf nach showModal() und nimmt sie zum Schliessen weg; close() erst nach dem Ausblenden. So laeuft
+   Oeffnen und Schliessen auch in Safari weich (kein overlay/allow-discrete noetig). */
+.blatt { position: fixed; inset: 0; width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; overflow: hidden; overscroll-behavior: contain; }
+.blatt::backdrop { background: transparent; }
+.blatt::before { content: ""; position: fixed; inset: 0; background: rgba(22, 25, 29, .28); opacity: 0; transition: opacity 200ms linear; }
+.blatt.ist-auf::before { opacity: 1; }
+.blatt__innen { position: absolute; top: 0; right: 0; bottom: 0; width: min(360px, 100vw); overflow-y: auto; overscroll-behavior: contain; align-content: start; background: var(--weiss); box-shadow: -20px 0 60px rgba(0, 0, 0, .12);
+  transform: translateX(24px); opacity: 0;
+  /* Schliessen: kuerzer, beschleunigend */
+  transition: transform var(--dauer-mittel) var(--hinaus), opacity var(--dauer-mittel) var(--hinaus); }
+/* Oeffnen: ruhig, ohne Ueberschwingen */
+.blatt.ist-auf .blatt__innen { transform: none; opacity: 1; transition: transform var(--dauer-lang) var(--feder-ruhig), opacity var(--dauer-mittel) var(--sanft); }
+/* Links und Fuss leicht gestaffelt (35 ms, 8 px), nur beim Oeffnen */
+.blatt__innen > a, .blatt__fuss { opacity: 0; transform: translateX(8px); transition: transform var(--dauer-mittel) var(--hinaus), opacity var(--dauer-kurz) linear; }
+.blatt.ist-auf .blatt__innen > a, .blatt.ist-auf .blatt__fuss { opacity: 1; transform: none; transition: transform var(--dauer-lang) var(--feder-ruhig), opacity var(--dauer-mittel) var(--sanft); }
+.blatt.ist-auf .blatt__innen > a:nth-of-type(1) { transition-delay: 35ms; }
+.blatt.ist-auf .blatt__innen > a:nth-of-type(2) { transition-delay: 70ms; }
+.blatt.ist-auf .blatt__innen > a:nth-of-type(3) { transition-delay: 105ms; }
+.blatt.ist-auf .blatt__innen > a:nth-of-type(4) { transition-delay: 140ms; }
+.blatt.ist-auf .blatt__innen > a:nth-of-type(5) { transition-delay: 175ms; }
+.blatt.ist-auf .blatt__innen > a:nth-of-type(6), .blatt.ist-auf .blatt__fuss { transition-delay: 210ms; }
 .blatt__innen { display: grid; gap: 4px; padding: 16px; }
-.blatt__zu { justify-self: end; min-height: 44px; min-width: 44px; border: 0; background: transparent; font: 500 15px var(--schrift); cursor: pointer; border-radius: var(--rund); }
+/* Schliessknopf = dasselbe Hamburger-Symbol, exakt auf der Position des Hamburgers im Kopf (rechts, 44 x 44).
+   Er gleicht den Weg des Blatts aus (translateX), bleibt also stehen, und seine Striche drehen zum X. */
+.blatt__zu { justify-self: end; position: relative; top: calc(var(--hinweis-hoehe, 0px) + (var(--kopf) - 44px) / 2 - 16px); right: calc(var(--rand) - 16px); display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0; border: 0; background: transparent; color: var(--tinte); cursor: pointer; border-radius: 999px;
+  transform: translateX(-24px); transition: transform var(--dauer-mittel) var(--hinaus); }
+.blatt.ist-auf .blatt__zu { transform: none; transition: transform var(--dauer-lang) var(--feder-ruhig); }
+.blatt__zu .kopf__menu-icon span { transition: transform var(--dauer-mittel) var(--feder-ruhig), opacity 120ms linear; }
+.blatt.ist-auf .blatt__zu .kopf__menu-icon span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.blatt.ist-auf .blatt__zu .kopf__menu-icon span:nth-child(2) { opacity: 0; }
+.blatt.ist-auf .blatt__zu .kopf__menu-icon span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+/* Menue ohne JavaScript (BEWEGUNG.md 9): Hamburger ist ein Link auf #menue; die Liste erscheint nur dann (:target). */
+.menue-ohne-js { display: none; }
+html:not(.js) .menue-ohne-js:target { position: fixed; top: calc(var(--hinweis-hoehe, 0px) + var(--kopf)); left: 0; right: 0; z-index: 29; display: grid; gap: 2px; padding: 8px 16px 16px; background: var(--weiss); box-shadow: 0 1px 0 var(--linie), 0 20px 40px rgba(0, 0, 0, .1); }
+.menue-ohne-js a { display: flex; align-items: center; min-height: 48px; padding: 0 12px; border-radius: var(--rund); font-size: 17px; font-weight: 500; text-decoration: none; }
+.menue-ohne-js__zu { justify-content: flex-end; font-size: 15px; color: var(--leise); }
+/* Seite dahinter scrollt nicht (klar.js setzt .menue-offen; :has als Rueckfall), ohne Breitensprung (scrollbar-gutter) */
+html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
 .blatt a { display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 16px; border-radius: var(--rund); font-size: 17px; font-weight: 500; text-decoration: none; }
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .blatt__zu:hover { background: var(--flaeche); }
   .blatt a:hover { background: var(--flaeche); }
 }
@@ -234,9 +273,9 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 .chips__wahl { display: flex; flex-wrap: wrap; gap: 8px; }
 .chips__wahl label { position: relative; display: inline-flex; cursor: pointer; }
 .chips__wahl input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-.chips__wahl span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: var(--flaeche); font-size: 15px; font-weight: 500; transition: background-color .15s ease-out, color .15s ease-out, transform .15s ease-out; }
-@media (hover: hover) { .chips__wahl label:hover span { background: var(--flaeche-2); } }
-.chips__wahl label:active span { transform: scale(.97); }
+.chips__wahl span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: var(--flaeche); font-size: 15px; font-weight: 500; transition: transform var(--feder-knopf-dauer) var(--feder-knopf), background-color var(--dauer-kurz) linear, color var(--dauer-kurz) linear; }
+@media (hover: hover) and (pointer: fine) { .chips__wahl label:hover span { background: var(--flaeche-2); } }
+.chips__wahl label:active span { transform: scale(var(--druck-skala)); transition-duration: var(--dauer-tipp); transition-timing-function: var(--hinein); }
 .chips__wahl input:checked + span { background: var(--tinte); color: #fff; }
 .chips__wahl input:focus-visible + span { outline: 2px solid var(--blau); outline-offset: 2px; }
 .chips__wahl--klein span { min-height: 40px; font-size: 14px; }
@@ -252,13 +291,12 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 .schritt legend { font-size: 24px; font-weight: 500; letter-spacing: -.01em; margin-bottom: 4px; padding: 0; }
 .pflicht { font-size: 14px; font-weight: 400; color: var(--grau); }
 .arten { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.art { position: relative; display: grid; gap: 2px; padding: 16px; border-radius: 12px; background: var(--flaeche); cursor: pointer; transition: background-color .15s ease-out, transform .15s ease-out; }
-@media (hover: hover) { .art:hover { background: var(--flaeche-2); } }
-.art:active { transform: scale(.97); }
+.art { position: relative; display: grid; gap: 2px; padding: 16px; border-radius: 12px; background: var(--flaeche); cursor: pointer; }
+@media (hover: hover) and (pointer: fine) { .art:hover { background: var(--flaeche-2); } }
 .art input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
 .art__name { font-weight: 600; font-size: 16px; }
 .art__hilfe { font-size: 13px; color: var(--grau); }
-.art:has(input:checked) { background: var(--blau); box-shadow: 0 8px 20px rgba(21, 102, 184, .28); }
+.art:has(input:checked) { background: var(--blau); }
 .art:has(input:checked) .art__name, .art:has(input:checked) .art__hilfe { color: #fff; }
 .art:has(input:focus-visible) { outline: 2px solid var(--blau); outline-offset: 2px; }
 .stellen summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-size: 15px; font-weight: 500; color: var(--blau); }
@@ -267,7 +305,7 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 .schritt__fuss .k { min-width: 0; flex: 1; }
 .fotos__knopf { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 120px; border-radius: 12px; border: 1.5px dashed #c3c8cf; background: var(--flaeche); font-weight: 500; cursor: pointer; transition: border-color .15s ease-out, background-color .15s ease-out; }
 .fotos__knopf--klein { min-height: 64px; }
-@media (hover: hover) { .fotos__knopf:hover { border-color: var(--blau); background: #eef4fb; } }
+@media (hover: hover) and (pointer: fine) { .fotos__knopf:hover { border-color: var(--blau); background: #eef4fb; } }
 .fotos__plus { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--weiss); box-shadow: inset 0 0 0 1px var(--linie); font-size: 20px; }
 .fotos__eingabe { position: absolute; width: 1px; height: 1px; opacity: 0; }
 .fotos__eingabe:focus-visible + .fotos__liste, .fotos__knopf:has(+ .fotos__eingabe:focus-visible) { outline: 2px solid var(--blau); }
@@ -279,10 +317,13 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 .zusammen { padding: 10px 14px; border-radius: 8px; background: var(--flaeche); font-size: 14px; color: #2d3136; }
 .schalter { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 0; cursor: pointer; font-weight: 500; }
 .schalter input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-.schalter__bahn { flex: none; position: relative; width: 44px; height: 26px; border-radius: 13px; background: #c9cdd3; transition: background-color .2s; }
-.schalter__bahn::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .25); transition: transform .2s; }
+.schalter__bahn { flex: none; position: relative; width: 44px; height: 26px; border-radius: 13px; background: #c9cdd3; transition: background-color var(--dauer-kurz) linear; }
+.schalter__bahn::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .25); transform-origin: left center; transition: transform var(--feder-knopf-dauer) var(--feder-knopf); }
 .schalter input:checked + .schalter__bahn { background: var(--blau); }
-.schalter input:checked + .schalter__bahn::after { transform: translateX(18px); }
+.schalter input:checked + .schalter__bahn::after { transform: translateX(18px); transform-origin: right center; }
+/* Wie iOS: beim Druecken wird der Knopf etwas breiter, zur jeweiligen Seite hin */
+.schalter:active .schalter__bahn::after { transform: scaleX(1.12); transition-duration: var(--dauer-tipp); transition-timing-function: var(--hinein); }
+.schalter:active input:checked + .schalter__bahn::after { transform: translateX(18px) scaleX(1.12); }
 .schalter input:focus-visible + .schalter__bahn { outline: 2px solid var(--blau); outline-offset: 2px; }
 .schalter small { display: block; font-size: 13px; font-weight: 400; color: var(--grau); }
 .senden { display: grid; gap: 10px; padding-top: 8px; border-top: 1px solid var(--linie); }
@@ -310,7 +351,7 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 .zurhand > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 500; color: var(--blau); }
 .zurhand[open] > summary { margin-bottom: 2px; }
 .senden__balken { height: 6px; border-radius: 3px; background: var(--flaeche-2); overflow: hidden; }
-.senden__balken > span { display: block; height: 100%; width: 100%; border-radius: 3px; background: var(--blau); transform-origin: left; transform: scaleX(0); transition: transform .15s ease-out; }
+.senden__balken > span { display: block; height: 100%; width: 100%; border-radius: 3px; background: var(--blau); transform-origin: left; transform: scaleX(0); transition: transform 200ms var(--sanft); }
 .senden__balken.ist-unbestimmt > span { transform: scaleX(1); opacity: .5; }
 /* Erfolgs-Häkchen zeichnet sich (stroke-dashoffset), ohne Bewegung unter Reduced Motion */
 .bestaetigung__pfad { stroke-dasharray: 26; stroke-dashoffset: 26; }
@@ -325,7 +366,7 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 /* Leiste am Handy */
 .handyleiste { display: none; }
 @media (max-width: 960px) {
-  .handyleiste { position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 -1px 0 var(--linie); }
+  .handyleiste { position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(250, 248, 245, .97); box-shadow: 0 -1px 0 var(--linie); }
   .handyleiste .k { min-width: 0; width: 100%; }
   body { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
   [data-vorschau] { bottom: auto; top: calc(var(--kopf) + 6px); left: 8px; }
@@ -333,7 +374,7 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 /* Leiste am Handy (Premium): gleitet herein, sobald JS «leiste-spaeter» setzt */
 @media (max-width: 960px) {
   /* Ein: 320 ms --feder-ruhig (BAUPLAN 3.11). Aus steht am versteckten Zustand (200 ms --hinaus). */
-  .handyleiste { position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; display: grid !important; grid-template-columns: 1fr 1.35fr; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(250, 248, 245, .9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 -1px 0 var(--linie); transition: transform 320ms var(--feder-ruhig); }
+  .handyleiste { position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; display: grid !important; grid-template-columns: 1fr 1.35fr; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(250, 248, 245, .97); box-shadow: 0 -1px 0 var(--linie); transition: transform 320ms var(--feder-ruhig); }
   .handyleiste .k, .handyleiste .knopf { min-width: 0; width: 100%; min-height: 48px; padding: 0 12px; }
   body:has(.handyleiste) { padding-bottom: calc(70px + env(safe-area-inset-bottom)) !important; }
   body.leiste-spaeter:not(.leiste-an) .handyleiste { transform: translateY(110%); transition: transform 200ms var(--hinaus); }
@@ -363,8 +404,8 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
    box-shadow und filter werden NICHT animiert (Feinschliff 2): nur Farbe und transform in der Transition. */
 .k { border-radius: var(--pille); min-height: 50px; padding: 0 26px; font-weight: 500; letter-spacing: .005em;
   /* Federknopf (Korrektur Motion 2): beim Loslassen Feder zurueck; Druecken staucht kurz. Nur transform und Farbe. */
-  transition: background-color .18s ease-out, color .18s ease-out, transform var(--feder-knopf-dauer) var(--feder-knopf); }
-.k:active { transform: scale(.97); transition: transform var(--druck) var(--aus), background-color .18s ease-out, color .18s ease-out; }
+  transition: transform var(--feder-knopf-dauer) var(--feder-knopf), background-color var(--dauer-kurz) linear, color var(--dauer-kurz) linear; }
+.k:active { transform: scale(var(--druck-skala)); transition-duration: var(--dauer-tipp); transition-timing-function: var(--hinein); }
 .k--blau { background: linear-gradient(180deg, #1b70c6 0%, var(--blau) 100%); box-shadow: 0 1px 0 rgba(255, 255, 255, .18) inset, 0 6px 18px rgba(21, 102, 184, .28); }
 .k--hell { background: var(--weiss); box-shadow: inset 0 0 0 1px var(--linie); }
 .k--rand { box-shadow: inset 0 0 0 1px var(--tinte); }
@@ -375,7 +416,7 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 .textlink { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 500; color: var(--blau); text-decoration: none; }
 .textlink span { transition: transform .18s ease-out; }
 .k--weiss { background: #fff; color: var(--tinte); }
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .k--blau:hover { background: linear-gradient(180deg, #176ac0 0%, var(--blau-tief) 100%); box-shadow: 0 1px 0 rgba(255, 255, 255, .18) inset, 0 10px 26px rgba(21, 102, 184, .34); }
   .k--hell:hover { background: var(--weiss); box-shadow: inset 0 0 0 1px #cfc8bd, 0 6px 16px rgba(21, 24, 28, .06); }
   .k--glas-dunkel:hover { background: rgba(255, 255, 255, .2); }
@@ -389,10 +430,6 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 .karte__titel { font-size: 30px; }
 
 /* Kopf (Premium): milchiges Warmweiss, Fallback deckend ohne backdrop-filter (Korrektur Motion 4) */
-.kopf.ist-unten { background: rgb(250, 248, 245); }
-@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .kopf.ist-unten { background: rgba(250, 248, 245, .82); }
-}
 .kopf__nav a, .kopf__rechts a:not(.k):not(.knopf), .kopf__menu { border-radius: 999px; }
 /* Hinweis-Banner (BAUPLAN 4.2) liegen über dem Kopf. Der Kopf rückt um die Banner-Höhe nach unten.
    klar.js setzt --hinweis-hoehe genau; die :has()-Regeln sind der Fallback ohne JS (je Banner ~44 px). */
@@ -404,10 +441,12 @@ body:has(.hinweise .hinweis + .hinweis) { --hinweis-hoehe: 88px; }
 body:has(.hinweise .hinweis + .hinweis + .hinweis) { --hinweis-hoehe: 132px; }
 /* Startseite: heller Papierkopf mit feiner Linie wie im Entwurf (Reshat nach Schritt 09, a).
    Logo und Nav in Tinte, «Schaden melden» rechts im Kopf sichtbar — kein weisses Logo-Kaestchen. */
-body[data-seite="index"] .kopf:not(.ist-unten) { background: rgba(255, 255, 255, .9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--linie); }
+body[data-seite="index"] .kopf:not(.ist-unten)::before { opacity: 1; background: rgba(255, 255, 255, .97); }
+@media (min-width: 961px) { body[data-seite="index"] .kopf:not(.ist-unten)::before { background: rgba(255, 255, 255, .9); } }
 /* Dunkle Unterseiten (/tesla/): Kopf von Anfang an auf heller Flaeche, damit das dunkle Logo und die
    Navigation lesbar sind (Reshat nach Schritt 09, c). */
-body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245, .9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--linie); }
+body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background: rgba(250, 248, 245, .97); }
+@media (min-width: 961px) { body[data-seite="tesla"] .kopf:not(.ist-unten)::before { background: rgba(250, 248, 245, .9); } }
 
 /* Hinweis-Vorlagen (BAUPLAN 4.2). Feste Designs je Art; Farben aus den Tokens. Banner über dem Kopf, schliessbar. */
 .hinweise { position: relative; z-index: 31; }
@@ -417,7 +456,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 .hinweis__text b { font-weight: 600; }
 .hinweis__link { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
 .hinweis__zu { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: var(--pille); background: transparent; color: inherit; cursor: pointer; opacity: .8; }
-.hinweis__zu:hover { opacity: 1; background: rgba(0, 0, 0, .08); }
+@media (hover: hover) and (pointer: fine) { .hinweis__zu:hover { opacity: 1; background: rgba(0, 0, 0, .08); } }
 /* Farben je Art: hagel (Akzentblau), ferien (Papier), geschlossen (Tinte), aktion (Papier mit Akzentlinie), info (Grund) */
 .hinweis--hagel { background: var(--akzent); color: #fff; border-bottom-color: var(--blau-tief); }
 .hinweis--ferien { background: var(--papier); color: var(--tinte); border-bottom-color: var(--linie); }
@@ -427,7 +466,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 .hinweis--aktion .hinweis__symbol { color: var(--akzent); }
 .hinweis--info { background: var(--grund); color: var(--tinte); border-bottom-color: var(--linie); }
 .hinweis--info .hinweis__symbol { color: var(--leise); }
-.hinweis--hagel .hinweis__zu:hover, .hinweis--geschlossen .hinweis__zu:hover { background: rgba(255, 255, 255, .18); }
+@media (hover: hover) and (pointer: fine) { .hinweis--hagel .hinweis__zu:hover, .hinweis--geschlossen .hinweis__zu:hover { background: rgba(255, 255, 255, .18); } }
 
 /* Pop-up als <dialog> (BAUPLAN 4.2): erst nach 2 s, einmal pro Sitzung, nie auf /schaden-melden/. */
 .hinweis-popup { max-width: min(420px, calc(100vw - 32px)); width: 100%; padding: 22px 22px 26px; border: 1px solid var(--linie); border-radius: var(--rund-gross); background: var(--papier); color: var(--tinte); box-shadow: var(--schatten); }
@@ -461,14 +500,15 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 .partner__label { margin: 0; font-family: var(--schrift); font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--leise); }
 /* Leiser Text-Knopf «Anhalten»/«Weiter» (Hanken 13 px, --leise, aria-pressed) */
 .partner__pause { background: none; border: 0; padding: 14px 6px; margin: -14px -6px; font: 500 13px/1 var(--schrift); color: var(--leise); cursor: pointer; border-radius: var(--rund); }
-@media (hover: hover) { .partner__pause:hover { color: var(--tinte); } }
+@media (hover: hover) and (pointer: fine) { .partner__pause:hover { color: var(--tinte); } }
 .partnerband { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
 .partnerband__spur { display: flex; gap: 16px; width: max-content; margin: 0; padding: 6px 0; list-style: none; animation: partnerband var(--dauer, 40s) linear infinite; }
-.partnerband:hover .partnerband__spur, .partnerband:focus-within .partnerband__spur { animation-play-state: paused; }
+.partnerband:focus-within .partnerband__spur { animation-play-state: paused; }
+@media (hover: hover) and (pointer: fine) { .partnerband:hover .partnerband__spur { animation-play-state: paused; } }
 /* Pausieren-Knopf (BAUPLAN 3.9): Klasse .ist-pausiert haelt das Laufband an */
 .partnerband.ist-pausiert .partnerband__spur { animation-play-state: paused; }
 .partnerband__karte { display: flex; align-items: center; justify-content: center; width: 196px; height: 84px; padding: 14px 22px; box-sizing: border-box; background: var(--papier); border: 1px solid var(--linie); border-radius: var(--rund); transition: border-color var(--farbe) linear, transform var(--feder-ruhig-dauer) var(--feder-ruhig); }
-@media (hover: hover) { .partnerband__karte:hover { border-color: var(--akzent); transform: translateY(-2px); } }
+@media (hover: hover) and (pointer: fine) { .partnerband__karte:hover { border-color: var(--akzent); transform: translateY(-2px); } }
 .partnerband__karte a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
 .partnerband__karte img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
 /* Textvariante (Vorgabe, rechte.md): Partnernamen in Archivo statt Logo */
@@ -477,9 +517,13 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 
 /* Schadenmeldung: Karte mit Tiefe, Auswahl antwortet sichtbar */
 .melden.karte { box-shadow: 0 1px 0 var(--linie), var(--schatten); background: var(--weiss); }
-.art { border-radius: 14px; background: var(--grund); box-shadow: inset 0 0 0 1px var(--linie); transition: background-color .2s var(--sanft), box-shadow .25s var(--sanft), transform .18s var(--sanft); }
-@media (hover: hover) { .art:hover { background: var(--weiss); box-shadow: inset 0 0 0 1px #cfc8bd, 0 6px 16px rgba(21, 24, 28, .06); transform: translateY(-1px); } }
-.art:active { transform: scale(.98); }
+.art { border-radius: 14px; background: var(--grund); box-shadow: inset 0 0 0 1px var(--linie); transition: transform var(--feder-knopf-dauer) var(--feder-knopf), background-color var(--dauer-kurz) linear; }
+.art::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: 0 8px 20px rgba(21, 102, 184, .28); opacity: 0; transition: opacity var(--dauer-kurz) linear; }
+.art:has(input:checked)::after { opacity: 1; }
+/* Auswahl sofort sichtbar (kein Ueberblenden beim Einrasten); Druck schnell hinein, Feder beim Loslassen */
+.art:has(input:checked) { box-shadow: none; transition: transform var(--feder-knopf-dauer) var(--feder-knopf), background-color 0s; }
+.art:active { transform: scale(var(--druck-skala)); transition-duration: var(--dauer-tipp); transition-timing-function: var(--hinein); }
+@media (hover: hover) and (pointer: fine) { .art:hover { background: var(--weiss); box-shadow: inset 0 0 0 1px #cfc8bd, 0 6px 16px rgba(21, 24, 28, .06); transform: translateY(-1px); } }
 .fotos__knopf { border-radius: 14px; background: var(--grund); }
 .feld input, .feld textarea { border-radius: var(--rund-feld); border-color: #cdc6bb; }
 .fremd__rahmen { width: 100%; border: 0; }
@@ -550,9 +594,9 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 .tesla .knoepfe { justify-content: flex-start; margin-top: 28px; }
 /* C14: kein leuchtender Knopf auf dunklem Grund (wirkte wie eine KI-Vorlage); flacher, ohne Glow-Schatten. */
 .tesla .k--blau { background: var(--blau); box-shadow: none; }
-@media (hover: hover) { .tesla .k--blau:hover { background: var(--blau-tief); box-shadow: none; } }
+@media (hover: hover) and (pointer: fine) { .tesla .k--blau:hover { background: var(--blau-tief); box-shadow: none; } }
 .tesla .k--glas { background: rgba(255, 255, 255, .1); color: #fff; }
-@media (hover: hover) { .tesla .k--glas:hover { background: rgba(255, 255, 255, .18); } }
+@media (hover: hover) and (pointer: fine) { .tesla .k--glas:hover { background: rgba(255, 255, 255, .18); } }
 /* C14: einfache Liste ohne Nummern, nicht wie eine Navigation. */
 .tesla__liste { list-style: none; margin: 24px 0 0; padding: 0; border-top: 1px solid rgba(255, 255, 255, .14); }
 .tesla__liste li { padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, .14); font-size: 17px; }
@@ -573,13 +617,13 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 .kachel { position: relative; display: grid; align-content: end; min-height: 460px; border-radius: var(--rund-gross); overflow: hidden; isolation: isolate; color: #fff; text-decoration: none; }
 .kachel img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
 .kachel::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, .78) 100%); }
-@media (hover: hover) { .kachel:hover img { transform: scale(1.035); } }
+@media (hover: hover) and (pointer: fine) { .kachel:hover img { transform: scale(1.035); } }
 .kachel__text { padding: 24px; display: grid; gap: 6px; }
 .kachel h3 { font-size: 26px; }
 .kachel p { color: #fff; font-size: 15px; }
 .kachel__pfeil { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 14px; font-weight: 500; }
 .kachel__pfeil::after { content: "→"; transition: transform .2s; }
-@media (hover: hover) { .kachel:hover .kachel__pfeil::after { transform: translateX(3px); } }
+@media (hover: hover) and (pointer: fine) { .kachel:hover .kachel__pfeil::after { transform: translateX(3px); } }
 
 /* Schadenmeldung: Schritte und Produktansicht */
 .ablauf { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
@@ -645,7 +689,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 .kontakt__karte h3 { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--grau); }
 .kontakt__karte p, .kontakt__karte a { font-size: 19px; font-weight: 500; text-decoration: none; }
 .kontakt__karte > a { display: inline-flex; align-items: center; min-height: 44px; justify-self: start; overflow-wrap: anywhere; }
-@media (hover: hover) { .kontakt__karte a:hover { color: var(--blau); } }
+@media (hover: hover) and (pointer: fine) { .kontakt__karte a:hover { color: var(--blau); } }
 .kontakt__karte small { color: var(--grau); font-size: 14px; }
 
 /* Fuss = der eine letzte Block (Korrektur Footer): letzter Aufruf, Status + ganze Woche, Adresse, Slogan, Rechtszeile.
@@ -683,11 +727,11 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 .fuss-ort__adr { font-family: "Archivo", var(--schrift); font-variant-numeric: tabular-nums; }
 .fuss-ort__akt, .fuss-ort__tel { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
 .fuss-ort a { color: var(--akzent); text-decoration: none; text-underline-offset: 3px; }
-@media (hover: hover) { .fuss-ort a:hover { text-decoration: underline; } }
+@media (hover: hover) and (pointer: fine) { .fuss-ort a:hover { text-decoration: underline; } }
 .fuss-ort__tel .nr { font-size: 17px; font-weight: 600; }
 .fuss-ort__flotte { color: var(--leise); }
 .fuss-kopf { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--linie); border-radius: var(--pille); background: var(--papier); color: var(--leise); font: 500 13px/1 var(--schrift); cursor: pointer; }
-@media (hover: hover) { .fuss-kopf:hover { color: var(--tinte); border-color: var(--leise); } }
+@media (hover: hover) and (pointer: fine) { .fuss-kopf:hover { color: var(--tinte); border-color: var(--leise); } }
 .fuss-meldung { min-height: 1.2em; font-size: 13px; color: #1b7f4b; }
 
 /* 4. Slogan: sehr gross, blass (>= 3:1 fuer grossen Text), unten leicht angeschnitten. Echter Text. */
@@ -699,7 +743,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 /* A2: alle Tippziele im Fuss mindestens 44 px. Die grossen CTAs (.knopf …) behalten ihre eigene Hoehe (48/64 px). */
 .fuss a:not(.knopf) { text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; color: inherit; }
 .fuss__oben { gap: 6px; }
-@media (hover: hover) { .fuss__innen a:hover { color: var(--tinte); } }
+@media (hover: hover) and (pointer: fine) { .fuss__innen a:hover { color: var(--tinte); } }
 
 @media (max-width: 760px) {
   /* Handy-Reihenfolge: Anruf -> Status -> Zeiten -> Adresse -> Slogan. Anruf-Knopf volle Breite (siehe .ctas .knopf). */
@@ -739,7 +783,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 .seitenkopf__einleitung { max-width: 62ch; color: var(--grau); font-size: 18px; display: grid; gap: 10px; }
 .sprungleiste { position: sticky; top: var(--kopf); z-index: 20; display: flex; gap: 4px; overflow-x: auto; padding: 10px var(--rand); background: rgba(255, 255, 255, .92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--linie); }
 .sprungleiste a { flex: none; display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 999px; font-size: 14px; font-weight: 500; text-decoration: none; background: var(--flaeche); }
-@media (hover: hover) { .sprungleiste a:hover { background: var(--flaeche-2); } }
+@media (hover: hover) and (pointer: fine) { .sprungleiste a:hover { background: var(--flaeche-2); } }
 .schmal { max-width: 760px; }
 .mitte { text-align: center; margin-inline: auto; }
 .mitte .knoepfe { justify-content: center; }
@@ -791,7 +835,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 @media (max-width: 960px) {
   .melden-seite { grid-template-columns: 1fr; padding-top: calc(var(--kopf) + 28px); }
   .melden-seite__links { position: static; }
-  .zeile, .zwei-spalten { grid-template-columns: 1fr; }
+  .zeile, .zwei-spalten { grid-template-columns: minmax(0, 1fr); }
   .zeile:nth-child(even) > img { order: 0; }
   .raster--vier { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .leute--seite { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -823,7 +867,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 .buehne--start .knoepfe { margin-top: 12px; }
 .buehne__oben { max-width: var(--breit); width: 100%; margin: 0 auto; padding-top: 8px; }
 .buehne__tesla { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px; border-radius: 999px; background: rgba(255, 255, 255, .14); color: #fff; font-size: 14px; font-weight: 500; text-decoration: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22); transition: background-color .2s; }
-@media (hover: hover) { .buehne__tesla:hover { background: rgba(255, 255, 255, .24); } }
+@media (hover: hover) and (pointer: fine) { .buehne__tesla:hover { background: rgba(255, 255, 255, .24); } }
 .buehne__tesla .punkt-blau { background: #6fb0f0; box-shadow: 0 0 0 4px rgba(111, 176, 240, .25); transform: none; }
 @media (max-width: 960px) {
   .buehne--start .knoepfe .k--weiss { display: inline-flex; width: 100%; }
@@ -831,7 +875,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 }
 @media (max-width: 960px) { .buehne--start::before { background: linear-gradient(180deg, rgba(8, 10, 12, .5) 0%, rgba(8, 10, 12, .05) 24%, rgba(8, 10, 12, .2) 44%, rgba(8, 10, 12, .75) 64%, rgba(8, 10, 12, .9) 100%); } }
 .buehne__tesla { background-color: rgba(8, 10, 12, .58); }
-@media (hover: hover) { .buehne__tesla:hover { background-color: rgba(8, 10, 12, .72); } }
+@media (hover: hover) and (pointer: fine) { .buehne__tesla:hover { background-color: rgba(8, 10, 12, .72); } }
 
 /* Flaechen Premium */
 .fuss { background: var(--grund); }
@@ -896,7 +940,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 .buehne--start .buehne__unter { max-width: 40ch; }
 .buehne--start .knoepfe { gap: 12px; }
 .buehne__tesla .pfeil { transition: transform .25s var(--sanft); }
-@media (hover: hover) { .buehne__tesla:hover .pfeil { transform: translateX(3px); } }
+@media (hover: hover) and (pointer: fine) { .buehne__tesla:hover .pfeil { transform: translateX(3px); } }
 
 /* Vertrauenszeile direkt unter dem ersten Bildschirm */
 .vertrauen { list-style: none; margin: 0; padding: 0 var(--rand); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--weiss); border-bottom: 1px solid var(--linie); }
@@ -916,9 +960,9 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 .kachel, .zeile img, .raster img, .leute img, .naehe__bild img { border-radius: var(--rund-gross); }
 .kachel img, .zeile img, .raster img, .naehe__bild img, .seitenkopf__bild img { filter: saturate(.9) contrast(1.03); }
 .kachel img { transition: transform 1.2s var(--sanft); }
-@media (hover: hover) { .kachel:hover img { transform: scale(1.045); } }
-.kachel { min-height: 520px; box-shadow: var(--schatten); transition: transform .5s var(--sanft), box-shadow .5s var(--sanft); }
-@media (hover: hover) { .kachel:hover { transform: translateY(-4px); box-shadow: 0 2px 4px rgba(21, 24, 28, .06), 0 24px 48px rgba(21, 24, 28, .14); } }
+@media (hover: hover) and (pointer: fine) { .kachel:hover img { transform: scale(1.045); } }
+.kachel { min-height: 520px; box-shadow: var(--schatten); transition: transform .5s var(--sanft); }
+@media (hover: hover) and (pointer: fine) { .kachel:hover { transform: translateY(-4px); box-shadow: 0 2px 4px rgba(21, 24, 28, .06), 0 24px 48px rgba(21, 24, 28, .14); } }
 .kachel__text { background-color: rgba(16, 18, 21, .55); }
 .kachel h3 { font-family: var(--titel); font-weight: 400; font-size: 32px; letter-spacing: 0; }
 
@@ -933,7 +977,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 .naehe__text { display: grid; gap: 16px; }
 .naehe__text p:not(.kicker) { color: var(--grau); font-size: 18px; line-height: 1.6; }
 .leute img { aspect-ratio: 4 / 5; filter: saturate(.9); transition: transform .6s var(--sanft); }
-@media (hover: hover) { .leute figure:hover img { transform: translateY(-3px); } }
+@media (hover: hover) and (pointer: fine) { .leute figure:hover img { transform: translateY(-3px); } }
 
 /* Google-Bewertungen (Entwurf C, BAUPLAN 3.10): Kopf mit Note und 5 Sternen, keine Karten, darunter Links. */
 .bewertungen-teil .bew-kopf { display: flex; justify-content: space-between; align-items: end; gap: 20px 32px; flex-wrap: wrap; }
@@ -957,8 +1001,8 @@ body[data-seite="tesla"] .kopf:not(.ist-unten) { background: rgba(250, 248, 245,
 .kontakt__karte h2, .gruppe h2 { font-family: var(--schrift); }
 .gruppe h2 { font-weight: 600; font-size: 20px; }
 .textseite h2 { font-size: 28px; }
-.kontakt__karte { transition: box-shadow .3s var(--sanft), transform .3s var(--sanft); }
-@media (hover: hover) { .kontakt__karte:hover { box-shadow: inset 0 0 0 1px #cfc8bd, 0 10px 30px rgba(21, 24, 28, .06); transform: translateY(-2px); } }
+.kontakt__karte { transition: transform .3s var(--sanft); }
+@media (hover: hover) and (pointer: fine) { .kontakt__karte:hover { box-shadow: inset 0 0 0 1px #cfc8bd, 0 10px 30px rgba(21, 24, 28, .06); transform: translateY(-2px); } }
 .abschluss { background: var(--flaeche); }
 .ansicht { background: linear-gradient(160deg, #efebe5 0%, #e4dfd7 100%); }
 a.klein { font-size: 14px; }
@@ -1027,17 +1071,16 @@ a.klein { font-size: 14px; }
 /* Keyframes der Bewegungsliste (Abschnitt 3). Jede Regel ist unten mit ihrer BAUPLAN-Nummer vermerkt.
    Das generische Einblenden jeder Sektion (fruehere .zeigen-Klasse) ist bewusst entfernt (3.15). */
 @keyframes partnerband { to { transform: translateX(calc(-50% - 8px)); } }       /* 3.9 Partnerband-Laufband */
-@keyframes schrittRein { from { opacity: 0; transform: translateX(12px); } }     /* 3.13 Schrittwechsel (Formular) */
 @keyframes haken-ein { to { stroke-dashoffset: 0; } }                            /* 3.13 Erfolgs-Haeckchen zeichnet sich */
 @keyframes vergleichHinweis { 0% { --pos: 50; } 33% { --pos: 42; } 66% { --pos: 56; } 100% { --pos: 50; } } /* 3.8 Slider-Hinweis */
 
 /* Federknopf (BAUPLAN 3.2): Die Feder wirkt nur beim Loslassen (lange Transition im Grundzustand).
    Hover hebt an (feder-ruhig), Druecken staucht kurz (var(--druck)/var(--aus)). Nur transform und Farbe. */
-.knopf { transition: transform var(--feder-knopf-dauer) var(--feder-knopf), background-color var(--farbe) linear, color var(--farbe) linear; }
+.knopf { transition: transform var(--feder-knopf-dauer) var(--feder-knopf), background-color var(--dauer-kurz) linear, color var(--dauer-kurz) linear; }
 @media (hover: hover) and (pointer: fine) {
-  .knopf:hover { transform: translateY(-2px); transition: transform var(--feder-ruhig-dauer) var(--feder-ruhig), background-color var(--farbe) linear, color var(--farbe) linear; }
+  .knopf:hover { transform: translateY(-2px); transition: transform var(--feder-ruhig-dauer) var(--feder-ruhig), background-color var(--dauer-kurz) linear, color var(--dauer-kurz) linear; }
 }
-.knopf:active { transform: scale(.96); transition: transform var(--druck) var(--aus), background-color var(--farbe) linear, color var(--farbe) linear; }
+.knopf:active { transform: scale(var(--druck-skala)); transition-duration: var(--dauer-tipp); transition-timing-function: var(--hinein); }
 
 /* Leistungen (BAUPLAN 2 Zeile 5): Abschnitt und 4 ganz klickbare Karten. */
 .leistungen { max-width: var(--breit); margin-inline: auto; padding: clamp(48px, 6vw, 84px) var(--rand); border-bottom: 1px solid var(--linie); }
@@ -1103,12 +1146,15 @@ a.klein { font-size: 14px; }
 @media (max-width: 960px) { .karten { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 720px) {
   .karten { grid-template-columns: 1fr; gap: 0; margin-top: 24px; border-top: 1px solid var(--tinte); }
-  .karten a { display: grid; grid-template-columns: 1fr 38px; gap: 4px 14px; padding: 18px 0; background: none; border: 0; border-bottom: 1px solid var(--linie); border-radius: 0; }
-  .karten a:active { transform: none; }
+  .karten a { display: grid; gap: 4px 14px; padding: 18px 0; background: none; border: 0; border-bottom: 1px solid var(--linie); border-radius: 0; }
+  /* Nur die einfachen Karten bekommen das Zeilenraster 1fr 38px; die Bildkarten behalten 88px 1fr 38px (sonst 441 px Breite) */
+  .karten:not(.karten--bild) a { grid-template-columns: 1fr 38px; }
+  .karten:not(.karten--bild) p { grid-column: 1; }
+  .karten a:active { transform: none; background: var(--flaeche); transition: background-color 0s; }
   .karten a:active .pfeil { transform: translateX(3px); }
-  .karten p { grid-column: 1; }
   .karten h3 { font-size: 22px; }
-  .karten .pfeil { grid-row: 1 / 3; grid-column: 2; align-self: center; margin-top: 0; }
+  .karten .pfeil { grid-row: 1 / 3; align-self: center; margin-top: 0; }
+  .karten:not(.karten--bild) .pfeil { grid-column: 2; }
   .anfrage { flex-direction: column; align-items: stretch; }
   .anfrage .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
 }
@@ -1122,11 +1168,51 @@ a.klein { font-size: 14px; }
 .vergleich[data-quelle="taste"], .vergleich[data-quelle="tipp"] { transition: --pos var(--feder-regler-dauer) var(--feder-regler); }
 .vergleich.ist-hinweis { animation: vergleichHinweis 1.6s var(--feder-weich); }
 
-/* Formular «Schaden melden» (BAUPLAN 3.13, Schritt 12): Auswahl per Transition (Farbe, kein Keyframe), Schrittwechsel
-   als Eintritt mit opacity + translateX genau nach 3.13 (240 ms --aus). «Art gewaehlt» ist nur ein Farbwechsel. */
-.js .schritt:not([hidden]) { animation: schrittRein 240ms var(--aus) both; }
-.fortschritt li::before { transition: background-color .3s var(--aus); }
-.bestaetigung:not([hidden]) { animation: schrittRein 240ms var(--aus) both; }
+/* Formular «Schaden melden» (BEWEGUNG.md 5): schaden.js setzt .ist-hinaus am alten und .ist-hinein am neuen Schritt
+   (data-richtung="zurueck" spiegelt). Hinaus 160 ms beschleunigend, hinein 260 ms --sanft; nur opacity + transform. */
+@keyframes schritt-hinaus { to { opacity: 0; transform: translateX(-12px); } }
+@keyframes schritt-hinaus-zurueck { to { opacity: 0; transform: translateX(12px); } }
+@keyframes schritt-hinein { from { opacity: 0; transform: translateX(12px); } }
+@keyframes schritt-hinein-zurueck { from { opacity: 0; transform: translateX(-12px); } }
+@keyframes form-hinaus { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes erfolg-ein { from { opacity: 0; transform: translateY(8px); } }
+@keyframes haken-kreis { from { opacity: 0; transform: scale(.8); } }
+@keyframes einblenden { from { opacity: 0; } }
+@keyframes aufklappen { from { opacity: 0; transform: translateY(-4px); } }
+@keyframes laden-dreht { to { transform: rotate(1turn); } }
+.js .schritt.ist-hinaus { animation: schritt-hinaus var(--dauer-hinaus) var(--hinaus) both; }
+.js .schritt.ist-hinaus[data-richtung="zurueck"] { animation-name: schritt-hinaus-zurueck; }
+.js .schritt.ist-hinein { animation: schritt-hinein var(--dauer-mittel) var(--sanft) both; }
+.js .schritt.ist-hinein[data-richtung="zurueck"] { animation-name: schritt-hinein-zurueck; }
+.js .melden.ist-hinaus { animation: form-hinaus var(--dauer-hinaus) var(--hinaus) both; }
+.bestaetigung:not([hidden]) { animation: erfolg-ein 320ms var(--sanft) both; }
+.bestaetigung:not([hidden]) .bestaetigung__haken { animation: haken-kreis var(--feder-knopf-dauer) var(--feder-knopf) both; }
+/* Fortschritt: der Balken fuellt sich (scaleX) statt nur die Farbe zu wechseln */
+.fortschritt li { position: relative; }
+.fortschritt li::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 2px; background: var(--blau); transform: scaleX(0); transform-origin: left; transition: transform 320ms var(--sanft); }
+.fortschritt li.ist-jetzt::before, .fortschritt li.ist-fertig::before { background: var(--flaeche-2); }
+.fortschritt li.ist-jetzt::after, .fortschritt li.ist-fertig::after { transform: scaleX(1); }
+/* Ausklappen (Tesla-Modell, Ersatzwagen-Unterfrage, «Stelle genauer», «zur Hand»): Inhalt blendet ein, Hoehe nicht animiert */
+.js [data-tesla-modell]:not([hidden]), .js [data-ersatzwagen-tesla-feld]:not([hidden]),
+.stellen[open] > :not(summary), .zurhand[open] > :not(summary) { animation: aufklappen 200ms var(--sanft) both; }
+/* Fehler: Text blendet ein (kein Schuetteln) */
+/* Sammel-Rueckmeldung bleibt ohne Animation (Test «kein Schuetteln»); nur der Feldtext blendet ein. */
+.feld-fehler { animation: einblenden var(--dauer-kurz) linear both; }
+/* Senden: Ladezustand mit gleicher Knopfbreite (Text wird durchsichtig, Ring dreht) */
+.k[disabled], .knopf[disabled], .k[aria-busy="true"], .knopf[aria-busy="true"] { cursor: default; opacity: .7; transform: none; }
+.k.ist-laedt { position: relative; opacity: 1; color: transparent; }
+.k.ist-laedt small { color: transparent; }
+.k.ist-laedt .laden { position: absolute; top: 50%; left: 50%; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .35); border-top-color: #fff; animation: laden-dreht 800ms linear infinite; }
+.k--hell.ist-laedt .laden { border-color: rgba(29, 30, 32, .2); border-top-color: var(--tinte); }
+.laden { display: none; }
+.k.ist-laedt .laden { display: block; }
+
+/* Menue (BEWEGUNG.md 4): Hamburger und X federn beim Loslassen, Links zeigen den Druck (Flaeche + leichtes Stauchen). */
+.kopf__menu { transition: transform var(--feder-knopf-dauer) var(--feder-knopf), background-color var(--dauer-kurz) linear; }
+.kopf__menu:active { transform: scale(.92); transition-duration: var(--dauer-tipp); transition-timing-function: var(--hinein); }
+.blatt.ist-auf .blatt__zu:active { transform: scale(.92); transition: transform var(--dauer-tipp) var(--hinein); }
+.blatt.ist-auf .blatt__innen > a:active { background: var(--flaeche); transform: scale(.985); transition: transform var(--dauer-tipp) var(--hinein), background-color 0s; transition-delay: 0s; }
+.blatt__innen > a { transform-origin: center; }
 
 /* View Transitions (Seitenuebergaenge) bewusst NICHT (BAUPLAN 3.15: «vorerst nicht»). */
 
@@ -1154,6 +1240,12 @@ a.klein { font-size: 14px; }
   .kopf__menu[aria-expanded="true"] .kopf__menu-icon span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   /* Karten (BAUPLAN 3.3): nur Rand- und Pfeilfarbe, kein Weg */
   .karten a:hover, .karten a:active, .karten a:hover .pfeil, .karten a:active .pfeil, .karten a:focus-visible .pfeil { transform: none; }
+  /* BEWEGUNG.md 8: kein Weg und kein Druckweg; Menue, Schritte, Ausklappen sofort; Ladezustand ohne Drehen, Text bleibt */
+  .art:active, .chips__wahl label:active span, .schalter:active .schalter__bahn::after, .kopf__menu:active, .blatt a:active, .kopf.ist-unten .kopf__marke img { transform: none; }
+  .schalter:active input:checked + .schalter__bahn::after { transform: translateX(18px); }
+  .blatt__innen, .blatt__innen > a, .blatt__fuss, .blatt__zu { transform: none !important; }
+  .k.ist-laedt, .k.ist-laedt small { color: inherit; }
+  .k.ist-laedt .laden { display: none; }
 }
 
 /* Hero-Einstieg (3.4), Hero-Foto (3.5), Faktenleiste (3.6): reines CSS, laeuft auch ohne JS und endet sichtbar.
@@ -1252,7 +1344,7 @@ a.klein { font-size: 14px; }
 .faq__zeichen::after { transform: rotate(90deg); }
 .faq__item[open] .faq__zeichen::after { transform: rotate(0); }
 .faq__item p { margin: 0 0 22px; color: #3f4247; font-size: 16px; line-height: 1.6; max-width: 62ch; }
-@media (hover: hover) { .faq__item summary:hover h3 { color: var(--akzent); } }
+@media (hover: hover) and (pointer: fine) { .faq__item summary:hover h3 { color: var(--akzent); } }
 @media (prefers-reduced-motion: reduce) { .faq__zeichen::before, .faq__zeichen::after { transition: none; } }
 
 /* Partnerband-Logos (Nachtrag): Graustufen, von links nach rechts laufend, Land Rover als Wortmarke,
@@ -1261,7 +1353,7 @@ a.klein { font-size: 14px; }
 .partnerband--logos .partnerband__karte img { max-height: 40px; filter: grayscale(1); opacity: .72; transition: filter var(--farbe) linear, opacity var(--farbe) linear; }
 .partnerband--logos .partnerband__karte--tesla img { max-height: 30px; }
 .partnerband--logos .partnerband__wortmarke { font-family: "Archivo", var(--schrift); font-size: 19px; font-weight: 500; letter-spacing: .04em; color: #6b7076; text-transform: uppercase; }
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .partnerband--logos .partnerband__karte:hover img { filter: grayscale(0); opacity: 1; }
   .partnerband--logos .partnerband__karte:hover .partnerband__wortmarke { color: var(--tinte); }
 }

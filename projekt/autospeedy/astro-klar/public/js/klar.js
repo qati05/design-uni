@@ -4,6 +4,8 @@
   "use strict";
   var wurzel = document.documentElement;
   wurzel.classList.add("js");
+  // iOS setzt :active nur zuverlaessig, wenn ein touchstart-Listener existiert (BEWEGUNG.md 2). Leer und passiv.
+  document.addEventListener("touchstart", function () {}, { passive: true });
   var ruhig = matchMedia("(prefers-reduced-motion: reduce)").matches;
   // Bewegungsschicht nur, wenn IntersectionObserver vorhanden ist und keine Reduced-Motion-Vorgabe gilt (BAUPLAN 3.0.2)
   if ("IntersectionObserver" in window && !ruhig) wurzel.classList.add("js-bewegung");
@@ -106,22 +108,65 @@
     }
   }
 
-  // Menü-Blatt (Korrektur Motion 1): Hamburger öffnet, Esc und Schliessen-Knopf schliessen. Fokusfalle und Esc
-  // liefert das <dialog> selbst. aria-expanded und aria-label am Knopf spiegeln den Zustand; die Striche werden per CSS zum X.
+  // Menü-Blatt (BEWEGUNG.md 4). Oeffnen: showModal(), dann .ist-auf (CSS blendet ein). Schliessen: .ist-auf weg,
+  // CSS blendet aus, erst danach close() (Safari kennt overlay/allow-discrete nicht). Ausloeser: X, Esc, Tipp daneben,
+  // Tipp auf einen Link (Navigation laeuft sofort weiter), Rueckkehr aus dem Verlauf (pageshow). Fokus zurueck auf den Hamburger.
+  // Ohne JS ist der Hamburger ein Link auf #menue (Liste im Kopf, :target).
   var blatt = document.querySelector("[data-menu]");
   var menuKnopf = document.querySelector("[data-menu-auf]");
+  var blattTimer = 0;
   function menuStand(offen) {
     if (!menuKnopf) return;
     menuKnopf.setAttribute("aria-expanded", offen ? "true" : "false");
     menuKnopf.setAttribute("aria-label", offen ? "Menü schliessen" : "Menü öffnen");
   }
+  if (menuKnopf && blatt && typeof blatt.showModal === "function") {
+    menuKnopf.setAttribute("role", "button");
+    menuKnopf.setAttribute("aria-haspopup", "dialog");
+    menuKnopf.setAttribute("aria-expanded", "false");
+  }
+  function blattFertigZu() {
+    if (blattTimer) { clearTimeout(blattTimer); blattTimer = 0; }
+    blatt.removeEventListener("transitionend", blattEnde);
+    blatt.classList.remove("ist-zu");
+    if (blatt.open) blatt.close();
+    wurzel.classList.remove("menue-offen");
+    menuStand(false);
+  }
+  function blattEnde(e) { if (e.target === blatt.querySelector(".blatt__innen") && e.propertyName === "transform") blattFertigZu(); }
+  function blattAuf() {
+    if (!blatt || blatt.open) return;
+    if (blattTimer) blattFertigZu();
+    wurzel.classList.add("menue-offen");
+    blatt.showModal();
+    menuStand(true);
+    void blatt.offsetWidth; // Startzustand festhalten, damit der Uebergang sicher laeuft
+    blatt.classList.add("ist-auf");
+  }
+  function blattZu(fokusZurueck) {
+    if (!blatt || !blatt.open || blatt.classList.contains("ist-zu")) return;
+    blatt.classList.add("ist-zu");
+    blatt.classList.remove("ist-auf");
+    if (fokusZurueck && menuKnopf) menuKnopf.focus({ preventScroll: true });
+    if (ruhig) { blattFertigZu(); return; }
+    blatt.addEventListener("transitionend", blattEnde);
+    blattTimer = setTimeout(blattFertigZu, 340); // Rueckfall, falls kein transitionend kommt
+  }
   document.addEventListener("click", function (e) {
-    if (!blatt) return;
-    if (e.target.closest("[data-menu-auf]")) { blatt.showModal(); menuStand(true); }
-    if (e.target.closest("[data-menu-zu]") || e.target === blatt) blatt.close();
+    if (!blatt || typeof blatt.showModal !== "function") return;
+    if (e.target.closest("[data-menu-auf]")) { e.preventDefault(); blattAuf(); return; }
+    if (e.target.closest("[data-menu-zu]") || e.target === blatt) { blattZu(true); return; }
+    // Link im Blatt: Ausblenden starten, Navigation nicht aufhalten
+    if (e.target.closest(".blatt a")) blattZu(false);
   });
-  // close deckt auch Esc und Klick auf den Backdrop ab
-  if (blatt) blatt.addEventListener("close", function () { menuStand(false); });
+  if (blatt) {
+    // Esc: eigenes, weiches Schliessen statt des harten Standard-close()
+    blatt.addEventListener("cancel", function (e) { e.preventDefault(); blattZu(true); });
+    // Falls der Dialog doch hart geschlossen wird (z. B. vom Browser): Zustand aufraeumen
+    blatt.addEventListener("close", function () { blatt.classList.remove("ist-auf", "ist-zu"); wurzel.classList.remove("menue-offen"); menuStand(false); });
+    // Zurueck aus dem Verlauf (bfcache): Menue geschlossen
+    window.addEventListener("pageshow", function (e) { if (e.persisted && blatt.open) blattFertigZu(); });
+  }
 
   // Fremdinhalte (z. B. AutoScout24) laden erst nach Klick. Die Google-Bewertungen laden NICHT im Browser:
   // Note, Anzahl und Link kommen beim Build (bau/bewertungen.mjs); hier gibt es keine Anfrage an Google.

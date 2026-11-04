@@ -19,6 +19,43 @@
   var fotos = []; // { blob, url }
   var ausweis = null; // { blob, url }
   var MAX = 6, aktuell = 1, sendet = false, teslaWunsch = false;
+  // Bewegung (BEWEGUNG.md 5): Schritte gleiten ueber CSS-Klassen; gewartet wird nur, wenn das CSS dieser Linie dafuer
+  // eine Animation hat. Ohne Animation (andere Linie, Reduced Motion) wechselt alles sofort. Kein Warten vor dem Wechsel.
+  var ruhig = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var bereit = false, wechsel = 0;
+  function animiert(el) { var a = getComputedStyle(el).animationName; return !!a && a !== "none"; }
+  function nachAnimation(el, weiter) {
+    if (ruhig || !animiert(el)) { weiter(); return; }
+    var fertig = false, t = 0;
+    function los() { if (fertig) return; fertig = true; clearTimeout(t); el.removeEventListener("animationend", ende); weiter(); }
+    function ende(e) { if (e.target === el) los(); }
+    el.addEventListener("animationend", ende);
+    t = setTimeout(los, 450); // Rueckfall, falls kein animationend kommt
+  }
+  function obenFrei() { return parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0; }
+  function inSicht(el) { var b = el.getBoundingClientRect(); return b.top >= obenFrei() - 1 && b.top < window.innerHeight - 80; }
+  function sanftZu(el, block) { el.scrollIntoView({ block: block || "start", behavior: ruhig ? "auto" : "smooth" }); }
+  // Alles, was im Fluss nach dem Formular steht (Geschwister des Formulars und seiner Eltern, ohne fixe Elemente)
+  function danach(el) {
+    var out = [];
+    for (var n = el; n && n !== document.body; n = n.parentElement)
+      for (var g = n.nextElementSibling; g; g = g.nextElementSibling)
+        if (g.offsetParent !== null && getComputedStyle(g).position !== "fixed") out.push(g);
+    return out;
+  }
+  // Ohne Sprung (FLIP): Was nach «ab» im Fluss steht, merkt sich seine Lage, dann aendert sich das Layout, dann gleitet es
+  // per transform vom alten an den neuen Ort (zaehlt nicht als Layout-Verschiebung). Nur transform, ~260 ms.
+  function ohneSprung(ab, aendern) {
+    var els = danach(ab), vor = els.map(function (el) { return el.getBoundingClientRect().top; });
+    aendern();
+    if (ruhig) return;
+    var bewegt = [];
+    els.forEach(function (el, i) { var d = vor[i] - el.getBoundingClientRect().top; if (Math.abs(d) < 1) return; el.style.transition = "none"; el.style.transform = "translateY(" + d + "px)"; bewegt.push(el); });
+    if (!bewegt.length) return;
+    void document.body.offsetHeight;
+    bewegt.forEach(function (el) { el.style.transition = "transform var(--dauer-mittel) var(--sanft)"; el.style.transform = ""; });
+    setTimeout(function () { bewegt.forEach(function (el) { el.style.transition = ""; }); }, 420);
+  }
 
   // Rückmeldung: info = ruhig (role=status), warnung = Fehler (role=alert)
   function melde(t, warnung) { rueck.hidden = !t; rueck.textContent = t || ""; rueck.setAttribute("role", warnung ? "alert" : "status"); rueck.classList.toggle("rueckmeldung--fehler", !!warnung); }
@@ -26,13 +63,29 @@
   function trichter(n) { if (!window.__zaehl) { if (document.readyState !== "complete") window.addEventListener("load", function () { trichter(n); }, { once: true }); return; } if (!gezaehlt[n]) { gezaehlt[n] = true; window.__zaehl("trichter-" + n, "schaden"); } }
 
   function zeige(n, fokus) {
+    var neu = schritte[n - 1], alt = null, richtung = n < aktuell ? "zurueck" : "vor", nr = ++wechsel;
+    schritte.forEach(function (s) { if (!alt && s !== neu && !s.hidden) alt = s; });
     aktuell = n; trichter(n);
-    schritte.forEach(function (s) { s.hidden = Number(s.dataset.schritt) !== n; });
     anzeige.forEach(function (a) { var i = Number(a.dataset.anzeige); a.classList.toggle("ist-jetzt", i === n); a.classList.toggle("ist-fertig", i < n); if (i === n) a.setAttribute("aria-current", "step"); else a.removeAttribute("aria-current"); });
     if (fortschrittText) { fortschrittText.hidden = false; fortschrittText.textContent = "Schritt " + n + " von 3"; }
     melde("");
     if (n === 3) fasseZusammen();
-    if (fokus !== false) { var l = schritte[n - 1].querySelector("legend"); if (l) { l.setAttribute("tabindex", "-1"); l.focus({ preventScroll: true }); } f.scrollIntoView({ block: "start" }); }
+    function zeigeNeu() {
+      if (nr !== wechsel) return; // ein spaeterer Wechsel hat uebernommen
+      schritte.forEach(function (s) { s.hidden = s !== neu; s.classList.remove("ist-hinaus", "ist-hinein"); });
+      if (bereit && !ruhig) { neu.dataset.richtung = richtung; neu.classList.add("ist-hinein"); nachAnimation(neu, function () { neu.classList.remove("ist-hinein"); }); }
+      if (f.style.minHeight) ohneSprung(f, function () { f.style.minHeight = ""; }); // nur wenn sie beim Hinausgleiten festgehalten wurde
+      if (fokus !== false) {
+        var l = neu.querySelector("legend"); if (l) { l.setAttribute("tabindex", "-1"); l.focus({ preventScroll: true }); }
+        if (!inSicht(f)) sanftZu(f); // nur scrollen, wenn der Formularkopf nicht im Bild ist
+      }
+    }
+    if (bereit && !ruhig && alt) {
+      alt.dataset.richtung = richtung; alt.classList.add("ist-hinaus");
+      // Nur wenn diese Linie den Schritt wirklich animiert: Hoehe halten, damit der Fuss nicht springt
+      if (animiert(alt)) f.style.minHeight = f.offsetHeight + "px";
+      nachAnimation(alt, zeigeNeu);
+    } else zeigeNeu();
   }
 
   function art() { var r = f.querySelector('input[name="art"]:checked'); return r ? r.value : ""; }
@@ -88,7 +141,7 @@
 
   // Schritt 1: Art wählen führt weiter; Stellen im Plan und in den Kästchen gleich
   [].forEach.call(f.querySelectorAll('input[name="art"]'), function (r) {
-    r.addEventListener("change", function () { setTimeout(function () { zeige(2); }, 180); });
+    r.addEventListener("change", function () { zeige(2); }); // sofort; die Kachel zeigt die Wahl, waehrend der Schritt hinausgleitet
   });
   function zeichne() { kaestchen.forEach(function (k) { var g = plan && plan.querySelector('[data-stelle="' + k.dataset.stelle + '"]'); if (g) g.classList.toggle("ist-gewaehlt", k.checked); }); }
   kaestchen.forEach(function (k) { k.addEventListener("change", zeichne); });
@@ -98,7 +151,7 @@
   [].forEach.call(f.querySelectorAll("[data-weiter]"), function (k) {
     k.addEventListener("click", function () {
       var ziel = Number(k.dataset.weiter);
-      if (ziel === 2 && !art()) { melde("Bitte wählen Sie, was passiert ist.", true); var a1 = f.querySelector('input[name="art"]'); if (a1) a1.focus(); return; }
+      if (ziel === 2 && !art()) { melde("Bitte wählen Sie, was passiert ist.", true); var a1 = f.querySelector('input[name="art"]'); if (a1) { a1.focus({ preventScroll: true }); if (!inSicht(a1)) sanftZu(a1, "center"); } return; }
       zeige(ziel);
     });
   });
@@ -170,6 +223,7 @@
   }
   window.__schaden = { anwenden: anwenden };
   anwenden(new URLSearchParams(location.search));
+  bereit = true; // erst ab jetzt gleiten Schritte (beim Laden kein Einblenden)
 
   // Zeitfalle-Token vom Server holen (GET endpunkt?t=1). Ohne Endpunkt oder bei Fehler bleibt das Feld leer.
   (function holeToken() {
@@ -203,7 +257,8 @@
     if (mail && wert("email") && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(wert("email"))) { feldFehler(mail, "Bitte prüfen Sie die Mail-Adresse oder lassen Sie das Feld leer."); ok = false; } else feldOk(mail);
     if (!ok) {
       melde("Bitte ergänzen Sie die rot markierten Felder.", true);
-      var erstes = f.querySelector('[aria-invalid="true"]'); if (erstes) erstes.focus({ preventScroll: false });
+      // Zum ersten Fehlerfeld, nicht an den Seitenanfang: Fokus ohne Sprung, dann ruhig in die Mitte
+      var erstes = f.querySelector('[aria-invalid="true"]'); if (erstes) { erstes.focus({ preventScroll: true }); sanftZu(erstes, "center"); }
       return false;
     }
     return !wert("website");
@@ -234,9 +289,17 @@
       else if (waLink) waLink.hidden = true;
     }
     var n = rapport.querySelector("[data-r-nochmal]"); n.hidden = !link; if (link) n.href = link;
-    f.hidden = true; rapport.hidden = false; rapport.focus({ preventScroll: true }); rapport.scrollIntoView({ block: "start" });
+    var gleitet = false;
+    function tausche() { f.hidden = true; f.classList.remove("ist-hinaus"); rapport.hidden = false; }
+    function zeigeRapport() {
+      if (gleitet) ohneSprung(rapport, tausche); else tausche();
+      rapport.focus({ preventScroll: true });
+      if (!inSicht(rapport)) sanftZu(rapport);
+    }
+    // Formular gleitet kurz hinaus, dann kommt die Bestaetigung (CSS); ohne Animation sofort
+    if (!ruhig && !f.hidden) { f.classList.add("ist-hinaus"); gleitet = animiert(f); nachAnimation(f, zeigeRapport); } else zeigeRapport();
   }
-  if (rapport) rapport.querySelector("[data-r-zurueck]").addEventListener("click", function () { rapport.hidden = true; f.hidden = false; zeige(3); });
+  if (rapport) rapport.querySelector("[data-r-zurueck]").addEventListener("click", function () { rapport.hidden = true; f.hidden = false; f.classList.remove("ist-hinaus"); zeige(3); });
 
   // Fortschrittsbalken (echte Upload-Bytes, sonst unbestimmt)
   var balken = f.querySelector("[data-sende-balken]"), balkenSpan = balken && balken.querySelector("span");
@@ -261,8 +324,17 @@
   }
 
   function knopf(weg) { return f.querySelector('[data-senden="' + weg + '"]'); }
-  function sendenAus(knopfEl, text) { knopfEl.disabled = true; knopfEl.setAttribute("aria-busy", "true"); knopfEl.dataset.text = knopfEl.dataset.text || knopfEl.firstChild.textContent; knopfEl.childNodes[0].textContent = text; }
-  function sendenEin(knopfEl, text) { knopfEl.disabled = false; knopfEl.removeAttribute("aria-busy"); knopfEl.childNodes[0].textContent = text || knopfEl.dataset.text; }
+  // Ladezustand: Wo das CSS einen Ring anbietet (.ist-laedt .laden sichtbar), behaelt der Knopf Text und Breite und zeigt
+  // den Ring; sonst (andere Linie, Reduced Motion) wird wie bisher der Text ersetzt. aria-busy + disabled in beiden Faellen.
+  function sendenAus(knopfEl, text) {
+    knopfEl.disabled = true; knopfEl.setAttribute("aria-busy", "true");
+    knopfEl.dataset.text = knopfEl.dataset.text || knopfEl.firstChild.textContent;
+    var ring = knopfEl.querySelector(".laden");
+    if (!ring) { ring = document.createElement("span"); ring.className = "laden"; ring.setAttribute("aria-hidden", "true"); knopfEl.appendChild(ring); }
+    knopfEl.classList.add("ist-laedt");
+    if (getComputedStyle(ring).display === "none") { knopfEl.classList.remove("ist-laedt"); knopfEl.childNodes[0].textContent = text; }
+  }
+  function sendenEin(knopfEl, text) { knopfEl.disabled = false; knopfEl.removeAttribute("aria-busy"); knopfEl.classList.remove("ist-laedt"); knopfEl.childNodes[0].textContent = text || knopfEl.dataset.text; }
 
   function sendeWebsite(knopfEl) {
     var ep = f.dataset.endpunkt;
