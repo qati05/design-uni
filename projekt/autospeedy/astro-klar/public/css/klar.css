@@ -760,9 +760,6 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .seitenkopf--bild .seitenkopf__text { padding: 44px var(--rand) 8px; }
 .seitenkopf h1 { font-size: clamp(32px, 4.6vw, 54px); max-width: 18ch; }
 .seitenkopf__einleitung { max-width: 62ch; color: var(--grau); font-size: 18px; display: grid; gap: 10px; }
-.sprungleiste { position: sticky; top: var(--kopf); z-index: 20; display: flex; gap: 4px; overflow-x: auto; padding: 10px var(--rand); background: rgba(255, 255, 255, .92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--linie); }
-.sprungleiste a { flex: none; display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 999px; font-size: 14px; font-weight: 500; text-decoration: none; background: var(--flaeche); }
-@media (hover: hover) and (pointer: fine) { .sprungleiste a:hover { background: var(--flaeche-2); } }
 .schmal { max-width: 760px; }
 .mitte { text-align: center; margin-inline: auto; }
 .mitte .knoepfe { justify-content: center; }
@@ -1348,16 +1345,6 @@ a.klein { font-size: 14px; }
 
 
 /* Verbesserungen nach der Critique (04.11.2026) */
-/* Partner: ruhige Reihe */
-.partner__label { margin-bottom: 14px; }
-.partner__reihe { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; }
-.partner__karte { display: flex; align-items: center; justify-content: center; height: 84px; padding: 14px 22px; box-sizing: border-box; background: var(--papier); border: 1px solid var(--linie); border-radius: 14px; }
-.partner__karte a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
-.partner__karte img { display: block; max-width: 100%; max-height: 40px; width: auto; height: auto; object-fit: contain; filter: grayscale(1); opacity: .72; transition: filter var(--farbe) linear, opacity var(--farbe) linear; }
-.partner__karte--tesla img { max-height: 30px; }
-.partner__wortmarke { font-family: "Archivo", var(--schrift); font-size: 19px; font-weight: 500; letter-spacing: .04em; color: #6b7076; text-transform: uppercase; }
-@media (hover: hover) and (pointer: fine) { .partner__karte:hover img { filter: grayscale(0); opacity: 1; } .partner__karte:hover .partner__wortmarke { color: var(--tinte); } }
-@media (max-width: 860px) { .partner__reihe { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .partner__karte { height: 68px; padding: 10px 16px; } .partner__karte img { max-height: 32px; } .partner__karte--tesla img { max-height: 24px; } .partner__wortmarke { font-size: 15px; } }
 
 /* Faktenleiste: mit Skript der Live-Status statt der langen Zeiten (die stehen im Fuss) */
 .fakt-status { display: block; }
@@ -1405,3 +1392,66 @@ a.klein { font-size: 14px; }
 @media (max-width: 860px) { .melden-seite__tel { display: none; } }
 .schritt__fuss .k[data-fotoweiter]:not(.hat-foto) { padding: 0 8px; white-space: nowrap; }
 [data-schritt="2"] > legend .pflicht { white-space: nowrap; }
+
+/* Partner: Laufband (auf Wunsch zurück, 04.11.2026). Anhalten per Knopf, Pause bei Hover und Fokus, statisch unter Reduced Motion. */
+.partner__kopf { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.partner__label { margin: 0; }
+.partner__pause { background: none; border: 0; padding: 14px 6px; margin: -14px -6px; font: 500 13px/1 var(--schrift); color: var(--leise); cursor: pointer; border-radius: var(--rund); }
+@media (hover: hover) and (pointer: fine) { .partner__pause:hover { color: var(--tinte); } }
+.partnerband { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.partnerband__spur { display: flex; gap: 16px; width: max-content; margin: 0; padding: 6px 0; list-style: none; animation: partnerband var(--dauer, 40s) linear infinite; }
+.partnerband:focus-within .partnerband__spur { animation-play-state: paused; }
+@media (hover: hover) and (pointer: fine) { .partnerband:hover .partnerband__spur { animation-play-state: paused; } }
+/* Pausieren-Knopf (BAUPLAN 3.9): Klasse .ist-pausiert haelt das Laufband an */
+.partnerband.ist-pausiert .partnerband__spur { animation-play-state: paused; }
+.partnerband__karte { display: flex; align-items: center; justify-content: center; width: 196px; height: 84px; padding: 14px 22px; box-sizing: border-box; background: var(--papier); border: 1px solid var(--linie); border-radius: var(--rund); transition: border-color var(--farbe) linear, transform var(--feder-ruhig-dauer) var(--feder-ruhig); }
+@media (hover: hover) and (pointer: fine) { .partnerband__karte:hover { border-color: var(--akzent); transform: translateY(-2px); } }
+.partnerband__karte a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.partnerband__karte img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+/* Textvariante (Vorgabe, rechte.md): Partnernamen in Archivo statt Logo */
+.partnerband__name { font-family: "Archivo", var(--schrift); font-size: 16px; font-weight: 500; color: var(--tinte); text-align: center; line-height: 1.2; }
+@media (max-width: 860px) { .partnerband__karte { width: 150px; height: 68px; padding: 10px 16px; } .partnerband__name { font-size: 14px; } }
+@keyframes partnerband { to { transform: translateX(calc(-50% - 8px)); } }       /* 3.9 Partnerband-Laufband */
+.partnerband--logos .partnerband__spur { animation-direction: reverse; }
+.partnerband--logos .partnerband__karte img { max-height: 40px; filter: grayscale(1); opacity: .72; transition: filter var(--farbe) linear, opacity var(--farbe) linear; }
+.partnerband--logos .partnerband__karte--tesla img { max-height: 30px; }
+.partnerband--logos .partnerband__wortmarke { font-family: "Archivo", var(--schrift); font-size: 19px; font-weight: 500; letter-spacing: .04em; color: #6b7076; text-transform: uppercase; }
+@media (hover: hover) and (pointer: fine) {
+  .partnerband--logos .partnerband__karte:hover img { filter: grayscale(0); opacity: 1; }
+  .partnerband--logos .partnerband__karte:hover .partnerband__wortmarke { color: var(--tinte); }
+}
+@media (max-width: 860px) { .partnerband--logos .partnerband__karte img { max-height: 32px; } .partnerband--logos .partnerband__karte--tesla img { max-height: 24px; } .partnerband--logos .partnerband__wortmarke { font-size: 16px; } }
+@media (prefers-reduced-motion: reduce) {
+  .partner__pause { display: none; }
+  .partnerband { -webkit-mask-image: none; mask-image: none; }
+  .partnerband__spur { animation: none; flex-wrap: wrap; width: auto; }
+  .partnerband__karte[data-kopie] { display: none; }
+  .partnerband__karte, .partnerband__karte:hover { transition: none; transform: none; }
+}
+
+/* Leistungsseiten (04.11.2026) */
+.leistung-kopf { padding: calc(var(--kopf) + 40px) var(--rand) clamp(40px, 5vw, 64px); }
+.leistung-kopf__innen { max-width: var(--breit); margin-inline: auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+.leistung-kopf h1 { font-size: clamp(34px, 4.2vw, 54px); max-width: 15ch; text-wrap: balance; }
+.leistung-kopf__einleitung { max-width: 52ch; margin: 16px 0 24px; color: var(--grau); font-size: 18px; }
+.leistung-kopf .knoepfe { justify-content: flex-start; }
+.leistung-kopf__bild img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 20%; border-radius: var(--rund-gross); }
+.brot { margin-bottom: 14px; font-size: 14px; color: var(--grau); }
+.brot a { display: inline-block; padding-block: 12px; margin-block: -12px; color: var(--akzent); text-underline-offset: 3px; }
+.zeile h2, .leistung-titel { font-size: 22px; margin-bottom: 14px; }
+.raster--drei { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.raster--drei img { aspect-ratio: 1; }
+.weitere__titel { font-size: 22px; margin-bottom: 14px; }
+.weitere__liste { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 32px; margin: 0; padding: 0; list-style: none; }
+.weitere__liste a { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; border-top: 1px solid var(--linie); font-weight: 500; text-decoration: none; }
+@media (hover: hover) and (pointer: fine) { .weitere__liste a:hover { color: var(--akzent); } }
+.leistungen--uebersicht { padding-top: 16px; }
+.leistungen--uebersicht > .titel { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 860px) {
+  .leistung-kopf__innen { grid-template-columns: minmax(0, 1fr); }
+  .leistung-kopf .knoepfe .knopf { flex: 1 1 100%; }
+  .raster--drei { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .raster--drei img:first-child { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
+  .weitere__liste { grid-template-columns: minmax(0, 1fr); }
+}
+.leistung-spalte { max-width: 760px; }

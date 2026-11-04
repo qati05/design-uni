@@ -1,0 +1,16 @@
+---
+// Übersicht: sechs Karten, jede führt auf die eigene Seite der Leistung. Kein grosses Foto, damit die Karten sofort sichtbar sind.
+import Klar from "../../layouts/Klar.astro";
+import Kopfbild from "../../components/Kopfbild.astro";
+import Leistungen from "../../components/Leistungen.astro";
+import Faq from "../../components/Faq.astro";
+import { faqStart } from "../../daten/faq";
+const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfad: "/leistungen/" }];
+---
+<Klar seite="carrosserie" titel="Leistungen: Unfall, Lack, Felgen, Folierung | Auto Speedy" brotkrumen={brotkrumen} faq={faqStart}>
+<Kopfbild titel="Carrosserie, Lack, Felgen. Unter einem Dach.">
+  <p>Wir reparieren Unfallschäden nach Herstellervorgaben und verwenden ausschliesslich Original-Ersatzteile. Die Schadenabwicklung mit der Versicherung erledigen wir für Sie.</p>
+</Kopfbild>
+<Leistungen uebersicht />
+<Faq fragen={faqStart} />
+</Klar>

@@ -253,6 +253,18 @@
     }
   });
 
+  // Partnerband: Pausieren-Knopf (BAUPLAN 3.9, WCAG 2.2.2). Klasse .ist-pausiert haelt das Laufband an.
+  // Unter Reduced Motion laeuft nichts und der Knopf ist per CSS ausgeblendet.
+  [].forEach.call(document.querySelectorAll("[data-partner-pause]"), function (knopf) {
+    var band = knopf.closest(".partner") && knopf.closest(".partner").querySelector(".partnerband");
+    if (!band) return;
+    knopf.addEventListener("click", function () {
+      var pausiert = band.classList.toggle("ist-pausiert");
+      knopf.setAttribute("aria-pressed", pausiert ? "true" : "false");
+      knopf.textContent = pausiert ? "Weiter" : "Anhalten";
+    });
+  });
+
   // Kleiner Helfer (BAUPLAN 3.5/3.7): beobachtet Elemente, setzt einmal .ist-da und hoert dann auf (unobserve).
   // Nur aktiv bei html.js-bewegung. Elemente, die beim Laden schon im Bild sind, bekommen sofort .ist-da
   // ohne Transition (Klasse .ohne-uebergang fuer einen Frame), damit nichts nachtraeglich aufblitzt.

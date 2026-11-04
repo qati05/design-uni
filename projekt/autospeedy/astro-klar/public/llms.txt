@@ -6,7 +6,13 @@ Adresse: Alte Landstrasse 63, 9450 Altstätten SG. Telefon: 071 755 88 61. Öffn
 
 ## Seiten
 - [Startseite](https://www.autospeedy.ch/): Überblick, Leistungen, Partner, Tesla.
-- [Leistungen](https://www.autospeedy.ch/leistungen/): Unfall und Carrosserie, Hagel und Dellen, Lack, Felgen, Folierung, Scheiben.
+- [Leistungen](https://www.autospeedy.ch/leistungen/): Übersicht aller Leistungen.
+- [Unfall und Carrosserie](https://www.autospeedy.ch/leistungen/unfall-carrosserie/)
+- [Hagel und Dellen](https://www.autospeedy.ch/leistungen/hagel-dellen/)
+- [Lack](https://www.autospeedy.ch/leistungen/lack/)
+- [Felgen](https://www.autospeedy.ch/leistungen/felgen/)
+- [Folierung](https://www.autospeedy.ch/leistungen/folierung/)
+- [Scheiben](https://www.autospeedy.ch/leistungen/scheiben/)
 - [Tesla](https://www.autospeedy.ch/tesla/): Tesla Approved Body Shop, Reparatur nach Tesla-Vorgaben mit Original-Ersatzteilen.
 - [Schaden melden](https://www.autospeedy.ch/schaden-melden/): Schaden online in wenigen Schritten melden.
 - [Occasionen](https://www.autospeedy.ch/occasionen/): Occasionen, Ankauf und Leasing.

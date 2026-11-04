@@ -1,39 +1,34 @@
 ---
 // Leistungen Entwurf C (Nachtrag 04.11.2026): 6 Karten in fester Reihenfolge, jede mit Bild im Format 3:2
 // (Desktop Bild oben, Handy 88-px-Quadrat links). Jede Karte ist ganz klickbar (genau ein Link) und zeigt
-// auf die Sprungmarke der Leistung in /leistungen/. Darunter die
+// auf die eigene Seite der Leistung. Darunter die
 // Zeile «Ausserdem: Occasionen, Ankauf und Leasing.». Der Aufruf folgt direkt danach im Band (Anfrage). Kein Felgen-Vorher/Nachher auf der Startseite.
 // Bilder sind Stock-Platzhalter aus public/bilder/leistungen/ (erzeugt von bau/bilder-c.mjs), spaeter durch das
 // Shooting ersetzbar (S03-S08, gleiche Dateinamen). Bildnachweise sind nicht noetig (betriebseigene Quelle).
 // Felgen heisst nur «Felgen», nie «Alufelgen» (Reshat 04.11.).
-const karten = [
-  { slug: "unfall", href: "/leistungen/#unfall", titel: "Unfall und Carrosserie", text: "Unfall- und Blechschäden, Stossstangen, Rost, Schweissarbeiten.", alt: "Unfallschaden an einem Fahrzeug, zum Lackieren abgeklebt" },
-  { slug: "hagel", href: "/leistungen/#hagel", titel: "Hagel und Dellen", text: "Dellen drücken ohne Lackieren, wo es geht, sonst richten.", alt: "Mitarbeiter drückt eine Delle aus einem Autoblech" },
-  { slug: "lack", href: "/leistungen/#lack", titel: "Lack", text: "Spot-Repair bis Neulackierung, Aufpolieren und Aufbereitung.", alt: "Fahrzeug in der Lackierkabine, blau abgeklebt" },
-  { slug: "felgen", href: "/leistungen/#felgen", titel: "Felgen", text: "Randstein- und Kratzerschäden an Felgen aufbereiten.", alt: "Aufbereitete schwarze Alufelge" },
-  { slug: "folierung", href: "/leistungen/#folierung", titel: "Folierung", text: "Fahrzeuge ganz oder teilweise folieren.", alt: "Teilweise foliertes Fahrzeug in mattem Grau" },
-  { slug: "scheiben", href: "/leistungen/#scheiben", titel: "Scheiben", text: "Scheiben wechseln und Steinschläge reparieren.", alt: "Arbeit an der Frontscheibe eines Fahrzeugs" },
-];
+import { leistungen } from "../daten/leistungen";
+const karten = leistungen;
+const { uebersicht = false } = Astro.props;
 ---
-<section class="leistungen" id="leistungen" aria-labelledby="leistungen-titel">
+<section class={uebersicht ? "leistungen leistungen--uebersicht" : "leistungen"} id="leistungen" aria-labelledby="leistungen-titel">
   <h2 class="titel" id="leistungen-titel">Was wir für Sie machen.</h2>
   <ul class="karten karten--bild">
     {karten.map((k) => (
       <li>
-        <a href={k.href}>
+        <a href={k.pfad}>
           <span class="leist-bild">
             <picture>
               <source type="image/avif" srcset={`/bilder/leistungen/${k.slug}-400.avif 400w, /bilder/leistungen/${k.slug}-800.avif 800w`} sizes="(max-width: 720px) 88px, (max-width: 960px) 46vw, 30vw" />
               <source type="image/webp" srcset={`/bilder/leistungen/${k.slug}-400.webp 400w, /bilder/leistungen/${k.slug}-800.webp 800w`} sizes="(max-width: 720px) 88px, (max-width: 960px) 46vw, 30vw" />
-              <img src={`/bilder/leistungen/${k.slug}-800.webp`} width="800" height="533" loading="lazy" decoding="async" alt={k.alt} />
+              <img src={`/bilder/leistungen/${k.slug}-800.webp`} width="800" height="533" loading="lazy" decoding="async" alt={k.altKarte} />
             </picture>
           </span>
           <h3>{k.titel}</h3>
-          <p>{k.text}</p>
+          <p>{k.kurz}</p>
           <span class="pfeil"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
       </li>
     ))}
   </ul>
-  <p class="ausserdem">Ausserdem: Occasionen, Ankauf und Leasing. <a href="/occasionen/">Occasionen ansehen</a>.</p>
+  <p class="ausserdem">Ausserdem: Occasionen, Ankauf und Leasing. <a href="/occasionen/">Occasionen ansehen</a>.{uebersicht && <> Für Firmen und Flotten: <a href="/flotten/">Firmenkunden</a>.</>}</p>
 </section>

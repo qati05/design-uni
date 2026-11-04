@@ -42,7 +42,7 @@ const pos = (page) => page.$eval("[data-vergleich] input", (i) => Number(i.value
 
 test("Slider folgt der Maus ohne Klick, Pfeiltasten, aria-valuetext", async () => {
   const { ctx, page, fehler } = await seite({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
-  await page.goto(basis + "/leistungen/"); // Felgen-Vergleich steht jetzt auf /leistungen/#felgen (Nachtrag)
+  await page.goto(basis + "/leistungen/felgen/");
   await page.locator("[data-vergleich] .vergleich__buehne").scrollIntoViewIfNeeded();
   const b = await page.locator("[data-vergleich] .vergleich__buehne").boundingBox();
   await page.mouse.move(b.x + b.width * 0.2, b.y + b.height / 2);
@@ -61,7 +61,7 @@ test("Slider folgt der Maus ohne Klick, Pfeiltasten, aria-valuetext", async () =
 
 test("Slider: Wischen auf dem Handy", async () => {
   const { ctx, page } = await seite({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: "reduce" });
-  await page.goto(basis + "/leistungen/"); // Felgen-Vergleich steht jetzt auf /leistungen/#felgen (Nachtrag)
+  await page.goto(basis + "/leistungen/felgen/");
   const buehne = page.locator("[data-vergleich] .vergleich__buehne");
   await buehne.scrollIntoViewIfNeeded();
   const b = await buehne.boundingBox();
@@ -78,7 +78,7 @@ test("Slider: Wischen auf dem Handy", async () => {
 
 test("Slider: Touch folgt 1:1 ohne Transition, data-quelle touch (BAUPLAN 3.8)", async () => {
   const { ctx, page } = await seite({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true }); // ohne Reduced Motion
-  await page.goto(basis + "/leistungen/"); // Felgen-Vergleich steht jetzt auf /leistungen/#felgen (Nachtrag)
+  await page.goto(basis + "/leistungen/felgen/");
   const buehne = page.locator("[data-vergleich] .vergleich__buehne");
   await buehne.scrollIntoViewIfNeeded();
   const b = await buehne.boundingBox();
@@ -97,7 +97,7 @@ test("Slider: Touch folgt 1:1 ohne Transition, data-quelle touch (BAUPLAN 3.8)",
 
 test("Slider: Tastatur springt mit Federkurve linear() 340 ms (BAUPLAN 3.8)", async () => {
   const { ctx, page } = await seite({ viewport: { width: 1440, height: 900 } }); // ohne Reduced Motion
-  await page.goto(basis + "/leistungen/"); // Felgen-Vergleich steht jetzt auf /leistungen/#felgen (Nachtrag)
+  await page.goto(basis + "/leistungen/felgen/");
   await page.locator("[data-vergleich] .vergleich__buehne").scrollIntoViewIfNeeded();
   const regler = page.locator("[data-vergleich] input");
   await regler.focus();
@@ -112,7 +112,7 @@ test("Slider: Tastatur springt mit Federkurve linear() 340 ms (BAUPLAN 3.8)", as
 
 test("Slider-Hinweis: laeuft einmal bei 60 % und bricht bei Eingabe ab (BAUPLAN 3.8)", async () => {
   const { ctx, page } = await seite({ viewport: { width: 1440, height: 900 } }); // ohne Reduced Motion
-  await page.goto(basis + "/leistungen/"); // Felgen-Vergleich steht jetzt auf /leistungen/#felgen (Nachtrag)
+  await page.goto(basis + "/leistungen/felgen/");
   await page.locator("[data-vergleich] .vergleich__buehne").scrollIntoViewIfNeeded();
   await page.waitForFunction(() => document.querySelector("[data-vergleich]").classList.contains("ist-hinweis"));
   const regler = page.locator("[data-vergleich] input");
@@ -133,7 +133,7 @@ test("Handy: Leiste mit Anrufen und Schaden melden erscheint nach dem Hero", asy
   assert.ok(await leiste.isVisible());
   assert.ok(await leiste.locator('a[href^="tel:"]').isVisible());
   assert.ok(await leiste.locator('a[href="/schaden-melden/"]').isVisible());
-  await page.goto(basis + "/leistungen/");
+  await page.goto(basis + "/leistungen/felgen/");
   assert.ok(await page.locator(".handyleiste").isVisible(), "Unterseite: sofort sichtbar");
   assert.deepEqual(fehler, []);
   await ctx.close();
@@ -289,13 +289,30 @@ test("Handyleiste und Hero-CTAs sind beim Scrollen nie gleichzeitig sichtbar (De
   await ctx.close();
 });
 
-test("Partner: vier Karten in ruhiger Reihe, ohne Laufband und ohne Pausieren-Knopf", async () => {
+test("Partnerband: Pausieren-Knopf haelt das Laufband an (BAUPLAN 3.9)", async () => {
   const { ctx, page, fehler } = await seite({ viewport: { width: 1280, height: 800 } });
   await page.goto(basis + "/");
-  assert.equal(await page.locator(".partner__karte").count(), 4);
-  assert.equal(await page.locator("[data-partner-pause]").count(), 0);
-  assert.equal(await page.$eval(".partner__reihe", (el) => getComputedStyle(el).animationName), "none");
+  const spur = page.locator(".partner .partnerband__spur");
+  const knopf = page.locator("[data-partner-pause]");
+  const lauf = () => spur.evaluate((el) => getComputedStyle(el).animationPlayState);
+  assert.equal(await lauf(), "running", "laeuft zuerst");
+  await knopf.click();
+  assert.equal(await lauf(), "paused", "nach Klick pausiert");
+  assert.equal(await knopf.getAttribute("aria-pressed"), "true");
+  assert.equal((await knopf.textContent()).trim(), "Weiter");
+  await knopf.click();
+  assert.equal(await lauf(), "running", "zweiter Klick: laeuft wieder");
+  assert.equal(await knopf.getAttribute("aria-pressed"), "false");
   assert.deepEqual(fehler, []);
+  await ctx.close();
+});
+
+test("Partnerband unter Reduced Motion: Band steht, kein Knopf (BAUPLAN 3.9)", async () => {
+  const { ctx, page } = await seite({ viewport: { width: 1280, height: 800 }, reducedMotion: "reduce" });
+  await page.goto(basis + "/");
+  const spur = page.locator(".partner .partnerband__spur");
+  assert.equal(await spur.evaluate((el) => getComputedStyle(el).animationName), "none", "kein Lauf");
+  assert.ok(!(await page.locator("[data-partner-pause]").isVisible()), "kein Pausieren-Knopf");
   await ctx.close();
 });
 
@@ -321,7 +338,7 @@ test("Leistungskarten: je Karte genau ein Link, Pfeil aria-hidden, Ziele (BAUPLA
     assert.equal(await karten.nth(i).locator(".pfeil svg[aria-hidden='true']").count(), 1, "Pfeil aria-hidden");
   }
   const hrefs = await page.$$eval(".karten a", (as) => as.map((a) => { const u = new URL(a.href); return u.pathname + u.hash; }));
-  assert.deepEqual(hrefs, ["/leistungen/#unfall", "/leistungen/#hagel", "/leistungen/#lack", "/leistungen/#felgen", "/leistungen/#folierung", "/leistungen/#scheiben"]);
+  assert.deepEqual(hrefs, ["/leistungen/unfall-carrosserie/", "/leistungen/hagel-dellen/", "/leistungen/lack/", "/leistungen/felgen/", "/leistungen/folierung/", "/leistungen/scheiben/"]);
   assert.deepEqual(fehler, []);
   await ctx.close();
 });
@@ -485,9 +502,24 @@ test("Fuss: Tippziele mindestens 44 px, beide Aufruf-Knöpfe mindestens 48 px", 
 
 test("Alle Seiten laden ohne Konsolenfehler (CSP)", async () => {
   const { ctx, page, fehler } = await seite({ viewport: { width: 1280, height: 800 } });
-  for (const p of ["/", "/leistungen/", "/tesla/", "/occasionen/", "/team/", "/kontakt/", "/flotten/", "/bildnachweise/", "/schaden-melden/"]) {
+  for (const p of ["/", "/leistungen/", "/leistungen/unfall-carrosserie/", "/leistungen/hagel-dellen/", "/leistungen/lack/", "/leistungen/felgen/", "/leistungen/folierung/", "/leistungen/scheiben/", "/tesla/", "/occasionen/", "/team/", "/kontakt/", "/flotten/", "/bildnachweise/", "/schaden-melden/"]) {
     await page.goto(basis + p, { waitUntil: "load" });
   }
+  assert.deepEqual(fehler, []);
+  await ctx.close();
+});
+
+test("Leistungsseiten: Aufruf ohne Scrollen sichtbar, passende Schadenart, keine Sprungleiste", async () => {
+  const { ctx, page, fehler } = await seite({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  await page.goto(basis + "/leistungen/");
+  assert.equal(await page.locator(".sprungleiste").count(), 0);
+  await page.goto(basis + "/leistungen/felgen/");
+  const knopf = page.locator(".leistung-kopf .knopf--akzent");
+  assert.equal(await knopf.getAttribute("href"), "/schaden-melden/?art=felge");
+  const box = await knopf.boundingBox();
+  assert.ok(box.y + box.height <= 844, `Knopf im ersten Bild (${box.y + box.height})`);
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true, "kein Querscrollen");
+  assert.equal(await page.locator(".weitere__liste a").count(), 6);
   assert.deepEqual(fehler, []);
   await ctx.close();
 });

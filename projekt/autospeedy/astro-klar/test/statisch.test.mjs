@@ -40,14 +40,13 @@ test("de-CH: kein ß in Seiten, CSS und JS", () => {
   for (const p of dateien) assert.ok(!lies(p).includes("ß"), p);
 });
 
-test("Vergleich zugänglich auf /leistungen/ (nicht mehr auf der Startseite), Handyleiste komplett", () => {
-  // Nachtrag: Der Felgen-Vorher/Nachher-Regler wandert von / auf /leistungen/#felgen.
+test("Vergleich zugänglich auf /leistungen/felgen/ (nicht auf der Startseite), Handyleiste komplett", () => {
+  // Der Felgen-Vorher/Nachher-Regler steht auf der eigenen Seite der Felgen.
   const start = lies(path.join(dist, "index.html"));
   assert.doesNotMatch(start, /data-vergleich/, "kein Felgen-Regler mehr auf der Startseite");
-  const leist = lies(path.join(dist, "leistungen", "index.html"));
-  assert.match(leist, /data-vergleich/, "Regler auf /leistungen/");
+  const leist = lies(path.join(dist, "leistungen", "felgen", "index.html"));
+  assert.match(leist, /data-vergleich/, "Regler auf /leistungen/felgen/");
   assert.match(leist, /<input[^>]*type="range"[^>]*aria-label="[^"]+"/, "zugänglicher Range-Regler");
-  assert.match(leist, /id="felgen"/, "unter der Sprungmarke #felgen");
   const leiste = start.match(/<nav class="handyleiste"[\s\S]*?<\/nav>/)[0];
   assert.match(leiste, /href="tel:/);
   assert.match(leiste, /href="\/schaden-melden\/"/);
@@ -131,8 +130,8 @@ test("keine Schriftdatei groesser als 60 KB", () => {
 test("Nachtrag: 6 Leistungskarten in fester Reihenfolge, Titel «Felgen» (nie «Alufelgen»)", () => {
   const s = lies(path.join(dist, "index.html"));
   const sec = s.match(/<section class="leistungen"[\s\S]*?<\/section>/)[0];
-  const hrefs = [...sec.matchAll(/href="(\/leistungen\/#[a-z]+)"/g)].map((m) => m[1]);
-  assert.deepEqual(hrefs, ["/leistungen/#unfall", "/leistungen/#hagel", "/leistungen/#lack", "/leistungen/#felgen", "/leistungen/#folierung", "/leistungen/#scheiben"], "6 Karten in der bestellten Reihenfolge");
+  const hrefs = [...sec.matchAll(/href="(\/leistungen\/[a-z-]+\/)"/g)].map((m) => m[1]);
+  assert.deepEqual(hrefs, ["/leistungen/unfall-carrosserie/", "/leistungen/hagel-dellen/", "/leistungen/lack/", "/leistungen/felgen/", "/leistungen/folierung/", "/leistungen/scheiben/"], "6 Karten in der bestellten Reihenfolge");
   assert.match(sec, /<h3>Felgen<\/h3>/, "Karte heisst «Felgen»");
   assert.match(sec, /Ausserdem: Occasionen, Ankauf und Leasing\./, "Ausserdem-Zeile");
   // «Alufelgen» darf auf KEINER gebauten Seite vorkommen (Reshat 04.11.).
@@ -140,7 +139,7 @@ test("Nachtrag: 6 Leistungskarten in fester Reihenfolge, Titel «Felgen» (nie �
 });
 
 test("Nachtrag SEO: jede Inhaltsseite hat Title, Description (<=155), Canonical, OG- und Twitter-Bild", () => {
-  const seiten = ["index", "leistungen", "tesla", "occasionen", "team", "kontakt", "flotten", "bildnachweise", "impressum", "datenschutz", "schaden-melden"];
+  const seiten = ["index", "leistungen", "leistungen/unfall-carrosserie", "leistungen/hagel-dellen", "leistungen/lack", "leistungen/felgen", "leistungen/folierung", "leistungen/scheiben", "tesla", "occasionen", "team", "kontakt", "flotten", "bildnachweise", "impressum", "datenschutz", "schaden-melden"];
   const titel = new Set();
   for (const name of seiten) {
     const s = lies(path.join(dist, name === "index" ? "index.html" : path.join(name, "index.html")));

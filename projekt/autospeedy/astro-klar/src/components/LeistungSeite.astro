@@ -1,0 +1,54 @@
+---
+// Rahmen einer Leistungsseite: Weg zurück, Titel, Einleitung und Aufruf neben dem Foto, damit der nächste Schritt
+// ohne Scrollen sichtbar ist. Darunter der Inhalt der Seite, passende Fragen und die übrigen Leistungen.
+import Klar from "../layouts/Klar.astro";
+import Bild from "./Bild.astro";
+import Faq from "./Faq.astro";
+import { faqStart } from "../daten/faq";
+import { leistungen } from "../daten/leistungen";
+import { betrieb as b } from "../../../astro/bau/daten.mjs";
+const { slug } = Astro.props;
+const l: any = leistungen.find((x) => x.slug === slug);
+if (!l) throw new Error(`Leistung ${slug}: unbekannt`);
+const fragen = l.fragen.map((i: number) => faqStart[i]);
+const weitere = leistungen.filter((x) => x.slug !== slug);
+const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfad: "/leistungen/" }, { name: l.titel, pfad: l.pfad }];
+---
+<Klar seite="carrosserie" titel={l.seitentitel} beschreibung={l.beschreibung} brotkrumen={brotkrumen} faq={fragen}>
+<header class="leistung-kopf">
+  <div class="leistung-kopf__innen">
+    <div class="leistung-kopf__text">
+      <nav class="brot" aria-label="Brotkrumen"><a href="/leistungen/">Leistungen</a><span aria-hidden="true"> / </span><span aria-current="page">{l.titel}</span></nav>
+      <h1>{l.h1}</h1>
+      <p class="leistung-kopf__einleitung">{l.einleitung}</p>
+      <div class="knoepfe">
+        {l.art
+          ? <a class="knopf knopf--akzent" href={`/schaden-melden/?art=${l.art}`} data-zaehl="anfrage" data-ort="leistung">{l.knopf}</a>
+          : <a class="knopf knopf--akzent" href="/kontakt/">Kontakt aufnehmen</a>}
+        <a class="knopf knopf--kontur" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="leistung">{b.tel.anzeige}</a>
+      </div>
+    </div>
+    <div class="leistung-kopf__bild">
+      {l.stockFoto
+        ? <img src={l.stockFoto} alt={l.fotoAlt} width="800" height="533" fetchpriority="high" decoding="async" />
+        : <Bild name={l.foto} alt={l.fotoAlt} sizes="(max-width: 860px) 100vw, 50vw" lcp />}
+    </div>
+  </div>
+</header>
+
+<slot />
+
+<Faq fragen={fragen} />
+
+<nav class="abschnitt abschnitt--flaeche weitere" aria-labelledby="weitere-titel">
+  <div class="abschnitt__innen">
+    <h2 id="weitere-titel" class="weitere__titel">Weitere Leistungen</h2>
+    <ul class="weitere__liste">
+      {weitere.map((x) => (
+        <li><a href={x.pfad}>{x.titel}<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+      ))}
+      <li><a href="/flotten/">Firmenkunden<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+    </ul>
+  </div>
+</nav>
+</Klar>
