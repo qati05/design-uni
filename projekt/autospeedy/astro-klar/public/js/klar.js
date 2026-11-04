@@ -289,6 +289,15 @@
   beobachte(".tesla-teil .ablauf", { schwelle: 0.5 });
   beobachte(".bew-kopf--echt", { schwelle: 0.5 });
   beobachte(".fuss-slogan", { schwelle: 0.25 });
+  // Feder (Roni 04.11.2026, KUNDENWEG.md 3): Titel, Aufrufe und Listen sinken beim Hereinscrollen ruhig ein.
+  // Klassen werden nur hier gesetzt (kein Eingriff in die Bausteine); ohne JS und bei Reduced Motion steht alles sofort.
+  function federn(selektor, klasse) {
+    if (!wurzel.classList.contains("js-bewegung")) return;
+    try { [].forEach.call(document.querySelectorAll(selektor), function (el) { el.classList.add(klasse); }); } catch (e) {}
+  }
+  federn("main h2:not(form h2):not(.bestaetigung h2):not(.hero h2), .anfrage, .vorher-nachher__text", "feder");
+  federn(".karten, .faq__liste, .ablauf-kunde__liste, .weitere__liste, .bew-zitate", "feder-liste");
+  beobachte(".feder, .feder-liste", { rand: "0px 0px -8% 0px" });
   // Das fruehere generische «.zeigen»-Einblenden jeder Sektion ist entfernt (BAUPLAN 3.15):
   // es bleibt nur das gezielte Erscheinen fuer Fotos und den Tesla-Ablauf (oben).
 
@@ -327,6 +336,15 @@
     window.__klar.daten = fussDaten;
     var r = berechneStatus(fussDaten, new Date());
     [].forEach.call(document.querySelectorAll("[data-status]"), function (p) { p.textContent = r.text; p.dataset.zustand = r.offen ? "offen" : "zu"; });
+    // Kundenweg (KUNDENWEG.md 1): Statuszeile unter den Hero-Knoepfen erst mit Status zeigen; geschlossen kommt der Satz
+    // dazu, dass Melden jederzeit geht. Ohne JS bleibt die Zeile verborgen (die Faktenleiste zeigt dann die Zeiten).
+    [].forEach.call(document.querySelectorAll("[data-hero-status]"), function (z) {
+      z.hidden = false;
+      var zu = z.querySelector("[data-wenn-zu]");
+      if (zu) zu.hidden = r.offen;
+      // Status nicht doppelt: die Faktenleiste direkt darunter zeigt dann wieder die Wochenzeiten.
+      [].forEach.call(document.querySelectorAll(".leiste-fakten .fakt-status"), function (f) { f.remove(); });
+    });
     // Heutige Zeile in der Wochen-Tabelle als Text «heute» markieren.
     var heuteNr = zuerich(new Date()).tag;
     [].forEach.call(document.querySelectorAll(".fuss-woche tr[data-ld]"), function (tr) {
@@ -350,6 +368,50 @@
         }).catch(function () {});
       });
     });
+  }
+
+  // Weiches Mausrad (Roni 04.11.2026: «sanft, als fiele eine Feder»). Nur Maus mit Rastenrad am Desktop, nie unter
+  // Reduced Motion, nie Touch: das Handy scrollt nativ. Trackpads (kleine, feine Schritte) bleiben nativ, weil sie
+  // schon selbst ausrollen. Jeder Radschritt verschiebt das Ziel; die Seite folgt mit einer gedaempften Annaeherung
+  // (pro Frame 9 % der Reststrecke, bildratenunabhaengig) und kommt ohne Ueberschwingen zur Ruhe.
+  // Nicht geglaettet: Zoom (Strg), quer, verschachtelte Scrollbereiche, offene Dialoge. Tastatur, Scrollbalken und
+  // Anker fuehren weiter nativ; der Zustand gleicht sich dann von selbst ab.
+  if (!ruhig && matchMedia("(hover: hover) and (pointer: fine)").matches && "requestAnimationFrame" in window) {
+    var radZiel = window.scrollY, radIst = window.scrollY, radLaeuft = false, radZeit = 0, radSelbst = false;
+    var radMax = function () { return Math.max(0, document.documentElement.scrollHeight - window.innerHeight); };
+    var eigenerBereich = function (el) {
+      for (; el && el !== document.body && el !== document.documentElement; el = el.parentElement) {
+        if (el.tagName === "DIALOG" || el.tagName === "TEXTAREA" || el.tagName === "SELECT") return true;
+        var st = getComputedStyle(el).overflowY;
+        if ((st === "auto" || st === "scroll") && el.scrollHeight > el.clientHeight + 1) return true;
+      }
+      return false;
+    };
+    var radStopp = function () { radLaeuft = false; radZiel = radIst = window.scrollY; };
+    var radSchritt = function (t) {
+      if (!radLaeuft) return;
+      var dt = radZeit ? Math.min(64, t - radZeit) : 16.7; radZeit = t;
+      var rest = radZiel - radIst;
+      radIst += rest * (1 - Math.pow(1 - 0.09, dt / 16.7));
+      if (Math.abs(rest) < 0.5) { radIst = radZiel; radLaeuft = false; }
+      radSelbst = true;
+      window.scrollTo({ top: radIst, behavior: "instant" });
+      if (radLaeuft) requestAnimationFrame(radSchritt);
+    };
+    window.addEventListener("wheel", function (e) {
+      if (e.defaultPrevented || e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      var dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1);
+      // Trackpad oder Praezisionsrad: kleine, krumme Schritte -> nativ lassen (und eine laufende Glaettung abgeben)
+      if (e.deltaMode === 0 && Math.abs(dy) < 40) { if (radLaeuft) radStopp(); return; }
+      if (wurzel.classList.contains("menue-offen") || document.querySelector("dialog[open]") || eigenerBereich(e.target)) return;
+      e.preventDefault();
+      if (!radLaeuft) { radIst = window.scrollY; radZiel = radIst; }
+      radZiel = Math.max(0, Math.min(radMax(), radZiel + dy));
+      if (!radLaeuft) { radLaeuft = true; radZeit = 0; requestAnimationFrame(radSchritt); }
+    }, { passive: false });
+    // Fremdes Scrollen (Tastatur, Balken, Anker, Suche) uebernimmt sofort; die eigene Bewegung meldet sich ueber radSelbst.
+    window.addEventListener("scroll", function () { if (radSelbst) { radSelbst = false; return; } if (radLaeuft) radStopp(); }, { passive: true });
+    ["mousedown", "keydown"].forEach(function (typ) { window.addEventListener(typ, function () { if (radLaeuft) radStopp(); }, { passive: true }); });
   }
 
   // «Nach oben»: ruhiges Scrollen, bei reduzierter Bewegung springen. Ohne JS springt der #top-Link selbst.

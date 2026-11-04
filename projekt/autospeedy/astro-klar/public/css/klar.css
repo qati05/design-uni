@@ -1450,3 +1450,65 @@ a.klein { font-size: 14px; }
 .freiwillig__kopf { display: grid; gap: 4px; }
 .freiwillig__kopf h2 { font-size: 22px; }
 .fortschritt:has(> li:nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* ===================================================================== Kundenweg und Feder (04.11.2026) =====================================================================
+   KUNDENWEG.md: Öffnungsstatus direkt unter den Hero-Knöpfen, «So geht es nach dem Melden weiter» vor dem Aufruf.
+   Bewegung «wie eine Feder, die von oben nach unten fällt» (Roni): Inhalt sinkt beim Hereinscrollen ruhig ein,
+   Seiten gleiten ineinander, das Mausrad scrollt weich aus. Alles nur unter «Bewegung nicht reduziert». */
+@layer abschnitte {
+.hero-status { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; margin-top: 18px; font-size: 15px; line-height: 1.45; color: var(--grau); }
+.hero-status [data-status] { display: inline-flex; align-items: center; gap: 8px; color: var(--tinte); font-weight: 500; }
+.hero-status [data-status][data-zustand]::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--leise); }
+.hero-status [data-status][data-zustand="offen"]::before { background: #1b7f4b; }
+.hero-status [data-status][data-zustand="zu"]::before { background: #c0392b; }
+
+.ablauf-kunde { max-width: var(--breit); margin-inline: auto; padding: clamp(48px, 6vw, 84px) var(--rand) clamp(40px, 5vw, 64px); }
+.ablauf-kunde .titel { font-size: clamp(32px, 3.3vw, 46px); line-height: 1.08; max-width: 16em; }
+.ablauf-kunde__liste { list-style: none; margin: clamp(24px, 4vw, 44px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 44px); }
+.ablauf-kunde__liste li { display: grid; gap: 8px; align-content: start; padding-top: 18px; border-top: 1px solid var(--tinte); }
+.ablauf-kunde__nr { font-size: 14px; letter-spacing: .04em; color: var(--akzent); }
+.ablauf-kunde h3 { font-family: var(--titel); font-weight: 400; font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -.012em; }
+.ablauf-kunde p { color: #3f4247; max-width: 34ch; }
+@media (max-width: 720px) {
+  .ablauf-kunde__liste { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .ablauf-kunde__liste li { grid-template-columns: 36px minmax(0, 1fr); column-gap: 12px; row-gap: 4px; padding: 18px 0; border-top-color: var(--linie); }
+  .ablauf-kunde__liste li:first-child { border-top-color: var(--tinte); }
+  .ablauf-kunde__nr { grid-row: 1 / 3; padding-top: 6px; }
+}
+}
+
+@layer bewegung {
+/* Feder beim Hereinscrollen: von 14 px oberhalb langsam an den Platz sinken, Deckkraft schneller als der Weg,
+   kein Überschwingen (--feder-weich ist überkritisch gedämpft). Listen fallen Glied für Glied (90 ms, höchstens 6).
+   Klassen setzt klar.js (federn()); was beim Laden schon im Bild ist, steht sofort (.ohne-uebergang). */
+.js-bewegung .feder, .js-bewegung .feder-liste > * { opacity: 0; transform: translate3d(0, -14px, 0); }
+.js-bewegung .feder.ist-da, .js-bewegung .feder-liste.ist-da > * { opacity: 1; transform: none;
+  transition: opacity 620ms var(--sanft), transform 1100ms var(--feder-weich); }
+.js-bewegung .feder-liste.ist-da > :nth-child(2) { transition-delay: 90ms; }
+.js-bewegung .feder-liste.ist-da > :nth-child(3) { transition-delay: 180ms; }
+.js-bewegung .feder-liste.ist-da > :nth-child(4) { transition-delay: 270ms; }
+.js-bewegung .feder-liste.ist-da > :nth-child(5) { transition-delay: 360ms; }
+.js-bewegung .feder-liste.ist-da > :nth-child(n+6) { transition-delay: 450ms; }
+.js-bewegung .feder.ohne-uebergang, .js-bewegung .feder-liste.ohne-uebergang > * { transition: none; }
+
+/* Weicher Sprung zu Ankern (FAQ, «Nach oben», Formular). Das Mausrad glättet klar.js separat. */
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+/* Leistungsbilder: beim Zeigen mit der Maus zoomt das Foto kaum merklich nach (nur transform, 900 ms Feder). */
+.leist-bild img { transition: transform 900ms var(--feder-weich); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .karten--bild a:hover .leist-bild img { transform: scale(1.035); }
+}
+}
+
+/* Seitenwechsel (Chrome, Edge, Safari ab 18.2; sonst normaler Wechsel): die alte Seite blendet kurz aus, die neue
+   sinkt wie eine Feder 10 px von oben an ihren Platz. Der Kopf steht still und wird nur überblendet. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  .kopf { view-transition-name: kopf; }
+  ::view-transition-group(kopf) { animation-duration: 260ms; animation-timing-function: var(--sanft); }
+  ::view-transition-old(root) { animation: seite-hinaus 160ms var(--hinaus) both; }
+  ::view-transition-new(root) { animation: seite-herein 760ms var(--feder-weich) 100ms both; }
+}
+@keyframes seite-hinaus { to { opacity: 0; } }
+@keyframes seite-herein { from { opacity: 0; transform: translate3d(0, -10px, 0); } }
