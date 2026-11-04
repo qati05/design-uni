@@ -19,7 +19,7 @@ const gruppen = site.team
         <div class="leute leute--seite">
           {g.leute.map((p: any) => (
             <figure>
-              {p.foto ? <img src={p.foto} width="320" height="320" loading="lazy" decoding="async" alt={`Porträt ${p.name.replace(/ «.*»/, "")}`}> : <span class="leute__leer" aria-hidden="true">{p.name.split(" ").map((w: string) => w[0]).slice(0, 2).join("")}</span>}
+              {p.foto ? <img src={p.foto} width="640" height="800" loading="lazy" decoding="async" alt={`Porträt ${p.name.replace(/ «.*»/, "")}`}> : <span class="leute__leer" aria-hidden="true">{p.name.split(" ").map((w: string) => w[0]).slice(0, 2).join("")}</span>}
               <figcaption><b>{p.name}</b><span>{p.rolle}</span>{p.email && <a href={`mailto:${p.email}`} data-zaehl="mail" data-ort="team">{p.email}</a>}</figcaption>
             </figure>
           ))}
