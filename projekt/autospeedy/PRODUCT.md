@@ -36,7 +36,7 @@ Erfolg heisst: Wer einen Schaden hat, meldet ihn ohne Hilfe vom Handy aus, mit F
 - Fotos werden im Browser verkleinert; die Meldung geht ins Werkstatt-Cockpit oder per Mail, bestätigt wird nur bei Antwort des Servers.
 - Der Betrieb pflegt Zeiten, Feiertage, Hinweis und Team selbst im Cockpit; die Website baut bei jedem Commit neu.
 - Occasionen stehen auf AutoScout24 (seller-67678); Google-Bewertungen und AutoScout24 laden erst nach Klick.
-- Gestaltungslinie «Lack» (`astro/`) und Alternative «Klar» (`astro-klar/`); welche live geht, entscheidet das Studio mit dem Betrieb.
+- Zwei Gestaltungslinien mit je eigener DESIGN.md: «Lack» (`astro/`, DESIGN.md in diesem Ordner) und «Klar», Entwurf C «Werkbank x Messblatt» (`astro-klar/`, eigene DESIGN.md, Arbeitsstand 04.11.2026). Welche live geht, entscheidet das Studio mit dem Betrieb.
 
 ## Capabilities and Constraints
 
