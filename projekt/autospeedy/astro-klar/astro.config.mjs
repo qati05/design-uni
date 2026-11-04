@@ -1,3 +1,4 @@
+import "./bau/daten-pfad.mjs"; // zuerst: Inhaltspfad setzen (plattformunabhaengig, auch Windows)
 import { defineConfig } from "astro/config";
 import "../astro/bau/daten.mjs"; // dieselben Pflichtprüfungen wie die erste Linie
 import dateien from "../astro/bau/dateien.mjs"; // robots.txt, _headers (noindex in der Vorschau), Linkprüfung wie die erste Linie
