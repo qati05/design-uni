@@ -167,7 +167,15 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
   }
 }
 .kopf__marke { justify-self: start; display: flex; align-items: center; min-height: 44px; }
-.kopf__marke img { height: 32px; width: auto; }
+.kopf__marke img { height: 36px; width: auto; }
+@media (min-width: 961px) { .kopf__marke img { height: 40px; } }
+/* Logo-Platzierung (05.11.2026): Das Zeichen lebt vom Schwung. Beim Zeigen rückt es 3 px nach vorn, wie beim Anfahren
+   (nur transform, Feder beim Loslassen). Unter «Bewegung reduzieren» bleibt es stehen. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .kopf__marke img { transition: transform var(--feder-knopf-dauer) var(--feder-knopf); }
+  .kopf__marke:hover img { transform: translateX(3px); }
+  .kopf.ist-unten .kopf__marke:hover img { transform: translateX(3px) scale(.9); }
+}
 .kopf__nav { display: flex; gap: 2px; }
 .kopf__nav a, .kopf__rechts a:not(.k):not(.knopf), .kopf__menu { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: var(--rund); font-size: 14px; font-weight: 500; text-decoration: none; color: var(--tinte); transition: background-color .2s; }
 @media (hover: hover) and (pointer: fine) { .kopf__nav a:hover, .kopf__rechts a:not(.k):not(.knopf):hover, .kopf__menu:hover { background: rgba(22, 25, 29, .06); } }
@@ -711,6 +719,9 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .fuss-meldung { min-height: 1.2em; font-size: 13px; color: #1b7f4b; }
 
 /* 4. Slogan: sehr gross, blass (>= 3:1 fuer grossen Text), unten leicht angeschnitten. Echter Text. */
+/* Logo als Absender über dem Slogan (05.11.2026): eigene Bühne für das sportliche Zeichen, links bündig mit dem Slogan. */
+.fuss-marke { display: inline-flex !important; margin: clamp(40px, 6vw, 72px) 0 0; }
+.fuss-marke img { height: clamp(52px, 6vw, 72px); width: auto; }
 .fuss-slogan { margin: 0 0 -.14em; font-family: var(--titel); font-weight: 400; font-size: clamp(56px, 11vw, 150px); line-height: .92; letter-spacing: -.02em; color: #6c6e73; }
 
 /* 5. Rechtszeile: © Jahr, Impressum, Datenschutz, Bildnachweise, Nach oben. */

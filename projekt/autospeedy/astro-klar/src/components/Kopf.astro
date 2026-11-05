@@ -7,7 +7,7 @@ const { aktiv = "/" } = Astro.props;
 const wege = [["/leistungen/", "Leistungen"], ["/tesla/", "Tesla"], ["/team/", "Team"], ["/kontakt/", "Kontakt"]];
 ---
 <header class="kopf" data-kopf>
-  <a class="kopf__marke" href="/" aria-label={`${b.name}, Startseite`}><img src="/bilder/logo-96.webp" srcset="/bilder/logo-48.webp 1x, /bilder/logo-96.webp 2x, /bilder/logo-144.webp 3x" width="90" height="32" alt={b.name}></a>
+  <a class="kopf__marke" href="/" aria-label={`${b.name}, Startseite`}><img src="/bilder/logo-96.webp" srcset="/bilder/logo-48.webp 1x, /bilder/logo-96.webp 2x, /bilder/logo-144.webp 3x" width="113" height="40" alt={b.name}></a>
   <nav class="kopf__nav" aria-label="Hauptnavigation">
     {wege.map(([href, name]) => <a href={href} aria-current={aktiv.startsWith(href) ? "page" : undefined}>{name}</a>)}
   </nav>
