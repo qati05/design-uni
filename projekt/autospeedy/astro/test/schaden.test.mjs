@@ -149,13 +149,15 @@ test("GET ?t=1 liefert ohne FORMULAR_HMAC ein leeres Token, mit Schlüssel ts.hm
   const mit = await (await onRequestGet({ request: new Request("https://x/api/schaden?t=1"), env: { FORMULAR_HMAC: "K" } })).json();
   assert.match(mit.t, /^\d+\.[0-9a-f]{64}$/);
 });
-test("Zeitfalle: <4s still 200, >2h → 422, kaputtes Token → 422; ohne Schlüssel egal", () => mitBrevo(async (mails) => {
+test("Zeitfalle: <4s → 422 zeit-schnell mit Wartezeit (nichts gesendet), >2h → 422, kaputtes Token → 422; ohne Schlüssel egal", () => mitBrevo(async (mails) => {
   const env = { ...envBrevoBetrieb, FORMULAR_HMAC: "K" };
   const token = async (ms) => (await (await onRequestGet({ request: new Request("https://x/api/schaden?t=1"), env })).json()).t.replace(/^\d+/, String(Date.now() - ms));
-  // frisch (zu schnell): still 200, nichts gesendet
+  // frisch (zu schnell): 422 mit Wartezeit, nichts gesendet, nie ein falsches ok
   const jung = (await (await onRequestGet({ request: new Request("https://x/api/schaden?t=1"), env })).json()).t;
   const r1 = await onRequestPost({ request: anfrage(formular({ t: jung })), env });
-  assert.equal(r1.status, 200); assert.equal(mails.length, 0);
+  assert.equal(r1.status, 422); assert.equal(mails.length, 0);
+  const j1 = await r1.json();
+  assert.deepEqual(j1.fehler, ["zeit-schnell"]); assert.ok(j1.warte > 0 && j1.warte <= 4000);
   // gültiges Alter (10 min): gesendet
   const gut = await signiere(env.FORMULAR_HMAC, Date.now() - 10 * 60 * 1000);
   assert.equal((await onRequestPost({ request: anfrage(formular({ t: gut })), env })).status, 200);

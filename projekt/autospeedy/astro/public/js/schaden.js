@@ -228,16 +228,20 @@
   bereit = true; // erst ab jetzt gleiten Schritte (beim Laden kein Einblenden)
 
   // Zeitfalle-Token vom Server holen (GET endpunkt?t=1). Ohne Endpunkt oder bei Fehler bleibt das Feld leer.
-  (function holeToken() {
+  // Auch nach Ablauf (Antwort «zeit») wird es neu geholt; danach ruft holeToken «fertig» auf (auch bei Fehler).
+  function holeToken(fertig) {
     var tokenFeld = f.querySelector("[data-token]"), ep = f.dataset.endpunkt;
-    if (!tokenFeld || !ep) return;
+    fertig = fertig || function () {};
+    if (!tokenFeld || !ep) { fertig(); return; }
     try {
       var x = new XMLHttpRequest();
       x.open("GET", ep + (ep.indexOf("?") > -1 ? "&" : "?") + "t=1");
-      x.onload = function () { try { var j = JSON.parse(x.responseText); if (j && typeof j.t === "string") tokenFeld.value = j.t; } catch (e) {} };
+      x.onload = function () { try { var j = JSON.parse(x.responseText); if (j && typeof j.t === "string") tokenFeld.value = j.t; } catch (e) {} fertig(); };
+      x.onerror = function () { fertig(); };
       x.send();
-    } catch (e) {}
-  })();
+    } catch (e) { fertig(); }
+  }
+  holeToken();
 
   // WhatsApp-/mailto-Text
   function nachricht() {
@@ -344,7 +348,11 @@
   }
   function sendenEin(knopfEl, text) { knopfEl.disabled = false; knopfEl.removeAttribute("aria-busy"); knopfEl.classList.remove("ist-laedt"); knopfEl.childNodes[0].textContent = text || knopfEl.dataset.text; }
 
-  function sendeWebsite(knopfEl) {
+  // Zeitfalle-Antworten: «zeit-schnell» = noch etwas warten und dieselben Daten nochmals senden; «zeit» = Token abgelaufen,
+  // neues holen und einmal nochmals senden. Nur so wird nie «Angekommen» gezeigt, ohne dass etwas angekommen ist.
+  function zeitAntwort(x) { if (x.status !== 422) return null; try { var j = JSON.parse(x.responseText); return j && j.fehler && (j.fehler.indexOf("zeit-schnell") > -1 ? { schnell: true, warte: Number(j.warte) || 4000 } : j.fehler.indexOf("zeit") > -1 ? { alt: true } : null); } catch (e) { return null; } }
+  function sendeWebsite(knopfEl, versuch) {
+    versuch = versuch || 0;
     var ep = f.dataset.endpunkt;
     if (!ep) {
       bestaetige("Schadenmeldung (Vorschau)", "Vorschau: Auf der fertigen Website käme die Meldung jetzt mit " + (fotos.length === 1 ? "1 Foto" : fotos.length + " Fotos") + " bei Auto Speedy an. In dieser Vorschau wird nichts gesendet.", null);
@@ -356,6 +364,9 @@
     x.open("POST", ep);
     if (x.upload) x.upload.onprogress = function (e) { balkenAuf(e.lengthComputable ? e.loaded / e.total : 0, !e.lengthComputable); };
     x.onload = function () {
+      var z = versuch < 3 && zeitAntwort(x);
+      if (z && z.schnell) { setTimeout(function () { sendeWebsite(knopfEl, versuch + 1); }, Math.min(z.warte, 4000) + 250); return; }
+      if (z && z.alt && versuch === 0) { holeToken(function () { sendeWebsite(knopfEl, 1); }); return; }
       sendet = false; f.removeAttribute("aria-busy");
       if (x.status >= 200 && x.status < 300) {
         if (window.__zaehl) window.__zaehl("meldung-gesendet", "website");

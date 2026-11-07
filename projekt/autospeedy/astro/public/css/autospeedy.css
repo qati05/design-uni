@@ -650,7 +650,7 @@ header { background: var(--kopf-grund); }
 .art:hover { border-color: var(--gebotsblau); transform: translateY(-2px); }
 .art__name { font: italic 700 23px/1.05 var(--titel); text-transform: uppercase; }
 .art__hilfe { font-size: 14.5px; color: var(--hallengrau); }
-.art input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.art input { position: absolute; left: 0; top: 0; width: 1px; height: 1px; margin: 0; opacity: 0; z-index: 1; }
 .art:has(input:checked) { border-color: var(--gebotsblau); background-color: #1566b8; background-image: var(--glanz), var(--schild); color: #fff; }
 .art:has(input:checked) .art__hilfe { color: #dbeeff; }
 .art:has(input:focus-visible) { outline: var(--fokus); outline-offset: 3px; }
@@ -800,7 +800,7 @@ header .aktionen .knopf[aria-current="page"] { display: none; }
 .tesla-modell legend { font-weight: 600; margin-bottom: 8px; }
 .tesla-modell__wahl { display: flex; flex-wrap: wrap; gap: 8px; }
 .tesla-modell__wahl label { position: relative; display: inline-flex; cursor: pointer; }
-.tesla-modell__wahl input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.tesla-modell__wahl input { position: absolute; left: 0; top: 0; width: 1px; height: 1px; margin: 0; opacity: 0; z-index: 1; }
 .tesla-modell__wahl span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 2px solid var(--babyblau-tief); background: var(--tafel, #fff); font-weight: 600; }
 .tesla-modell__wahl input:checked + span { background: var(--gebotsblau); border-color: var(--gebotsblau); color: #fff; }
 .tesla-modell__wahl input:focus-visible + span { outline: 3px solid var(--gebotsblau); outline-offset: 2px; }
