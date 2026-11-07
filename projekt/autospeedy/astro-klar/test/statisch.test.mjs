@@ -69,14 +69,13 @@ test("Fuss auf /schaden-melden/ ohne Selbstlink «Schaden melden» (A5)", () => 
   assert.ok(fussIndex.includes('href="/schaden-melden/"'), "Startseite: Schaden melden bleibt im Fuss");
 });
 
-test("Inhaber: Platzhalter sichtbar, kein erfundener Name oder Zitat", () => {
+test("Inhaber und Team: echte Porträts, keine B8-Platzhalter, kein erfundenes Zitat (Review 07.11.2026)", () => {
   const s = lies(path.join(dist, "index.html"));
-  assert.match(s, /Porträt Inhaber in der Halle, 4:5/, "Portraet-Platzhalter");
-  assert.match(s, /Platzhalter · Foto folgt vom Shooting/, "Foto folgt");
-  assert.match(s, /Hier steht ein Satz vom Inhaber/, "Platzhalter-Zitat woertlich");
-  assert.match(s, /\[Name\], Inhaber · Platzhalter/, "kein erfundener Name");
-  assert.match(s, /Zehn Leute, eine Werkstatt an der Alten Landstrasse\./, "Teamband-Satz woertlich");
-  assert.match(s, /href="\/team\/"[^>]*>\s*Ganzes Team/, "Link Ganzes Team");
+  const teil = s.match(/<section id="team"[\s\S]*?<\/section>/)[0];
+  assert.doesNotMatch(teil, /Platzhalter|B8|Hier steht ein Satz vom Inhaber|\[Name\]/, "keine Platzhalter im Teamteil");
+  assert.equal((teil.match(/<img [^>]*alt="Porträt /g) || []).length, 4, "vier echte Porträts");
+  assert.doesNotMatch(teil, /<blockquote/, "ohne freigegebene Stimme kein Zitat");
+  assert.match(teil, /href="\/team\/"[^>]*>\s*Ganzes Team/, "Link Ganzes Team");
 });
 
 test("Bewertungen ohne Daten: Abschnitt fehlt ganz (Entscheid 22:00), keine Platzhalter-Note, keine Karten", () => {

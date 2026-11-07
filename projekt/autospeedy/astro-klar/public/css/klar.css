@@ -1524,3 +1524,26 @@ a.klein { font-size: 14px; }
 }
 @keyframes seite-hinaus { to { opacity: 0; } }
 @keyframes seite-herein { from { opacity: 0; transform: translate3d(0, -10px, 0); } }
+
+/* ===== Design-Review 07.11.2026 (Roni): eine Inhaltskante, Teamteil, Titelbild Team =====
+   Die meisten Abschnitte (Hero, Leistungen, Ablauf, Tesla, Fuss) setzen den Inhalt bei Breite minus Rand an.
+   Die übrigen Behälter tun es jetzt ebenso, damit die linke Kante auf jeder Seite gleich bleibt.
+   Schmale Spalten (Fragen, Textseiten) stehen links an dieser Kante statt mittig. */
+.abschnitt__innen,
+.tesla__innen,
+.leistung-kopf__innen,
+.seitenkopf:not(.seitenkopf--bild) .seitenkopf__text { max-width: calc(var(--breit) - 2 * var(--rand)); }
+.abschnitt__innen.schmal:not(.mitte),
+.faq .abschnitt__innen { margin-left: max(0px, calc((100% - (var(--breit) - 2 * var(--rand))) / 2)); margin-right: auto; }
+
+/* Teamteil der Startseite: vier echte Porträts statt Platzhalter */
+.inhaber-teil .titel { margin-bottom: clamp(28px, 4vw, 44px); }
+.inhaber-teil .inhaber { margin-bottom: clamp(32px, 5vw, 56px); }
+.inhaber__bild { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--rund-gross); }
+.leute--start { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.leute--start figure { align-content: start; }
+.team-zeile { margin-top: 20px; color: var(--grau); font-size: 15px; }
+@media (max-width: 760px) { .leute--start { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Teamseite: Gesichter nicht unter dem Kopf abschneiden */
+[data-seite="team"] .seitenkopf__bild img { object-position: 50% 22%; }

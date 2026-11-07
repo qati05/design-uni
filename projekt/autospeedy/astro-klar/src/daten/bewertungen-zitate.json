@@ -2,8 +2,8 @@
   "_hinweis": "Google-Zitate NUR fuer die Vorschau (Reshat 04.11.). Note 4,8 (REVIEW-NACHTRAG). Live ausgeblendet, bis Namen, Datum, Anzahl und der Profil-Link aus dem Google-Unternehmensprofil vorliegen (WEG-ZU-10). Der Betrieb/Editor pflegt diese Datei; Zitate VOR dem Livegang woertlich aus dem Google-Profil uebernehmen, 'platzhalter' dann auf false. Nichts erfunden: Zitat 2 stammt aus einer oeffentlichen Kopie (WEG-ZU-10), Zitat 1 und 3 sind markierte Platzhalter.",
   "note": 4.8,
   "zitate": [
-    { "text": "Zitat aus dem Google-Profil, wird vor dem Livegang woertlich uebernommen.", "name": "Name folgt", "platzhalter": true },
+    { "text": "Zitat aus dem Google-Profil, wird vor dem Livegang wörtlich übernommen.", "name": "Name folgt", "platzhalter": true },
     { "text": "Immer top zufrieden. Absolut empfehlenswert!", "name": "Name folgt", "platzhalter": true },
-    { "text": "Zitat aus dem Google-Profil, wird vor dem Livegang woertlich uebernommen.", "name": "Name folgt", "platzhalter": true }
+    { "text": "Zitat aus dem Google-Profil, wird vor dem Livegang wörtlich übernommen.", "name": "Name folgt", "platzhalter": true }
   ]
 }
