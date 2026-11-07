@@ -78,6 +78,11 @@ test("kein multipart: 415; zu gross laut Kopf: 413", () => mitMail(async ({ env 
   assert.equal((await onRequestPost({ request: r, env })).status, 413);
 }));
 test("Stellen begrenzt, Tesla-Modell nur aus der Liste und nur bei Tesla, >2 Links in Bemerkung: 422", () => {
+  // Telefon: mindestens 9 Ziffern, Leerzeichen zählen nicht («079 12» hatte die Regel vorher angenommen)
+  assert.deepEqual(pruefe({ art: "Hagel", name: "A", telefon: "079 12" }).fehler, ["telefon"]);
+  assert.deepEqual(pruefe({ art: "Hagel", name: "A", telefon: "079 12 3" }).fehler, ["telefon"]);
+  assert.deepEqual(pruefe({ art: "Hagel", name: "A", telefon: "+41 79 123 45 67" }).fehler, []);
+  assert.deepEqual(pruefe({ art: "Hagel", name: "A", telefon: "071 755 88 61" }).fehler, []);
   assert.deepEqual(pruefe({ art: "Hagel", name: "A", telefon: "0715550000", stellen: Array(13).fill("Dach") }).fehler, ["stellen"]);
   assert.deepEqual(pruefe({ art: "Hagel", name: "A", telefon: "0715550000", tesla: "ja", teslaModell: "Roadster" }).fehler, ["tesla_modell"]);
   assert.equal(pruefe({ art: "Hagel", name: "A", telefon: "0715550000", teslaModell: "Model 3" }).daten.teslaModell, "");

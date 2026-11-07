@@ -5,6 +5,11 @@ const { anliegen = ["Allgemein"], titel = "Wir rufen Sie zurück", text, ort = "
 const endpunkt = process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt || "";
 const id = `rr-${ort}`;
 const turnstile = process.env.TURNSTILE_SITEKEY || "";
+// Zeitwahl zum Antippen (Roni 07.11.): Wochentage × Vormittag/Nachmittag aus den Öffnungszeiten, freiwillig, mehrere möglich.
+const tage = [["Mo", "Montag"], ["Di", "Dienstag"], ["Mi", "Mittwoch"], ["Do", "Donnerstag"], ["Fr", "Freitag"]];
+const fenster = (b.zeiten.find((z: any) => z.fenster && z.fenster.length === 2) || { fenster: [["7.30", "12.00"], ["13.15", "17.30"]] }).fenster;
+const kurz = (t: string) => t.replace(/\.00$/, "");
+const teile = [["Vormittag", `${kurz(fenster[0][0])}–${kurz(fenster[0][1])}`], ["Nachmittag", `${kurz(fenster[1][0])}–${kurz(fenster[1][1])}`]];
 ---
 <form class="karte rueckruf" data-rueckruf action={`mailto:${b.mail}?subject=R%C3%BCckruf`} method="post" enctype="text/plain" data-endpunkt={endpunkt} data-ist-vorschau={vorschau ? "ja" : "nein"} data-zaehl-start={`rueckruf-${ort}`}>
   <h2 class="karte__titel">{titel}</h2>
@@ -16,6 +21,19 @@ const turnstile = process.env.TURNSTILE_SITEKEY || "";
     <div class="feld"><label for={`${id}-name`}>Name (Pflicht)</label><input id={`${id}-name`} name="name" type="text" autocomplete="name" required></div>
     <div class="feld"><label for={`${id}-tel`}>Telefon (Pflicht)</label><input id={`${id}-tel`} name="telefon" type="tel" autocomplete="tel" required></div>
   </div>
+  <div class="feld"><label for={`${id}-text`}>Worum geht es? (freiwillig)</label><textarea id={`${id}-text`} name="bemerkung" rows="2" maxlength="1000"></textarea><p class="hilfe">Zum Beispiel: Delle an der Tür, Kratzer am Stossfänger. Kosten und Termin besprechen wir am Telefon, sie hängen vom Schaden ab.</p></div>
+  <fieldset class="zeitwahl">
+    <legend>Wann passt ein Anruf? (freiwillig)</legend>
+    <p class="hilfe">Tippen Sie an, was passt, gern mehrere Felder. Leer gelassen rufen wir in den Öffnungszeiten an.</p>
+    <div class="zeitwahl__raster">
+      <span aria-hidden="true"></span>
+      {tage.map(([k]) => <span class="zeitwahl__tag" aria-hidden="true">{k}</span>)}
+      {teile.map(([teil, zeit]) => <>
+        <span class="zeitwahl__teil" aria-hidden="true">{teil}<small>{zeit}</small></span>
+        {tage.map(([, tag]) => <label class="zeitwahl__feld"><input type="checkbox" name="zeit" value={`${tag} ${teil}`}><span class="zeitwahl__marke" aria-hidden="true"></span><span class="nur-vorlesen">{tag} {teil}</span></label>)}
+      </>)}
+    </div>
+  </fieldset>
   <div class="honig" aria-hidden="true"><label for={`${id}-web`}>Bitte leer lassen (freiwillig)</label><input id={`${id}-web`} name="website" type="text" tabindex="-1" autocomplete="off"></div>
   <button class="k k--blau" type="submit" data-zaehl={`rueckruf-${ort}`} data-ort={ort}>Rückruf anfordern</button>
   {turnstile && <div class="cf-turnstile" data-sitekey={turnstile} data-language="de"></div>}

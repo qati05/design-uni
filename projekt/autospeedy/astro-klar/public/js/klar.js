@@ -325,7 +325,8 @@
     for (i = 0; i < f.length; i++) if (z.min >= f[i][0] && z.min < f[i][1]) return { offen: true, text: s.offen.replace("{bis}", uhr(f[i][1])) };
     for (j = 0; j <= 7; j++) { d = (z.tag + j) % 7; g = fenster(j);
       for (i = 0; i < g.length; i++) if (j > 0 || g[i][0] > z.min)
-        return { offen: false, text: j === 0 ? s.zuHeute.replace("{ab}", uhr(g[i][0])) : s.zuTag.replace("{tag}", tagName(d)).replace("{ab}", uhr(g[i][0])) };
+        return { offen: false, text: j === 0 ? s.zuHeute.replace("{ab}", uhr(g[i][0])) : s.zuTag.replace("{tag}", tagName(d)).replace("{ab}", uhr(g[i][0])),
+          wann: (j === 0 ? "heute" : j === 1 ? "morgen" : "am " + tagName(d)) + " ab " + uhr(g[i][0]) + " Uhr" }; // für Danke-Texte der Formulare
     }
     return { offen: false, text: s.zu };
   }

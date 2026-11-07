@@ -47,7 +47,8 @@ export function pruefe(e: Eingabe): { daten: Meldung; fehler: string[] } {
   // Pflicht: Art, Name, Telefon
   if (!ARTEN.includes(d.art)) fehler.push("art");
   if (!d.name || d.name.length > GRENZEN.name) fehler.push("name");
-  if (!/^[+0-9 ()./-]{6,40}$/.test(d.telefon)) fehler.push("telefon");
+  const ziffern = (d.telefon.match(/[0-9]/g) || []).length; // Leerzeichen zählen nicht: «079 12» ist keine Nummer
+  if (!/^[+0-9 ()./-]{6,40}$/.test(d.telefon) || ziffern < 9 || ziffern > 15) fehler.push("telefon");
   // Freiwillig: nur Länge und Format, nie Pflicht
   if (d.email && (d.email.length > GRENZEN.email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email))) fehler.push("email");
   if (d.teslaModell && !TESLA_MODELLE.includes(d.teslaModell)) fehler.push("tesla_modell");

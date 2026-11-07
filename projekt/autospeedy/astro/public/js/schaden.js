@@ -1,6 +1,7 @@
 /* Schadenmeldung. Die Schritte kommen aus dem Formular (Linie Klar 2, Linie Lack 3), Fotos im Browser verkleinert (JPEG, längste Seite 1600 px),
    zwei Wege: A Website (POST an den Endpunkt mit Fortschritt; ohne Endpunkt in der Vorschau nur vorgeführt), B WhatsApp.
-   «Angekommen» nur bei Antwort 200 des Servers. Keine Cookies, nichts im Speicher des Geräts.
+   «Angekommen» nur bei Antwort 200 des Servers. Keine Cookies. Textangaben (ohne Fotos) liegen nur im sessionStorage dieses Tabs,
+   bis gesendet ist (Safari lädt den Tab nach der Kamera manchmal neu).
    Rückmeldung nach BAUPLAN 3.13: Schrittwechsel, Fokus auf die Überschrift, Fortschrittstext, Foto-Vorschau,
    Fehler mit aria-invalid/aria-describedby/role=alert (ohne Schütteln), Senden mit echtem Upload-Fortschritt,
    Erfolg mit Häkchen und Fokus, Sendefehler mit «Nochmals senden» und Telefon. Ohne JavaScript bleibt ein mailto-Formular. */
@@ -225,6 +226,27 @@
   }
   window.__schaden = { anwenden: anwenden };
   anwenden(new URLSearchParams(location.search));
+
+  // Entwurf: Textfelder und Wahl (ohne Fotos) im sessionStorage dieses Tabs, bis gesendet ist. Fehlt der Speicher, geht alles wie bisher.
+  var ENTWURF = "autospeedy-schaden", TEXTE = ["name", "telefon", "email", "bemerkung", "kontrollschild", "versicherung", "schadennummer"];
+  function entwurfSichern() {
+    try {
+      var d = { wahl: [] };
+      TEXTE.forEach(function (n) { if (wert(n)) d[n] = wert(n); });
+      [].forEach.call(f.querySelectorAll("input[type=radio]:checked, input[type=checkbox]:checked"), function (e) { if (e.name) d.wahl.push(e.name + "=" + e.value); });
+      sessionStorage.setItem(ENTWURF, JSON.stringify(d));
+    } catch (e) {}
+  }
+  function entwurfWeg() { try { sessionStorage.removeItem(ENTWURF); } catch (e) {} }
+  (function entwurfHolen() {
+    var d = null; try { d = JSON.parse(sessionStorage.getItem(ENTWURF) || "null"); } catch (e) {}
+    if (!d) return;
+    TEXTE.forEach(function (n) { var e = f.elements[n]; if (e && d[n] && !e.value) e.value = d[n]; });
+    (d.wahl || []).forEach(function (w) { var i = w.indexOf("="), sel = 'input[name="' + w.slice(0, i) + '"]'; [].forEach.call(f.querySelectorAll(sel), function (e) { if (e.value === w.slice(i + 1)) e.checked = true; }); });
+    zeigeModell(); zeigeErsatzTesla(); zeichne();
+    if (art() && aktuell === 1) zeige(2, false);
+  })();
+  f.addEventListener("input", entwurfSichern); f.addEventListener("change", entwurfSichern);
   bereit = true; // erst ab jetzt gleiten Schritte (beim Laden kein Einblenden)
 
   // Zeitfalle-Token vom Server holen (GET endpunkt?t=1). Ohne Endpunkt oder bei Fehler bleibt das Feld leer.
@@ -256,13 +278,15 @@
     return z;
   }
 
+  // Telefon: nur übliche Zeichen, und mindestens 9 echte Ziffern (Leerzeichen zählen nicht). Gleiche Regel wie gemeinsam/meldung.ts.
+  function telefonOk(t) { var z = (t.match(/[0-9]/g) || []).length; return /^[+0-9 ()./-]{6,40}$/.test(t) && z >= 9 && z <= 15; }
   function pruefe() {
     var ok = true;
     if (!art()) { zeige(1); melde("Bitte wählen Sie, was passiert ist.", true); return false; }
     var name = f.elements.name, tel = f.elements.telefon, mail = f.elements.email;
     if (!wert("name")) { feldFehler(name, "Bitte geben Sie Ihren Namen an."); ok = false; } else feldOk(name);
     if (!wert("telefon")) { feldFehler(tel, "Bitte geben Sie Ihre Telefonnummer an."); ok = false; }
-    else if (!/^[+0-9 ()./-]{6,40}$/.test(wert("telefon"))) { feldFehler(tel, "Bitte prüfen Sie die Telefonnummer."); ok = false; }
+    else if (!telefonOk(wert("telefon"))) { feldFehler(tel, "Bitte prüfen Sie die Telefonnummer. Sie braucht mindestens 9 Ziffern."); ok = false; }
     else feldOk(tel);
     if (mail && wert("email") && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(wert("email"))) { feldFehler(mail, "Bitte prüfen Sie die Mail-Adresse oder lassen Sie das Feld leer."); ok = false; } else feldOk(mail);
     if (!ok) {
@@ -371,13 +395,19 @@
       if (x.status >= 200 && x.status < 300) {
         if (window.__zaehl) window.__zaehl("meldung-gesendet", "website");
         melde(""); balkenAuf(1);
-        bestaetige("Danke, Ihre Meldung ist bei uns.", "Angekommen bei Auto Speedy. Wir melden uns bei Ihnen, in der Regel telefonisch in den Öffnungszeiten.", null, true);
+        entwurfWeg();
+        bestaetige("Danke, Ihre Meldung ist bei uns.", "Angekommen bei Auto Speedy. " + wannMelden(), null, true);
       } else {
         sendeFehler(knopfEl);
       }
     };
     x.onerror = function () { sendet = false; f.removeAttribute("aria-busy"); sendeFehler(knopfEl); };
     x.send(daten);
+  }
+  // Ausserhalb der Öffnungszeiten konkret sagen, ab wann (gleiche Rechnung wie die Statuszeile, nur Linie Klar hat sie).
+  function wannMelden() {
+    try { var k = window.__klar; if (k && k.daten && k.status) { var st = k.status(k.daten, new Date()); if (!st.offen && st.wann) return "Wir sind " + st.wann + " wieder da und melden uns dann bei Ihnen, in der Regel telefonisch."; } } catch (e) {}
+    return "Wir melden uns bei Ihnen, in der Regel telefonisch in den Öffnungszeiten.";
   }
   function sendeFehler(knopfEl) {
     if (window.turnstile) window.turnstile.reset();
