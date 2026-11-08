@@ -80,7 +80,7 @@ Start · Schaden melden · Tesla · Carrosserie · Lackiererei · Felgen und Fol
 ## Lücken (in der Vorschau gelb markiert)
 - Dauer einer Reparatur, Ersatzwagen; besondere Tesla-Leistungen.
 - Texte zu Felgen und Folierung (bisher nur Bilder).
-- Samstag, Feiertage, Betriebsferien, Notfall; Freitag 17.15 (Website) gegen 17.30 (Instagram).
+- Samstag, Feiertage, Betriebsferien, Notfall.
 - Einwilligung der Mitarbeitenden zu Namen und Fotos; Rechte an allen Fotos schriftlich.
 - Impressum und Datenschutz: Entwürfe, Rechtsprüfung nötig; UID nur aus Verzeichnissen; Hoster offen.
 - Gründungsjahr (2017 im Register gegen «20 Jahre»), Bewertungen mit Stand.

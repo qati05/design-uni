@@ -28,15 +28,15 @@ async function mailSchritt(b, c, an){ await c.goto(C+'/login'); await c.fill('#e
  const r403=await g.goto(C+'/'); ok(r403.status()===403,'Konto ohne Mitgliedschaft: trotz Fingerabdruck 403');
  const r403b=await g.goto(C+'/pflege'); ok(r403b.status()===403,'… auch die Pflege: 403');
  // Pflege
- await h.goto(C+'/pflege'); ok(/Mo bis Do 7.30 bis 12.00/.test(await h.textContent('main')),'Pflege zeigt heutige Zeiten');
+ await h.goto(C+'/pflege'); ok(/Mo bis Fr 7.30 bis 12.00/.test(await h.textContent('main')),'Pflege zeigt heutige Zeiten');
  await h.screenshot({path:S+'/e2e3/4-pflege-handy.png'});
- await h.fill('[name="zeit.1.bis2"]','25.00'); await h.click('button:has-text("Speichern")'); await h.waitForSelector('.speichern-leiste [role=alert]');
+ await h.fill('[name="zeit.0.bis2"]','25.00'); await h.click('button:has-text("Speichern")'); await h.waitForSelector('.speichern-leiste [role=alert]');
  ok(/Öffnungszeiten, Zeile 2/.test(await h.textContent('.speichern-leiste')),'unsinnige Zeit: verständliche Meldung mit Ort');
- await h.fill('[name="zeit.1.bis2"]','16.00'); await h.click('button:has-text("Hinweis hinzufügen")'); await h.fill('[name="hin.0.text"]','Hagel? Jetzt melden.'); await h.fill('[name="hin.0.bis"]','2099-12-31');
+ await h.fill('[name="zeit.0.bis2"]','16.00'); await h.click('button:has-text("Hinweis hinzufügen")'); await h.fill('[name="hin.0.text"]','Hagel? Jetzt melden.'); await h.fill('[name="hin.0.bis"]','2099-12-31');
  await h.fill('[name="aus.0.datum"]','2026-12-24'); await h.fill('[name="aus.0.name"]','Heiligabend'); await h.selectOption('[name="aus.0.art"]','offen'); await h.fill('[name="aus.0.von"]','7.30'); await h.fill('[name="aus.0.bis"]','12.00');
  await h.click('button:has-text("Speichern")'); await h.waitForSelector('.ok-text'); ok(/Gespeichert/.test(await h.textContent('.ok-text')),'Pflege gespeichert');
  await h.screenshot({path:S+'/e2e3/5-pflege-gespeichert.png'});
- await h.reload(); ok(/Fr 7.30 bis 12.00 und 13.15 bis 16.00 Uhr/.test(await h.textContent('main')) && (await h.inputValue('[name="aus.0.name"]'))==='Heiligabend' && (await h.inputValue('[name="hin.0.text"]'))==='Hagel? Jetzt melden.','nach Neuladen: neue Zeit, Heiligabend, Hinweis an');
+ await h.reload(); ok(/Mo bis Fr 7.30 bis 12.00 und 13.15 bis 16.00 Uhr/.test(await h.textContent('main')) && (await h.inputValue('[name="aus.0.name"]'))==='Heiligabend' && (await h.inputValue('[name="hin.0.text"]'))==='Hagel? Jetzt melden.','nach Neuladen: neue Zeit, Heiligabend, Hinweis an');
  ok(/zuletzt geändert.*werkstatt@autospeedy.example/i.test(await h.textContent('main')),'wer zuletzt geändert hat, steht dabei');
  // Teamfotos
  await h.click('summary:has-text("Team auf der Website")');

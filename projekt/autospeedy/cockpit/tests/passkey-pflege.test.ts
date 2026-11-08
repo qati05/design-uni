@@ -50,15 +50,15 @@ describe("Fingerabdruck/Gesicht (WebAuthn, Demo-Prüfung)", () => {
 describe("Website-Pflege im Cockpit", () => {
   const alt = pflegeSchema.parse(start) as Pflege;
   const form = (f: Record<string, string>) => { const d = new FormData(); for (const [k, v] of Object.entries(f)) d.set(k, v); return d; };
-  const basis = { "bewertungen.zeigen": "on", "zeit.0.von1": "7.30", "zeit.0.bis1": "12.00", "zeit.0.von2": "13.15", "zeit.0.bis2": "17.30", "zeit.1.von1": "7.30", "zeit.1.bis1": "12.00", "zeit.1.von2": "13.15", "zeit.1.bis2": "17.15" };
-  it("Startwerte ergeben dieselbe Zeile wie die Website", () => { expect(zeitenZeile(alt)).toBe("Mo bis Do 7.30 bis 12.00 und 13.15 bis 17.30 Uhr, Fr 7.30 bis 12.00 und 13.15 bis 17.15 Uhr"); });
+  const basis = { "bewertungen.zeigen": "on", "zeit.0.von1": "7.30", "zeit.0.bis1": "12.00", "zeit.0.von2": "13.15", "zeit.0.bis2": "17.30" };
+  it("Startwerte ergeben dieselbe Zeile wie die Website", () => { expect(zeitenZeile(alt)).toBe("Mo bis Fr 7.30 bis 12.00 und 13.15 bis 17.30 Uhr"); });
   const hinweis = { "hin.0.art": "hagel", "hin.0.form": "banner", "hin.0.titel": "", "hin.0.text": "Hagel? Jetzt melden.", "hin.0.link": "/schaden-melden/?art=hagel", "hin.0.von": "2026-11-08", "hin.0.bis": "2026-11-22" };
   it("Hinweis einschalten, Feiertag hinzufügen, Zeit ändern", () => {
-    const r = pflegeAusFormular(form({ ...basis, ...hinweis, "zeit.1.bis2": "16.00", "aus.0.datum": "2026-12-25", "aus.0.name": "Weihnachten", "aus.0.art": "zu", "aus.0.von": "", "aus.0.bis": "" }), alt);
+    const r = pflegeAusFormular(form({ ...basis, ...hinweis, "zeit.0.bis2": "16.00", "aus.0.datum": "2026-12-25", "aus.0.name": "Weihnachten", "aus.0.art": "zu", "aus.0.von": "", "aus.0.bis": "" }), alt);
     expect(r.success).toBe(true);
     expect(r.data?.hinweise).toEqual([{ art: "hagel", form: "banner", titel: "", text: "Hagel? Jetzt melden.", link: "/schaden-melden/?art=hagel", von: "2026-11-08", bis: "2026-11-22" }]);
     expect(r.data?.ausnahmen).toEqual([{ name: "Weihnachten", datum: "2026-12-25", geschlossen: true }]);
-    expect(r.data?.zeiten[1]?.fenster[1]).toEqual({ von: "13.15", bis: "16.00" });
+    expect(r.data?.zeiten[0]?.fenster[1]).toEqual({ von: "13.15", bis: "16.00" });
   });
   it("Unsinnige Zeiten und HTML werden abgewiesen", () => {
     expect(pflegeAusFormular(form({ ...basis, "zeit.0.bis1": "7.00" }), alt).success).toBe(false);

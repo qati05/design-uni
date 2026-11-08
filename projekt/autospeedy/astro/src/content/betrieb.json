@@ -22,7 +22,7 @@
   "ausnahmen": null,
   "zeiten": [
     {
-      "tage": "Montag bis Donnerstag",
+      "tage": "Montag bis Freitag",
       "ld": [
         "Monday",
         "Tuesday",
@@ -38,23 +38,8 @@
           "13.15",
           "17.30"
         ]
-      ]
-    },
-    {
-      "tage": "Freitag",
-      "ld": [
-        "Friday"
       ],
-      "fenster": [
-        [
-          "7.30",
-          "12.00"
-        ],
-        [
-          "13.15",
-          "17.15"
-        ]
-      ]
+      "kurz": "Mo bis Fr"
     }
   ],
   "mobil": {

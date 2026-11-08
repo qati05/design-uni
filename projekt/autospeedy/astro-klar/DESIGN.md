@@ -4,10 +4,10 @@ description: Carrosserie und Spritzwerk in Altstätten SG; ruhige, helle Website
 colors:
   akzent: "#1566b8"
   akzent-tief: "#0f4f94"
-  grund: "#f4f4f2"
+  grund: "#fbfaf8"
   papier: "#ffffff"
-  flaeche: "#f2efea"
-  flaeche-2: "#e8e4dd"
+  flaeche: "#ebe6de"
+  flaeche-2: "#e2dbcf"
   linie: "#dcd9d3"
   leise: "#5b5f66"
   tinte: "#1d1e20"
@@ -102,9 +102,9 @@ Ein Blau auf warmem Papier; Tinte fast schwarz.
 - **Tiefblau** (#0f4f94): Hover der Hauptaktion.
 
 ### Neutral
-- **Grund** (#f4f4f2): Seitengrund.
+- **Grund** (#fbfaf8): Seitengrund.
 - **Papier** (#ffffff): Karten, Formulare, Felder.
-- **Fläche** (#f2efea, #e8e4dd): ruhige Bänder und Zweitknöpfe.
+- **Fläche** (#ebe6de, #e2dbcf): ruhige Bänder und Zweitknöpfe.
 - **Linie** (#dcd9d3): Haarlinien.
 - **Leise** (#5b5f66): Nebentext.
 - **Tinte** (#1d1e20): Text und Titel.

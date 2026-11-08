@@ -40,6 +40,13 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfa
   </dl>
 </header>
 
+<section class="leistung-text">
+  <div class="leistung-zwei">
+    <h2>{l.text.satz}</h2>
+    <p>{l.text.rest}</p>
+  </div>
+</section>
+
 <slot />
 
 {l.art ? <Ablauf /> : null}

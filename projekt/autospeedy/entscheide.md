@@ -31,3 +31,5 @@
 - Studio, 03.11.2026: Prüfung mit den Skills, **je 1 blinder Bewerter statt 6**, um Kosten zu sparen. Ergebnisse sind darum nur ein grober Vorfilter (vorschau/klar/PRUEFBERICHT.md).
 - Roni, 04.11.2026: **Die aktuelle Teamseite von autospeedy.ch darf verwendet werden.** Namen, Rollen, Porträts und Mail-Adressen werden auf der Seite Team gezeigt, gegliedert wie dort.
 - Roni, 08.11.2026: **Anmeldung im Cockpit nur mit Code per Mail.** Fingerabdruck ist dem Kunden zu viel; ersetzt den Entscheid vom 02.11.2026 für Konten der Betriebe. Danach 30 Tage angemeldet pro Gerät. Studio-Konten (Zugriff auf alle Betriebe, CSV-Export) behalten den zweiten Faktor.
+- Roni, 08.11.2026: **Öffnungszeiten Mo bis Fr einheitlich 7.30 bis 12.00 und 13.15 bis 17.30 Uhr** (Wunsch des Betriebs).
+- Roni, 08.11.2026: **Es bleibt die Linie Klar**, mit fast weissem Grund, klarem Beige und eigenem Foto im Hero. Die Variante mit Himmel und Graffiti ist verworfen.

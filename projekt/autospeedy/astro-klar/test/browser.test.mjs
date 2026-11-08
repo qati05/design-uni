@@ -429,7 +429,7 @@ test("Fuss-Status: reine Funktion liefert offen, Mittag, Abend, Sonntag, Feierta
   const { ctx, page, fehler } = await seite({ viewport: { width: 1280, height: 800 } });
   await page.goto(basis + "/", { waitUntil: "load" });
   await page.waitForFunction(() => window.__klar && window.__klar.daten);
-  // Status aus den echten Betriebsdaten (Mo–Do 7.30–12.00/13.15–17.30, Fr bis 17.15). Winter = CET (UTC+1).
+  // Status aus den echten Betriebsdaten (Mo–Fr 7.30–12.00/13.15–17.30). Winter = CET (UTC+1).
   const s = (isoUtc, aus) => page.evaluate(([iso, a]) => {
     const d = a ? { zeiten: window.__klar.daten.zeiten, ausnahmen: a, status: window.__klar.daten.status } : window.__klar.daten;
     return window.__klar.status(d, new Date(iso));

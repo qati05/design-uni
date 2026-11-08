@@ -1,10 +1,10 @@
 ---
-// Kopf nach Entwurf C: Logo als Bild, Nav (Leistungen / Tesla / Team / Kontakt), Telefon mit Ziffern in Archivo,
+// Kopf nach Entwurf C: Logo als Bild, Nav (Leistungen / Tesla / Occasionen / Team / Kontakt), Telefon mit Ziffern in Archivo,
 // kleiner Knopf «Schaden melden». Am Handy: Logo, Telefon-Symbol, Menü (Dialog wie bisher, kommt von rechts).
 // Kein Inline-JS; das Verhalten (Scrollen, Menü) liegt in klar.js (CSP: script-src 'self').
 import { betrieb as b } from "../../../astro/bau/daten.mjs";
 const { aktiv = "/" } = Astro.props;
-const wege = [["/leistungen/", "Leistungen"], ["/tesla/", "Tesla"], ["/team/", "Team"], ["/kontakt/", "Kontakt"]];
+const wege = [["/leistungen/", "Leistungen"], ["/tesla/", "Tesla"], ["/occasionen/", "Occasionen"], ["/team/", "Team"], ["/kontakt/", "Kontakt"]];
 ---
 <header class="kopf" data-kopf>
   <a class="kopf__marke" href="/" aria-label={`${b.name}, Startseite`}><img src="/bilder/logo-96.webp" srcset="/bilder/logo-48.webp 1x, /bilder/logo-96.webp 2x, /bilder/logo-144.webp 3x" width="113" height="40" alt={b.name}></a>

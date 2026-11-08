@@ -1,0 +1,16 @@
+---
+// Was zu einer Leistung gehört: ein grosses Foto, darunter kurze Spalten mit je einem Satz.
+// Die Sätze sind Entwürfe vom 08.11.2026 (Roni), vom Betrieb noch zu prüfen.
+import Bild from "./Bild.astro";
+const { bild, alt, punkte, zeile, titelId = "arbeiten-titel" } = Astro.props;
+---
+<section class="abschnitt abschnitt--flaeche arbeiten" aria-labelledby={titelId}>
+  <div class="abschnitt__innen">
+    <h2 id={titelId} class="arbeiten__titel">Was wir machen</h2>
+    <div class="arbeiten__bild"><Bild name={bild} alt={alt} sizes="(max-width: 1240px) 100vw, 1240px" /></div>
+    <ul class="arbeiten__liste" data-anzahl={punkte.length}>
+      {punkte.map((p: { titel: string; text: string }) => <li><h3>{p.titel}</h3><p>{p.text}</p></li>)}
+    </ul>
+    {zeile ? <p class="arbeiten__zeile">{zeile}</p> : null}
+  </div>
+</section>

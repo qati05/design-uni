@@ -1,9 +1,9 @@
 ---
 // Hero (BAUPLAN 2 Zeile 2, 3.4, 3.5): 7fr Text | Spaltenlinie | 5fr Rahmen 4:5 mit Bild und figcaption.
 // h1 = Slogan des Betriebs (Reshat 03.11.2026). Lead woertlich von Reshat (Korrektur 03.11.2026, Endfassung Punkt 7).
-// Bild B1 als WebP 480/960/1440 aus public/bilder/stock/ (erzeugt von bau/stock-c.mjs). Platzhalter von Pexels, Credit unter /bildnachweise/.
+// Bild: eigenes Foto des Betriebs bis zum Shooting (Roni, 08.11.2026).
 import { betrieb as b } from "../../../astro/bau/daten.mjs";
-const stock = "/bilder/stock/b1-hero";
+import Bild from "./Bild.astro";
 ---
 <section class="hero">
   <div class="hero-text">
@@ -20,17 +20,6 @@ const stock = "/bilder/stock/b1-hero";
     <p class="hero-status" data-hero-status hidden><span data-status></span><span class="hero-status__zu" data-wenn-zu hidden> Online melden geht jederzeit, wir rufen Sie zurück.</span></p>
   </div>
   <figure class="hero-bild">
-    <span class="hero-bild__rahmen">
-      <picture>
-        <source type="image/avif" srcset={`${stock}-480.avif 480w, ${stock}-800.avif 800w, ${stock}-960.avif 960w, ${stock}-1440.avif 1440w`} sizes="(max-width: 760px) 100vw, 42vw" />
-        <source type="image/webp" srcset={`${stock}-480.webp 480w, ${stock}-800.webp 800w, ${stock}-960.webp 960w, ${stock}-1440.webp 1440w`} sizes="(max-width: 760px) 100vw, 42vw" />
-        <img
-          src={`${stock}-960.webp`}
-          width="856" height="1070"
-          fetchpriority="high" decoding="async"
-          alt="Hände in Handschuhen polieren einen dunklen Lack">
-      </picture>
-    </span>
-    <figcaption>Platzhalter von Pexels, wird durch ein eigenes Foto ersetzt.</figcaption>
+    <span class="hero-bild__rahmen"><Bild name="defender-kabine" alt="Land Rover Defender in der hell beleuchteten Kabine der Werkstatt" sizes="(max-width: 760px) 100vw, 46vw" lcp /></span>
   </figure>
 </section>

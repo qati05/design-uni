@@ -4,10 +4,10 @@ description: Arbeits-App für das Team der Auto Speedy AG, gestaltet wie die Web
 colors:
   akzent: "#1566b8"
   akzent-tief: "#0f4f94"
-  grund: "#f4f4f2"
+  grund: "#fbfaf8"
   papier: "#ffffff"
-  flaeche: "#f2efea"
-  flaeche-2: "#e8e4dd"
+  flaeche: "#ebe6de"
+  flaeche-2: "#e2dbcf"
   linie: "#dcd9d3"
   leise: "#5b5f66"
   tinte: "#1d1e20"

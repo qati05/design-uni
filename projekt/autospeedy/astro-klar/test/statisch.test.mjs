@@ -166,14 +166,13 @@ test("Nachtrag Icons/OG: favicon.ico, SVG-Icon, apple-touch-icon und og-Bild lie
   assert.match(s, /<link rel="apple-touch-icon" href="\/bilder\/icons\/apple-touch-icon\.png">/);
 });
 
-test("Nachtrag: Hero-Bild nicht lazy, fetchpriority=high, AVIF mit ~800-px-Quelle (LCP)", () => {
+test("Nachtrag: Hero-Bild nicht lazy, fetchpriority=high, vorgeladen (LCP)", () => {
   const s = lies(path.join(dist, "index.html"));
   const bild = s.match(/<figure class="hero-bild">[\s\S]*?<\/figure>/)[0];
   assert.match(bild, /<img[^>]*fetchpriority="high"/, "Hero-img fetchpriority=high");
   assert.ok(!/<img[^>]*loading="lazy"/.test(bild), "Hero-img nicht lazy");
-  assert.match(bild, /type="image\/avif"/, "AVIF-Quelle");
-  assert.match(bild, /b1-hero-800\.avif/, "Handy-Groesse ~800 px als AVIF");
-  assert.match(s, /<link rel="preload" as="image"[^>]*b1-hero[^>]*fetchpriority="high">/, "Hero-Bild vorgeladen");
+  assert.match(bild, /defender-kabine-960\.webp/, "eigenes Foto im Hero");
+  assert.match(s, /<link rel="preload" as="image"[^>]*defender-kabine[^>]*fetchpriority="high">/, "Hero-Bild vorgeladen");
 });
 
 test("Nachtrag AEO: JSON-LD je Seite parsebar; AutoBodyShop mit Adresse/Telefon/Zeiten/6 Services; FAQPage; kein aggregateRating in der Vorschau", () => {
@@ -280,6 +279,6 @@ test("Nachtrag SEO/AEO 08.11.: Service je Leistungsseite, WebSite/WebPage, Brotk
   assert.equal(ldVon("404.html"), null, "404: kein JSON-LD");
   assert.doesNotMatch(lies(path.join(dist, "404.html")), /rel="canonical"/, "404: kein canonical");
   const llms = lies(path.join(dist, "llms.txt"));
-  assert.match(llms, /Öffnungszeiten: Mo bis Do/, "llms.txt: Zeiten aus den Daten");
+  assert.match(llms, /Öffnungszeiten: Mo bis Fr/, "llms.txt: Zeiten aus den Daten");
   assert.match(llms, /keine festen Preise/, "llms.txt: keine Fixpreise");
 });

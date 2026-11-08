@@ -7,30 +7,13 @@
   },
   "zeiten": [
     {
-      "tage": "Montag bis Donnerstag",
-      "kurz": "Mo bis Do",
+      "tage": "Montag bis Freitag",
+      "kurz": "Mo bis Fr",
       "wochentage": [
         "Monday",
         "Tuesday",
         "Wednesday",
-        "Thursday"
-      ],
-      "geschlossen": false,
-      "fenster": [
-        {
-          "von": "7.30",
-          "bis": "12.00"
-        },
-        {
-          "von": "13.15",
-          "bis": "17.30"
-        }
-      ]
-    },
-    {
-      "tage": "Freitag",
-      "kurz": "Fr",
-      "wochentage": [
+        "Thursday",
         "Friday"
       ],
       "geschlossen": false,
@@ -41,7 +24,7 @@
         },
         {
           "von": "13.15",
-          "bis": "17.15"
+          "bis": "17.30"
         }
       ]
     }

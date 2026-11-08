@@ -1,7 +1,7 @@
 ---
 // Rückruf in einem Schritt (gleiche Logik und Felder wie die erste Linie: /js/rueckruf.js, art «Rückruf», landet im Cockpit).
 import { betrieb as b, bau, vorschau } from "../../../astro/bau/daten.mjs";
-const { anliegen = ["Allgemein"], titel = "Wir rufen Sie zurück", text, ort = "rueckruf" } = Astro.props;
+const { anliegen = ["Allgemein"], titel = "Wir rufen Sie zurück", text, ort = "rueckruf", hilfe = "Zum Beispiel: Delle an der Tür, Kratzer am Stossfänger. Kosten und Termin besprechen wir am Telefon, sie hängen vom Schaden ab." } = Astro.props;
 const endpunkt = process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt || "";
 const id = `rr-${ort}`;
 const turnstile = process.env.TURNSTILE_SITEKEY || "";
@@ -21,7 +21,7 @@ const teile = [["Vormittag", `${kurz(fenster[0][0])}–${kurz(fenster[0][1])}`],
     <div class="feld"><label for={`${id}-name`}>Name (Pflicht)</label><input id={`${id}-name`} name="name" type="text" autocomplete="name" required></div>
     <div class="feld"><label for={`${id}-tel`}>Telefon (Pflicht)</label><input id={`${id}-tel`} name="telefon" type="tel" autocomplete="tel" required></div>
   </div>
-  <div class="feld"><label for={`${id}-text`}>Worum geht es? (freiwillig)</label><textarea id={`${id}-text`} name="bemerkung" rows="2" maxlength="1000"></textarea><p class="hilfe">Zum Beispiel: Delle an der Tür, Kratzer am Stossfänger. Kosten und Termin besprechen wir am Telefon, sie hängen vom Schaden ab.</p></div>
+  <div class="feld"><label for={`${id}-text`}>Ihre Nachricht (freiwillig)</label><textarea id={`${id}-text`} name="bemerkung" rows="2" maxlength="1000"></textarea><p class="hilfe">{hilfe}</p></div>
   <fieldset class="zeitwahl">
     <legend>Wann passt ein Anruf? (freiwillig)</legend>
     <p class="hilfe">Tippen Sie an, was passt, gern mehrere Felder. Leer gelassen rufen wir in den Öffnungszeiten an.</p>

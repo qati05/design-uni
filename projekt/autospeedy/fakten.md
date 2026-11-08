@@ -6,7 +6,7 @@ Jede Zeile mit Quelle. Gelesen am 02.11.2026 vom Studio-Bau, öffentlich zugäng
 |---|---|---|---|
 | F1 | Firma «Auto Speedy AG», Alte Landstrasse 63, 9450 Altstätten SG | autospeedy.ch/kontakt; carrosseriesuisse.ch (Branchenverzeichnis) | ja |
 | F2 | Telefon 071 755 88 61 (Festnetz), Mobil 076 615 44 41, E-Mail info@autospeedy.ch | autospeedy.ch/kontakt; carrosseriesuisse.ch | Festnetz und E-Mail ja, Mobil nein (Zweck offen) |
-| F3 | Öffnungszeiten Mo bis Do 7.30 bis 12.00 und 13.15 bis 17.30 Uhr, Fr 7.30 bis 12.00 und 13.15 bis 17.15 Uhr | Fusszeile autospeedy.ch (HTML gelesen). Instagram nennt «Mo.-Fr. 07:30-12:00 / 13:15-17:30»: Widerspruch am Freitag, Betrieb bestätigt | ja, nach der Website |
+| F3 | Öffnungszeiten Mo bis Fr 7.30 bis 12.00 und 13.15 bis 17.30 Uhr | Roni, 08.11.2026 (Auskunft des Betriebs); ersetzt die frühere Website-Angabe Fr bis 17.15 | ja |
 | F4 | Samstag, Sonntag, Feiertage, Betriebsferien, Notfall: keine Angabe gefunden | – | **Lücke** |
 | F5 | Leistungen Carrosserie: Unfallreparatur von kleinen Blechschäden bis zu Chassisschäden, Schadenabwicklung mit der Versicherung, ausschliesslich Original-Ersatzteile, Scheibenwechsel und -reparatur, Hagelschäden, Dellendrücken, Rostreparatur, Stossstangenreparatur, Schweissarbeiten | autospeedy.ch/dienstleistungen | «Schadenabwicklung» ja (Zusage-Entwurf, siehe Z1); Rest später |
 | F6 | Leistungen Spritzwerk: einfache Lackschäden, Neulackierung, Versicherungsfälle, Restaurationen, Aufpolieren, Lackieren aller Gegenstände, Fahrzeugaufbereitung; neue, grössere Lackierkabinen | autospeedy.ch/dienstleistungen, Startseite | später |

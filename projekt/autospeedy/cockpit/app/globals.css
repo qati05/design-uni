@@ -5,7 +5,7 @@
 @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/hanken-grotesk-latin-600-normal.woff2") format("woff2"); }
 @font-face { font-family: "Archivo"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/archivo-latin-wdth-normal.woff2") format("woff2"); }
 :root {
-  --grund: #f4f4f2; --papier: #ffffff; --flaeche: #f2efea; --flaeche-2: #e8e4dd; --linie: #dcd9d3; --rahmen: #84878c;
+  --grund: #fbfaf8; --papier: #ffffff; --flaeche: #ebe6de; --flaeche-2: #e2dbcf; --linie: #dcd9d3; --rahmen: #84878c;
   --tinte: #1d1e20; --leise: #5b5f66; --blau: #1566b8; --blau-dunkel: #0f4f94; --blau-hell: #eaf1f9;
   --gruen: #17633e; --gruen-hell: #e9f4ee; --orange: #7a4300; --orange-hell: #f8efe0; --rot: #b42318;
   --titel: "Source Serif 4", "Iowan Old Style", Georgia, serif; --text: "Hanken Grotesk", system-ui, sans-serif; --daten: "Archivo", "Hanken Grotesk", sans-serif;

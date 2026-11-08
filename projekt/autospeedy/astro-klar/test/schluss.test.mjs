@@ -44,8 +44,7 @@ test("Fuss: letzter Aufruf, Status, Wochen-Tabelle, Adresse, Slogan, Rechtszeile
   assert.ok(daten.zeiten["1"] && daten.status.offen && daten.status.zuTag, "Zeiten und Status-Texte in data-fuss");
   // 6. Ganze Woche als Tabelle mit data-ld (fuer die «heute»-Markierung im Browser).
   assert.match(f, /<table class="fuss-woche">/, "Wochen-Tabelle");
-  assert.match(f, /<tr data-ld="1,2,3,4">/, "Mo–Do mit Wochentag-Nummern");
-  assert.match(f, /<tr data-ld="5">/, "Fr mit Wochentag-Nummer");
+  assert.match(f, /<tr data-ld="1,2,3,4,5">/, "Mo–Fr mit Wochentag-Nummern");
   // 3. + 7. Adresse, Route (neuer Tab, noopener), Kopieren-Knopf (ohne Skript versteckt).
   assert.match(f, /Alte Landstrasse 63/, "Adresse");
   assert.match(f, /target="_blank" rel="noopener"/, "Route im neuen Tab mit noopener");
