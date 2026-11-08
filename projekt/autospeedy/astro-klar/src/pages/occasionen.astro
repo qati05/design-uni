@@ -9,19 +9,25 @@ const w = b.occasionen?.widget;
 <Klar seite="occasionen" brotkrumen={[{ name: "Startseite", pfad: "/" }, { name: "Occasionen", pfad: "/occasionen/" }]}>
 <Kopfbild titel="Occasionen auf dem Areal." foto="fassade" alt="Gebäude der Auto Speedy AG, davor ein Defender und weitere Fahrzeuge">
   <p>Auf unserem Areal finden Sie laufend verschiedene Occasionen. Als markenunabhängige Garage kaufen wir auch Ihr Auto an.</p>
+  <a class="k k--blau occasionen-liste" href={b.occasionen?.liste} rel="noopener" target="_blank" data-zaehl="autoscout" data-ort="occasionen">Aktuelle Occasionen auf AutoScout24</a>
 </Kopfbild>
 <section class="abschnitt">
-  <div class="abschnitt__innen zwei-spalten">
+  <div class="abschnitt__innen">
     <div class="karte fremd" data-fremd data-art={w?.art} data-src={w?.src} data-hoehe={w?.hoehe ?? 900} data-titel="Occasionen anzeigen">
       <h2 class="karte__titel">Aktuelle Occasionen</h2>
       <p class="karte__text">Unsere Fahrzeuge erfassen wir auf AutoScout24. Hier sehen Sie die aktuelle Liste direkt auf unserer Seite.</p>
       <p class="hilfe">Beim Anzeigen lädt AutoScout24 Inhalte von seinen Servern und kann dabei Cookies setzen. Vorher wird nichts geladen. Mehr in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
       {w?.src ? <button class="k k--blau" type="button" data-fremd-laden hidden>Occasionen anzeigen</button> : <Luecke>Lücke: Den Code für das Widget stellt AutoScout24 dem Betrieb zur Verfügung. Bis dahin führt der Link direkt zur Liste.</Luecke>}
-      <a class="k k--hell" href={b.occasionen?.liste} rel="noopener" target="_blank" data-zaehl="autoscout" data-ort="occasionen">Liste auf AutoScout24 öffnen</a>
       {w?.src ? null : <div class="platzhalter-widget" aria-label="Platzhalter für die Occasionen-Liste"><b>Hier erscheint die Occasionen-Liste von AutoScout24</b><span>So wird sie eingebaut: 1. AutoScout24 gibt dem Betrieb den Code für das Widget. 2. Wir tragen ihn ein. 3. Tippt jemand auf «Occasionen anzeigen», lädt die aktuelle Liste genau hier, mit Fotos und Preisen von AutoScout24.</span></div>}
       <div data-fremd-ziel></div>
-      <h3>Was wir anbieten</h3>
-      <ul class="liste"><li>Verkauf von Occasionen</li><li>Autoankauf</li><li>Leasing</li><li>technische Beratung</li><li>Abwicklung von Versicherungen</li></ul>
+    </div>
+  </div>
+</section>
+<section class="abschnitt abschnitt--flaeche" aria-labelledby="angebot-titel">
+  <div class="abschnitt__innen zwei-spalten">
+    <div>
+      <h2 id="angebot-titel">Was wir anbieten</h2>
+      <ul class="liste occasionen-angebot"><li>Verkauf von Occasionen</li><li>Autoankauf</li><li>Leasing</li><li>Technische Beratung</li></ul>
     </div>
     <Rueckruf ort="occasionen" titel="Auto kaufen oder verkaufen?" text="Sagen Sie uns, worum es geht. Wir rufen Sie zurück." anliegen={["Occasion kaufen", "Mein Auto verkaufen", "Leasing"]} hilfe="Zum Beispiel: welches Auto Sie suchen oder welches Sie verkaufen möchten." />
   </div>

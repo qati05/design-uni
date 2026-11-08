@@ -1570,19 +1570,12 @@ a.klein { font-size: 14px; }
 /* Teamseite: Gesichter nicht unter dem Kopf abschneiden */
 [data-seite="team"] .seitenkopf__bild img { object-position: 50% 22%; }
 
-/* Leistungsseiten: Fakten auf einen Blick wie auf einem Messblatt, Inhalt ohne leere halbe Spalten. */
-.leistung-kopf .leistung-daten { margin-top: clamp(32px, 4vw, 48px); align-items: start; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 clamp(20px, 3vw, 44px); }
-.leistung-kopf .leistung-daten[data-anzahl="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.leistung-daten div { padding-top: 14px; border-top: 1px solid var(--tinte); }
-.leistung-daten dt { font-size: 14px; color: var(--leise); }
-.leistung-daten dd { margin: 4px 0 0; font-size: 17px; font-weight: 500; line-height: 1.3; }
+/* Leistungsseiten: Inhalt ohne leere halbe Spalten. */
 .zeile__satz { margin: 0 0 18px; max-width: 46ch; color: #3f4247; }
 .leistung-zwei { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(24px, 5vw, 72px); align-items: start; }
 .leistung-zwei h2 { font-size: clamp(28px, 3.4vw, 42px); }
 .leistung-zwei .quelle { max-width: 42ch; }
 @media (max-width: 860px) {
-  .leistung-kopf .leistung-daten, .leistung-kopf .leistung-daten[data-anzahl="3"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .leistung-daten div { padding-bottom: 14px; }
   .leistung-zwei { grid-template-columns: minmax(0, 1fr); }
 }
 
@@ -1615,3 +1608,19 @@ a.klein { font-size: 14px; }
 
 /* Zweitknöpfe heben sich auf dem Beige ab (klarer Kontrast, Roni 08.11.2026). */
 .abschnitt--flaeche .knopf--kontur, .abschnitt--flaeche .k--hell { background: #fff; }
+
+/* Hero: «Was ist passiert?» führt mit einem Tipp in die passende Schadenart. */
+.schnell { margin-top: 24px; }
+.schnell__frage { margin: 0 0 10px; font-weight: 500; }
+.schnell__liste { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.schnell__liste a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: var(--pille); background: var(--papier); box-shadow: inset 0 0 0 1px var(--linie); color: var(--tinte); font-size: 15px; font-weight: 500; text-decoration: none; transition: background-color .2s var(--sanft), box-shadow .2s var(--sanft); }
+@media (hover: hover) and (pointer: fine) { .schnell__liste a:hover { background: var(--flaeche); box-shadow: inset 0 0 0 1px var(--tinte); } }
+
+/* Occasionen: die Liste ist die Hauptsache, das Foto kürzer. */
+[data-seite="occasionen"] .seitenkopf__bild { height: clamp(240px, 40svh, 400px); }
+.occasionen-liste { justify-self: start; margin-top: 12px; }
+
+/* Nach dem Ablauf der nächste Schritt direkt daneben. */
+.ablauf-aktion { max-width: var(--breit); margin: 0 auto; padding: 0 var(--rand) clamp(48px, 6vw, 84px); box-sizing: border-box; }
+.ablauf-aktion .knoepfe { justify-content: flex-start; }
+.zwei-spalten > div > h2 + .liste { margin-top: 18px; }

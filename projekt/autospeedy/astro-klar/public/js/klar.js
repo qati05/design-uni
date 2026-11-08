@@ -71,7 +71,7 @@
   // vier CTAs gleichzeitig sichtbar sind. Aus, solange der Fuss (letzter Aufruf, dort dieselben Knoepfe) sichtbar ist
   // oder ein Eingabefeld den Fokus hat (Bildschirmtastatur). Unterseiten ohne Hero: ganzer Abschnitt.
   var leiste = document.querySelector(".handyleiste");
-  var heroZiel = document.querySelector(".hero .ctas") || document.querySelector(".hero, .buehne--start");
+  var heroZiel = document.querySelector(".hero .ctas, .leistung-kopf .knoepfe") || document.querySelector(".hero, .buehne--start");
   if (leiste && heroZiel) {
     document.body.classList.add("leiste-spaeter");
     if ("IntersectionObserver" in window) {

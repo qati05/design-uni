@@ -35,9 +35,6 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfa
         : <Bild name={l.foto} alt={l.fotoAlt} sizes="(max-width: 860px) 100vw, 50vw" lcp />}
     </div>
   </div>
-  <dl class="leistung-kopf__innen leistung-daten" data-anzahl={l.daten.length}>
-    {l.daten.map(([k, v]: [string, string]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
-  </dl>
 </header>
 
 <section class="leistung-text">
@@ -50,6 +47,7 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfa
 <slot />
 
 {l.art ? <Ablauf /> : null}
+{l.art ? <div class="ablauf-aktion"><div class="knoepfe"><a class="knopf knopf--akzent" href={`/schaden-melden/?art=${l.art}`} data-zaehl="anfrage" data-ort="leistung-ablauf">{l.knopf}</a><a class="knopf knopf--kontur" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="leistung-ablauf">Anrufen <span class="nr">{b.tel.anzeige}</span></a></div></div> : null}
 
 <Faq fragen={fragen} />
 

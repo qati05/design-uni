@@ -15,6 +15,16 @@ import Bild from "./Bild.astro";
       <a class="knopf knopf--kontur" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="hero">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a12 12 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6A2.1 2.1 0 0 1 18.4 19.5 15 15 0 0 1 4.5 5.6 2.1 2.1 0 0 1 6.6 3.5Z"/></svg><span>Anrufen <span class="nr">{b.tel.anzeige}</span></span></a>
     </div>
+    <div class="schnell">
+      <p class="schnell__frage">Was ist passiert?</p>
+      <ul class="schnell__liste">
+        <li><a href="/schaden-melden/?art=parkschaden" data-zaehl="anfrage" data-ort="hero-schnell">Parkschaden</a></li>
+        <li><a href="/schaden-melden/?art=unfall" data-zaehl="anfrage" data-ort="hero-schnell">Unfall</a></li>
+        <li><a href="/schaden-melden/?art=hagel" data-zaehl="anfrage" data-ort="hero-schnell">Hagel</a></li>
+        <li><a href="/schaden-melden/?art=lack" data-zaehl="anfrage" data-ort="hero-schnell">Kratzer oder Lack</a></li>
+        <li><a href="/schaden-melden/?fahrzeug=tesla" data-zaehl="anfrage-tesla" data-ort="hero-schnell">Tesla</a></li>
+      </ul>
+    </div>
     <!-- Kundenweg (KUNDENWEG.md 1): Wer nach Feierabend einen Schaden hat, soll nicht ins Leere anrufen. Die Zeile zeigt
          den Öffnungsstatus (klar.js, dieselbe Quelle wie der Fuss) und, wenn geschlossen, dass Melden jederzeit geht. -->
     <p class="hero-status" data-hero-status hidden><span data-status></span><span class="hero-status__zu" data-wenn-zu hidden> Online melden geht jederzeit, wir rufen Sie zurück.</span></p>

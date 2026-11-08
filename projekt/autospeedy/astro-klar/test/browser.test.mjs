@@ -134,7 +134,9 @@ test("Handy: Leiste mit Anrufen und Schaden melden erscheint nach dem Hero", asy
   assert.ok(await leiste.locator('a[href^="tel:"]').isVisible());
   assert.ok(await leiste.locator('a[href="/schaden-melden/"]').isVisible());
   await page.goto(basis + "/leistungen/felgen/");
-  assert.ok(await page.locator(".handyleiste").isVisible(), "Unterseite: sofort sichtbar");
+  await page.evaluate(() => window.scrollTo(0, 1600));
+  await page.waitForFunction(() => document.body.classList.contains("leiste-an"));
+  assert.ok(await page.locator(".handyleiste").isVisible(), "Leistungsseite: Leiste erst nach den Knöpfen im Kopf");
   assert.deepEqual(fehler, []);
   await ctx.close();
 });
