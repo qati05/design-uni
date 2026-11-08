@@ -269,3 +269,17 @@ test("Nachtrag Schalter Live (Testbuild): index + Sitemap, kein noindex, sitemap
     fs.rmSync(outDir, { recursive: true, force: true });
   }
 });
+
+test("Nachtrag SEO/AEO 08.11.: Service je Leistungsseite, WebSite/WebPage, Brotkrumen auf Kontakt/Team, keine JSON-LD auf 404, llms.txt mit Zeiten", () => {
+  const ldVon = (rel) => { const m = lies(path.join(dist, rel)).match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/); return m ? JSON.parse(m[1])["@graph"] : null; };
+  const lack = ldVon("leistungen/lack/index.html");
+  assert.ok(lack.some((x) => x["@type"] === "Service" && x.provider && x.areaServed), "Lack: Service mit Anbieter und Gebiet");
+  assert.ok(lack.some((x) => x["@type"] === "WebSite") && lack.some((x) => x["@type"] === "WebPage"), "Lack: WebSite und WebPage");
+  for (const s of ["kontakt", "team"]) assert.ok(ldVon(`${s}/index.html`).some((x) => x["@type"] === "BreadcrumbList"), `${s}: BreadcrumbList`);
+  assert.ok(ldVon("team/index.html").some((x) => x["@type"] === "Person" && x.jobTitle), "Team: Personen mit Rolle");
+  assert.equal(ldVon("404.html"), null, "404: kein JSON-LD");
+  assert.doesNotMatch(lies(path.join(dist, "404.html")), /rel="canonical"/, "404: kein canonical");
+  const llms = lies(path.join(dist, "llms.txt"));
+  assert.match(llms, /Öffnungszeiten: Mo bis Do/, "llms.txt: Zeiten aus den Daten");
+  assert.match(llms, /keine festen Preise/, "llms.txt: keine Fixpreise");
+});

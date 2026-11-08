@@ -91,6 +91,8 @@ export default function dateien({ csp = false } = {}) {
           `  Content-Security-Policy: ${csp ? cspZeile({ bau, betrieb }) : "frame-ancestors 'none'"}`,
           "  Permissions-Policy: camera=(), microphone=(), geolocation=()",
         ];
+        // Performance (Nachtrag 08.11.2026): Schriften ändern sich nie unter demselben Namen, darum lange im Browser behalten.
+        kopf.push("", "/fonts/*", "  Cache-Control: public, max-age=31536000, immutable");
         // Editor /admin/ (Linie Klar, BAUPLAN 4.1): eigene, enge CSP. Eigenes Vanilla-JS aus 'self', keine Fremdhosts,
         // keine Einbettung. noindex und no-store. «! Content-Security-Policy» ersetzt (nicht ergänzt) die allgemeine Zeile.
         if (csp) kopf.push(

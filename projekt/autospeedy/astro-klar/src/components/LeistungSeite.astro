@@ -14,7 +14,7 @@ const fragen = l.fragen.map((i: number) => faqStart[i]);
 const weitere = leistungen.filter((x) => x.slug !== slug);
 const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfad: "/leistungen/" }, { name: l.titel, pfad: l.pfad }];
 ---
-<Klar seite="carrosserie" titel={l.seitentitel} beschreibung={l.beschreibung} brotkrumen={brotkrumen} faq={fragen}>
+<Klar seite="carrosserie" titel={l.seitentitel} beschreibung={l.beschreibung} brotkrumen={brotkrumen} faq={fragen} dienst={l}>
 <header class="leistung-kopf">
   <div class="leistung-kopf__innen">
     <div class="leistung-kopf__text">

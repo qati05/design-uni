@@ -6,7 +6,7 @@ import Zeiten from "../components/Zeiten.astro";
 import Luecke from "../components/Luecke.astro";
 import { betrieb as b } from "../../../astro/bau/daten.mjs";
 ---
-<Klar seite="kontakt" jsonld>
+<Klar seite="kontakt" brotkrumen={[{ name: "Startseite", pfad: "/" }, { name: "Kontakt", pfad: "/kontakt/" }]}>
 <Kopfbild titel="Alte Landstrasse 63." foto="fassade" alt="Gebäude der Auto Speedy AG mit Schild und Eingang «Büro – Empfang»">
   <p>{b.name}, {b.strasse}, {b.plz} {b.ort} {b.kanton}</p>
 </Kopfbild>

@@ -8,7 +8,7 @@ import { leistungen } from "../daten/leistungen";
 import Kopf from "../components/Kopf.astro";
 import Fuss from "../components/Fuss.astro";
 import Hinweis from "../components/Hinweis.astro";
-const { seite, titel, beschreibung, jsonld = false, bildVorladen = null, ogBild = "/bilder/stock/og-start.jpg", brotkrumen = null, faq = null } = Astro.props;
+const { seite, titel, beschreibung, jsonld = false, bildVorladen = null, ogBild = "/bilder/stock/og-start.jpg", brotkrumen = null, faq = null, dienst = null, ldExtra = [] } = Astro.props;
 import { betrieb as b, bau } from "../../../astro/bau/daten.mjs";
 const pad = (z: string) => z.replace(".", ":").padStart(5, "0");
 const s = { ...lies(seite), ...(titel ? { titel } : {}), ...(beschreibung ? { beschreibung } : {}) };
@@ -16,6 +16,7 @@ const s = { ...lies(seite), ...(titel ? { titel } : {}), ...(beschreibung ? { be
 // Basis-URL: im Livegang aus bau.adresse, in der Vorschau die bekannte Betriebsdomain als Platzhalter (noindex bleibt).
 const basis = (bau.adresse || "https://www.autospeedy.ch").replace(/\/$/, "");
 const canonical = basis + Astro.url.pathname;
+const istFehlerseite = seite === "404"; // 404: kein canonical, kein JSON-LD (nicht indexierbar)
 const ogAbs = /^https?:/.test(ogBild) ? ogBild : basis + ogBild;
 
 // Öffnungszeiten für JSON-LD.
@@ -30,6 +31,7 @@ if (!vorschau && bd && bd.status === "ok" && typeof bd.note === "number" && type
 const betriebLd: any = {
   "@type": b.typ, "@id": basis + "/#betrieb", name: b.name, url: basis + "/", image: ogAbs, telephone: b.tel.e164, email: b.mail,
   address: { "@type": "PostalAddress", streetAddress: b.strasse, postalCode: b.plz, addressLocality: b.ort, addressRegion: b.kanton, addressCountry: b.land },
+  logo: basis + "/bilder/logo-144.png", hasMap: b.route,
   areaServed: [{ "@type": "City", name: "Altstätten" }, { "@type": "AdministrativeArea", name: "Rheintal" }],
   openingHoursSpecification: zeiten,
   makesOffer: leistungen.map((l) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: l.titel, description: l.kurz, url: basis + l.pfad } })),
@@ -39,11 +41,22 @@ const sameAs = [b.bewertungen && b.bewertungen.facebook, b.occasionen && b.occas
 if (sameAs.length) betriebLd.sameAs = sameAs;
 if (rating) betriebLd.aggregateRating = rating;
 
-const graph: any[] = [betriebLd];
-if (brotkrumen) graph.push({ "@type": "BreadcrumbList", itemListElement: brotkrumen.map((x: any, i: number) => ({ "@type": "ListItem", position: i + 1, name: x.name, item: basis + x.pfad })) });
+// Nachtrag 08.11.2026 (SEO/AEO): WebSite und WebPage je Seite, damit Suchmaschinen und KI-Assistenten Seite, Betrieb und
+// Brotkrumen verknüpfen; Service-Knoten auf Leistungsseiten (Prop `dienst`), weitere Knoten über `ldExtra` (Team, Occasionen).
+const area = betriebLd.areaServed;
+const graph: any[] = [
+  betriebLd,
+  { "@type": "WebSite", "@id": basis + "/#website", url: basis + "/", name: b.name, inLanguage: "de-CH", publisher: { "@id": basis + "/#betrieb" } },
+  { "@type": "WebPage", "@id": canonical + "#seite", url: canonical, name: s.titel, ...(s.beschreibung ? { description: s.beschreibung } : {}), inLanguage: "de-CH",
+    isPartOf: { "@id": basis + "/#website" }, about: { "@id": basis + "/#betrieb" }, ...(brotkrumen ? { breadcrumb: { "@id": canonical + "#brotkrumen" } } : {}) },
+];
+if (brotkrumen) graph.push({ "@type": "BreadcrumbList", "@id": canonical + "#brotkrumen", itemListElement: brotkrumen.map((x: any, i: number) => ({ "@type": "ListItem", position: i + 1, name: x.name, item: basis + x.pfad })) });
+if (dienst) graph.push({ "@type": "Service", "@id": basis + dienst.pfad + "#leistung", name: dienst.titel, serviceType: dienst.titel, description: dienst.beschreibung || dienst.kurz, url: basis + dienst.pfad,
+  provider: { "@id": basis + "/#betrieb" }, areaServed: area, ...(dienst.marke ? { brand: { "@type": "Brand", name: dienst.marke } } : {}) });
+for (const x of ldExtra) graph.push(x);
 if (faq) graph.push({ "@type": "FAQPage", mainEntity: faq.map((f: any) => ({ "@type": "Question", name: f.frage, acceptedAnswer: { "@type": "Answer", text: f.antwort } })) });
 const ld = { "@context": "https://schema.org", "@graph": graph };
-const zeigeLd = jsonld || brotkrumen || faq;
+const zeigeLd = !istFehlerseite; // alle Seiten ausser 404 (vorher nur mit jsonld/brotkrumen/faq)
 ---
 <!doctype html>
 <html lang="de-CH" data-zaehl-endpunkt={process.env.ZAEHL_ENDPUNKT || undefined}>
@@ -52,7 +65,7 @@ const zeigeLd = jsonld || brotkrumen || faq;
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{s.titel}</title>
 {s.beschreibung && <meta name="description" content={s.beschreibung}>}
-<link rel="canonical" href={canonical}>
+{!istFehlerseite && <link rel="canonical" href={canonical}>}
 {vorschau && <meta name="robots" content="noindex">}
 <meta name="theme-color" content="#f4f4f2">
 <link rel="icon" href="/bilder/icons/favicon.ico" sizes="any">

@@ -6,8 +6,15 @@ import { site } from "../../../astro/bau/daten.mjs";
 const gruppen = site.team
   .map((g: any) => ({ ...g, leute: g.leute.filter((p: any) => p.einverstaendnis) }))
   .filter((g: any) => g.leute.length);
+// Nachtrag 08.11.2026 (AEO): Personen als JSON-LD mit Rolle und Bezug zum Betrieb (ohne E-Mail-Adressen).
+import { bau } from "../../../astro/bau/daten.mjs";
+const basis = (bau.adresse || "https://www.autospeedy.ch").replace(/\/$/, "");
+const personen = gruppen.flatMap((g: any) => g.leute.map((p: any) => {
+  const spitz = p.name.match(/«(.+)»/);
+  return { "@type": "Person", name: p.name.replace(/ «.*»/, ""), ...(spitz ? { alternateName: spitz[1] } : {}), jobTitle: p.rolle, ...(p.foto ? { image: basis + p.foto } : {}), worksFor: { "@id": basis + "/#betrieb" } };
+}));
 ---
-<Klar seite="team">
+<Klar seite="team" brotkrumen={[{ name: "Startseite", pfad: "/" }, { name: "Team", pfad: "/team/" }]} ldExtra={personen}>
 <Kopfbild titel="Zehn Leute, vier Bereiche." foto="team-kabine" alt="Mitarbeiter in der Lackierkabine neben einer abgeklebten Fahrzeugtür">
   <p>Von der Annahme bis zum Finish: So ist das Team von Auto Speedy aufgeteilt.</p>
 </Kopfbild>

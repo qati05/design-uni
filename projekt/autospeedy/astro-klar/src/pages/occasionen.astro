@@ -6,7 +6,7 @@ import Luecke from "../components/Luecke.astro";
 import { betrieb as b } from "../../../astro/bau/daten.mjs";
 const w = b.occasionen?.widget;
 ---
-<Klar seite="occasionen">
+<Klar seite="occasionen" brotkrumen={[{ name: "Startseite", pfad: "/" }, { name: "Occasionen", pfad: "/occasionen/" }]}>
 <Kopfbild titel="Occasionen auf dem Areal." foto="fassade" alt="Gebäude der Auto Speedy AG, davor ein Defender und weitere Fahrzeuge">
   <p>Auf unserem Areal finden Sie laufend verschiedene Occasionen. Als markenunabhängige Garage kaufen wir auch Ihr Auto an.</p>
 </Kopfbild>

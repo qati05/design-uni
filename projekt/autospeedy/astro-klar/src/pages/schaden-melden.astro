@@ -15,7 +15,7 @@ const turnstile = process.env.TURNSTILE_SITEKEY || "";
 const modelle = ["Model 3", "Model Y", "Model S", "Model X", "Anderes Modell"];
 const versicherer = ["AXA", "Zurich", "Mobiliar", "Allianz", "Helvetia", "Baloise", "Generali", "Vaudoise", "TCS", "Smile"];
 ---
-<Klar seite="schaden-melden">
+<Klar seite="schaden-melden" brotkrumen={[{ name: "Startseite", pfad: "/" }, { name: "Schaden melden", pfad: "/schaden-melden/" }]}>
 <div class="melden-seite">
   <div class="melden-seite__links">
     <h1>In zwei Schritten <em>gemeldet.</em></h1>

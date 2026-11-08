@@ -5,7 +5,7 @@ import Kopfbild from "../components/Kopfbild.astro";
 import Rueckruf from "../components/Rueckruf.astro";
 import Luecke from "../components/Luecke.astro";
 ---
-<Klar seite="flotten">
+<Klar seite="flotten" brotkrumen={[{ name: "Startseite", pfad: "/" }, { name: "Firmen und Flotten", pfad: "/flotten/" }]}>
 <Kopfbild titel="Firmenautos zurück auf die Strasse." foto="transporter" alt="Weiss-roter Transporter mit offener Front in der Halle">
   <p>Für Garagen, Leasingfirmen und Betriebe mit eigenen Fahrzeugen: Carrosserie und Lack für Personenwagen und Nutzfahrzeuge, mit Schadenabwicklung über die Versicherung.</p>
 </Kopfbild>

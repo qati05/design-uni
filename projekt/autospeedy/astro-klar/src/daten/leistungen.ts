@@ -10,7 +10,7 @@ export const leistungen = [
     h1: "Vom Blechschaden bis zum Chassisschaden.",
     einleitung: "Unfallschäden reparieren wir für alle Marken, nach Herstellervorgaben und ausschliesslich mit Original-Ersatzteilen. Die Abwicklung mit Ihrer Versicherung übernehmen wir.",
     foto: "hebebuehne", fotoAlt: "Schwarzer Audi mit abgebauter Front auf der Hebebühne in der hellen Halle",
-    art: "unfall", knopf: "Unfall melden", fragen: [0, 1, 2],
+    art: "unfall", knopf: "Unfall melden", fragen: [0, 1, 2, 7, 8],
   },
   {
     slug: "hagel", pfad: "/leistungen/hagel-dellen/", titel: "Hagel und Dellen",
@@ -20,7 +20,7 @@ export const leistungen = [
     h1: "Dellen drücken, Hagel richten.",
     einleitung: "Dellen drücken wir ohne Lackieren, wo es geht. Sonst richten und lackieren wir.",
     foto: "dellen-zug", fotoAlt: "Mitarbeiter arbeitet lächelnd an der weissen Haube eines Autos",
-    art: "hagel", knopf: "Hagelschaden melden", fragen: [0, 1, 2],
+    art: "hagel", knopf: "Hagelschaden melden", fragen: [0, 1, 2, 7, 8],
   },
   {
     slug: "lack", pfad: "/leistungen/lack/", titel: "Lack",
@@ -30,7 +30,7 @@ export const leistungen = [
     h1: "Kleine Lackschäden, ganze Lackierungen.",
     einleitung: "Kleine Lackschäden reparieren wir mit möglichst wenig Aufwand, ohne grosse Demontage. Für ganze Lackierungen haben wir neue, grössere Lackierkabinen.",
     foto: "team-lack", fotoAlt: "Mitarbeiterin bearbeitet eine abgeklebte Fahrzeugseite in der Werkstatt",
-    art: "lack", knopf: "Lackschaden melden", fragen: [0, 2, 4],
+    art: "lack", knopf: "Lackschaden melden", fragen: [0, 2, 4, 7],
   },
   {
     slug: "felgen", pfad: "/leistungen/felgen/", titel: "Felgen",
@@ -40,7 +40,7 @@ export const leistungen = [
     h1: "Felgen, vorher und nachher.",
     einleitung: "Randstein- und Kratzerschäden an Felgen bereiten wir wieder auf.",
     foto: "team-rad", fotoAlt: "Mitarbeiter kniet mit einem Rad neben einem blauen Auto",
-    art: "felge", knopf: "Felgenschaden melden", fragen: [4, 5],
+    art: "felge", knopf: "Felgenschaden melden", fragen: [4, 7, 5, 6],
   },
   {
     slug: "folierung", pfad: "/leistungen/folierung/", titel: "Folierung",
@@ -50,7 +50,7 @@ export const leistungen = [
     h1: "Fahrzeuge ganz oder teilweise folieren.",
     einleitung: "Für alle Marken, in unserer Werkstatt in Altstätten. Rufen Sie uns an, wenn Sie Ihr Fahrzeug folieren möchten.",
     foto: "defender-folie", fotoAlt: "Defender in mattem Grau auf blauem Werkstattboden",
-    fragen: [4, 5],
+    fragen: [4, 5, 6],
   },
   {
     slug: "scheiben", pfad: "/leistungen/scheiben/", titel: "Scheiben",
@@ -60,6 +60,6 @@ export const leistungen = [
     h1: "Scheiben wechseln und reparieren.",
     einleitung: "Scheiben wechseln wir und reparieren Steinschläge.",
     stockFoto: "/bilder/leistungen/scheiben-800.webp", fotoAlt: "Fahrzeug mit offener Motorhaube in der Werkstatt",
-    art: "scheibe", knopf: "Scheibenschaden melden", fragen: [4, 5],
+    art: "scheibe", knopf: "Scheibenschaden melden", fragen: [4, 7, 5, 6],
   },
 ];
