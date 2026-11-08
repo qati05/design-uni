@@ -4,6 +4,7 @@
 import Klar from "../layouts/Klar.astro";
 import Bild from "./Bild.astro";
 import Faq from "./Faq.astro";
+import Ablauf from "./Ablauf.astro";
 import { faqStart } from "../daten/faq";
 import { leistungen } from "../daten/leistungen";
 import { betrieb as b } from "../../../astro/bau/daten.mjs";
@@ -34,9 +35,14 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfa
         : <Bild name={l.foto} alt={l.fotoAlt} sizes="(max-width: 860px) 100vw, 50vw" lcp />}
     </div>
   </div>
+  <dl class="leistung-kopf__innen leistung-daten" data-anzahl={l.daten.length}>
+    {l.daten.map(([k, v]: [string, string]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+  </dl>
 </header>
 
 <slot />
+
+{l.art ? <Ablauf /> : null}
 
 <Faq fragen={fragen} />
 

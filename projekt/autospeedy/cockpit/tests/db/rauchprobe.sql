@@ -32,12 +32,9 @@ do $$ begin insert into public.meldungen (betrieb_id, art, name, telefon) values
 select pg_temp.erwarte((select count(*) from storage.objects where bucket_id = 'schadenfotos'), 0, 'anon sieht keine Schadenfotos');
 reset role;
 
--- Mitglied A nur mit Mail-Code (aal1): liest nichts
+-- Mitglied A mit Mail-Code (aal1): sieht nur Betrieb A
 set role authenticated; select pg_temp.als('11111111-1111-1111-1111-111111111111', 'aal1');
-select pg_temp.erwarte((select count(*) from public.meldungen), 0, 'Mitglied mit aal1 liest nichts');
-select pg_temp.erwarte(public.ist_mitglied()::int, 0, 'aal1 gilt nicht als Mitglied');
--- Mitglied A mit aal2: sieht nur Betrieb A
-select pg_temp.als('11111111-1111-1111-1111-111111111111', 'aal2');
+select pg_temp.erwarte(public.ist_mitglied()::int, 1, 'Mail-Code genügt für Mitglieder');
 select pg_temp.erwarte((select count(*) from public.meldungen), 1, 'A liest genau seine Meldung');
 select pg_temp.erwarte((select count(*) from public.meldungen where betrieb_id <> 'auto-speedy'), 0, 'A sieht nichts von B und C');
 select pg_temp.erwarte((select count(*) from public.meldung_fotos), 1, 'A liest nur seine Fotozeile');

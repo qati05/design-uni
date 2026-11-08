@@ -1,6 +1,7 @@
 // «Website pflegen»: site.json über die GitHub-API (mit Konfliktschutz) und Teamfotos im Bild-Speicher (R2). Ohne Netz.
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { siteLesen, siteSchreiben, fotoHochladen, fotoLoeschen, type Repo, type BildSpeicher } from "../lib/website.server";
+import { siteSchema } from "../../gemeinsam/site";
 import start from "../../astro/src/daten/site.json";
 
 const REPO: Repo = { repo: "medaur/auto-speedy", pfad: "astro/src/daten/site.json", zweig: "main", token: "TOKEN" };
@@ -36,7 +37,7 @@ describe("site.json über GitHub", () => {
     expect(await siteSchreiben(REPO, start as never, SHA)).toBe("ok");
     const b = a[0]!.body as { sha: string; branch: string; message: string; content: string };
     expect(b.sha).toBe(SHA); expect(b.branch).toBe("main"); expect(b.message).toBe("Website pflegen (Cockpit)");
-    expect(JSON.parse(Buffer.from(b.content, "base64").toString())).toEqual(start);
+    expect(JSON.parse(Buffer.from(b.content, "base64").toString())).toEqual(siteSchema.parse(start)); // Altfeld «hinweis» wird beim Schreiben zu «hinweise»
   });
   it("jemand anderes hat inzwischen gespeichert: «konflikt»; Fehler: «fehler»; keine Antwort: «unklar»", async () => {
     netz(() => new Response("{}", { status: 409 }));

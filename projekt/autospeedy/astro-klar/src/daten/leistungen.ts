@@ -1,5 +1,6 @@
 // Die sechs Leistungen an einer Stelle: Karten, eigene Seiten, «Weitere Leistungen» und JSON-LD lesen von hier.
 // Wortlaut nur aus fakten.md (F5, F6) und der bisherigen Leistungsseite. Titel «Felgen», nie «Alufelgen».
+// `daten` sind die Fakten auf einen Blick unter dem Kopf der Seite: nur, was schon belegt auf der Website steht.
 // `art` führt direkt zur passenden Schadenart in /schaden-melden/ (Werte aus arten.json); Folierung ist kein Schaden.
 export const leistungen = [
   {
@@ -10,6 +11,7 @@ export const leistungen = [
     h1: "Vom Blechschaden bis zum Chassisschaden.",
     einleitung: "Unfallschäden reparieren wir für alle Marken, nach Herstellervorgaben und ausschliesslich mit Original-Ersatzteilen. Die Abwicklung mit Ihrer Versicherung übernehmen wir.",
     foto: "hebebuehne", fotoAlt: "Schwarzer Audi mit abgebauter Front auf der Hebebühne in der hellen Halle",
+    daten: [["Marken", "Alle Marken"], ["Ersatzteile", "Ausschliesslich Original"], ["Versicherung", "Die Abwicklung übernehmen wir"], ["Ersatzwagen", "Auf Anfrage"]],
     art: "unfall", knopf: "Unfall melden", fragen: [0, 1, 2, 7, 8],
   },
   {
@@ -20,6 +22,7 @@ export const leistungen = [
     h1: "Dellen drücken, Hagel richten.",
     einleitung: "Dellen drücken wir ohne Lackieren, wo es geht. Sonst richten und lackieren wir.",
     foto: "dellen-zug", fotoAlt: "Mitarbeiter arbeitet lächelnd an der weissen Haube eines Autos",
+    daten: [["Vorgehen", "Ohne Lackieren, wo es geht"], ["Marken", "Alle Marken"], ["Versicherung", "Die Abwicklung übernehmen wir"], ["Ersatzwagen", "Auf Anfrage"]],
     art: "hagel", knopf: "Hagelschaden melden", fragen: [0, 1, 2, 7, 8],
   },
   {
@@ -30,6 +33,7 @@ export const leistungen = [
     h1: "Kleine Lackschäden, ganze Lackierungen.",
     einleitung: "Kleine Lackschäden reparieren wir mit möglichst wenig Aufwand, ohne grosse Demontage. Für ganze Lackierungen haben wir neue, grössere Lackierkabinen.",
     foto: "team-lack", fotoAlt: "Mitarbeiterin bearbeitet eine abgeklebte Fahrzeugseite in der Werkstatt",
+    daten: [["Kleine Schäden", "Ohne grosse Demontage"], ["Kabinen", "Neu und grösser"], ["Marken", "Alle Marken"], ["Versicherung", "Die Abwicklung übernehmen wir"]],
     art: "lack", knopf: "Lackschaden melden", fragen: [0, 2, 4, 7],
   },
   {
@@ -40,6 +44,7 @@ export const leistungen = [
     h1: "Felgen, vorher und nachher.",
     einleitung: "Randstein- und Kratzerschäden an Felgen bereiten wir wieder auf.",
     foto: "team-rad", fotoAlt: "Mitarbeiter kniet mit einem Rad neben einem blauen Auto",
+    daten: [["Schäden", "Randstein und Kratzer"], ["Marken", "Alle Marken"], ["Melden", "Am besten mit Fotos"], ["Ort", "Werkstatt in Altstätten"]],
     art: "felge", knopf: "Felgenschaden melden", fragen: [4, 7, 5, 6],
   },
   {
@@ -50,6 +55,7 @@ export const leistungen = [
     h1: "Fahrzeuge ganz oder teilweise folieren.",
     einleitung: "Für alle Marken, in unserer Werkstatt in Altstätten. Rufen Sie uns an, wenn Sie Ihr Fahrzeug folieren möchten.",
     foto: "defender-folie", fotoAlt: "Defender in mattem Grau auf blauem Werkstattboden",
+    daten: [["Umfang", "Ganz oder teilweise"], ["Marken", "Alle Marken"], ["Ort", "Werkstatt in Altstätten"]],
     fragen: [4, 5, 6],
   },
   {
@@ -58,8 +64,9 @@ export const leistungen = [
     seitentitel: "Scheiben wechseln und reparieren | Auto Speedy",
     beschreibung: "Scheibenwechsel und Scheibenreparatur bei Auto Speedy in Altstätten SG. Partner im Bereich Windschutzscheiben laut Carrosserie Suisse.",
     h1: "Scheiben wechseln und reparieren.",
-    einleitung: "Scheiben wechseln wir und reparieren Steinschläge.",
+    einleitung: "Steinschlag oder Riss? Steinschläge reparieren wir, und wenn das nicht mehr reicht, wechseln wir die Scheibe.",
     stockFoto: "/bilder/leistungen/scheiben-800.webp", fotoAlt: "Fahrzeug mit offener Motorhaube in der Werkstatt",
+    daten: [["Arbeiten", "Wechsel und Reparatur"], ["Marken", "Alle Marken"], ["Versicherung", "Die Abwicklung übernehmen wir"], ["Verband", "Partner laut Carrosserie Suisse"]],
     art: "scheibe", knopf: "Scheibenschaden melden", fragen: [4, 7, 5, 6],
   },
 ];

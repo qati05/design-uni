@@ -14,7 +14,7 @@ export type PflegeZustand = { ok?: boolean; meldung?: string };
 export async function pflegeSpeichern(_v: PflegeZustand, form: FormData): Promise<PflegeZustand> {
   const b = holeBackend();
   const s = await b.sitzung();
-  if (!s || s.aal !== "aal2" || !s.mitglied) { log({ aktion: "pflege", status: "abgelehnt" }); return { meldung: "Bitte neu anmelden." }; }
+  if (!s || !s.mitglied) { log({ aktion: "pflege", status: "abgelehnt" }); return { meldung: "Bitte neu anmelden." }; }
   const alt = await b.pflegeLesen();
   if (!alt) return { meldung: "Die Website ist gerade nicht erreichbar. Nichts gespeichert. Bitte später nochmals versuchen." };
   const sha = String(form.get("sha") ?? "");

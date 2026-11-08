@@ -1,7 +1,10 @@
+import { redirect } from "next/navigation";
+import { holeBackend } from "@/lib/backend.server";
 import { PasskeyKnopf } from "../PasskeyKnopf";
 
-// Erstes Gerät einrichten: einmal pro Person, am besten zusammen mit dem Studio beim Start.
-export default function Einrichten() {
+// Erstes Gerät einrichten: nur noch für Studio-Konten. Mitglieder eines Betriebs melden sich allein mit dem Mail-Code an.
+export default async function Einrichten() {
+  if ((await holeBackend().sitzung())?.mitglied) redirect("/");
   return (
     <main className="seite schmal anmelden">
       <img src="/bilder/logo-96.webp" width={135} height={48} alt="Auto Speedy AG" />

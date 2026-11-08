@@ -8,7 +8,7 @@ import { Kopf } from "./_teile/Kopf";
 export default async function Uebersicht({ searchParams }: { searchParams: Promise<{ status?: string }> }) {
   const b = holeBackend();
   const s = await b.sitzung();
-  if (!s || s.aal !== "aal2" || !s.mitglied) redirect("/login");
+  if (!s || !s.mitglied) redirect("/login");
   const { status } = await searchParams;
   const filter = (STATUS as readonly string[]).includes(status ?? "") ? (status as Status) : null;
   const alle = await b.meldungen();

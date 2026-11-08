@@ -2,7 +2,7 @@
 // Regeln und Form kommen aus gemeinsam/site.ts (dieselben wie beim Website-Bau); hier nur das Formular des Cockpits.
 import type { z } from "zod";
 import { siteSchema, type Site } from "../../gemeinsam/site";
-export { HINWEIS_LINKS, TEAMFOTO, minuten, speicherFotos, zeitenZeile } from "../../gemeinsam/site";
+export { HINWEIS_ARTEN, HINWEIS_LINKS, HINWEIS_POPUP_ARTEN, TEAMFOTO, minuten, speicherFotos, zeitenZeile } from "../../gemeinsam/site";
 
 export const pflegeSchema = siteSchema;
 export type Pflege = Site;
@@ -40,20 +40,29 @@ export function pflegeAusFormular(form: FormData, alt: Pflege): z.ZodSafeParseRe
   }
   ausnahmen.sort((a, b) => a.datum.localeCompare(b.datum));
   const team = alt.team.map((g, gi) => {
-    const leute: { name: string; rolle: string; foto?: string; email?: string }[] = [];
+    const leute: { name: string; rolle: string; foto?: string; email?: string; einverstaendnis: boolean }[] = [];
     for (let pi = 0; pi < 31; pi++) {
       if (!form.has(`team.${gi}.p.${pi}.name`) || an(`team.${gi}.p.${pi}.weg`)) continue;
       const name = w(`team.${gi}.p.${pi}.name`), rolle = w(`team.${gi}.p.${pi}.rolle`);
       if (!name && !rolle) continue;
       const foto = an(`team.${gi}.p.${pi}.fotoweg`) ? "" : w(`team.${gi}.p.${pi}.foto`), email = w(`team.${gi}.p.${pi}.email`);
-      leute.push({ name, rolle, ...(foto ? { foto } : {}), ...(email ? { email } : {}) });
+      leute.push({ name, rolle, ...(foto ? { foto } : {}), ...(email ? { email } : {}), einverstaendnis: an(`team.${gi}.p.${pi}.einverstaendnis`) });
     }
     return { name: g.name, leute };
   });
+  const hinweise: unknown[] = [];
+  for (let i = 0; i < 4; i++) {
+    if (!form.has(`hin.${i}.art`) || an(`hin.${i}.weg`)) continue;
+    const titel = w(`hin.${i}.titel`), text = w(`hin.${i}.text`);
+    if (!titel && !text) continue; // leere neue Zeile
+    hinweise.push({ art: w(`hin.${i}.art`), form: w(`hin.${i}.form`) || "banner", titel, text, link: w(`hin.${i}.link`), von: w(`hin.${i}.von`), bis: w(`hin.${i}.bis`) });
+  }
+  const stimme = { text: w("stimme.text"), name: w("stimme.name"), rolle: w("stimme.rolle"), freigegeben: an("stimme.freigegeben") };
   return pflegeSchema.safeParse({
     ...(alt._hinweis ? { _hinweis: alt._hinweis } : {}),
-    hinweis: { aktiv: an("hinweis.aktiv"), text: w("hinweis.text"), link: w("hinweis.link") || alt.hinweis.link },
-    zeiten, ausnahmen, team,
+    hinweise, zeiten, ausnahmen, team,
+    ...(alt.stimme || stimme.text || stimme.name || stimme.rolle ? { stimme } : {}),
+    bewertungen: { zeigen: an("bewertungen.zeigen") },
   });
 }
 
@@ -62,6 +71,6 @@ export function pflegeFehler(e: z.ZodError): string {
   const i = e.issues[0];
   if (!i) return "Bitte Eingaben prüfen.";
   const [bereich, nr] = i.path as (string | number)[];
-  const wo = bereich === "zeiten" ? `Öffnungszeiten, Zeile ${Number(nr) + 1}` : bereich === "ausnahmen" ? `Ausnahmen, Zeile ${Number(nr) + 1}` : bereich === "team" ? `Team, Gruppe ${Number(nr) + 1}` : "Hinweis-Leiste";
+  const wo = bereich === "zeiten" ? `Öffnungszeiten, Zeile ${Number(nr) + 1}` : bereich === "ausnahmen" ? `Ausnahmen, Zeile ${Number(nr) + 1}` : bereich === "team" ? `Team, Gruppe ${Number(nr) + 1}` : bereich === "stimme" ? "Satz vom Inhaber" : nr === undefined ? "Hinweise" : `Hinweis ${Number(nr) + 1}`;
   return `${wo}: ${i.message}`;
 }

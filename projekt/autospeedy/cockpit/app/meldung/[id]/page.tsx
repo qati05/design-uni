@@ -10,7 +10,7 @@ import { Kopf } from "../../_teile/Kopf";
 export default async function MeldungSeite({ params }: { params: Promise<{ id: string }> }) {
   const b = holeBackend();
   const s = await b.sitzung();
-  if (!s || s.aal !== "aal2" || !s.mitglied) redirect("/login");
+  if (!s || !s.mitglied) redirect("/login");
   const { id } = await params;
   if (!idSchema.safeParse(id).success) notFound();
   const m = await b.meldung(id);

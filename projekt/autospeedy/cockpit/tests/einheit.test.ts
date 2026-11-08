@@ -12,14 +12,16 @@ const q = (o: Partial<{ s: boolean; uid: string | null; aal: string | null; nae:
 describe("Zugang (Muster medaur)", () => {
   it("öffentliche Pfade gehen immer", async () => { expect(await entscheideZugang("/login", q({ s: false }))).toEqual({ art: "weiter" }); expect(await entscheideZugang("/api/meldung", q({ s: false }))).toEqual({ art: "weiter" }); });
   it("ohne Sitzung zum Login", async () => { expect(await entscheideZugang("/", q({ s: false }))).toEqual({ art: "login" }); expect(await entscheideZugang("/", q({ uid: null }))).toEqual({ art: "login" }); });
-  it("nur Mail-Code (aal1) führt zum zweiten Code", async () => { expect(await entscheideZugang("/", q({ aal: "aal1" }))).toEqual({ art: "mfa" }); expect(await entscheideZugang("/", q({ aal: "aal1", nae: "aal1" }))).toEqual({ art: "mfa_einrichten" }); expect(await entscheideZugang("/mfa", q({ aal: "aal1" }))).toEqual({ art: "weiter" }); });
+  it("Mitglied kommt mit dem Mail-Code (aal1) hinein, ohne zweiten Faktor", async () => { expect(await entscheideZugang("/", q({ aal: "aal1", nae: "aal1" }))).toEqual({ art: "weiter" }); expect(await entscheideZugang("/pflege", q({ aal: "aal1" }))).toEqual({ art: "weiter" }); });
+  it("Konto ohne Betrieb braucht den zweiten Faktor, bevor es als Studio gilt", async () => { expect(await entscheideZugang("/", q({ m: false, aal: "aal1" }))).toEqual({ art: "mfa" }); expect(await entscheideZugang("/", q({ m: false, aal: "aal1", nae: "aal1" }))).toEqual({ art: "mfa_einrichten" }); expect(await entscheideZugang("/mfa", q({ aal: "aal1" }))).toEqual({ art: "weiter" }); });
   it("Konto ohne Mitgliedschaft bekommt 403", async () => { expect(await entscheideZugang("/", q({ m: false }))).toEqual({ art: "verboten" }); });
-  it("Mitglied mit aal2 darf", async () => { expect(await entscheideZugang("/meldung/abcdef1", q())).toEqual({ art: "weiter" }); });
+  it("Mitglied darf auf Meldungen", async () => { expect(await entscheideZugang("/meldung/abcdef1", q())).toEqual({ art: "weiter" }); });
   it("Studio: nur Admins unter /studio, Admin ohne Betrieb landet dort; Mitglieder kommen nicht hinein", async () => {
     expect(await entscheideZugang("/studio/export/auto-speedy", q({ m: false, admin: true }))).toEqual({ art: "weiter" });
     expect(await entscheideZugang("/", q({ m: false, admin: true }))).toEqual({ art: "studio" });
     expect(await entscheideZugang("/studio", q())).toEqual({ art: "verboten" });
-    expect(await entscheideZugang("/studio", q({ aal: "aal1", admin: true }))).toEqual({ art: "mfa" });
+    expect(await entscheideZugang("/studio", q({ aal: "aal1", admin: true }))).toEqual({ art: "mfa" }); // Studio bleibt mit zweitem Faktor
+    expect(await entscheideZugang("/studio/export/auto-speedy", q({ aal: "aal1", m: true }))).toEqual({ art: "mfa" });
   });
 });
 

@@ -1,6 +1,6 @@
 // Entscheidet im Proxy, wohin eine Anfrage geht. Rein und mit eingespeisten Abfragen, damit testbar.
-// Muster aus qati05/medaur cockpit-app/lib/zugang.ts: ohne Sitzung -> /login, ohne aal2 -> /mfa (oder Einrichtung),
-// nicht Mitglied des Betriebs (oder Cockpit des Betriebs aus) -> 403. Studio-Admins nur unter /studio.
+// Muster aus qati05/medaur cockpit-app/lib/zugang.ts: ohne Sitzung -> /login. Mitglieder eines Betriebs kommen mit dem Mail-Code hinein.
+// Nur Studio-Konten brauchen aal2 (-> /mfa oder Einrichtung). Nicht Mitglied des Betriebs (oder Cockpit des Betriebs aus) -> 403. Studio-Admins nur unter /studio.
 
 export type Zugang = { art: "weiter" } | { art: "login" } | { art: "mfa" } | { art: "mfa_einrichten" } | { art: "verboten" } | { art: "studio" };
 
@@ -24,13 +24,14 @@ export async function entscheideZugang(pfad: string, q: ZugangsAbfragen): Promis
   if (istOeffentlich(pfad)) return { art: "weiter" };
   if (!q.hatSitzung) return { art: "login" };
   if (!(await q.nutzerId())) return { art: "login" };
-  const { aktuell, naechste } = await q.stufe();
-  if (aktuell !== "aal2") {
-    if (MFA_PFADE.includes(pfad)) return { art: "weiter" };
-    return naechste === "aal2" ? { art: "mfa" } : { art: "mfa_einrichten" };
-  }
   if (MFA_PFADE.includes(pfad)) return { art: "weiter" };
-  if (pfad === "/studio" || pfad.startsWith("/studio/")) return (await q.istStudioAdmin?.()) ? { art: "weiter" } : { art: "verboten" };
+  const { aktuell, naechste } = await q.stufe();
+  const zweiterFaktor: Zugang = naechste === "aal2" ? { art: "mfa" } : { art: "mfa_einrichten" };
+  if (pfad === "/studio" || pfad.startsWith("/studio/")) {
+    if (aktuell !== "aal2") return zweiterFaktor;
+    return (await q.istStudioAdmin?.()) ? { art: "weiter" } : { art: "verboten" };
+  }
   if (await q.istMitglied()) return { art: "weiter" };
+  if (aktuell !== "aal2") return zweiterFaktor;
   return (await q.istStudioAdmin?.()) ? { art: "studio" } : { art: "verboten" };
 }

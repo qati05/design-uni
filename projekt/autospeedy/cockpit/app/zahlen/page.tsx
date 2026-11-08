@@ -9,7 +9,7 @@ import { Kopf } from "../_teile/Kopf";
 export default async function Zahlen() {
   const b = holeBackend();
   const s = await b.sitzung();
-  if (!s || s.aal !== "aal2" || !s.mitglied) redirect("/login");
+  if (!s || !s.mitglied) redirect("/login");
   const tage = 30;
   const [zeilen, meldungen] = await Promise.all([b.zahlen(tage), b.meldungen()]);
   const ab = Date.now() - tage * 864e5;

@@ -6,6 +6,7 @@ import { PasskeyKnopf } from "./PasskeyKnopf";
 export default async function MfaSeite({ searchParams }: { searchParams: Promise<{ weiter?: string }> }) {
   const { weiter } = await searchParams;
   const ziel = sichererPfad(weiter);
+  if ((await holeBackend().sitzung())?.mitglied) redirect("/");
   const f = await holeBackend().zweitfaktoren();
   if (!f.geraete.length) redirect("/mfa/einrichten");
   return (

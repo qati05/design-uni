@@ -18,13 +18,16 @@ export function supabaseOrigins(supabaseUrl: string | undefined): string[] {
 }
 
 export function baueCsp(nonce: string, opt: { supabaseUrl?: string; entwicklung?: boolean } = {}): string {
-  const connect = ["'self'", ...supabaseOrigins(opt.supabaseUrl)];
-  const skripte = ["'self'", `'nonce-${nonce}'`, "'strict-dynamic'"];
-  if (opt.entwicklung) skripte.push("'unsafe-eval'");
+  // Nur «next dev»: Impeccable Live lädt seinen Helfer von localhost:8400 und setzt Varianten-Styles ein. Der gebaute Betrieb bleibt streng.
+  const impeccableLive = "http://localhost:8400";
+  const connect = ["'self'", ...supabaseOrigins(opt.supabaseUrl), ...(opt.entwicklung ? [impeccableLive] : [])];
+  const skripte = opt.entwicklung
+    ? ["'self'", "'unsafe-inline'", "'unsafe-eval'", impeccableLive]
+    : ["'self'", `'nonce-${nonce}'`, "'strict-dynamic'"];
   return [
     "default-src 'self'",
     `script-src ${skripte.join(" ")}`,
-    `style-src 'self' 'nonce-${nonce}'`,
+    opt.entwicklung ? "style-src 'self' 'unsafe-inline'" : `style-src 'self' 'nonce-${nonce}'`,
     "img-src 'self' data: blob:",
     "font-src 'self'",
     `connect-src ${connect.join(" ")}`,

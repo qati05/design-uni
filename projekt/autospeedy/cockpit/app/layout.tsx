@@ -6,7 +6,7 @@ import { AppAnmelden } from "./_teile/AppAnmelden";
 // Jede Seite pro Anfrage gerendert (Nonce-CSP, keine Daten statisch abgelegt). Wie medaur.
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Auto Speedy Cockpit", description: "Schadenmeldungen bearbeiten. Nur für Auto Speedy.", robots: { index: false, follow: false }, applicationName: "Cockpit", appleWebApp: { capable: true, title: "Cockpit", statusBarStyle: "default" }, icons: { icon: "/favicon.ico", apple: "/apple-touch-icon.png" } };
-export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#f3f5f6" };
+export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#ffffff" };
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (

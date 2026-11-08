@@ -3,7 +3,7 @@
 -- Geschäftsregel: Website kaufen, Cockpit mieten.
 --   * betrieb.aktiv = false: niemand vom Betrieb kommt ins Cockpit. Website, Formular (dann per Mail) und gekaufte
 --     Automationen laufen weiter: die Website-Funktion schreibt mit service_role, Mail-Link und Versand prüfen Token bzw. Geheimnis.
---   * Jede Zeile trägt betrieb_id. Lesen nur die Mitglieder dieses Betriebs (mein_betrieb()), mit zweitem Faktor (aal2).
+--   * Jede Zeile trägt betrieb_id. Lesen nur die Mitglieder dieses Betriebs (mein_betrieb()); Anmeldung mit Mail-Code.
 --   * Meldungen schreibt nur die Website-Funktion (service_role). Status und Notiz nur über die Funktionen unten.
 --   * Fotos im privaten Bucket «schadenfotos» unter <betrieb_id>/<meldung_id>/foto-n.jpg, signierte Links (10 Minuten).
 --   * Löschfrist 365 Tage [Annahme, je Betrieb festzulegen]: erst die Fotos über die Storage-API, dann die Zeilen.
@@ -31,11 +31,11 @@ create index betrieb_mitglied_betrieb on public.betrieb_mitglied (betrieb_id);
 
 create table public.studio_admin (user_id uuid primary key references auth.users(id) on delete cascade);
 
--- Betrieb des angemeldeten Kontos, nur mit zweitem Faktor und nur, wenn das Cockpit für den Betrieb an ist. Sonst null.
+-- Betrieb des angemeldeten Kontos, nur wenn das Cockpit für den Betrieb an ist. Sonst null.
 create function public.mein_betrieb() returns text
 language sql stable security definer set search_path = '' as $$
   select m.betrieb_id from public.betrieb_mitglied m join public.betrieb b on b.id = m.betrieb_id
-   where m.user_id = auth.uid() and b.aktiv and coalesce(auth.jwt()->>'aal', '') = 'aal2'
+   where m.user_id = auth.uid() and b.aktiv
 $$;
 create function public.ist_mitglied() returns boolean
 language sql stable security definer set search_path = '' as $$ select public.mein_betrieb() is not null $$;

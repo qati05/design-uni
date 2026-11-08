@@ -7,7 +7,7 @@ import { baueCsp, sicherheitsHeader } from "./lib/sicherheit";
 import { entscheideZugang, type Zugang, type ZugangsAbfragen } from "./lib/zugang";
 
 // Läuft vor jeder Seite (Muster aus qati05/medaur cockpit-app/proxy.ts): Nonce-CSP und no-store,
-// Sitzung erneuern, Zugang entscheiden. Ohne Sitzung -> /login, ohne aal2 -> /mfa, nicht Mitglied -> 403.
+// Sitzung erneuern, Zugang entscheiden. Ohne Sitzung -> /login, Mitglied mit Mail-Code -> weiter, Studio ohne aal2 -> /mfa, sonst 403.
 
 function nonceErzeugen(): string {
   const b = new Uint8Array(16);

@@ -50,20 +50,29 @@ describe("Fingerabdruck/Gesicht (WebAuthn, Demo-Prüfung)", () => {
 describe("Website-Pflege im Cockpit", () => {
   const alt = pflegeSchema.parse(start) as Pflege;
   const form = (f: Record<string, string>) => { const d = new FormData(); for (const [k, v] of Object.entries(f)) d.set(k, v); return d; };
-  const basis = { "hinweis.text": "Hagel? Jetzt melden.", "hinweis.link": "/schaden-melden/?art=hagel", "zeit.0.von1": "7.30", "zeit.0.bis1": "12.00", "zeit.0.von2": "13.15", "zeit.0.bis2": "17.30", "zeit.1.von1": "7.30", "zeit.1.bis1": "12.00", "zeit.1.von2": "13.15", "zeit.1.bis2": "17.15" };
+  const basis = { "bewertungen.zeigen": "on", "zeit.0.von1": "7.30", "zeit.0.bis1": "12.00", "zeit.0.von2": "13.15", "zeit.0.bis2": "17.30", "zeit.1.von1": "7.30", "zeit.1.bis1": "12.00", "zeit.1.von2": "13.15", "zeit.1.bis2": "17.15" };
   it("Startwerte ergeben dieselbe Zeile wie die Website", () => { expect(zeitenZeile(alt)).toBe("Mo bis Do 7.30 bis 12.00 und 13.15 bis 17.30 Uhr, Fr 7.30 bis 12.00 und 13.15 bis 17.15 Uhr"); });
+  const hinweis = { "hin.0.art": "hagel", "hin.0.form": "banner", "hin.0.titel": "", "hin.0.text": "Hagel? Jetzt melden.", "hin.0.link": "/schaden-melden/?art=hagel", "hin.0.von": "2026-11-08", "hin.0.bis": "2026-11-22" };
   it("Hinweis einschalten, Feiertag hinzufügen, Zeit ändern", () => {
-    const r = pflegeAusFormular(form({ ...basis, "hinweis.aktiv": "on", "zeit.1.bis2": "16.00", "aus.0.datum": "2026-12-25", "aus.0.name": "Weihnachten", "aus.0.art": "zu", "aus.0.von": "", "aus.0.bis": "" }), alt);
+    const r = pflegeAusFormular(form({ ...basis, ...hinweis, "zeit.1.bis2": "16.00", "aus.0.datum": "2026-12-25", "aus.0.name": "Weihnachten", "aus.0.art": "zu", "aus.0.von": "", "aus.0.bis": "" }), alt);
     expect(r.success).toBe(true);
-    expect(r.data?.hinweis.aktiv).toBe(true);
+    expect(r.data?.hinweise).toEqual([{ art: "hagel", form: "banner", titel: "", text: "Hagel? Jetzt melden.", link: "/schaden-melden/?art=hagel", von: "2026-11-08", bis: "2026-11-22" }]);
     expect(r.data?.ausnahmen).toEqual([{ name: "Weihnachten", datum: "2026-12-25", geschlossen: true }]);
     expect(r.data?.zeiten[1]?.fenster[1]).toEqual({ von: "13.15", bis: "16.00" });
   });
   it("Unsinnige Zeiten und HTML werden abgewiesen", () => {
     expect(pflegeAusFormular(form({ ...basis, "zeit.0.bis1": "7.00" }), alt).success).toBe(false);
     expect(pflegeAusFormular(form({ ...basis, "zeit.0.von1": "25.00" }), alt).success).toBe(false);
-    expect(pflegeAusFormular(form({ ...basis, "hinweis.text": "<script>x</script>" }), alt).success).toBe(false);
-    expect(pflegeAusFormular(form({ ...basis, "hinweis.link": "https://boese.example" }), alt).success).toBe(false); // nur Links auf die eigene Website
+    expect(pflegeAusFormular(form({ ...basis, ...hinweis, "hin.0.text": "<script>x</script>" }), alt).success).toBe(false);
+    expect(pflegeAusFormular(form({ ...basis, ...hinweis, "hin.0.link": "https://boese.example" }), alt).success).toBe(false); // nur Links auf die eigene Website
+    expect(pflegeAusFormular(form({ ...basis, ...hinweis, "hin.0.art": "info", "hin.0.form": "popup" }), alt).success).toBe(false); // Pop-up nur für Hagel und Aktion
+  });
+  it("Speichern verliert weder Inhaber-Satz noch Bewertungen-Schalter noch Einverständnis", () => {
+    const f: Record<string, string> = { ...basis, "stimme.text": "Wir stehen dafür ein.", "stimme.name": "Name", "stimme.rolle": "Inhaber", "stimme.freigegeben": "on", "team.0.p.0.name": "Anna", "team.0.p.0.rolle": "Büro", "team.0.p.0.einverstaendnis": "on", "team.0.p.1.name": "Ben", "team.0.p.1.rolle": "Lack" };
+    const r = pflegeAusFormular(form(f), alt);
+    expect(r.data?.stimme).toEqual({ text: "Wir stehen dafür ein.", name: "Name", rolle: "Inhaber", freigegeben: true });
+    expect(r.data?.bewertungen.zeigen).toBe(true);
+    expect(r.data?.team[0]?.leute.map((p) => p.einverstaendnis)).toEqual([true, false]);
   });
   it("Person entfernen und hinzufügen", () => {
     const f: Record<string, string> = { ...basis };
@@ -72,14 +81,14 @@ describe("Website-Pflege im Cockpit", () => {
     const r = pflegeAusFormular(form(f), alt);
     expect(r.success).toBe(true);
     expect(r.data?.team[0]?.leute.length).toBe(alt.team[0]!.leute.length - 1);
-    expect(r.data?.team[1]?.leute.at(-1)).toEqual({ name: "Neue Person", rolle: "Lernende" });
+    expect(r.data?.team[1]?.leute.at(-1)).toEqual({ name: "Neue Person", rolle: "Lernende", einverstaendnis: false });
   });
 });
 
 describe("App-Dateien sind ohne Login erreichbar, alles andere nicht", () => {
   const ohne = { hatSitzung: false, nutzerId: async () => null, stufe: async () => ({ aktuell: null, naechste: null }), istMitglied: async () => false };
   it("Manifest, Service Worker, Offline-Seite, Symbole", async () => { for (const p of ["/manifest.webmanifest", "/sw.js", "/offline.html", "/icon-192.png"]) expect(await entscheideZugang(p, ohne)).toEqual({ art: "weiter" }); });
-  it("Pflege und Geräte nur mit Login", async () => { for (const p of ["/pflege", "/geraete"]) expect(await entscheideZugang(p, ohne)).toEqual({ art: "login" }); });
+  it("Pflege nur mit Login", async () => { for (const p of ["/pflege"]) expect(await entscheideZugang(p, ohne)).toEqual({ art: "login" }); });
 });
 
 describe("Teamfotos", async () => {
@@ -101,9 +110,9 @@ describe("Teamfotos", async () => {
   });
   it("fremde Foto-Adresse im Formular wird abgewiesen (sonst liesse sich ein fremdes Bild löschen)", () => {
     const fremd = "https://fotos.beispiel.ch/team/99999999-1a2b-4c3d-8e9f-001122334455.webp";
-    const mit = (foto: string) => ({ ...start, team: [{ name: "A", leute: [{ name: "Anna", rolle: "x", foto }] }] }) as Pflege;
-    expect(fotosErlaubt(mit(fremd), start as Pflege, [])).toBe(false);
-    expect(fotosErlaubt(mit(fremd), start as Pflege, [fremd])).toBe(true); // eben hochgeladen
+    const mit = (foto: string) => ({ ...start, team: [{ name: "A", leute: [{ name: "Anna", rolle: "x", foto }] }] }) as unknown as Pflege;
+    expect(fotosErlaubt(mit(fremd), start as unknown as Pflege, [])).toBe(false);
+    expect(fotosErlaubt(mit(fremd), start as unknown as Pflege, [fremd])).toBe(true); // eben hochgeladen
     expect(fotosErlaubt(mit("/bilder/team/" + "x".repeat(3) + ".webp"), mit("/bilder/team/xxx.webp"), [])).toBe(true);
   });
 });

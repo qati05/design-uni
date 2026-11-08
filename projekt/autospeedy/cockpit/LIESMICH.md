@@ -1,6 +1,6 @@
 # Werkstatt-Cockpit (Medaur-Starter, erster Kunde Auto Speedy)
 
-Web-App für das Team eines Betriebs, **eine App und eine Datenbank für alle Kunden-Betriebe**: Schadenmeldungen aus der Website ansehen, zurückrufen, per WhatsApp antworten, Status bis zum Auftrag führen, interne Notizen. Dazu **«Website pflegen»** (Öffnungszeiten, Feiertage, Hinweis-Leiste, Team) und **«Geräte»**. Anmeldung mit **Code per Mail**, dann **Fingerabdruck oder Gesicht** des eigenen Handys oder Laptops (Passkey als zweiter Faktor); keine weitere App. Muster aus `qati05/medaur`, `cockpit-app/`.
+Web-App für das Team eines Betriebs, **eine App und eine Datenbank für alle Kunden-Betriebe**: Schadenmeldungen aus der Website ansehen, zurückrufen, per WhatsApp antworten, Status bis zum Auftrag führen, interne Notizen. Dazu **«Website pflegen»** (Öffnungszeiten, Feiertage, Hinweis-Leiste, Team) und **«Geräte»**. Anmeldung mit **Code per Mail**, danach 30 Tage angemeldet pro Gerät [Entscheid · Roni, 08.11.2026: Fingerabdruck ist dem Kunden zu viel]. Nur Studio-Konten (`/studio`) brauchen weiterhin Fingerabdruck oder Gesicht.
 
 **Eine App für Handy und Computer:** dieselbe Web-App, gleiche Daten. Am Handy «Zum Home-Bildschirm» (iPhone, Safari: Teilen → Zum Home-Bildschirm; Android, Chrome: «App installieren»), am Computer in Chrome/Edge «App installieren». Am Handy liegen die Bereiche unten in Daumenreichweite. Kein App Store. Kundendaten werden bewusst nicht offline gespeichert (Service Worker zeigt ohne Netz nur eine Hinweisseite).
 
@@ -9,7 +9,7 @@ Web-App für das Team eines Betriebs, **eine App und eine Datenbank für alle Ku
 ## Aufbau
 | Teil | Wo | Herkunft |
 |---|---|---|
-| Zugang: ohne Sitzung → Login, nur Mail-Code → Fingerabdruck (erstes Mal: einrichten), kein Mitglied oder Cockpit des Betriebs aus → 403, Studio-Admin → `/studio` | `proxy.ts`, `lib/zugang.ts` | medaur |
+| Zugang: ohne Sitzung → Login, Mitglied mit Mail-Code → weiter, Studio-Konto → Fingerabdruck (erstes Mal: einrichten), kein Mitglied oder Cockpit des Betriebs aus → 403, Studio-Admin → `/studio` | `proxy.ts`, `lib/zugang.ts` | medaur |
 | Nonce-CSP, no-store, DENY und weitere Header | `lib/sicherheit.ts` | medaur, unverändert |
 | Sitzung nur in httpOnly-Cookies, Log ohne Personendaten | `lib/cookies.ts`, `lib/log.ts` | medaur |
 | Backend-Schnittstelle, zwei Umsetzungen | `lib/backend.ts`, `backend.supabase.server.ts`, `backend.demo.server.ts` | neu |
@@ -30,7 +30,7 @@ COCKPIT_DEMO=1 DEMO_WEBSITE_ORIGIN=http://localhost:4332 npx next start -p 4400
 # Website-Vorschau, die ans Demo-Cockpit sendet:
 cd ../astro && FORMULAR_ENDPUNKT=http://localhost:4400/api/meldung npx astro build --outDir dist-demo && python3 -m http.server 4332 -d dist-demo
 ```
-Anmelden mit `werkstatt@autospeedy.example` (Studio: `studio@medaur.example`); Mail-Code unter `/demo/postfach`; beim ersten Mal «Fingerabdruck oder Gesicht einrichten» (Touch ID, Windows Hello, Handy). Die Demo hält alles im Speicher; nach einem Neustart ist das Gerät wieder neu einzurichten. `fremd@beispiel.example` zeigt den 403-Fall. Alle Beispiel-Meldungen sind als «Beispiel» markiert.
+Anmelden mit `werkstatt@autospeedy.example` (Studio: `studio@medaur.example`); Mail-Code unter `/demo/postfach`. Nur das Studio-Konto richtet beim ersten Mal Fingerabdruck oder Gesicht ein. Die Demo hält alles im Speicher; nach einem Neustart ist das Gerät wieder neu einzurichten. `fremd@beispiel.example` zeigt den 403-Fall. Alle Beispiel-Meldungen sind als «Beispiel» markiert.
 
 ## Tests
 - `npm test`: 45 Einheitstests (Zugang inkl. Studio, Status, Kennzahlen, Validierung, Demo-Sitzung fälschungssicher, Telefonformate, Fingerabdruck-Prüfung mit echtem ES256-Schlüssel, Pflege-Formular, fremde Foto-Adresse abgewiesen, GitHub lesen/schreiben/Konflikt, R2 hochladen/löschen, CSV mit entschärften Formeln).

@@ -28,5 +28,5 @@ async function codePruefen(email: string, form: FormData): Promise<LoginZustand>
   const ok = await holeBackend().codePruefen(r.data.email, r.data.code);
   log({ aktion: "login", status: ok ? "ok" : "fehler" });
   if (!ok) return { schritt: "code", email, meldung: "Der Code stimmt nicht oder ist abgelaufen." };
-  redirect("/mfa");
+  redirect("/mfa"); // Mitglieder eines Betriebs leitet /mfa gleich weiter: der Mail-Code genügt. Nur Studio-Konten bleiben dort.
 }

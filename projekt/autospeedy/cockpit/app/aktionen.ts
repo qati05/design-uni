@@ -7,11 +7,11 @@ import { log } from "@/lib/log";
 import { naechsteSchritte, type Status } from "@/lib/status";
 import { notizSchema, statusSchema } from "@/lib/validierung";
 
-/** Jede Änderung prüft Sitzung (aal2, Mitglied) selbst, nicht nur der Proxy. */
+/** Jede Änderung prüft Sitzung (Mitglied) selbst, nicht nur der Proxy. */
 async function mitglied() {
   const b = holeBackend();
   const s = await b.sitzung();
-  if (!s || s.aal !== "aal2" || !s.mitglied) return null;
+  if (!s || !s.mitglied) return null;
   return b;
 }
 
