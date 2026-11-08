@@ -1,0 +1,5 @@
+{
+  "medaur-frontend": ["src/components/kontakt/**", "src/pages/kontakt.astro"],
+  "medaur-frontend-2": ["src/components/leistungen/**"],
+  "medaur-qa": [".medaur/belege/**"]
+}

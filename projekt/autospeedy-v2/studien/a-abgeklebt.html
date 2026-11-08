@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Studie A «Abgeklebt» · Auto Speedy v2</title>
+<style>
+@font-face{font-family:"Bricolage Grotesque";src:url(fonts/bricolage-grotesque-latin-standard-normal.woff2) format("woff2");font-weight:200 800;font-stretch:75% 100%;font-display:swap}
+@font-face{font-family:"Hanken Grotesk";src:url(fonts/hanken-grotesk-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Hanken Grotesk";src:url(fonts/hanken-grotesk-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+:root{--grund:#f2f3f1;--text:#16191d;--leise:#4f565c;--folie:#1a63c4;--krepp:#ecdc84;--papier:#fff;--ok:#1d7a46;
+--f-titel:"Bricolage Grotesque",system-ui,sans-serif;--f-text:"Hanken Grotesk",system-ui,sans-serif;
+--max:1240px;--rand:clamp(16px,4vw,56px);--ease:cubic-bezier(.2,.9,.25,1)}
+*{box-sizing:border-box}html{overflow-x:clip}body{margin:0;background:var(--grund);color:var(--text);font:400 17px/1.55 var(--f-text)}
+a{color:var(--folie)}:focus-visible{outline:3px solid var(--folie);outline-offset:3px}
+.kopf{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:var(--max);margin:0 auto;padding:14px var(--rand)}
+.kopf img{height:40px;width:auto}.kopf nav{display:flex;gap:24px;align-items:center;font-weight:600}
+.kopf nav a{color:var(--text);text-decoration:none}.kopf .tel{color:var(--folie)}
+.krepp{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;background:var(--krepp);color:var(--text);
+font:700 18px/1 var(--f-titel);font-stretch:75%;text-transform:uppercase;letter-spacing:.04em;text-decoration:none;
+clip-path:polygon(0 6%,3% 0,97% 4%,100% 0,99% 94%,100% 100%,2% 96%,0 100%)}
+.krepp.gross{min-height:64px;font-size:22px;padding:0 32px;animation:abrollen .52s var(--ease) both .2s}
+@keyframes abrollen{from{clip-path:polygon(0 6%,0 0,0 4%,0 0,0 94%,0 100%,0 96%,0 100%)}}
+.hero{position:relative;min-height:calc(100vh - 68px);display:grid;align-items:center}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(26,99,196,.35),transparent 60%)}
+.papier{position:relative;z-index:1;margin-left:var(--rand);max-width:620px;background:var(--papier);padding:56px 48px 44px;box-shadow:0 1px 0 rgba(0,0,0,.08)}
+.papier::before,.papier::after{content:"";position:absolute;left:-14px;right:-14px;height:22px;background:var(--krepp);opacity:.95}
+.papier::before{top:-11px;transform:rotate(-1.2deg)}.papier::after{bottom:-11px;transform:rotate(.8deg)}
+.marke{display:inline-block;background:var(--krepp);padding:4px 10px;font:700 15px/1.2 var(--f-titel);font-stretch:75%;text-transform:uppercase;letter-spacing:.06em;margin:0 0 18px}
+h1{font:800 clamp(34px,4.6vw,62px)/1.02 var(--f-titel);font-stretch:85%;margin:0 0 18px;letter-spacing:-.01em}
+.lead{max-width:52ch;margin:0 0 28px;color:var(--leise)}
+.wege{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center}.wege a:not(.krepp){font-weight:600}
+.status{margin:22px 0 0;font-size:15px;color:var(--leise)}.status b{color:var(--ok)}
+.studie{position:fixed;right:12px;bottom:12px;z-index:9;background:var(--text);color:#fff;font:600 12px/1 var(--f-text);padding:8px 10px}
+@media (max-width:720px){
+ .kopf nav a:not(.tel){display:none}.kopf img{height:32px}
+ .hero{display:block;min-height:0}.hero>img{position:relative;height:42vh;min-height:300px}.hero::after{display:none}
+ .papier{margin:-56px 12px 0;padding:36px 22px 28px}.papier::before,.papier::after{left:-8px;right:-8px}
+ h1{font-size:34px}.krepp.gross{width:100%;min-height:56px}.lead{font-size:16px;margin-bottom:22px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="kopf">
+ <img src="bilder/logo-96.webp" alt="Auto Speedy AG" width="96" height="96">
+ <nav><a href="#">Leistungen</a><a href="#">Tesla</a><a href="#">Team</a><a class="tel" href="tel:+41717558861">071 755 88 61</a><a class="krepp" href="#">Schaden melden</a></nav>
+</header>
+<main>
+<section class="hero">
+ <img src="bilder/lackierkabine-1600.webp" alt="Lackierer in der Kabine an einem abgeklebten Auto" width="1600" height="1067">
+ <div class="papier">
+  <p class="marke">Carrosserie und Spritzwerk · Altstätten SG</p>
+  <h1>Qualität, die man sieht und fährt.</h1>
+  <p class="lead">Carrosserie und Lack in Altstätten, für alle Marken und als Tesla Approved Body Shop. Die Abwicklung mit Ihrer Versicherung übernehmen wir. Einen Ersatzwagen erhalten Sie auf Anfrage.</p>
+  <div class="wege">
+   <a class="krepp gross" href="#">Schaden melden</a>
+   <a href="tel:+41717558861">Anrufen 071 755 88 61</a>
+   <a href="#">Tesla Approved Body Shop</a>
+  </div>
+  <p class="status"><b>Jetzt offen</b>, bis 17.30 Uhr. Online melden geht jederzeit.</p>
+ </div>
+</section>
+</main>
+<div class="studie">Studie A · nicht live</div>
+</body>
+</html>

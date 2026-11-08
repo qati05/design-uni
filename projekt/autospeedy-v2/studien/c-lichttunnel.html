@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Studie C «Lichttunnel» · Auto Speedy v2</title>
+<style>
+@font-face{font-family:"Archivo";src:url(fonts/archivo-latin-standard-normal.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+:root{--grund:#101317;--flaeche:#1a1f25;--text:#eef1f4;--leise:#a9b2bb;--licht:#f2f5f7;--blau:#5aa2ff;--ok:#4cc38a;
+--f:"Archivo",system-ui,sans-serif;--max:1320px;--rand:clamp(16px,4vw,60px)}
+*{box-sizing:border-box}body{margin:0;background:var(--grund);color:var(--text);font:400 17px/1.6 var(--f)}
+a{color:var(--blau)}:focus-visible{outline:3px solid var(--licht);outline-offset:3px}
+.kopf{display:flex;align-items:center;justify-content:space-between;max-width:var(--max);margin:0 auto;padding:12px var(--rand)}
+.logo{background:var(--licht);padding:6px 10px;display:inline-flex}.logo img{height:30px;width:auto}
+.kopf nav{display:flex;gap:26px;font-weight:600}.kopf nav a{color:var(--text);text-decoration:none}.kopf nav .tel{color:var(--blau)}
+.hero{position:relative}
+.foto{position:relative;height:62vh;min-height:360px;overflow:hidden}
+.foto img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block}
+.foto::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:linear-gradient(transparent,var(--grund))}
+.band{position:relative;max-width:var(--max);margin:-70px auto 0;padding:0 var(--rand) 56px;display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end}
+.leisten{position:absolute;inset:0 var(--rand);display:grid;grid-template-columns:repeat(12,1fr);gap:24px;pointer-events:none}
+.leisten i{grid-row:1;width:3px;background:linear-gradient(var(--licht),transparent);opacity:.55;animation:an .6s ease-out both}
+.leisten i:nth-child(1){grid-column:1}.leisten i:nth-child(2){grid-column:12;justify-self:end;animation-delay:60ms}
+@keyframes an{from{opacity:0}}
+.text{grid-column:1/9;position:relative;padding-left:24px}
+.ort{font:600 14px/1 var(--f);font-stretch:125%;text-transform:uppercase;letter-spacing:.14em;color:var(--leise);margin:0 0 16px}
+h1{font:800 clamp(34px,5vw,70px)/1 var(--f);font-stretch:125%;margin:0 0 20px;letter-spacing:-.01em}
+.lead{color:var(--leise);max-width:58ch;margin:0}
+.aktion{grid-column:9/13;display:grid;gap:14px;position:relative}
+.lichtleiste{display:flex;align-items:center;justify-content:center;min-height:64px;background:var(--licht);color:var(--grund);font:800 19px/1 var(--f);font-stretch:112%;text-transform:uppercase;letter-spacing:.06em;text-decoration:none;box-shadow:0 0 40px rgba(242,245,247,.25)}
+.aktion .tel{display:flex;align-items:center;justify-content:center;min-height:52px;border:1px solid #3a424b;color:var(--text);font-weight:600;text-decoration:none}
+.status{font-size:14px;color:var(--leise);text-align:center;margin:0}.status b{color:var(--ok)}
+.tesla{display:inline-block;margin-top:18px;font-weight:600}
+.studie{position:fixed;right:12px;bottom:12px;z-index:9;background:var(--licht);color:var(--grund);font:700 12px/1 var(--f);padding:8px 10px}
+@media (max-width:820px){
+ .kopf nav a:not(.tel){display:none}
+ .foto{height:46vh;min-height:300px}.leisten{display:none}
+ .band{grid-template-columns:1fr;margin-top:-40px;gap:22px}.text,.aktion{grid-column:1}.text{padding-left:0}
+ h1{font-size:34px;font-stretch:112%}.lead{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="kopf">
+ <span class="logo"><img src="bilder/logo-96.webp" alt="Auto Speedy AG" width="96" height="96"></span>
+ <nav><a href="#">Leistungen</a><a href="#">Tesla</a><a href="#">Team</a><a class="tel" href="tel:+41717558861">071 755 88 61</a></nav>
+</header>
+<main>
+<section class="hero">
+ <div class="foto"><img src="bilder/defender-kabine-1600.webp" alt="Land Rover Defender in der beleuchteten Lackierkabine" width="1600" height="1067"></div>
+ <div class="band">
+  <div class="leisten" aria-hidden="true"><i></i><i></i></div>
+  <div class="text">
+   <p class="ort">Carrosserie und Spritzwerk · Altstätten SG</p>
+   <h1>Qualität, die man sieht und fährt.</h1>
+   <p class="lead">Carrosserie und Lack in Altstätten, für alle Marken und als Tesla Approved Body Shop. Die Abwicklung mit Ihrer Versicherung übernehmen wir. Einen Ersatzwagen erhalten Sie auf Anfrage.</p>
+   <a class="tesla" href="#">Tesla Approved Body Shop →</a>
+  </div>
+  <div class="aktion">
+   <a class="lichtleiste" href="#">Schaden melden</a>
+   <a class="tel" href="tel:+41717558861">Anrufen 071 755 88 61</a>
+   <p class="status"><b>Jetzt offen</b>, bis 17.30 Uhr</p>
+  </div>
+ </div>
+</section>
+</main>
+<div class="studie">Studie C · nicht live</div>
+</body>
+</html>
