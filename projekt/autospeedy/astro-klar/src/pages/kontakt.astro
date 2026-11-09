@@ -15,9 +15,9 @@ import { betrieb as b } from "../../../astro/bau/daten.mjs";
 <section class="abschnitt">
   <div class="abschnitt__innen">
     <div class="kontakt">
-      <div class="kontakt__karte"><h2>Telefon</h2><a class="kontakt__wert" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="kontakt">{b.tel.anzeige}</a><small>Mobil <a class="klein" href={`tel:${b.mobil.e164}`} data-zaehl="anruf-mobil" data-ort="kontakt">{b.mobil.anzeige}</a></small></div>
-      <div class="kontakt__karte"><h2>Adresse</h2><p class="kontakt__wert">{b.strasse}<br>{b.plz} {b.ort}</p><small><a class="klein" href={b.route} data-zaehl="route" data-ort="kontakt">Route planen →</a></small></div>
-      <div class="kontakt__karte"><h2>Mail</h2><a class="kontakt__wert" href={`mailto:${b.mail}`} data-zaehl="mail" data-ort="kontakt">{b.mail}</a><small>Für Schäden schneller: <a class="klein" href="/schaden-melden/">Schaden melden</a></small></div>
+      <div class="kontakt__karte"><h2>Telefon</h2><a class="kontakt__wert" href={`tel:${b.tel.e164}`}>{b.tel.anzeige}</a><small>Mobil <a class="klein" href={`tel:${b.mobil.e164}`}>{b.mobil.anzeige}</a></small></div>
+      <div class="kontakt__karte"><h2>Adresse</h2><p class="kontakt__wert">{b.strasse}<br>{b.plz} {b.ort}</p><small><a class="klein" href={b.route}>Route planen →</a></small></div>
+      <div class="kontakt__karte"><h2>Mail</h2><a class="kontakt__wert" href={`mailto:${b.mail}`}>{b.mail}</a><small>Für Schäden schneller: <a class="klein" href="/schaden-melden/">Schaden melden</a></small></div>
     </div>
     <div class="zwei-spalten abstand">
       <div class="karte"><h2 class="karte__titel">Öffnungszeiten</h2><Zeiten /><Luecke>Lücke: Zu Samstag, Feiertagen, Betriebsferien und einem Notfalldienst fand das Studio keine Angabe des Betriebs.</Luecke></div>

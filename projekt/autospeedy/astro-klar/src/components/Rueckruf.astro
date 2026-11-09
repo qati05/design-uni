@@ -14,7 +14,7 @@ const fenster = (b.zeiten.find((z: any) => z.fenster && z.fenster.length === 2) 
 import { fensterText } from "../daten/zeiten";
 const teile = [["Vormittag", fensterText(fenster[0][0], fenster[0][1])], ["Nachmittag", fensterText(fenster[1][0], fenster[1][1])]];
 ---
-<form class="karte rueckruf" data-rueckruf action={`mailto:${b.mail}?subject=R%C3%BCckruf`} method="post" enctype="text/plain" data-endpunkt={endpunkt} data-ist-vorschau={vorschau ? "ja" : "nein"} data-zaehl-start={`rueckruf-${ort}`}>
+<form class="karte rueckruf" data-rueckruf action={`mailto:${b.mail}?subject=R%C3%BCckruf`} method="post" enctype="text/plain" data-endpunkt={endpunkt} data-ist-vorschau={vorschau ? "ja" : "nein"}>
   <h2 class="karte__titel">{titel}</h2>
   {text && <p class="karte__text">{text}</p>}
   {anliegen.length > 1 ? (
@@ -38,7 +38,7 @@ const teile = [["Vormittag", fensterText(fenster[0][0], fenster[0][1])], ["Nachm
     </div>
   </fieldset>
   <div class="honig" aria-hidden="true"><label for={`${id}-web`}>Bitte leer lassen (freiwillig)</label><input id={`${id}-web`} name="website" type="text" tabindex="-1" autocomplete="off"></div>
-  <button class="k k--blau" type="submit" data-zaehl={`rueckruf-${ort}`} data-ort={ort}>Rückruf anfordern</button>
+  <button class="k k--blau" type="submit" data-ort={ort}>Rückruf anfordern</button>
   {turnstile && <div class="cf-turnstile" data-sitekey={turnstile} data-language="de"></div>}
   <p class="hilfe">Verantwortlich: {b.name}. Wir nutzen Name und Telefon nur für den Rückruf. Mehr in der <a class="textlink" href="/datenschutz/">Datenschutzerklärung</a>.</p>
   {turnstile && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}

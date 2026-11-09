@@ -42,7 +42,7 @@ function ziel(h: { link: string }): string | null {
             {h.titel && <b>{h.titel}</b>}
             {h.titel && h.text && " "}
             {h.text}
-            {z && <a class="hinweis__link" href={z} data-zaehl="hinweis" data-ort="band">{linkText.get(z)} <span aria-hidden="true">→</span></a>}
+            {z && <a class="hinweis__link" href={z}>{linkText.get(z)} <span aria-hidden="true">→</span></a>}
           </span>
           <button type="button" class="hinweis__zu" data-hinweis-zu aria-label="Hinweis schliessen">
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
@@ -64,7 +64,7 @@ function ziel(h: { link: string }): string | null {
       </div>
       {popup.titel && <h2 id="hinweis-popup-titel" class="hinweis-popup__titel">{popup.titel}</h2>}
       <p class="hinweis-popup__text">{popup.text}</p>
-      {z && <a class="knopf knopf--akzent" href={z} data-zaehl="hinweis" data-ort="popup">{linkText.get(z)}</a>}
+      {z && <a class="knopf knopf--akzent" href={z}>{linkText.get(z)}</a>}
     </dialog>
   );
 })()}

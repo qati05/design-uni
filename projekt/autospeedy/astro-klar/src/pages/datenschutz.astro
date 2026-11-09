@@ -12,10 +12,12 @@ import { betrieb as b } from "../../../astro/bau/daten.mjs";
 <p>Die Website und ihre Formulare laufen bei Cloudflare Pages (Cloudflare, Inc., USA). Beim Aufruf erhält Cloudflare technische Angaben wie Ihre IP-Adresse, damit die Seite ausgeliefert werden kann.</p>
 <Luecke>Vom Betrieb zu prüfen: Vertrag mit Cloudflare, Ort der Verarbeitung, Speicherdauer der Server-Protokolle. Rechtsprüfung nötig.</Luecke>
 <h2>Verantwortlich</h2>
-<p>{b.name}, {b.strasse}, {b.plz} {b.ort}, <a href={`mailto:${b.mail}`} data-zaehl="mail" data-ort="datenschutz">{b.mail}</a></p>
+<p>{b.name}, {b.strasse}, {b.plz} {b.ort}, <a href={`mailto:${b.mail}`}>{b.mail}</a></p>
 <h2>Was diese Website speichert</h2>
-<p>Diese Website setzt keine Cookies. Schriften und Bilder liefern wir selbst aus.{turnstile ? " Nur das Formular lädt zusätzlich die Prüfung von Cloudflare (siehe unten)." : " Sie lädt keine Inhalte von fremden Servern."}</p>
+<p>Diese Website setzt keine Cookies. Schriften und Bilder liefern wir selbst aus. Für die Besucherzahl lädt jede Seite ein kleines Skript von Cloudflare (siehe «Besuche zählen»).{turnstile ? " Das Formular lädt zusätzlich die Prüfung von Cloudflare (siehe unten)." : ""}</p>
 <p>Was Sie in die Schadenmeldung schreiben (ohne Fotos), hält Ihr Browser nur in diesem Tab fest, bis die Meldung gesendet ist oder Sie den Tab schliessen. So geht nichts verloren, wenn die Seite neu lädt. Bei uns kommt davon nichts an, bevor Sie senden.</p>
+<h2>Besuche zählen</h2>
+<p>Wie oft die Website besucht wird, messen wir mit Cloudflare Web Analytics (Cloudflare, Inc., USA). Das setzt keine Cookies, speichert nichts auf Ihrem Gerät und erstellt keine Profile. Wir sehen nur zusammengezählte Zahlen, zum Beispiel Seitenaufrufe pro Tag und Seite, keine Angaben zu einzelnen Personen.</p>
 <h2>Schadenmeldung und Rückruf</h2>
 <p>Senden Sie die Schadenmeldung oder die Bitte um Rückruf hier auf der Website, geht sie direkt als Mail an uns, bei der Schadenmeldung mit Ihren Fotos. Die Website speichert dabei nichts in einer Datenbank. Die Mail an uns verschickt Cloudflare Email (Cloudflare, Inc., USA). Nur unser Team liest sie. Gegen Missbrauch begrenzt die Website, wie oft von derselben IP-Adresse gesendet werden kann; dafür nutzt sie nur einen Prüfwert (Hash) der Adresse, nicht die Adresse selbst.</p>
 {turnstile ? <p>Damit das Formular nicht von Programmen missbraucht wird, prüft Cloudflare Turnstile beim Senden, ob ein Mensch es ausfüllt. Dafür lädt das Formular ein Skript von Cloudflare, und Cloudflare erhält technische Angaben wie Ihre IP-Adresse.</p> : null}

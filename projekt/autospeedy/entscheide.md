@@ -2,7 +2,7 @@
 
 ## Entscheide des Betriebs (aus dem Auftrag des Studios, 02.11.2026, «vom Studio wörtlich festgehalten»)
 1. **Schadenmeldung immer möglich:** Ein CTA für die Schadenmeldung ist jederzeit erreichbar. → Umsetzung: «Schaden melden» im Kopf auf jeder Seite (Handy: Leiste unten); Entscheid 6 «Knopf überall» für diesen einen Knopf damit beantwortet.
-2. **Tesla-Besitzer finden sich schnell zurecht.** → Umsetzung: eigener Einstieg auf dem ersten Bildschirm, der das Formular mit «Tesla» vorwählt. Inhalt der Tesla-Seite offen (F14).
+2. **Tesla-Besitzer finden sich schnell zurecht.** → Umsetzung: eigener Einstieg auf dem ersten Bildschirm, der das Formular mit «Tesla» vorwählt. Inhalt der Tesla-Seite offen (F14). Zulassung als Tesla Approved Body Shop bestätigt durch Roni 09.11.2026 (F14); der genaue Tesla-Ablauf bleibt offen.
 3. **Hell und übersichtlich**, informativ. → heller Grund, Haarlinien, wenig Farben, keine Bewegung.
 4. **Vorbild greco-car.ch:** Wirkung und Techniken lernen, nichts kopieren.
 

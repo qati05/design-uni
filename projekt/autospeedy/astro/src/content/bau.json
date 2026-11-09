@@ -11,7 +11,5 @@
   "crawlerListeGeprueft": "",
   "pagesProjekt": null,
   "formularEndpunkt": null,
-  "_formular": "formularEndpunkt: null = kein Server, das Formular übergibt an das E-Mail-Programm (zusammenspiel Teil 7). \"/api/schaden\" erst, wenn functions/api/schaden.js deployt und MAIL_ENDPUNKT gesetzt ist (web-uni WP4, technik.md).",
-  "zaehlEndpunkt": null,
-  "_zaehl": "zaehlEndpunkt: null = keine Zählung (Vorschau). \"/api/zaehl\" erst mit deployter Funktion functions/api/zaehl.js und Supabase."
+  "_formular": "formularEndpunkt: null = kein Server, das Formular übergibt an das E-Mail-Programm (zusammenspiel Teil 7). \"/api/schaden\" erst, wenn functions/api/schaden.js deployt und MAIL_ENDPUNKT gesetzt ist (web-uni WP4, technik.md)."
 }

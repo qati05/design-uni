@@ -12,17 +12,17 @@ const wege = [["/leistungen/", "Leistungen"], ["/tesla/", "Tesla"], ["/occasione
     {wege.map(([href, name]) => <a href={href} aria-current={aktiv.startsWith(href) ? "page" : undefined}>{name}</a>)}
   </nav>
   <div class="kopf__rechts">
-    <a class="tel kopf-tel" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="kopf" aria-label={`Anrufen: ${b.tel.anzeige}`}><svg class="tel__symbol" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a12 12 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6A2.1 2.1 0 0 1 18.4 19.5 15 15 0 0 1 4.5 5.6 2.1 2.1 0 0 1 6.6 3.5Z"/></svg><span class="tel__nummer">{b.tel.anzeige}</span></a>
-    <a class="knopf knopf--akzent knopf--klein kopf__aktion" href="/schaden-melden/" data-zaehl="anfrage" data-ort="kopf">Schaden melden</a>
+    <a class="tel kopf-tel" href={`tel:${b.tel.e164}`} aria-label={`Anrufen: ${b.tel.anzeige}`}><svg class="tel__symbol" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a12 12 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6A2.1 2.1 0 0 1 18.4 19.5 15 15 0 0 1 4.5 5.6 2.1 2.1 0 0 1 6.6 3.5Z"/></svg><span class="tel__nummer">{b.tel.anzeige}</span></a>
+    <a class="knopf knopf--akzent knopf--klein kopf__aktion" href="/schaden-melden/">Schaden melden</a>
     <a class="kopf__menu" href="#menue" data-menu-auf aria-label="Menü öffnen"><span class="kopf__menu-icon" aria-hidden="true"><span></span><span></span><span></span></span></a>
   </div>
 </header>
 <dialog class="blatt" data-menu aria-label="Menü">
   <div class="blatt__innen">
     <button class="blatt__zu" type="button" data-menu-zu aria-label="Schliessen"><span class="kopf__menu-icon" aria-hidden="true"><span></span><span></span><span></span></span></button>
-    <a class="blatt__aktion" href="/schaden-melden/" data-zaehl="anfrage" data-ort="menue">Schaden melden</a>
+    <a class="blatt__aktion" href="/schaden-melden/">Schaden melden</a>
     {wege.map(([href, name]) => <a href={href}>{name} <span aria-hidden="true">→</span></a>)}
-    <div class="blatt__fuss"><a class="blatt__tel" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="menue">Anrufen <span class="nr">{b.tel.anzeige}</span></a><span>{b.strasse}, {b.plz} {b.ort}</span></div>
+    <div class="blatt__fuss"><a class="blatt__tel" href={`tel:${b.tel.e164}`}>Anrufen <span class="nr">{b.tel.anzeige}</span></a><span>{b.strasse}, {b.plz} {b.ort}</span></div>
   </div>
 </dialog>
 <!-- Ohne JavaScript: Der Hamburger ist ein Link auf diese Liste (:target). Mit JavaScript bleibt sie verborgen,

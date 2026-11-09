@@ -7,7 +7,7 @@ const hier = path.dirname(fileURLToPath(import.meta.url));
 const quelle = path.join(hier, "..", "..", "astro", "public");
 const ziel = path.join(hier, "..", "public");
 fs.cpSync(path.join(quelle, "bilder"), path.join(ziel, "bilder"), { recursive: true });
-for (const d of ["schaden.js", "rueckruf.js", "zaehl.js"]) fs.copyFileSync(path.join(quelle, "js", d), path.join(ziel, "js", d));
+for (const d of ["schaden.js", "rueckruf.js"]) fs.copyFileSync(path.join(quelle, "js", d), path.join(ziel, "js", d));
 console.log("teilen: Bilder und Skripte aus ../astro übernommen");
 // Stock-Platzhalter von Entwurf C (B1 Hero) aus referenz-c erzeugen (nach dem Kopieren, eigener Unterordner stock/)
 await import("./stock-c.mjs");

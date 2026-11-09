@@ -1,8 +1,8 @@
 ---
 // Bewerten-Seite im C-Stil (BAUPLAN 4.4/4.6). Hülle und Knöpfe aus der Linie «Klar». Der Google-Link kommt aus
 // betrieb.bewertungen.google; fehlt er, steht eine sichtbare Lücke (Luecke.astro). Facebook nur, wenn vorhanden.
-// Der Parameter q (nfc, qr, mail, whatsapp) wird bewusst NICHT ausgewertet: ein Zählweg ohne Datenbank ist nicht
-// eingerichtet (zaehl.js nutzt Supabase = Datenbank). Siehe Bericht Schritt 14.
+// Der Parameter q (nfc, qr, mail, whatsapp) wird bewusst NICHT ausgewertet. Besuche zählt nur Cloudflare Web Analytics
+// (ohne Cookies, ohne Ereignisse); einen eigenen Zähler gibt es nicht mehr (Entscheid Roni 09.11.2026).
 import Klar from "../../layouts/Klar.astro";
 import Luecke from "../../components/Luecke.astro";
 import { betrieb as b } from "../../../../astro/bau/daten.mjs";
@@ -14,10 +14,10 @@ const bw = b.bewertungen || {};
   <p class="lead">Danke, dass Sie Ihr Auto zu {b.name} gebracht haben. Eine kurze Bewertung hilft anderen Autofahrerinnen und Autofahrern in der Region bei der Wahl ihrer Carrosserie.</p>
   <div class="ctas">
     {bw.google
-      ? <a class="knopf knopf--akzent" href={bw.google} rel="noopener" target="_blank" data-zaehl="bewertung-google" data-ort="bewerten">Auf Google bewerten</a>
+      ? <a class="knopf knopf--akzent" href={bw.google} rel="noopener" target="_blank">Auf Google bewerten</a>
       : <Luecke>Lücke: Den Link «Rezension schreiben» aus dem Google-Unternehmensprofil trägt der Betrieb ein.</Luecke>}
-    {bw.facebook && <a class="knopf knopf--kontur" href={bw.facebook} rel="noopener" target="_blank" data-zaehl="bewertung-facebook" data-ort="bewerten">Auf Facebook empfehlen</a>}
+    {bw.facebook && <a class="knopf knopf--kontur" href={bw.facebook} rel="noopener" target="_blank">Auf Facebook empfehlen</a>}
   </div>
-  <p class="leise">Etwas hat nicht gepasst? Sagen Sie es uns direkt: <a href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="bewerten">{b.tel.anzeige}</a>.</p>
+  <p class="leise">Etwas hat nicht gepasst? Sagen Sie es uns direkt: <a href={`tel:${b.tel.e164}`}>{b.tel.anzeige}</a>.</p>
 </div></section>
 </Klar>

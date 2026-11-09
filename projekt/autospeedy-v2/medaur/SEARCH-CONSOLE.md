@@ -12,3 +12,14 @@ Im Livegang (`vorschau: false` in bau.json) erzeugt `astro/bau/dateien.mjs` die 
 
 ## Was die Search Console zeigt
 Suchbegriffe, Impressionen, Klicks und Position aus der Google-Suche, dazu Indexierungsfehler. Auf der Website selbst wird dafür nichts gemessen, und es braucht keine Cookies.
+
+## Besuche zählen
+Entscheid Roni, 09.11.2026: Die Besuche zählt Cloudflare Web Analytics. Es setzt keine Cookies, erfasst keine Personendaten und zeigt nur zusammengezählte Zahlen (Besuche und Seitenaufrufe je Seite, Herkunft, Gerät). Der frühere eigene Zähler (`zaehl.js` mit Supabase) ist entfernt.
+
+So schalten Sie es ein (einmalig, kein Code nötig):
+1. Im Cloudflare Dashboard **Workers & Pages** öffnen.
+2. Das Projekt der Website wählen.
+3. Den Reiter **Metrics** öffnen.
+4. Bei **Web Analytics** auf «Enable» bzw. «Aktivieren» klicken. Ab der nächsten Auslieferung fügt Cloudflare ein kleines Skript in jede Seite ein. Die Sicherheitsregel (CSP) in `_headers` erlaubt dieses Skript bereits (`static.cloudflareinsights.com`, `cloudflareinsights.com`).
+
+Grenzen: Klicks auf «Schaden melden» (oder «Anrufen») lassen sich dort nicht als eigenes Ereignis zählen. Als Ersatz zählen die eingehenden Mails: Jede Schadenmeldung und jede Bitte um Rückruf kommt als Mail beim Betrieb an. Die Zahl der Besuche auf `/schaden-melden/` zeigt Web Analytics als Seitenaufrufe.

@@ -62,7 +62,9 @@
     ["name", "telefon"].forEach(function (n) {
       var e = f.elements[n]; if (!e) return;
       e.addEventListener("input", function () {
-        if (e.getAttribute("aria-invalid") !== "true" || fehlerVon(n)) return;
+        if (e.getAttribute("aria-invalid") !== "true") return;
+        // QA N09: Bleibt ein Fehler, passt der Text am Feld zum aktuellen Fehler (leer oder zu kurz)
+        var t = fehlerVon(n); if (t) { var p = (e.closest(".feld") || e.parentElement).querySelector(".feld-fehler"); if (p && p.textContent !== t) p.textContent = t; return; }
         feldOk(e);
         if (!f.querySelector('[aria-invalid="true"]') && r.classList.contains("rueckmeldung--fehler")) melde("");
       });
@@ -113,7 +115,9 @@
       }
       sende(0)
         .then(function () {
-          melde("Angekommen. Wir rufen Sie zurück" + (zeiten().length ? ", wenn möglich " + zeiten().join(", ") : "") + ". Anliegen: " + anliegen() + ".", "ok");
+          // Kritik B3: natürlich formuliert, ohne «Anliegen: Allgemein»; ein gewähltes Thema steht im Satz
+          var thema = anliegen() && anliegen() !== "Allgemein" ? " zum Thema «" + anliegen() + "»" : "";
+          melde("Angekommen. Wir rufen Sie" + thema + " zurück" + (zeiten().length ? ", wenn möglich " + zeiten().join(", ") : "") + ".", "ok");
           // N01: zuerst den Fokus auf die Rückmeldung, dann erst den Knopf sperren (sonst fiele der Fokus auf den Seitenanfang)
           r.setAttribute("tabindex", "-1"); r.focus();
           besetzt(false); if (knopf) knopf.disabled = true;

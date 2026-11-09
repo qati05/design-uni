@@ -243,7 +243,9 @@
     teslaWunsch = q.get("fahrzeug") === "tesla" || q.get("tesla") === "1";
     if (teslaWunsch) { var t = f.querySelector("[data-tesla]"); if (t) t.checked = true; }
     zeigeModell(); zeigeErsatzTesla();
-    var ergaenzen = f.querySelector("[data-ergaenzen]"); if (ergaenzen && (teslaWunsch || q.getAll("stelle").length)) ergaenzen.open = true; // Vorbelegtes bleibt sichtbar
+    // Vorbelegtes bleibt sichtbar: Klappbereich «Mehr angeben» nur öffnen, wenn das Vorbelegte darin liegt (Klar C01: «Tesla» steht ausserhalb)
+    var ergaenzen = f.querySelector("[data-ergaenzen]"), teslaFeld = f.querySelector("[data-tesla]");
+    if (ergaenzen && ((teslaWunsch && teslaFeld && ergaenzen.contains(teslaFeld)) || q.getAll("stelle").length)) ergaenzen.open = true;
     kaestchen.forEach(function (k) { if (q.getAll("stelle").indexOf(k.dataset.stelle) > -1) k.checked = true; }); zeichne();
     var a = q.get("art") && f.querySelector('input[data-art="' + q.get("art") + '"]');
     if (a) { a.checked = true; zeige(2, false); requestAnimationFrame(function () { f.scrollIntoView({ block: "start" }); }); } else zeige(1, false);
@@ -269,6 +271,9 @@
     TEXTE.forEach(function (n) { var e = f.elements[n]; if (e && d[n] && !e.value) e.value = d[n]; });
     (d.wahl || []).forEach(function (w) { var i = w.indexOf("="), sel = 'input[name="' + w.slice(0, i) + '"]'; [].forEach.call(f.querySelectorAll(sel), function (e) { if (e.value === w.slice(i + 1)) e.checked = true; }); });
     zeigeModell(); zeigeErsatzTesla(); zeichne();
+    // Wiederhergestellte freiwillige Angaben nicht im eingeklappten Bereich verstecken
+    var zu = f.querySelector("[data-ergaenzen]");
+    if (zu && [].some.call(zu.querySelectorAll("input, textarea"), function (e) { return (e.type === "checkbox" || e.type === "radio") ? e.checked : !!e.value; })) zu.open = true;
     if (art() && aktuell === 1) zeige(2, false);
   })();
   f.addEventListener("input", entwurfSichern); f.addEventListener("change", entwurfSichern);

@@ -24,22 +24,26 @@ const adresseVon = (datei) => "/" + datei.replace(/index\.html$/, "");
 
 // Volle Content-Security-Policy, nur wenn eine Linie sie einschaltet: dateien({ csp: true }).
 // Voraussetzung: kein ausführbares Inline-Skript und keine onclick-Attribute (JSON-LD ist Daten und bleibt erlaubt).
-// Fremde Herkünfte kommen nur aus der Konfiguration: Turnstile, absolute Formular-/Zähl-Endpunkte, AutoScout-Widget.
+// Fremde Herkünfte: Turnstile, absoluter Formular-Endpunkt, AutoScout-Widget (aus der Konfiguration) und Cloudflare Web Analytics.
 const herkunft = (u) => { try { return /^https:\/\//.test(u || "") ? new URL(u).origin : null; } catch { return null; } };
 export function cspZeile({ bau, betrieb }) {
   // Turnstile (challenges.cloudflare.com) nur in die CSP, wenn ein Sitekey gesetzt ist; sonst gar nicht (BAUPLAN 4.3).
   const ts = process.env.TURNSTILE_SITEKEY ? "https://challenges.cloudflare.com" : null;
-  const verbinden = [process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt, process.env.ZAEHL_ENDPUNKT || bau.zaehlEndpunkt].map(herkunft).filter(Boolean);
+  const verbinden = [process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt].map(herkunft).filter(Boolean);
+  // Besuche zählt Cloudflare Web Analytics (Entscheid Roni 09.11.2026, im Pages-Dashboard eingeschaltet): Cloudflare fügt
+  // beim Ausliefern ein Skript von static.cloudflareinsights.com ein, das an cloudflareinsights.com meldet. Ohne diese
+  // zwei Herkünfte würde die CSP es sperren. Nur Linien mit csp: true (Klar) nutzen diese Zeile.
+  const analyse = { skript: "https://static.cloudflareinsights.com", melden: "https://cloudflareinsights.com" };
   const widget = herkunft(betrieb?.occasionen?.widget?.src);
   const liste = (...xs) => [...new Set(xs.filter(Boolean))].join(" ");
   const rahmen = liste(ts, widget); // Turnstile und/oder AutoScout-Widget; sonst nichts einbetten
   return [
     "default-src 'self'",
-    `script-src ${liste("'self'", ts, widget)}`,
+    `script-src ${liste("'self'", ts, widget, analyse.skript)}`,
     "style-src 'self' 'unsafe-inline'", // style="--dauer" im Partnerband und Turnstile
     "img-src 'self' data: blob:",
     "font-src 'self'",
-    `connect-src ${liste("'self'", ts, ...verbinden)}`,
+    `connect-src ${liste("'self'", ts, ...verbinden, analyse.melden)}`,
     `frame-src ${rahmen || "'none'"}`,
     "form-action 'self' mailto:",
     "base-uri 'self'",

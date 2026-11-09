@@ -12,9 +12,9 @@ const arten = (artenDaten as any).arten;
     <h1><span>Qualität,</span><br><em>die man sieht und fährt.</em></h1>
     <p class="lead">Carrosserie und Lack in Altstätten, für alle Marken und als Tesla Approved Body Shop. Die Abwicklung mit Ihrer Versicherung übernehmen wir. Einen Ersatzwagen erhalten Sie auf Anfrage.</p>
     <div class="ctas">
-      <a class="knopf knopf--akzent" href="/schaden-melden/" data-zaehl="anfrage" data-ort="hero">
+      <a class="knopf knopf--akzent" href="/schaden-melden/">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15.5 5.6 10a2 2 0 0 1 1.9-1.5h9a2 2 0 0 1 1.9 1.5l1.6 5.5"/><path d="M3.5 15.5h17v3h-17z"/><path d="M7 18.5v1.5M17 18.5v1.5"/><path d="m12 2.8.9 2.3 2.1-.7-.9 2"/></svg>Schaden melden</a>
-      <a class="knopf knopf--kontur" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="hero">
+      <a class="knopf knopf--kontur" href={`tel:${b.tel.e164}`}>
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a12 12 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6A2.1 2.1 0 0 1 18.4 19.5 15 15 0 0 1 4.5 5.6 2.1 2.1 0 0 1 6.6 3.5Z"/></svg><span>Anrufen <span class="nr">{b.tel.anzeige}</span></span></a>
     </div>
     <div class="schnell">
@@ -22,9 +22,9 @@ const arten = (artenDaten as any).arten;
       {/* QA C06: dieselben Schadenarten wie Schritt 1 des Formulars (eine Quelle: arten.json); Tesla ist keine
           Schadenart und steht darum als eigener Link darunter. */}
       <ul class="schnell__liste">
-        {arten.map((a: any) => <li><a href={`/schaden-melden/?art=${a.id}`} data-zaehl="anfrage" data-ort="hero-schnell">{a.name}</a></li>)}
+        {arten.map((a: any) => <li><a href={`/schaden-melden/?art=${a.id}`}>{a.name}</a></li>)}
       </ul>
-      <p class="schnell__tesla"><a href="/schaden-melden/?fahrzeug=tesla" data-zaehl="anfrage-tesla" data-ort="hero-schnell">Tesla? Hier entlang <span aria-hidden="true">→</span></a></p>
+      <p class="schnell__tesla"><a href="/schaden-melden/?fahrzeug=tesla">Tesla? Hier entlang <span aria-hidden="true">→</span></a></p>
     </div>
     <!-- Kundenweg (KUNDENWEG.md 1): Wer nach Feierabend einen Schaden hat, soll nicht ins Leere anrufen. Die Zeile zeigt
          den Öffnungsstatus (klar.js, dieselbe Quelle wie der Fuss) und, wenn geschlossen, dass Melden jederzeit geht. -->

@@ -41,7 +41,7 @@ for (const a of b.ausnahmen || []) ausnahmen[a.datum] = a.zu ? [] : a.fenster.ma
 const daten = { zeiten, ausnahmen, status: texte.mikrotexte.status };
 ---
 <!doctype html>
-<html lang={bau.sprache} data-zaehl-endpunkt={process.env.ZAEHL_ENDPUNKT || bau.zaehlEndpunkt || undefined}>
+<html lang={bau.sprache}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,7 +58,6 @@ const daten = { zeiten, ausnahmen, status: texte.mikrotexte.status };
 <script is:inline src="/js/main.js" defer></script>
 <script is:inline src="/js/lack.js" defer></script>
 <script is:inline src="/js/rueckruf.js" defer></script>
-<script is:inline src="/js/zaehl.js" defer></script>
 </head>
 <body>
 <a class="sprung" href="#inhalt">{texte.mikrotexte.sprunglink}</a>

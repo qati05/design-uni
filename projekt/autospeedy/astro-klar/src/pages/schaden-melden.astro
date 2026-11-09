@@ -20,13 +20,13 @@ const versicherer = ["AXA", "Zurich", "Mobiliar", "Allianz", "Helvetia", "Balois
   <div class="melden-seite__links">
     <h1>In zwei Schritten <em>gemeldet.</em></h1>
     <p class="melden-seite__einleitung">Sagen Sie uns, was passiert ist und wie wir Sie erreichen. Alles Weitere ist freiwillig. Die Abwicklung mit Ihrer Versicherung übernehmen wir.<span class="nur-gross"> Einen Ersatzwagen erhalten Sie auf Anfrage.</span></p>
-    <div class="melden-seite__tel"><span>Lieber sprechen?</span> <a class="k k--hell k--klein" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="schaden"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>{b.tel.anzeige}</a></div>
+    <div class="melden-seite__tel"><span>Lieber sprechen?</span> <a class="k k--hell k--klein" href={`tel:${b.tel.e164}`}><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>{b.tel.anzeige}</a></div>
     <p class="melden-seite__tesla"><span class="punkt-blau" aria-hidden="true"></span> Tesla Approved Body Shop. Tesla-Fahrer wählen im zweiten Schritt das Modell.</p>
   </div>
 
   <div class="melden-seite__rechts">
   <form id="schaden-form" class="karte melden" action={`mailto:${b.mail}?subject=Schadenmeldung`} method="post" enctype="text/plain"
-    data-endpunkt={endpunkt} data-ist-vorschau={vorschau ? "ja" : "nein"} data-mail={b.mail} data-wa={wa && wa.nummer} data-tel={b.tel.anzeige} data-tel-e164={b.tel.e164} data-zaehl-start="schaden-start">
+    data-endpunkt={endpunkt} data-ist-vorschau={vorschau ? "ja" : "nein"} data-mail={b.mail} data-wa={wa && wa.nummer} data-tel={b.tel.anzeige} data-tel-e164={b.tel.e164}>
     <ol class="fortschritt" data-nur-js hidden aria-label="Fortschritt">
       <li data-anzeige="1"><span>Schaden</span></li><li data-anzeige="2"><span>Kontakt</span></li>
     </ol>
@@ -47,52 +47,59 @@ const versicherer = ["AXA", "Zurich", "Mobiliar", "Allianz", "Helvetia", "Balois
       <div class="feld"><label for="f-name">Name (Pflicht)</label><input id="f-name" name="name" type="text" autocomplete="name" maxlength="120" required></div>
       <div class="feld"><label for="f-tel">Telefon (Pflicht)</label><input id="f-tel" name="telefon" type="tel" autocomplete="tel" maxlength="40" required><p class="hilfe">Damit wir Sie zurückrufen können.</p></div>
 
-      <div class="freiwillig" data-freiwillig>
-        <div class="freiwillig__kopf"><h2>Das können Sie noch angeben</h2><p class="hilfe">Alles freiwillig. Was fehlt, klären wir am Telefon.</p></div>
-
-        <div class="feld" data-nur-js hidden>
-          <span class="feld__label">Fotos vom Schaden</span>
-          <label class="fotos__knopf fotos__knopf--klein" for="f-fotos"><span aria-hidden="true" class="fotos__plus">+</span> Foto machen oder auswählen</label>
-          <input id="f-fotos" class="fotos__eingabe" type="file" accept="image/jpeg,image/*" multiple data-fotos>
-          <ul class="fotos__liste" data-fotoliste aria-live="polite"></ul>
-          <p class="hilfe">Ein Foto aus etwas Abstand und eines von nah helfen uns am meisten. Höchstens 6.</p>
-        </div>
-
-        <label class="schalter"><input type="checkbox" name="ersatzwagen" value="ja" data-ersatzwagen><span class="schalter__bahn" aria-hidden="true"></span><span>Ich brauche einen Ersatzwagen <small>Auf Anfrage, wir schauen, was möglich ist</small></span></label>
-        <label class="schalter schalter--unter" data-ersatzwagen-tesla-feld hidden><input type="checkbox" name="ersatzwagen_tesla" value="ja" data-ersatzwagen-tesla><span class="schalter__bahn" aria-hidden="true"></span><span>Wenn möglich einen Tesla <small>Ohne Zusage, je nach Verfügbarkeit</small></span></label>
-        <label class="schalter"><input type="checkbox" name="tesla" value="ja" data-tesla><span class="schalter__bahn" aria-hidden="true"></span><span>Es ist ein Tesla <small>Auto Speedy ist Tesla Approved Body Shop</small></span></label>
-        <fieldset class="chips tesla-modell" data-tesla-modell hidden>
-          <legend>Welches Modell?</legend>
-          <div class="chips__wahl">{modelle.map((m) => <label><input type="radio" name="tesla_modell" value={m}> <span>{m}</span></label>)}</div>
-        </fieldset>
-
-        <fieldset class="chips">
-          <legend>Stelle am Auto</legend>
-          <div class="chips__wahl chips__wahl--klein">{stellen.map((s: any) => <label><input type="checkbox" name="stelle" value={s.name} data-stelle={s.id}> <span>{s.name}</span></label>)}</div>
-        </fieldset>
-
-        <div class="feld"><label for="f-bem">Bemerkung</label><textarea id="f-bem" name="bemerkung" rows="3" maxlength="3000"></textarea><p class="hilfe">Zum Beispiel: hinten links, beim Parkieren.</p></div>
-        <div class="feld"><label for="f-mail">Mail</label><input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254"><p class="hilfe">Für eine Bestätigung und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nichts.</p></div>
-        <div class="feld"><label for="f-schild">Kontrollschild</label><input id="f-schild" name="kontrollschild" type="text" maxlength="15" autocomplete="off" inputmode="text"></div>
-        <div class="feld"><label for="f-vers">Versicherung</label><input id="f-vers" name="versicherung" type="text" maxlength="80" list="versicherer" autocomplete="off"><datalist id="versicherer">{versicherer.map((v) => <option value={v}></option>)}</datalist></div>
-        <div class="feld"><label for="f-schadennr">Schadennummer</label><input id="f-schadennr" name="schadennummer" type="text" maxlength="40" autocomplete="off"></div>
-        <div class="feld" data-nur-js hidden>
-          <span class="feld__label">Foto vom Fahrzeugausweis (max. 1)</span>
-          <label class="fotos__knopf fotos__knopf--klein" for="f-ausweis"><span aria-hidden="true" class="fotos__plus">+</span> Fahrzeugausweis fotografieren</label>
-          <input id="f-ausweis" class="fotos__eingabe" type="file" accept="image/jpeg,image/*" data-ausweis>
-          <ul class="fotos__liste" data-ausweisliste aria-live="polite"></ul>
-        </div>
+      {/* Kritik C01: Schritt 2 kurz. Sichtbar sind Name, Telefon, Fotos (empfohlen) und «Es ist ein Tesla» (Vorauswahl
+          über ?fahrzeug=tesla bleibt sichtbar, Kritik B1), danach gleich der Senden-Knopf. Alles andere ist freiwillig und
+          steht eingeklappt unter «Mehr angeben (freiwillig)». Feldnamen unverändert (functions/api/schaden.js). */}
+      <div class="feld fotos-empfohlen" data-nur-js hidden>
+        <span class="feld__label">Fotos vom Schaden <span class="empfohlen">empfohlen</span></span>
+        <label class="fotos__knopf fotos__knopf--klein" for="f-fotos"><span aria-hidden="true" class="fotos__plus">+</span> Foto machen oder auswählen</label>
+        <input id="f-fotos" class="fotos__eingabe" type="file" accept="image/jpeg,image/*" multiple data-fotos>
+        <ul class="fotos__liste" data-fotoliste aria-live="polite"></ul>
+        <p class="hilfe">Ein Foto aus etwas Abstand und eines von nah helfen uns am meisten. Höchstens 6.</p>
       </div>
+
+      <label class="schalter"><input type="checkbox" name="tesla" value="ja" data-tesla><span class="schalter__bahn" aria-hidden="true"></span><span>Es ist ein Tesla <small>Auto Speedy ist Tesla Approved Body Shop</small></span></label>
+      <fieldset class="chips tesla-modell" data-tesla-modell hidden>
+        <legend>Welches Modell?</legend>
+        <div class="chips__wahl">{modelle.map((m) => <label><input type="radio" name="tesla_modell" value={m}> <span>{m}</span></label>)}</div>
+      </fieldset>
+
+      <details class="mehr-angaben" data-ergaenzen data-freiwillig>
+        <summary><span>Mehr angeben (freiwillig)</span><span class="mehr-angaben__zeichen" aria-hidden="true"></span></summary>
+        <div class="mehr-angaben__inhalt">
+          <p class="hilfe">Mail, Kontrollschild, Versicherung, Bemerkung und mehr. Was fehlt, klären wir am Telefon.</p>
+
+          <label class="schalter"><input type="checkbox" name="ersatzwagen" value="ja" data-ersatzwagen><span class="schalter__bahn" aria-hidden="true"></span><span>Ich brauche einen Ersatzwagen <small>Auf Anfrage, wir schauen, was möglich ist</small></span></label>
+          <label class="schalter schalter--unter" data-ersatzwagen-tesla-feld hidden><input type="checkbox" name="ersatzwagen_tesla" value="ja" data-ersatzwagen-tesla><span class="schalter__bahn" aria-hidden="true"></span><span>Wenn möglich einen Tesla <small>Ohne Zusage, je nach Verfügbarkeit</small></span></label>
+
+          <fieldset class="chips">
+            <legend>Stelle am Auto</legend>
+            <div class="chips__wahl chips__wahl--klein">{stellen.map((s: any) => <label><input type="checkbox" name="stelle" value={s.name} data-stelle={s.id}> <span>{s.name}</span></label>)}</div>
+          </fieldset>
+
+          <div class="feld"><label for="f-bem">Bemerkung</label><textarea id="f-bem" name="bemerkung" rows="3" maxlength="3000"></textarea><p class="hilfe">Zum Beispiel: hinten links, beim Parkieren.</p></div>
+          <div class="feld"><label for="f-mail">Mail</label><input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254"><p class="hilfe">Für eine Bestätigung und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nichts.</p></div>
+          <div class="feld"><label for="f-schild">Kontrollschild</label><input id="f-schild" name="kontrollschild" type="text" maxlength="15" autocomplete="off" inputmode="text"></div>
+          <div class="feld"><label for="f-vers">Versicherung</label><input id="f-vers" name="versicherung" type="text" maxlength="80" list="versicherer" autocomplete="off"><datalist id="versicherer">{versicherer.map((v) => <option value={v}></option>)}</datalist></div>
+          <div class="feld"><label for="f-schadennr">Schadennummer</label><input id="f-schadennr" name="schadennummer" type="text" maxlength="40" autocomplete="off"></div>
+          <div class="feld" data-nur-js hidden>
+            <span class="feld__label">Foto vom Fahrzeugausweis (max. 1)</span>
+            <label class="fotos__knopf fotos__knopf--klein" for="f-ausweis"><span aria-hidden="true" class="fotos__plus">+</span> Fahrzeugausweis fotografieren</label>
+            <input id="f-ausweis" class="fotos__eingabe" type="file" accept="image/jpeg,image/*" data-ausweis>
+            <ul class="fotos__liste" data-ausweisliste aria-live="polite"></ul>
+          </div>
+        </div>
+      </details>
 
       <div class="honig" aria-hidden="true"><label for="f-web">Bitte leer lassen (freiwillig)</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 
       <div class="senden" data-nur-js hidden>
-        <p class="senden__beruhigung">Wir melden uns bei Ihnen, in der Regel telefonisch in den Öffnungszeiten.</p>
         {/* QA C02: «Wird gesendet» und Sendefehler direkt über dem Knopf («Nochmals senden»), im selben Bild */}
         <p class="rueckmeldung" data-sende-rueckmeldung hidden role="status"></p>
-        <button class="k k--blau k--gross" type="button" data-senden="website" data-zaehl="schaden-website">Hier auf der Website senden<small data-weg-a-hilfe>Mit Fotos, ohne weitere App</small></button>
+        <button class="k k--blau k--gross" type="button" data-senden="website">Hier auf der Website senden<small data-weg-a-hilfe>Mit Fotos, ohne weitere App</small></button>
         <div class="senden__balken" data-sende-balken hidden aria-hidden="true"><span></span></div>
-        <button class="senden__wa" type="button" data-senden="whatsapp" data-zaehl="schaden-whatsapp">Lieber per WhatsApp senden</button>
+        <button class="senden__wa" type="button" data-senden="whatsapp">Lieber per WhatsApp senden</button>
+        <p class="senden__beruhigung">Wir melden uns bei Ihnen, in der Regel telefonisch in den Öffnungszeiten.</p>
         {wa && !wa.nummer_bestaetigt && <Luecke>Lücke: Die WhatsApp-Nummer {wa.anzeige} stammt von der Website; der Betrieb bestätigt sie noch.</Luecke>}
         {turnstile && <div class="cf-turnstile" data-sitekey={turnstile} data-language="de"></div>}
         <p class="hilfe">Verantwortlich: {b.name}. Ihre Angaben dienen nur der Bearbeitung Ihrer Meldung. Mehr in der <a class="textlink" href="/datenschutz/">Datenschutzerklärung</a>.</p>
@@ -117,7 +124,7 @@ const versicherer = ["AXA", "Zurich", "Mobiliar", "Allianz", "Helvetia", "Balois
     </dl>
     <p class="bestaetigung__stand" data-r-stand></p>
     <p class="bestaetigung__ausweis" data-r-ausweis-hinweis hidden>Noch schneller gehts mit einem Foto vom Fahrzeugausweis. <a class="textlink" data-r-ausweis-wa href="#" target="_blank" rel="noopener">Per WhatsApp nachreichen <span aria-hidden="true">→</span></a></p>
-    <div class="knoepfe knoepfe--links"><a class="k k--blau" data-r-nochmal href="#" hidden>Nochmals öffnen</a><button class="k k--hell" type="button" data-r-zurueck>Angaben ändern</button><a class="k k--rand" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="bestaetigung">{b.tel.anzeige}</a></div>
+    <div class="knoepfe knoepfe--links"><a class="k k--blau" data-r-nochmal href="#" hidden>Nochmals öffnen</a><button class="k k--hell" type="button" data-r-zurueck>Angaben ändern</button><a class="k k--rand" href={`tel:${b.tel.e164}`}>{b.tel.anzeige}</a></div>
   </article>
   </div>
 </div>

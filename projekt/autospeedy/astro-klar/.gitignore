@@ -6,7 +6,6 @@ public/bilder/*
 !public/bilder/stock/
 public/js/schaden.js
 public/js/rueckruf.js
-public/js/zaehl.js
 public/bewerten/qr.svg
 
 # impeccable-live-ignore-start

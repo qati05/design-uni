@@ -30,6 +30,8 @@ before(async () => {
 });
 after(async () => { await browser?.close(); server?.close(); });
 
+// Kritik C01: freiwillige Angaben stehen eingeklappt unter «Mehr angeben (freiwillig)»
+const mehrAuf = (page) => page.evaluate(() => { const d = document.querySelector("[data-ergaenzen]"); if (d) d.open = true; });
 async function form(viewport) {
   const ctx = await browser.newContext({ viewport: viewport || { width: 390, height: 844 } });
   const page = await ctx.newPage();
@@ -74,6 +76,7 @@ test("Ersatzwagen: Tesla-Unterfrage erscheint nur bei Haken; ?tesla=1 belegt sie
   await page.goto(basis + "/schaden-melden/?art=hagel");
   await page.waitForSelector('[data-schritt="2"]:not([hidden])'); // Schritt gleitet herein (BEWEGUNG.md 5)
   assert.ok(await page.locator("[data-ersatzwagen-tesla-feld]").isHidden(), "zuerst verborgen");
+  await mehrAuf(page);
   await page.locator("label.schalter:has([data-ersatzwagen])").click();
   await page.waitForSelector("[data-ersatzwagen-tesla-feld]:not([hidden])");
   await ctx.close();
@@ -81,6 +84,7 @@ test("Ersatzwagen: Tesla-Unterfrage erscheint nur bei Haken; ?tesla=1 belegt sie
   const { ctx: c2, page: p2 } = await form();
   await p2.goto(basis + "/schaden-melden/?tesla=1&art=hagel");
   await p2.waitForSelector('[data-schritt="2"]:not([hidden])');
+  await mehrAuf(p2);
   await p2.locator("label.schalter:has([data-ersatzwagen])").click();
   await p2.waitForSelector("[data-ersatzwagen-tesla-feld]:not([hidden])");
   assert.equal(await p2.locator("[data-ersatzwagen-tesla]").isChecked(), true, "Tesla-Wunsch vorbelegt");
@@ -92,6 +96,7 @@ test("lange Eingaben laufen nicht aus dem Feld oder aus der Erfolgsmeldung", asy
   const langerName = "Maximiliane Alexandra von Hohenberg-Schwarzenbach-Wüthrich";
   await page.goto(basis + "/schaden-melden/?art=hagel");
   await page.fill("#f-name", langerName);
+  await mehrAuf(page);
   await page.fill("#f-mail", "maximiliane.alexandra.von.hohenberg@sehr-lange-mailadresse-beispiel.example");
   assert.ok(await page.locator("#f-name").evaluate((e) => e.getBoundingClientRect().right <= window.innerWidth + 1), "Feld nicht breiter als der Bildschirm");
   // Erfolgsmeldung füllen (ohne echten Versand, über die interne Funktion)
@@ -104,16 +109,62 @@ test("lange Eingaben laufen nicht aus dem Feld oder aus der Erfolgsmeldung", asy
   await ctx.close();
 });
 
-test("Zwei Schritte: nach der Art folgt der Kontakt, freiwillige Angaben sind ohne Aufklappen sichtbar", async () => {
+test("Zwei Schritte (C01): sichtbar sind Name, Telefon, Fotos und Senden; Freiwilliges eingeklappt unter «Mehr angeben»", async () => {
   const { ctx, page } = await form();
   await page.goto(basis + "/schaden-melden/?art=hagel");
   await page.waitForSelector('[data-schritt="2"]:not([hidden])');
   assert.equal(await page.locator("[data-schritt]").count(), 2);
-  assert.equal(await page.locator("#schaden-form details").count(), 0, "nichts zum Aufklappen");
   assert.match(await page.locator("[data-fortschritt-text]").textContent(), /Schritt 2 von 2/);
-  for (const sel of ["#f-name", "#f-tel", "#f-mail", "#f-bem", "#f-schild", "#f-vers", "#f-schadennr", '[for="f-fotos"]', '[for="f-ausweis"]', '[name="stelle"] + span']) {
-    assert.ok(await page.locator(sel).first().isVisible(), sel + " sichtbar");
+  const mehr = page.locator("#schaden-form details[data-ergaenzen]");
+  assert.equal(await mehr.count(), 1, "genau ein Klappbereich");
+  assert.equal(await mehr.evaluate((d) => d.open), false, "eingeklappt");
+  assert.equal((await mehr.locator("summary").textContent()).trim(), "Mehr angeben (freiwillig)");
+  for (const sel of ["#f-name", "#f-tel", '[for="f-fotos"]', '[data-senden="website"]']) assert.ok(await page.locator(sel).first().isVisible(), sel + " sichtbar");
+  assert.match(await page.locator(".fotos-empfohlen .feld__label").textContent(), /empfohlen/);
+  const frei = ["#f-mail", "#f-bem", "#f-schild", "#f-vers", "#f-schadennr", '[for="f-ausweis"]', '[name="stelle"] + span', "label.schalter:has([data-ersatzwagen])"];
+  for (const sel of frei) assert.ok(await page.locator(sel).first().isHidden(), sel + " eingeklappt");
+  // Pflicht sind nur Name und Telefon (plus die Art aus Schritt 1)
+  assert.deepEqual(await page.$$eval('[data-schritt="2"] [required]', (l) => l.map((e) => e.name)), ["name", "telefon"]);
+  // Reihenfolge: Name, Telefon, Fotos, Klappbereich, Senden
+  const y = (sel) => page.locator(sel).first().evaluate((e) => e.getBoundingClientRect().top + scrollY);
+  const reihe = [await y("#f-name"), await y("#f-tel"), await y('[for="f-fotos"]'), await y("[data-ergaenzen]"), await y('[data-senden="website"]')];
+  assert.deepEqual([...reihe].sort((a, b) => a - b), reihe, "Reihenfolge " + reihe.join(", "));
+  await page.locator("[data-ergaenzen] > summary").click();
+  for (const sel of frei) assert.ok(await page.locator(sel).first().isVisible(), sel + " nach dem Aufklappen sichtbar");
+  await ctx.close();
+});
+
+test("C01: Senden-Knopf am Handy (390×844) früh erreichbar, auch mit Tesla-Vorauswahl", async () => {
+  for (const q of ["", "?fahrzeug=tesla"]) {
+    const { ctx, page } = await form({ width: 390, height: 844 });
+    await page.goto(basis + "/schaden-melden/" + q);
+    await page.locator(".art").first().click();
+    await page.waitForSelector('[data-schritt="2"]:not([hidden])');
+    await page.waitForTimeout(500);
+    const k = await page.locator('[data-senden="website"]').evaluate((e) => { const b = e.getBoundingClientRect(); return { oben: b.top + scrollY, unten: b.bottom + scrollY }; });
+    // vorher (alle Felder offen) lag der Knopf bei rund 2220 px; jetzt höchstens 1,5 Bildschirmhöhen tief
+    assert.ok(k.unten <= 1300, `${q || "ohne"}: Knopf unten bei ${Math.round(k.unten)} px`);
+    if (q) {
+      assert.equal(await page.locator("[data-tesla]").isChecked(), true, "Tesla vorgewählt");
+      assert.ok(await page.locator("label.schalter:has([data-tesla])").isVisible(), "Tesla-Vorauswahl sichtbar (B1)");
+      assert.ok(await page.locator("[data-tesla-modell]").isVisible(), "Modellwahl sichtbar");
+      assert.equal(await page.locator("[data-ergaenzen]").evaluate((d) => d.open), false, "Tesla öffnet den Klappbereich nicht");
+    }
+    await ctx.close();
   }
+});
+
+test("C01: Fehler in einem freiwilligen Feld klappt «Mehr angeben» auf", async () => {
+  const { ctx, page } = await form();
+  await page.goto(basis + "/schaden-melden/?art=hagel");
+  await page.waitForSelector('[data-schritt="2"]:not([hidden])');
+  await page.fill("#f-name", "Test");
+  await page.fill("#f-tel", "071 755 88 61");
+  await page.evaluate(() => { document.getElementById("f-mail").value = "kein-at"; });
+  await page.locator('[data-senden="website"]').click();
+  await page.waitForSelector('#f-mail[aria-invalid="true"]');
+  assert.equal(await page.locator("[data-ergaenzen]").evaluate((d) => d.open), true);
+  assert.ok(await page.locator("#f-mail").isVisible());
   await ctx.close();
 });
 
@@ -123,6 +174,7 @@ test("Senden geht ohne Foto, eine falsche Mail wird am Feld gemeldet", async () 
   await page.waitForSelector('[data-schritt="2"]:not([hidden])');
   await page.fill("#f-name", "Test");
   await page.fill("#f-tel", "071 755 88 61");
+  await mehrAuf(page);
   await page.fill("#f-mail", "kein-at");
   await page.locator('[data-senden="website"]').click();
   await page.waitForSelector('#f-mail[aria-invalid="true"]');
@@ -141,6 +193,7 @@ test("WhatsApp: alle Angaben im Text, Fotos nicht als mitgesendet gezeigt, Nacht
   await page.waitForSelector('[data-schritt="2"]:not([hidden])');
   await page.fill("#f-name", "Test");
   await page.fill("#f-tel", "071 755 88 61");
+  await mehrAuf(page);
   await page.fill("#f-mail", "test@example.ch");
   await page.locator('[data-senden="whatsapp"]').click();
   await page.waitForSelector("[data-rapport]:not([hidden])");

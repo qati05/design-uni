@@ -23,7 +23,7 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Tesla", pfad: "/
         <li>Hagelschäden und Dellen</li>
         <li>Abwicklung mit Ihrer Versicherung</li>
       </ul>
-      <div class="knoepfe"><a class="k k--blau" href="/schaden-melden/?fahrzeug=tesla" data-zaehl="anfrage-tesla" data-ort="tesla">Tesla-Schaden melden</a></div>
+      <div class="knoepfe"><a class="k k--blau" href="/schaden-melden/?fahrzeug=tesla">Tesla-Schaden melden</a></div>
     </div>
     <figure class="tesla__foto foto-ein">
       <span class="tesla__rahmen">
@@ -58,14 +58,10 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Tesla", pfad: "/
       <div>
         <h2>Gut zu wissen</h2>
         <p>«Tesla Approved Body Shop» steht auf der bisherigen Website des Betriebs bei seinen zertifizierten Partnern. Ersatzwagen: Tesla auf Anfrage.</p>
-        <Luecke>Offene Frage: Den Eintrag in Teslas eigener Werkstattsuche bestätigt der Betrieb noch.</Luecke>
       </div>
     </div>
   </div>
 </section>
 <Faq fragen={faqTesla} titel="Fragen zum Tesla" />
-<section class="abschluss">
-  <h2>Ihren Tesla-Schaden melden?</h2>
-  <div class="knoepfe"><a class="k k--blau" href="/schaden-melden/?fahrzeug=tesla" data-zaehl="anfrage-tesla" data-ort="tesla-ende">Tesla-Schaden melden</a></div>
-</section>
+{/* Kritik B2: kein eigener Abschluss-Block mehr. Der eine letzte Aufruf ist der Fuss, auf dieser Seite mit Tesla-Vorauswahl. */}
 </Klar>

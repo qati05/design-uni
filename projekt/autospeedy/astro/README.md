@@ -30,7 +30,7 @@ Standard-Stack des Studios `[Hausentscheid · Studio, 02.11.2026]`: **Astro, sta
 - **Sicherheits-Kopfzeilen** in `_headers` (Format Cloudflare Pages): siehe [betrieb.md](../referenzen/betrieb.md).
 - **Öffnungsstatus** (`public/js/main.js`): Zeiten aus `betrieb.json`, Wortlaut aus `texte.json`. Ohne Skript bleibt der Satz `status.ohneSkript` stehen. Feiertage und Betriebsferien stehen in `betrieb.json` unter `ausnahmen` (freiwillig, je mit Quelle in `fakten.md`); ein Eintrag ersetzt die Wochenzeiten dieses Tages, im Status und in der Tabelle der Zeiten `[gebaut · 02.11.2026, mit Testdaten; Status bei 6 simulierten Zeitpunkten in Chromium geprüft]`.
 - **Slot `idee`** im Layout: Der grosse Satz aus der Idee steht über der `h1` und ist keine Überschrift (zusammenspiel Entscheid 2). Form aus der Richtung (design-uni).
-- **Zählpunkte** `data-zaehl` und `data-ort` an Hauptaktion, Telefon, E-Mail und Route (design-uni).
+- **Besuche zählen:** Cloudflare Web Analytics, im Pages-Dashboard eingeschaltet, ohne Code und ohne Cookies (Entscheid Roni 09.11.2026). Die Attribute `data-zaehl` und `data-ort` sind nur noch Markierungen; einen eigenen Zähler gibt es nicht mehr.
 
 ## Benutzen
 

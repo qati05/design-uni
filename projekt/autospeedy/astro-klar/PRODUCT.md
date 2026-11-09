@@ -21,11 +21,11 @@ Der Betrieb selbst (Annahme, Administration) liest Meldungen im Cockpit und pfle
 
 Die Website der Auto Speedy AG, Carrosserie und Spritzwerk in Altstätten SG. Sie bringt Schadenmeldungen und Anrufe. Hauptaktion ist die Schadenmeldung «in drei Tipps» (Art, Fotos, Kontakt), gesendet über die Website oder WhatsApp. Zweitaktion ist der Anruf.
 
-Erfolg heisst: Wer einen Schaden hat, meldet ihn ohne Hilfe vom Handy aus, mit Fotos, und der Betrieb bekommt eine vollständige Meldung. Gemessen wird nach dem Livegang über Zählpunkte ohne Cookies.
+Erfolg heisst: Wer einen Schaden hat, meldet ihn ohne Hilfe vom Handy aus, mit Fotos, und der Betrieb bekommt eine vollständige Meldung. Gemessen wird nach dem Livegang mit Cloudflare Web Analytics (ohne Cookies, im Pages-Dashboard eingeschaltet) und an den eingehenden Meldungen per Mail.
 
 ## Positioning
 
-- Tesla Approved Body Shop, vom Studio bestätigt; in Teslas eigener Werkstattsuche nicht nachgeprüft (fakten.md F14).
+- Tesla Approved Body Shop, vom Studio bestätigt und bestätigt durch Roni 09.11.2026 (fakten.md F14). Der genaue Tesla-Ablauf ist noch unbestätigt.
 - Zertifizierte K + L Partner laut bisheriger Website: Tesla, AMAG, Land Rover, Ayvens (F12, kein Zertifikat gelesen).
 - Schadenabwicklung mit der Versicherung, ausschliesslich Original-Ersatzteile, neue grössere Lackierkabinen (F5, F6).
 - Ausbildungsbetrieb, Mitglied Carrosserie Suisse, Sektion Ostschweiz (F8).

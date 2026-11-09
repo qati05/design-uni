@@ -331,7 +331,7 @@ test("C05: Tesla 390 – Leiste erst nach dem Hero-Knopf, Leisten-Knopf mit Tesl
   await page.goto(basis + "/tesla/");
   await page.waitForFunction(() => document.body.classList.contains("leiste-spaeter"));
   assert.ok(!(await page.evaluate(() => document.body.classList.contains("leiste-an"))), "oben, Hero-Knopf sichtbar: Leiste aus");
-  assert.equal(await page.getAttribute('.handyleiste a[data-ort="leiste"].knopf--akzent', "href"), "/schaden-melden/?fahrzeug=tesla");
+  assert.equal(await page.getAttribute(".handyleiste a.knopf--akzent", "href"), "/schaden-melden/?fahrzeug=tesla");
   await page.evaluate(() => window.scrollTo(0, document.querySelector(".tesla-infos").offsetTop));
   await page.waitForFunction(() => document.body.classList.contains("leiste-an"));
   await ctx.close();
@@ -381,4 +381,107 @@ test("bewerten: noindex (Meta und _headers), nicht in der Sitemap-Liste", () => 
   assert.match(html, /<meta name="robots" content="noindex">/);
   assert.doesNotMatch(html, /rel="canonical"/, "kein canonical auf einer noindex-Seite");
   assert.match(fs.readFileSync(path.join(dist, "_headers"), "utf8"), /^\/bewerten\/\*\n\s+X-Robots-Tag: noindex/m);
+});
+
+// ===== Runde 3 (09.11.2026): C03, Zähler, N09–N11, B1–B3 =====
+const lesen = (...t) => fs.readFileSync(path.join(dist, ...t), "utf8");
+
+test("C03: Tesla-Zulassung ohne «Offene Frage»; die Lücke zum genauen Ablauf bleibt", () => {
+  const html = lesen("tesla", "index.html");
+  assert.doesNotMatch(html, /Offene Frage/, "keine «Offene Frage» auf der Tesla-Seite");
+  assert.doesNotMatch(html, /Werkstattsuche/, "kein Vorbehalt zur Werkstattsuche");
+  assert.match(html, /von Tesla als Carrosseriewerkstatt zugelassen/, "Zulassung als Tatsache");
+  assert.match(html, /data-luecke>Entwurf: Den genauen Ablauf für Tesla bestätigt der Betrieb noch\./, "Ablauf bleibt offen");
+});
+
+test("B2: Tesla-Seite hat nur einen Abschluss-Aufruf (Fuss mit Tesla-Vorauswahl)", () => {
+  const html = lesen("tesla", "index.html");
+  assert.doesNotMatch(html, /class="abschluss"/, "kein eigener Abschluss-Block");
+  const fuss = html.slice(html.indexOf('<footer class="fuss"'));
+  assert.match(fuss, /href="\/schaden-melden\/\?fahrzeug=tesla"[^>]*>[\s\S]*?Tesla-Schaden melden<\/a>/, "Fuss führt mit Tesla-Vorauswahl ins Formular");
+  const main = html.slice(html.indexOf("<main"), html.indexOf("</main>"));
+  assert.equal((main.match(/Tesla-Schaden melden/g) || []).length, 1, "im Inhalt nur der Hero-Knopf");
+  assert.match(lesen("index.html").slice(lesen("index.html").indexOf('<footer class="fuss"')), /href="\/schaden-melden\/"/, "andere Seiten: Fuss ohne Vorauswahl");
+});
+
+test("Zähler entfernt: kein zaehl.js, kein /api/zaehl, Cloudflare Web Analytics in CSP und Datenschutz", () => {
+  const wurzel = fileURLToPath(new URL("../", import.meta.url));
+  assert.ok(!fs.existsSync(path.join(dist, "js", "zaehl.js")), "dist/js/zaehl.js");
+  assert.ok(!fs.existsSync(path.join(wurzel, "functions", "api", "zaehl.js")), "functions/api/zaehl.js");
+  (function lauf(d) { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, e.name); if (e.isDirectory()) lauf(p); else if (p.endsWith(".html")) { const h = fs.readFileSync(p, "utf8"); assert.doesNotMatch(h, /zaehl\.js|data-zaehl|\/api\/zaehl/, p); } } })(dist);
+  const kopf = lesen("_headers").match(/^\s+Content-Security-Policy: (.*)$/m)[1];
+  assert.match(kopf, /script-src [^;]*https:\/\/static\.cloudflareinsights\.com/);
+  assert.match(kopf, /connect-src [^;]*https:\/\/cloudflareinsights\.com/);
+  const ds = lesen("datenschutz", "index.html");
+  assert.match(ds, /Cloudflare Web Analytics/);
+  assert.match(ds, /keine Cookies/);
+  assert.doesNotMatch(ds, /Supabase|Zählpunkt/);
+});
+
+async function rueckrufMock(page, pfad) {
+  await page.route("**/api/**", (r) => r.request().method() === "GET" ? r.fulfill({ status: 200, contentType: "application/json", body: "{}" }) : r.fulfill({ status: 200, contentType: "application/json", body: '{"ok":true}' }));
+  await page.goto(basis + pfad);
+  await page.evaluate(() => { document.querySelector("[data-rueckruf]").dataset.endpunkt = "/api/rueckruf"; });
+}
+
+test("N09: Rückruf – der Telefon-Fehlertext passt sich beim Tippen dem aktuellen Fehler an", async () => {
+  const { ctx, page, fehler } = await seite(390);
+  await rueckrufMock(page, "/kontakt/");
+  const f = page.locator("[data-rueckruf]");
+  await f.locator('button[type="submit"]').click();
+  const tel = f.locator('input[name="telefon"]');
+  await page.waitForSelector('[data-rueckruf] input[name="telefon"][aria-invalid="true"]');
+  const text = () => tel.evaluate((e) => document.getElementById(e.id + "-fehler").textContent);
+  assert.match(await text(), /Bitte geben Sie Ihre Telefonnummer an/);
+  await tel.fill("079 12");
+  assert.match(await text(), /mindestens 9 Ziffern/, "zu kurz: passender Text");
+  await tel.fill("");
+  assert.match(await text(), /Bitte geben Sie Ihre Telefonnummer an/, "wieder leer");
+  await tel.fill("079 123 45 67");
+  assert.equal(await tel.getAttribute("aria-invalid"), null);
+  assert.deepEqual(fehler, []);
+  await ctx.close();
+});
+
+test("B3: Rückruf-Erfolg ohne «Anliegen: Allgemein», gewähltes Thema natürlich im Satz", async () => {
+  for (const [pfad, muster] of [["/kontakt/", /^Angekommen\. Wir rufen Sie zurück\.$/], ["/flotten/", /^Angekommen\. Wir rufen Sie zum Thema «Flotte oder Firmenfahrzeuge» zurück\.$/]]) {
+    const { ctx, page } = await seite(390);
+    await rueckrufMock(page, pfad);
+    const f = page.locator("[data-rueckruf]");
+    await f.locator('input[name="name"]').fill("Testperson QA");
+    await f.locator('input[name="telefon"]').fill("079 000 00 00");
+    await f.locator('button[type="submit"]').click();
+    await page.waitForSelector("[data-rueckruf] .rueckmeldung--ok");
+    const t = (await f.locator("[data-rueckmeldung]").textContent()).trim();
+    assert.match(t, muster, `${pfad}: ${t}`);
+    assert.doesNotMatch(t, /Anliegen:/);
+    await ctx.close();
+  }
+});
+
+test("N10: Schadenmeldung bei 1440 – Fehlerkasten so breit wie der Senden-Knopf", async () => {
+  const { ctx, page } = await seite(1440, 900);
+  await page.route("**/api/**", (r) => (r.request().method() === "GET" ? r.fulfill({ status: 200, body: "{}" }) : r.fulfill({ status: 500, body: "{}" })));
+  await page.goto(basis + "/schaden-melden/?art=hagel");
+  await page.evaluate(() => { document.getElementById("schaden-form").dataset.endpunkt = "/api/schaden"; });
+  await page.waitForSelector('[data-schritt="2"]:not([hidden])');
+  await page.fill("#f-name", "Test");
+  await page.fill("#f-tel", "071 755 88 61");
+  await page.locator('[data-senden="website"]').click();
+  await page.waitForFunction(() => /nicht geklappt/.test(document.querySelector("[data-sende-rueckmeldung]").textContent));
+  const [m, k] = await page.evaluate(() => [document.querySelector("[data-sende-rueckmeldung]"), document.querySelector('[data-senden="website"]')].map((e) => { const b = e.getBoundingClientRect(); return [b.left, b.right]; }));
+  assert.ok(Math.abs(m[0] - k[0]) <= 1 && Math.abs(m[1] - k[1]) <= 1, `Kasten ${m} / Knopf ${k}`);
+  await ctx.close();
+});
+
+test("N11: Tesla bei 390 – Abstand vor «Gut zu wissen» mindestens 32 px", async () => {
+  const { ctx, page } = await seite(390);
+  await page.goto(basis + "/tesla/");
+  const abstand = await page.evaluate(() => {
+    const [a, b] = document.querySelectorAll(".tesla-infos__zwei > div");
+    const ende = [...a.children].reduce((m, e) => Math.max(m, e.getBoundingClientRect().bottom), 0);
+    return b.querySelector("h2").getBoundingClientRect().top - ende;
+  });
+  assert.ok(abstand >= 32, `Abstand ${abstand}px`);
+  await ctx.close();
 });
