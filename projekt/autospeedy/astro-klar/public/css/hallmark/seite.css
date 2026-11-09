@@ -1,6 +1,6 @@
 /* Hallmark · shape: Werkstatt-Schalter (own shape; the draw caeb33 dealt Conversational FAQ) · genre: editorial · theme: brand · redesign: full · copy: verbatim
- * paper: oklch(98.5% 0.003 85) · accent: oklch(51% 0.149 254) · display: Source Serif 4 · body: Hanken Grotesk · hero: Ledge · nav: floating pill · footer: kept (the project's closing block with the call, the week and the address) · signature: the question "Was ist passiert?" with its eight answers as a counter under the Defender photograph
- * axes: light/roman-serif/cool · posture: restrained · contrast: pass · fold: pass · hero-review: fix · 5 findings · 4 resolved 1 partial · finish-review: subagent · 8 findings · 8 resolved · gap: the counter appears once, under the hero · v2.0.0 */
+ * paper: oklch(98.5% 0.003 85) · accent: oklch(51% 0.149 254) · display: Source Serif 4 · body: Hanken Grotesk · hero: Stage (framed photograph, by the client's wish: no full-bleed picture) · nav: floating pill · footer: kept (the project's closing block with the call, the week and the address) · signature: the question "Was ist passiert?" with its eight answers as a dark counter closing the first screen
+ * axes: light/roman-serif/cool · posture: restrained · contrast: pass · fold: pass · hero-review: ship · 5 findings · 3 resolved 2 partial · finish-review: subagent · 8 findings · 8 resolved · gap: the counter appears once, under the hero · v2.0.0 */
 /* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: S, three of the six service photographs are stand-ins until the shoot; the index sets the service names large so the list carries without them */
 /* Hallmark · dropped "was wir für die umwelt tun." · the old section was a heading over a gap note and returns when the business supplies its content */
 /* Hallmark · reworded "Tesla? Hier entlang →" to "Tesla? Hier entlang" · 63 names the arrow glued to the link text */
@@ -11,13 +11,15 @@
 .kopf { inset: 0 0 auto; top: calc(var(--hinweis-hoehe, 0px) + var(--space-sm)); margin-inline: auto; width: min(100% - 2 * var(--gutter), var(--container) - 2 * var(--gutter)); height: 64px; padding: 0 var(--space-xs) 0 var(--space-lg); grid-template-columns: auto minmax(0, 1fr) auto; column-gap: var(--gap-columns); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: var(--color-paper); }
 .kopf::before { content: none; }
 .kopf__nav { justify-self: start; }
-.kopf .kopf__aktion { min-height: 48px; padding: 0 var(--space-lg); border-radius: var(--radius-pill); background: var(--color-accent); color: var(--color-accent-ink); font: 500 var(--text-md)/1 var(--font-body); box-shadow: none; }
-.kopf .kopf__aktion:hover { background: var(--color-accent-deep); }
+.kopf .kopf__aktion { min-height: 48px; padding: 0 var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: transparent; color: var(--color-ink); font: 500 var(--text-md)/1 var(--font-body); box-shadow: none; }
+.kopf .kopf__aktion:hover { background: var(--color-paper-2); }
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: scroll()) {
-    .kopf .kopf__aktion { animation: hm-aktion linear both; animation-timeline: scroll(root); animation-range: 240px 420px; }
+    .kopf .kopf__aktion { border-color: var(--color-accent); background: var(--color-accent); color: var(--color-accent-ink); animation: hm-aktion linear both; animation-timeline: scroll(root); animation-range: 240px 420px; }
+    .kopf .kopf__aktion:hover { background: var(--color-accent-deep); }
   }
 }
+.kopf .kopf__marke img { height: 48px; }
 @keyframes hm-aktion { from { opacity: 0; visibility: hidden; } to { opacity: 1; visibility: visible; } }
 .sprung, [data-vorschau] { color: var(--color-paper); }
 .sprung { left: var(--space-xs); top: calc(-1 * var(--space-3xl)); }
@@ -25,8 +27,6 @@
 .blatt__innen { width: min(360px, 100%); }
 .partnerband--logos .partnerband__wortmarke { letter-spacing: 0; text-transform: none; color: var(--color-muted); font: 500 var(--text-lg)/1.2 var(--font-body); }
 .partnerband__karte { background: var(--color-paper); border-color: var(--color-rule); }
-
-.hm { --hm-kopfzeile: 13.2; }
 
 /* The project's closing block, on this page: the page's gutter, controls and faces. */
 .fuss__blatt { max-width: var(--container); padding: var(--section-gap-s) var(--gutter) 0; gap: var(--space-2xl); }
@@ -64,16 +64,16 @@
 .hm :is(li, dd, dt, blockquote, figcaption) { max-width: none; }
 .hm a:focus-visible, .hm summary:focus-visible, .hm button:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
 
-/* Hero: a ledge. The photograph fills the screen above, the head rests at its base, the counter closes the screen. */
-.hm-hero { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(280px, 1fr) auto auto; align-items: stretch; min-height: min(100svh, 1080px); padding: 0; }
-.hm-hero__bild { position: relative; min-height: 280px; margin: 0; overflow: hidden; background: var(--color-paper-3); }
-.hm-hero__bild > img { position: absolute; inset: 0; width: 100%; max-width: none; height: 100%; object-fit: cover; object-position: 50% 58%; }
-.hm-hero__text { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap-columns); row-gap: var(--space-lg); align-items: start; padding-block: var(--space-xl); }
-.hm-hero h1 { grid-column: 1 / -1; max-width: none; font-size: calc((min(100vw, var(--container)) - 2 * var(--gutter)) / var(--hm-kopfzeile)); line-height: 1; white-space: nowrap; text-wrap: wrap; }
-.hm-hero h1 br { display: none; }
+/* Hero: a stage. The text on five columns, the photograph framed on seven, the counter closes the screen. */
+.hm-hero { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; align-items: stretch; min-height: min(100svh, 1080px); padding: 0; }
+.hm-hero__raster { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap-columns); align-items: center; padding-block: calc(var(--space-3xl) + var(--space-xs)) var(--space-xl); }
+.hm-hero__text { grid-column: 1 / span 5; }
+.hm-hero__bild { grid-column: 6 / -1; align-self: stretch; position: relative; min-height: 420px; margin: 0; overflow: hidden; border-radius: var(--radius-card); background: var(--color-paper-3); }
+.hm-hero__bild > img { position: absolute; inset: 0; width: 100%; max-width: none; height: 100%; object-fit: cover; object-position: 50% 55%; }
+.hm-hero h1 { max-width: none; font-size: clamp(2.75rem, 5.2vw, 5.25rem); line-height: 1.02; text-wrap: wrap; }
 .hm-hero h1 span { white-space: nowrap; }
-.hm-hero .lead { grid-column: 1 / span 7; max-width: none; color: var(--color-ink-2); }
-.hm-hero__seite { grid-column: 8 / -1; }
+.hm-hero .lead { max-width: none; margin-top: var(--space-lg); color: var(--color-ink-2); }
+.hm-hero__seite { margin-top: var(--space-lg); }
 .hm-status { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-3xs) var(--space-xs); min-height: 1lh; margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
 .hm-status [data-status] { display: inline-flex; align-items: center; gap: var(--space-xs); color: var(--color-ink); font-weight: 500; }
 .hm-status [data-status][data-zustand]::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--color-muted); }
@@ -82,11 +82,13 @@
 
 .hm-frage { background: var(--color-night); color: var(--color-on-night); }
 .hm-frage__innen { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--gap-columns); align-items: stretch; }
-.hm-frage__titel { align-self: center; font: 400 clamp(1.5rem, 2.1vw, 1.953rem)/1.2 var(--font-display); letter-spacing: var(--tracking-display); white-space: nowrap; }
+.hm-frage__titel { align-self: center; font: 400 clamp(1.75rem, 2.7vw, 2.441rem)/1.2 var(--font-display); letter-spacing: var(--tracking-display); white-space: nowrap; }
 .hm-frage__liste { display: flex; margin: 0; padding: 0; list-style: none; }
 .hm-frage__liste li { flex: 1 1 auto; border-left: 1px solid var(--color-night-2); }
-.hm-frage__liste a { display: flex; align-items: center; justify-content: center; min-height: 96px; padding-inline: var(--space-xs); font-size: clamp(1rem, 1.3vw, 1.25rem); font-weight: 500; white-space: nowrap; text-decoration: none; transition: background-color var(--dur-short) var(--ease-out); }
-.hm-frage__liste a:hover { background: var(--color-night-2); }
+.hm-frage__liste a { display: flex; align-items: center; justify-content: center; min-height: 136px; padding-inline: var(--space-xs); font-size: clamp(1rem, 1.3vw, 1.25rem); font-weight: 500; white-space: nowrap; text-decoration: underline 1px var(--color-on-night-muted); text-underline-offset: 0.4em; transition: background-color var(--dur-short) var(--ease-out); }
+.hm-frage__liste a:hover { background: var(--color-night-2); text-decoration-color: currentColor; }
+.hm-frage__liste .hm-frage__tesla a { background: var(--color-night-2); }
+.hm-frage__liste .hm-frage__tesla a:hover { background: color-mix(in oklab, var(--color-night-2) 80%, var(--color-on-night)); }
 .hm-frage__liste a:focus-visible { outline-color: var(--color-on-night); outline-offset: -4px; }
 
 /* The shop in four facts, then the partners. */
@@ -214,23 +216,24 @@
   .hm-frage__innen { grid-template-columns: minmax(0, 1fr); }
   .hm-frage__titel { padding-top: var(--space-md); }
   .hm-frage__liste li:first-child { border-left: 0; }
-  .hm-frage__liste a { min-height: 64px; }
+  .hm-frage__liste a { min-height: 72px; }
 }
 
 @media (max-width: 60rem) {
   .kopf { height: 56px; padding-left: var(--space-md); column-gap: var(--space-sm); }
-  .hm-hero { min-height: 0; grid-template-rows: auto auto auto; }
-  .hm-hero__bild { min-height: 0; aspect-ratio: 4 / 3; max-height: 46svh; }
-  .hm-hero__bild > img { object-position: 50% 100%; }
-  .hm-hero h1 { font-size: clamp(2.5rem, 11vw, 4.5rem); line-height: 1.05; white-space: normal; }
-  .hm-hero h1 br { display: inline; }
-  .hm-hero .lead, .hm-hero__seite { grid-column: 1 / -1; }
+  .kopf .kopf__marke img { height: 40px; }
+  .hm-hero { min-height: 0; grid-template-rows: auto auto; }
+  .hm-hero__raster { padding-block: calc(var(--space-3xl) - var(--space-md)) var(--space-lg); row-gap: var(--space-lg); }
+  .hm-hero__text, .hm-hero__bild { grid-column: 1 / -1; }
+  .hm-hero__bild { order: -1; min-height: 0; aspect-ratio: 16 / 10; max-height: 40svh; }
+  .hm-hero h1 { font-size: clamp(2.5rem, 11vw, 4.5rem); line-height: 1.05; }
+  .hm-hero .lead, .hm-hero__seite { margin-top: var(--space-md); }
   .hm-ablauf__raster, .hm-tesla__kopf, .hm-tesla__unten, .hm-team__kopf, .hm-bew__raster, .hm-team__stimme { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-xl); }
   .hm-ablauf__kopf, .hm-schritte, .hm-tesla__kopf h2, .hm-tesla__kopf .lead, .hm-spec, .hm-tesla__weg, .hm-team__kopf h2, .hm-team__kopf .lead, .hm-bew__raster > :first-child, .hm-bew__raster > :last-child { grid-column: 1 / -1; }
-  .hm-hero__text { row-gap: var(--space-md); padding-block: var(--space-lg); }
   .hm-frage__liste { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--space-md); margin-top: var(--space-sm); padding-bottom: var(--space-md); }
   .hm-frage__liste li { border-left: 0; border-top: 1px solid var(--color-night-2); }
   .hm-frage__liste a { justify-content: flex-start; min-height: 56px; padding-inline: 0; white-space: normal; }
+  .hm-frage__liste .hm-frage__tesla a { padding-inline: var(--space-xs); }
   .hm-fakten__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-xl); }
   .hm-fakten__liste > div:nth-child(odd) { padding-left: 0; border-left: 0; }
   .hm-index__bild { grid-column: 1 / span 4; }
@@ -247,6 +250,10 @@
   .hm-ctas .btn { flex: 1 1 0; padding-inline: var(--space-md); }
   .hm-hero .btn .num { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   .hm-hero .lead { font-size: var(--text-md); line-height: 1.5; }
+  .hm-hero__raster { padding-bottom: var(--space-md); row-gap: var(--space-md); }
+  .hm-hero .lead, .hm-hero__seite { margin-top: var(--space-sm); }
+  .hm-frage__titel { padding-top: var(--space-sm); }
+  .hm-frage__liste { margin-top: var(--space-xs); }
   .hm-fakten__liste { grid-template-columns: minmax(0, 1fr); row-gap: 0; }
   .hm-fakten__liste > div, .hm-fakten__liste > div:first-child { padding: var(--space-md) 0; border-left: 0; border-top: 1px solid var(--color-rule); }
   .hm-fakten__liste > div:first-child { border-top: 0; padding-top: 0; }

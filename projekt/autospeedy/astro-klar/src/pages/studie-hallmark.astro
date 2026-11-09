@@ -57,32 +57,35 @@ const umweltPunkte = umwelt.bestaetigt ? umwelt.punkte : [];
 
 const band = "/bilder/stock/b7-tesla";
 ---
-<Klar seite="index" titel="Studie Startseite nach Hallmark | Auto Speedy" indexierbar={false} faq={faqStart} bildVorladen={{ href: "/bilder/defender-kabine-1600.webp", srcset: "/bilder/defender-kabine-480.webp 480w, /bilder/defender-kabine-960.webp 960w, /bilder/defender-kabine-1600.webp 1600w", sizes: "100vw" }}>
+<Klar seite="index" titel="Studie Startseite nach Hallmark | Auto Speedy" indexierbar={false} faq={faqStart} bildVorladen={{ href: "/bilder/defender-kabine-1600.webp", srcset: "/bilder/defender-kabine-480.webp 480w, /bilder/defender-kabine-960.webp 960w, /bilder/defender-kabine-1600.webp 1600w", sizes: "(max-width: 960px) 100vw, 54vw" }}>
 <link slot="kopf" rel="stylesheet" href="/css/hallmark/seite.css">
 
 
 <section class="hero hm hm-hero">
-  <figure class="hm-hero__bild">
-    <Bild name="defender-kabine" alt="Land Rover Defender in der hell beleuchteten Kabine der Werkstatt" sizes="100vw" lcp />
-  </figure>
-  <div class="container hm-hero__text">
-    <h1>Qualität,<br> <span>die man sieht</span> <span>und fährt.</span></h1>
-    <p class="lead">Carrosserie und Lack in Altstätten, für alle Marken und als Tesla Approved Body Shop. Die Abwicklung mit Ihrer Versicherung übernehmen wir. Einen Ersatzwagen erhalten Sie auf Anfrage.</p>
-    <div class="hm-hero__seite">
-      {/* Klassen «hero» und «ctas» bleiben, weil klar.js daran die Handyleiste ein- und ausblendet. */}
-      <div class="ctas hm-ctas">
-        <a class="btn" href="/schaden-melden/">Schaden melden</a>
-        <a class="btn btn--quiet" href={`tel:${b.tel.e164}`}>Anrufen <span class="num">{b.tel.anzeige}</span></a>
+  {/* Kundenwunsch (Roni, 09.11.2026): kein Vollbild-Hero. Text links, Foto im Rahmen rechts. */}
+  <div class="container hm-hero__raster">
+    <div class="hm-hero__text">
+      <h1>Qualität,<br> <span>die man sieht</span> <span>und fährt.</span></h1>
+      <p class="lead">Carrosserie und Lack in Altstätten, für alle Marken und als Tesla Approved Body Shop. Die Abwicklung mit Ihrer Versicherung übernehmen wir. Einen Ersatzwagen erhalten Sie auf Anfrage.</p>
+      <div class="hm-hero__seite">
+        {/* Klassen «hero» und «ctas» bleiben, weil klar.js daran die Handyleiste ein- und ausblendet. */}
+        <div class="ctas hm-ctas">
+          <a class="btn" href="/schaden-melden/">Schaden melden</a>
+          <a class="btn btn--quiet" href={`tel:${b.tel.e164}`}>Anrufen <span class="num">{b.tel.anzeige}</span></a>
+        </div>
+        <p class="hm-status" data-hero-status hidden><span data-status></span><span data-wenn-zu hidden> Online melden geht jederzeit, wir rufen Sie zurück.</span></p>
       </div>
-      <p class="hm-status" data-hero-status hidden><span data-status></span><span data-wenn-zu hidden> Online melden geht jederzeit, wir rufen Sie zurück.</span></p>
     </div>
+    <figure class="hm-hero__bild">
+      <Bild name="defender-kabine" alt="Land Rover Defender in der hell beleuchteten Kabine der Werkstatt" sizes="(max-width: 960px) 100vw, 54vw" lcp />
+    </figure>
   </div>
   <nav class="hm-frage" aria-labelledby="hm-frage-titel">
     <div class="container hm-frage__innen">
       <p class="hm-frage__titel" id="hm-frage-titel">Was ist passiert?</p>
       <ul class="hm-frage__liste">
         {arten.map((a: any) => <li><a href={`/schaden-melden/?art=${a.id}`}>{a.name}</a></li>)}
-        <li><a href="/schaden-melden/?fahrzeug=tesla">Tesla? Hier entlang</a></li>
+        <li class="hm-frage__tesla"><a href="/schaden-melden/?fahrzeug=tesla">Tesla? Hier entlang</a></li>
       </ul>
     </div>
   </nav>
