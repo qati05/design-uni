@@ -1,1 +1,19 @@
-{}
+{
+  "medaur-frontend": [
+    "projekt/autospeedy/astro/functions/**",
+    "projekt/autospeedy/astro-klar/functions/**",
+    "projekt/autospeedy/gemeinsam/**",
+    "projekt/autospeedy/astro/public/js/rueckruf.js",
+    "projekt/autospeedy/astro-klar/public/js/rueckruf.js",
+    "projekt/autospeedy/astro/src/components/Rueckruf.astro",
+    "projekt/autospeedy/astro-klar/src/components/Rueckruf.astro",
+    "projekt/autospeedy/astro/test/**",
+    "projekt/autospeedy/astro-klar/test/**",
+    "projekt/autospeedy-v2/medaur/B1-*.md"
+  ],
+  "medaur-frontend-b": [
+    "projekt/autospeedy/cockpit/**",
+    "projekt/autospeedy-v2/medaur/B2-*.md"
+  ],
+  "medaur-qa": [".medaur/belege/**"]
+}
