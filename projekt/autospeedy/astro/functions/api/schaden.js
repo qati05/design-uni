@@ -6,68 +6,18 @@
 import { pruefe, GRENZEN, mailVoll, mailVollHtml, bestaetigungText, betreff } from "../../../gemeinsam/meldung.ts";
 import { sende, base64 } from "../../../gemeinsam/mail.js";
 import { istJpeg, ohneMetadaten } from "../../../gemeinsam/jpeg.js";
+import { antwort, herkunftOk, tokenAntwort, zeitfalle, gedrosselt } from "../../../gemeinsam/schutz.js";
 import betriebDaten from "../../src/content/betrieb.json" with { type: "json" };
 
 const TEL = betriebDaten.tel.anzeige;
-const ZEIT_MIN = 4000; // Zeitfalle: frühestens so viele ms nach dem Laden des Formulars
-
-function antwort(status, daten) {
-  return new Response(JSON.stringify(daten), { status, headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" } });
-}
 const fehlerAntwort = (status, fehler) => antwort(status, { ok: false, fehler, telefon: TEL });
 
-async function hmacHex(schluessel, text) {
-  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(schluessel), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-  const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(text));
-  return [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, "0")).join("");
-}
-async function sha256hex(text) {
-  const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-  return [...new Uint8Array(h)].map((b) => b.toString(16).padStart(2, "0")).join("");
-}
-// zeitkonstanter Vergleich zweier Hex-Strings gleicher Länge
-function gleich(a, b) {
-  if (a.length !== b.length) return false;
-  let r = 0;
-  for (let i = 0; i < a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return r === 0;
-}
-
 /** GET /api/schaden?t=1 → Zeitfalle-Token (HMAC über den Zeitstempel). Ohne FORMULAR_HMAC ist die Falle aus. */
-export async function onRequestGet({ request, env }) {
-  const url = new URL(request.url);
-  if (url.searchParams.get("t") !== "1") return antwort(404, { ok: false });
-  if (!env.FORMULAR_HMAC) return antwort(200, { t: "" });
-  const ts = String(Date.now());
-  return antwort(200, { t: `${ts}.${await hmacHex(env.FORMULAR_HMAC, ts)}` });
-}
-
-/** Prüft das Zeitfalle-Token. Rückgabe: { stand: "ok" | "zu-schnell" | "alt" | "kaputt", warte?: ms bis zur Freigabe }. */
-async function zeitfalle(env, token) {
-  if (!env.FORMULAR_HMAC) { console.log("schaden: Zeitfalle aus (FORMULAR_HMAC fehlt)"); return { stand: "ok" }; }
-  if (typeof token !== "string" || !token.includes(".")) return { stand: "kaputt" };
-  const [ts, sig] = token.split(".");
-  if (!/^\d+$/.test(ts) || !sig) return { stand: "kaputt" };
-  if (!gleich(await hmacHex(env.FORMULAR_HMAC, ts), sig)) return { stand: "kaputt" };
-  const alter = Date.now() - Number(ts);
-  if (alter < ZEIT_MIN) return { stand: "zu-schnell", warte: ZEIT_MIN - alter };
-  if (alter > 2 * 60 * 60 * 1000) return { stand: "alt" };
-  return { stand: "ok" };
-}
-
-/** Drossel ohne Datenbank: Workers Rate Limiting Binding; Schlüssel = SHA-256 der IP, nicht gespeichert. */
-async function gedrosselt(env, ip) {
-  if (!env.DROSSEL || typeof env.DROSSEL.limit !== "function") return false; // kein Binding: überspringen
-  try {
-    const { success } = await env.DROSSEL.limit({ key: await sha256hex(ip || "unbekannt") });
-    return !success;
-  } catch { return false; }
-}
+export const onRequestGet = ({ request, env }) => tokenAntwort(request, env);
 
 export async function onRequestPost({ request, env }) {
   // 1. Origin
-  const herkunft = request.headers.get("Origin");
-  if (env.ERLAUBTE_HERKUNFT && herkunft !== env.ERLAUBTE_HERKUNFT) return fehlerAntwort(403, ["herkunft"]);
+  if (!herkunftOk(request, env)) return fehlerAntwort(403, ["herkunft"]);
   // 2. multipart
   if (!(request.headers.get("Content-Type") || "").includes("multipart/form-data")) return fehlerAntwort(415, ["format"]);
   // 3. Grösse laut Kopf
@@ -79,7 +29,7 @@ export async function onRequestPost({ request, env }) {
   if (String(form.get("website") || "").trim()) return antwort(200, { ok: true });
 
   // 5. Zeitfalle
-  const falle = await zeitfalle(env, form.get("t"));
+  const falle = await zeitfalle(env, form.get("t"), "schaden");
   // Zu schnell: nie still verwerfen (sonst zeigt die Seite «Angekommen», obwohl nichts gesendet wurde). Die Seite wartet
   // «warte» ms und sendet dieselben Daten nochmals; für Menschen unsichtbar, für Agenten und Autofill korrekt.
   if (falle.stand === "zu-schnell") return antwort(422, { ok: false, fehler: ["zeit-schnell"], warte: falle.warte, telefon: TEL });

@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { onRequestPost, onRequestGet } from "../functions/api/schaden.js";
 import { pruefe } from "../../gemeinsam/meldung.ts";
 import { schreibeFixture, machExifJpeg } from "./fixtures/exif.mjs";
+// Rückruf (POST /api/rueckruf) läuft mit, solange package.json die Datei nicht selbst nennt (Schreibbereich B1).
 
 schreibeFixture();
 

@@ -1,5 +1,7 @@
-/* Rückruf-Formulare: an den Endpunkt (art «Rückruf»), «angekommen» nur bei Antwort 200; in der Vorschau ohne Endpunkt
-   nur vorgeführt; ohne JavaScript per E-Mail-Programm (action). Keine Cookies, nichts gespeichert.
+/* Rückruf-Formulare: an POST /api/rueckruf (direkt per Mail an den Betrieb, kein Cockpit). «Angekommen» nur, wenn der
+   Server 200 mit ok:true antwortet; in der Vorschau ohne Endpunkt nur vorgeführt; ohne JavaScript per E-Mail-Programm
+   (action). Keine Cookies, nichts gespeichert.
+   Felder: anliegen, name, telefon, zeit (je angetipptes Feld), bemerkung, email (falls vorhanden), ort, website, t.
    Zeitfalle wie bei der Schadenmeldung: Token beim Laden holen (GET ?t=1), als «t» mitsenden; bei «zeit-schnell» kurz
    warten und nochmals senden, bei «zeit» (abgelaufen) neues Token holen und einmal nochmals senden. */
 (function () {
@@ -16,14 +18,8 @@
     function melde(t) { r.hidden = !t; r.textContent = t || ""; }
     function wert(n) { var e = f.elements[n]; return e && e.value ? e.value.trim() : ""; }
     function anliegen() { var x = f.querySelector('input[name="anliegen"]:checked') || f.querySelector('input[name="anliegen"]'); return x ? x.value : "Allgemein"; }
-    // Bemerkung für den Betrieb: Anliegen, freier Text («Worum geht es?») und angetippte Zeiten (Linie Klar), je eine Zeile
+    // Angetippte Zeiten aus dem Zeitwahl-Raster (Linie Klar); der Server nimmt nur Werte aus diesem Raster an
     function zeiten() { return [].map.call(f.querySelectorAll('input[name="zeit"]:checked'), function (e) { return e.value; }); }
-    function bemerkung() {
-      var z = ["Anliegen: " + anliegen()];
-      if (wert("bemerkung")) z.push("Worum geht es: " + wert("bemerkung"));
-      if (zeiten().length) z.push("Bevorzugte Zeit für den Anruf: " + zeiten().join(", "));
-      return z.join("\n");
-    }
     f.addEventListener("submit", function (e) {
       e.preventDefault();
       if (sendet) return;
@@ -35,13 +31,16 @@
       var ep = f.dataset.endpunkt;
       if (!ep) { melde(f.dataset.istVorschau === "ja" ? "Vorschau: Auf der fertigen Website käme Ihre Rückruf-Bitte jetzt bei Auto Speedy an. Hier wird nichts gesendet." : "Bitte rufen Sie uns an: 071 755 88 61."); return; }
       var d = new FormData();
-      d.append("art", "Rückruf"); d.append("name", wert("name")); d.append("telefon", wert("telefon")); d.append("bemerkung", bemerkung()); d.append("website", wert("website"));
+      d.append("anliegen", anliegen()); d.append("name", wert("name")); d.append("telefon", wert("telefon"));
+      zeiten().forEach(function (z) { d.append("zeit", z); });
+      d.append("bemerkung", wert("bemerkung")); d.append("email", wert("email")); d.append("website", wert("website"));
+      var knopf = f.querySelector('button[type="submit"]'); d.append("ort", (knopf && knopf.dataset.ort) || "");
       var ts = f.querySelector('[name="cf-turnstile-response"]'); if (ts) d.append("cf-turnstile-response", ts.value);
       sendet = true; melde("Wird gesendet …");
       function sende(versuch) {
         d.set("t", token);
         return fetch(ep, { method: "POST", body: d }).then(function (x) {
-          if (x.ok) return x.json();
+          if (x.ok) return x.json().then(function (j) { if (!j || j.ok !== true) throw 0; return j; });
           if (x.status !== 422 || versuch >= 3) throw 0;
           return x.json().then(function (j) {
             var fe = (j && j.fehler) || [];

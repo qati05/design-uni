@@ -1,8 +1,10 @@
 ---
-// Rückruf in einem Schritt (gleiche Logik und Felder wie die erste Linie: /js/rueckruf.js, art «Rückruf», landet im Cockpit).
+// Rückruf in einem Schritt (gleiche Logik wie die erste Linie: /js/rueckruf.js → POST /api/rueckruf, direkt per Mail an
+// den Betrieb, kein Cockpit; Entscheid Roni 08./09.11.2026). Endpunkt auf derselben Herkunft wie /api/schaden.
 import { betrieb as b, bau, vorschau } from "../../../astro/bau/daten.mjs";
 const { anliegen = ["Allgemein"], titel = "Wir rufen Sie zurück", text, ort = "rueckruf", hilfe = "Zum Beispiel: Delle an der Tür, Kratzer am Stossfänger. Kosten und Termin besprechen wir am Telefon, sie hängen vom Schaden ab." } = Astro.props;
-const endpunkt = process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt || "";
+const formular = process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt || "";
+const endpunkt = !formular ? "" : /\/api\/schaden\/?$/.test(formular) ? formular.replace(/\/api\/schaden\/?$/, "/api/rueckruf") : "/api/rueckruf";
 const id = `rr-${ort}`;
 const turnstile = process.env.TURNSTILE_SITEKEY || "";
 // Zeitwahl zum Antippen (Roni 07.11.): Wochentage × Vormittag/Nachmittag aus den Öffnungszeiten, freiwillig, mehrere möglich.

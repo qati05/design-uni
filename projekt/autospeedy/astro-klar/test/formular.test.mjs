@@ -8,6 +8,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright-core";
+// Rückruf-Formular gegen /api/rueckruf läuft mit, solange package.json die Datei nicht selbst nennt (Schreibbereich B1).
 
 const dist = fileURLToPath(new URL("../dist/", import.meta.url));
 const csp = fs.readFileSync(path.join(dist, "_headers"), "utf8").match(/^\s+Content-Security-Policy: (.*)$/m)[1];

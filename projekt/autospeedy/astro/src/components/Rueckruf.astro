@@ -1,9 +1,12 @@
 ---
-// Rückruf in einem Schritt: Anliegen, Name, Telefon. Geht an denselben Endpunkt wie die Schadenmeldung (art «Rückruf»),
-// landet im Cockpit. Ohne Endpunkt in der Vorschau nur vorgeführt; ohne JavaScript per E-Mail-Programm.
+// Rückruf in einem Schritt: Anliegen, Name, Telefon. Geht an POST /api/rueckruf und von dort direkt per Mail an den
+// Betrieb (Entscheid Roni 08./09.11.2026, kein Cockpit). Die Website hat einen Server, sobald ein Formular-Endpunkt
+// gesetzt ist; dann /api/rueckruf auf derselben Herkunft wie /api/schaden. Ohne Endpunkt in der Vorschau nur vorgeführt;
+// ohne JavaScript per E-Mail-Programm.
 import { betrieb as b, bau, vorschau } from "../../bau/daten.mjs";
 const { anliegen = ["Allgemein"], titel = "Wir rufen Sie zurück", text, ort = "rueckruf" } = Astro.props;
-const endpunkt = process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt || "";
+const formular = process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt || "";
+const endpunkt = !formular ? "" : /\/api\/schaden\/?$/.test(formular) ? formular.replace(/\/api\/schaden\/?$/, "/api/rueckruf") : "/api/rueckruf";
 const id = `rr-${ort}`;
 const turnstile = process.env.TURNSTILE_SITEKEY || "";
 ---
