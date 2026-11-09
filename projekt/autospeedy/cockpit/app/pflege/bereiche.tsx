@@ -1,10 +1,10 @@
 "use client";
 
 // Die Bereiche des Cockpits. Jeder ändert nur den Entwurf im Browser; auf die Website kommt es erst mit «Veröffentlichen».
-import { useState } from "react";
-import { BILD_PLAETZE, FAQ_PLATZHALTER, HINWEIS_ARTEN, HINWEIS_LINKS, HINWEIS_POPUP_ARTEN, telefonCH, zeitenZeile, type Entwurf, type EntwurfPerson, type Pflege } from "@/lib/pflege";
+import { useEffect, useState } from "react";
+import { AUSNAHME_TAGE_MAX, BILD_PLAETZE, FAQ_PLATZHALTER, HINWEIS_ARTEN, HINWEIS_FORMEN, HINWEIS_LINKS, HINWEIS_POPUP_ARTEN, telefonCH, zeitenZeile, type Entwurf, type EntwurfPerson, type Pflege } from "@/lib/pflege";
 import type { Besucher as BesucherZahlen, VerlaufEintrag } from "@/lib/backend";
-import { Auswahl, BildKnopf, Blatt, Eintrag, Feld, Gruppe, Langtext, Schalter, Symbol, Tat, Wert, usePflege } from "./teile";
+import { Auswahl, BildKnopf, Blatt, Eintrag, Feld, Gruppe, Kacheln, Langtext, Schalter, Symbol, Tat, Umschalter, Wert, usePflege } from "./teile";
 
 const ART_NAME: Record<(typeof HINWEIS_ARTEN)[number], string> = { hagel: "Hagel", ferien: "Ferien", geschlossen: "Geschlossen", aktion: "Aktion", info: "Information" };
 /** «7.30» (so steht es in site.json) ↔ «07:30» (so will es das Zeitfeld des Browsers). */
@@ -18,20 +18,78 @@ function plusTage(d: string, n: number): string {
 }
 
 // ---------- Aktuell
+type Form = Entwurf["hinweise"][number]["form"];
+const FORM_TEXT: Record<Form, { name: string; wo: string }> = {
+  banner: { name: "Leiste oben", wo: "Steht ganz oben auf jeder Seite, über dem Menü. Besucher können sie schliessen." },
+  popup: { name: "Fenster", wo: "Erscheint nach 2 Sekunden in der Mitte, einmal pro Besuch. Nicht auf der Seite «Schaden melden»." },
+  ecke: { name: "Karte in der Ecke", wo: "Steht unten rechts über der Seite, bis man sie schliesst. Nicht auf der Seite «Schaden melden»." },
+};
+// Dieselben Zeichen wie auf der Website (astro-klar/src/components/Hinweis.astro).
+const ART_ZEICHEN: Record<(typeof HINWEIS_ARTEN)[number], React.ReactNode> = {
+  hagel: <><path d="M12 2.5c3.2 3.4 5.2 6.1 5.2 8.8a5.2 5.2 0 1 1-10.4 0C6.8 8.6 8.8 5.9 12 2.5Z" /><circle cx="12" cy="19.5" r="1.3" fill="currentColor" stroke="none" /><circle cx="8" cy="21" r="1.1" fill="currentColor" stroke="none" /><circle cx="16" cy="21" r="1.1" fill="currentColor" stroke="none" /></>,
+  ferien: <><rect x="3.5" y="5" width="17" height="15" rx="2" /><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" /></>,
+  geschlossen: <><rect x="5" y="10.5" width="14" height="9.5" rx="2" /><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" /></>,
+  aktion: <path d="M12 3.2 14.5 8.6l5.9.7-4.4 4 1.2 5.8L12 16.3 6.8 19.1 8 13.3l-4.4-4 5.9-.7Z" />,
+  info: <><circle cx="12" cy="12" r="9" /><path d="M12 11v5M12 7.8h.01" /></>,
+};
+const Zeichen = ({ art }: { art: (typeof HINWEIS_ARTEN)[number] }) => <svg className="vs-zeichen" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{ART_ZEICHEN[art]}</svg>;
+const Zu = () => <svg className="vs-zu" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>;
+const popupErlaubt = (art: string) => (HINWEIS_POPUP_ARTEN as readonly string[]).includes(art);
+/** Welche Darstellung wirklich gilt: «Fenster» gibt es nur bei Hagel und Aktion, sonst wird es zur Leiste. */
+const formVon = (h: { art: string; form: Form }): Form => (h.form === "popup" && !popupErlaubt(h.art) ? "banner" : h.form);
+/** Kleines Schema für die Wahl der Darstellung: eine Seite, der Hinweis ist blau hervorgehoben. */
+const skizze = (form: Form) => <span className={`skizze skizze--${form}`}><i className="skizze__kopf" /><i className="skizze__text" /><i className="skizze__bild" /><b /></span>;
+
+type Geraet = "handy" | "computer";
+/** Vorschau: die Startseite in klein, der Hinweis steht dort, wo ihn Besucher sehen. Vereinfacht, aber mit dem echten Text. */
+function HinweisVorschau({ h, geraet }: { h: Entwurf["hinweise"][number]; geraet: Geraet }) {
+  const form = formVon(h), text = h.text || "Ihr Text erscheint hier.";
+  const link = HINWEIS_LINKS.find((l) => l.wert === h.link)?.text;
+  return (
+    <figure className={`vorschau vorschau--${geraet}`}>
+      <div className="vs">
+        <div className="vs__rahmen" aria-hidden="true"><i /><i /><i /><span>autospeedy.ch</span></div>
+        <div className="vs__seite">
+          {form === "banner" ? (
+            <p className={`vs-leiste vs-art--${h.art}`}><Zeichen art={h.art} /><span className="vs-leiste__text">{h.titel ? <b>{h.titel} </b> : null}{text}{link ? <u>{link} →</u> : null}</span><Zu /></p>
+          ) : null}
+          <div className="vs__kopf" aria-hidden="true"><img src="/bilder/logo-96.webp" alt="" /><span className="vs__nav"><i /><i /><i /><i /></span><span className="vs__knopf" /></div>
+          <div className="vs__hero" aria-hidden="true">
+            <div className="vs__herotext"><p className="vs__titel">Qualität, die man sieht und fährt.</p><i className="vs__strich" /><i className="vs__strich vs__strich--kurz" /><span className="vs__knoepfe"><i /><i /></span></div>
+            <img src="/bilder/defender-kabine-480.webp" alt="" />
+          </div>
+          <div className="vs__band" aria-hidden="true"><span>Was ist passiert?</span><i /><i /><i /></div>
+          {form === "popup" ? (
+            <div className="vs__schleier"><div className="vs-fenster"><span className="vs-fenster__kopf"><Zeichen art={h.art} /><Zu /></span>{h.titel ? <b className="vs-fenster__titel">{h.titel}</b> : null}<p>{text}</p>{link ? <span className="vs-fenster__knopf">{link}</span> : null}</div></div>
+          ) : null}
+          {form === "ecke" ? (
+            <div className={`vs-ecke vs-art--${h.art}`}><Zeichen art={h.art} /><span className="vs-ecke__text">{h.titel ? <b>{h.titel}</b> : null}<span>{text}</span>{link ? <u>{link} →</u> : null}</span><Zu /></div>
+          ) : null}
+          <div className="vs__handyleiste" aria-hidden="true"><i /><i /></div>
+        </div>
+      </div>
+      <figcaption><b>{FORM_TEXT[form].name}.</b> {FORM_TEXT[form].wo}</figcaption>
+    </figure>
+  );
+}
+
 export function Hinweise() {
   const { e, aendern, heute } = usePflege();
+  const [geraet, setGeraet] = useState<Geraet>("handy");
+  // Am Computer zeigt die Vorschau zuerst die Website am Computer, am Handy die am Handy.
+  useEffect(() => { if (window.matchMedia("(min-width: 860px)").matches) setGeraet("computer"); }, []);
   return (
     <>
-      <p className="einleitung">Zum Beispiel nach einem Hagelsturm oder vor den Ferien. Die Website zeigt einen Hinweis nur im gewählten Zeitraum. Höchstens 3, davon 1 Pop-up.</p>
+      <p className="einleitung">Zum Beispiel nach einem Hagelsturm oder vor den Ferien. Die Website zeigt einen Hinweis nur im gewählten Zeitraum. Die Vorschau zeigt, wo er steht. Höchstens 3 Hinweise, davon 1 Fenster und 1 Karte.</p>
+      {e.hinweise.length ? <Umschalter name="Vorschau für" wert={geraet} setze={(w) => setGeraet(w as Geraet)} wahl={[{ wert: "handy", text: "Handy" }, { wert: "computer", text: "Computer" }]} /> : null}
       {e.hinweise.map((h, i) => {
-        const popup = (HINWEIS_POPUP_ARTEN as readonly string[]).includes(h.art);
         const stand = heute < h.von ? `Geplant: Die Website zeigt ihn ab ${tagText(h.von)}.` : heute > h.bis ? "Abgelaufen: Die Website zeigt ihn nicht mehr." : `Läuft: Die Website zeigt ihn bis ${tagText(h.bis)}.`;
         const setze = (fn: (x: Entwurf["hinweise"][number]) => void) => aendern((d) => fn(d.hinweise[i]!));
         return (
           <Gruppe key={i} titel={`Hinweis ${i + 1}`} fuss={stand}>
-            <div className={`muster muster--${h.art}`} aria-label="So sieht der Hinweis aus"><span className="muster__art">{ART_NAME[h.art]}</span><span>{h.titel ? <b>{h.titel} </b> : null}{h.text || "Ihr Text erscheint hier."}</span></div>
+            <HinweisVorschau h={h} geraet={geraet} />
+            <Kacheln name="Darstellung" wert={formVon(h)} setze={(w) => setze((x) => { x.form = w as Form; })} wahl={HINWEIS_FORMEN.map((f) => ({ wert: f, text: FORM_TEXT[f].name, bild: skizze(f), ...(f === "popup" && !popupErlaubt(h.art) ? { aus: "nur bei Hagel und Aktion" } : {}) }))} />
             <Auswahl name="Art" wert={h.art} setze={(w) => setze((x) => { x.art = w as typeof x.art; })} wahl={HINWEIS_ARTEN.map((a) => ({ wert: a, text: ART_NAME[a] }))} />
-            {popup ? <Auswahl name="Form" wert={h.form} setze={(w) => setze((x) => { x.form = w as typeof x.form; })} wahl={[{ wert: "banner", text: "Leiste oben" }, { wert: "popup", text: "Pop-up" }]} /> : null}
             <Feld name="Titel" wert={h.titel} setze={(w) => setze((x) => { x.titel = w; })} max={50} platz="freiwillig" />
             <Langtext name="Text" wert={h.text} setze={(w) => setze((x) => { x.text = w; })} max={160} zeilen={2} />
             <Auswahl name="Führt zu" wert={h.link} setze={(w) => setze((x) => { x.link = w; })} wahl={[{ wert: "", text: "Kein Link" }, ...HINWEIS_LINKS.map((l) => ({ wert: l.wert, text: l.text }))]} />
@@ -70,32 +128,39 @@ export function Zeiten() {
   );
 }
 
+/** Anzahl Tage von «von» bis und mit «bis» (beide JJJJ-MM-TT). */
+const tageZahl = (von: string, bis: string) => Math.round((Date.parse(bis) - Date.parse(von)) / 864e5) + 1;
 export function Ausnahmen() {
   const { e, aendern } = usePflege();
   const [offen, setOffen] = useState<number | null>(null);
   const a = offen === null ? undefined : e.ausnahmen[offen];
   const setze = (fn: (x: Entwurf["ausnahmen"][number]) => void) => aendern((d) => { const x = d.ausnahmen[offen!]; if (x) fn(x); });
+  const wann = (x: Entwurf["ausnahmen"][number]) => (!x.datum ? "Datum fehlt" : x.bisDatum && x.bisDatum !== x.datum ? `${tagText(x.datum, true)} bis ${tagText(x.bisDatum, true)}` : tagText(x.datum, true));
+  const mehrere = !!a && !!a.datum && !!a.bisDatum && a.bisDatum > a.datum;
   return (
     <>
-      <p className="einleitung">Gilt nur an diesem einen Tag. Die Website zeigt es in der Woche davor.</p>
+      <p className="einleitung">Ein einzelner Feiertag oder Ferien von einem Tag bis zu einem anderen. Die Website zeigt kommende Einträge bei den Öffnungszeiten und rechnet sie bei «Jetzt geöffnet» mit.</p>
       <Gruppe>
         {e.ausnahmen.map((x, i) => (
-          <Eintrag key={i} titel={x.name || "Neuer Tag"} unter={`${tagText(x.datum, true) || "Datum fehlt"} · ${x.geschlossen ? "geschlossen" : `${x.von || "?"} bis ${x.bis || "?"} Uhr`}`} auf={() => setOffen(i)}
-            weg={() => aendern((d) => { d.ausnahmen.splice(i, 1); }, `${x.name || "Tag"} entfernt`)} />
+          <Eintrag key={i} titel={x.name || "Neuer Eintrag"} unter={`${wann(x)} · ${x.geschlossen ? "geschlossen" : `${x.von || "?"} bis ${x.bis || "?"} Uhr`}`} auf={() => setOffen(i)}
+            weg={() => aendern((d) => { d.ausnahmen.splice(i, 1); }, `${x.name || "Eintrag"} entfernt`)} />
         ))}
-        {e.ausnahmen.length < 40 ? <Tat symbol="plus" tu={() => { aendern((d) => { d.ausnahmen.push({ name: "", datum: "", geschlossen: true, von: "", bis: "" }); }); setOffen(e.ausnahmen.length); }}>Tag hinzufügen</Tat> : null}
+        {e.ausnahmen.length < 40 ? <Tat symbol="plus" tu={() => { aendern((d) => { d.ausnahmen.push({ name: "", datum: "", bisDatum: "", geschlossen: true, von: "", bis: "" }); }); setOffen(e.ausnahmen.length); }}>Feiertag oder Ferien hinzufügen</Tat> : null}
       </Gruppe>
       {a && offen !== null ? (
-        <Blatt titel={a.name || "Neuer Tag"} zu={() => setOffen(null)}>
+        <Blatt titel={a.name || "Neuer Eintrag"} zu={() => setOffen(null)}>
           <Gruppe>
-            <Feld name="Anlass" wert={a.name} setze={(w) => setze((x) => { x.name = w; })} max={60} platz="z. B. Weihnachten" />
-            <Feld name="Datum" art="date" wert={a.datum} setze={(w) => setze((x) => { x.datum = w; })} />
+            <Feld name="Anlass" wert={a.name} setze={(w) => setze((x) => { x.name = w; })} max={60} platz="z. B. Betriebsferien" />
+          </Gruppe>
+          <Gruppe titel="Wann" fuss={mehrere ? `${tageZahl(a.datum, a.bisDatum)} Tage am Stück, höchstens ${AUSNAHME_TAGE_MAX}.` : "Nur ein Tag? Dann «Bis» leer lassen."}>
+            <Feld name="Von" art="date" wert={a.datum} setze={(w) => setze((x) => { x.datum = w; })} />
+            <Feld name="Bis" art="date" wert={a.bisDatum} min={a.datum || undefined} setze={(w) => setze((x) => { x.bisDatum = w; })} />
           </Gruppe>
           <Gruppe>
-            <Schalter name="Ganzer Tag geschlossen" an={a.geschlossen} setze={(an) => setze((x) => { x.geschlossen = an; })} />
+            <Schalter name={mehrere ? "Ganz geschlossen" : "Ganzer Tag geschlossen"} an={a.geschlossen} setze={(an) => setze((x) => { x.geschlossen = an; })} />
             {a.geschlossen ? null : (
               <div className="zeile zeile--zeit">
-                <span className="zeile__name">Offen</span>
+                <span className="zeile__name">Offen{mehrere ? <small>an jedem dieser Tage</small> : null}</span>
                 <span className="vonbis">
                   <input type="time" aria-label="Offen von" value={alsUhr(a.von)} onChange={(x) => setze((y) => { y.von = alsPunkt(x.target.value); })} />
                   <span aria-hidden="true">bis</span>
@@ -104,7 +169,7 @@ export function Ausnahmen() {
               </div>
             )}
           </Gruppe>
-          <Gruppe><Tat rot tu={() => { const i = offen; setOffen(null); aendern((d) => { d.ausnahmen.splice(i, 1); }, `${a.name || "Tag"} entfernt`); }}>Tag entfernen</Tat></Gruppe>
+          <Gruppe><Tat rot tu={() => { const i = offen; setOffen(null); aendern((d) => { d.ausnahmen.splice(i, 1); }, `${a.name || "Eintrag"} entfernt`); }}>Eintrag entfernen</Tat></Gruppe>
         </Blatt>
       ) : null}
     </>

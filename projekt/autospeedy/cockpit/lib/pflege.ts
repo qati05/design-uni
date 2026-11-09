@@ -2,7 +2,7 @@
 // Hier: der Entwurf, den das Cockpit im Browser bearbeitet, sein Weg zurück in site.json und die Liste der Änderungen in Alltagssprache.
 import type { z } from "zod";
 import { BILD_PLAETZE, HINWEIS_POPUP_ARTEN, siteSchema, speicherFotos, zeitenZeile, type BildPlatz, type Site } from "../../gemeinsam/site";
-export { BILD_PLAETZE, FAQ_PLATZHALTER, HINWEIS_ARTEN, HINWEIS_LINKS, HINWEIS_POPUP_ARTEN, TEAMFOTO, minuten, speicherFotos, telefonCH, zeitenZeile } from "../../gemeinsam/site";
+export { AUSNAHME_TAGE_MAX, BILD_PLAETZE, FAQ_PLATZHALTER, HINWEIS_ARTEN, HINWEIS_FORMEN, HINWEIS_LINKS, HINWEIS_POPUP_ARTEN, TEAMFOTO, minuten, speicherFotos, telefonCH, zeitenZeile } from "../../gemeinsam/site";
 export type { BildPlatz } from "../../gemeinsam/site";
 
 export const pflegeSchema = siteSchema;
@@ -32,7 +32,7 @@ export function fotoAnzeige(url: string): string {
 }
 
 // ---------- Entwurf: was im Browser bearbeitet wird. Leere Zeilen und leere Felder sind erlaubt, bis veröffentlicht wird.
-export type EntwurfHinweis = { art: Pflege["hinweise"][number]["art"]; form: "banner" | "popup"; titel: string; text: string; link: string; von: string; bis: string };
+export type EntwurfHinweis = { art: Pflege["hinweise"][number]["art"]; form: Pflege["hinweise"][number]["form"]; titel: string; text: string; link: string; von: string; bis: string };
 export type EntwurfPerson = { name: string; rolle: string; foto?: string; email: string; einverstaendnis: boolean };
 export type EntwurfBild = { foto: string; alt: string; b: number; h: number };
 export type EntwurfPartner = { name: string; logo?: string; b?: number; h?: number };
@@ -40,7 +40,8 @@ type Fenster = { von: string; bis: string };
 export type Entwurf = {
   hinweise: EntwurfHinweis[];
   zeiten: (Omit<Pflege["zeiten"][number], "fenster"> & { fenster: [Fenster, Fenster] })[];
-  ausnahmen: { name: string; datum: string; geschlossen: boolean; von: string; bis: string }[];
+  /** «bisDatum» leer: ein einzelner Tag. Sonst gilt es von «datum» bis und mit «bisDatum». */
+  ausnahmen: { name: string; datum: string; bisDatum: string; geschlossen: boolean; von: string; bis: string }[];
   team: { name: string; leute: EntwurfPerson[] }[];
   stimme: { text: string; name: string; rolle: string; freigegeben: boolean };
   bewertungen: { zeigen: boolean };
@@ -55,7 +56,7 @@ export function entwurfAus(p: Pflege): Entwurf {
   return structuredClone({
     hinweise: p.hinweise.map((h) => ({ ...h })),
     zeiten: p.zeiten.map((t) => ({ ...t, fenster: [t.fenster[0] ?? { von: "", bis: "" }, t.fenster[1] ?? { von: "", bis: "" }] as [Fenster, Fenster] })),
-    ausnahmen: p.ausnahmen.map((a) => ({ name: a.name, datum: a.datum, geschlossen: a.geschlossen, von: a.von ?? "", bis: a.bis ?? "" })),
+    ausnahmen: p.ausnahmen.map((a) => ({ name: a.name, datum: a.datum, bisDatum: a.bisDatum ?? "", geschlossen: a.geschlossen, von: a.von ?? "", bis: a.bis ?? "" })),
     team: p.team.map((g) => ({ name: g.name, leute: g.leute.map((l) => ({ name: l.name, rolle: l.rolle, ...(l.foto ? { foto: l.foto } : {}), email: l.email ?? "", einverstaendnis: l.einverstaendnis })) })),
     stimme: { text: p.stimme?.text ?? "", name: p.stimme?.name ?? "", rolle: p.stimme?.rolle ?? "", freigegeben: p.stimme?.freigegeben ?? false },
     bewertungen: { zeigen: p.bewertungen.zeigen },
@@ -74,9 +75,13 @@ export function entwurfZuDaten(e: Entwurf, hinweis?: string) {
   const bilder = Object.fromEntries(BILD_PLAETZE.flatMap((p) => { const b = e.bilder[p.name]; return b ? [[p.name, { foto: b.foto, alt: t(b.alt), b: b.b, h: b.h }]] : []; })) as Partial<Record<BildPlatz, EntwurfBild>>;
   return {
     ...(hinweis ? { _hinweis: hinweis } : {}),
-    hinweise: e.hinweise.filter((h) => t(h.titel) || t(h.text)).map((h) => ({ art: h.art, form: (HINWEIS_POPUP_ARTEN as readonly string[]).includes(h.art) ? h.form : ("banner" as const), titel: t(h.titel), text: t(h.text), link: h.link, von: h.von, bis: h.bis })),
+    hinweise: e.hinweise.filter((h) => t(h.titel) || t(h.text)).map((h) => ({ art: h.art, form: h.form === "popup" && !(HINWEIS_POPUP_ARTEN as readonly string[]).includes(h.art) ? ("banner" as const) : h.form, titel: t(h.titel), text: t(h.text), link: h.link, von: h.von, bis: h.bis })),
     zeiten: e.zeiten.map((z) => ({ tage: z.tage, kurz: z.kurz, wochentage: z.wochentage, geschlossen: z.geschlossen, fenster: z.geschlossen ? [] : z.fenster.filter((f) => t(f.von) || t(f.bis)).map((f) => ({ von: t(f.von), bis: t(f.bis) })) })),
-    ausnahmen: e.ausnahmen.filter((a) => t(a.name) || a.datum).map((a) => (a.geschlossen ? { name: t(a.name), datum: a.datum, geschlossen: true } : { name: t(a.name), datum: a.datum, geschlossen: false, von: t(a.von), bis: t(a.bis) }))
+    ausnahmen: e.ausnahmen.filter((a) => t(a.name) || a.datum).map((a) => {
+      // «bis» gleich oder leer: ein einzelner Tag, das Feld fällt weg. Ein «bis» vor dem «von» bleibt stehen, damit die Prüfung es meldet.
+      const bisDatum = a.bisDatum && a.bisDatum !== a.datum ? { bisDatum: a.bisDatum } : {};
+      return a.geschlossen ? { name: t(a.name), datum: a.datum, ...bisDatum, geschlossen: true } : { name: t(a.name), datum: a.datum, ...bisDatum, geschlossen: false, von: t(a.von), bis: t(a.bis) };
+    })
       .sort((a, b) => a.datum.localeCompare(b.datum)),
     team: e.team.map((g) => ({ name: g.name, leute: g.leute.filter((p) => t(p.name) || t(p.rolle)).map((p) => ({ name: t(p.name), rolle: t(p.rolle), ...(p.foto ? { foto: p.foto } : {}), ...(t(p.email) ? { email: t(p.email) } : {}), einverstaendnis: p.einverstaendnis })) })),
     stimme: { text: t(e.stimme.text), name: t(e.stimme.name), rolle: t(e.stimme.rolle), freigegeben: e.stimme.freigegeben },
@@ -164,11 +169,13 @@ export function aenderungen(a: Daten, b: Daten): Aenderung[] {
 
   if (!gleich(a.zeiten, b.zeiten)) sag("zeiten", `Öffnungszeiten neu: ${zeitenZeile(b as Pick<Pflege, "zeiten">) || "geschlossen"}`);
 
-  const tag = (d: string) => (/^\d{4}-\d{2}-\d{2}$/.test(d) ? `${d.slice(8)}.${d.slice(5, 7)}.${d.slice(0, 4)}` : "ohne Datum");
+  const tag1 = (d: string) => (/^\d{4}-\d{2}-\d{2}$/.test(d) ? `${d.slice(8)}.${d.slice(5, 7)}.${d.slice(0, 4)}` : "ohne Datum");
+  const tag = (x: { datum: string; bisDatum?: string }) => (x.bisDatum ? `${tag1(x.datum)} bis ${tag1(x.bisDatum)}` : tag1(x.datum));
+  const was = (x: { bisDatum?: string }) => (x.bisDatum ? "Ferien" : "Tag");
   const au = vergleich(a.ausnahmen, b.ausnahmen, (x) => `${x.datum} ${x.name}`);
-  for (const x of au.dazu) sag("ausnahmen", `Neuer Tag: ${x.name || "ohne Namen"} (${tag(x.datum)})`);
-  for (const x of au.weg) sag("ausnahmen", `Tag entfernt: ${x.name} (${tag(x.datum)})`);
-  for (const [x, y] of [...au.umbenannt, ...au.beide]) if (!gleich(x, y)) sag("ausnahmen", `Tag geändert: ${y.name || "ohne Namen"} (${tag(y.datum)})`);
+  for (const x of au.dazu) sag("ausnahmen", `${x.bisDatum ? "Neue Ferien" : "Neuer Tag"}: ${x.name || "ohne Namen"} (${tag(x)})`);
+  for (const x of au.weg) sag("ausnahmen", `${was(x)} entfernt: ${x.name} (${tag(x)})`);
+  for (const [x, y] of [...au.umbenannt, ...au.beide]) if (!gleich(x, y)) sag("ausnahmen", `${was(y)} geändert: ${y.name || "ohne Namen"} (${tag(y)})`);
 
   const leute = (d: Daten) => d.team.flatMap((g) => g.leute.map((p) => ({ ...p, gruppe: g.name })));
   const tm = vergleich(leute(a), leute(b), (x) => x.name, (x, y) => x.rolle === y.rolle || (!!x.foto && x.foto === y.foto) || (!!x.email && x.email === y.email));

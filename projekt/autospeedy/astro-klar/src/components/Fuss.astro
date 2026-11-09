@@ -17,7 +17,7 @@ import { zeitZeile as zeile } from "../daten/zeiten"; // eine Schreibweise auf d
 const tagNr: Record<string, number> = { Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6 };
 const datumF = new Intl.DateTimeFormat(bau.sprache, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 const heute = new Date().toISOString().slice(0, 10);
-const ausnahmen = (b.ausnahmen || []).filter((a: any) => a.datum >= heute);
+const ausnahmen = (b.ausnahmen || []).filter((a: any) => (a.ende || a.datum) >= heute);
 
 // Daten fuer das Skript in klar.js, als data-fuss am <footer> (kein Skript-Tag): Zeiten aus betrieb.json,
 // Wortlaut aus texte.json — eine Quelle. Ohne Skript ungenutzt; die Wochen-Tabelle steht unabhaengig im HTML.
@@ -25,7 +25,7 @@ const min = (z: string) => { const [h, m] = z.split("."); return parseInt(h) * 6
 const zeitenMin: Record<number, number[][]> = {};
 for (const z of b.zeiten) if (z.fenster) for (const tag of z.ld) zeitenMin[tagNr[tag]] = z.fenster.map(([v, e]: string[]) => [min(v), min(e)]);
 const ausnahmenMin: Record<string, number[][]> = {};
-for (const a of b.ausnahmen || []) ausnahmenMin[a.datum] = a.zu ? [] : a.fenster.map(([v, e]: string[]) => [min(v), min(e)]);
+for (const a of b.ausnahmen || []) for (const tag of a.tage || [a.datum]) ausnahmenMin[tag] = a.zu ? [] : a.fenster.map(([v, e]: string[]) => [min(v), min(e)]);
 const statusDaten = { zeiten: zeitenMin, ausnahmen: ausnahmenMin, status: t.mikrotexte.status };
 
 const jahr = new Date().getFullYear();
@@ -59,7 +59,7 @@ const whatsapp = b.whatsapp && b.whatsapp.nutzung_bestaetigt && b.whatsapp.numme
             ))}
             {ausnahmen.map((a: any) => (
               <tr class="fuss-woche__aus">
-                <th scope="row">{a.name}, <time datetime={a.datum}>{datumF.format(new Date(a.datum + "T00:00:00Z"))}</time></th><td>{zeile(a)}</td>
+                <th scope="row">{a.name}, <time datetime={a.datum}>{datumF.format(new Date(a.datum + "T00:00:00Z"))}</time>{a.ende && <> bis <time datetime={a.ende}>{datumF.format(new Date(a.ende + "T00:00:00Z"))}</time></>}</th><td>{zeile(a)}</td>
               </tr>
             ))}
           </tbody>

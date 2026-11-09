@@ -2,7 +2,7 @@
 
 // Bausteine der Oberfläche, wie man sie von den Einstellungen auf dem iPhone oder Mac kennt: Gruppen mit Zeilen,
 // Schalter, Blätter, die von unten kommen. Ohne style-Attribute (die strenge CSP des Cockpits erlaubt sie nicht).
-import { createContext, useContext, useEffect, useId, useRef, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import type { BildArt } from "./bild";
 import type { BereichId, Entwurf } from "@/lib/pflege";
 
@@ -48,6 +48,8 @@ const PFADE: Record<string, ReactNode> = {
   hoch: <path d="M6 14l6-6 6 6" />,
   runter: <path d="M6 10l6 6 6-6" />,
   haken: <path d="M5 12.5l4.5 4.5L19 7.5" />,
+  wechsel: <path d="M8 10l4-4 4 4M8 14l4 4 4-4" />,
+  kreuz: <path d="M6 6l12 12M18 6L6 18" />,
   kamera: <><path d="M4 8h3l1.5-2h7L17 8h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></>,
 };
 export function Symbol({ name, klein }: { name: keyof typeof PFADE | BereichId; klein?: boolean }) {
@@ -65,14 +67,14 @@ export function Gruppe({ titel, fuss, children, id }: { titel?: string; fuss?: R
   );
 }
 
-type FeldProps = { name: string; wert: string; setze: (w: string) => void; art?: "text" | "email" | "tel" | "date" | "time"; platz?: string; max?: number; hinweis?: string };
+type FeldProps = { name: string; wert: string; setze: (w: string) => void; art?: "text" | "email" | "tel" | "date" | "time"; platz?: string; max?: number; hinweis?: string; min?: string | undefined };
 /** Eine Zeile mit Namen links und Eingabe rechts. */
-export function Feld({ name, wert, setze, art = "text", platz, max, hinweis }: FeldProps) {
+export function Feld({ name, wert, setze, art = "text", platz, max, hinweis, min }: FeldProps) {
   const id = useId();
   return (
     <div className="zeile zeile--feld">
       <label className="zeile__name" htmlFor={id}>{name}</label>
-      <input id={id} className="zeile__eingabe" type={art} value={wert} onChange={(x) => setze(x.target.value)} placeholder={platz} maxLength={max}
+      <input id={id} className="zeile__eingabe" type={art} value={wert} onChange={(x) => setze(x.target.value)} placeholder={platz} maxLength={max} min={min}
         inputMode={art === "tel" ? "tel" : art === "email" ? "email" : undefined} autoCapitalize={art === "email" ? "none" : undefined} aria-describedby={hinweis ? id + "h" : undefined} />
       {hinweis ? <span className="zeile__hinweis" id={id + "h"}>{hinweis}</span> : null}
     </div>
@@ -88,13 +90,104 @@ export function Langtext({ name, wert, setze, max, zeilen = 3, platz }: { name: 
     </div>
   );
 }
+/** Auswahl aus einer Liste: ein Menü wie am Mac oder iPhone (Haken beim gewählten Eintrag), kein Auswahlfeld des Browsers.
+ *  Bedienung: antippen oder Pfeiltasten, Eingabe wählt, Esc schliesst, ein Buchstabe springt zum Eintrag. */
 export function Auswahl({ name, wert, setze, wahl }: { name: string; wert: string; setze: (w: string) => void; wahl: { wert: string; text: string }[] }) {
   const id = useId();
+  const [auf, setAuf] = useState(false);
+  const [aktiv, setAktiv] = useState(0);
+  const knopf = useRef<HTMLButtonElement>(null), liste = useRef<HTMLDivElement>(null);
+  const gewaehlt = Math.max(0, wahl.findIndex((w) => w.wert === wert));
+  const oeffne = () => { setAktiv(gewaehlt); setAuf(true); };
+  const schliesse = () => { setAuf(false); knopf.current?.focus(); };
+  const nimm = (i: number) => { const w = wahl[i]; if (w && w.wert !== wert) setze(w.wert); schliesse(); };
+
+  useLayoutEffect(() => {
+    const k = knopf.current, l = liste.current;
+    if (!auf || !k || !l) return;
+    // Oberste Ebene des Browsers: So schneidet weder die Gruppe noch das Blatt das Menü ab. Der Ort kommt per Skript
+    // (kein style-Attribut im Markup, die CSP erlaubt das Setzen über das Element).
+    try { l.showPopover?.(); } catch { /* ältere Browser: bleibt als festes Element stehen */ }
+    // Beim Rollen wandert das Menü mit seiner Zeile mit; ist die Zeile aus dem Bild, schliesst es.
+    const ort = () => {
+      const r = k.getBoundingClientRect(), h = l.offsetHeight, b = l.offsetWidth, rand = 8;
+      if (r.bottom < 0 || r.top > window.innerHeight) { setAuf(false); return; }
+      const unten = r.bottom + 6 + h <= window.innerHeight - rand;
+      l.style.top = `${Math.round(unten ? r.bottom + 6 : Math.max(rand, r.top - 6 - h))}px`;
+      l.style.left = `${Math.round(Math.min(Math.max(rand, r.right - b), window.innerWidth - b - rand))}px`;
+      l.dataset.von = unten ? "oben" : "unten";
+    };
+    ort();
+    l.focus({ preventScroll: true });
+    const weg = (x: Event) => { if (!(x.target instanceof Node && (l.contains(x.target) || k.contains(x.target)))) setAuf(false); };
+    const rollen = (x: Event) => { if (!(x.target instanceof Node && l.contains(x.target))) ort(); };
+    document.addEventListener("pointerdown", weg, true);
+    window.addEventListener("scroll", rollen, true);
+    window.addEventListener("resize", ort);
+    return () => { document.removeEventListener("pointerdown", weg, true); window.removeEventListener("scroll", rollen, true); window.removeEventListener("resize", ort); };
+  }, [auf]);
+
+  function taste(x: React.KeyboardEvent) {
+    const n = wahl.length;
+    if (x.key === "Escape") { x.preventDefault(); x.stopPropagation(); schliesse(); }
+    else if (x.key === "ArrowDown") { x.preventDefault(); setAktiv((i) => Math.min(n - 1, i + 1)); }
+    else if (x.key === "ArrowUp") { x.preventDefault(); setAktiv((i) => Math.max(0, i - 1)); }
+    else if (x.key === "Home") { x.preventDefault(); setAktiv(0); }
+    else if (x.key === "End") { x.preventDefault(); setAktiv(n - 1); }
+    else if (x.key === "Enter" || x.key === " ") { x.preventDefault(); nimm(aktiv); }
+    else if (x.key === "Tab") setAuf(false);
+    else if (x.key.length === 1) { const i = wahl.findIndex((w) => w.text.toLowerCase().startsWith(x.key.toLowerCase())); if (i >= 0) setAktiv(i); }
+  }
   return (
-    <div className="zeile zeile--feld">
-      <label className="zeile__name" htmlFor={id}>{name}</label>
-      <select id={id} className="zeile__eingabe zeile__auswahl" value={wert} onChange={(x) => setze(x.target.value)}>{wahl.map((w) => <option key={w.wert} value={w.wert}>{w.text}</option>)}</select>
+    <div className="zeile zeile--feld zeile--wahl">
+      <span className="zeile__name" id={id + "n"}>{name}</span>
+      <button ref={knopf} type="button" id={id} className="wahl" aria-haspopup="listbox" aria-expanded={auf} aria-labelledby={`${id}n ${id}`}
+        onClick={() => (auf ? setAuf(false) : oeffne())} onKeyDown={(x) => { if (!auf && (x.key === "ArrowDown" || x.key === "ArrowUp")) { x.preventDefault(); oeffne(); } }}>
+        <span className="wahl__wert">{wahl[gewaehlt]?.text}</span><Symbol name="wechsel" klein />
+      </button>
+      {auf ? (
+        <div ref={liste} id={id + "l"} className="menue" role="listbox" tabIndex={-1} popover="manual" aria-labelledby={id + "n"} aria-activedescendant={`${id}o${aktiv}`} onKeyDown={taste}>
+          {wahl.map((w, i) => (
+            <div key={w.wert} id={`${id}o${i}`} role="option" aria-selected={w.wert === wert} className={i === aktiv ? "menue__punkt menue__punkt--aktiv" : "menue__punkt"} onPointerMove={() => setAktiv(i)} onClick={() => nimm(i)}>
+              <Symbol name="haken" klein /><span>{w.text}</span>
+            </div>
+          ))}
+        </div>
+      ) : null}
     </div>
+  );
+}
+
+/** Auswahl mit kleinen Bildern, wie «Hell / Dunkel» in den Einstellungen: Bild, Name, runder Punkt mit Haken. */
+export function Kacheln({ name, wert, setze, wahl }: { name: string; wert: string; setze: (w: string) => void; wahl: { wert: string; text: string; bild: ReactNode; aus?: string }[] }) {
+  const id = useId();
+  return (
+    <fieldset className="kacheln">
+      <legend className="kacheln__name">{name}</legend>
+      <div className="kacheln__reihe">
+        {wahl.map((w) => (
+          <label key={w.wert} className={w.aus ? "kachel kachel--aus" : "kachel"}>
+            <input type="radio" className="unsichtbar" name={id} value={w.wert} checked={w.wert === wert} disabled={!!w.aus} onChange={() => setze(w.wert)} />
+            <span className="kachel__bild" aria-hidden="true">{w.bild}</span>
+            <span className="kachel__text">{w.text}</span>
+            {w.aus ? <small className="kachel__aus">{w.aus}</small> : <span className="kachel__punkt" aria-hidden="true"><Symbol name="haken" klein /></span>}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+/** Umschalter mit zwei oder drei Feldern (wie die Reiter oben in vielen Apple-Apps). */
+export function Umschalter({ name, wert, setze, wahl }: { name: string; wert: string; setze: (w: string) => void; wahl: { wert: string; text: string }[] }) {
+  const id = useId();
+  return (
+    <fieldset className="umschalter">
+      <legend className="unsichtbar">{name}</legend>
+      {wahl.map((w) => (
+        <label key={w.wert} className="umschalter__feld"><input type="radio" className="unsichtbar" name={id} value={w.wert} checked={w.wert === wert} onChange={() => setze(w.wert)} /><span>{w.text}</span></label>
+      ))}
+    </fieldset>
   );
 }
 export function Schalter({ name, an, setze, hinweis }: { name: string; an: boolean; setze: (an: boolean) => void; hinweis?: string }) {

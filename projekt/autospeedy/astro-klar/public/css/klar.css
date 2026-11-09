@@ -522,6 +522,24 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .hinweis--info .hinweis__symbol { color: var(--leise); }
 @media (hover: hover) and (pointer: fine) { .hinweis--hagel .hinweis__zu:hover, .hinweis--geschlossen .hinweis__zu:hover { background: rgba(255, 255, 255, .18); } }
 
+/* Karte in der Ecke (09.11.2026): dritte Darstellung neben Leiste und Pop-up. Steht unten rechts über dem Inhalt,
+   am Handy über der Leiste mit «Anrufen» und «Schaden melden». Farbe je Art wie bei der Leiste (.hinweis--art). */
+.hinweis-ecke { position: fixed; z-index: 34; right: 20px; bottom: 20px; width: min(360px, calc(100vw - 24px)); display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 16px 10px 16px 16px; border-radius: var(--rund-gross); box-shadow: 0 1px 2px rgba(21, 24, 28, .08), 0 14px 40px rgba(21, 24, 28, .18); font-size: 15px; line-height: 1.4; }
+.hinweis-ecke.hinweis--aktion { box-shadow: inset 4px 0 0 var(--akzent), 0 1px 2px rgba(21, 24, 28, .08), 0 14px 40px rgba(21, 24, 28, .18); }
+.hinweis-ecke.hinweis--info { background: var(--papier); }
+.hinweis-ecke .hinweis__symbol { margin-top: 1px; }
+.hinweis-ecke__text { display: grid; gap: 2px; }
+.hinweis-ecke__text b { font-weight: 600; }
+.hinweis-ecke__text p { margin: 0; }
+.hinweis-ecke .hinweis__link { margin: 6px 0 0; justify-self: start; min-height: 32px; }
+.hinweis-ecke .hinweis__zu { margin-top: -6px; }
+@media (max-width: 960px) { .hinweis-ecke { right: 12px; bottom: calc(82px + env(safe-area-inset-bottom)); font-size: 14px; } }
+@keyframes hinweis-ecke-ein { from { opacity: 0; transform: translateY(16px) scale(.97); } }
+@media (prefers-reduced-motion: no-preference) {
+  .hinweis-ecke { animation: hinweis-ecke-ein var(--feder-weich-dauer) var(--feder-weich) 900ms both; transform-origin: 100% 100%; }
+  .hinweis-ecke.geht { animation: none; opacity: 0; transform: translateY(10px); transition: opacity 160ms linear, transform 160ms var(--hinaus); }
+}
+
 /* Pop-up als <dialog> (BAUPLAN 4.2): erst nach 2 s, einmal pro Sitzung, nie auf /schaden-melden/. */
 .hinweis-popup { max-width: min(420px, calc(100vw - 32px)); width: 100%; padding: 22px 22px 26px; border: 1px solid var(--linie); border-radius: var(--rund-gross); background: var(--papier); color: var(--tinte); box-shadow: var(--schatten); }
 .hinweis-popup::backdrop { background: rgba(16, 18, 21, .42); }

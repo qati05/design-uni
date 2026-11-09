@@ -17,6 +17,8 @@ const pfad = Astro.url.pathname;
 const aufSchaden = pfad.startsWith("/schaden-melden");
 const banner = sichtbar.filter((h) => h.form === "banner");
 const popup = aufSchaden ? null : sichtbar.find((h) => h.form === "popup") || null;
+// Karte in der Ecke (09.11.2026): ruhiger als das Pop-up, bleibt beim Lesen stehen, schliessbar. Auch nie auf /schaden-melden/.
+const ecke = aufSchaden ? null : sichtbar.find((h) => h.form === "ecke") || null;
 
 // Symbol je Art (BAUPLAN 4.2). Reines SVG, aria-hidden; keine erfundenen Inhalte.
 const SYMBOL: Record<string, string> = {
@@ -52,6 +54,22 @@ function ziel(h: { link: string }): string | null {
     })}
   </div>
 )}
+{ecke && (() => {
+  const z = ziel(ecke);
+  return (
+    <aside class={`hinweis-ecke hinweis--${ecke.art}`} data-hinweis-ecke data-key={`${ecke.art}|${ecke.von}|${ecke.bis}`} data-von={ecke.von} data-bis={ecke.bis} aria-label="Hinweis">
+      <svg class="hinweis__symbol" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={SYMBOL[ecke.art]} />
+      <div class="hinweis-ecke__text">
+        {ecke.titel && <b>{ecke.titel}</b>}
+        <p>{ecke.text}</p>
+        {z && <a class="hinweis__link" href={z}>{linkText.get(z)} <span aria-hidden="true">→</span></a>}
+      </div>
+      <button type="button" class="hinweis__zu" data-hinweis-ecke-zu aria-label="Hinweis schliessen">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </aside>
+  );
+})()}
 {popup && (() => {
   const z = ziel(popup);
   return (

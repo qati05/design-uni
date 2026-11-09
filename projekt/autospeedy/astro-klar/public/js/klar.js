@@ -48,6 +48,22 @@
     window.addEventListener("resize", hinweisHoehe, { passive: true });
   }
 
+  // Karte in der Ecke: schliessbar wie die Leiste (derselbe Merker), ausserhalb des Zeitraums gar nicht da.
+  var ecke = document.querySelector("[data-hinweis-ecke]");
+  if (ecke) {
+    if (!imZeitraum(ecke) || hinweisSpeicher().indexOf(ecke.getAttribute("data-key")) !== -1) ecke.remove();
+    else {
+      var zuEcke = ecke.querySelector("[data-hinweis-ecke-zu]");
+      if (zuEcke) zuEcke.addEventListener("click", function () {
+        var liste = hinweisSpeicher(), key = ecke.getAttribute("data-key");
+        if (liste.indexOf(key) === -1) liste.push(key);
+        try { sessionStorage.setItem("hinweis-zu", JSON.stringify(liste)); } catch (e) {}
+        ecke.classList.add("geht");
+        setTimeout(function () { ecke.remove(); }, 180);
+      });
+    }
+  }
+
   // Pop-up (BAUPLAN 4.2): als <dialog> erst nach 2 s, einmal pro Sitzung. Die Komponente rendert es nie auf /schaden-melden/.
   var popup = document.querySelector("[data-hinweis-popup]");
   if (popup && typeof popup.showModal === "function" && imZeitraum(popup)) {

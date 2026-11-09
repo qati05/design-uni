@@ -38,7 +38,7 @@ function leere(wert, pfad, aus) {
 
 // Was der Betrieb selbst ändert (Zeiten, Feiertage, Hinweis, Team) steht in src/daten/site.json. Der Bau prüft die Datei
 // mit dem gemeinsamen Schema und bricht bei Fehlern ab: lieber kein neuer Stand als eine kaputte Seite.
-import { siteSchema, telefonCH } from "../../gemeinsam/site.ts";
+import { ausnahmeTage, siteSchema, telefonCH } from "../../gemeinsam/site.ts";
 import siteStandard from "../src/daten/site.json" with { type: "json" };
 // Normalfall: die eingebundene astro/src/daten/site.json. Im Test ueber SITE_JSON eine Fixture (nur test/fixtures),
 // nie in Produktion; so laesst sich z. B. eine Ausnahme mit einem Datum relativ zum Build-Tag pruefen.
@@ -51,7 +51,9 @@ export const site = siteGeprueft.data;
 export const pflege = site; // Name, den Layouts und Seiten schon nutzen
 function mitPflege(b, p) {
   const zeiten = p.zeiten.map((z) => z.geschlossen ? { tage: z.tage, kurz: z.kurz, zu: true } : { tage: z.tage, kurz: z.kurz, ld: z.wochentage, fenster: z.fenster.map((f) => [f.von, f.bis]) });
-  const ausnahmen = p.ausnahmen.map((a) => a.geschlossen ? { name: a.name, datum: a.datum, zu: true } : { name: a.name, datum: a.datum, fenster: [[a.von, a.bis]] });
+  // Mehrere Tage am Stück (09.11.2026): «ende» ist der letzte Tag, «tage» alle Tage einzeln (für «Jetzt geöffnet»).
+  const ausnahmen = p.ausnahmen.map((a) => ({ name: a.name, datum: a.datum, ...(a.bisDatum && a.bisDatum > a.datum ? { ende: a.bisDatum } : {}), tage: ausnahmeTage(a),
+    ...(a.geschlossen ? { zu: true } : { fenster: [[a.von, a.bis]] }) }));
   // Kontakt (Cockpit, 09.11.2026): Telefon und Mail aus site.json gehen betrieb.json vor. Eine WhatsApp-Nummer, die der Betrieb
   // dort selbst einträgt, gilt als bestätigt; ohne Eintrag bleibt der Stand aus betrieb.json (Nummer noch unbestätigt).
   const k = p.kontakt ?? {};

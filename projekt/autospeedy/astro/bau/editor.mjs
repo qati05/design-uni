@@ -35,7 +35,7 @@ export function editorKonfiguration({ repo, zweig = "main", pfad = "astro/src/da
           ] },
           { name: "hinweise", label: "Hinweis-Vorlagen (höchstens 3, höchstens ein Pop-up)", widget: "list", max: 3, required: false, fields: [
             { name: "art", label: "Art", widget: "select", options: HINWEIS_ARTEN.map((a) => ({ label: a, value: a })) },
-            { name: "form", label: "Form", widget: "select", default: "banner", options: [{ label: "Banner", value: "banner" }, { label: "Pop-up (nur Hagel/Aktion)", value: "popup" }] },
+            { name: "form", label: "Form", widget: "select", default: "banner", options: [{ label: "Banner", value: "banner" }, { label: "Pop-up (nur Hagel/Aktion)", value: "popup" }, { label: "Karte in der Ecke", value: "ecke" }] },
             text("titel", "Titel (höchstens 50 Zeichen)", { required: false, pattern: ["^[^<>]{0,50}$", "Höchstens 50 Zeichen, ohne < und >"] }),
             text("text", "Text (höchstens 160 Zeichen)", { pattern: ["^[^<>]{1,160}$", "1 bis 160 Zeichen, ohne < und >"] }),
             { name: "link", label: "Führt zu", widget: "select", required: false, default: "", options: [{ label: "(kein Link)", value: "" }, ...HINWEIS_LINKS.map((l) => ({ label: l.text, value: l.wert }))] },
@@ -52,6 +52,7 @@ export function editorKonfiguration({ repo, zweig = "main", pfad = "astro/src/da
           { name: "ausnahmen", label: "Feiertage und Ferien", widget: "list", max: 40, required: false, fields: [
             text("name", "Bezeichnung (z. B. Weihnachten)"),
             { name: "datum", label: "Datum", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" },
+            { name: "bisDatum", label: "Bis und mit (nur bei mehreren Tagen)", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", required: false },
             { name: "geschlossen", label: "Ganzer Tag geschlossen", widget: "boolean", default: true },
             text("von", "offen von (nur wenn nicht geschlossen)", { required: false, pattern: ZEIT }),
             text("bis", "offen bis (nur wenn nicht geschlossen)", { required: false, pattern: ZEIT }),

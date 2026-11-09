@@ -63,11 +63,28 @@ export function minuten(t: string): number {
 export const HINWEIS_ARTEN = ["hagel", "ferien", "geschlossen", "aktion", "info"] as const;
 // Pop-up ist nur für diese Arten erlaubt (4.2: hagel und aktion dürfen Banner oder Pop-up sein; die übrigen nur Banner).
 export const HINWEIS_POPUP_ARTEN = ["hagel", "aktion"] as const;
+export const HINWEIS_FORMEN = ["banner", "popup", "ecke"] as const;
+/** Ferien am Stück: höchstens so viele Tage (hält die Liste auf der Website und die Daten für «Jetzt geöffnet» klein). */
+export const AUSNAHME_TAGE_MAX = 62;
+/** Alle Tage einer Ausnahme als JJJJ-MM-TT: ein einzelner Tag oder «datum» bis und mit «bisDatum». */
+export function ausnahmeTage(a: { datum: string; bisDatum?: string | undefined }): string[] {
+  const iso = /^\d{4}-\d{2}-\d{2}$/;
+  if (!iso.test(a.datum)) return [];
+  if (!a.bisDatum || !iso.test(a.bisDatum) || a.bisDatum <= a.datum) return [a.datum];
+  const tage: string[] = [], t = new Date(a.datum + "T12:00:00Z");
+  for (let i = 0; i < AUSNAHME_TAGE_MAX; i++) {
+    const d = t.toISOString().slice(0, 10);
+    if (d > a.bisDatum) break;
+    tage.push(d); t.setUTCDate(t.getUTCDate() + 1);
+  }
+  return tage;
+}
 const datum = z.string().trim().regex(/^\d{4}-\d{2}-\d{2}$/, "Datum als JJJJ-MM-TT");
 const hinweisLink = z.enum(["", ...HINWEIS_LINKS.map((l) => l.wert)] as [string, ...string[]]);
 const hinweisEintrag = z.object({
   art: z.enum(HINWEIS_ARTEN),
-  form: z.enum(["banner", "popup"]).default("banner"),
+  // Darstellung (09.11.2026, Roni: mehrere Darstellungen zur Wahl): Leiste über dem Kopf, Fenster in der Mitte, Karte in der Ecke.
+  form: z.enum(HINWEIS_FORMEN).default("banner"),
   titel: text(50),
   text: text(160).refine((t) => t.trim().length >= 3, "Hinweis braucht einen Text"),
   link: hinweisLink.default(""),
@@ -96,7 +113,11 @@ export const siteFelder = z.object({
   ausnahmen: z.array(z.object({
     name: text(60).min(2), datum: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Datum fehlt"), geschlossen: z.boolean(),
     von: uhrzeit.optional(), bis: uhrzeit.optional(),
-  }).strict().refine((a) => a.geschlossen || (a.von && a.bis && minuten(a.von) < minuten(a.bis)), "Offen braucht «von» und «bis»")).max(40),
+    // Mehrere Tage am Stück (09.11.2026, Roni): letzter Tag. Fehlt das Feld, gilt nur «datum».
+    bisDatum: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Datum als JJJJ-MM-TT").optional(),
+  }).strict().refine((a) => a.geschlossen || (a.von && a.bis && minuten(a.von) < minuten(a.bis)), "Offen braucht «von» und «bis»")
+    .refine((a) => !a.bisDatum || a.bisDatum >= a.datum, "«bis» darf nicht vor «von» liegen")
+    .refine((a) => !a.bisDatum || (Date.parse(a.bisDatum) - Date.parse(a.datum)) / 864e5 < AUSNAHME_TAGE_MAX, `höchstens ${AUSNAHME_TAGE_MAX} Tage am Stück`)).max(40),
   team: z.array(z.object({
     name: text(40).min(2),
     leute: z.array(z.object({
@@ -150,6 +171,7 @@ export const siteSchema = siteFelder.transform((s) => {
 }).superRefine((s, ctx) => {
   if (s.hinweise.length > 3) ctx.addIssue({ code: "custom", path: ["hinweise"], message: "höchstens 3 Hinweise (inkl. migriertem Altfeld)" });
   if (s.hinweise.filter((h) => h.form === "popup").length > 1) ctx.addIssue({ code: "custom", path: ["hinweise"], message: "höchstens ein Pop-up gleichzeitig" });
+  if (s.hinweise.filter((h) => h.form === "ecke").length > 1) ctx.addIssue({ code: "custom", path: ["hinweise"], message: "höchstens eine Karte in der Ecke gleichzeitig" });
 });
 export type Site = z.infer<typeof siteSchema>;
 

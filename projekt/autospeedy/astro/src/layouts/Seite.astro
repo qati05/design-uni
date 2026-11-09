@@ -37,7 +37,7 @@ const zeiten: Record<number, number[][]> = {};
 for (const z of offen) for (const t of z.ld) zeiten[tagNr[t]] = z.fenster.map(([v, e]: string[]) => [min(v), min(e)]);
 // Ausnahmen (Feiertage, Betriebsferien) nach Datum: [] = geschlossen, sonst Fenster in Minuten.
 const ausnahmen: Record<string, number[][]> = {};
-for (const a of b.ausnahmen || []) ausnahmen[a.datum] = a.zu ? [] : a.fenster.map(([v, e]: string[]) => [min(v), min(e)]);
+for (const a of b.ausnahmen || []) for (const tag of a.tage || [a.datum]) ausnahmen[tag] = a.zu ? [] : a.fenster.map(([v, e]: string[]) => [min(v), min(e)]);
 const daten = { zeiten, ausnahmen, status: texte.mikrotexte.status };
 ---
 <!doctype html>

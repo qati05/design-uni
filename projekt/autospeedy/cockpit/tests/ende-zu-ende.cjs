@@ -18,6 +18,8 @@ async function anmelden(b, p, an) {
 }
 const hin = async (p, bereich) => { await p.goto(C + '/#' + bereich); await p.waitForSelector(bereich ? '.app--bereich h1' : '.app:not(.app--bereich) h1'); };
 const blatt = 'dialog.blatt[open]';
+/** Wählt im Auswahl-Menü (eigenes Menü, kein Auswahlfeld des Browsers) einen Eintrag. */
+const waehle = async (p, name, text) => { await p.getByRole('button', { name: new RegExp('^' + name + ' ') }).click(); await p.getByRole('option', { name: text, exact: true }).click(); await p.waitForSelector('.menue', { state: 'detached' }); };
 const fertig = async (p) => { await p.click(blatt + ' .blatt__fertig'); await p.waitForSelector(blatt, { state: 'detached' }); };
 /** Öffnet «Prüfen und veröffentlichen», prüft die Liste der Änderungen und veröffentlicht. */
 async function veroeffentlichen(p, erwartet, was) {
@@ -65,18 +67,39 @@ async function veroeffentlichen(p, erwartet, was) {
   await h.click('.kopf__zurueck'); await h.waitForSelector('.app:not(.app--bereich)');
   ok(await h.isVisible('a.nav[href="#zeiten"] .punkt'), 'in der Liste zeigt ein Punkt, wo etwas geändert ist');
   await h.click('a.nav[href="#hinweise"]'); await h.click('button:has-text("Hinweis hinzufügen")');
-  await h.getByLabel('Art', { exact: true }).selectOption('hagel'); await h.locator('textarea').fill('Hagel? Jetzt melden.'); await h.getByLabel('Zeigen bis').fill('2099-12-31');
-  ok(/Hagel\? Jetzt melden\./.test(await h.textContent('.muster')), 'Hinweis: Muster zeigt sofort, wie er aussieht');
-  await hin(h, 'ausnahmen'); await h.click('button:has-text("Tag hinzufügen")'); await h.waitForSelector(blatt);
-  await h.getByLabel('Anlass').fill('Heiligabend'); await h.getByLabel('Datum').fill('2026-12-24'); await h.locator(blatt + ' .schalter').uncheck();
+  ok(await h.isDisabled('.kachel:has-text("Fenster") input'), 'Darstellung «Fenster» ist bei «Information» gesperrt (nur Hagel und Aktion)');
+  await h.getByRole('button', { name: /^Art / }).click(); await h.waitForSelector('.menue[role=listbox]');
+  ok((await h.locator('.menue [role=option]').count()) === 5 && (await h.getAttribute('.menue [aria-selected=true]', 'id')) === (await h.getAttribute('.menue', 'aria-activedescendant')), 'Auswahl «Art»: eigenes Menü mit 5 Einträgen, der gewählte ist markiert');
+  await h.waitForTimeout(300); await h.screenshot({ path: S + '/e2e/2a-menue-handy.png' });
+  await h.getByRole('option', { name: 'Hagel', exact: true }).click(); await h.waitForSelector('.menue', { state: 'detached' });
+  ok(/Hagel/.test(await h.textContent('.zeile--wahl:has-text("Art") .wahl')) && !(await h.isDisabled('.kachel:has-text("Fenster") input')), 'Art «Hagel» gewählt, «Fenster» ist jetzt wählbar');
+  await h.locator('textarea').fill('Hagel? Jetzt melden.'); await h.getByLabel('Zeigen bis').fill('2099-12-31');
+  ok(/Hagel\? Jetzt melden\./.test(await h.textContent('.vorschau .vs-leiste')) && /Leiste oben/.test(await h.textContent('.vorschau figcaption')), 'Vorschau zeigt den Hinweis sofort als Leiste oben auf der Seite');
+  await h.click('.kachel:has-text("Fenster")');
+  ok(/Hagel\? Jetzt melden\./.test(await h.textContent('.vorschau .vs-fenster')) && !(await h.$('.vorschau .vs-leiste')), 'Darstellung «Fenster»: Vorschau zeigt ihn in der Mitte');
+  await h.click('.kachel:has-text("Karte in der Ecke")');
+  ok(/Hagel\? Jetzt melden\./.test(await h.textContent('.vorschau .vs-ecke')) && /unten rechts/.test(await h.textContent('.vorschau figcaption')), 'Darstellung «Karte in der Ecke»: Vorschau zeigt ihn unten rechts');
+  ok(await h.isVisible('.vorschau--handy'), 'am Handy zeigt die Vorschau zuerst das Handy');
+  await h.click('.umschalter__feld:has-text("Computer")'); ok(await h.isVisible('.vorschau--computer .vs-ecke'), 'Umschalter: Vorschau am Computer');
+  await h.waitForTimeout(350); await h.screenshot({ path: S + '/e2e/2b-vorschau-handy.png' });
+  await hin(h, 'ausnahmen'); await h.click('button:has-text("Feiertag oder Ferien hinzufügen")'); await h.waitForSelector(blatt);
+  await h.getByLabel('Anlass').fill('Betriebsferien'); await h.getByLabel('Von', { exact: true }).fill('2026-12-28'); await h.getByLabel('Bis', { exact: true }).fill('2027-01-02');
+  ok(/6 Tage am Stück/.test(await h.textContent(blatt)), 'Ferien von bis: das Blatt zählt die Tage'); await fertig(h);
+  ok(/28\. Dezember 2026 bis .*2\. Januar 2027/.test(await h.textContent('main')), 'Ferien stehen als ein Eintrag «von bis» in der Liste');
+  await h.click('button:has-text("Feiertag oder Ferien hinzufügen")'); await h.waitForSelector(blatt);
+  await h.getByLabel('Anlass').fill('Heiligabend'); await h.getByLabel('Von', { exact: true }).fill('2026-12-24'); await h.locator(blatt + ' .schalter').uncheck();
   await h.fill('[aria-label="Offen von"]', '07:30'); await h.fill('[aria-label="Offen bis"]', '12:00'); await fertig(h);
   ok(/Heiligabend/.test(await h.textContent('main')) && /7.30 bis 12.00 Uhr/.test(await h.textContent('main')), 'Feiertag steht in der Liste');
   await h.waitForTimeout(450); await h.screenshot({ path: S + '/e2e/2-aenderungen-handy.png' });
   await h.click('.speichern .knopf:not(.knopf--leise)'); await h.waitForSelector(blatt + ' .knopf--gross'); await h.waitForTimeout(450); await h.screenshot({ path: S + '/e2e/3-pruefen-handy.png' }); await h.click(blatt + ' .blatt__fertig'); await h.waitForSelector(blatt, { state: 'detached' });
-  await veroeffentlichen(h, ['Öffnungszeiten neu: Mo bis Fr 7.30 bis 12.00 und 13.15 bis 16.00 Uhr', 'Neuer Hinweis: «Hagel? Jetzt melden.»', 'Neuer Tag: Heiligabend (24.12.2026)'], 'Zeiten, Hinweis, Feiertag');
+  await veroeffentlichen(h, ['Öffnungszeiten neu: Mo bis Fr 7.30 bis 12.00 und 13.15 bis 16.00 Uhr', 'Neuer Hinweis: «Hagel? Jetzt melden.»', 'Neuer Tag: Heiligabend (24.12.2026)', 'Neue Ferien: Betriebsferien (28.12.2026 bis 02.01.2027)'], 'Zeiten, Hinweis, Feiertag, Ferien');
   await h.reload(); await hin(h, '');
   ok(/13.15 bis 16.00 Uhr/.test(await h.textContent('main')) && /werkstatt@autospeedy.example/.test(await h.textContent('main .gruppe')), 'nach Neuladen: neue Zeit, und wer zuletzt veröffentlicht hat');
   ok(/1 aktiv/.test(await h.textContent('a.nav[href="#hinweise"]')), 'Liste zeigt: 1 Hinweis aktiv');
+  await hin(h, 'hinweise'); ok((await h.inputValue('.kachel input:checked')) === 'ecke', 'nach dem Veröffentlichen ist die Darstellung «Karte in der Ecke» gespeichert');
+  await h.getByRole('button', { name: /^Art / }).focus(); await h.keyboard.press('ArrowDown'); await h.waitForSelector('.menue'); await h.keyboard.press('ArrowDown'); await h.keyboard.press('Enter');
+  ok(/Ferien/.test(await h.textContent('.zeile--wahl:has-text("Art") .wahl')) && !(await h.$('.menue')), 'Menü mit der Tastatur: Pfeil öffnet, Pfeil und Eingabe wählen');
+  await h.click('.speichern .knopf--leise'); ok(/Hagel/.test(await h.textContent('.zeile--wahl:has-text("Art") .wahl')), '«Verwerfen» setzt die Art zurück');
 
   // ---------- Team: Foto, neue Person, entfernen mit «Rückgängig», Reihenfolge, Gruppe wechseln
   await hin(h, 'team');
@@ -105,7 +128,9 @@ async function veroeffentlichen(p, erwartet, was) {
   await h.click('.toast__tat'); ok(!!(await h.$('.eintrag:has-text("Neue Person (Test)")')) && !(await h.$('.speichern')), '«Rückgängig» holt die Person zurück, nichts ist geändert');
   await h.click('[aria-label="Neue Person (Test) entfernen"]');
   await h.click('[aria-label="Dragan Tejic nach oben"]'); await h.click('.kopf__tat');
-  await h.click('.eintrag:has-text("Martyna Skweres")'); await h.getByLabel('Gruppe').selectOption({ label: 'Lackiererei' });
+  await h.click('.eintrag:has-text("Martyna Skweres")'); await h.getByRole('button', { name: /^Gruppe / }).click(); await h.waitForSelector('.menue'); await h.keyboard.press('Escape');
+  ok(!(await h.$('.menue')) && !!(await h.$(blatt)), 'Esc schliesst nur das Menü, das Blatt bleibt offen');
+  await waehle(h, 'Gruppe', 'Lackiererei');
   ok(/Martyna Skweres/.test(await h.textContent(blatt + ' h2')), 'Gruppe wechseln: das Blatt bleibt bei der Person'); await fertig(h);
   ok(/Martyna Skweres/.test(await h.textContent('.gruppe:has(.gruppe__titel:text-is("Lackiererei"))')), 'Person steht in der neuen Gruppe');
   await veroeffentlichen(h, ['Person entfernt: Neue Person (Test)', 'Martyna Skweres: neu in der Gruppe «Lackiererei»', 'Team: Reihenfolge geändert'], 'Entfernen, Reihenfolge, Gruppe');

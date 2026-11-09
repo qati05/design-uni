@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { BEREICHE, aenderungen, entwurfAus, entwurfPruefen, entwurfZuDaten, fehlendeFotosEntfernen, fotoAnzeige, fotosEinsetzen, fotosErlaubt, neueFotos, pflegeSchema, zeitenZeile, type Entwurf, type Pflege } from "../lib/pflege";
+import { ausnahmeTage } from "../../gemeinsam/site";
 import { besucherBeispiel, besucherLesen, letzteTage } from "../lib/besucher.server";
 import { baueCsp } from "../lib/sicherheit";
 // @ts-expect-error Baustein ohne Typen (reines Node-Skript)
@@ -22,18 +23,40 @@ describe("Entwurf im Cockpit", () => {
     expect(zurueck).toEqual(alt);
   });
   it("leere neue Zeilen stören nicht und zählen nicht als Änderung", () => {
-    expect(texte((e) => { e.team[0]!.leute.push({ name: "", rolle: "", email: "", einverstaendnis: false }); e.ausnahmen.push({ name: "", datum: "", geschlossen: true, von: "", bis: "" }); e.hinweise.push({ art: "info", form: "banner", titel: "", text: " ", link: "", von: "2026-11-09", bis: "2026-11-23" }); e.faq!.push({ frage: "", antwort: "" }); })).toEqual([]);
+    expect(texte((e) => { e.team[0]!.leute.push({ name: "", rolle: "", email: "", einverstaendnis: false }); e.ausnahmen.push({ name: "", datum: "", bisDatum: "", geschlossen: true, von: "", bis: "" }); e.hinweise.push({ art: "info", form: "banner", titel: "", text: " ", link: "", von: "2026-11-09", bis: "2026-11-23" }); e.faq!.push({ frage: "", antwort: "" }); })).toEqual([]);
   });
   it("Hinweis, Feiertag, Zeit: Änderungen in Alltagssprache", () => {
     expect(texte((e) => {
       e.hinweise.push({ art: "hagel", form: "popup", titel: "", text: "Hagel? Jetzt melden.", link: "/schaden-melden/?art=hagel", von: "2026-11-08", bis: "2026-11-22" });
       e.zeiten[0]!.fenster[1].bis = "16.00";
-      e.ausnahmen.push({ name: "Weihnachten", datum: "2026-12-25", geschlossen: true, von: "", bis: "" });
+      e.ausnahmen.push({ name: "Weihnachten", datum: "2026-12-25", bisDatum: "", geschlossen: true, von: "", bis: "" });
     })).toEqual(["Neuer Hinweis: «Hagel? Jetzt melden.»", "Öffnungszeiten neu: Mo bis Fr 7.30 bis 12.00 und 13.15 bis 16.00 Uhr", "Neuer Tag: Weihnachten (25.12.2026)"]);
   });
   it("Pop-up gilt nur für Hagel und Aktion: bei anderer Art wird daraus eine Leiste", () => {
     const d = daten((e) => { e.hinweise.push({ art: "info", form: "popup", titel: "", text: "Wir sind umgezogen.", link: "", von: "2026-11-08", bis: "2026-11-22" }); });
     expect(d.hinweise[0]?.form).toBe("banner");
+  });
+  it("Darstellung «Karte in der Ecke»: gilt für jede Art, aber höchstens eine gleichzeitig", () => {
+    const eine = daten((e) => { e.hinweise.push({ art: "ferien", form: "ecke", titel: "Betriebsferien", text: "Wir sind ab dem 4. Januar wieder da.", link: "", von: "2026-12-20", bis: "2027-01-03" }); });
+    expect(eine.hinweise[0]?.form).toBe("ecke");
+    expect(pflegeSchema.safeParse(eine).success).toBe(true);
+    const e = basis();
+    for (const text of ["Erste Karte", "Zweite Karte"]) e.hinweise.push({ art: "info", form: "ecke", titel: "", text, link: "", von: "2026-11-08", bis: "2026-11-22" });
+    expect(entwurfPruefen(e)).toEqual({ bereich: "hinweise", meldung: "Hinweise: höchstens eine Karte in der Ecke gleichzeitig" });
+  });
+  it("Ferien von bis: ein Eintrag für mehrere Tage, in Alltagssprache, mit Prüfung", () => {
+    const ferien = (bisDatum: string) => (e: Entwurf) => { e.ausnahmen.push({ name: "Betriebsferien", datum: "2026-12-24", bisDatum, geschlossen: true, von: "", bis: "" }); };
+    expect(texte(ferien("2027-01-02"))).toEqual(["Neue Ferien: Betriebsferien (24.12.2026 bis 02.01.2027)"]);
+    expect(daten(ferien("2027-01-02")).ausnahmen.at(-1)).toEqual({ name: "Betriebsferien", datum: "2026-12-24", bisDatum: "2027-01-02", geschlossen: true });
+    expect(ausnahmeTage({ datum: "2026-12-30", bisDatum: "2027-01-02" })).toEqual(["2026-12-30", "2026-12-31", "2027-01-01", "2027-01-02"]);
+    expect(ausnahmeTage({ datum: "2026-12-25" })).toEqual(["2026-12-25"]);
+    // «Bis» gleich wie «Von» oder leer: ein einzelner Tag, das Feld fällt weg.
+    expect(daten(ferien("2026-12-24")).ausnahmen.at(-1)).toEqual({ name: "Betriebsferien", datum: "2026-12-24", geschlossen: true });
+    expect(texte(ferien(""))).toEqual(["Neuer Tag: Betriebsferien (24.12.2026)"]);
+    const falsch = basis(); ferien("2026-12-20")(falsch);
+    expect(entwurfPruefen(falsch)).toEqual({ bereich: "ausnahmen", meldung: "Feiertage und Ferien, Betriebsferien: «bis» darf nicht vor «von» liegen" });
+    const lang = basis(); ferien("2027-06-30")(lang);
+    expect(entwurfPruefen(lang)?.meldung).toBe("Feiertage und Ferien, Betriebsferien: höchstens 62 Tage am Stück");
   });
   it("Team: entfernen, hinzufügen, Gruppe wechseln, Reihenfolge, Name ändern", () => {
     expect(texte((e) => { e.team[0]!.leute.splice(1, 1); })).toEqual(["Person entfernt: Lea Schlegel"]);
