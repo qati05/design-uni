@@ -4,14 +4,19 @@
 // im Browser. Unten erscheint dann «Prüfen und veröffentlichen»: erst nach dem Blick auf die Liste der Änderungen geht es auf die Website.
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import type { Besucher as BesucherZahlen, PflegeStand, VerlaufEintrag } from "@/lib/backend";
-import { BEREICHE, NEU, aenderungen, entwurfAus, entwurfPruefen, entwurfZuDaten, fotoAnzeige, neueFotos, zeitenZeile, type BereichId, type Entwurf } from "@/lib/pflege";
+import { BEREICHE, NEU, aenderungen, entwurfAus, entwurfPruefen, entwurfZuDaten, fotoAnzeige, neueFotos, type BereichId, type Entwurf } from "@/lib/pflege";
 import { abmelden } from "../aktionen";
 import { standLaden, veroeffentlichen } from "./aktionen";
 import { bildVorbereiten, neueKennung, type BildArt } from "./bild";
 import { Ausnahmen, Besucher, Fotos, Fragen, Hinweise, Inhaber, Kontakt, Partner, Team, Verlauf, Zeiten, zeitText } from "./bereiche";
-import { Blatt, Gruppe, KontextGeber, Symbol, Wert, type Kontext } from "./teile";
+import { Blatt, Gruppe, KontextGeber, Symbol, type Auftrag, type Kontext } from "./teile";
+import { Hilfe, Uebersicht } from "./uebersicht";
 
-type Props = { stand: PflegeStand; verlauf: VerlaufEintrag[]; besucher: BesucherZahlen | null; email: string; heute: string };
+type Props = {
+  stand: PflegeStand; verlauf: VerlaufEintrag[]; besucher: BesucherZahlen | null; email: string; heute: string;
+  /** Adresse der Website (WEBSITE_URL) und Mail des Betreuers (HILFE_MAIL). Beides freiwillig: Fehlt es, fehlt die Zeile. */
+  website: { adresse: string; name: string } | null; hilfeMail: string | null;
+};
 type Meldung = { ok: boolean; text: string; bereich?: BereichId };
 const ORDNEN: readonly BereichId[] = ["ausnahmen", "team", "fragen", "partner"];
 const NAME = Object.fromEntries(BEREICHE.map((b) => [b.id, b.name])) as Record<BereichId, string>;
@@ -28,7 +33,7 @@ function useBereich(): BereichId | "" {
   return b;
 }
 
-export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute }: Props) {
+export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute, website, hilfeMail }: Props) {
   const [basis, setBasis] = useState(stand);
   const [e, setE] = useState<Entwurf>(() => entwurfAus(stand.daten));
   const eJetzt = useRef(e);
@@ -42,12 +47,24 @@ export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute }
   const [laeuft, start] = useTransition();
   const bereich = useBereich();
   const nr = useRef(0);
+  // «Öffne diesen Eintrag»: Die Übersicht legt den Auftrag hier ab und wechselt den Bereich. Der Bereich holt ihn beim
+  // Anzeigen einmal ab (nimmAuftrag), danach ist er weg. So öffnet nichts ein zweites Mal von selbst.
+  const auftrag = useRef<Auftrag | null>(null);
 
   const setze = useCallback((neu: Entwurf, merken?: string) => {
     if (merken) { rueck.current.push(eJetzt.current); if (rueck.current.length > 40) rueck.current.shift(); setHinweis({ text: merken, rueck: true, nr: ++nr.current }); }
     eJetzt.current = neu; setE(neu);
   }, []);
   const aendern = useCallback<Kontext["aendern"]>((fn, merken) => { const neu = structuredClone(eJetzt.current); fn(neu); setze(neu, merken); }, [setze]);
+  const nimmAuftrag = useCallback<Kontext["nimmAuftrag"]>(<B extends Auftrag["bereich"]>(b: B) => {
+    const a = auftrag.current;
+    auftrag.current = null;
+    return a && a.bereich === b ? (a as Extract<Auftrag, { bereich: B }>) : null;
+  }, []);
+  const gehe = useCallback((ziel: BereichId | Auftrag) => {
+    auftrag.current = typeof ziel === "string" ? null : ziel;
+    location.hash = typeof ziel === "string" ? ziel : ziel.bereich;
+  }, []);
   const zurueck = () => { const alt = rueck.current.pop(); if (!alt) return; eJetzt.current = alt; setE(alt); setHinweis({ text: "Zurückgenommen.", rueck: false, nr: ++nr.current }); };
   const zeige = useCallback((wert: string) => (wert.startsWith(NEU) ? fotos.current.get(wert.slice(NEU.length))?.url ?? "" : fotoAnzeige(wert)), []);
   const waehle = useCallback(async (datei: File, art: BildArt) => {
@@ -107,14 +124,13 @@ export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute }
     });
   }
 
-  const kontext: Kontext = { e, aendern, zeige, waehle, heute, ordnen };
+  const kontext: Kontext = { e, aendern, zeige, waehle, heute, ordnen, nimmAuftrag };
   const punkte = new Set(liste.map((a) => a.bereich));
   const aktiveHinweise = e.hinweise.filter((h) => h.text.trim() && h.von <= heute && heute <= h.bis).length;
   const wert: Partial<Record<BereichId, string>> = {
     hinweise: aktiveHinweise ? `${aktiveHinweise} aktiv` : "keiner", team: String(e.team.reduce((n, g) => n + g.leute.length, 0)), fragen: e.faq ? String(e.faq.length) : "", partner: e.partner ? String(e.partner.length) : "",
     ausnahmen: e.ausnahmen.length ? String(e.ausnahmen.length) : "", fotos: Object.keys(e.bilder).length ? `${Object.keys(e.bilder).length} ersetzt` : "",
   };
-  const heuteOffen = zeitenZeile(basis.daten);
 
   return (
     <KontextGeber value={kontext}>
@@ -141,6 +157,7 @@ export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute }
               </div>
             ))}
           </nav>
+          <div className="nur-handy"><Hilfe handy mail={hilfeMail} /></div>
           <div className="gruppe konto">
             <div className="gruppe__karte">
               <p className="konto__mail">Angemeldet als {email}</p>
@@ -158,18 +175,9 @@ export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute }
           <div className="bereich">
             {bereich === "" ? (
               <>
-                <Gruppe titel="Ihre Website" fuss="Was Sie hier ändern, steht etwa 2 Minuten nach dem Veröffentlichen auf Ihrer Website.">
-                  <Wert name="Geöffnet">{heuteOffen || "geschlossen"}</Wert>
-                  <Wert name="Zuletzt veröffentlicht">{basis.geaendert ? `${zeitText(basis.geaendert)}${basis.von ? `, ${basis.von}` : ""}` : "noch nie über das Cockpit"}</Wert>
-                  {besucher ? <a className="zeile zeile--link" href="#besucher"><span className="zeile__name">Besuche in 28 Tagen</span><span className="zeile__wert">{besucher.tage.reduce((n, t) => n + t.besuche, 0).toLocaleString("de-CH")}{besucher.beispiel ? " (Beispiel)" : ""}</span><Symbol name="pfeil" klein /></a> : null}
-                </Gruppe>
-                <div className="nur-computer">
-                  <Gruppe titel="So geht es">
-                    <p className="zeile zeile--schritt"><span className="schritt">1</span>Links einen Bereich wählen und ändern, was Sie möchten.</p>
-                    <p className="zeile zeile--schritt"><span className="schritt">2</span>Unten auf «Prüfen und veröffentlichen» tippen. Sie sehen alle Änderungen in einer Liste.</p>
-                    <p className="zeile zeile--schritt"><span className="schritt">3</span>«Jetzt veröffentlichen». Etwas falsch? Im Verlauf nehmen Sie es zurück.</p>
-                  </Gruppe>
-                </div>
+                <Uebersicht basis={basis} besucher={besucher} geaendert={punkte} website={website} gehe={gehe}
+                  sage={(text) => setHinweis({ text, rueck: false, nr: ++nr.current })} warne={(text, b) => setMeldung({ ok: false, text, bereich: b })} />
+                <div className="nur-computer"><Hilfe mail={hilfeMail} /></div>
               </>
             ) : null}
             {bereich === "hinweise" ? <Hinweise /> : null}

@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { holeBackend } from "@/lib/backend.server";
+import { hilfeAdresse, websiteAdresse } from "@/lib/alltag";
 import { heuteZuerich } from "../../gemeinsam/site";
 import { abmelden } from "./aktionen";
 import { Cockpit } from "./pflege/Cockpit";
@@ -18,5 +19,6 @@ export default async function PflegeSeite() {
       <form action={abmelden}><button type="submit" className="knopf knopf--leise">Abmelden</button></form>
     </main>
   );
-  return <Cockpit stand={stand} verlauf={verlauf} besucher={besucher} email={s.email} heute={heuteZuerich()} />;
+  // Beides freiwillig und nie fest eingebaut: WEBSITE_URL für «Website ansehen», HILFE_MAIL für «Ihrem Betreuer schreiben».
+  return <Cockpit stand={stand} verlauf={verlauf} besucher={besucher} email={s.email} heute={heuteZuerich()} website={websiteAdresse(process.env.WEBSITE_URL)} hilfeMail={hilfeAdresse(process.env.HILFE_MAIL)} />;
 }

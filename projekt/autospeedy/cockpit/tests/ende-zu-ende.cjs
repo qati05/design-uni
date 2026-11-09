@@ -1,8 +1,15 @@
 // Ende-zu-Ende gegen das Demo-Cockpit auf 4400 (frisch gestartet, siehe LIESMICH). Aufruf: node tests/ende-zu-ende.cjs <ordner>
 // <ordner>/testfotos/a.jpg, b.jpg, quer.jpg und logo.png müssen existieren; Bildschirmfotos landen in <ordner>/e2e/.
+// Läuft das Cockpit mit WEBSITE_URL oder HILFE_MAIL, braucht der Test dieselben Werte in seiner Umgebung: Er prüft dann, dass
+// die Zeilen «Website ansehen» und «Ihrem Betreuer schreiben» da sind, sonst, dass sie fehlen. COCKPIT_URL: anderer Port.
 const { chromium } = require('playwright');
 const fs = require('node:fs');
-const S = process.argv[2], C = 'http://localhost:4400';
+const S = process.argv[2], C = process.env.COCKPIT_URL || 'http://localhost:4400';
+const WEB = (process.env.WEBSITE_URL || '').replace(/\/$/, ''), MAIL = process.env.HILFE_MAIL || '';
+// Heute in der Schweiz (so rechnet das Cockpit), Tage danach, und ein Datum, wie es das Cockpit schreibt (24.12.2026).
+const HEUTE = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Zurich', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+const plus = (n) => { const t = new Date(HEUTE + 'T12:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
+const ch = (d) => d.slice(8) + '.' + d.slice(5, 7) + '.' + d.slice(0, 4);
 fs.mkdirSync(S + '/e2e', { recursive: true });
 const ok = (b, t) => { if (!b) throw new Error('FEHLER: ' + t); console.log('ok  ' + t); };
 const konsole = [];
@@ -20,7 +27,14 @@ const hin = async (p, bereich) => { await p.goto(C + '/#' + bereich); await p.wa
 const blatt = 'dialog.blatt[open]';
 /** Wählt im Auswahl-Menü (eigenes Menü, kein Auswahlfeld des Browsers) einen Eintrag. */
 const waehle = async (p, name, text) => { await p.getByRole('button', { name: new RegExp('^' + name + ' ') }).click(); await p.getByRole('option', { name: text, exact: true }).click(); await p.waitForSelector('.menue', { state: 'detached' }); };
-const fertig = async (p) => { await p.click(blatt + ' .blatt__fertig'); await p.waitForSelector(blatt, { state: 'detached' }); };
+/** Handy: oben links zurück auf die Übersicht (ohne die Seite neu zu laden, der Entwurf bleibt). */
+const zurueck = async (p) => { await p.click('.kopf__zurueck'); await p.waitForSelector('.app:not(.app--bereich)'); };
+const SCHNELL = '.gruppe:has(.gruppe__titel:text-is("Schnell erledigt"))';
+/** Schalter «Auch als Hinweis auf der Website zeigen» im Blatt eines Eintrags bei «Feiertage und Ferien». */
+const SCH = blatt + ' .zeile--schalter:has-text("Auch als Hinweis") .schalter';
+const H = (i) => '#hinweis-' + i;
+// Wartet, bis das Blatt wirklich weg ist: «open» fällt sofort weg, aufgeräumt wird erst danach (Ereignis «close»).
+const fertig = async (p) => { await p.click(blatt + ' .blatt__fertig'); await p.waitForSelector('dialog.blatt', { state: 'detached' }); };
 /** Öffnet «Prüfen und veröffentlichen», prüft die Liste der Änderungen und veröffentlicht. */
 async function veroeffentlichen(p, erwartet, was) {
   await p.click('.speichern .knopf:not(.knopf--leise)'); await p.waitForSelector(blatt + ' .knopf--gross');
@@ -56,6 +70,83 @@ async function veroeffentlichen(p, erwartet, was) {
   const g = await (await b.newContext()).newPage(); await anmelden(b, g, 'fremd@beispiel.example');
   const r403 = await g.goto(C + '/'); ok(r403.status() === 403 && /Kein Zugang/.test(await g.textContent('h1')), 'Konto ohne Mitgliedschaft: 403');
 
+  // ---------- Übersicht: was gerade gilt, «Schnell erledigt», Hilfe. Alles bleibt Entwurf und wird am Ende verworfen.
+  await hin(h, '');
+  ok((await h.locator(SCHNELL + ' .zeile--tat').allTextContents()).join('|') === 'Heute geschlossen|Ferien eintragen|Hinweis nach Hagel|Neue Person im Team|Foto tauschen', 'Übersicht: Gruppe «Schnell erledigt» mit fünf Zeilen, direkt unter «Ihre Website»');
+  ok(await h.locator(SCHNELL + ' .zeile--tat').evaluateAll((z) => z.every((x) => x.getBoundingClientRect().height >= 44)), '«Schnell erledigt»: jede Zeile mindestens 44 Punkte hoch');
+  ok(/keiner/.test(await h.textContent('main a.zeile--link[href="#hinweise"]')) && /keine eingetragen/.test(await h.textContent('main a.zeile--link[href="#ausnahmen"]')), 'Übersicht zeigt, was gilt: Hinweise «keiner», Nächste Ferien «keine eingetragen»');
+  const web = await h.$('main a:has-text("Website ansehen")');
+  ok(WEB ? !!web && (await web.getAttribute('href')).startsWith(WEB) && (await web.getAttribute('target')) === '_blank' && /noopener/.test(await web.getAttribute('rel')) : !web, WEB ? '«Website ansehen» öffnet die eingerichtete Adresse in einem neuen Tab' : 'ohne WEBSITE_URL gibt es keine Zeile «Website ansehen» (keine Adresse fest eingebaut)');
+  ok(await h.isVisible('.nur-handy .klappe summary') && !(await h.isVisible('.nur-handy .zeile--schritt')) && !(await h.isVisible('main .klappe')), 'Handy: Hilfe steht unter der Liste, «So geht es» ist eingeklappt');
+  await h.click('.nur-handy .klappe summary'); ok((await h.locator('.nur-handy .zeile--schritt:visible').count()) === 3, 'Handy: Antippen klappt die 3 Schritte auf');
+  const mail = await h.$('.nur-handy a[href^="mailto:"]');
+  ok(MAIL ? !!mail && (await mail.getAttribute('href')).startsWith('mailto:' + MAIL) && /Ihrem Betreuer schreiben/.test(await mail.textContent()) : !(await h.$('a[href^="mailto:"]')), MAIL ? '«Ihrem Betreuer schreiben» schreibt an die eingerichtete Adresse' : 'ohne HILFE_MAIL gibt es keine Zeile «Ihrem Betreuer schreiben» (keine Adresse fest eingebaut)');
+  await h.waitForTimeout(300); await h.screenshot({ path: S + '/e2e/1b-hilfe-handy.png' });
+  // «Heute geschlossen»: ein Tipp, der Eintrag steht im Entwurf, sein Blatt ist offen
+  await h.click(SCHNELL + ' button:has-text("Heute geschlossen")'); await h.waitForSelector(blatt);
+  ok(new URL(h.url()).hash === '#ausnahmen' && (await h.getByLabel('Anlass').inputValue()) === 'Geschlossen' && (await h.getByLabel('Von', { exact: true }).inputValue()) === HEUTE, '«Heute geschlossen»: neuer Eintrag «Geschlossen» mit dem heutigen Datum, das Blatt ist gleich offen');
+  ok(!(await h.isChecked(SCH)) && await h.isEnabled(SCH), 'Blatt: Schalter «Auch als Hinweis auf der Website zeigen» ist aus und lässt sich einschalten');
+  await fertig(h);
+  ok((await h.$$('main .zeile--eintrag')).length === 1 && /1 Änderung/.test(await h.textContent('.speichern')), '«Heute geschlossen» ist ein Entwurf: 1 Änderung, noch nicht veröffentlicht');
+  await zurueck(h);
+  ok(await h.isVisible('main a.zeile--link[href="#ausnahmen"] .punkt') && /keine eingetragen/.test(await h.textContent('main a.zeile--link[href="#ausnahmen"]')), 'Übersicht: «Nächste Ferien» zeigt weiter den Stand der Website, ein Punkt sagt «geändert, noch nicht veröffentlicht»');
+  await h.click(SCHNELL + ' button:has-text("Heute geschlossen")'); await h.waitForSelector(blatt); await fertig(h);
+  ok((await h.$$('main .zeile--eintrag')).length === 1, '«Heute geschlossen» ein zweites Mal: öffnet den Eintrag von heute, legt keinen zweiten an');
+  // «Ferien eintragen»: leeres Datum; ohne Eingabe bleibt nichts zurück
+  await zurueck(h); await h.click(SCHNELL + ' button:has-text("Ferien eintragen")'); await h.waitForSelector(blatt);
+  ok(new URL(h.url()).hash === '#ausnahmen' && (await h.getByLabel('Anlass').inputValue()) === 'Betriebsferien' && (await h.getByLabel('Von', { exact: true }).inputValue()) === '', '«Ferien eintragen»: Blatt offen, Anlass «Betriebsferien», Datum noch leer');
+  ok(await h.isDisabled(SCH) && /Bitte zuerst das Datum wählen\./.test(await h.textContent(blatt)), 'ohne Datum ist der Schalter für den Hinweis gesperrt und sagt warum');
+  await fertig(h);
+  ok((await h.$$('main .zeile--eintrag')).length === 1 && /1 Änderung/.test(await h.textContent('.speichern')), 'Blatt ohne Eingabe geschlossen: kein leerer Eintrag bleibt zurück');
+  // Ferien und Hinweis zusammen: an, Datum ändern (der Hinweis zieht mit), aus
+  const F1 = plus(30), F2 = plus(39), F3 = plus(42);
+  await zurueck(h); await h.click(SCHNELL + ' button:has-text("Ferien eintragen")'); await h.waitForSelector(blatt);
+  await h.getByLabel('Von', { exact: true }).fill(F1); await h.getByLabel('Bis', { exact: true }).fill(F2); await h.check(SCH);
+  ok((await h.textContent(blatt)).includes('Betriebsferien vom ' + ch(F1) + ' bis ' + ch(F2) + '.'), 'Schalter an: Das Blatt zeigt den Hinweis im Wortlaut (Anlass und Datum)');
+  await h.locator(SCH).scrollIntoViewIfNeeded(); await h.waitForTimeout(300); await h.screenshot({ path: S + '/e2e/2c-ferien-hinweis-handy.png' }); await fertig(h);
+  await hin(h, 'hinweise');
+  ok((await h.$$('[id^="hinweis-"]')).length === 1 && /Ferien/.test(await h.textContent(H(0) + ' .zeile--wahl:has-text("Art") .wahl')) && (await h.inputValue(H(0) + ' .kachel input:checked')) === 'banner' && (await h.inputValue(H(0) + ' textarea')) === 'Betriebsferien vom ' + ch(F1) + ' bis ' + ch(F2) + '.', 'Bereich «Hinweise»: der passende Hinweis steht da (Art Ferien, Leiste oben, Text aus Anlass und Datum)');
+  ok((await h.locator(H(0)).getByLabel('Zeigen ab').inputValue()) === HEUTE && (await h.locator(H(0)).getByLabel('Zeigen bis').inputValue()) === F2, 'Zeitraum des Hinweises: ab heute bis zum letzten Ferientag');
+  await hin(h, 'ausnahmen'); await h.click('.eintrag:has-text("Betriebsferien")'); await h.waitForSelector(blatt);
+  ok(await h.isChecked(SCH), 'Blatt wieder geöffnet: Der Schalter zeigt den wahren Zustand (an)');
+  await h.getByLabel('Bis', { exact: true }).fill(F3);
+  ok((await h.textContent(blatt)).includes('Betriebsferien vom ' + ch(F1) + ' bis ' + ch(F3) + '.') && await h.isChecked(SCH), 'Datum der Ferien geändert: Schalter bleibt an, der Text zieht mit'); await fertig(h);
+  await hin(h, 'hinweise');
+  ok((await h.inputValue(H(0) + ' textarea')) === 'Betriebsferien vom ' + ch(F1) + ' bis ' + ch(F3) + '.' && (await h.locator(H(0)).getByLabel('Zeigen bis').inputValue()) === F3, 'der verbundene Hinweis ist nicht still falsch geworden: Text und «Zeigen bis» stimmen');
+  await hin(h, 'ausnahmen'); await h.click('.eintrag:has-text("Betriebsferien")'); await h.waitForSelector(blatt); await h.uncheck(SCH);
+  ok(!(await h.isChecked(SCH)) && /Hinweis dazu entfernt/.test(await h.textContent('.toast')), 'Schalter aus: Hinweis entfernt, unten steht es mit «Rückgängig»'); await fertig(h);
+  await hin(h, 'hinweise'); ok((await h.$$('[id^="hinweis-"]')).length === 0, 'Schalter aus: Im Bereich «Hinweise» ist genau dieser Hinweis wieder weg');
+  // «Hinweis nach Hagel» und die Vorlagen
+  await zurueck(h); await h.click(SCHNELL + ' button:has-text("Hinweis nach Hagel")'); await h.waitForSelector(H(0));
+  ok(new URL(h.url()).hash === '#hinweise' && (await h.locator(H(0)).getByLabel('Titel').inputValue()) === 'Hagelschaden?' && (await h.inputValue(H(0) + ' textarea')) === 'Melden Sie Ihren Schaden gleich online. Die Abwicklung mit Ihrer Versicherung übernehmen wir.', '«Hinweis nach Hagel»: Hinweis aus der Vorlage mit Titel und Text, der Bereich «Hinweise» zeigt ihn');
+  ok((await h.inputValue(H(0) + ' .kachel input:checked')) === 'popup' && /Schaden melden \(Hagel\)/.test(await h.textContent(H(0) + ' .zeile--wahl:has-text("Führt zu") .wahl')) && /Hagelschaden\?/.test(await h.textContent(H(0) + ' .vorschau .vs-fenster')), 'Vorlage Hagel: Fenster, Link «Schaden melden (Hagel)», die Vorschau zeigt es');
+  await h.waitForTimeout(350); await h.screenshot({ path: S + '/e2e/2d-hagel-vorlage-handy.png' });
+  await zurueck(h); await h.click(SCHNELL + ' button:has-text("Hinweis nach Hagel")'); await h.waitForSelector(H(0));
+  ok((await h.$$('[id^="hinweis-"]')).length === 1 && /Es gibt schon einen Hinweis zu Hagel/.test(await h.textContent('.toast')), '«Hinweis nach Hagel» ein zweites Mal: zeigt den bestehenden, legt keinen zweiten an');
+  await h.click('button:has-text("Hinweis hinzufügen")'); await h.waitForSelector(blatt);
+  ok(/Was möchten Sie mitteilen\?/.test(await h.textContent(blatt + ' h2')) && (await h.locator(blatt + ' .eintrag__titel').allTextContents()).join('|') === 'Hagel|Betriebsferien|Kurzfristig geschlossen|Aktion|Stelle frei|Leerer Hinweis', '«Hinweis hinzufügen» öffnet das Blatt «Was möchten Sie mitteilen?» mit 6 Vorlagen');
+  ok(await h.locator(blatt + ' .eintrag').evaluateAll((z) => z.every((x) => x.getBoundingClientRect().height >= 44)) && await h.evaluate(() => { const t = document.querySelector('dialog[open] h2'); return t.scrollWidth <= t.clientWidth; }), 'Vorlagen: Zeilen mindestens 44 Punkte hoch, der Titel des Blatts ist am Handy nicht abgeschnitten');
+  await h.waitForTimeout(300); await h.screenshot({ path: S + '/e2e/2e-vorlagen-handy.png' });
+  await h.click(blatt + ' .eintrag:has-text("Stelle frei")'); await h.waitForSelector(blatt, { state: 'detached' }); await h.waitForSelector(H(1));
+  ok((await h.locator(H(1)).getByLabel('Titel').inputValue()) === 'Wir suchen Verstärkung' && (await h.inputValue(H(1) + ' .kachel input:checked')) === 'ecke' && /Kontakt/.test(await h.textContent(H(1) + ' .zeile--wahl:has-text("Führt zu") .wahl')), 'Vorlage «Stelle frei»: Titel, Karte in der Ecke, Link «Kontakt»');
+  ok(await h.evaluate(() => { const r = document.querySelector('#hinweis-1').getBoundingClientRect(); return r.top >= 0 && r.top < window.innerHeight / 2; }), 'nach der Wahl der Vorlage steht der neue Hinweis im Bild');
+  await h.click('button:has-text("Hinweis hinzufügen")'); await h.click(blatt + ' .eintrag:has-text("Aktion")'); await h.waitForSelector(H(2));
+  ok((await h.inputValue(H(2) + ' .kachel input:checked')) === 'banner' && (await h.locator(H(2)).getByLabel('Titel').inputValue()) === '' && (await h.inputValue(H(2) + ' textarea')) === '', 'Vorlage «Aktion»: nichts erfunden (Titel und Text leer); die Karte ist belegt, darum Leiste oben');
+  ok(!(await h.$('button:has-text("Hinweis hinzufügen")')), 'bei 3 Hinweisen gibt es keinen vierten');
+  await h.locator(H(0)).getByRole('button', { name: /^Art / }).click(); await h.getByRole('option', { name: 'Information', exact: true }).click(); await h.waitForSelector('.menue', { state: 'detached' });
+  await zurueck(h); await h.click(SCHNELL + ' button:has-text("Hinweis nach Hagel")'); await h.waitForSelector('.balken--fehler');
+  ok(/Es gibt schon 3 Hinweise/.test(await h.textContent('.balken--fehler')) && new URL(h.url()).hash === '' && await h.isVisible('.balken--fehler a[href="#hinweise"]'), '«Hinweis nach Hagel» bei 3 Hinweisen: verständliche Meldung mit dem Weg dorthin');
+  await h.click('.balken--fehler button.balken__tat'); await hin(h, 'hinweise'); ok((await h.$$('[id^="hinweis-"]')).length === 3, 'bei 3 Hinweisen wurde nichts angelegt');
+  await hin(h, 'ausnahmen'); await h.click('.eintrag:has-text("Betriebsferien")'); await h.waitForSelector(blatt);
+  ok(await h.isDisabled(SCH) && !(await h.isChecked(SCH)) && /Es gibt schon 3 Hinweise\. Mehr zeigt die Website nicht\./.test(await h.textContent(blatt)), 'Ferien bei 3 Hinweisen: Schalter ist aus und sagt warum'); await fertig(h);
+  // «Neue Person im Team» und «Foto tauschen»
+  await zurueck(h); await h.click(SCHNELL + ' button:has-text("Neue Person im Team")'); await h.waitForSelector(blatt);
+  ok(new URL(h.url()).hash === '#team' && /Neue Person/.test(await h.textContent(blatt + ' h2')) && (await h.getByLabel('Name', { exact: true }).inputValue()) === '', '«Neue Person im Team»: Blatt für eine neue Person ist offen');
+  await fertig(h); ok((await h.$$('main .zeile--eintrag')).length === 10 && !(await h.$('.eintrag:has-text("Ohne Namen")')), 'Blatt ohne Eingabe geschlossen: keine leere Person bleibt zurück');
+  await zurueck(h); await h.click(SCHNELL + ' button:has-text("Foto tauschen")'); await h.waitForSelector('.app--bereich');
+  ok(/Fotos/.test(await h.textContent('h1')) && new URL(h.url()).hash === '#fotos', '«Foto tauschen» führt in den Bereich «Fotos»');
+  await h.click('.speichern .knopf--leise'); ok(!(await h.$('.speichern')), 'alle Entwürfe aus «Schnell erledigt» lassen sich verwerfen, nichts ist veröffentlicht');
+
   // ---------- Öffnungszeiten, Hinweis, Feiertag
   await hin(h, ''); await h.click('a.nav[href="#zeiten"]'); await h.waitForSelector('.app--bereich');
   ok(/Öffnungszeiten/.test(await h.textContent('h1')) && await h.isVisible('.kopf__zurueck') && !(await h.isVisible('nav')), 'Handy: Antippen führt auf die Unterseite, oben «Übersicht» zum Zurückgehen');
@@ -66,7 +157,7 @@ async function veroeffentlichen(p, erwartet, was) {
   ok(/1 Änderung/.test(await h.textContent('.speichern')), 'unten steht, wie viele Änderungen offen sind');
   await h.click('.kopf__zurueck'); await h.waitForSelector('.app:not(.app--bereich)');
   ok(await h.isVisible('a.nav[href="#zeiten"] .punkt'), 'in der Liste zeigt ein Punkt, wo etwas geändert ist');
-  await h.click('a.nav[href="#hinweise"]'); await h.click('button:has-text("Hinweis hinzufügen")');
+  await h.click('a.nav[href="#hinweise"]'); await h.click('button:has-text("Hinweis hinzufügen")'); await h.click(blatt + ' .eintrag:has-text("Leerer Hinweis")'); await h.waitForSelector(blatt, { state: 'detached' });
   ok(await h.isDisabled('.kachel:has-text("Fenster") input'), 'Darstellung «Fenster» ist bei «Information» gesperrt (nur Hagel und Aktion)');
   await h.getByRole('button', { name: /^Art / }).click(); await h.waitForSelector('.menue[role=listbox]');
   ok((await h.locator('.menue [role=option]').count()) === 5 && (await h.getAttribute('.menue [aria-selected=true]', 'id')) === (await h.getAttribute('.menue', 'aria-activedescendant')), 'Auswahl «Art»: eigenes Menü mit 5 Einträgen, der gewählte ist markiert');
@@ -87,7 +178,7 @@ async function veroeffentlichen(p, erwartet, was) {
   ok(/6 Tage am Stück/.test(await h.textContent(blatt)), 'Ferien von bis: das Blatt zählt die Tage'); await fertig(h);
   ok(/28\. Dezember 2026 bis .*2\. Januar 2027/.test(await h.textContent('main')), 'Ferien stehen als ein Eintrag «von bis» in der Liste');
   await h.click('button:has-text("Feiertag oder Ferien hinzufügen")'); await h.waitForSelector(blatt);
-  await h.getByLabel('Anlass').fill('Heiligabend'); await h.getByLabel('Von', { exact: true }).fill('2026-12-24'); await h.locator(blatt + ' .schalter').uncheck();
+  await h.getByLabel('Anlass').fill('Heiligabend'); await h.getByLabel('Von', { exact: true }).fill('2026-12-24'); await h.locator(blatt + ' .schalter').first().uncheck();
   await h.fill('[aria-label="Offen von"]', '07:30'); await h.fill('[aria-label="Offen bis"]', '12:00'); await fertig(h);
   ok(/Heiligabend/.test(await h.textContent('main')) && /7.30 bis 12.00 Uhr/.test(await h.textContent('main')), 'Feiertag steht in der Liste');
   await h.waitForTimeout(450); await h.screenshot({ path: S + '/e2e/2-aenderungen-handy.png' });
@@ -142,6 +233,8 @@ async function veroeffentlichen(p, erwartet, was) {
   await h.click('button:has-text("Frage hinzufügen")'); await h.locator(blatt + ' textarea').nth(0).fill('Wann haben Sie geöffnet?'); await h.locator(blatt + ' textarea').nth(1).fill('Wir sind für Sie da:'); await h.click(blatt + ' .chip:has-text("Öffnungszeiten")');
   ok((await h.locator(blatt + ' textarea').nth(1).inputValue()) === 'Wir sind für Sie da: {zeiten}', 'Frage: «Öffnungszeiten» setzt den Platzhalter ein'); await fertig(h);
   await hin(h, 'fotos'); const KARTE = '.fotokarte:has-text("Grosses Foto oben")';
+  // Das Bild wird bei jedem Anzeigen neu geholt (no-store). Erst prüfen, wenn der Browser damit fertig ist (geladen oder gescheitert).
+  await h.waitForFunction(() => document.querySelector('.fotokarte img')?.complete);
   ok(await h.getAttribute(KARTE + ' img', 'src') === '/bilder/defender-kabine-480.webp' && await h.evaluate(() => document.querySelector('.fotokarte img').naturalWidth > 0), 'Fotos: zeigt das heutige Foto der Website');
   await h.setInputFiles(KARTE + ' input[type=file]', S + '/testfotos/quer.jpg'); await h.waitForSelector(KARTE + ' textarea');
   await h.click('.speichern .knopf:not(.knopf--leise)'); await h.waitForSelector('.balken--fehler');
@@ -181,6 +274,24 @@ async function veroeffentlichen(p, erwartet, was) {
   await h2.locator('textarea').fill('Zweites Fenster.'); await h2.click('.speichern .knopf:not(.knopf--leise)'); await h2.click(blatt + ' .knopf--gross'); await h2.waitForSelector('.balken--fehler');
   ok(/jemand anderes veröffentlicht/.test(await h2.textContent('.balken--fehler')), 'zwei Fenster: das zweite überschreibt nicht, sondern meldet den Konflikt'); await h2.close();
 
+  // ---------- «Schnell erledigt» bis auf die Website: Eintrag von heute mit Hinweis und ein Hinweis aus einer Vorlage, dann wieder entfernen
+  await hin(h, '');
+  ok(/1 aktiv/.test(await h.textContent('main a.zeile--link[href="#hinweise"]')), 'Übersicht «Ihre Website»: zeigt den veröffentlichten Hinweis («1 aktiv»)');
+  await h.click(SCHNELL + ' button:has-text("Heute geschlossen")'); await h.waitForSelector(blatt); await h.check(SCH);
+  ok((await h.textContent(blatt)).includes('Geschlossen am ' + ch(HEUTE) + '.'), '«Heute geschlossen» mit Hinweis: Text «Geschlossen am ' + ch(HEUTE) + '.»'); await fertig(h);
+  await hin(h, 'hinweise'); await h.click('button:has-text("Hinweis hinzufügen")'); await h.click(blatt + ' .eintrag:has-text("Stelle frei")'); await h.waitForSelector(H(2));
+  await veroeffentlichen(h, ['Neuer Tag: Geschlossen (' + ch(HEUTE) + ')', 'Neuer Hinweis: «Geschlossen am ' + ch(HEUTE) + '.»', 'Neuer Hinweis: «Möchten Sie bei uns arbeiten?'], 'Schnell erledigt und Vorlage');
+  await h.reload(); await hin(h, '');
+  ok(/3 aktiv/.test(await h.textContent('main a.zeile--link[href="#hinweise"]')) && /Geschlossen, heute/.test(await h.textContent('main a.zeile--link[href="#ausnahmen"]')) && !(await h.$('main .punkt')), 'nach dem Veröffentlichen zeigt die Übersicht: «3 aktiv» und «Geschlossen, heute»');
+  await h.waitForTimeout(300); await h.screenshot({ path: S + '/e2e/8b-uebersicht-handy.png' });
+  await hin(h, 'ausnahmen'); await h.click('.eintrag:has(.eintrag__titel:text-is("Geschlossen"))'); await h.waitForSelector(blatt);
+  ok(await h.isChecked(SCH), 'nach Veröffentlichen und Neuladen erkennt der Schalter seinen Hinweis (ohne neues Feld in site.json)');
+  await h.click(blatt + ' button:has-text("Eintrag entfernen")');
+  ok(/Geschlossen entfernt, auch der Hinweis dazu/.test(await h.textContent('.toast')), 'Eintrag entfernen: Der Hinweis dazu geht mit, unten steht es mit «Rückgängig»');
+  await hin(h, 'hinweise'); ok((await h.$$('[id^="hinweis-"]')).length === 2 && (await h.locator(H(1)).getByLabel('Titel').inputValue()) === 'Wir suchen Verstärkung', 'der Hinweis zum entfernten Eintrag ist weg, die anderen bleiben');
+  await h.click(H(1) + ' button:has-text("Hinweis entfernen")');
+  await veroeffentlichen(h, ['Tag entfernt: Geschlossen (' + ch(HEUTE) + ')', 'Hinweis entfernt: «Geschlossen am ' + ch(HEUTE) + '.»', 'Hinweis entfernt: «Möchten Sie bei uns arbeiten?'], 'Eintrag und Hinweise wieder entfernen');
+
   // ---------- App, Computer, Abmelden
   const m = await (await b.newContext()).newPage(); const mj = await (await m.goto(C + '/manifest.webmanifest')).json(); ok(mj.display === 'standalone' && mj.icons.length === 3, 'Manifest: installierbar als App');
   ok((await m.goto(C + '/sw.js')).status() === 200 && (await m.goto(C + '/offline.html')).status() === 200, 'Service Worker und Offline-Seite ohne Login');
@@ -189,6 +300,11 @@ async function veroeffentlichen(p, erwartet, was) {
   d.on('console', (x) => { if (x.type() === 'error' && !/status of 404/.test(x.text())) konsole.push(x.text()); }); d.on('pageerror', (e) => konsole.push(String(e)));
   await anmelden(b, d, 'werkstatt@autospeedy.example'); await d.waitForURL(C + '/');
   ok(await d.isVisible('.leiste nav') && /Website pflegen/.test(await d.textContent('h1')), 'Computer: Seitenleiste links, Übersicht rechts');
+  ok(await d.isVisible(SCHNELL) && (await d.locator('main .klappe .zeile--schritt:visible').count()) === 3 && !(await d.isVisible('.leiste .klappe')), 'Computer: «Schnell erledigt» und die Hilfe mit den 3 Schritten stehen offen auf der Übersicht');
+  await d.click(SCHNELL + ' button:has-text("Ferien eintragen")'); await d.waitForSelector(blatt);
+  ok(await d.isVisible('.nav--aktiv[href="#ausnahmen"]') && (await d.getByLabel('Anlass').inputValue()) === 'Betriebsferien', 'Computer: «Ferien eintragen» wechselt den Bereich und öffnet das Blatt');
+  await d.waitForTimeout(450); await d.screenshot({ path: S + '/e2e/9a-ferien-computer.png' }); await fertig(d);
+  ok(!(await d.$('.speichern')), 'Computer: Blatt ohne Eingabe geschlossen, nichts bleibt zurück');
   await d.click('a.nav[href="#team"]'); await d.waitForSelector('.nav--aktiv[href="#team"]'); ok(await d.isVisible('.leiste nav') && /Team/.test(await d.textContent('h1')), 'Computer: Bereich wechselt rechts, die Leiste bleibt');
   await d.keyboard.press('Tab'); ok(await d.evaluate(() => !!document.activeElement && document.activeElement !== document.body), 'Computer: mit der Tastatur bedienbar');
   await d.waitForTimeout(450); await d.screenshot({ path: S + '/e2e/9-team-computer.png' });

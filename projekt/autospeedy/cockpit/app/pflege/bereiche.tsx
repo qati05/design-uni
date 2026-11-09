@@ -1,8 +1,9 @@
 "use client";
 
 // Die Bereiche des Cockpits. Jeder ändert nur den Entwurf im Browser; auf die Website kommt es erst mit «Veröffentlichen».
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AUSNAHME_TAGE_MAX, BILD_PLAETZE, FAQ_PLATZHALTER, HINWEIS_ARTEN, HINWEIS_FORMEN, HINWEIS_LINKS, HINWEIS_POPUP_ARTEN, telefonCH, zeitenZeile, type Entwurf, type EntwurfPerson, type Pflege } from "@/lib/pflege";
+import { AUSNAHMEN_MAX, HINWEISE_MAX, HINWEIS_VORLAGEN, ausnahmeAendern, ausnahmeEntfernen, ausnahmeSchliessen, ferienBindung, ferienHinweisGrund, ferienHinweisIndex, ferienHinweisSchalten, hinweisAusVorlage, hinweisForm, type FerienBindung, type VorlageId } from "@/lib/alltag";
 import type { Besucher as BesucherZahlen, VerlaufEintrag } from "@/lib/backend";
 import { Auswahl, BildKnopf, Blatt, Eintrag, Feld, Gruppe, Kacheln, Langtext, Schalter, Symbol, Tat, Umschalter, Wert, usePflege } from "./teile";
 
@@ -12,10 +13,6 @@ const alsUhr = (s: string) => (/^\d{1,2}\.\d{2}$/.test(s) ? s.padStart(5, "0").r
 const alsPunkt = (s: string) => (/^\d{2}:\d{2}/.test(s) ? `${Number(s.slice(0, 2))}.${s.slice(3, 5)}` : "");
 export const tagText = (d: string, lang = false) => (/^\d{4}-\d{2}-\d{2}$/.test(d) ? new Date(d + "T12:00:00Z").toLocaleDateString("de-CH", lang ? { weekday: "short", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" } : { day: "2-digit", month: "2-digit", year: "numeric", timeZone: "UTC" }) : "");
 export const zeitText = (z: string) => new Date(z).toLocaleString("de-CH", { weekday: "short", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Zurich" });
-function plusTage(d: string, n: number): string {
-  const t = new Date(d + "T12:00:00Z"); t.setUTCDate(t.getUTCDate() + n);
-  return t.toISOString().slice(0, 10);
-}
 
 // ---------- Aktuell
 type Form = Entwurf["hinweise"][number]["form"];
@@ -35,8 +32,9 @@ const ART_ZEICHEN: Record<(typeof HINWEIS_ARTEN)[number], React.ReactNode> = {
 const Zeichen = ({ art }: { art: (typeof HINWEIS_ARTEN)[number] }) => <svg className="vs-zeichen" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{ART_ZEICHEN[art]}</svg>;
 const Zu = () => <svg className="vs-zu" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>;
 const popupErlaubt = (art: string) => (HINWEIS_POPUP_ARTEN as readonly string[]).includes(art);
-/** Welche Darstellung wirklich gilt: «Fenster» gibt es nur bei Hagel und Aktion, sonst wird es zur Leiste. */
-const formVon = (h: { art: string; form: Form }): Form => (h.form === "popup" && !popupErlaubt(h.art) ? "banner" : h.form);
+const formVon = hinweisForm;
+/** Zeichen einer Vorlage im Blatt «Was möchten Sie mitteilen?»: das Zeichen der Art, wie es auf der Website steht. */
+const VORLAGE_ZEICHEN: Record<VorlageId, React.ReactNode> = { hagel: ART_ZEICHEN.hagel, ferien: ART_ZEICHEN.ferien, geschlossen: ART_ZEICHEN.geschlossen, aktion: ART_ZEICHEN.aktion, stelle: <Symbol name="team" klein />, leer: <Symbol name="plus" klein /> };
 /** Kleines Schema für die Wahl der Darstellung: eine Seite, der Hinweis ist blau hervorgehoben. */
 const skizze = (form: Form) => <span className={`skizze skizze--${form}`}><i className="skizze__kopf" /><i className="skizze__text" /><i className="skizze__bild" /><b /></span>;
 
@@ -74,10 +72,32 @@ function HinweisVorschau({ h, geraet }: { h: Entwurf["hinweise"][number]; geraet
 }
 
 export function Hinweise() {
-  const { e, aendern, heute } = usePflege();
+  const { e, aendern, heute, nimmAuftrag } = usePflege();
   const [geraet, setGeraet] = useState<Geraet>("handy");
+  const [wahl, setWahl] = useState(false);
+  // Zu diesem Hinweis springen: nach der Wahl einer Vorlage oder nach «Hinweis nach Hagel» auf der Übersicht.
+  const [ziel, setZiel] = useState<number | null>(null);
   // Am Computer zeigt die Vorschau zuerst die Website am Computer, am Handy die am Handy.
-  useEffect(() => { if (window.matchMedia("(min-width: 860px)").matches) setGeraet("computer"); }, []);
+  useEffect(() => {
+    if (window.matchMedia("(min-width: 860px)").matches) setGeraet("computer");
+    const auf = nimmAuftrag("hinweise");
+    if (auf) setZiel(auf.index);
+  }, []);
+  useEffect(() => {
+    if (ziel === null) return;
+    const g = document.getElementById(`hinweis-${ziel}`);
+    g?.focus({ preventScroll: true });
+    // Der erste Hinweis steht ohnehin oben. Erst ab dem zweiten rollt die Seite hin.
+    if (ziel > 0) g?.scrollIntoView({ block: "start" });
+    setZiel(null);
+  }, [ziel]);
+  const nimm = (id: VorlageId) => {
+    const h = hinweisAusVorlage(id, e, heute);
+    setWahl(false);
+    if (!h) return;
+    aendern((d) => { d.hinweise.push(h); });
+    setZiel(e.hinweise.length);
+  };
   return (
     <>
       <p className="einleitung">Zum Beispiel nach einem Hagelsturm oder vor den Ferien. Die Website zeigt einen Hinweis nur im gewählten Zeitraum. Die Vorschau zeigt, wo er steht. Höchstens 3 Hinweise, davon 1 Fenster und 1 Karte.</p>
@@ -86,7 +106,7 @@ export function Hinweise() {
         const stand = heute < h.von ? `Geplant: Die Website zeigt ihn ab ${tagText(h.von)}.` : heute > h.bis ? "Abgelaufen: Die Website zeigt ihn nicht mehr." : `Läuft: Die Website zeigt ihn bis ${tagText(h.bis)}.`;
         const setze = (fn: (x: Entwurf["hinweise"][number]) => void) => aendern((d) => fn(d.hinweise[i]!));
         return (
-          <Gruppe key={i} titel={`Hinweis ${i + 1}`} fuss={stand}>
+          <Gruppe key={i} id={`hinweis-${i}`} titel={`Hinweis ${i + 1}`} fuss={stand}>
             <HinweisVorschau h={h} geraet={geraet} />
             <Kacheln name="Darstellung" wert={formVon(h)} setze={(w) => setze((x) => { x.form = w as Form; })} wahl={HINWEIS_FORMEN.map((f) => ({ wert: f, text: FORM_TEXT[f].name, bild: skizze(f), ...(f === "popup" && !popupErlaubt(h.art) ? { aus: "nur bei Hagel und Aktion" } : {}) }))} />
             <Auswahl name="Art" wert={h.art} setze={(w) => setze((x) => { x.art = w as typeof x.art; })} wahl={HINWEIS_ARTEN.map((a) => ({ wert: a, text: ART_NAME[a] }))} />
@@ -99,7 +119,22 @@ export function Hinweise() {
           </Gruppe>
         );
       })}
-      {e.hinweise.length < 3 ? <Gruppe><Tat symbol="plus" tu={() => aendern((d) => { d.hinweise.push({ art: "info", form: "banner", titel: "", text: "", link: "", von: heute, bis: plusTage(heute, 14) }); })}>Hinweis hinzufügen</Tat></Gruppe> : null}
+      {e.hinweise.length < HINWEISE_MAX ? <Gruppe><Tat symbol="plus" tu={() => setWahl(true)}>Hinweis hinzufügen</Tat></Gruppe> : null}
+      {wahl ? (
+        <Blatt titel="Was möchten Sie mitteilen?" fertig="Abbrechen" zu={() => setWahl(false)}>
+          <Gruppe fuss="Die Texte sind Vorschläge. Sie können danach alles ändern. Auf die Website kommt der Hinweis erst mit «Prüfen und veröffentlichen».">
+            {HINWEIS_VORLAGEN.map((v) => (
+              <div className="zeile zeile--eintrag" key={v.id}>
+                <button type="button" className="eintrag" onClick={() => nimm(v.id)}>
+                  <span className="feld feld--hinweise"><svg className="sym sym--klein" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{VORLAGE_ZEICHEN[v.id]}</svg></span>
+                  <span className="eintrag__text"><span className="eintrag__titel">{v.name}</span><span className="eintrag__unter">{v.unter}</span></span>
+                  <Symbol name="pfeil" klein />
+                </button>
+              </div>
+            ))}
+          </Gruppe>
+        </Blatt>
+      ) : null}
     </>
   );
 }
@@ -130,11 +165,35 @@ export function Zeiten() {
 
 /** Anzahl Tage von «von» bis und mit «bis» (beide JJJJ-MM-TT). */
 const tageZahl = (von: string, bis: string) => Math.round((Date.parse(bis) - Date.parse(von)) / 864e5) + 1;
+type Ausnahme = Entwurf["ausnahmen"][number];
 export function Ausnahmen() {
-  const { e, aendern } = usePflege();
+  const { e, aendern, heute, nimmAuftrag } = usePflege();
   const [offen, setOffen] = useState<number | null>(null);
+  // Der Hinweis, der zum offenen Eintrag gehört (Regeln in lib/alltag.ts). Das Blatt hält die Verbindung, solange es offen ist.
+  const [bindung, setBindung] = useState<FerienBindung | null>(null);
+  // Eben angelegt: Wer das Blatt schliesst, ohne etwas einzutragen, lässt keinen leeren Eintrag zurück.
+  const frisch = useRef<{ i: number; bild: string } | null>(null);
   const a = offen === null ? undefined : e.ausnahmen[offen];
-  const setze = (fn: (x: Entwurf["ausnahmen"][number]) => void) => aendern((d) => { const x = d.ausnahmen[offen!]; if (x) fn(x); });
+  const oeffne = (i: number, x: Ausnahme | undefined, neu = false) => { frisch.current = neu && x ? { i, bild: JSON.stringify(x) } : null; setBindung(ferienBindung(e.hinweise, x)); setOffen(i); };
+  // Von der Übersicht («Heute geschlossen», «Ferien eintragen»): gleich das Blatt dieses Eintrags zeigen.
+  useEffect(() => { const auf = nimmAuftrag("ausnahmen"); if (auf) oeffne(auf.index, e.ausnahmen[auf.index], true); }, []);
+  const setze = (fn: (x: Ausnahme) => void) => { const i = offen; if (i !== null) aendern((d) => ausnahmeAendern(d, i, fn, heute, bindung)); };
+  const schliesse = () => {
+    const i = offen, f = frisch.current;
+    frisch.current = null; setOffen(null); setBindung(null);
+    if (i === null || !a) return;
+    if (f && f.i === i && !a.datum && JSON.stringify(a) === f.bild) aendern((d) => { d.ausnahmen.splice(i, 1); });
+    else if (bindung && ferienHinweisIndex(e.hinweise, a) < 0) aendern((d) => ausnahmeSchliessen(d, i, bindung), "Hinweis dazu entfernt");
+  };
+  const entferne = (i: number, x: Ausnahme, nr = ferienHinweisIndex(e.hinweise, x)) => aendern((d) => ausnahmeEntfernen(d, i, nr), `${x.name || "Eintrag"} entfernt${e.hinweise[nr] ? ", auch der Hinweis dazu" : ""}`);
+  const h = bindung ? e.hinweise[bindung.nr] : undefined;
+  const grund = a && !h ? ferienHinweisGrund(e, a, heute) : "";
+  const schalte = (an: boolean) => {
+    const i = offen, neu = { b: null as FerienBindung | null };
+    if (i === null) return;
+    aendern((d) => { neu.b = ferienHinweisSchalten(d, i, an, heute, bindung); }, an ? undefined : "Hinweis dazu entfernt");
+    setBindung(neu.b);
+  };
   const wann = (x: Entwurf["ausnahmen"][number]) => (!x.datum ? "Datum fehlt" : x.bisDatum && x.bisDatum !== x.datum ? `${tagText(x.datum, true)} bis ${tagText(x.bisDatum, true)}` : tagText(x.datum, true));
   const mehrere = !!a && !!a.datum && !!a.bisDatum && a.bisDatum > a.datum;
   return (
@@ -142,13 +201,12 @@ export function Ausnahmen() {
       <p className="einleitung">Ein einzelner Feiertag oder Ferien von einem Tag bis zu einem anderen. Die Website zeigt kommende Einträge bei den Öffnungszeiten und rechnet sie bei «Jetzt geöffnet» mit.</p>
       <Gruppe>
         {e.ausnahmen.map((x, i) => (
-          <Eintrag key={i} titel={x.name || "Neuer Eintrag"} unter={`${wann(x)} · ${x.geschlossen ? "geschlossen" : `${x.von || "?"} bis ${x.bis || "?"} Uhr`}`} auf={() => setOffen(i)}
-            weg={() => aendern((d) => { d.ausnahmen.splice(i, 1); }, `${x.name || "Eintrag"} entfernt`)} />
+          <Eintrag key={i} titel={x.name || "Neuer Eintrag"} unter={`${wann(x)} · ${x.geschlossen ? "geschlossen" : `${x.von || "?"} bis ${x.bis || "?"} Uhr`}`} auf={() => oeffne(i, x)} weg={() => entferne(i, x)} />
         ))}
-        {e.ausnahmen.length < 40 ? <Tat symbol="plus" tu={() => { aendern((d) => { d.ausnahmen.push({ name: "", datum: "", bisDatum: "", geschlossen: true, von: "", bis: "" }); }); setOffen(e.ausnahmen.length); }}>Feiertag oder Ferien hinzufügen</Tat> : null}
+        {e.ausnahmen.length < AUSNAHMEN_MAX ? <Tat symbol="plus" tu={() => { const neu: Ausnahme = { name: "", datum: "", bisDatum: "", geschlossen: true, von: "", bis: "" }; aendern((d) => { d.ausnahmen.push(neu); }); oeffne(e.ausnahmen.length, neu, true); }}>Feiertag oder Ferien hinzufügen</Tat> : null}
       </Gruppe>
       {a && offen !== null ? (
-        <Blatt titel={a.name || "Neuer Eintrag"} zu={() => setOffen(null)}>
+        <Blatt titel={a.name || "Neuer Eintrag"} zu={schliesse}>
           <Gruppe>
             <Feld name="Anlass" wert={a.name} setze={(w) => setze((x) => { x.name = w; })} max={60} platz="z. B. Betriebsferien" />
           </Gruppe>
@@ -169,7 +227,14 @@ export function Ausnahmen() {
               </div>
             )}
           </Gruppe>
-          <Gruppe><Tat rot tu={() => { const i = offen; setOffen(null); aendern((d) => { d.ausnahmen.splice(i, 1); }, `${a.name || "Eintrag"} entfernt`); }}>Eintrag entfernen</Tat></Gruppe>
+          <Gruppe fuss={h
+            ? h.bis < heute ? "Dieser Hinweis ist abgelaufen. Die Website zeigt ihn nicht mehr."
+              : ferienHinweisIndex(e.hinweise, a) < 0 ? "Das Datum fehlt oder ist vorbei. Bleibt es so, fällt der Hinweis weg, wenn Sie dieses Blatt schliessen."
+              : <>Die Website zeigt bis zum {tagText(h.bis)} diesen Hinweis: <b>{h.text || "noch ohne Text"}</b> Ändern können Sie ihn im Bereich «Hinweise».</>
+            : grund ? undefined : "Die Website zeigt dann ab heute bis zum letzten Tag oben eine Leiste mit Anlass und Datum."}>
+            <Schalter name="Auch als Hinweis auf der Website zeigen" an={!!h} aus={!h && !!grund} hinweis={grund || undefined} setze={schalte} />
+          </Gruppe>
+          <Gruppe><Tat rot tu={() => { const i = offen, nr = bindung?.nr ?? -1; frisch.current = null; setOffen(null); setBindung(null); entferne(i, a, nr); }}>Eintrag entfernen</Tat></Gruppe>
         </Blatt>
       ) : null}
     </>
@@ -196,9 +261,19 @@ function schiebePerson(d: Entwurf, g: number, p: number, r: -1 | 1): void {
 }
 
 export function Team() {
-  const { e, aendern } = usePflege();
+  const { e, aendern, nimmAuftrag } = usePflege();
   const [offen, setOffen] = useState<{ g: number; p: number } | null>(null);
+  // Eben angelegt: Wer das Blatt schliesst, ohne etwas einzutragen, lässt keine leere Zeile zurück.
+  const frisch = useRef<{ g: number; p: number } | null>(null);
+  const oeffne = (g: number, p: number, neu = false) => { frisch.current = neu ? { g, p } : null; setOffen({ g, p }); };
+  // Von der Übersicht («Neue Person im Team»): gleich das Blatt der neuen Person zeigen.
+  useEffect(() => { const auf = nimmAuftrag("team"); if (auf) oeffne(auf.g, auf.p, true); }, []);
   const person = offen ? e.team[offen.g]?.leute[offen.p] : undefined;
+  const schliesse = () => {
+    const o = offen, f = frisch.current;
+    frisch.current = null; setOffen(null);
+    if (o && f && f.g === o.g && f.p === o.p && person && !person.name.trim() && !person.rolle.trim() && !person.email.trim() && !person.foto) aendern((d) => { d.team[o.g]?.leute.splice(o.p, 1); });
+  };
   const setze = (fn: (x: EntwurfPerson) => void) => aendern((d) => { const x = offen ? d.team[offen.g]?.leute[offen.p] : undefined; if (x) fn(x); });
   const entferne = (g: number, p: number, name: string) => aendern((d) => { d.team[g]!.leute.splice(p, 1); }, `${name || "Person"} entfernt`);
   return (
@@ -207,16 +282,16 @@ export function Team() {
       {e.team.map((g, gi) => (
         <Gruppe key={g.name} titel={g.name}>
           {g.leute.map((p, pi) => (
-            <Eintrag key={pi} bild={<Portraet p={p} />} titel={p.name} unter={p.rolle} marke={p.einverstaendnis ? undefined : "nicht sichtbar"} auf={() => setOffen({ g: gi, p: pi })}
+            <Eintrag key={pi} bild={<Portraet p={p} />} titel={p.name} unter={p.rolle} marke={p.einverstaendnis ? undefined : "nicht sichtbar"} auf={() => oeffne(gi, pi)}
               weg={() => entferne(gi, pi, p.name)}
               hoch={gi === 0 && pi === 0 ? undefined : () => aendern((d) => schiebePerson(d, gi, pi, -1))}
               runter={gi === e.team.length - 1 && pi === g.leute.length - 1 ? undefined : () => aendern((d) => schiebePerson(d, gi, pi, 1))} />
           ))}
-          {g.leute.length < 30 ? <Tat symbol="plus" tu={() => { aendern((d) => { d.team[gi]!.leute.push({ name: "", rolle: "", email: "", einverstaendnis: false }); }); setOffen({ g: gi, p: g.leute.length }); }}>Person hinzufügen</Tat> : null}
+          {g.leute.length < 30 ? <Tat symbol="plus" tu={() => { aendern((d) => { d.team[gi]!.leute.push({ name: "", rolle: "", email: "", einverstaendnis: false }); }); oeffne(gi, g.leute.length, true); }}>Person hinzufügen</Tat> : null}
         </Gruppe>
       ))}
       {person && offen ? (
-        <Blatt titel={person.name || "Neue Person"} zu={() => setOffen(null)}>
+        <Blatt titel={person.name || "Neue Person"} zu={schliesse}>
           <div className="portraetwahl">
             <Portraet p={person} gross />
             <span className="portraetwahl__knoepfe">
@@ -237,10 +312,11 @@ export function Team() {
               const ziel = Number(w), von = offen;
               if (ziel === von.g || !e.team[ziel]) return;
               aendern((d) => { const [x] = d.team[von.g]!.leute.splice(von.p, 1); d.team[ziel]!.leute.push(x!); });
+              if (frisch.current) frisch.current = { g: ziel, p: e.team[ziel]!.leute.length };
               setOffen({ g: ziel, p: e.team[ziel]!.leute.length });
             }} />
           </Gruppe>
-          <Gruppe><Tat rot tu={() => { const { g, p } = offen; setOffen(null); entferne(g, p, person.name); }}>Person entfernen</Tat></Gruppe>
+          <Gruppe><Tat rot tu={() => { const { g, p } = offen; frisch.current = null; setOffen(null); entferne(g, p, person.name); }}>Person entfernen</Tat></Gruppe>
         </Blatt>
       ) : null}
     </>

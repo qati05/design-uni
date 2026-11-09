@@ -84,6 +84,9 @@ Gruppen 12 px, Knöpfe 12 px, Blatt 16 px, Porträts rund.
 - **Eintrag:** Zeile einer Liste (Person, Frage, Partner, Feiertag). Antippen öffnet das Blatt.
 - **Bearbeiten:** oben rechts. Dann zeigt jeder Eintrag links ein rotes Minus (entfernen) und rechts Pfeile (verschieben).
 - **Blatt:** kommt auf dem Handy von unten, steht am Computer in der Mitte. Oben rechts «Fertig».
+- **Schnell erledigt:** Zeilen auf der Übersicht für die häufigsten Fälle. Ein Tipp legt einen Entwurf an und zeigt ihn gleich (Blatt oder Bereich). Blau wie jede Zeile, die etwas tut.
+- **Vorlagen:** «Hinweis hinzufügen» öffnet ein Blatt mit Vorlagen als Einträge (Zeichen, Name, ein Satz). Die Texte sind Vorschläge.
+- **Aufklappen:** eine Zeile mit Pfeil, die weitere Zeilen zeigt («So geht es» in der Hilfe).
 - **Leiste unten:** erscheint, sobald etwas geändert ist: Zahl der Änderungen, «Verwerfen», «Prüfen und veröffentlichen».
 - **Meldung unten:** dunkel, nach dem Entfernen mit «Rückgängig».
 - **Besucher:** eine grosse Zahl, darunter Säulen pro Tag in einer Farbe, dazu dieselben Werte als Tabelle.

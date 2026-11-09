@@ -75,7 +75,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .zeile { display: flex; align-items: center; gap: 12px; min-height: 48px; margin: 0; padding: 8px 16px; }
 .zeile__name { flex: none; max-width: 60%; }
 .zeile__name small { display: block; color: var(--leise); font-size: 13px; }
-.zeile__wert { flex: 1; min-width: 0; color: var(--leise); text-align: right; }
+.zeile__wert { flex: 1; min-width: 0; color: var(--leise); text-align: right; overflow-wrap: anywhere; }
 .zeile--feld { flex-wrap: wrap; }
 .zeile--feld:focus-within, .zeile--lang:focus-within { background: #f6f9fe; box-shadow: inset 0 0 0 2px var(--blau); }
 .zeile__eingabe { flex: 1; min-width: 0; min-height: 32px; padding: 0; border: 0; background: transparent; text-align: right; outline: 0; }
@@ -122,6 +122,18 @@ input[type=date].zeile__eingabe { flex: none; margin-left: auto; min-width: 150p
 .schritt { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--blau-hell); color: var(--blau-dunkel); font-size: 14px; font-weight: 700; flex: none; }
 .zeile--aenderung { align-items: flex-start; }
 .zeile--aenderung .sym { color: var(--gruen); margin-top: 1px; }
+/* Schalter, der gerade nicht geht (der Grund steht klein unter dem Namen) */
+.zeile--aus { cursor: default; }
+.schalter:disabled { opacity: .45; cursor: default; }
+/* Aufklappen («So geht es» in der Hilfe): eine Zeile, der Pfeil dreht sich nach unten */
+.klappe > summary { justify-content: space-between; list-style: none; color: var(--blau-dunkel); cursor: pointer; }
+.klappe > summary::-webkit-details-marker { display: none; }
+@media (hover: hover) { .klappe > summary:hover { background: #f5f5f8; } }
+.klappe > summary .sym { color: var(--pfeil); transition: transform .2s var(--sanft); }
+.klappe[open] > summary .sym { transform: rotate(90deg); }
+.klappe > * + * { border-top: 1px solid var(--linie); }
+/* Gruppe, zu der das Cockpit springt (neuer Hinweis): nicht unter dem Kopf verstecken */
+.gruppe[id] { scroll-margin-top: 68px; border-radius: var(--rund); }
 
 /* ---------- Auswahl-Menü (statt des Auswahlfelds des Browsers): wie ein Menü am Mac oder iPhone */
 .wahl { flex: 1; min-width: 0; display: inline-flex; align-items: center; justify-content: flex-end; gap: 4px; min-height: 32px; padding: 0; border: 0; background: none; color: var(--blau-dunkel); text-align: right; cursor: pointer; outline: 0; }
@@ -339,6 +351,8 @@ input.code { font-size: 28px; font-variant-numeric: tabular-nums; letter-spacing
 .mail { padding: 16px 20px; background: var(--karte); border-radius: 16px; }
 .mail .kopfzeile { font-size: 14px; color: var(--leise); }
 .mail pre { margin: 8px 0 0; font: inherit; white-space: pre-wrap; }
+
+@media (min-width: 860px) { .nur-handy { display: none; } }
 
 /* ---------- Handy: eine Liste, antippen führt auf die Unterseite, oben «‹ Übersicht» */
 @media (max-width: 859px) {

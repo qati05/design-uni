@@ -18,7 +18,11 @@ export type Kontext = {
   heute: string;
   /** «Bearbeiten» ist an: Zeilen zeigen Entfernen und Verschieben. */
   ordnen: boolean;
+  /** Holt den Auftrag der Übersicht für diesen Bereich ab («öffne diesen Eintrag»). Einmal: Danach ist er weg. */
+  nimmAuftrag: <B extends Auftrag["bereich"]>(bereich: B) => Extract<Auftrag, { bereich: B }> | null;
 };
+/** Auftrag der Übersicht an einen Bereich, z. B. nach «Heute geschlossen»: Der Bereich zeigt gleich den neuen Eintrag. */
+export type Auftrag = { bereich: "ausnahmen"; index: number } | { bereich: "hinweise"; index: number } | { bereich: "team"; g: number; p: number };
 const K = createContext<Kontext | null>(null);
 export const KontextGeber = K.Provider;
 export function usePflege(): Kontext {
@@ -51,6 +55,9 @@ const PFADE: Record<string, ReactNode> = {
   wechsel: <path d="M8 10l4-4 4 4M8 14l4 4 4-4" />,
   kreuz: <path d="M6 6l12 12M18 6L6 18" />,
   kamera: <><path d="M4 8h3l1.5-2h7L17 8h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></>,
+  schloss: <><rect x="5" y="10.5" width="14" height="9.5" rx="2" /><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" /></>,
+  aussen: <><path d="M10 6H6v12h12v-4" /><path d="M13 5h6v6M19 5l-8 8" /></>,
+  mail: <><rect x="3.5" y="6" width="17" height="12" rx="2" /><path d="M4 7.5l8 6 8-6" /></>,
 };
 export function Symbol({ name, klein }: { name: keyof typeof PFADE | BereichId; klein?: boolean }) {
   return <svg className={klein ? "sym sym--klein" : "sym"} viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{PFADE[name]}</svg>;
@@ -59,7 +66,7 @@ export function Symbol({ name, klein }: { name: keyof typeof PFADE | BereichId; 
 // ---------- Gruppen und Zeilen
 export function Gruppe({ titel, fuss, children, id }: { titel?: string; fuss?: ReactNode; children: ReactNode; id?: string }) {
   return (
-    <section className="gruppe" id={id}>
+    <section className="gruppe" id={id} tabIndex={id ? -1 : undefined}>
       {titel ? <h2 className="gruppe__titel">{titel}</h2> : null}
       <div className="gruppe__karte">{children}</div>
       {fuss ? <p className="gruppe__fuss">{fuss}</p> : null}
@@ -190,16 +197,16 @@ export function Umschalter({ name, wert, setze, wahl }: { name: string; wert: st
     </fieldset>
   );
 }
-export function Schalter({ name, an, setze, hinweis }: { name: string; an: boolean; setze: (an: boolean) => void; hinweis?: string }) {
+export function Schalter({ name, an, setze, hinweis, aus }: { name: string; an: boolean; setze: (an: boolean) => void; hinweis?: string; aus?: boolean }) {
   return (
-    <label className="zeile zeile--schalter">
+    <label className={aus ? "zeile zeile--schalter zeile--aus" : "zeile zeile--schalter"}>
       <span className="zeile__name">{name}{hinweis ? <small>{hinweis}</small> : null}</span>
-      <input type="checkbox" role="switch" className="schalter" checked={an} onChange={(x) => setze(x.target.checked)} />
+      <input type="checkbox" role="switch" className="schalter" checked={an} disabled={aus} onChange={(x) => setze(x.target.checked)} />
     </label>
   );
 }
 /** Zeile, die etwas tut: blau für «hinzufügen», rot für «entfernen». */
-export function Tat({ children, tu, rot, symbol, aus }: { children: ReactNode; tu: () => void; rot?: boolean; symbol?: "plus" | "verlauf" | "kamera"; aus?: boolean }) {
+export function Tat({ children, tu, rot, symbol, aus }: { children: ReactNode; tu: () => void; rot?: boolean; symbol?: "plus" | "verlauf" | "kamera" | "schloss" | "ausnahmen" | "hinweise" | "team"; aus?: boolean }) {
   return <button type="button" className={rot ? "zeile zeile--tat zeile--rot" : "zeile zeile--tat"} onClick={tu} disabled={aus}>{symbol ? <Symbol name={symbol} klein /> : null}<span>{children}</span></button>;
 }
 export function Wert({ name, children }: { name: string; children: ReactNode }) {
