@@ -1457,7 +1457,10 @@ a.klein { font-size: 14px; }
 
 /* Schritt 3: nur das Nötige offen */
 .senden__beruhigung { margin: 0; font-size: 15px; line-height: 1.5; color: var(--leise); }
-.senden__wa { justify-self: center; min-height: 44px; padding: 0 12px; border: 0; background: none; font: 500 15px/1 var(--schrift); color: var(--blau); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+/* Roni 09.11.2026: zwei klare Knöpfe. «Meldung senden» gefüllt, WhatsApp als ruhiger zweiter Knopf (kein unterstrichener Link). */
+.mehr-angaben ~ .senden { border-top: 0; padding-top: 4px; }
+.senden__wa { width: 100%; min-height: 52px; padding: 0 16px; border: 0; border-radius: 16px; background: var(--weiss); box-shadow: inset 0 0 0 1px var(--linie); font: 500 16px/1 var(--schrift); color: var(--tinte); cursor: pointer; transition: background-color .15s ease-out; }
+@media (hover: hover) and (pointer: fine) { .senden__wa:hover { background: var(--flaeche); } }
 .schritt legend { margin-bottom: 12px; }
 
 /* Am Handy: Formular früher im Bild */
