@@ -1,0 +1,32 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "page",
+  "shape": "Werkstatt-Schalter (own)",
+  "theme": "brand",
+  "axes": "light/roman-serif/cool",
+  "hero": "Ledge",
+  "nav": "floating pill",
+  "footer": "kept",
+  "imagery": "the business photographs, one marked stand-in",
+  "photos": [],
+  "entry": "/studie-hallmark/",
+  "fingerprint": "Hanging|Asymmetric spans|Hairline|Solid|Full-bleed|None",
+  "sections": [
+   "Ledge hero with counter",
+   "Figures and logo band",
+   "Index",
+   "Rows beside a head",
+   "Showcase",
+   "Grid",
+   "Rows beside a head",
+   "Two-column disclosures",
+   "Footer"
+  ],
+  "signature": "the question Was ist passiert? with its eight answers as a counter under the Defender photograph",
+  "waived": [],
+  "prompt": "redesign of the start page of a car body and paint shop",
+  "date": "2026-11-09"
+ }
+]
