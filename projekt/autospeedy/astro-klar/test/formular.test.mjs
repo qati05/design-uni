@@ -30,7 +30,7 @@ before(async () => {
 });
 after(async () => { await browser?.close(); server?.close(); });
 
-// Kritik C01: freiwillige Angaben stehen eingeklappt unter «Mehr angeben (freiwillig)»
+// Roni 09.11.2026: Ausweis, Fotos, Versicherung und Nummer stehen offen im Block «Das hilft uns»; der Rest eingeklappt unter «Weitere Angaben (freiwillig)»
 const mehrAuf = (page) => page.evaluate(() => { const d = document.querySelector("[data-ergaenzen]"); if (d) d.open = true; });
 async function form(viewport) {
   const ctx = await browser.newContext({ viewport: viewport || { width: 390, height: 844 } });
@@ -109,7 +109,7 @@ test("lange Eingaben laufen nicht aus dem Feld oder aus der Erfolgsmeldung", asy
   await ctx.close();
 });
 
-test("Zwei Schritte (C01): sichtbar sind Name, Telefon, Fotos und Senden; Freiwilliges eingeklappt unter «Mehr angeben»", async () => {
+test("Zwei Schritte: sichtbar sind Name, Telefon, der freiwillige Block (Ausweis, Fotos, Versicherung, Nummer) und Senden; der Rest eingeklappt unter «Weitere Angaben»", async () => {
   const { ctx, page } = await form();
   await page.goto(basis + "/schaden-melden/?art=hagel");
   await page.waitForSelector('[data-schritt="2"]:not([hidden])');
@@ -118,23 +118,25 @@ test("Zwei Schritte (C01): sichtbar sind Name, Telefon, Fotos und Senden; Freiwi
   const mehr = page.locator("#schaden-form details[data-ergaenzen]");
   assert.equal(await mehr.count(), 1, "genau ein Klappbereich");
   assert.equal(await mehr.evaluate((d) => d.open), false, "eingeklappt");
-  assert.equal((await mehr.locator("summary").textContent()).trim(), "Mehr angeben (freiwillig)");
-  for (const sel of ["#f-name", "#f-tel", '[for="f-fotos"]', '[data-senden="website"]']) assert.ok(await page.locator(sel).first().isVisible(), sel + " sichtbar");
-  assert.match(await page.locator(".fotos-empfohlen .feld__label").textContent(), /empfohlen/);
-  const frei = ["#f-mail", "#f-bem", "#f-schild", "#f-vers", "#f-schadennr", '[for="f-ausweis"]', '[name="stelle"] + span', "label.schalter:has([data-ersatzwagen])"];
+  assert.equal((await mehr.locator("summary").textContent()).trim(), "Weitere Angaben (freiwillig)");
+  for (const sel of ["#f-name", "#f-tel", '[for="f-ausweis"]', '[for="f-fotos"]', "#f-vers", "#f-schadennr", '[data-senden="website"]']) assert.ok(await page.locator(sel).first().isVisible(), sel + " sichtbar");
+  assert.match(await page.locator(".hilft .hilft__titel").textContent(), /freiwillig/, "der offene Block ist als freiwillig bezeichnet");
+  assert.match(await page.locator(".hilft > .hilfe").textContent(), /Senden Sie die Meldung trotzdem ab/, "Beruhigung: geht auch ohne");
+  assert.equal(await page.locator('label[for="f-schadennr"]').textContent(), "Police- oder Schadennummer");
+  const frei = ["#f-mail", "#f-bem", "#f-schild", '[name="stelle"] + span', "label.schalter:has([data-ersatzwagen])"];
   for (const sel of frei) assert.ok(await page.locator(sel).first().isHidden(), sel + " eingeklappt");
   // Pflicht sind nur Name und Telefon (plus die Art aus Schritt 1)
   assert.deepEqual(await page.$$eval('[data-schritt="2"] [required]', (l) => l.map((e) => e.name)), ["name", "telefon"]);
-  // Reihenfolge: Name, Telefon, Fotos, Klappbereich, Senden
+  // Reihenfolge: Name, Telefon, freiwilliger Block (Ausweis und Fotos, dann Versicherung), Klappbereich, Senden
   const y = (sel) => page.locator(sel).first().evaluate((e) => e.getBoundingClientRect().top + scrollY);
-  const reihe = [await y("#f-name"), await y("#f-tel"), await y('[for="f-fotos"]'), await y("[data-ergaenzen]"), await y('[data-senden="website"]')];
+  const reihe = [await y("#f-name"), await y("#f-tel"), await y('[for="f-ausweis"]'), await y("#f-vers"), await y("[data-ergaenzen]"), await y('[data-senden="website"]')];
   assert.deepEqual([...reihe].sort((a, b) => a - b), reihe, "Reihenfolge " + reihe.join(", "));
   await page.locator("[data-ergaenzen] > summary").click();
   for (const sel of frei) assert.ok(await page.locator(sel).first().isVisible(), sel + " nach dem Aufklappen sichtbar");
   await ctx.close();
 });
 
-test("C01: Senden-Knopf am Handy (390×844) früh erreichbar, auch mit Tesla-Vorauswahl", async () => {
+test("Senden-Knopf am Handy (390×844) bleibt nah, auch mit dem offenen freiwilligen Block und Tesla-Vorauswahl", async () => {
   for (const q of ["", "?fahrzeug=tesla"]) {
     const { ctx, page } = await form({ width: 390, height: 844 });
     await page.goto(basis + "/schaden-melden/" + q);
@@ -142,8 +144,9 @@ test("C01: Senden-Knopf am Handy (390×844) früh erreichbar, auch mit Tesla-Vor
     await page.waitForSelector('[data-schritt="2"]:not([hidden])');
     await page.waitForTimeout(500);
     const k = await page.locator('[data-senden="website"]').evaluate((e) => { const b = e.getBoundingClientRect(); return { oben: b.top + scrollY, unten: b.bottom + scrollY }; });
-    // vorher (alle Felder offen) lag der Knopf bei rund 2220 px; jetzt höchstens 1,5 Bildschirmhöhen tief
-    assert.ok(k.unten <= 1300, `${q || "ohne"}: Knopf unten bei ${Math.round(k.unten)} px`);
+    // alle Felder offen: rund 2220 px. Nur Name, Telefon, Fotos (C01): rund 1300 px. Mit dem offenen freiwilligen Block
+    // (Roni 09.11.2026: Ausweis, Versicherung und Nummer sollen sichtbar sein) rund 1470 px, mit Tesla-Modellwahl mehr.
+    assert.ok(k.unten <= (q ? 1700 : 1500), `${q || "ohne"}: Knopf unten bei ${Math.round(k.unten)} px`);
     if (q) {
       assert.equal(await page.locator("[data-tesla]").isChecked(), true, "Tesla vorgewählt");
       assert.ok(await page.locator("label.schalter:has([data-tesla])").isVisible(), "Tesla-Vorauswahl sichtbar (B1)");
