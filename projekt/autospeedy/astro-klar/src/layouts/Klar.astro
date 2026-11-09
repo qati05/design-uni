@@ -67,6 +67,7 @@ const zeigeLd = !istFehlerseite; // alle Seiten ausser 404 (vorher nur mit jsonl
 {s.beschreibung && <meta name="description" content={s.beschreibung}>}
 {!istFehlerseite && <link rel="canonical" href={canonical}>}
 {vorschau && <meta name="robots" content="noindex">}
+{process.env.GOOGLE_SITE_VERIFICATION && <meta name="google-site-verification" content={process.env.GOOGLE_SITE_VERIFICATION}>}
 <meta name="theme-color" content="#fbfaf8">
 <link rel="icon" href="/bilder/icons/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/bilder/icons/icon.svg">
