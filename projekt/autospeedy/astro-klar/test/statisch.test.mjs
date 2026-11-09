@@ -132,13 +132,22 @@ test("Nachtrag: 6 Leistungskarten in fester Reihenfolge, Titel «Felgen» (nie �
   const hrefs = [...sec.matchAll(/href="(\/leistungen\/[a-z-]+\/)"/g)].map((m) => m[1]);
   assert.deepEqual(hrefs, ["/leistungen/unfall-carrosserie/", "/leistungen/hagel-dellen/", "/leistungen/lack/", "/leistungen/felgen/", "/leistungen/folierung/", "/leistungen/scheiben/"], "6 Karten in der bestellten Reihenfolge");
   assert.match(sec, /<h3>Felgen<\/h3>/, "Karte heisst «Felgen»");
-  assert.match(sec, /Ausserdem: Occasionen, Ankauf und Leasing\./, "Ausserdem-Zeile");
+  assert.match(sec, /Ausserdem: Occasionen und Ankauf\./, "Ausserdem-Zeile");
   // «Alufelgen» darf auf KEINER gebauten Seite vorkommen (Reshat 04.11.).
   for (const p of html) assert.ok(!lies(p).includes("Alufelgen"), `${p}: «Alufelgen» verboten`);
 });
 
+test("Roni 09.11.2026: keine Seite für Firmen und Flotten, kein Leasing (nur Verkauf und Ankauf)", () => {
+  assert.ok(!fs.existsSync(path.join(dist, "flotten/index.html")), "Seite /flotten/ gibt es nicht mehr");
+  for (const p of html) {
+    const s = lies(p);
+    assert.ok(!/Leasing/i.test(s), `${p}: «Leasing» kommt nicht mehr vor`);
+    assert.ok(!/href="\/flotten\//.test(s) && !/Firmenkunden|Flotten/.test(s), `${p}: kein Hinweis auf Firmen und Flotten`);
+  }
+});
+
 test("Nachtrag SEO: jede Inhaltsseite hat Title, Description (<=155), Canonical, OG- und Twitter-Bild", () => {
-  const seiten = ["index", "leistungen", "leistungen/unfall-carrosserie", "leistungen/hagel-dellen", "leistungen/lack", "leistungen/felgen", "leistungen/folierung", "leistungen/scheiben", "tesla", "occasionen", "team", "kontakt", "flotten", "bildnachweise", "impressum", "datenschutz", "schaden-melden"];
+  const seiten = ["index", "leistungen", "leistungen/unfall-carrosserie", "leistungen/hagel-dellen", "leistungen/lack", "leistungen/felgen", "leistungen/folierung", "leistungen/scheiben", "tesla", "occasionen", "team", "kontakt", "bildnachweise", "impressum", "datenschutz", "schaden-melden"];
   const titel = new Set();
   for (const name of seiten) {
     const s = lies(path.join(dist, name === "index" ? "index.html" : path.join(name, "index.html")));
@@ -261,7 +270,7 @@ test("Nachtrag Schalter Live (Testbuild): index + Sitemap, kein noindex, sitemap
     assert.ok(fs.existsSync(path.join(outDir, "sitemap.xml")), "live: sitemap.xml vorhanden");
     // QA K11: Die Sitemap listet alle öffentlichen Seiten (ohne 404, Editor, Druckseite).
     const karte = fs.readFileSync(path.join(outDir, "sitemap.xml"), "utf8");
-    for (const p of ["/", "/leistungen/", "/leistungen/unfall-carrosserie/", "/leistungen/hagel-dellen/", "/leistungen/lack/", "/leistungen/felgen/", "/leistungen/folierung/", "/leistungen/scheiben/", "/tesla/", "/flotten/", "/occasionen/", "/team/", "/kontakt/", "/schaden-melden/", "/impressum/", "/datenschutz/", "/bildnachweise/"])
+    for (const p of ["/", "/leistungen/", "/leistungen/unfall-carrosserie/", "/leistungen/hagel-dellen/", "/leistungen/lack/", "/leistungen/felgen/", "/leistungen/folierung/", "/leistungen/scheiben/", "/tesla/", "/occasionen/", "/team/", "/kontakt/", "/schaden-melden/", "/impressum/", "/datenschutz/", "/bildnachweise/"])
       assert.ok(karte.includes(`<loc>https://www.autospeedy.ch${p}</loc>`), `live: Sitemap mit ${p}`);
     assert.doesNotMatch(karte, /404|\/admin\/|\/druck\/|\/bewerten\//, "live: keine 404, kein Editor, keine Druckseite, keine QR-Landeseite /bewerten/");
     assert.match(fs.readFileSync(path.join(outDir, "bewerten", "index.html"), "utf8"), /<meta name="robots" content="noindex">/, "live: /bewerten/ noindex");
@@ -294,7 +303,7 @@ const seite = (rel) => lies(path.join(dist, rel === "" ? "index.html" : path.joi
 const sichtbar = (s) => s.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " ").replace(/&nbsp;| /g, " ").replace(/\s+/g, " ");
 
 test("K08: Schaden- und Rückruf-Formulare verweisen auf /datenschutz/; Datenschutz nennt Hoster, Formular- und Maildienst mit Land", () => {
-  for (const rel of ["schaden-melden", "kontakt", "flotten", "occasionen"]) {
+  for (const rel of ["schaden-melden", "kontakt", "occasionen"]) {
     const s = seite(rel);
     for (const f of s.match(/<form[\s\S]*?<\/form>/g)) assert.match(f, /href="\/datenschutz\/"/, `${rel}: Formular mit Link zur Datenschutzerklärung`);
   }

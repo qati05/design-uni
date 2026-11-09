@@ -741,7 +741,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .fuss-aufruf .ctas { margin: 0; }
 .fuss-aufruf .nr { margin-left: .4ch; }
 
-/* 2. + 3. + 6. + 8. Zwei Spalten: links Status und ganze Woche, rechts Adresse/Route/Kopieren/Flotten. */
+/* 2. + 3. + 6. + 8. Zwei Spalten: links Status und ganze Woche, rechts Adresse/Route/Kopieren. */
 .fuss-raster { display: grid; grid-template-columns: 1.3fr 1fr; grid-template-areas: "zeiten ort" "unterschrift ort"; grid-template-rows: auto 1fr; gap: 32px 56px; border-top: 1px solid var(--linie); padding-top: 32px; }
 .fuss-zeiten { grid-area: zeiten; } .fuss-ort { grid-area: ort; } .fuss-unterschrift { grid-area: unterschrift; align-self: end; }
 .fuss-zeiten, .fuss-ort { display: grid; gap: 14px; align-content: start; }
@@ -761,14 +761,13 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .fuss-woche__heute { display: block; margin-top: 1px; font-size: 12px; font-weight: 600; color: var(--leise); } /* QA N04: keine Linkfarbe, nicht klickbar */
 .fuss-woche__aus th { color: var(--leise); font-style: italic; }
 
-/* 3. + 7. + 8. Adresse, Route (neuer Tab), Kopieren-Knopf, (WhatsApp nur mit Daten), Flotten-Zeile. */
+/* 3. + 7. + 8. Adresse, Route (neuer Tab), Kopieren-Knopf, (WhatsApp nur mit Daten). */
 .fuss-ort p { margin: 0; font-size: 15px; line-height: 1.5; }
 .fuss-ort__adr { font-family: "Archivo", var(--schrift); font-variant-numeric: tabular-nums; }
 .fuss-ort__akt, .fuss-ort__tel { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
 .fuss-ort a { color: var(--akzent); text-decoration: none; text-underline-offset: 3px; }
 @media (hover: hover) and (pointer: fine) { .fuss-ort a:hover { text-decoration: underline; } }
 .fuss-ort__tel .nr { font-size: 17px; font-weight: 600; }
-.fuss-ort__flotte { color: var(--leise); }
 .fuss-kopf { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--linie); border-radius: var(--pille); background: var(--papier); color: var(--leise); font: 500 13px/1 var(--schrift); cursor: pointer; }
 @media (hover: hover) and (pointer: fine) { .fuss-kopf:hover { color: var(--tinte); border-color: var(--leise); } }
 .fuss-meldung { min-height: 1.2em; font-size: 13px; color: #1b7f4b; }
@@ -1540,6 +1539,19 @@ a.klein { font-size: 14px; }
 /* Schadenformular (Kritik C01, 09.11.2026): freiwillige Angaben eingeklappt unter «Mehr angeben (freiwillig)»,
    damit der Senden-Knopf am Handy gleich nach Name, Telefon und Fotos kommt. Fotos sind als «empfohlen» markiert. */
 .empfohlen { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: #eef4fb; color: var(--blau); font-size: 12px; font-weight: 600; vertical-align: 1px; }
+/* Roni 09.11.2026: Was dem Betrieb am meisten hilft, steht offen in einem ruhigen Block, klar als freiwillig bezeichnet. */
+.hilft { display: grid; gap: 14px; padding: 18px 20px 20px; border-radius: 14px; background: var(--flaeche); }
+.hilft__titel { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.35; }
+.hilft > .hilfe { margin: -8px 0 0; }
+.hilft__fotos, .hilft__paar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; align-items: start; }
+.hilft .fotos__knopf { min-height: 72px; padding: 8px 10px; background: var(--grund); text-align: center; line-height: 1.25; }
+.hilft .empfohlen { background: var(--grund); color: var(--tinte, inherit); }
+@media (max-width: 480px) {
+  .hilft { padding: 16px; }
+  .hilft__paar { grid-template-columns: minmax(0, 1fr); }
+  .hilft__fotos { gap: 10px; }
+  .hilft .fotos__knopf { flex-direction: column; gap: 2px; font-size: 15px; }
+}
 .mehr-angaben { border-top: 1px solid var(--linie); border-bottom: 1px solid var(--linie); }
 .mehr-angaben > summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; padding: 4px 0; cursor: pointer; list-style: none; font-size: 15px; font-weight: 600; color: var(--blau); }
 .mehr-angaben > summary::-webkit-details-marker { display: none; }

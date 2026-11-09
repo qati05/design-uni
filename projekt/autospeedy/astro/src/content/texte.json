@@ -21,11 +21,6 @@
       "gruppe": "Leistungen"
     },
     {
-      "pfad": "/flotten/",
-      "text": "Für Firmen und Flotten",
-      "gruppe": "Leistungen"
-    },
-    {
       "pfad": "/tesla/",
       "text": "Tesla",
       "marke": "Approved Body Shop"
@@ -138,19 +133,14 @@
       "h1": "Alufelgen und Folierung in Altstätten SG"
     },
     "occasionen": {
-      "titel": "Occasionen, Ankauf und Leasing in Altstätten | Auto Speedy",
-      "beschreibung": "Occasionen, Autoankauf und Leasing bei Auto Speedy in Altstätten SG. Fahrzeuge aus dem Betrieb und Beratung rund um Kauf und Finanzierung im Rheintal.",
+      "titel": "Occasionen und Autoankauf in Altstätten SG | Auto Speedy",
+      "beschreibung": "Occasionen und Autoankauf bei Auto Speedy in Altstätten SG. Fahrzeuge aus dem Betrieb kaufen oder das eigene Auto verkaufen, mit Beratung im Rheintal.",
       "h1": "Occasionen und Autoankauf in Altstätten SG"
     },
     "team": {
       "titel": "Team der Carrosserie Auto Speedy in Altstätten SG",
       "beschreibung": "Das Team von Auto Speedy in Altstätten SG: zehn Leute für Carrosserie, Lack und Service. Lernen Sie die Werkstatt an der Alten Landstrasse kennen.",
       "h1": "Das Team von Auto Speedy in Altstätten"
-    },
-    "flotten": {
-      "titel": "Firmen und Flotten: Carrosserie in Altstätten | Auto Speedy",
-      "beschreibung": "Carrosserie für Firmen und Flotten in Altstätten SG: Auto Speedy wickelt Reparaturen und Versicherungsfälle für Firmenfahrzeuge zuverlässig ab.",
-      "h1": "Carrosserie für Firmen und Flotten in Altstätten SG"
     },
     "bewerten": {
       "titel": "Bewertung abgeben | Auto Speedy AG, Carrosserie Altstätten",

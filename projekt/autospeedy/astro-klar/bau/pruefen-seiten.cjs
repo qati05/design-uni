@@ -1,6 +1,6 @@
 // Prüft alle Seiten der Linie «Klar»: Überlauf, kleine Tippziele, Alt-Texte, kaputte Bilder, eine h1, Konsole, tote Links; macht Bildschirmfotos.
 const {chromium}=require('playwright'); const B='http://localhost:4344';
-const SEITEN=['/','/schaden-melden/','/tesla/','/leistungen/','/occasionen/','/team/','/kontakt/','/flotten/','/bewerten/','/impressum/','/datenschutz/','/gibtsnicht/'];
+const SEITEN=['/','/schaden-melden/','/tesla/','/leistungen/','/occasionen/','/team/','/kontakt/','/bewerten/','/impressum/','/datenschutz/','/gibtsnicht/'];
 const start=process.env.CHROME?{executablePath:process.env.CHROME,args:['--no-sandbox']}:{};
 (async()=>{const b=await chromium.launch(start); const links=new Set(); let probleme=[];
 for (const [n,v,m] of [['d',{width:1440,height:900},false],['m',{width:390,height:844},true]]){

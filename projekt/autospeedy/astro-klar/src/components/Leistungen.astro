@@ -2,7 +2,7 @@
 // Leistungen Entwurf C (Nachtrag 04.11.2026): 6 Karten in fester Reihenfolge, jede mit Bild im Format 3:2
 // (Desktop Bild oben, Handy 88-px-Quadrat links). Jede Karte ist ganz klickbar (genau ein Link) und zeigt
 // auf die eigene Seite der Leistung. Darunter die
-// Zeile «Ausserdem: Occasionen, Ankauf und Leasing.». Der Aufruf folgt direkt danach im Band (Anfrage). Kein Felgen-Vorher/Nachher auf der Startseite.
+// Zeile «Ausserdem: Occasionen und Ankauf.». Der Aufruf folgt direkt danach im Band (Anfrage). Kein Felgen-Vorher/Nachher auf der Startseite.
 // Bilder sind Stock-Platzhalter aus public/bilder/leistungen/ (erzeugt von bau/bilder-c.mjs), spaeter durch das
 // Shooting ersetzbar (S03-S08, gleiche Dateinamen). Bildnachweise sind nicht noetig (betriebseigene Quelle).
 // Felgen heisst nur «Felgen», nie «Alufelgen» (Reshat 04.11.).
@@ -30,5 +30,5 @@ const { uebersicht = false } = Astro.props;
       </li>
     ))}
   </ul>
-  <p class="ausserdem">Ausserdem: Occasionen, Ankauf und Leasing. <a href="/occasionen/">Occasionen ansehen</a>.{uebersicht && <> Für Firmen und Flotten: <a href="/flotten/">Firmenkunden</a>.</>}</p>
+  <p class="ausserdem">Ausserdem: Occasionen und Ankauf. <a href="/occasionen/">Occasionen ansehen</a>.</p>
 </section>

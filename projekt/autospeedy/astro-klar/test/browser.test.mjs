@@ -502,7 +502,7 @@ test("Fuss: Tippziele mindestens 44 px, beide Aufruf-Knöpfe mindestens 48 px", 
 
 test("Alle Seiten laden ohne Konsolenfehler (CSP)", async () => {
   const { ctx, page, fehler } = await seite({ viewport: { width: 1280, height: 800 } });
-  for (const p of ["/", "/leistungen/", "/leistungen/unfall-carrosserie/", "/leistungen/hagel-dellen/", "/leistungen/lack/", "/leistungen/felgen/", "/leistungen/folierung/", "/leistungen/scheiben/", "/tesla/", "/occasionen/", "/team/", "/kontakt/", "/flotten/", "/bildnachweise/", "/schaden-melden/"]) {
+  for (const p of ["/", "/leistungen/", "/leistungen/unfall-carrosserie/", "/leistungen/hagel-dellen/", "/leistungen/lack/", "/leistungen/felgen/", "/leistungen/folierung/", "/leistungen/scheiben/", "/tesla/", "/occasionen/", "/team/", "/kontakt/", "/bildnachweise/", "/schaden-melden/"]) {
     await page.goto(basis + p, { waitUntil: "load" });
   }
   assert.deepEqual(fehler, []);
@@ -519,7 +519,7 @@ test("Leistungsseiten: Aufruf ohne Scrollen sichtbar, passende Schadenart, keine
   const box = await knopf.boundingBox();
   assert.ok(box.y + box.height <= 844, `Knopf im ersten Bild (${box.y + box.height})`);
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true, "kein Querscrollen");
-  assert.equal(await page.locator(".weitere__liste a").count(), 6);
+  assert.equal(await page.locator(".weitere__liste a").count(), 5); // die fünf anderen Leistungen; «Firmenkunden» entfällt (Roni 09.11.2026)
   assert.deepEqual(fehler, []);
   await ctx.close();
 });
