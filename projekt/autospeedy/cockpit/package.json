@@ -13,7 +13,8 @@
     "demo": "COCKPIT_DEMO=1 next start -p 4400",
     "typen": "tsc --noEmit",
     "test": "vitest run",
-    "rauchprobe": "bash tests/db/rauchprobe.sh"
+    "rauchprobe": "bash tests/db/rauchprobe.sh",
+    "bilder": "node bau/bilder.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",

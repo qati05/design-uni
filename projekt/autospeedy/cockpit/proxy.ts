@@ -19,7 +19,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   const nonce = nonceErzeugen();
   const demo = process.env.COCKPIT_DEMO === "1";
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const csp = baueCsp(nonce, { supabaseUrl: demo ? undefined : supabaseUrl, entwicklung: process.env.NODE_ENV === "development" });
+  const csp = baueCsp(nonce, { supabaseUrl: demo ? undefined : supabaseUrl, entwicklung: process.env.NODE_ENV === "development", bildSpeicher: demo ? undefined : process.env.TEAMFOTO_BASIS });
   const kopf = new Headers(request.headers);
   kopf.set("x-nonce", nonce);
   kopf.set("Content-Security-Policy", csp);

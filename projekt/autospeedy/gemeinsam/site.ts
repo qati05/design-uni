@@ -2,6 +2,10 @@
 // Ein Schema für alle: der Website-Bau prüft die Datei damit, das Cockpit und der Editor schreiben nur, was es erlaubt.
 import { z } from "zod";
 
+// zod prüft sonst beim ersten Gebrauch, ob «new Function» geht. Das Cockpit verbietet das mit seiner CSP (kein eval):
+// ohne diese Zeile meldet der Browser dort jedes Mal einen Verstoss. Die Prüfung selbst bleibt gleich streng.
+z.config({ jitless: true });
+
 const ohneSteuerzeichen = /^[^\p{Cc}\p{Cf}<>]*$/u;
 const text = (max: number) => z.string().trim().max(max).regex(ohneSteuerzeichen, "Unerlaubte Zeichen");
 export const uhrzeit = z.string().trim().regex(/^([01]?\d|2[0-3])\.[0-5]\d$/, "Zeit als 7.30 oder 17.15");
@@ -18,6 +22,37 @@ export const HINWEIS_LINKS = [
 /** Teamfoto: Startbild der bisherigen Website (im Repo) oder ein Bild im Bild-Speicher (R2), Name ist eine UUID.
  *  Neue Fotos kommen nie ins Git: Löschen soll das Bild wirklich entfernen. */
 export const TEAMFOTO = /^(\/bilder\/team\/[a-z0-9-]{2,80}\.(webp|jpg)|https:\/\/[a-z0-9.-]+\/team\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(webp|jpg|png))$/;
+
+const UUID = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
+/** Foto der Website im Bild-Speicher (R2), Ordner «bild», Name ist eine UUID. Für ersetzte Fotos und neue Partner-Logos. */
+export const SPEICHERBILD = new RegExp(`^https:\\/\\/[a-z0-9.-]+\\/bild\\/${UUID}\\.(webp|jpg|png)$`);
+/** Partner-Logo: Startbild der Website (im Repo) oder ein Bild im Bild-Speicher. */
+export const PARTNERLOGO = new RegExp(`^(\\/bilder\\/partner\\/[a-z0-9-]{2,80}\\.(webp|svg|png)|https:\\/\\/[a-z0-9.-]+\\/bild\\/${UUID}\\.(webp|jpg|png))$`);
+
+/** Fotos der Website, die der Betrieb im Cockpit ersetzen kann. «vorgabe» ist das heutige Foto (Pfad auf der Website),
+ *  damit das Cockpit es zeigen kann. Ein Leistungsfoto gilt für die Karte auf der Startseite und für die Seite der Leistung. */
+export const BILD_PLAETZE = [
+  { name: "start", gruppe: "Startseite", titel: "Grosses Foto oben", vorgabe: "/bilder/defender-kabine-480.webp" },
+  { name: "leistung-unfall", gruppe: "Leistungen", titel: "Unfall und Carrosserie", vorgabe: "/bilder/leistungen/unfall-800.webp" },
+  { name: "leistung-hagel", gruppe: "Leistungen", titel: "Hagel und Dellen", vorgabe: "/bilder/leistungen/hagel-800.webp" },
+  { name: "leistung-lack", gruppe: "Leistungen", titel: "Lack", vorgabe: "/bilder/leistungen/lack-800.webp" },
+  { name: "leistung-felgen", gruppe: "Leistungen", titel: "Felgen", vorgabe: "/bilder/leistungen/felgen-800.webp" },
+  { name: "leistung-folierung", gruppe: "Leistungen", titel: "Folierung", vorgabe: "/bilder/leistungen/folierung-800.webp" },
+  { name: "leistung-scheiben", gruppe: "Leistungen", titel: "Scheiben", vorgabe: "/bilder/leistungen/scheiben-800.webp" },
+  { name: "felge-vorher", gruppe: "Vorher und nachher", titel: "Felge vorher", vorgabe: "/bilder/felge-schaden-480.webp" },
+  { name: "felge-nachher", gruppe: "Vorher und nachher", titel: "Felge nachher", vorgabe: "/bilder/felge-fertig-480.webp" },
+] as const;
+export type BildPlatz = (typeof BILD_PLAETZE)[number]["name"];
+
+/** Schweizer Telefonnummer in beiden Schreibweisen: «071 755 88 61» und «+41717558861». null, wenn sie nicht stimmt. */
+export function telefonCH(roh: string): { anzeige: string; e164: string } | null {
+  const z = roh.replace(/[\s.\-/()]/g, "").replace(/^\+41|^0041/, "0");
+  if (!/^0[1-9]\d{8}$/.test(z)) return null;
+  return { anzeige: `${z.slice(0, 3)} ${z.slice(3, 6)} ${z.slice(6, 8)} ${z.slice(8)}`, e164: "+41" + z.slice(1) };
+}
+
+/** Platzhalter in den Antworten der häufigen Fragen: Die Website setzt die aktuellen Angaben ein. */
+export const FAQ_PLATZHALTER = ["{zeiten}", "{adresse}", "{telefon}"] as const;
 
 export function minuten(t: string): number {
   const [h, m] = t.split(".").map(Number) as [number, number];
@@ -78,6 +113,26 @@ export const siteFelder = z.object({
     text: text(240), name: text(60), rolle: text(40),
     freigegeben: z.boolean().default(false),
   }).strict().optional(),
+  // Ab hier (09.11.2026, Roni): was der Betrieb zusätzlich selbst pflegt. Alles optional: fehlt ein Feld, gilt der Stand der Website.
+  // Häufige Fragen der Startseite. Antworten dürfen {zeiten}, {adresse} und {telefon} enthalten (FAQ_PLATZHALTER).
+  faq: z.array(z.object({ frage: text(140).min(5), antwort: text(700).min(5) }).strict()).max(14).optional(),
+  // Kontakt. WhatsApp erscheint auf der Website erst, wenn der Betrieb die Nummer hier selbst einträgt (gilt dann als bestätigt).
+  kontakt: z.object({
+    telefon: z.string().trim().max(20).refine((t) => !!telefonCH(t), "Telefonnummer wie 071 755 88 61").optional(),
+    mail: z.email("Mail-Adresse ungültig").max(120).optional(),
+    whatsapp: z.string().trim().max(20).refine((t) => !!telefonCH(t), "WhatsApp-Nummer wie 076 123 45 67").optional(),
+  }).strict().optional(),
+  // Zertifizierte Partner im Laufband. Ohne Logo erscheint der Name als Wortmarke.
+  partner: z.array(z.object({
+    name: text(40).min(2),
+    logo: z.string().max(200).regex(PARTNERLOGO, "Logo ungültig").optional(),
+    b: z.number().int().min(20).max(4000).optional(), h: z.number().int().min(20).max(4000).optional(),
+  }).strict()).min(1).max(12).optional(),
+  // Ersetzte Fotos der Website: Bildname (BILD_PLAETZE) → Foto im Bild-Speicher mit Beschreibung und Grösse.
+  bilder: z.partialRecord(z.enum(BILD_PLAETZE.map((p) => p.name) as [BildPlatz, ...BildPlatz[]]), z.object({
+    foto: z.string().max(200).regex(SPEICHERBILD, "Foto ungültig"), alt: text(160).min(5),
+    b: z.number().int().min(200).max(6000), h: z.number().int().min(200).max(6000),
+  }).strict()).optional(),
   // Schalter, ob der Google-Bewertungsabschnitt erscheint (BAUPLAN 4.2/4.3). Vorgabe true; fehlt das Feld, gilt {zeigen:true}.
   bewertungen: z.object({ zeigen: z.boolean().default(true) }).strict().default({ zeigen: true }),
 }).strict();
@@ -113,7 +168,16 @@ export function zeitenZeile(p: Pick<Site, "zeiten">): string {
   return p.zeiten.filter((z) => !z.geschlossen && z.fenster.length).map((z) => `${z.kurz} ${z.fenster.map((f) => `${f.von} bis ${f.bis}`).join(" und ")} Uhr`).join(", ");
 }
 
-/** Alle Teamfotos im Bild-Speicher (für das Aufräumen nach dem Speichern). */
-export function speicherFotos(p: Pick<Site, "team">): string[] {
-  return p.team.flatMap((g) => g.leute.map((l) => l.foto).filter((f): f is string => !!f && f.startsWith("https://")));
+/** Alle Bilder im Bild-Speicher: Teamfotos, ersetzte Fotos und Partner-Logos (für das Aufräumen nach dem Speichern). */
+export function speicherFotos(p: Pick<Site, "team"> & Partial<Pick<Site, "bilder" | "partner">>): string[] {
+  return [
+    ...p.team.flatMap((g) => g.leute.map((l) => l.foto)),
+    ...Object.values(p.bilder ?? {}).map((b) => b?.foto),
+    ...(p.partner ?? []).map((x) => x.logo),
+  ].filter((f): f is string => !!f && f.startsWith("https://"));
+}
+
+/** Setzt die Platzhalter der häufigen Fragen ein. */
+export function faqEinsetzen(antwort: string, werte: { zeiten: string; adresse: string; telefon: string }): string {
+  return antwort.replaceAll("{zeiten}", werte.zeiten).replaceAll("{adresse}", werte.adresse).replaceAll("{telefon}", werte.telefon);
 }

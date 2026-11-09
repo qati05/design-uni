@@ -1,4 +1,4 @@
-// Übernommen aus qati05/medaur cockpit-app/lib/sicherheit.ts (unverändert bis auf diese Zeile).
+// Übernommen aus qati05/medaur cockpit-app/lib/sicherheit.ts (dazu: Bild-Speicher in img-src, damit das Cockpit die Fotos des Betriebs zeigen kann).
 // damit proxy.ts, next.config.ts und die Tests dieselbe Quelle nutzen.
 
 export type Header = { key: string; value: string };
@@ -17,7 +17,13 @@ export function supabaseOrigins(supabaseUrl: string | undefined): string[] {
   return url.protocol === "https:" ? [`https://${host}`, `wss://${host}`] : [`http://${host}`, `ws://${host}`];
 }
 
-export function baueCsp(nonce: string, opt: { supabaseUrl?: string; entwicklung?: boolean } = {}): string {
+/** Herkunft (https://host) einer Adresse, sonst nichts. Für img-src: der Bild-Speicher mit den Fotos des Betriebs. */
+export function bildOrigin(adresse: string | undefined): string[] {
+  if (!adresse) return [];
+  try { const u = new URL(adresse); return u.protocol === "https:" ? [`https://${u.host}`] : []; } catch { return []; }
+}
+
+export function baueCsp(nonce: string, opt: { supabaseUrl?: string; entwicklung?: boolean; bildSpeicher?: string } = {}): string {
   // Nur «next dev»: Impeccable Live lädt seinen Helfer von localhost:8400 und setzt Varianten-Styles ein. Der gebaute Betrieb bleibt streng.
   const impeccableLive = "http://localhost:8400";
   const connect = ["'self'", ...supabaseOrigins(opt.supabaseUrl), ...(opt.entwicklung ? [impeccableLive] : [])];
@@ -28,7 +34,7 @@ export function baueCsp(nonce: string, opt: { supabaseUrl?: string; entwicklung?
     "default-src 'self'",
     `script-src ${skripte.join(" ")}`,
     opt.entwicklung ? "style-src 'self' 'unsafe-inline'" : `style-src 'self' 'nonce-${nonce}'`,
-    "img-src 'self' data: blob:",
+    `img-src ${["'self'", "data:", "blob:", ...bildOrigin(opt.bildSpeicher)].join(" ")}`,
     "font-src 'self'",
     `connect-src ${connect.join(" ")}`,
     "manifest-src 'self'",

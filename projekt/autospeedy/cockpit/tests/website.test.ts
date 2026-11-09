@@ -1,6 +1,6 @@
 // «Website pflegen»: site.json über die GitHub-API (mit Konfliktschutz) und Teamfotos im Bild-Speicher (R2). Ohne Netz.
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { siteLesen, siteSchreiben, fotoHochladen, fotoLoeschen, type Repo, type BildSpeicher } from "../lib/website.server";
+import { siteLesen, siteSchreiben, siteVerlauf, fotoHochladen, fotoLoeschen, type Repo, type BildSpeicher } from "../lib/website.server";
 import { siteSchema } from "../../gemeinsam/site";
 import start from "../../astro/src/daten/site.json";
 
@@ -78,5 +78,42 @@ describe("Teamfotos im Bild-Speicher (R2)", () => {
     netz(() => new Response(null, { status: 500 }));
     expect(await fotoHochladen(R2, new Uint8Array([1]), "image/png")).toBeNull();
     expect(await fotoLoeschen(R2, "https://fotos.beispiel.ch/team/0b5f6c1e-1a2b-4c3d-8e9f-001122334455.webp")).toBe(false);
+  });
+});
+
+describe("Verlauf: frühere Stände von site.json", () => {
+  const B = "b".repeat(40), C = "c".repeat(40);
+  it("listet die letzten Commits an site.json, neuester zuerst, ohne Namen", async () => {
+    const a = netz(() => Response.json([{ sha: B, commit: { committer: { date: "2026-11-09T20:00:00Z", name: "Jemand" }, message: "x" } }, { sha: C, commit: { committer: { date: "2026-11-08T09:30:00Z" } } }, { sha: "kaputt", commit: {} }]));
+    expect(await siteVerlauf(REPO)).toEqual([{ id: B, zeit: "2026-11-09T20:00:00Z" }, { id: C, zeit: "2026-11-08T09:30:00Z" }]);
+    expect(a[0]!.url).toBe("https://api.github.com/repos/medaur/auto-speedy/commits?path=astro%2Fsrc%2Fdaten%2Fsite.json&sha=main&per_page=10");
+    expect(a[0]!.kopf.get("authorization")).toBe("Bearer TOKEN");
+  });
+  it("GitHub antwortet nicht: leerer Verlauf", async () => {
+    netz(() => new Response("{}", { status: 500 }));
+    expect(await siteVerlauf(REPO)).toEqual([]);
+    netz(() => Response.json({ message: "kein Feld" }));
+    expect(await siteVerlauf(REPO)).toEqual([]);
+  });
+  it("liest einen früheren Stand über seinen Commit; unbekannte Kennungen gehen gar nicht erst raus", async () => {
+    const a = netz(() => Response.json(inhalt(start)));
+    expect((await siteLesen(REPO, B))?.daten.zeiten.length).toBeGreaterThan(0);
+    expect(a[0]!.url).toBe(`https://api.github.com/repos/medaur/auto-speedy/contents/astro/src/daten/site.json?ref=${B}`);
+    expect(await siteLesen(REPO, "main; rm -rf")).toBeNull();
+    expect(a.length).toBe(1);
+  });
+});
+
+describe("Fotos der Website und Partner-Logos im Bild-Speicher (Ordner bild/)", () => {
+  it("Hochladen in bild/, Löschen nur unter der eigenen Basis", async () => {
+    const a = netz(() => new Response(null, { status: 200 }));
+    const url = await fotoHochladen(R2, new Uint8Array([0xff, 0xd8, 0xff]), "image/webp", "bild");
+    expect(url).toMatch(/^https:\/\/fotos\.beispiel\.ch\/bild\/[0-9a-f-]{36}\.webp$/);
+    expect(await fotoLoeschen(R2, url!)).toBe(true);
+    expect(a[1]!.methode).toBe("DELETE"); expect(a[1]!.url).toBe(`https://konto123.r2.cloudflarestorage.com/fotos/${url!.slice(R2.basis.length + 1)}`);
+    expect(await fotoLoeschen(R2, "https://anders.example/bild/0b5f6c1e-1a2b-4c3d-8e9f-001122334455.webp")).toBe(false);
+    expect(await fotoLoeschen(R2, "https://fotos.beispiel.ch/geheim/0b5f6c1e-1a2b-4c3d-8e9f-001122334455.webp")).toBe(false);
+    expect(await fotoLoeschen(R2, "/bilder/partner/amag.webp")).toBe(false);
+    expect(a.length).toBe(2);
   });
 });

@@ -1,0 +1,176 @@
+"use client";
+
+// Bausteine der Oberfläche, wie man sie von den Einstellungen auf dem iPhone oder Mac kennt: Gruppen mit Zeilen,
+// Schalter, Blätter, die von unten kommen. Ohne style-Attribute (die strenge CSP des Cockpits erlaubt sie nicht).
+import { createContext, useContext, useEffect, useId, useRef, type ReactNode } from "react";
+import type { BildArt } from "./bild";
+import type { BereichId, Entwurf } from "@/lib/pflege";
+
+// ---------- Was jeder Bereich braucht
+export type Kontext = {
+  e: Entwurf;
+  /** Ändert den Entwurf. Mit «merken» lässt sich der Schritt zurücknehmen (Meldung unten mit «Rückgängig»). */
+  aendern: (fn: (d: Entwurf) => void, merken?: string) => void;
+  /** Adresse zum Anzeigen eines Fotos aus dem Entwurf (neu gewählt, im Bild-Speicher oder von der Website). */
+  zeige: (wert: string) => string;
+  /** Bereitet ein gewähltes Bild vor und merkt es für das Veröffentlichen. */
+  waehle: (datei: File, art: BildArt) => Promise<{ wert: string; b: number; h: number } | { fehler: string }>;
+  heute: string;
+  /** «Bearbeiten» ist an: Zeilen zeigen Entfernen und Verschieben. */
+  ordnen: boolean;
+};
+const K = createContext<Kontext | null>(null);
+export const KontextGeber = K.Provider;
+export function usePflege(): Kontext {
+  const k = useContext(K);
+  if (!k) throw new Error("Kontext fehlt");
+  return k;
+}
+
+// ---------- Symbole (24 × 24, Strich)
+const PFADE: Record<string, ReactNode> = {
+  uebersicht: <><path d="M4 11l8-7 8 7" /><path d="M6 10v9h12v-9" /></>,
+  hinweise: <><path d="M4 10v4h3l7 4V6L7 10H4z" /><path d="M17.5 9.5a4 4 0 0 1 0 5" /></>,
+  zeiten: <><circle cx="12" cy="12" r="8" /><path d="M12 8v4l3 2" /></>,
+  ausnahmen: <><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M4 10h16M8 3v4M16 3v4" /></>,
+  team: <><circle cx="9" cy="9" r="3" /><path d="M3 19c0-3 3-5 6-5s6 2 6 5" /><circle cx="17" cy="8" r="2.5" /><path d="M16.5 14c2.8 0 4.5 1.8 4.5 4.5" /></>,
+  fragen: <><circle cx="12" cy="12" r="8" /><path d="M9.6 9.6a2.5 2.5 0 1 1 3.6 2.2c-.8.5-1.2 1-1.2 1.9M12 16.6v.4" /></>,
+  fotos: <><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="8.5" cy="10" r="1.5" /><path d="M21 16l-5-5-8 8" /></>,
+  partner: <><circle cx="12" cy="10" r="6" /><path d="M9 15l-1.5 6 4.5-2.5 4.5 2.5L15 15" /></>,
+  inhaber: <path d="M4 5h16v11H9l-5 4z" />,
+  kontakt: <path d="M6 3h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 12l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2z" />,
+  besucher: <path d="M5 20V10M12 20V4M19 20v-7" />,
+  verlauf: <><path d="M4 12a8 8 0 1 0 2.6-5.9" /><path d="M4 4v4h4M12 8v4l3 2" /></>,
+  pfeil: <path d="M9 6l6 6-6 6" />,
+  zurueck: <path d="M15 6l-6 6 6 6" />,
+  plus: <path d="M12 5v14M5 12h14" />,
+  minus: <path d="M6 12h12" />,
+  hoch: <path d="M6 14l6-6 6 6" />,
+  runter: <path d="M6 10l6 6 6-6" />,
+  haken: <path d="M5 12.5l4.5 4.5L19 7.5" />,
+  kamera: <><path d="M4 8h3l1.5-2h7L17 8h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></>,
+};
+export function Symbol({ name, klein }: { name: keyof typeof PFADE | BereichId; klein?: boolean }) {
+  return <svg className={klein ? "sym sym--klein" : "sym"} viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{PFADE[name]}</svg>;
+}
+
+// ---------- Gruppen und Zeilen
+export function Gruppe({ titel, fuss, children, id }: { titel?: string; fuss?: ReactNode; children: ReactNode; id?: string }) {
+  return (
+    <section className="gruppe" id={id}>
+      {titel ? <h2 className="gruppe__titel">{titel}</h2> : null}
+      <div className="gruppe__karte">{children}</div>
+      {fuss ? <p className="gruppe__fuss">{fuss}</p> : null}
+    </section>
+  );
+}
+
+type FeldProps = { name: string; wert: string; setze: (w: string) => void; art?: "text" | "email" | "tel" | "date" | "time"; platz?: string; max?: number; hinweis?: string };
+/** Eine Zeile mit Namen links und Eingabe rechts. */
+export function Feld({ name, wert, setze, art = "text", platz, max, hinweis }: FeldProps) {
+  const id = useId();
+  return (
+    <div className="zeile zeile--feld">
+      <label className="zeile__name" htmlFor={id}>{name}</label>
+      <input id={id} className="zeile__eingabe" type={art} value={wert} onChange={(x) => setze(x.target.value)} placeholder={platz} maxLength={max}
+        inputMode={art === "tel" ? "tel" : art === "email" ? "email" : undefined} autoCapitalize={art === "email" ? "none" : undefined} aria-describedby={hinweis ? id + "h" : undefined} />
+      {hinweis ? <span className="zeile__hinweis" id={id + "h"}>{hinweis}</span> : null}
+    </div>
+  );
+}
+/** Mehrzeiliger Text: Name oben, Feld darunter, Zähler rechts. */
+export function Langtext({ name, wert, setze, max, zeilen = 3, platz }: { name: string; wert: string; setze: (w: string) => void; max: number; zeilen?: number; platz?: string }) {
+  const id = useId();
+  return (
+    <div className="zeile zeile--lang">
+      <label className="zeile__name" htmlFor={id}>{name}<span className="zaehler">{wert.length} von {max}</span></label>
+      <textarea id={id} className="zeile__text" value={wert} onChange={(x) => setze(x.target.value)} maxLength={max} rows={zeilen} placeholder={platz} />
+    </div>
+  );
+}
+export function Auswahl({ name, wert, setze, wahl }: { name: string; wert: string; setze: (w: string) => void; wahl: { wert: string; text: string }[] }) {
+  const id = useId();
+  return (
+    <div className="zeile zeile--feld">
+      <label className="zeile__name" htmlFor={id}>{name}</label>
+      <select id={id} className="zeile__eingabe zeile__auswahl" value={wert} onChange={(x) => setze(x.target.value)}>{wahl.map((w) => <option key={w.wert} value={w.wert}>{w.text}</option>)}</select>
+    </div>
+  );
+}
+export function Schalter({ name, an, setze, hinweis }: { name: string; an: boolean; setze: (an: boolean) => void; hinweis?: string }) {
+  return (
+    <label className="zeile zeile--schalter">
+      <span className="zeile__name">{name}{hinweis ? <small>{hinweis}</small> : null}</span>
+      <input type="checkbox" role="switch" className="schalter" checked={an} onChange={(x) => setze(x.target.checked)} />
+    </label>
+  );
+}
+/** Zeile, die etwas tut: blau für «hinzufügen», rot für «entfernen». */
+export function Tat({ children, tu, rot, symbol, aus }: { children: ReactNode; tu: () => void; rot?: boolean; symbol?: "plus" | "verlauf" | "kamera"; aus?: boolean }) {
+  return <button type="button" className={rot ? "zeile zeile--tat zeile--rot" : "zeile zeile--tat"} onClick={tu} disabled={aus}>{symbol ? <Symbol name={symbol} klein /> : null}<span>{children}</span></button>;
+}
+export function Wert({ name, children }: { name: string; children: ReactNode }) {
+  return <div className="zeile zeile--wert"><span className="zeile__name">{name}</span><span className="zeile__wert">{children}</span></div>;
+}
+
+/** Zeile einer Liste: antippen öffnet das Blatt. Im Modus «Bearbeiten» stehen links Entfernen und rechts Verschieben. */
+export function Eintrag({ bild, titel, unter, marke, auf, weg, hoch, runter }: { bild?: ReactNode; titel: string; unter?: string; marke?: string; auf: () => void; weg: () => void; hoch?: () => void; runter?: () => void }) {
+  const { ordnen } = usePflege();
+  const name = titel || "Ohne Namen";
+  return (
+    <div className={ordnen ? "zeile zeile--eintrag zeile--ordnen" : "zeile zeile--eintrag"}>
+      {ordnen ? <button type="button" className="rund rund--rot" onClick={weg} aria-label={`${name} entfernen`}><Symbol name="minus" klein /></button> : null}
+      <button type="button" className="eintrag" onClick={auf} aria-label={`${name} bearbeiten`}>
+        {bild}
+        <span className="eintrag__text"><span className="eintrag__titel">{name}</span>{unter ? <span className="eintrag__unter">{unter}</span> : null}</span>
+        {marke ? <span className="marke">{marke}</span> : null}
+        {ordnen ? null : <Symbol name="pfeil" klein />}
+      </button>
+      {ordnen ? (
+        <span className="schieber">
+          <button type="button" className="rund" onClick={hoch} disabled={!hoch} aria-label={`${name} nach oben`}><Symbol name="hoch" klein /></button>
+          <button type="button" className="rund" onClick={runter} disabled={!runter} aria-label={`${name} nach unten`}><Symbol name="runter" klein /></button>
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+/** Blatt: kommt auf dem Handy von unten, steht am Computer in der Mitte. Schliessen mit «Fertig», Esc oder Tippen daneben. */
+export function Blatt({ titel, zu, children, fertig = "Fertig" }: { titel: string; zu: () => void; children: ReactNode; fertig?: string }) {
+  const ref = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    // Kein close() beim Abbau: Das Element verschwindet ohnehin, und ein close() würde «zu» ein zweites Mal auslösen.
+    const d = ref.current;
+    if (d && !d.open) d.showModal();
+  }, []);
+  return (
+    <dialog ref={ref} className="blatt" aria-label={titel} onClose={zu} onClick={(x) => { if (x.target === ref.current) ref.current?.close(); }}>
+      <div className="blatt__innen">
+        <header className="blatt__kopf"><h2>{titel}</h2><button type="button" className="blatt__fertig" onClick={() => ref.current?.close()}>{fertig}</button></header>
+        <div className="blatt__inhalt">{children}</div>
+      </div>
+    </dialog>
+  );
+}
+
+/** Bild wählen: ein Knopf, dahinter das Dateifeld (Handy: Kamera oder Fotos). */
+export function BildKnopf({ text, art, gewaehlt, leise }: { text: string; art: BildArt; gewaehlt: (r: { wert: string; b: number; h: number }) => void; leise?: boolean }) {
+  const { waehle } = usePflege();
+  const fehler = useRef<HTMLSpanElement>(null);
+  async function wahl(x: React.ChangeEvent<HTMLInputElement>) {
+    const feld = x.currentTarget, datei = feld.files?.[0];
+    if (fehler.current) fehler.current.textContent = "";
+    if (!datei) return;
+    const r = await waehle(datei, art);
+    feld.value = "";
+    if ("fehler" in r) { if (fehler.current) fehler.current.textContent = r.fehler; return; }
+    gewaehlt(r);
+  }
+  return (
+    <span className="bildknopf">
+      <label className={leise ? "knopf knopf--leise knopf--klein" : "knopf knopf--klein"}>{text}<input type="file" className="unsichtbar" accept={art === "logo" ? "image/png,image/webp,image/jpeg" : "image/jpeg,image/png,image/webp,image/heic"} onChange={wahl} /></label>
+      <span className="bildknopf__fehler" role="alert" ref={fehler} />
+    </span>
+  );
+}

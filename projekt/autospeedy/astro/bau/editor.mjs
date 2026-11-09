@@ -71,6 +71,22 @@ export function editorKonfiguration({ repo, zweig = "main", pfad = "astro/src/da
             text("rolle", "Rolle", { required: false }),
             { name: "freigegeben", label: "Auf der Website zeigen", widget: "boolean", default: false, hint: "Nur mit Zustimmung des Inhabers" },
           ] },
+          { name: "faq", label: "Häufige Fragen (Startseite)", widget: "list", max: 14, required: false, fields: [
+            text("frage", "Frage"),
+            { name: "antwort", label: "Antwort", widget: "text", hint: "Platzhalter: {zeiten}, {adresse}, {telefon}" },
+          ] },
+          { name: "kontakt", label: "Kontakt", widget: "object", required: false, fields: [
+            text("telefon", "Telefon (z. B. 071 755 88 61)", { required: false }),
+            text("mail", "Mail", { required: false }),
+            text("whatsapp", "WhatsApp-Nummer (erscheint erst mit Eintrag)", { required: false }),
+          ] },
+          { name: "partner", label: "Zertifizierte Partner", widget: "list", max: 12, required: false, fields: [
+            text("name", "Name"),
+            text("logo", "Logo (Verweis, z. B. /bilder/partner/amag.webp)", { required: false }),
+            { name: "b", label: "Logo-Breite in Pixel", widget: "number", value_type: "int", required: false },
+            { name: "h", label: "Logo-Höhe in Pixel", widget: "number", value_type: "int", required: false },
+          ] },
+          { name: "bilder", label: "Ersetzte Fotos (nur über das Cockpit)", widget: "hidden", required: false },
           { name: "bewertungen", label: "Google-Bewertungen", widget: "object", required: false, fields: [
             { name: "zeigen", label: "Bewertungen auf der Website zeigen", widget: "boolean", default: true, hint: "Zeigt Note, Anzahl und Link — keine einzelnen Bewertungstexte" },
           ] },

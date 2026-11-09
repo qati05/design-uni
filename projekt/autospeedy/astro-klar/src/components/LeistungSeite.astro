@@ -5,14 +5,16 @@ import Klar from "../layouts/Klar.astro";
 import Bild from "./Bild.astro";
 import Faq from "./Faq.astro";
 import Ablauf from "./Ablauf.astro";
-import { faqStart } from "../daten/faq";
+import { faqBasis } from "../daten/faq";
 import { leistungen } from "../daten/leistungen";
-import { betrieb as b } from "../../../astro/bau/daten.mjs";
+import { betrieb as b, site } from "../../../astro/bau/daten.mjs";
 const { slug } = Astro.props;
 const l: any = leistungen.find((x) => x.slug === slug);
 if (!l) throw new Error(`Leistung ${slug}: unbekannt`);
-const fragen = l.fragen.map((i: number) => faqStart[i]);
+const fragen = l.fragen.map((i: number) => faqBasis[i]);
 const weitere = leistungen.filter((x) => x.slug !== slug);
+// Foto, das der Betrieb im Cockpit ersetzt hat (site.json, Feld «bilder»)
+const ersatz = (site.bilder as any)?.[`leistung-${slug}`] ?? null;
 const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfad: "/leistungen/" }, { name: l.titel, pfad: l.pfad }];
 ---
 <Klar seite="carrosserie" titel={l.seitentitel} beschreibung={l.beschreibung} brotkrumen={brotkrumen} faq={fragen} dienst={l}>
@@ -30,7 +32,9 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfa
       </div>
     </div>
     <div class="leistung-kopf__bild">
-      {l.stockFoto
+      {ersatz
+        ? <img src={ersatz.foto} alt={ersatz.alt} width={ersatz.b} height={ersatz.h} fetchpriority="high" decoding="async" />
+        : l.stockFoto
         ? <img src={l.stockFoto} alt={l.fotoAlt} width="800" height="533" fetchpriority="high" decoding="async" />
         : <Bild name={l.foto} alt={l.fotoAlt} sizes="(max-width: 860px) 100vw, 50vw" lcp />}
     </div>

@@ -7,6 +7,7 @@
 // Shooting ersetzbar (S03-S08, gleiche Dateinamen). Bildnachweise sind nicht noetig (betriebseigene Quelle).
 // Felgen heisst nur «Felgen», nie «Alufelgen» (Reshat 04.11.).
 import { leistungen } from "../daten/leistungen";
+import { site } from "../../../astro/bau/daten.mjs";
 const karten = leistungen;
 const { uebersicht = false } = Astro.props;
 ---
@@ -20,7 +21,9 @@ const { uebersicht = false } = Astro.props;
             <picture>
               <source type="image/avif" srcset={`/bilder/leistungen/${k.slug}-400.avif 400w, /bilder/leistungen/${k.slug}-800.avif 800w`} sizes="(max-width: 720px) 88px, (max-width: 960px) 46vw, 30vw" />
               <source type="image/webp" srcset={`/bilder/leistungen/${k.slug}-400.webp 400w, /bilder/leistungen/${k.slug}-800.webp 800w`} sizes="(max-width: 720px) 88px, (max-width: 960px) 46vw, 30vw" />
-              <img src={`/bilder/leistungen/${k.slug}-800.webp`} width="800" height="533" loading="lazy" decoding="async" alt={k.altKarte} />
+              {(site.bilder as any)?.[`leistung-${k.slug}`]
+                ? <img src={(site.bilder as any)[`leistung-${k.slug}`].foto} width={(site.bilder as any)[`leistung-${k.slug}`].b} height={(site.bilder as any)[`leistung-${k.slug}`].h} loading="lazy" decoding="async" alt={(site.bilder as any)[`leistung-${k.slug}`].alt} />
+                : <img src={`/bilder/leistungen/${k.slug}-800.webp`} width="800" height="533" loading="lazy" decoding="async" alt={k.altKarte} />}
             </picture>
           </span>
           <h3>{k.titel}</h3>

@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Was der Betrieb selbst ändert (Cockpit «Website pflegen» oder Editor /admin/). Geprüft beim Bau mit gemeinsam/site.ts. Startwerte: fakten.md F3 (Zeiten), Teamseite der bisherigen Website (Team, Einwilligung offen: rechte.md). Neue Teamfotos liegen im Bild-Speicher, nie im Git.",
+  "_hinweis": "Was der Betrieb selbst ändert (Cockpit «Website pflegen» oder Editor /admin/). Geprüft beim Bau mit gemeinsam/site.ts. Startwerte: fakten.md F3 (Zeiten), Teamseite der bisherigen Website (Team, Einwilligung offen: rechte.md). Neue Teamfotos liegen im Bild-Speicher, nie im Git. Seit 09.11.2026 auch häufige Fragen, Kontakt, Partner und ersetzte Fotos (Feld «bilder», Fotos im Bild-Speicher).",
   "hinweis": {
     "aktiv": false,
     "text": "Hagel? Melden Sie den Schaden jetzt mit Fotos.",
@@ -123,5 +123,70 @@
   },
   "bewertungen": {
     "zeigen": true
-  }
+  },
+  "faq": [
+    {
+      "frage": "Wer zahlt die Reparatur?",
+      "antwort": "Bei einem Versicherungsfall wickeln wir die Reparatur direkt mit Ihrer Versicherung ab. Um die Abrechnung müssen Sie sich nicht kümmern."
+    },
+    {
+      "frage": "Muss ich zuerst zur Versicherung?",
+      "antwort": "Nein. Melden Sie den Schaden direkt bei uns. Wir nehmen danach mit Ihrer Versicherung Kontakt auf und klären das Weitere."
+    },
+    {
+      "frage": "Bekomme ich einen Ersatzwagen?",
+      "antwort": "Auf Anfrage. Wir haben sechs Ersatzautos, darunter einen Tesla. Eine Verfügbarkeit können wir aber nicht garantieren."
+    },
+    {
+      "frage": "Reparieren Sie auch Tesla?",
+      "antwort": "Ja. Auto Speedy ist Tesla Approved Body Shop und repariert Ihren Tesla nach den Vorgaben von Tesla mit Original-Ersatzteilen."
+    },
+    {
+      "frage": "Für welche Marken arbeiten Sie?",
+      "antwort": "Für alle Marken. Unfall, Lack, Hagel, Felgen, Folierung und Scheiben erledigen wir markenübergreifend."
+    },
+    {
+      "frage": "Wo finde ich Auto Speedy?",
+      "antwort": "An der {adresse}, im Rheintal. Telefon {telefon}."
+    },
+    {
+      "frage": "Wann hat Auto Speedy geöffnet?",
+      "antwort": "{zeiten}."
+    },
+    {
+      "frage": "Was kostet eine Reparatur bei Auto Speedy?",
+      "antwort": "Das hängt vom Schaden ab, darum nennen wir keine festen Preise. Die Offerte besprechen wir persönlich mit Ihnen. Bei einem Versicherungsfall rechnen wir direkt mit der Versicherung ab."
+    },
+    {
+      "frage": "Wie melde ich einen Schaden?",
+      "antwort": "Online unter «Schaden melden» in zwei Schritten: zuerst, was passiert ist, dann Ihr Name und Ihre Telefonnummer. Fotos und weitere Angaben sind freiwillig. Oder telefonisch unter {telefon}. Nach einer Meldung online rufen wir Sie zurück; Offerte und Termin besprechen wir persönlich mit Ihnen."
+    }
+  ],
+  "kontakt": {
+    "telefon": "071 755 88 61",
+    "mail": "info@autospeedy.ch"
+  },
+  "partner": [
+    {
+      "name": "Tesla Approved Body Shop",
+      "logo": "/bilder/partner/tesla-approved-body-shop.webp",
+      "b": 300,
+      "h": 84
+    },
+    {
+      "name": "AMAG",
+      "logo": "/bilder/partner/amag.webp",
+      "b": 300,
+      "h": 102
+    },
+    {
+      "name": "Land Rover"
+    },
+    {
+      "name": "Ayvens",
+      "logo": "/bilder/partner/ayvens.webp",
+      "b": 300,
+      "h": 61
+    }
+  ]
 }
