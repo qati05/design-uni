@@ -106,9 +106,9 @@ const versicherer = ["AXA", "Zurich", "Mobiliar", "Allianz", "Helvetia", "Balois
       <div class="senden" data-nur-js hidden>
         {/* QA C02: «Wird gesendet» und Sendefehler direkt über dem Knopf («Nochmals senden»), im selben Bild */}
         <p class="rueckmeldung" data-sende-rueckmeldung hidden role="status"></p>
-        <button class="k k--blau k--gross" type="button" data-senden="website">Hier auf der Website senden<small data-weg-a-hilfe>Mit Fotos, ohne weitere App</small></button>
+        <button class="k k--blau k--gross" type="button" data-senden="website">Meldung senden<small data-weg-a-hilfe>Direkt an Auto Speedy, mit Ihren Fotos</small></button>
         <div class="senden__balken" data-sende-balken hidden aria-hidden="true"><span></span></div>
-        <button class="senden__wa" type="button" data-senden="whatsapp">Lieber per WhatsApp senden</button>
+        <button class="senden__wa" type="button" data-senden="whatsapp">Per WhatsApp senden</button>
         <p class="senden__beruhigung">Wir melden uns bei Ihnen, in der Regel telefonisch in den Öffnungszeiten.</p>
         {wa && !wa.nummer_bestaetigt && <Luecke>Lücke: Die WhatsApp-Nummer {wa.anzeige} stammt von der Website; der Betrieb bestätigt sie noch.</Luecke>}
         {turnstile && <div class="cf-turnstile" data-sitekey={turnstile} data-language="de"></div>}
