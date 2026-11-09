@@ -6,6 +6,8 @@ import base64, json, os, re, subprocess, sys, tempfile
 HIER = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.dirname(HIER)
 KLAR = '--linie' in sys.argv and sys.argv[sys.argv.index('--linie') + 1] == 'klar'
+# Linie «Klar» seit 09.11.2026: reduziertes Cockpit (nur «Website pflegen»), Demo über demo_klar_bau.py
+if KLAR: sys.exit('Linie Klar: bitte vorschau-bau/demo_klar_bau.py verwenden (Cockpit nur «Website pflegen»).')
 DIST = os.path.join(PROJ, 'astro-klar' if KLAR else 'astro', 'dist')
 ZIEL = os.path.join(PROJ, 'vorschau', 'auto-speedy-demo-klar.html' if KLAR else 'auto-speedy-demo.html')
 

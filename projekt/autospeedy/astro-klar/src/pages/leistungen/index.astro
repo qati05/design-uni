@@ -5,6 +5,7 @@ import Kopfbild from "../../components/Kopfbild.astro";
 import Leistungen from "../../components/Leistungen.astro";
 import Faq from "../../components/Faq.astro";
 import Ablauf from "../../components/Ablauf.astro";
+import Umwelt from "../../components/Umwelt.astro";
 import { faqStart } from "../../daten/faq";
 const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfad: "/leistungen/" }];
 ---
@@ -13,6 +14,7 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Leistungen", pfa
   <p>Wir reparieren Unfallschäden nach Herstellervorgaben und verwenden ausschliesslich Original-Ersatzteile. Die Schadenabwicklung mit der Versicherung erledigen wir für Sie.</p>
 </Kopfbild>
 <Leistungen uebersicht />
+<Umwelt kurz />
 <Ablauf /> {/* QA K12: «Offerte» und «Termin» sichtbar, wie auf der Startseite */}
 <Faq fragen={faqStart} />
 </Klar>

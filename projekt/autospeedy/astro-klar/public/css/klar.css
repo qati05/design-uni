@@ -1720,3 +1720,13 @@ a.klein { font-size: 14px; }
   .tesla-infos__zwei { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
   .tesla-infos { padding-bottom: 0; }
 }
+
+/* Umwelt (Umwelt.astro): ruhig wie «So geht es weiter», Fakten nur aus src/daten/umwelt.ts */
+.umwelt { max-width: var(--breit); margin-inline: auto; padding: clamp(48px, 6vw, 84px) var(--rand) clamp(40px, 5vw, 64px); }
+.umwelt .titel { font-size: clamp(30px, 3.2vw, 42px); line-height: 1.08; max-width: 16em; }
+.umwelt--kurz { padding-block: clamp(32px, 4vw, 56px); }
+.umwelt--kurz .titel { font-size: clamp(24px, 2.4vw, 30px); }
+.umwelt__liste { list-style: none; margin: clamp(24px, 4vw, 40px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: clamp(20px, 3vw, 40px); }
+.umwelt__liste li { display: grid; gap: 8px; align-content: start; padding-top: 18px; border-top: 1px solid var(--linie); }
+.umwelt__liste h3 { font-family: var(--titel); font-weight: 400; font-size: clamp(20px, 2vw, 24px); }
+.umwelt__liste p { color: #3f4247; max-width: 40ch; }

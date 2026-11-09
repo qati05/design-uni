@@ -1,0 +1,24 @@
+---
+// Abschnitt «Umwelt»: ruhig, ohne Werbeversprechen. Inhalt nur aus src/daten/umwelt.ts (Fakten des Betriebs).
+// Leer: in der Vorschau eine Lücke, live gar nichts. Unbestätigt: Punkte nur in der Vorschau, mit Entwurfs-Hinweis.
+// `kurz` (für /leistungen/): gleicher Inhalt, kleinere Fassung ohne eigenen Abschnittshintergrund.
+import Luecke from "./Luecke.astro";
+import { umwelt } from "../daten/umwelt";
+import { vorschau } from "../../../astro/bau/daten.mjs";
+const { kurz = false } = Astro.props;
+const punkte = umwelt.bestaetigt || vorschau ? umwelt.punkte : [];
+const zeigen = punkte.length > 0 || vorschau;
+---
+{zeigen && (
+<section id="umwelt" class:list={["umwelt", { "umwelt--kurz": kurz }]} aria-labelledby="umwelt-titel">
+  <h2 class="titel" id="umwelt-titel">{kurz ? "Umwelt" : "Was wir für die Umwelt tun."}</h2>
+  {punkte.length > 0 && (
+    <ul class="umwelt__liste">
+      {punkte.map((p) => <li><h3>{p.titel}</h3><p>{p.text}</p></li>)}
+    </ul>
+  )}
+  {punkte.length === 0
+    ? <Luecke>Lücke: Was Auto Speedy für die Umwelt macht, ergänzt der Betrieb (z. B. Lackart, Energie, Entsorgung).</Luecke>
+    : !umwelt.bestaetigt && <Luecke>Entwurf: Die Angaben zur Umwelt bestätigt der Betrieb noch.</Luecke>}
+</section>
+)}

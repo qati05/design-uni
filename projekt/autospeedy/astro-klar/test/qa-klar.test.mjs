@@ -485,3 +485,25 @@ test("N11: Tesla bei 390 – Abstand vor «Gut zu wissen» mindestens 32 px", as
   assert.ok(abstand >= 32, `Abstand ${abstand}px`);
   await ctx.close();
 });
+
+test("Umwelt: Abschnitt auf Startseite und /leistungen/, Lücke sichtbar solange keine Punkte", async () => {
+  const { umwelt } = await import("../src/daten/umwelt.ts").catch(() => ({ umwelt: null }));
+  const leer = !umwelt || umwelt.punkte.length === 0;
+  for (const pfad of ["/", "/leistungen/"]) {
+    const { ctx, page, fehler } = await seite(390);
+    await page.goto(basis + pfad);
+    const teil = page.locator("section#umwelt");
+    assert.equal(await teil.count(), 1, `${pfad}: Abschnitt da`);
+    assert.match(await teil.locator("h2").textContent(), /Umwelt/);
+    if (leer) {
+      const l = teil.locator("[data-luecke]");
+      assert.ok(await l.isVisible(), `${pfad}: Lücke sichtbar`);
+      assert.match(await l.textContent(), /Was Auto Speedy für die Umwelt macht, ergänzt der Betrieb/);
+      assert.equal(await teil.locator(".umwelt__liste li").count(), 0, `${pfad}: keine erfundenen Punkte`);
+    }
+    const ld = await page.$$eval('script[type="application/ld+json"]', (l) => l.map((s) => s.textContent).join(""));
+    assert.doesNotMatch(ld, /Umwelt/i, `${pfad}: kein JSON-LD-Claim`);
+    assert.deepEqual(fehler, []);
+    await ctx.close();
+  }
+});
