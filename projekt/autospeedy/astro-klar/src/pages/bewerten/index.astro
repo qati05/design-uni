@@ -8,7 +8,7 @@ import Luecke from "../../components/Luecke.astro";
 import { betrieb as b } from "../../../../astro/bau/daten.mjs";
 const bw = b.bewertungen || {};
 ---
-<Klar seite="bewerten">
+<Klar seite="bewerten" indexierbar={false}>
 <section class="abschnitt textseite"><div class="abschnitt__innen schmal">
   <h1>Danke für Ihren Auftrag.</h1>
   <p class="lead">Danke, dass Sie Ihr Auto zu {b.name} gebracht haben. Eine kurze Bewertung hilft anderen Autofahrerinnen und Autofahrern in der Region bei der Wahl ihrer Carrosserie.</p>

@@ -88,6 +88,8 @@ const versicherer = ["AXA", "Zurich", "Mobiliar", "Allianz", "Helvetia", "Balois
 
       <div class="senden" data-nur-js hidden>
         <p class="senden__beruhigung">Wir melden uns bei Ihnen, in der Regel telefonisch in den Öffnungszeiten.</p>
+        {/* QA C02: «Wird gesendet» und Sendefehler direkt über dem Knopf («Nochmals senden»), im selben Bild */}
+        <p class="rueckmeldung" data-sende-rueckmeldung hidden role="status"></p>
         <button class="k k--blau k--gross" type="button" data-senden="website" data-zaehl="schaden-website">Hier auf der Website senden<small data-weg-a-hilfe>Mit Fotos, ohne weitere App</small></button>
         <div class="senden__balken" data-sende-balken hidden aria-hidden="true"><span></span></div>
         <button class="senden__wa" type="button" data-senden="whatsapp" data-zaehl="schaden-whatsapp">Lieber per WhatsApp senden</button>

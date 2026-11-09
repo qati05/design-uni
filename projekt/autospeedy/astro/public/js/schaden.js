@@ -1,6 +1,6 @@
 /* Schadenmeldung. Die Schritte kommen aus dem Formular (Linie Klar 2, Linie Lack 3), Fotos im Browser verkleinert (JPEG, längste Seite 1600 px),
    zwei Wege: A Website (POST an den Endpunkt mit Fortschritt; ohne Endpunkt in der Vorschau nur vorgeführt), B WhatsApp.
-   «Angekommen» nur bei Antwort 200 des Servers. Keine Cookies. Textangaben (ohne Fotos) liegen nur im sessionStorage dieses Tabs,
+   «Angekommen» nur bei Antwort 2xx des Servers mit JSON ok:true. Keine Cookies. Textangaben (ohne Fotos) liegen nur im sessionStorage dieses Tabs,
    bis gesendet ist (Safari lädt den Tab nach der Kamera manchmal neu).
    Rückmeldung nach BAUPLAN 3.13: Schrittwechsel, Fokus auf die Überschrift, Fortschrittstext, Foto-Vorschau,
    Fehler mit aria-invalid/aria-describedby/role=alert (ohne Schütteln), Senden mit echtem Upload-Fortschritt,
@@ -58,8 +58,20 @@
     setTimeout(function () { bewegt.forEach(function (el) { el.style.transition = ""; }); }, 420);
   }
 
-  // Rückmeldung: info = ruhig (role=status), warnung = Fehler (role=alert)
-  function melde(t, warnung) { rueck.hidden = !t; rueck.textContent = t || ""; rueck.setAttribute("role", warnung ? "alert" : "status"); rueck.classList.toggle("rueckmeldung--fehler", !!warnung); }
+  // Rückmeldung: info = ruhig (role=status), warnung = Fehler (role=alert). mitTel hängt die Telefonnummer als Link an.
+  // Senden (QA C02): Hat das Formular eine eigene Stelle direkt über dem Senden-Knopf ([data-sende-rueckmeldung]),
+  // stehen «Wird gesendet» und der Sendefehler dort, im selben Bild wie «Nochmals senden»; sonst in der allgemeinen.
+  var sendeRueck = f.querySelector("[data-sende-rueckmeldung]") || rueck;
+  function setze(el, t, warnung, mitTel) {
+    el.hidden = !t; el.textContent = t || "";
+    if (t && mitTel) {
+      var a = document.createElement("a"); a.href = "tel:" + (TEL_E164 || TEL.replace(/\s/g, "").replace(/^0/, "+41")); a.textContent = TEL;
+      a.dataset.zaehl = "anruf"; a.dataset.ort = "schaden-fehler"; el.appendChild(a); el.appendChild(document.createTextNode("."));
+    }
+    el.setAttribute("role", warnung ? "alert" : "status"); el.classList.toggle("rueckmeldung--fehler", !!warnung);
+  }
+  function melde(t, warnung, mitTel) { setze(rueck, t, warnung, mitTel); if (sendeRueck !== rueck) setze(sendeRueck, ""); }
+  function meldeSenden(t, warnung, mitTel) { if (sendeRueck !== rueck) setze(rueck, ""); setze(sendeRueck, t, warnung, mitTel); }
   var gezaehlt = {};
   function trichter(n) { if (!window.__zaehl) { if (document.readyState !== "complete") window.addEventListener("load", function () { trichter(n); }, { once: true }); return; } if (!gezaehlt[n]) { gezaehlt[n] = true; window.__zaehl("trichter-" + n, "schaden"); } }
 
@@ -396,7 +408,7 @@
       return;
     }
     var daten = sammleDaten();
-    sendet = true; sendenAus(knopfEl, "Wird gesendet …"); f.setAttribute("aria-busy", "true"); melde("Ihre Meldung wird gesendet …"); balkenZeige(true);
+    sendet = true; sendenAus(knopfEl, "Wird gesendet …"); f.setAttribute("aria-busy", "true"); meldeSenden("Ihre Meldung wird gesendet …"); balkenZeige(true);
     var x = new XMLHttpRequest();
     x.open("POST", ep);
     if (x.upload) x.upload.onprogress = function (e) { balkenAuf(e.lengthComputable ? e.loaded / e.total : 0, !e.lengthComputable); };
@@ -405,7 +417,9 @@
       if (z && z.schnell) { setTimeout(function () { sendeWebsite(knopfEl, versuch + 1); }, Math.min(z.warte, 4000) + 250); return; }
       if (z && z.alt && versuch === 0) { holeToken(function () { sendeWebsite(knopfEl, 1); }); return; }
       sendet = false; f.removeAttribute("aria-busy");
-      if (x.status >= 200 && x.status < 300) {
+      // QA N03: «Angekommen» nur bei 2xx UND JSON ok:true (ein Proxy oder Rückfall mit 200 ist keine Meldung)
+      var antwort = null; try { antwort = JSON.parse(x.responseText); } catch (e) {}
+      if (x.status >= 200 && x.status < 300 && antwort && antwort.ok === true) {
         if (window.__zaehl) window.__zaehl("meldung-gesendet", "website");
         melde(""); balkenAuf(1);
         entwurfWeg();
@@ -426,9 +440,14 @@
     if (window.turnstile) window.turnstile.reset();
     balkenZeige(false);
     sendenEin(knopfEl, "Nochmals senden");
-    melde("Das Senden hat nicht geklappt. Ihre Angaben bleiben erhalten. Bitte nochmals senden oder rufen Sie uns an: " + TEL + ".", true);
+    meldeSenden("Das Senden hat nicht geklappt. Ihre Angaben bleiben erhalten. Bitte nochmals senden oder rufen Sie uns an: ", true, true);
     // Fokus zurück auf den Knopf (QA K03): Er war beim Senden gesperrt, sonst fiele der Fokus auf den Seitenanfang.
-    try { knopfEl.focus({ preventScroll: true }); if (!inSicht(knopfEl)) sanftZu(knopfEl, "center"); } catch (e) {}
+    // QA C02: Meldung und Knopf zusammen ins Bild (die Meldung steht direkt über dem Knopf).
+    try {
+      knopfEl.focus({ preventScroll: true });
+      var oben = sendeRueck !== rueck ? sendeRueck : knopfEl, b = knopfEl.getBoundingClientRect();
+      if (!inSicht(oben) || b.bottom > window.innerHeight) sanftZu(oben, sendeRueck !== rueck ? "start" : "center");
+    } catch (e) {}
   }
 
   [].forEach.call(f.querySelectorAll("[data-senden]"), function (k) {

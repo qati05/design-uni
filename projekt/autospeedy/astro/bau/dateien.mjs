@@ -102,8 +102,9 @@ export default function dateien({ csp = false } = {}) {
           "  X-Robots-Tag: noindex",
           "  Cache-Control: no-store",
         );
-        // Druckvorlage /bewerten/druck/ (BAUPLAN 4.6): noindex, auch im Livegang (nur zum Ausdrucken, nicht für den Index).
-        if (fs.existsSync(path.join(ziel, "bewerten", "druck", "index.html"))) kopf.push("", "/bewerten/druck/*", "  X-Robots-Tag: noindex");
+        // Bewerten-Seite (QR-Landeseite) samt Druckvorlage /bewerten/druck/ (BAUPLAN 4.6): noindex, auch im Livegang
+        // (nur für Kundschaft nach dem Auftrag und zum Ausdrucken, nicht für den Index).
+        if (fs.existsSync(path.join(ziel, "bewerten", "index.html"))) kopf.push("", "/bewerten/*", "  X-Robots-Tag: noindex");
         // TI10: Die Hauptadresse <projekt>.pages.dev bleibt auch nach dem Livegang ausserhalb des Index.
         if (!vorschau && bau.pagesProjekt) kopf.push("", `https://${bau.pagesProjekt}.pages.dev/*`, "  X-Robots-Tag: noindex");
         fs.writeFileSync(path.join(ziel, "_headers"), kopf.join("\n") + "\n");
@@ -127,8 +128,10 @@ export default function dateien({ csp = false } = {}) {
         ];
         fs.writeFileSync(path.join(ziel, "robots.txt"), robots.join("\n") + "\n");
 
-        // TI12: nur indexierbare Seiten (404 nie, TI17; Editor /admin/ ist noindex und bleibt aus der Sitemap); ohne lastmod (TI13).
-        const adressen = seiten.filter((s) => s !== "404.html" && !s.startsWith("admin/") && s !== "bewerten/druck/index.html").map(adresseVon).sort();
+        // TI12: nur indexierbare Seiten (404 nie, TI17; Editor /admin/ und /bewerten/ mit Druckvorlage sind noindex und
+        // bleiben aus der Sitemap, ebenso jede Seite mit noindex-Meta); ohne lastmod (TI13).
+        const ohneIndex = (s) => /<meta name="robots" content="[^"]*noindex/.test(fs.readFileSync(path.join(ziel, s), "utf8"));
+        const adressen = seiten.filter((s) => s !== "404.html" && !s.startsWith("admin/") && !s.startsWith("bewerten/") && !ohneIndex(s)).map(adresseVon).sort();
         const xml = [
           '<?xml version="1.0" encoding="UTF-8"?>',
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',

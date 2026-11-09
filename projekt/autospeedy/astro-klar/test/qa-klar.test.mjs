@@ -102,9 +102,20 @@ test("K03: Nach Sendefehler (500 und Netzabbruch) liegt der Fokus auf dem Senden
     await page.fill("#f-name", "Test");
     await page.fill("#f-tel", "071 755 88 61");
     await page.locator('[data-senden="website"]').click();
-    await page.waitForFunction(() => /nicht geklappt/.test(document.querySelector("[data-rueckmeldung]").textContent));
+    await page.waitForFunction(() => /nicht geklappt/.test(document.querySelector("[data-sende-rueckmeldung]").textContent));
     assert.equal(await page.evaluate(() => document.activeElement && document.activeElement.dataset.senden), "website", `${art}: Fokus auf dem Knopf`);
     assert.equal(await page.inputValue("#f-name"), "Test", `${art}: Angaben bleiben`);
+    // QA C02: Meldung direkt über «Nochmals senden», beide ganz im Bild (nach dem ruhigen Scrollen), Nummer als Link
+    await page.waitForFunction(() => { const m = document.querySelector("[data-sende-rueckmeldung]").getBoundingClientRect(), k = document.querySelector('[data-senden="website"]').getBoundingClientRect(); return m.top >= 0 && k.bottom <= innerHeight; }, null, { timeout: 3000 });
+    const c02 = await page.evaluate(() => {
+      const m = document.querySelector("[data-sende-rueckmeldung]"), k = document.querySelector('[data-senden="website"]');
+      return { rolle: m.getAttribute("role"), davor: m.nextElementSibling === k, knopf: k.textContent, tel: (m.querySelector('a[href^="tel:"]') || {}).textContent, allgemein: document.querySelector("[data-rueckmeldung]").hidden };
+    });
+    assert.equal(c02.rolle, "alert", `${art}: role=alert`);
+    assert.ok(c02.davor, `${art}: Meldung direkt über dem Knopf`);
+    assert.match(c02.knopf, /Nochmals senden/);
+    assert.equal(c02.tel, "071 755 88 61", `${art}: Telefonnummer klickbar`);
+    assert.ok(c02.allgemein, `${art}: keine zweite Meldung unter «Zurück»`);
     await ctx.close();
   }
 });
@@ -226,4 +237,148 @@ test("K13: Ablauf-Ziffern und nicht klickbare Listen tragen nicht die Linkfarbe"
     assert.deepEqual(blau, [], `${s}: nichts Nicht-Klickbares in Linkblau`);
   }
   await ctx.close();
+});
+
+// ---------- Korrekturrunde 1 (.medaur/belege/klar-abnahme-1/QA.md N01–N08, Kritik C02–C10) ----------
+
+test("N03: Schadenmeldung zeigt bei 200 ohne ok:true kein «Angekommen», sondern den Sendefehler", async () => {
+  for (const body of ['{"ok":false}', "<html>Fallback</html>"]) {
+    const { ctx, page } = await seite(390);
+    await page.route("**/api/**", (r) => (r.request().method() === "GET" ? r.fulfill({ status: 200, body: "{}" }) : r.fulfill({ status: 200, body })));
+    await page.goto(basis + "/schaden-melden/?art=hagel");
+    await page.evaluate(() => { document.getElementById("schaden-form").dataset.endpunkt = "/api/schaden"; });
+    await page.waitForSelector('[data-schritt="2"]:not([hidden])');
+    await page.fill("#f-name", "Test");
+    await page.fill("#f-tel", "071 755 88 61");
+    await page.locator('[data-senden="website"]').click();
+    await page.waitForFunction(() => /nicht geklappt/.test(document.querySelector("[data-sende-rueckmeldung]").textContent));
+    assert.ok(await page.locator("[data-rapport]").isHidden(), `${body}: keine Bestätigung`);
+    await ctx.close();
+  }
+  // Gegenprobe: 200 mit ok:true zeigt die Bestätigung
+  const { ctx, page } = await seite(390);
+  await page.route("**/api/**", (r) => (r.request().method() === "GET" ? r.fulfill({ status: 200, body: "{}" }) : r.fulfill({ status: 200, body: '{"ok":true}' })));
+  await page.goto(basis + "/schaden-melden/?art=hagel");
+  await page.evaluate(() => { document.getElementById("schaden-form").dataset.endpunkt = "/api/schaden"; });
+  await page.waitForSelector('[data-schritt="2"]:not([hidden])');
+  await page.fill("#f-name", "Test");
+  await page.fill("#f-tel", "071 755 88 61");
+  await page.locator('[data-senden="website"]').click();
+  await page.waitForSelector("[data-rapport]:not([hidden])");
+  assert.match(await page.locator("[data-r-stand]").textContent(), /Angekommen/);
+  await ctx.close();
+});
+
+test("N04: «heute» im Fuss trägt nicht die Linkfarbe", async () => {
+  for (const w of [390, 1440]) {
+    const { ctx, page } = await seite(w, 900);
+    await page.goto(basis + "/kontakt/");
+    const farben = await page.$$eval(".fuss-woche__heute", (l) => l.map((e) => getComputedStyle(e).color));
+    for (const c of farben) assert.notEqual(c, "rgb(21, 102, 184)", `${w}: «heute» nicht in Linkblau`);
+    await ctx.close();
+  }
+});
+
+test("N05: Datenschutz-Link fliesst im Hilfesatz mit (Inline, normale Zeilenhöhe)", async () => {
+  for (const [s, sel] of [["/kontakt/", "form[data-rueckruf] .hilfe a.textlink"], ["/schaden-melden/?art=hagel", ".senden .hilfe a.textlink"]]) {
+    const { ctx, page } = await seite(390);
+    await page.goto(basis + s);
+    await page.waitForSelector(sel);
+    const r = await page.$eval(sel, (a) => ({ display: getComputedStyle(a).display, h: a.getBoundingClientRect().height, zeile: parseFloat(getComputedStyle(a.parentElement).lineHeight) || 24 }));
+    assert.equal(r.display, "inline", `${s}: inline`);
+    assert.ok(r.h <= r.zeile * 2 + 2, `${s}: Höhe ${r.h} höchstens zwei Textzeilen`);
+    await ctx.close();
+  }
+});
+
+test("N06: Vorschau-Plakette auch bei 1440 im Fluss nach dem Fuss, verdeckt nichts", async () => {
+  for (const s of ["/", "/schaden-melden/", "/leistungen/", "/tesla/"]) {
+    const { ctx, page } = await seite(1440, 900);
+    await page.goto(basis + s);
+    const r = await page.$eval("[data-vorschau]", (v) => [getComputedStyle(v).position, v.previousElementSibling && v.previousElementSibling.tagName]);
+    assert.equal(r[0], "static", `${s}: nicht schwebend`);
+    assert.equal(r[1], "FOOTER", `${s}: nach dem Fuss`);
+    await ctx.close();
+  }
+});
+
+test("N07: Einzelperson im Team – Name mittig neben dem Porträt (1440, 1024)", async () => {
+  for (const w of [1440, 1024]) {
+    const { ctx, page } = await seite(w, 900);
+    await page.goto(basis + "/team/");
+    const r = await page.$$eval('.leute--seite[data-anzahl="1"] figure', (l) => l.map((f) => {
+      const bild = f.querySelector("img, .leute__leer").getBoundingClientRect(), text = f.querySelector("figcaption").getBoundingClientRect();
+      return { neben: text.left >= bild.right, mitte: Math.abs((text.top + text.bottom) / 2 - (bild.top + bild.bottom) / 2) };
+    }));
+    for (const x of r) { assert.ok(x.neben, `${w}: Name neben dem Porträt`); assert.ok(x.mitte <= 4, `${w}: mittig (${x.mitte}px)`); }
+    await ctx.close();
+  }
+});
+
+test("C04: Kontakt bei 1440 × 900 – Telefon und Adresse ganz im ersten Bild; Team zeigt erste Porträts", async () => {
+  const { ctx, page } = await seite(1440, 900);
+  await page.goto(basis + "/kontakt/");
+  const unten = await page.$$eval(".kontakt__karte", (l) => l.slice(0, 2).map((k) => k.getBoundingClientRect().bottom));
+  for (const u of unten) assert.ok(u <= 900, `Karte endet bei ${u} ≤ 900`);
+  await page.goto(basis + "/team/");
+  const portrait = await page.$eval(".leute--seite figure img", (i) => i.getBoundingClientRect().top);
+  assert.ok(portrait < 900, `Team: erstes Porträt beginnt bei ${portrait} im ersten Bild`);
+  await ctx.close();
+});
+
+test("C05: Tesla 390 – Leiste erst nach dem Hero-Knopf, Leisten-Knopf mit Tesla-Vorauswahl", async () => {
+  const { ctx, page } = await seite(390);
+  await page.goto(basis + "/tesla/");
+  await page.waitForFunction(() => document.body.classList.contains("leiste-spaeter"));
+  assert.ok(!(await page.evaluate(() => document.body.classList.contains("leiste-an"))), "oben, Hero-Knopf sichtbar: Leiste aus");
+  assert.equal(await page.getAttribute('.handyleiste a[data-ort="leiste"].knopf--akzent', "href"), "/schaden-melden/?fahrzeug=tesla");
+  await page.evaluate(() => window.scrollTo(0, document.querySelector(".tesla-infos").offsetTop));
+  await page.waitForFunction(() => document.body.classList.contains("leiste-an"));
+  await ctx.close();
+});
+
+test("C06: Start-Hero – Chips sind genau die Schadenarten des Formulars, Tesla als eigener Link", async () => {
+  const { ctx, page } = await seite(390);
+  await page.goto(basis + "/schaden-melden/");
+  const arten = await page.$$eval('input[name="art"]', (l) => l.map((i) => i.value));
+  await page.goto(basis + "/");
+  const chips = await page.$$eval(".schnell__liste a", (l) => l.map((a) => a.textContent.trim()));
+  assert.deepEqual(chips, arten);
+  assert.match(await page.textContent(".schnell__tesla a"), /Tesla\? Hier entlang/);
+  assert.equal(await page.getAttribute(".schnell__tesla a", "href"), "/schaden-melden/?fahrzeug=tesla");
+  assert.ok(await querfrei(page), "kein Querscrollen");
+  await ctx.close();
+});
+
+test("C09: Tesla – Modelle als Liste (keine Knopf-Chips), am Computer zweispaltig ohne Leerblock vor den Fragen", async () => {
+  const { ctx, page } = await seite(1440, 900);
+  await page.goto(basis + "/tesla/");
+  assert.equal(await page.locator(".modelle span").count(), 0, "keine Chips");
+  assert.equal(await page.locator(".tesla__liste--modelle li").count(), 4);
+  const r = await page.evaluate(() => {
+    const spalten = [...document.querySelectorAll(".tesla-infos__zwei > div")].map((d) => d.getBoundingClientRect());
+    const letzte = [...document.querySelectorAll(".tesla-infos .abschnitt__innen > *, .tesla-infos__zwei > div > *")].reduce((m, e) => Math.max(m, e.getBoundingClientRect().bottom), 0);
+    const faq = document.querySelector(".faq h2").getBoundingClientRect().top;
+    return { nebeneinander: spalten.length === 2 && Math.abs(spalten[0].top - spalten[1].top) < 2 && spalten[1].left > spalten[0].right, luecke: faq - letzte };
+  });
+  assert.ok(r.nebeneinander, "Modelle und «Gut zu wissen» nebeneinander");
+  assert.ok(r.luecke <= 200, `Abstand bis zu den Fragen ${r.luecke}px ≤ 200`);
+  await ctx.close();
+});
+
+test("C10: Leistungsseiten – H1 bei 1440 höchstens 3 Zeilen", async () => {
+  const { ctx, page } = await seite(1440, 900);
+  for (const s of ["unfall-carrosserie", "hagel-dellen", "lack", "felgen", "folierung", "scheiben"]) {
+    await page.goto(basis + `/leistungen/${s}/`);
+    const zeilen = await page.$eval(".leistung-kopf h1", (h) => Math.round(h.getBoundingClientRect().height / parseFloat(getComputedStyle(h).lineHeight)));
+    assert.ok(zeilen <= 3, `${s}: ${zeilen} Zeilen`);
+  }
+  await ctx.close();
+});
+
+test("bewerten: noindex (Meta und _headers), nicht in der Sitemap-Liste", () => {
+  const html = fs.readFileSync(path.join(dist, "bewerten", "index.html"), "utf8");
+  assert.match(html, /<meta name="robots" content="noindex">/);
+  assert.doesNotMatch(html, /rel="canonical"/, "kein canonical auf einer noindex-Seite");
+  assert.match(fs.readFileSync(path.join(dist, "_headers"), "utf8"), /^\/bewerten\/\*\n\s+X-Robots-Tag: noindex/m);
 });

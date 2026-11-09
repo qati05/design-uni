@@ -117,7 +117,9 @@ h3 { font-weight: 600; letter-spacing: -.01em; }
 @layer bausteine {
 
 /* Vorschau-Hinweis */
-[data-vorschau] { position: fixed; left: 12px; bottom: 12px; z-index: 40; margin: 0; max-width: calc(100vw - 24px); padding: 7px 12px; border-radius: 999px; background: rgba(22, 25, 29, .82); color: #fff; font-size: 12px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+/* QA N06: Vorschau-Plakette auch am Computer im Fluss als ruhige Zeile unter dem Fuss (wie am Handy, K15), damit sie
+   beim Scrollen keine Knöpfe, Links oder Texte verdeckt. */
+[data-vorschau] { position: static; margin: 0; padding: 12px var(--rand); background: var(--tinte); color: #fff; font-size: 12px; }
 
 /* ---------- Knoepfe ---------- */
 .k { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; min-width: 200px; padding: 0 22px; border-radius: var(--rund); border: 0; font: 500 15px/1 var(--schrift); text-decoration: none; cursor: pointer; transition: background-color .18s ease-out, color .18s ease-out, transform .18s ease-out; }
@@ -261,7 +263,6 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
 /* ---------- Knoepfe am Handy ---------- */
 @media (max-width: 560px) {
   .k { width: 100%; min-width: 0; }
-  [data-vorschau] { font-size: 12px; max-width: 72vw; padding: 6px 10px; border-radius: 10px; }
 }
 
 /* ---------- Karten und Felder (Formulare) ---------- */
@@ -282,12 +283,24 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
 .hilfe { font-size: 13px; color: var(--grau); }
 .rueckmeldung { padding: 12px 14px; border-radius: 8px; background: var(--flaeche); font-size: 15px; }
 .rueckmeldung--fehler { background: #fdecea; color: #8f1d16; box-shadow: inset 0 0 0 1px #f2c3bf; }
+/* QA C08/N01: Erfolg sichtbar anders als Fehler (Farbe und Häkchen), nicht nur im Text; Fokus landet hier (tabindex=-1). */
+.rueckmeldung--ok { position: relative; padding-left: 44px; background: #e7f4ec; color: #17573a; box-shadow: inset 0 0 0 1px #bfe0cc; }
+.rueckmeldung--ok::before { content: ""; position: absolute; left: 17px; top: 17px; width: 12px; height: 6px; border: solid currentColor; border-width: 0 0 2.4px 2.4px; transform: rotate(-45deg); }
+.rueckmeldung--fehler { position: relative; padding-left: 44px; }
+.rueckmeldung--fehler::before { content: "!"; position: absolute; left: 14px; top: 12px; width: 20px; height: 20px; border-radius: 50%; background: #b3261e; color: #fff; font-size: 13px; font-weight: 700; line-height: 20px; text-align: center; }
+.rueckmeldung:focus { outline: none; }
+.rueckmeldung:focus-visible { outline: 2px solid var(--blau); outline-offset: 2px; }
+.rueckmeldung a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
+/* QA N05: Link im Hilfesatz fliesst im Text mit (Inline-Link, keine eigene 44-px-Zeile) */
+.hilfe a.textlink { display: inline; min-height: 0; text-decoration: underline; text-underline-offset: 2px; }
 .honig { position: absolute; left: -9999px; }
 .chips { margin: 0; padding: 0; border: 0; display: grid; gap: 10px; }
 .chips__wahl { display: flex; flex-wrap: wrap; gap: 8px; }
 .chips__wahl label { position: relative; display: inline-flex; cursor: pointer; }
-/* Agenten-tauglich: Input 1 × 1 px oben links über dem Inhalt. Klick aufs Feld (Rolle) trifft das Input, Klick auf den Text das Label. */
-.chips__wahl input { position: absolute; left: 0; top: 0; width: 1px; height: 1px; margin: 0; opacity: 0; z-index: 1; }
+/* Unsichtbares Input über der ganzen Fläche (QA N08): Ein Klick auf die Mitte des Felds (Rolle) trifft immer das Input.
+   Vorher 1 × 1 px oben links: Die gerundete Ecke und ein auf ganze Pixel gerundeter Klickpunkt liessen den Klick
+   gelegentlich danebengehen. Optisch unverändert (opacity 0), :hover und :active wirken weiter über das Label. */
+.chips__wahl input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; z-index: 1; cursor: pointer; }
 .chips__wahl span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: var(--flaeche); font-size: 15px; font-weight: 500; transition: transform var(--feder-knopf-dauer) var(--feder-knopf), background-color var(--dauer-kurz) linear, color var(--dauer-kurz) linear; }
 @media (hover: hover) and (pointer: fine) { .chips__wahl label:hover span { background: var(--flaeche-2); } }
 .chips__wahl label:active span { transform: scale(var(--druck-skala)); transition-duration: var(--dauer-tipp); transition-timing-function: var(--hinein); }
@@ -304,7 +317,7 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
 .zeitwahl__teil { display: grid; font-size: 14px; font-weight: 500; padding-right: 6px; line-height: 1.2; }
 .zeitwahl__teil small { font-size: 12px; font-weight: 400; color: var(--grau); }
 .zeitwahl__feld { position: relative; display: block; cursor: pointer; }
-.zeitwahl__feld input { position: absolute; left: 0; top: 0; width: 1px; height: 1px; margin: 0; opacity: 0; z-index: 1; }
+.zeitwahl__feld input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; z-index: 1; cursor: pointer; }
 .zeitwahl__marke { display: grid; place-items: center; height: 44px; border-radius: 10px; background: var(--flaeche); transition: background-color var(--dauer-kurz) linear, transform var(--feder-knopf-dauer) var(--feder-knopf); }
 .zeitwahl__marke::after { content: ""; width: 12px; height: 7px; border: solid #fff; border-width: 0 0 2.4px 2.4px; transform: translateY(-2px) rotate(-45deg) scale(.4); opacity: 0; transition: opacity var(--dauer-kurz) linear, transform var(--feder-knopf-dauer) var(--feder-knopf); }
 @media (hover: hover) and (pointer: fine) { .zeitwahl__feld:hover .zeitwahl__marke { background: var(--flaeche-2); } }
@@ -336,7 +349,7 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
 .art:last-child:nth-child(odd) { grid-column: 1 / -1; } /* «Etwas anderes» füllt die letzte Reihe */
 .art { position: relative; display: grid; gap: 2px; padding: 16px; border-radius: 12px; background: var(--flaeche); cursor: pointer; }
 @media (hover: hover) and (pointer: fine) { .art:hover { background: var(--flaeche-2); } }
-.art input { position: absolute; left: 0; top: 0; width: 1px; height: 1px; margin: 0; opacity: 0; z-index: 1; }
+.art input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; z-index: 1; cursor: pointer; }
 .art__name { font-weight: 600; font-size: 16px; }
 .art__hilfe { font-size: 13px; color: var(--grau); }
 .art:has(input:checked) { background: var(--blau); }
@@ -363,7 +376,7 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
 .fotos__weg { position: absolute; right: 6px; bottom: 6px; min-height: 32px; padding: 0 10px; border: 0; border-radius: 999px; background: rgba(22, 25, 29, .78); color: #fff; font: 500 12px var(--schrift); cursor: pointer; }
 .zusammen { padding: 10px 14px; border-radius: 8px; background: var(--flaeche); font-size: 14px; color: #2d3136; }
 .schalter { position: relative; display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 0; cursor: pointer; font-weight: 500; }
-.schalter input { position: absolute; left: 0; top: 0; width: 1px; height: 1px; margin: 0; opacity: 0; z-index: 1; }
+.schalter input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; z-index: 1; cursor: pointer; }
 .schalter__bahn { flex: none; position: relative; width: 44px; height: 26px; border-radius: 13px; background: #c9cdd3; transition: background-color var(--dauer-kurz) linear; }
 .schalter__bahn::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .25); transform-origin: left center; transition: transform var(--feder-knopf-dauer) var(--feder-knopf); }
 .schalter input:checked + .schalter__bahn { background: var(--blau); }
@@ -413,7 +426,6 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
   .handyleiste { position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(250, 248, 245, .97); box-shadow: 0 -1px 0 var(--linie); }
   .handyleiste .k { min-width: 0; width: 100%; }
   body { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
-  [data-vorschau] { bottom: auto; top: calc(var(--kopf) + 6px); left: 8px; }
 }
 /* Leiste am Handy (Premium): gleitet herein, sobald JS «leiste-spaeter» setzt */
 @media (max-width: 960px) {
@@ -745,7 +757,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .fuss-woche td { padding: 3px 0; font-family: "Archivo", var(--schrift); font-variant-numeric: tabular-nums; color: var(--tinte); }
 .fuss-woche tr.ist-heute th, .fuss-woche tr.ist-heute td { color: var(--tinte); font-weight: 600; }
 /* C17: «heute» als kleines Label unter dem Wochentag, nicht in derselben Zeile angehaengt. */
-.fuss-woche__heute { display: block; margin-top: 1px; font-size: 12px; font-weight: 600; color: var(--akzent); }
+.fuss-woche__heute { display: block; margin-top: 1px; font-size: 12px; font-weight: 600; color: var(--leise); } /* QA N04: keine Linkfarbe, nicht klickbar */
 .fuss-woche__aus th { color: var(--leise); font-style: italic; }
 
 /* 3. + 7. + 8. Adresse, Route (neuer Tab), Kopieren-Knopf, (WhatsApp nur mit Daten), Flotten-Zeile. */
@@ -844,7 +856,9 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
    (Porträt in Spaltenbreite, Name daneben), damit kein leerer Rest über einer Spalte bleibt. */
 @media (min-width: 961px) {
   .leute--seite { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .leute--seite[data-anzahl="1"] figure { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: 16px; align-items: end; }
+  /* QA N07: Name und Rolle mittig neben dem Porträt (vorher unten am Rand, darüber eine Leerfläche) */
+  .leute--seite[data-anzahl="1"] figure { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: 16px; align-items: center; }
+  .leute--seite[data-anzahl="1"] figcaption { align-self: center; }
 }
 .leute__leer { display: grid; place-items: center; aspect-ratio: 4 / 5; border-radius: var(--rund-gross); background: var(--flaeche); color: var(--grau); font-size: 32px; font-weight: 500; }
 .tesla--seite { padding-top: calc(var(--kopf) + 96px); }
@@ -1498,7 +1512,7 @@ a.klein { font-size: 14px; }
 /* Leistungsseiten (04.11.2026) */
 .leistung-kopf { padding: calc(var(--kopf) + 40px) var(--rand) clamp(40px, 5vw, 64px); }
 .leistung-kopf__innen { max-width: var(--breit); margin-inline: auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
-.leistung-kopf h1 { font-size: clamp(34px, 4.2vw, 54px); max-width: 15ch; text-wrap: balance; }
+.leistung-kopf h1 { font-size: clamp(34px, 4.2vw, 54px); max-width: 20ch; text-wrap: balance; } /* QA C10: höchstens 3 Zeilen bei 1440 */
 .leistung-kopf__einleitung { max-width: 52ch; margin: 16px 0 24px; color: var(--grau); font-size: 18px; }
 .leistung-kopf .knoepfe { justify-content: flex-start; }
 .leistung-kopf__bild img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 20%; border-radius: var(--rund-gross); }
@@ -1668,3 +1682,32 @@ a.klein { font-size: 14px; }
 .ablauf-aktion { max-width: var(--breit); margin: 0 auto; padding: 0 var(--rand) clamp(48px, 6vw, 84px); box-sizing: border-box; }
 .ablauf-aktion .knoepfe { justify-content: flex-start; }
 .zwei-spalten > div > h2 + .liste { margin-top: 18px; }
+
+/* QA C04: Kontakt und Team am Computer mit kürzerem Foto, damit bei 1440 × 900 Telefon und Adresse (Kontakt) bzw. die
+   ersten Porträts (Team) im ersten Bild stehen. Am Handy bleibt das Foto wie bisher. */
+@media (min-width: 961px) {
+  [data-seite="kontakt"] .seitenkopf__bild, [data-seite="team"] .seitenkopf__bild { height: clamp(220px, 34svh, 320px); }
+  [data-seite="team"] .seitenkopf__bild img { object-position: 50% 8%; } /* Gesicht bleibt im kürzeren Ausschnitt */
+  [data-seite="kontakt"] .seitenkopf--bild .seitenkopf__text, [data-seite="team"] .seitenkopf--bild .seitenkopf__text { padding-top: 32px; }
+  [data-seite="kontakt"] main > .abschnitt:first-of-type, [data-seite="team"] main > .abschnitt:first-of-type { padding-top: 56px; }
+}
+
+/* QA C06: Tesla neben den Schadenarten als eigener, ruhiger Link (keine Schadenart) */
+.schnell__tesla { margin: 12px 0 0; }
+.schnell__tesla a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--akzent); font-weight: 500; text-decoration: none; }
+.schnell__tesla a span { transition: transform .18s ease-out; }
+@media (hover: hover) and (pointer: fine) { .schnell__tesla a:hover span { transform: translateX(3px); } }
+@media (prefers-reduced-motion: reduce) { .schnell__tesla a:hover span { transform: none; } }
+
+/* QA C09: Tesla-Modelle als Häkchenliste (Information, keine Knöpfe); am Computer Modelle und «Gut zu wissen»
+   nebeneinander, ohne Leerblock vor den Fragen. */
+.tesla-infos .tesla__liste--modelle { grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); margin: 18px 0 8px; }
+.tesla-infos__zwei { margin-top: 40px; }
+.tesla-infos .tesla__liste--modelle li { font-size: 17px; font-weight: 500; }
+.tesla-infos h2 { margin: 40px 0 12px; }
+.tesla-infos h2:first-child { margin-top: 0; }
+.tesla-infos__zwei { display: grid; gap: 0 clamp(32px, 5vw, 72px); }
+@media (min-width: 961px) {
+  .tesla-infos__zwei { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .tesla-infos { padding-bottom: 0; }
+}

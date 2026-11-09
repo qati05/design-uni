@@ -111,6 +111,45 @@ describe("Rückruf direkt per Mail (POST /api/rueckruf)", () => {
     await ctx.close();
   });
 
+  test("N02/C08: Pflichtfelder mit aria-invalid, Text am Feld und role=alert; Fehler verschwindet bei gültiger Eingabe", async () => {
+    const { ctx, page, form } = await seite("/kontakt/");
+    const tel = form.getByLabel("Telefon (Pflicht)"), name = form.getByLabel("Name (Pflicht)");
+    await form.getByRole("button", { name: "Rückruf anfordern" }).click();
+    assert.equal(await name.getAttribute("aria-invalid"), "true");
+    assert.equal(await tel.getAttribute("aria-invalid"), "true");
+    const beschr = await tel.getAttribute("aria-describedby");
+    assert.ok(beschr && /Telefonnummer/.test(await page.locator("#" + beschr.split(" ").pop()).textContent()), "Text am Feld per aria-describedby");
+    assert.equal(await form.locator("[data-rueckmeldung]").getAttribute("role"), "alert");
+    assert.ok(await form.locator("[data-rueckmeldung]").evaluate((e) => e.classList.contains("rueckmeldung--fehler")), "Fehler-Aussehen");
+    assert.equal(await page.evaluate(() => document.activeElement.name), "name", "Fokus aufs erste Fehlerfeld");
+    await name.fill("Test");
+    assert.equal(await name.getAttribute("aria-invalid"), null, "Name gültig: Fehler weg");
+    await tel.fill("079 12");
+    assert.equal(await tel.getAttribute("aria-invalid"), "true", "noch zu kurz: Fehler bleibt");
+    await tel.fill("079 123 45 67");
+    assert.equal(await tel.getAttribute("aria-invalid"), null, "gültig: Feldfehler weg");
+    assert.equal(await form.locator(".feld-fehler").count(), 0, "kein Fehlertext mehr");
+    assert.ok(await form.locator("[data-rueckmeldung]").isHidden(), "Sammelhinweis weg");
+    await ctx.close();
+  });
+
+  test("N01/N02: Beim Senden aria-busy, nach Erfolg Fokus auf der Rückmeldung (nicht BODY), Erfolg sieht anders aus als Fehler", async () => {
+    const { ctx, page, form } = await seite("/kontakt/");
+    await form.getByLabel("Name (Pflicht)").fill("Test");
+    await form.getByLabel("Telefon (Pflicht)").fill("071 755 88 61");
+    const knopf = form.getByRole("button", { name: "Rückruf anfordern" });
+    await knopf.click();
+    await page.waitForFunction(() => document.querySelector("form[data-rueckruf] button[type=submit]").getAttribute("aria-busy") === "true");
+    assert.ok(await knopf.isEnabled(), "während des Sendens bleibt der Knopf fokussierbar");
+    await page.waitForFunction(() => /Angekommen/.test(document.querySelector("form[data-rueckruf] [data-rueckmeldung]").textContent), null, { timeout: 15000 });
+    const r = await page.evaluate(() => { const m = document.querySelector("form[data-rueckruf] [data-rueckmeldung]"); return { fokus: document.activeElement === m, tag: document.activeElement.tagName, ok: m.classList.contains("rueckmeldung--ok"), bg: getComputedStyle(m).backgroundColor, busy: document.querySelector("form[data-rueckruf] button[type=submit]").getAttribute("aria-busy") }; });
+    assert.ok(r.fokus, `Fokus auf der Rückmeldung (ist ${r.tag})`);
+    assert.ok(r.ok, "Erfolgs-Klasse");
+    assert.notEqual(r.bg, "rgb(253, 236, 234)", "nicht wie der Fehler");
+    assert.equal(r.busy, null);
+    await ctx.close();
+  });
+
   for (const [m, wie] of [["ok-falsch", "200 ohne ok:true"], ["kaputt", "502"]]) {
     test(`Server antwortet ${wie}: kein «Angekommen», Hinweis mit Telefonnummer, Knopf bleibt aktiv`, async () => {
       modus = m;
@@ -121,6 +160,10 @@ describe("Rückruf direkt per Mail (POST /api/rueckruf)", () => {
       await page.waitForFunction(() => /nicht geklappt/.test(document.querySelector("form[data-rueckruf] [data-rueckmeldung]").textContent), null, { timeout: 10000 });
       assert.doesNotMatch(await form.locator("[data-rueckmeldung]").textContent(), /Angekommen/);
       assert.ok(await form.getByRole("button", { name: "Rückruf anfordern" }).isEnabled());
+      // N02: Sendefehler als role=alert, Nummer klickbar, Fokus bleibt auf dem Knopf
+      assert.equal(await form.locator("[data-rueckmeldung]").getAttribute("role"), "alert");
+      assert.equal(await form.locator('[data-rueckmeldung] a[href^="tel:"]').textContent(), "071 755 88 61");
+      assert.equal(await page.evaluate(() => document.activeElement.type), "submit");
       await ctx.close();
     });
   }

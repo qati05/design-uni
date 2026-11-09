@@ -4,6 +4,8 @@
 // Bild: eigenes Foto des Betriebs bis zum Shooting (Roni, 08.11.2026).
 import { betrieb as b } from "../../../astro/bau/daten.mjs";
 import Bild from "./Bild.astro";
+import artenDaten from "../../../astro/src/content/arten.json";
+const arten = (artenDaten as any).arten;
 ---
 <section class="hero">
   <div class="hero-text">
@@ -17,13 +19,12 @@ import Bild from "./Bild.astro";
     </div>
     <div class="schnell">
       <p class="schnell__frage">Was ist passiert?</p>
+      {/* QA C06: dieselben Schadenarten wie Schritt 1 des Formulars (eine Quelle: arten.json); Tesla ist keine
+          Schadenart und steht darum als eigener Link darunter. */}
       <ul class="schnell__liste">
-        <li><a href="/schaden-melden/?art=parkschaden" data-zaehl="anfrage" data-ort="hero-schnell">Parkschaden</a></li>
-        <li><a href="/schaden-melden/?art=unfall" data-zaehl="anfrage" data-ort="hero-schnell">Unfall</a></li>
-        <li><a href="/schaden-melden/?art=hagel" data-zaehl="anfrage" data-ort="hero-schnell">Hagel</a></li>
-        <li><a href="/schaden-melden/?art=lack" data-zaehl="anfrage" data-ort="hero-schnell">Kratzer oder Lack</a></li>
-        <li><a href="/schaden-melden/?fahrzeug=tesla" data-zaehl="anfrage-tesla" data-ort="hero-schnell">Tesla</a></li>
+        {arten.map((a: any) => <li><a href={`/schaden-melden/?art=${a.id}`} data-zaehl="anfrage" data-ort="hero-schnell">{a.name}</a></li>)}
       </ul>
+      <p class="schnell__tesla"><a href="/schaden-melden/?fahrzeug=tesla" data-zaehl="anfrage-tesla" data-ort="hero-schnell">Tesla? Hier entlang <span aria-hidden="true">→</span></a></p>
     </div>
     <!-- Kundenweg (KUNDENWEG.md 1): Wer nach Feierabend einen Schaden hat, soll nicht ins Leere anrufen. Die Zeile zeigt
          den Öffnungsstatus (klar.js, dieselbe Quelle wie der Fuss) und, wenn geschlossen, dass Melden jederzeit geht. -->

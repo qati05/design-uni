@@ -263,7 +263,8 @@ test("Nachtrag Schalter Live (Testbuild): index + Sitemap, kein noindex, sitemap
     const karte = fs.readFileSync(path.join(outDir, "sitemap.xml"), "utf8");
     for (const p of ["/", "/leistungen/", "/leistungen/unfall-carrosserie/", "/leistungen/hagel-dellen/", "/leistungen/lack/", "/leistungen/felgen/", "/leistungen/folierung/", "/leistungen/scheiben/", "/tesla/", "/flotten/", "/occasionen/", "/team/", "/kontakt/", "/schaden-melden/", "/impressum/", "/datenschutz/", "/bildnachweise/"])
       assert.ok(karte.includes(`<loc>https://www.autospeedy.ch${p}</loc>`), `live: Sitemap mit ${p}`);
-    assert.doesNotMatch(karte, /404|\/admin\/|\/druck\//, "live: keine 404, kein Editor, keine Druckseite");
+    assert.doesNotMatch(karte, /404|\/admin\/|\/druck\/|\/bewerten\//, "live: keine 404, kein Editor, keine Druckseite, keine QR-Landeseite /bewerten/");
+    assert.match(fs.readFileSync(path.join(outDir, "bewerten", "index.html"), "utf8"), /<meta name="robots" content="noindex">/, "live: /bewerten/ noindex");
     // Ohne echte Bewertungen (bewertungen.json «leer») bleibt aggregateRating auch live weg.
     const ld = JSON.parse(idx.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
     const shop = ld["@graph"].find((x) => /AutoBody|AutoRepair/.test(x["@type"]));

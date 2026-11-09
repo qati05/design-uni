@@ -42,7 +42,10 @@ async function form(viewport) {
 
 test("Schrittwechsel: Art wählen führt weiter, Fokus auf die Schritt-Überschrift, Fortschrittstext", async () => {
   const { ctx, page, fehler } = await form();
-  await page.locator('input[name="art"][data-art="hagel"]').check({ force: true });
+  // QA N08: ohne force. Vorher klickte check({ force: true }) auf ein 1 × 1 px grosses Input in der gerundeten Ecke der
+  // Karte; je nach Rundung des Klickpunkts traf der Klick das Raster daneben («did not change its state»). Jetzt liegt
+  // das Input über der ganzen Karte, Playwright prüft Sichtbarkeit, Stillstand und Trefferfläche selbst.
+  await page.locator('input[name="art"][data-art="hagel"]').check();
   await page.waitForSelector('[data-schritt="2"]:not([hidden])');
   assert.match(await page.locator("[data-fortschritt-text]").textContent(), /Schritt 2 von 2/);
   const fokus = await page.evaluate(() => document.activeElement && document.activeElement.tagName.toLowerCase());

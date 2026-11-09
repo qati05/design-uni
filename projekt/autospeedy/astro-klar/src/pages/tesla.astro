@@ -37,8 +37,10 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Tesla", pfad: "/
     </figure>
   </div>
 </section>
-<section class="abschnitt">
-  <div class="abschnitt__innen schmal">
+{/* QA C09: volle Inhaltsbreite; Modelle als Häkchenliste (Information, keine Knöpfe), Modelle und «Gut zu wissen»
+    am Computer nebeneinander, ohne Leerblock vor den Fragen. Wortlaut unverändert. */}
+<section class="abschnitt tesla-infos">
+  <div class="abschnitt__innen">
     <h2>So läuft es</h2>
     <ol class="tesla-schritte">
       <li><b>Melden</b><span>Online mit Fotos oder per Telefon.</span></li>
@@ -46,13 +48,19 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Tesla", pfad: "/
       <li><b>Reparieren</b><span>Instandsetzung nach Tesla-Vorgaben, Übergabe mit Erklärung.</span></li>
     </ol>
     <Luecke>Entwurf: Den genauen Ablauf für Tesla bestätigt der Betrieb noch.</Luecke>
-    <h2>Modelle</h2>
-    <p class="text-gross">Im Formular wählen Sie Model 3, Model Y, Model S oder Model X. So wissen wir gleich, welches Auto kommt.</p>
-    <div class="modelle" aria-hidden="true">{["Model 3", "Model Y", "Model S", "Model X"].map((m) => <span>{m}</span>)}</div>
-    <Luecke>Lücke: Ob für Tesla weitere Leistungen gelten (zum Beispiel Kalibrierung oder ein eigener Ablauf mit Tesla), sagt der Betrieb noch. Die Liste oben nennt die allgemeinen Leistungen der Carrosserie.</Luecke>
-    <h2>Gut zu wissen</h2>
-    <p>«Tesla Approved Body Shop» steht auf der bisherigen Website des Betriebs bei seinen zertifizierten Partnern. Ersatzwagen: Tesla auf Anfrage.</p>
-    <Luecke>Offene Frage: Den Eintrag in Teslas eigener Werkstattsuche bestätigt der Betrieb noch.</Luecke>
+    <div class="tesla-infos__zwei">
+      <div>
+        <h2>Modelle</h2>
+        <p class="text-gross">Im Formular wählen Sie Model 3, Model Y, Model S oder Model X. So wissen wir gleich, welches Auto kommt.</p>
+        <ul class="tesla__liste tesla__liste--modelle" aria-hidden="true">{["Model 3", "Model Y", "Model S", "Model X"].map((m) => <li>{m}</li>)}</ul>
+        <Luecke>Lücke: Ob für Tesla weitere Leistungen gelten (zum Beispiel Kalibrierung oder ein eigener Ablauf mit Tesla), sagt der Betrieb noch. Die Liste oben nennt die allgemeinen Leistungen der Carrosserie.</Luecke>
+      </div>
+      <div>
+        <h2>Gut zu wissen</h2>
+        <p>«Tesla Approved Body Shop» steht auf der bisherigen Website des Betriebs bei seinen zertifizierten Partnern. Ersatzwagen: Tesla auf Anfrage.</p>
+        <Luecke>Offene Frage: Den Eintrag in Teslas eigener Werkstattsuche bestätigt der Betrieb noch.</Luecke>
+      </div>
+    </div>
   </div>
 </section>
 <Faq fragen={faqTesla} titel="Fragen zum Tesla" />
