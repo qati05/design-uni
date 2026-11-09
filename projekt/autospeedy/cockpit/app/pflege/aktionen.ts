@@ -61,7 +61,7 @@ export async function pflegeSpeichern(_v: PflegeZustand, form: FormData): Promis
   let nichtGeloescht = 0;
   for (const u of speicherFotos(alt.daten)) if (!bleibt.has(u) && !(await b.teamFotoLoeschen(u))) nichtGeloescht++;
   if (nichtGeloescht) { log({ aktion: "foto_loeschen", status: "fehler" }); await b.audit({ aktion: "foto_loeschen", ergebnis: "fehler" }).catch(() => {}); }
-  revalidatePath("/pflege");
+  revalidatePath("/");
   return {
     ok: true,
     meldung: `Gespeichert. Die Website ist in etwa 2 Minuten aktuell: «${zeitenZeile(r.data)}».`

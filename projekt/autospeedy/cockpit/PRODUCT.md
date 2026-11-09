@@ -8,23 +8,25 @@ web
 
 ## Users
 
-Das Team der Auto Speedy AG (Annahme, Administration), nicht technikaffin, am Handy in der Werkstatt und am PC im Büro. Das Studio betreut mehrere Betriebe über `/studio`.
+Das Team der Auto Speedy AG (Annahme, Administration), nicht technikaffin, am Handy in der Werkstatt und am PC im Büro.
 
 ## Product Purpose
 
-Neue Schadenmeldungen sehen, zurückrufen, den Status bis zum Auftrag führen und Zeiten, Hinweise und Team auf der Website selbst ändern.
+Die Website selbst aktuell halten: Öffnungszeiten, Feiertage und Ferien, Hinweis-Leiste, Team mit Fotos, Satz vom Inhaber und ob Google-Bewertungen erscheinen.
 
-Erfolg heisst: Keine Meldung bleibt liegen, und niemand braucht dafür Hilfe.
+Erfolg heisst: Jede Änderung steht ohne Hilfe nach etwa 2 Minuten auf der Website.
+
+Nicht mehr Teil des Cockpits [Entscheid · Roni, 08./09.11.2026]: Schadenmeldungen, Status, Zahlen, «Auto fertig»-Link, Bewertungs-Mails, Studio-Export. Formulare der Website gehen direkt per Mail an den Betrieb. Das Cockpit speichert keine Kundendaten.
 
 ## Operating Context
 
 - Eine installierbare Web-App für Handy und Computer, kein App Store.
 - Website kaufen, Cockpit mieten: Die Website läuft auch ohne Cockpit.
-- Noch nicht live. Die Demo arbeitet mit markierten Beispieldaten.
+- Noch nicht live. Die Demo arbeitet mit der echten site.json als Startstand, ändert aber nur im Speicher.
 
 ## Capabilities and Constraints
 
-- Anmeldung für Betriebe nur mit Code per Mail [Entscheid · Roni, 08.11.2026]. Nur Studio-Konten brauchen zusätzlich Fingerabdruck oder Gesicht.
+- Anmeldung nur mit Code per Mail, danach 30 Tage angemeldet pro Gerät; kein Fingerabdruck [Entscheid · Roni, 08.11.2026].
 - Nur echte Angaben, keine erfundenen Zahlen oder Zusagen.
 
 ## Brand Commitments

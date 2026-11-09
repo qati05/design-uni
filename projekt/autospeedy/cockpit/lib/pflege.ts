@@ -7,6 +7,16 @@ export { HINWEIS_ARTEN, HINWEIS_LINKS, HINWEIS_POPUP_ARTEN, TEAMFOTO, minuten, s
 export const pflegeSchema = siteSchema;
 export type Pflege = Site;
 
+/** Abschnitte der Pflege-Seite (Sprungmarken oben auf der Seite; die id steht am jeweiligen Abschnitt im Formular). */
+export const ABSCHNITTE = [
+  { id: "hinweise", name: "Hinweise" },
+  { id: "zeiten", name: "Öffnungszeiten" },
+  { id: "ausnahmen", name: "Feiertage und Ferien" },
+  { id: "team", name: "Team" },
+  { id: "inhaber", name: "Inhaber" },
+  { id: "bewertungen", name: "Bewertungen" },
+] as const;
+
 /** Demo: Der Bild-Speicher wird vom Cockpit gespielt; Fotos liegen im Speicher und kommen über /api/demo-foto. */
 export const DEMO_FOTO_BASIS = "https://demo-fotos.invalid";
 export function fotoAnzeige(url: string): string {

@@ -53,15 +53,15 @@ Dieselbe Welt wie die Website-Linie «Klar» (`../astro-klar/DESIGN.md`), ruhige
 
 ## Colors
 
-Gefülltes Blau trägt nur die Hauptaktion. Grün und Orange stehen nur für Status. Alles andere steht auf Papier oder Fläche.
+Gefülltes Blau trägt nur die Hauptaktion. Grün steht nur für «gespeichert», Rot nur für Fehler. Alles andere steht auf Papier oder Fläche.
 
 ## Typography
 
-Source Serif 4 für Titel und Schadenart, Hanken Grotesk für Text und Knöpfe, Archivo für Kennzahlen, Zeiten und Codes.
+Source Serif 4 für Titel und Abschnitte, Hanken Grotesk für Text und Knöpfe, Archivo für Zeiten und Codes.
 
 ## Layout
 
-Inhalt höchstens 1100 px. Listen und Kennzahlen sind je eine Tafel mit Haarlinien statt vieler einzelner Karten. Unter 760 px einspaltig, Bereiche unten in Daumenreichweite. Tippziele mindestens 44 px.
+Inhalt höchstens 1100 px. Das Cockpit hat einen Bereich, «Website pflegen» (Startseite); oben Sprungmarken zu den Abschnitten, jeder Abschnitt eine Tafel mit Haarlinien. Unter 760 px einspaltig, «Speichern» unten in Daumenreichweite. Tippziele mindestens 44 px.
 
 ## Elevation & Depth
 
@@ -74,8 +74,8 @@ Knöpfe als Pille, Felder 10 px, Tafeln 20 px.
 ## Components
 
 - **Knopf:** Hauptaktion blau, Nebenaktion Fläche 2, 48 px hoch.
-- **Meldungszeile:** Schadenart in der Serife, Metazeile, Status als Pille.
-- **Reiter:** Pillen auf Fläche 2, aktiv in Tinte.
+- **Sprungmarke:** Pille auf Fläche 2, führt zu einem Abschnitt der Pflege.
+- **Speichern-Leiste:** klebt unten, Rückmeldung links vom Knopf (grün: gespeichert, rot: Fehler mit Ort).
 
 ## Do's and Don'ts
 

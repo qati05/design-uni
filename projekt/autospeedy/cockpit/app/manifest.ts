@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Auto Speedy Cockpit",
     short_name: "Cockpit",
-    description: "Schadenmeldungen, Rückrufe, Zahlen und Website-Pflege für Auto Speedy.",
+    description: "Website pflegen für Auto Speedy: Öffnungszeiten, Feiertage, Hinweise und Team.",
     id: "/",
     start_url: "/",
     scope: "/",

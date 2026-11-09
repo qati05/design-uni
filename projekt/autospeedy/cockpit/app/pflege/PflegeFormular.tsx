@@ -38,14 +38,14 @@ export function PflegeFormular({ daten, sha, heute }: { daten: Pflege; sha: stri
   return (
     <form action={aktion} className="pflege" noValidate>
       <input type="hidden" name="sha" value={sha} />
-      <fieldset className="karte">
+      <fieldset className="karte" id="hinweise">
         <legend>Hinweise auf der Website</legend>
         <p className="unterzeile">Zum Beispiel nach einem Hagelsturm oder vor den Ferien. Die Website zeigt sie nur im gewählten Zeitraum. Höchstens 3, davon 1 Pop-up.</p>
         {[...daten.hinweise, ...Array.from({ length: neueHinweise }, () => undefined)].map((h, i) => <HinweisZeile key={i} i={i} h={h} vorhanden={i < hin} heute={heute} />)}
         {hin + neueHinweise < 3 ? <button type="button" className="knopf leise" onClick={() => setNeueHinweise((n) => n + 1)}>Hinweis hinzufügen</button> : null}
       </fieldset>
 
-      <fieldset className="karte">
+      <fieldset className="karte" id="zeiten">
         <legend>Öffnungszeiten</legend>
         {daten.zeiten.map((t, i) => (
           <div className="zeile-zeit" key={t.tage}>
@@ -62,7 +62,7 @@ export function PflegeFormular({ daten, sha, heute }: { daten: Pflege; sha: stri
         ))}
       </fieldset>
 
-      <fieldset className="karte">
+      <fieldset className="karte" id="ausnahmen">
         <legend>Feiertage und Ferien</legend>
         <p className="unterzeile">Gilt nur an diesem Tag. Die Website zeigt es in der Woche davor.</p>
         {[...daten.ausnahmen, ...Array.from({ length: neueAusnahmen }, () => null)].map((a, i) => (
@@ -80,7 +80,7 @@ export function PflegeFormular({ daten, sha, heute }: { daten: Pflege; sha: stri
         {aus + neueAusnahmen < 40 ? <button type="button" className="knopf leise" onClick={() => setNeueAusnahmen((n) => n + 1)}>Weiteren Tag hinzufügen</button> : null}
       </fieldset>
 
-      <details className="karte team">
+      <details className="karte team" id="team">
         <summary>Team auf der Website ({daten.team.reduce((n, g) => n + g.leute.length, 0)} Personen)</summary>
         <p className="unterzeile">Nur Personen mit Häkchen erscheinen auf der Website. Setzen Sie es nur mit deren Einverständnis.</p>
         {daten.team.map((g, gi) => (
@@ -101,7 +101,7 @@ export function PflegeFormular({ daten, sha, heute }: { daten: Pflege; sha: stri
         ))}
       </details>
 
-      <fieldset className="karte">
+      <fieldset className="karte" id="inhaber">
         <legend>Satz vom Inhaber</legend>
         <label>Satz (höchstens 240 Zeichen)<textarea name="stimme.text" defaultValue={daten.stimme?.text ?? ""} maxLength={240} rows={3} /></label>
         <label>Name<input name="stimme.name" defaultValue={daten.stimme?.name ?? ""} maxLength={60} /></label>
@@ -109,7 +109,7 @@ export function PflegeFormular({ daten, sha, heute }: { daten: Pflege; sha: stri
         <label className="schalter"><input type="checkbox" name="stimme.freigegeben" defaultChecked={daten.stimme?.freigegeben ?? false} /> Auf der Website zeigen</label>
       </fieldset>
 
-      <fieldset className="karte">
+      <fieldset className="karte" id="bewertungen">
         <legend>Google-Bewertungen</legend>
         <label className="schalter"><input type="checkbox" name="bewertungen.zeigen" defaultChecked={daten.bewertungen.zeigen} /> Bewertungen auf der Website zeigen</label>
       </fieldset>

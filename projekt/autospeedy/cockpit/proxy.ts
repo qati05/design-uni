@@ -1,13 +1,13 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import { COOKIE_GRUNDLAGE, haerte } from "./lib/cookies";
-import { DEMO_COOKIE, DEMO_STUDIO, sitzungLesen, speicher } from "./lib/demo-speicher";
+import { DEMO_COOKIE, DEMO_MITGLIED, sitzungLesen } from "./lib/demo-speicher";
 import { log } from "./lib/log";
 import { baueCsp, sicherheitsHeader } from "./lib/sicherheit";
 import { entscheideZugang, type Zugang, type ZugangsAbfragen } from "./lib/zugang";
 
 // Läuft vor jeder Seite (Muster aus qati05/medaur cockpit-app/proxy.ts): Nonce-CSP und no-store,
-// Sitzung erneuern, Zugang entscheiden. Ohne Sitzung -> /login, Mitglied mit Mail-Code -> weiter, Studio ohne aal2 -> /mfa, sonst 403.
+// Sitzung erneuern, Zugang entscheiden. Ohne Sitzung -> /login, Mitglied mit Mail-Code -> weiter, sonst 403.
 
 function nonceErzeugen(): string {
   const b = new Uint8Array(16);
@@ -19,8 +19,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   const nonce = nonceErzeugen();
   const demo = process.env.COCKPIT_DEMO === "1";
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const csp = baueCsp(nonce, { supabaseUrl: demo ? undefined : supabaseUrl, entwicklung: process.env.NODE_ENV === "development" })
-    .replace("img-src 'self' data: blob:", `img-src 'self' data: blob:${!demo && supabaseUrl ? " " + new URL(supabaseUrl).origin : ""}`);
+  const csp = baueCsp(nonce, { supabaseUrl: demo ? undefined : supabaseUrl, entwicklung: process.env.NODE_ENV === "development" });
   const kopf = new Headers(request.headers);
   kopf.set("x-nonce", nonce);
   kopf.set("Content-Security-Policy", csp);
@@ -34,9 +33,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     abfragen = {
       hatSitzung: !!s,
       nutzerId: async () => s?.uid ?? null,
-      stufe: async () => ({ aktuell: s?.aal ?? null, naechste: s && (speicher().passkeys.get(s.uid) ?? []).length ? "aal2" : "aal1" }),
-      istMitglied: async () => s?.email === "werkstatt@autospeedy.example",
-      istStudioAdmin: async () => s?.email === DEMO_STUDIO.email,
+      istMitglied: async () => s?.email === DEMO_MITGLIED.email,
     };
   } else {
     let supabase: ReturnType<typeof createServerClient> | null = null;
@@ -60,9 +57,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     abfragen = {
       hatSitzung: request.cookies.getAll().some((c) => c.name.startsWith("sb-")),
       nutzerId: async () => (await hole().auth.getUser()).data.user?.id ?? null,
-      stufe: async () => { const { data } = await hole().auth.mfa.getAuthenticatorAssuranceLevel(); return { aktuell: data?.currentLevel ?? null, naechste: data?.nextLevel ?? null }; },
       istMitglied: async () => (await hole().rpc("ist_mitglied")).data === true,
-      istStudioAdmin: async () => (await hole().rpc("ist_studio_admin")).data === true,
     };
   }
 
@@ -70,19 +65,12 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   try { zugang = await entscheideZugang(pfad, abfragen); }
   catch { log({ aktion: "proxy", status: "fehler" }); zugang = { art: "login" }; }
 
-  const umleiten = (ziel: string) => {
+  if (zugang.art === "login") {
     const url = request.nextUrl.clone();
-    url.pathname = ziel;
-    url.search = ziel === "/mfa" && pfad !== "/" ? `?weiter=${encodeURIComponent(pfad)}` : "";
-    const r = NextResponse.redirect(url, 303);
-    for (const c of neueCookies) r.cookies.set(c.name, c.value, c.options);
-    return r;
-  };
-  if (zugang.art === "login") antwort = umleiten("/login");
-  else if (zugang.art === "mfa") antwort = umleiten("/mfa");
-  else if (zugang.art === "mfa_einrichten") antwort = umleiten("/mfa/einrichten");
-  else if (zugang.art === "studio") antwort = umleiten("/studio");
-  else if (zugang.art === "verboten") {
+    url.pathname = "/login"; url.search = "";
+    antwort = NextResponse.redirect(url, 303);
+    for (const c of neueCookies) antwort.cookies.set(c.name, c.value, c.options);
+  } else if (zugang.art === "verboten") {
     log({ aktion: "zugang_abgelehnt", status: "abgelehnt" });
     const url = request.nextUrl.clone(); url.pathname = "/403"; url.search = "";
     antwort = NextResponse.rewrite(url, { status: 403, request: { headers: kopf } });
