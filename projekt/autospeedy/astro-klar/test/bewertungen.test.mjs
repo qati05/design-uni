@@ -24,8 +24,11 @@ test("Fixture: Note und Anzahl erscheinen, keine Bewertungskarten, kein reviews-
     env: { ...process.env, DATEN: "../astro/src/content", BEWERTUNGEN_DATEI: "test/fixtures/bewertungen-beispiel.json", AUSGABE: "dist-bew" },
   });
   const s = fs.readFileSync(path.join(ausgabe, "index.html"), "utf8");
-  assert.match(s, /4,7 von 5 · 128 Bewertungen/, "Note und Anzahl aus der Fixture");
-  assert.match(s, /bew-kopf--echt/, "Sterne-Bewegung nur mit echten Daten");
+  const text = s.replace(/<[^>]+>/g, "");
+  assert.match(text, /4,7 von 5 bei 128 Bewertungen/, "Note und Anzahl aus der Fixture");
+  assert.match(text, /4,7 von 5 bei 128 Bewertungen auf Google/, "Note auch in der Faktenleiste oben");
+  assert.match(s, /hm-bew__echt/, "Abschnitt mit echten Daten");
+  assert.doesNotMatch(s, /data-luecke>Nur in der Vorschau|hm-zitate/, "mit echten Daten keine Vorschau-Zitate");
   assert.match(s, /Bewertungen von Google/, "Attribution");
   assert.match(s, /Alle Bewertungen auf Google/, "Link auf Google");
   assert.doesNotMatch(s, /class="bew-reihe"|class="bew"[\s>]|Bewertungskarte/, "keine Bewertungskarten");

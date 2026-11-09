@@ -88,8 +88,13 @@ const zeigeLd = !istFehlerseite; // alle Seiten ausser 404 (vorher nur mit jsonl
 <link rel="preload" href="/fonts/source-serif-4-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/source-serif-4-latin-opsz-italic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/klar.css">
+{/* Kopf und Fuss wie auf der Startseite (Hallmark-Fassung, Entscheid Roni 09.11.2026): gleiche Leiste und gleicher Schluss auf allen Seiten. */}
+<link rel="stylesheet" href="/css/hallmark/tokens.css">
+<link rel="stylesheet" href="/css/hallmark/rahmen.css">
 {zeigeLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)}></script>}
 <script is:inline src="/js/klar.js" defer></script>
+{/* Zusätzliche Stile einer Seite (Startseite: Hallmark-Stile), sonst leer. */}
+<slot name="kopf" />
 {/* Besuche zählt Cloudflare Web Analytics (Entscheid Roni 09.11.2026): im Pages-Dashboard eingeschaltet, ohne Code und ohne Cookies. */}
 </head>
 <body data-seite={seite}>

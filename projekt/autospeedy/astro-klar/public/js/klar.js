@@ -4,6 +4,25 @@
   "use strict";
   var wurzel = document.documentElement;
   wurzel.classList.add("js");
+
+  // Einblenden beim Rollen (Startseite, Hallmark «one reveal»): einmal je Element. Die Klasse «reveal-an» kommt nur, wenn der
+  // Browser beobachten kann und Bewegung erwünscht ist; sonst (und ohne Skript) steht alles von Anfang an da.
+  try {
+    var zeigen = document.querySelectorAll("[data-reveal], [data-reveal-liste]");
+    if (zeigen.length && "IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      // Wer springt (Anker, «zurück», schnelles Rollen), überholt Elemente, ohne dass sie je im Bild waren. Darum gilt:
+      // erscheint ein Element, sind alle davor (weiter oben) auch da. Dort sieht niemand die Bewegung, es bleibt aber nichts leer.
+      var reihe = [].slice.call(zeigen), stand = -1;
+      var beob = new IntersectionObserver(function (es) {
+        var bis = stand;
+        es.forEach(function (e) { if (e.isIntersecting) bis = Math.max(bis, reihe.indexOf(e.target)); });
+        for (var i = stand + 1; i <= bis; i++) { reihe[i].classList.add("is-in"); beob.unobserve(reihe[i]); }
+        stand = bis;
+      }, { rootMargin: "0px 0px -10% 0px" });
+      wurzel.classList.add("reveal-an");
+      reihe.forEach(function (el) { beob.observe(el); });
+    }
+  } catch (e) { wurzel.classList.remove("reveal-an"); }
   // iOS setzt :active nur zuverlaessig, wenn ein touchstart-Listener existiert (BEWEGUNG.md 2). Leer und passiv.
   document.addEventListener("touchstart", function () {}, { passive: true });
   var ruhig = matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -216,44 +216,71 @@ test("Hero ohne JS: h1, Lead, CTAs und Faktenleiste nach 1000 ms mit opacity 1 (
   await page.goto(basis + "/", { waitUntil: "load" });
   await page.waitForTimeout(1000);
   const deckkraft = (sel) => page.$eval(sel, (el) => getComputedStyle(el).opacity);
-  assert.equal(await deckkraft(".hero-text h1"), "1", "h1 sichtbar");
-  assert.equal(await deckkraft(".hero-text h1 span"), "1", "h1 Zeile 1 sichtbar");
-  assert.equal(await deckkraft(".hero-text h1 em"), "1", "h1 Zeile 2 sichtbar");
-  assert.equal(await deckkraft(".hero-text .lead"), "1", "Lead sichtbar");
-  const ctas = await page.$$eval(".hero .ctas .knopf", (els) => els.map((el) => getComputedStyle(el).opacity));
+  assert.equal(await deckkraft(".hm-hero__text h1"), "1", "h1 sichtbar");
+  assert.equal(await deckkraft(".hm-hero__text h1 span"), "1", "h1 Zeile 2 sichtbar");
+  assert.equal(await deckkraft(".hm-hero__text .lead"), "1", "Lead sichtbar");
+  const ctas = await page.$$eval(".hero .ctas .btn", (els) => els.map((el) => getComputedStyle(el).opacity));
   assert.ok(ctas.length === 2 && ctas.every((o) => o === "1"), `CTAs sichtbar: ${ctas}`);
-  const zellen = await page.$$eval(".leiste-fakten > div", (els) => els.map((el) => getComputedStyle(el).opacity));
+  const zellen = await page.$$eval(".hm-fakten__liste > div", (els) => els.map((el) => getComputedStyle(el).opacity));
   assert.ok(zellen.length === 4 && zellen.every((o) => o === "1"), `Faktenleiste sichtbar: ${zellen}`);
+  // Ohne Skript bleibt nichts versteckt: «Einblenden beim Rollen» greift nur mit der Klasse reveal-an.
+  const versteckt = await page.$$eval("[data-reveal], [data-reveal-liste] > *", (els) => els.filter((el) => getComputedStyle(el).opacity !== "1").length);
+  assert.equal(versteckt, 0, "ohne JS ist jeder Abschnitt sichtbar");
   assert.deepEqual(fehler, []);
   await ctx.close();
 });
 
-test("Hero unter Reduced Motion: Kinder von .hero-text ohne animation-name (BAUPLAN 3.4)", async () => {
+test("Hero unter Reduced Motion: Kinder von .hm-hero__text ohne animation-name, nichts wartet aufs Rollen", async () => {
   const { ctx, page } = await seite({ viewport: { width: 1280, height: 800 }, reducedMotion: "reduce" });
   await page.goto(basis + "/", { waitUntil: "load" });
-  const namen = await page.$$eval(".hero-text > *", (els) => els.map((el) => getComputedStyle(el).animationName));
+  const namen = await page.$$eval(".hm-hero__text > *, .hm-hero__bild > img", (els) => els.map((el) => getComputedStyle(el).animationName));
   assert.ok(namen.length > 0, "Kinder vorhanden");
   for (const n of namen) assert.equal(n, "none", `kein animation-name, war «${n}»`);
+  assert.ok(!(await page.evaluate(() => document.documentElement.classList.contains("reveal-an"))), "kein Einblenden beim Rollen");
+  const versteckt = await page.$$eval("[data-reveal], [data-reveal-liste] > *", (els) => els.filter((el) => getComputedStyle(el).opacity !== "1").length);
+  assert.equal(versteckt, 0, "alles sofort sichtbar");
   await ctx.close();
 });
 
-test("Handy-Hero: H1 und «Schaden melden» stehen vor dem Foto, im ersten Bildschirm (Design-Review 22:00, 1)", async () => {
-  const { ctx, page, fehler } = await seite({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: "reduce" });
-  await page.goto(basis + "/", { waitUntil: "load" });
-  const h1 = await page.locator(".hero-text h1").boundingBox();
-  const cta = await page.locator('.hero .ctas a[href="/schaden-melden/"]').boundingBox();
-  const bild = await page.locator(".hero-bild img").boundingBox();
-  assert.ok(h1.y + h1.height <= 844, `H1 im ersten Bildschirm (${h1.y + h1.height})`);
-  assert.ok(cta.y + cta.height <= 844, `Haupt-CTA «Schaden melden» im ersten Bildschirm (${cta.y + cta.height})`);
-  assert.ok(cta.y < bild.y, "Text/CTA stehen vor dem Foto");
-  assert.deepEqual(fehler, []);
-  await ctx.close();
+test("Einblenden beim Rollen: jedes Element erscheint einmal und bleibt, keine Konsolenfehler (Hallmark, ein Reveal)", async () => {
+  for (const vp of [{ width: 1280, height: 800 }, { width: 390, height: 844 }]) {
+    const { ctx, page, fehler } = await seite({ viewport: vp });
+    await page.goto(basis + "/", { waitUntil: "load" });
+    assert.ok(await page.evaluate(() => document.documentElement.classList.contains("reveal-an")), "mit Skript ist das Einblenden an");
+    const hoehe = await page.evaluate(() => document.documentElement.scrollHeight);
+    for (let y = 0; y <= hoehe; y += 400) { await page.evaluate((y) => window.scrollTo(0, y), y); await page.waitForTimeout(60); }
+    await page.waitForTimeout(900);
+    const offen = await page.$$eval("[data-reveal]:not(.is-in), [data-reveal-liste]:not(.is-in)", (els) => els.length);
+    assert.equal(offen, 0, `nach dem Rollen ist alles eingeblendet (${vp.width})`);
+    const versteckt = await page.$$eval("[data-reveal], [data-reveal-liste] > *", (els) => els.filter((el) => getComputedStyle(el).opacity !== "1").length);
+    assert.equal(versteckt, 0, `nichts bleibt durchsichtig (${vp.width})`);
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(300);
+    assert.equal(await page.$$eval("[data-reveal]:not(.is-in)", (els) => els.length), 0, "bleibt sichtbar, auch nach dem Zurückrollen");
+    assert.deepEqual(fehler, []);
+    await ctx.close();
+  }
+});
+
+test("Handy-Hero: H1 und «Schaden melden» stehen im ersten Bildschirm, auch am kleinen Handy (Roni 09.11.: Hallmark-Fassung, Foto zuerst)", async () => {
+  for (const vp of [{ width: 390, height: 844 }, { width: 375, height: 667 }]) {
+    const { ctx, page, fehler } = await seite({ viewport: vp, isMobile: true, hasTouch: true, reducedMotion: "reduce" });
+    await page.goto(basis + "/", { waitUntil: "load" });
+    const h1 = await page.locator(".hm-hero__text h1").boundingBox();
+    const cta = await page.locator('.hero .ctas a[href="/schaden-melden/"]').boundingBox();
+    const bild = await page.locator(".hm-hero__bild img").boundingBox();
+    assert.ok(h1.y + h1.height <= vp.height, `H1 im ersten Bildschirm (${h1.y + h1.height} von ${vp.height})`);
+    assert.ok(cta.y + cta.height <= vp.height, `Haupt-CTA «Schaden melden» im ersten Bildschirm (${cta.y + cta.height} von ${vp.height})`);
+    assert.ok(bild.height <= vp.height * 0.4 + 1, `Foto nimmt höchstens 40 % der Höhe (${bild.height})`);
+    assert.deepEqual(fehler, []);
+    await ctx.close();
+  }
 });
 
 test("Anrufen-Knopf hat eine nicht transparente Hintergrundfarbe (Entscheid Reshat)", async () => {
   const { ctx, page } = await seite({ viewport: { width: 1280, height: 800 } });
   await page.goto(basis + "/", { waitUntil: "load" });
-  for (const sel of ['.hero .ctas a[href^="tel:"]', '.anfrage .ctas a[href^="tel:"]', '.fuss .ctas a[href^="tel:"]']) {
+  for (const sel of ['.hero .ctas a[href^="tel:"]', '.hm-ablauf .hm-ctas a[href^="tel:"]', '.fuss .ctas a[href^="tel:"]']) {
     const bg = await page.$eval(sel, (el) => getComputedStyle(el).backgroundColor);
     const m = bg.match(/rgba?\(([^)]+)\)/);
     const teile = m ? m[1].split(",").map((s) => parseFloat(s)) : [];
@@ -328,82 +355,79 @@ test("Handy: Leiste bleibt beim Runterscrollen stehen", async () => {
   await ctx.close();
 });
 
-test("Leistungskarten: je Karte genau ein Link, Pfeil aria-hidden, Ziele (BAUPLAN 2 Zeile 5)", async () => {
+test("Leistungen: je Zeile genau ein Link mit Foto, Titel und Text, Ziele in fester Reihenfolge", async () => {
   const { ctx, page, fehler } = await seite({ viewport: { width: 1280, height: 800 } });
   await page.goto(basis + "/");
-  const karten = page.locator(".karten > li");
-  assert.equal(await karten.count(), 6, "6 Karten (Nachtrag)");
+  const karten = page.locator(".hm-index > li");
+  assert.equal(await karten.count(), 6, "6 Leistungen (Nachtrag)");
   for (let i = 0; i < 6; i++) {
-    assert.equal(await karten.nth(i).locator("a").count(), 1, "genau ein Link je Karte");
-    assert.equal(await karten.nth(i).locator(".pfeil svg[aria-hidden='true']").count(), 1, "Pfeil aria-hidden");
+    assert.equal(await karten.nth(i).locator("a").count(), 1, "genau ein Link je Zeile");
+    assert.equal(await karten.nth(i).locator("a img[alt]:not([alt=''])").count(), 1, "ein Foto mit Alt-Text");
+    assert.equal(await karten.nth(i).locator("a h3").count(), 1, "ein Titel");
   }
-  const hrefs = await page.$$eval(".karten a", (as) => as.map((a) => { const u = new URL(a.href); return u.pathname + u.hash; }));
+  const hrefs = await page.$$eval(".hm-index a", (as) => as.map((a) => { const u = new URL(a.href); return u.pathname + u.hash; }));
   assert.deepEqual(hrefs, ["/leistungen/unfall-carrosserie/", "/leistungen/hagel-dellen/", "/leistungen/lack/", "/leistungen/felgen/", "/leistungen/folierung/", "/leistungen/scheiben/"]);
   assert.deepEqual(fehler, []);
   await ctx.close();
 });
 
-test("Leistungskarten: Hover-Transition mit Feder, Pfeil 40 ms spaeter (BAUPLAN 3.3)", async () => {
+test("Leistungen: ein Zeichen beim Überfahren (Foto, nur transform, 420 ms), keines unter Reduced Motion", async () => {
   const { ctx, page } = await seite({ viewport: { width: 1280, height: 800 } });
   await page.goto(basis + "/");
-  const karte = await page.$eval(".karten a", (el) => { const s = getComputedStyle(el); return { prop: s.transitionProperty, dur: s.transitionDuration, tf: s.transitionTimingFunction }; });
-  assert.match(karte.prop, /transform/, "Karte animiert transform");
-  assert.match(karte.tf, /linear\(/, "Karte mit Federkurve");
-  assert.match(karte.dur, /0\.48s/, "Karte 480 ms (feder-ruhig)");
-  const pfeil = await page.$eval(".karten .pfeil", (el) => { const s = getComputedStyle(el); return { prop: s.transitionProperty, dur: s.transitionDuration, delay: s.transitionDelay, tf: s.transitionTimingFunction }; });
-  assert.match(pfeil.prop, /^transform/, "Pfeil animiert transform zuerst");
-  assert.match(pfeil.tf, /linear\(/, "Pfeil mit Federkurve");
-  assert.match(pfeil.dur, /0\.42s/, "Pfeil 420 ms (feder-knopf)");
-  assert.match(pfeil.delay, /0\.04s/, "Pfeil 40 ms spaeter");
+  const bild = await page.$eval(".hm-index__bild img", (el) => { const s = getComputedStyle(el); return { prop: s.transitionProperty, dur: s.transitionDuration }; });
+  assert.equal(bild.prop, "transform", "Foto animiert nur transform");
+  assert.match(bild.dur, /0\.42s/, "420 ms");
   await ctx.close();
+  const ruhig = await seite({ viewport: { width: 1280, height: 800 }, reducedMotion: "reduce" });
+  await ruhig.page.goto(basis + "/");
+  const dauer = await ruhig.page.$eval(".hm-index__bild img", (el) => getComputedStyle(el).transitionDuration);
+  assert.match(dauer, /^0s/, `keine Bewegung unter Reduced Motion, war «${dauer}»`);
+  await ruhig.ctx.close();
 });
 
-test("Leistungskarten: Handy zeigt Zeilen, Karte so breit wie die Spalte (BAUPLAN 2 Zeile 5)", async () => {
+test("Leistungen: Handy zeigt Zeilen, jede so breit wie die Spalte", async () => {
   const { ctx, page } = await seite({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   await page.goto(basis + "/");
-  const spalte = await page.$eval(".karten", (el) => el.getBoundingClientRect().width);
-  const rects = await page.$$eval(".karten a", (as) => as.map((a) => { const r = a.getBoundingClientRect(); return { b: r.width, x: Math.round(r.x), top: Math.round(r.top) }; }));
-  assert.equal(rects.length, 6, "6 Karten (Nachtrag)");
-  for (const r of rects) assert.ok(Math.abs(r.b - spalte) <= 1, `Karte ${r.b} ~ Spalte ${spalte}`);
+  const spalte = await page.$eval(".hm-index", (el) => el.getBoundingClientRect().width);
+  const rects = await page.$$eval(".hm-index a", (as) => as.map((a) => { const r = a.getBoundingClientRect(); return { b: r.width, h: r.height, x: Math.round(r.x), top: Math.round(r.top) }; }));
+  assert.equal(rects.length, 6, "6 Leistungen (Nachtrag)");
+  for (const r of rects) assert.ok(Math.abs(r.b - spalte) <= 1, `Zeile ${r.b} ~ Spalte ${spalte}`);
+  for (const r of rects) assert.ok(r.h >= 48, `Tippziel mindestens 48 px hoch, war ${r.h}`);
   assert.equal(new Set(rects.map((r) => r.x)).size, 1, "alle linksbuendig (eine Spalte)");
   assert.equal(new Set(rects.map((r) => r.top)).size, 6, "sechs gestapelte Zeilen");
   await ctx.close();
 });
 
-// Hilfen fuer den Tesla-Ablauf (BAUPLAN 3.7): Linie ist ::before an .ablauf, Punkte sind ::before an den <li>.
-const identitaet = (t) => t === "none" || t === "matrix(1, 0, 0, 1, 0, 0)";
-const linieTransform = (page) => page.$eval(".tesla-teil .ablauf", (el) => getComputedStyle(el, "::before").transform);
-const punkteDeckkraft = (page) => page.$$eval(".tesla-teil .ablauf li", (lis) => lis.map((li) => getComputedStyle(li, "::before").opacity));
+// Tesla-Abschnitt der Startseite: drei Schritte als Liste, Foto und Angaben. Bewegung nur über «Einblenden beim Rollen».
+const teslaSichtbar = (page) => page.$$eval("#tesla [data-reveal], #tesla .hm-tesla__ablauf li, #tesla .hm-tesla__bild img", (els) => els.map((el) => getComputedStyle(el).opacity));
 
-test("Tesla-Ablauf: nach dem Scrollen zeichnet sich die Linie fertig, Punkte voll sichtbar (BAUPLAN 3.7)", async () => {
+test("Tesla-Abschnitt: nach dem Scrollen voll sichtbar, drei Schritte, Knopf mit Tesla-Vorauswahl", async () => {
   const { ctx, page, fehler } = await seite({ viewport: { width: 1280, height: 800 } });
   await page.goto(basis + "/");
-  await page.locator(".tesla-teil .ablauf").scrollIntoViewIfNeeded();
+  await page.locator("#tesla .hm-tesla__ablauf").scrollIntoViewIfNeeded();
   await page.waitForTimeout(1300);
-  const t = await linieTransform(page);
-  assert.ok(identitaet(t), `Linie fertig gezeichnet (none oder Identitaet), war: ${t}`);
-  const deck = await punkteDeckkraft(page);
-  assert.equal(deck.length, 3, "drei Punkte");
-  for (const o of deck) assert.equal(o, "1", `Punkt voll sichtbar, war: ${o}`);
+  assert.equal(await page.locator("#tesla .hm-tesla__ablauf li").count(), 3, "drei Schritte");
+  for (const o of await teslaSichtbar(page)) assert.equal(o, "1", `voll sichtbar, war: ${o}`);
+  assert.equal(await page.locator('#tesla a.btn[href="/schaden-melden/?tesla=1"]').count(), 1, "Knopf «Tesla-Schaden melden»");
   assert.deepEqual(fehler, []);
   await ctx.close();
 });
 
-test("Tesla-Ablauf: unter Reduced Motion sofort voll sichtbar (BAUPLAN 3.7)", async () => {
+test("Tesla-Abschnitt: unter Reduced Motion sofort voll sichtbar", async () => {
   const { ctx, page } = await seite({ viewport: { width: 1280, height: 800 }, reducedMotion: "reduce" });
   await page.goto(basis + "/");
-  await page.locator(".tesla-teil .ablauf").scrollIntoViewIfNeeded();
-  assert.ok(identitaet(await linieTransform(page)), "Linie voll");
-  for (const o of await punkteDeckkraft(page)) assert.equal(o, "1", "Punkt voll sichtbar");
+  const deck = await teslaSichtbar(page);
+  assert.ok(deck.length >= 7, "Teile vorhanden");
+  for (const o of deck) assert.equal(o, "1", "ohne Rollen sichtbar");
   await ctx.close();
 });
 
-test("Tesla-Ablauf ohne JS: Linie und Punkte sofort sichtbar, Fotoband sichtbar (BAUPLAN 3.5/3.7)", async () => {
+test("Tesla-Abschnitt ohne JS: Schritte, Angaben und Foto sofort sichtbar", async () => {
   const { ctx, page } = await seite({ viewport: { width: 1280, height: 800 }, javaScriptEnabled: false });
   await page.goto(basis + "/", { waitUntil: "load" });
-  assert.ok(identitaet(await linieTransform(page)), "Linie sichtbar");
-  for (const o of await punkteDeckkraft(page)) assert.equal(o, "1", "Punkt sichtbar");
-  assert.equal(await page.$eval(".tesla-bild img", (el) => getComputedStyle(el).opacity), "1", "Fotoband sichtbar");
+  const deck = await teslaSichtbar(page);
+  assert.ok(deck.length >= 7, "Teile vorhanden");
+  for (const o of deck) assert.equal(o, "1", "sichtbar");
   await ctx.close();
 });
 
@@ -467,16 +491,16 @@ test("Fuss: Status wird live gesetzt, Kopieren-Knopf erscheint und meldet «Kopi
   await ctx.close();
 });
 
-test("Kopfleiste verdeckt die H1 nicht (A1): H1-Oberkante unter der Kopf-Unterkante bei 390 und 1440", async () => {
-  for (const breite of [390, 1440]) {
+test("Kopfleiste verdeckt die H1 nicht (A1): H1-Oberkante unter der Kopf-Unterkante, auf Start- und Unterseiten bei 390 und 1440", async () => {
+  for (const breite of [390, 1440]) for (const pfad of ["/", "/team/", "/kontakt/", "/leistungen/lack/", "/schaden-melden/"]) {
     const { ctx, page, fehler } = await seite({ viewport: { width: breite, height: 900 }, reducedMotion: "reduce" });
-    await page.goto(basis + "/", { waitUntil: "load" });
+    await page.goto(basis + pfad, { waitUntil: "load" });
     await page.evaluate(() => window.scrollTo(0, 0));
     const kopf = await page.locator(".kopf").boundingBox();
-    const h1 = await page.locator(".hero-text h1").boundingBox();
-    assert.ok(h1.y > kopf.y + kopf.height, `${breite}px: H1-top ${h1.y} > Kopf-bottom ${kopf.y + kopf.height}`);
-    // Kein leerer Streifen ueber dem Kopf: die Kopf-Oberkante sitzt ganz oben.
-    assert.ok(kopf.y <= 0.5, `${breite}px: Kopf sitzt oben (top ${kopf.y})`);
+    const h1 = await page.locator("main h1").first().boundingBox();
+    assert.ok(h1.y >= kopf.y + kopf.height, `${breite}px ${pfad}: H1-top ${h1.y} >= Kopf-bottom ${kopf.y + kopf.height}`);
+    // Die Kopfleiste schwebt (Hallmark-Fassung): höchstens ein schmaler Abstand zum oberen Rand, kein leerer Streifen.
+    assert.ok(kopf.y <= 24, `${breite}px ${pfad}: Kopf sitzt oben (top ${kopf.y})`);
     assert.deepEqual(fehler, []);
     await ctx.close();
   }

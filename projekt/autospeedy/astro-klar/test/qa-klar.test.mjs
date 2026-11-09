@@ -339,11 +339,23 @@ test("C06: Start-Hero – Chips sind genau die Schadenarten des Formulars, Tesla
   await page.goto(basis + "/schaden-melden/");
   const arten = await page.$$eval('input[name="art"]', (l) => l.map((i) => i.value));
   await page.goto(basis + "/");
-  const chips = await page.$$eval(".schnell__liste a", (l) => l.map((a) => a.textContent.trim()));
+  const chips = await page.$$eval(".hm-frage__liste li:not(.hm-frage__tesla) a", (l) => l.map((a) => a.textContent.trim()));
   assert.deepEqual(chips, arten);
-  assert.match(await page.textContent(".schnell__tesla a"), /Tesla\? Hier entlang/);
-  assert.equal(await page.getAttribute(".schnell__tesla a", "href"), "/schaden-melden/?fahrzeug=tesla");
+  const ziele = await page.$$eval(".hm-frage__liste li:not(.hm-frage__tesla) a", (l) => l.map((a) => a.getAttribute("href")));
+  assert.equal(ziele.length, arten.length);
+  for (const z of ziele) assert.match(z, /^\/schaden-melden\/\?art=[a-z]+$/, `Chip führt mit Vorauswahl ins Formular: ${z}`);
+  assert.match(await page.textContent(".hm-frage__tesla a"), /Tesla\? Hier entlang/);
+  assert.equal(await page.getAttribute(".hm-frage__tesla a", "href"), "/schaden-melden/?fahrzeug=tesla");
+  const klein = await page.$$eval(".hm-frage__liste a", (l) => l.map((a) => a.getBoundingClientRect().height).filter((h) => h < 44));
+  assert.deepEqual(klein, [], "Tippziele mindestens 44 px hoch");
   assert.ok(await querfrei(page), "kein Querscrollen");
+  // Ein Tipp auf einen Chip öffnet das Formular mit genau dieser Schadenart angekreuzt.
+  for (const name of ["Hagel", "Parkschaden"]) {
+    await page.goto(basis + "/");
+    await page.locator(".hm-frage__liste a", { hasText: new RegExp(`^${name}$`) }).click();
+    await page.waitForURL(/\/schaden-melden\/\?art=/);
+    await page.waitForFunction((n) => { const i = document.querySelector('input[name="art"]:checked'); return !!i && i.value === n; }, name);
+  }
   await ctx.close();
 });
 
@@ -483,24 +495,40 @@ test("N11: Tesla bei 390 – Abstand vor «Gut zu wissen» mindestens 32 px", as
   await ctx.close();
 });
 
-test("Umwelt: Abschnitt auf Startseite und /leistungen/, Lücke sichtbar solange keine Punkte", async () => {
+test("Umwelt: /leistungen/ zeigt den Abschnitt mit sichtbarer Lücke; die Startseite zeigt ihn erst mit bestätigten Punkten", async () => {
   const { umwelt } = await import("../src/daten/umwelt.ts").catch(() => ({ umwelt: null }));
   const leer = !umwelt || umwelt.punkte.length === 0;
-  for (const pfad of ["/", "/leistungen/"]) {
+  const bestaetigt = !!umwelt && umwelt.bestaetigt && !leer;
+  {
     const { ctx, page, fehler } = await seite(390);
-    await page.goto(basis + pfad);
+    await page.goto(basis + "/leistungen/");
     const teil = page.locator("section#umwelt");
-    assert.equal(await teil.count(), 1, `${pfad}: Abschnitt da`);
+    assert.equal(await teil.count(), 1, "/leistungen/: Abschnitt da");
     assert.match(await teil.locator("h2").textContent(), /Umwelt/);
     if (leer) {
       const l = teil.locator("[data-luecke]");
-      assert.ok(await l.isVisible(), `${pfad}: Lücke sichtbar`);
+      assert.ok(await l.isVisible(), "/leistungen/: Lücke sichtbar");
       assert.match(await l.textContent(), /Was Auto Speedy für die Umwelt macht, ergänzt der Betrieb/);
-      assert.equal(await teil.locator(".umwelt__liste li").count(), 0, `${pfad}: keine erfundenen Punkte`);
+      assert.equal(await teil.locator(".umwelt__liste li").count(), 0, "/leistungen/: keine erfundenen Punkte");
     }
+    assert.deepEqual(fehler, []);
+    await ctx.close();
+  }
+  {
+    // Startseite (Hallmark-Fassung, Roni 09.11.2026): kein leerer Abschnitt und keine Lücke im Schaufenster.
+    const { ctx, page, fehler } = await seite(390);
+    await page.goto(basis + "/");
+    const teil = page.locator("section#umwelt");
+    assert.equal(await teil.count(), bestaetigt ? 1 : 0, "Startseite: Abschnitt nur mit bestätigten Punkten");
+    if (bestaetigt) assert.equal(await teil.locator(".hm-umwelt__liste li").count(), umwelt.punkte.length);
+    assert.deepEqual(fehler, []);
+    await ctx.close();
+  }
+  for (const pfad of ["/", "/leistungen/"]) {
+    const { ctx, page } = await seite(390);
+    await page.goto(basis + pfad);
     const ld = await page.$$eval('script[type="application/ld+json"]', (l) => l.map((s) => s.textContent).join(""));
     assert.doesNotMatch(ld, /Umwelt/i, `${pfad}: kein JSON-LD-Claim`);
-    assert.deepEqual(fehler, []);
     await ctx.close();
   }
 });

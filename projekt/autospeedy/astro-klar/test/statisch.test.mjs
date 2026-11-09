@@ -128,10 +128,10 @@ test("keine Schriftdatei groesser als 60 KB", () => {
 
 test("Nachtrag: 6 Leistungskarten in fester Reihenfolge, Titel «Felgen» (nie «Alufelgen»)", () => {
   const s = lies(path.join(dist, "index.html"));
-  const sec = s.match(/<section class="leistungen"[\s\S]*?<\/section>/)[0];
+  const sec = s.match(/<section class="hm hm-leist"[\s\S]*?<\/section>/)[0];
   const hrefs = [...sec.matchAll(/href="(\/leistungen\/[a-z-]+\/)"/g)].map((m) => m[1]);
   assert.deepEqual(hrefs, ["/leistungen/unfall-carrosserie/", "/leistungen/hagel-dellen/", "/leistungen/lack/", "/leistungen/felgen/", "/leistungen/folierung/", "/leistungen/scheiben/"], "6 Karten in der bestellten Reihenfolge");
-  assert.match(sec, /<h3>Felgen<\/h3>/, "Karte heisst «Felgen»");
+  assert.match(sec, /<h3[^>]*>Felgen<\/h3>/, "Karte heisst «Felgen»");
   assert.match(sec, /Ausserdem: Occasionen und Ankauf\./, "Ausserdem-Zeile");
   // «Alufelgen» darf auf KEINER gebauten Seite vorkommen (Reshat 04.11.).
   for (const p of html) assert.ok(!lies(p).includes("Alufelgen"), `${p}: «Alufelgen» verboten`);
@@ -177,7 +177,7 @@ test("Nachtrag Icons/OG: favicon.ico, SVG-Icon, apple-touch-icon und og-Bild lie
 
 test("Nachtrag: Hero-Bild nicht lazy, fetchpriority=high, vorgeladen (LCP)", () => {
   const s = lies(path.join(dist, "index.html"));
-  const bild = s.match(/<figure class="hero-bild">[\s\S]*?<\/figure>/)[0];
+  const bild = s.match(/<figure class="hm-hero__bild">[\s\S]*?<\/figure>/)[0];
   assert.match(bild, /<img[^>]*fetchpriority="high"/, "Hero-img fetchpriority=high");
   assert.ok(!/<img[^>]*loading="lazy"/.test(bild), "Hero-img nicht lazy");
   assert.match(bild, /defender-kabine-960\.webp/, "eigenes Foto im Hero");
@@ -214,7 +214,7 @@ test("Nachtrag AEO: JSON-LD je Seite parsebar; AutoBodyShop mit Adresse/Telefon/
 
 test("Nachtrag AEO: die FAQ-Antworten stehen als sichtbarer Text auf der Seite (nicht nur im JSON-LD)", () => {
   const s = lies(path.join(dist, "index.html"));
-  const sec = s.match(/<section class="faq abschnitt"[\s\S]*?<\/section>/)[0];
+  const sec = s.match(/<section class="hm hm-faq"[\s\S]*?<\/section>/)[0];
   for (const frage of ["Wer zahlt die Reparatur?", "Bekomme ich einen Ersatzwagen?", "Reparieren Sie auch Tesla?"])
     assert.ok(sec.includes(frage), `sichtbare Frage: ${frage}`);
   assert.match(sec, /Auf Anfrage\. Wir haben sechs Ersatzautos, darunter einen Tesla\./, "Ersatzwagen-Antwort als Text");
@@ -233,9 +233,11 @@ test("Nachtrag Bewertungen: in der Vorschau 3 Zitate (Note 4,8, «Name folgt», 
   assert.doesNotMatch(s, /id="bewertungen-titel"/, "kein echter Bewertungs-Abschnitt ohne Daten");
   assert.doesNotMatch(s, /–,– von 5/, "nie der Platzhalter «–,– von 5»");
   // Die Vorschau-Zitate sind sichtbar, als Vorschau markiert und live ausgeblendet (gleicher Schalter wie Lücke-Boxen).
-  const vor = s.match(/<section class="abschnitt abschnitt--rand bewertungen-vorschau[\s\S]*?<\/section>/);
+  const vor = s.match(/<section class="hm hm-bew" aria-labelledby="bew-vorschau-titel"[\s\S]*?<\/section>/);
   assert.ok(vor, "Vorschau-Bewertungen sichtbar (noindex-Vorschau)");
-  assert.match(vor[0], /4,8 von 5 auf Google/, "Note 4,8");
+  assert.match(vor[0].replace(/<[^>]+>/g, ""), /4,8 von 5 auf Google/, "Note 4,8");
+  assert.equal((vor[0].match(/<blockquote/g) || []).length, 3, "genau 3 Zitate");
+  assert.match(vor[0], /data-luecke/, "als Vorschau markiert (live ausgeblendet)");
   assert.match(vor[0], /Name folgt/, "Namen stehen auf «Name folgt»");
   assert.match(vor[0], /Nur in der Vorschau/, "Hinweis, dass der Block live noch aus ist");
 });

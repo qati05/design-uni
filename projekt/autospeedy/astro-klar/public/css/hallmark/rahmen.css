@@ -1,0 +1,57 @@
+/* Hallmark · shared chrome for every page of the site (decision of the owner, 09.11.2026: the Hallmark version is the site).
+ * Header as a floating pill and the closing block, on the tokens of tokens.css. The start page adds base.css and seite.css;
+ * the pages behind it keep their own stylesheet (klar.css) for the content between header and footer. */
+/* The gutters the chrome measures with, as base.css sets them on the start page. */
+@media (max-width: 60rem) { :root { --gutter: 24px; --section-gap-s: 80px; --section-gap: 96px; --section-gap-l: 120px; } }
+@media (max-width: 40rem) { :root { --gutter: 16px; --section-gap-s: 56px; --section-gap: 72px; --section-gap-l: 96px; --gap-columns: 16px; } }
+/* The project's header becomes a floating pill; its markup and script stay. */
+.kopf { inset: 0 0 auto; top: calc(var(--hinweis-hoehe, 0px) + var(--space-sm)); margin-inline: auto; width: min(100% - 2 * var(--gutter), var(--container) - 2 * var(--gutter)); height: 64px; padding: 0 var(--space-xs) 0 var(--space-lg); grid-template-columns: auto minmax(0, 1fr) auto; column-gap: var(--gap-columns); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: var(--color-paper); }
+.kopf::before { content: none; }
+.kopf__nav { justify-self: start; }
+.kopf .kopf__aktion { min-height: 48px; padding: 0 var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: transparent; color: var(--color-ink); font: 500 var(--text-md)/1 var(--font-body); box-shadow: none; }
+.kopf .kopf__aktion:hover { background: var(--color-paper-2); }
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .kopf .kopf__aktion { border-color: var(--color-accent); background: var(--color-accent); color: var(--color-accent-ink); animation: hm-aktion linear both; animation-timeline: scroll(root); animation-range: 240px 420px; }
+    .kopf .kopf__aktion:hover { background: var(--color-accent-deep); }
+  }
+}
+.kopf .kopf__marke img { height: 48px; }
+@keyframes hm-aktion { from { opacity: 0; visibility: hidden; } to { opacity: 1; visibility: visible; } }
+.sprung, [data-vorschau] { color: var(--color-paper); }
+.sprung { left: var(--space-xs); top: calc(-1 * var(--space-3xl)); }
+.sprung:focus { top: var(--space-xs); }
+/* K22: am Handy füllt das offene Menü die ganze Breite; die schmale Spalte gilt erst darüber. */
+@media (min-width: 40.0625rem) { .blatt__innen { width: min(360px, 100%); } }
+
+/* The project's closing block: the page's gutter, controls and faces. */
+/* K16: der Fuss bleibt am Computer unter 700 px Höhe. */
+.fuss__blatt { max-width: var(--container); padding: var(--space-3xl) var(--gutter) 0; gap: var(--space-xl); }
+.fuss-aufruf { gap: var(--space-lg); }
+.fuss-aufruf__ruf { font-size: var(--text-section); line-height: 1.05; letter-spacing: var(--tracking-display); }
+.fuss .ctas { gap: var(--space-sm); }
+.fuss .knopf { min-height: 48px; padding: 0 var(--space-lg); border: 1px solid var(--color-accent); border-radius: var(--radius-pill); box-shadow: none; font: 500 var(--text-md)/1 var(--font-body); }
+.fuss .knopf svg, .fuss-ort__akt a span, .fuss__oben span { display: none; }
+.fuss .knopf--akzent { background: var(--color-accent); color: var(--color-accent-ink); }
+.fuss .knopf--akzent:hover { background: var(--color-accent-deep); border-color: var(--color-accent-deep); }
+.fuss .knopf--kontur { border-color: var(--color-ink); background: var(--color-paper); color: var(--color-ink); }
+.fuss .knopf--kontur:hover { background: var(--color-paper-2); }
+.fuss-raster { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-xl) var(--gap-columns); padding-top: var(--space-xl); border-top-color: var(--color-rule); }
+.fuss-zeiten, .fuss-unterschrift { grid-column: 1 / span 6; }
+.fuss-ort { grid-column: 8 / -1; }
+.fuss-status, .fuss-woche, .fuss-ort p { font-size: var(--text-md); }
+.fuss-status { font-weight: 500; }
+.fuss-woche td, .fuss-ort__adr { font-family: var(--font-body); }
+.fuss-woche tr.ist-heute th, .fuss-woche tr.ist-heute td { font-weight: 500; }
+.fuss-ort a { color: var(--color-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.16em; }
+.fuss-ort__tel .nr { font-size: var(--text-lg); font-weight: 500; }
+.fuss-kopf { border-color: var(--color-rule); background: transparent; color: var(--color-muted); font: 500 var(--text-sm)/1 var(--font-body); }
+.fuss-slogan { color: var(--color-muted); letter-spacing: var(--tracking-display); }
+.fuss__innen { font-size: var(--text-sm); color: var(--color-muted); border-top-color: var(--color-rule); }
+
+@media (max-width: 60rem) {
+  .kopf { height: 56px; padding-left: var(--space-md); column-gap: var(--space-sm); }
+  .kopf .kopf__marke img { height: 40px; }
+  .fuss-raster { grid-template-columns: minmax(0, 1fr); }
+  .fuss-zeiten, .fuss-unterschrift, .fuss-ort { grid-column: 1 / -1; }
+}
