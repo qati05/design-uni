@@ -12,11 +12,16 @@ export const DEMO_SITZUNG_SEKUNDEN = 60 * 60 * 24 * 30;
 
 export type PostfachMail = { id: string; zeit: string; an: string; betreff: string; text: string };
 type Speicher = { codes: Map<string, { code: string; bis: number; versuche: number }>; postfach: PostfachMail[]; audit: { zeit: string; aktion: string; ergebnis: string; ziel?: string }[]; anfragen: number[];
-  pflege: { daten: Pflege; sha: string; geaendert: string | null; von: string | null }; fotos: Map<string, { typ: string; bytes: Uint8Array }> };
+  pflege: { daten: Pflege; sha: string; geaendert: string | null; von: string | null }; fotos: Map<string, { typ: string; bytes: Uint8Array }>;
+  /** Frühere Stände (spielt die Commits an site.json), neuester zuerst. */
+  verlauf: { id: string; zeit: string; daten: Pflege }[] };
 
 const g = globalThis as unknown as { __asDemo?: Speicher };
 export function speicher(): Speicher {
-  if (!g.__asDemo) g.__asDemo = { codes: new Map(), postfach: [], audit: [], anfragen: [], pflege: { daten: startPflege(), sha: randomBytes(20).toString("hex"), geaendert: null, von: null }, fotos: new Map() };
+  if (!g.__asDemo) {
+    const daten = startPflege(), sha = randomBytes(20).toString("hex");
+    g.__asDemo = { codes: new Map(), postfach: [], audit: [], anfragen: [], pflege: { daten, sha, geaendert: null, von: null }, fotos: new Map(), verlauf: [{ id: sha, zeit: new Date().toISOString(), daten: structuredClone(daten) }] };
+  }
   return g.__asDemo;
 }
 

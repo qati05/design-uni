@@ -4,6 +4,7 @@ import { randomBytes } from "node:crypto";
 import type { Backend, CodeAntwort, SitzungsStand, AuditEintrag } from "./backend";
 import { DEMO_COOKIE, DEMO_FREMD, DEMO_MITGLIED, DEMO_SITZUNG_SEKUNDEN, postfachSchreiben, sechsZiffern, sitzungLesen, sitzungSignieren, speicher } from "./demo-speicher";
 import { DEMO_FOTO_BASIS } from "./pflege";
+import { besucherBeispiel } from "./besucher.server";
 import { COOKIE_GRUNDLAGE, haerte } from "./cookies";
 
 const KONTEN = [DEMO_MITGLIED, DEMO_FREMD];
@@ -50,24 +51,33 @@ export const demoBackend: Backend = {
     return { userId: d.uid, email: d.email, mitglied: d.email === DEMO_MITGLIED.email };
   },
   async abmelden() { await setzen(null); },
-  // Demo: spielt GitHub (site.json mit Version «sha») und den Bild-Speicher (Fotos im Speicher). Nichts verlässt den Rechner.
+  // Demo: spielt GitHub (site.json mit Version «sha», Verlauf der Stände) und den Bild-Speicher. Nichts verlässt den Rechner.
   async pflegeLesen() { return structuredClone(speicher().pflege); },
   async pflegeSpeichern(p, sha) {
     const s = speicher();
     if (sha !== s.pflege.sha) return "konflikt";
     const d = await lesen();
-    s.pflege = { daten: structuredClone(p), sha: randomBytes(20).toString("hex"), geaendert: new Date().toISOString(), von: d?.email ?? null };
+    const zeit = new Date().toISOString();
+    s.pflege = { daten: structuredClone(p), sha: randomBytes(20).toString("hex"), geaendert: zeit, von: d?.email ?? null };
+    s.verlauf = [{ id: s.pflege.sha, zeit, daten: structuredClone(p) }, ...s.verlauf].slice(0, 10);
     return "ok";
   },
-  async teamFotoSpeichern(bytes, typ) {
+  async verlauf() { return speicher().verlauf.map(({ id, zeit }) => ({ id, zeit })); },
+  async pflegeVersion(id) {
+    const v = speicher().verlauf.find((x) => x.id === id);
+    return v ? structuredClone(v.daten) : null;
+  },
+  async bildSpeichern(bytes, typ, ordner) {
     const name = `${crypto.randomUUID()}.${typ === "image/jpeg" ? "jpg" : typ.slice(6)}`;
     speicher().fotos.set(name, { typ, bytes });
-    return `${DEMO_FOTO_BASIS}/team/${name}`;
+    return `${DEMO_FOTO_BASIS}/${ordner}/${name}`;
   },
-  async teamFotoLoeschen(url) {
-    if (!url.startsWith(DEMO_FOTO_BASIS + "/team/")) return false;
-    speicher().fotos.delete(url.slice(DEMO_FOTO_BASIS.length + 6));
+  async bildLoeschen(url) {
+    const m = url.startsWith(DEMO_FOTO_BASIS + "/") ? /^\/(team|bild)\/([^/]+)$/.exec(url.slice(DEMO_FOTO_BASIS.length)) : null;
+    if (!m) return false;
+    speicher().fotos.delete(m[2]!);
     return true;
   },
+  async besucher() { return besucherBeispiel(); },
   async audit(e: AuditEintrag) { speicher().audit.unshift({ zeit: new Date().toISOString(), ...e }); },
 };

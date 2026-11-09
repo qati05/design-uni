@@ -2,7 +2,8 @@ import "server-only";
 import { createServerClient } from "@supabase/ssr";
 import { cookies, headers } from "next/headers";
 import type { AuditEintrag, Backend, CodeAntwort, SitzungsStand } from "./backend";
-import { siteLesen, siteSchreiben, fotoHochladen, fotoLoeschen, type Repo, type BildSpeicher } from "./website.server";
+import { siteLesen, siteSchreiben, siteVerlauf, fotoHochladen, fotoLoeschen, type Repo, type BildSpeicher } from "./website.server";
+import { besucherLesen } from "./besucher.server";
 import { COOKIE_GRUNDLAGE, haerte } from "./cookies";
 
 // Muster aus qati05/medaur cockpit-app/lib/supabase.server.ts: Sitzung nur in httpOnly-Cookies, kein Browser-Client.
@@ -69,13 +70,26 @@ export const supabaseBackend: Backend = {
     const z = await ziel();
     return z ? siteSchreiben(z.repo, p, sha) : "nicht_eingerichtet";
   },
-  async teamFotoSpeichern(bytes, typ) {
-    const s = bildSpeicher();
-    return s ? fotoHochladen(s, bytes, typ) : null;
+  async verlauf() {
+    const z = await ziel();
+    return z ? siteVerlauf(z.repo) : [];
   },
-  async teamFotoLoeschen(url) {
+  async pflegeVersion(id) {
+    const z = await ziel();
+    return z ? (await siteLesen(z.repo, id))?.daten ?? null : null;
+  },
+  async bildSpeichern(bytes, typ, ordner) {
+    const s = bildSpeicher();
+    return s ? fotoHochladen(s, bytes, typ, ordner) : null;
+  },
+  async bildLoeschen(url) {
     const s = bildSpeicher();
     return s ? fotoLoeschen(s, url) : false;
+  },
+  // Zählung der Website (Cloudflare Web Analytics). Ohne diese drei Angaben zeigt das Cockpit «noch nicht verbunden».
+  async besucher() {
+    const e = process.env;
+    return e.CF_KONTO && e.CF_SEITE && e.CF_ANALYSE_TOKEN ? besucherLesen({ konto: e.CF_KONTO, seite: e.CF_SEITE, token: e.CF_ANALYSE_TOKEN }) : null;
   },
   async abmelden() { await (await sb()).auth.signOut(); },
   async audit(e: AuditEintrag) {

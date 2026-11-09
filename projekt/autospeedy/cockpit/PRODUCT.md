@@ -12,11 +12,11 @@ Das Team der Auto Speedy AG (Annahme, Administration), nicht technikaffin, am Ha
 
 ## Product Purpose
 
-Die Website selbst aktuell halten: Öffnungszeiten, Feiertage und Ferien, Hinweis-Leiste, Team mit Fotos, Satz vom Inhaber und ob Google-Bewertungen erscheinen.
+Die Website selbst aktuell halten: Hinweise, Öffnungszeiten, Feiertage und Ferien, Team mit Fotos, häufige Fragen, Fotos der Website, Partner-Logos, Kontakt (Telefon, Mail, WhatsApp), Satz vom Inhaber und ob Google-Bewertungen erscheinen. Dazu Besucherzahlen der Website zum Lesen und ein Verlauf, in dem sich die letzte Änderung zurücknehmen lässt [Auftrag · Roni, 09.11.2026].
 
-Erfolg heisst: Jede Änderung steht ohne Hilfe nach etwa 2 Minuten auf der Website.
+Erfolg heisst: Jede Änderung steht ohne Hilfe nach etwa 2 Minuten auf der Website, und niemand hat Angst, etwas kaputt zu machen: Vor dem Veröffentlichen steht eine Liste der Änderungen, danach lässt es sich zurücknehmen.
 
-Nicht mehr Teil des Cockpits [Entscheid · Roni, 08./09.11.2026]: Schadenmeldungen, Status, Zahlen, «Auto fertig»-Link, Bewertungs-Mails, Studio-Export. Formulare der Website gehen direkt per Mail an den Betrieb. Das Cockpit speichert keine Kundendaten.
+Nicht mehr Teil des Cockpits [Entscheid · Roni, 08./09.11.2026]: Schadenmeldungen, Status, Kennzahlen zu Meldungen, «Auto fertig»-Link, Bewertungs-Mails, Studio-Export. Formulare der Website gehen direkt per Mail an den Betrieb. Das Cockpit speichert keine Kundendaten.
 
 ## Operating Context
 
@@ -31,7 +31,7 @@ Nicht mehr Teil des Cockpits [Entscheid · Roni, 08./09.11.2026]: Schadenmeldung
 
 ## Brand Commitments
 
-- Gestaltung nach der Linie «Klar» der Website [Entscheid · Roni, 08.11.2026].
+- Das Cockpit soll sich anfühlen und aussehen wie Apple oder andere vertraute Software, damit Auto Speedy ganz einfach ändern kann [Entscheid · Roni, 09.11.2026; ersetzt «Gestaltung nach der Linie Klar» vom 08.11.]. Von Auto Speedy bleiben das Logo und das Blau als Akzent.
 - Anrede «Sie», Schweizer Schreibweise mit «ss».
 
 ## Accessibility & Inclusion

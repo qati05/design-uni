@@ -2,6 +2,10 @@
 // Ein Schema für alle: der Website-Bau prüft die Datei damit, das Cockpit und der Editor schreiben nur, was es erlaubt.
 import { z } from "zod";
 
+// zod prüft sonst beim ersten Gebrauch, ob «new Function» geht. Das Cockpit verbietet das mit seiner CSP (kein eval):
+// ohne diese Zeile meldet der Browser dort jedes Mal einen Verstoss. Die Prüfung selbst bleibt gleich streng.
+z.config({ jitless: true });
+
 const ohneSteuerzeichen = /^[^\p{Cc}\p{Cf}<>]*$/u;
 const text = (max: number) => z.string().trim().max(max).regex(ohneSteuerzeichen, "Unerlaubte Zeichen");
 export const uhrzeit = z.string().trim().regex(/^([01]?\d|2[0-3])\.[0-5]\d$/, "Zeit als 7.30 oder 17.15");
