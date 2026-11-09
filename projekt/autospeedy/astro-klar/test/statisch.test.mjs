@@ -262,9 +262,26 @@ test("Nachtrag Schalter Live (Testbuild): index + Sitemap, kein noindex, sitemap
   bau.adresse = "https://www.autospeedy.ch";
   bau.kiTraining = { entscheid: "erlaubt", datum: "2026-11-04" };
   bau.crawlerListeGeprueft = "2026-11-04";
-  fs.writeFileSync(bp, JSON.stringify(bau, null, 2));
+  bau.pagesProjekt = "autospeedy-test";
+  const baue = () => execSync(`npx astro build --outDir ${outDir}`, { cwd: wurzel, env: { ...process.env, DATEN: inhalt }, stdio: "pipe" });
   try {
-    execSync(`npx astro build --outDir ${outDir}`, { cwd: wurzel, env: { ...process.env, DATEN: inhalt }, stdio: "pipe" });
+    // Sperre: Solange Lücken offen und nicht freigegeben sind, bricht der Live-Bau mit der Liste ab.
+    bau.lueckenFreigegeben = [];
+    fs.writeFileSync(bp, JSON.stringify(bau, null, 2));
+    let gesperrt = "";
+    try { baue(); } catch (e) { gesperrt = String(e.stderr || "") + String(e.stdout || ""); }
+    assert.match(gesperrt, /Livegang gesperrt: \d+ offene Lücken/, "live mit offenen Lücken: Bau bricht ab");
+    assert.match(gesperrt, /\/datenschutz\/: «/, "die Liste nennt Seite und Text der Lücke");
+    // Ohne Namen des Pages-Projekts gibt es keinen Livegang (sonst steht <name>.pages.dev doppelt im Index).
+    fs.writeFileSync(bp, JSON.stringify({ ...bau, pagesProjekt: null, lueckenFreigegeben: ["*"] }, null, 2));
+    let ohneProjekt = "";
+    try { baue(); } catch (e) { ohneProjekt = String(e.stderr || "") + String(e.stdout || ""); }
+    assert.match(ohneProjekt, /pagesProjekt/, "live ohne pagesProjekt: Bau bricht ab");
+    // Bewusst freigegeben: Der Bau läuft, und von den Lücken bleibt im HTML keine Spur.
+    bau.lueckenFreigegeben = ["*"];
+    fs.writeFileSync(bp, JSON.stringify(bau, null, 2));
+    baue();
+    assert.match(fs.readFileSync(path.join(outDir, "_headers"), "utf8"), /https:\/\/autospeedy-test\.pages\.dev\/\*\n  X-Robots-Tag: noindex/, "live: pages.dev bleibt ausserhalb des Index");
     const idx = fs.readFileSync(path.join(outDir, "index.html"), "utf8");
     assert.ok(!/<meta name="robots" content="noindex">/.test(idx), "live: kein noindex-Meta");
     const robots = fs.readFileSync(path.join(outDir, "robots.txt"), "utf8");
@@ -288,7 +305,7 @@ test("Nachtrag Schalter Live (Testbuild): index + Sitemap, kein noindex, sitemap
       if (/[\\/]admin[\\/]/.test(p)) continue;
       const s = fs.readFileSync(p, "utf8").replace(/<script[\s\S]*?<\/script>/g, "");
       const wo = path.relative(outDir, p);
-      assert.doesNotMatch(s, /data-luecke|data-vorschau/, `live ${wo}: keine Lücke, kein Vorschau-Balken`);
+      assert.doesNotMatch(s, /data-luecke|data-vorschau|<!--luecke:/, `live ${wo}: keine Lücke, keine Marke, kein Vorschau-Balken`);
       assert.doesNotMatch(s, /Entwurf:|Nur in der Vorschau|wird durch ein eigenes Foto ersetzt|Name folgt|Lücke:|Hier erscheint/, `live ${wo}: kein Vorschau-Text`);
     }
   } finally {

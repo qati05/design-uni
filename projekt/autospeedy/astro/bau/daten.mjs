@@ -84,7 +84,7 @@ if (!["geruest", "abgabe"].includes(stufe)) fehler.push(`bau.json oder STUFE: st
 melde("betrieb.json", leere(betrieb, "", []));
 const { seiten: _seiten, ...texteOhneSeiten } = texte;
 melde("texte.json", leere(texteOhneSeiten, "", []));
-if (!vorschau) melde("bau.json (nötig für den Livegang)", leere({ adresse: bau.adresse, kiTraining: bau.kiTraining, crawlerListeGeprueft: bau.crawlerListeGeprueft }, "", []));
+if (!vorschau) melde("bau.json (nötig für den Livegang)", leere({ adresse: bau.adresse, kiTraining: bau.kiTraining, crawlerListeGeprueft: bau.crawlerListeGeprueft, pagesProjekt: bau.pagesProjekt || "" }, "", []));
 
 // Formate, die ein Werkzeug prüfen kann.
 const tel = betrieb.tel || {};

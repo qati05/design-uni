@@ -192,3 +192,12 @@ test("Drossel-Binding sagt Ja: 200; kein Binding: übersprungen", () => mitBrevo
   const env = { ...envBrevoBetrieb, DROSSEL: { limit: async () => ({ success: true }) } };
   assert.equal((await onRequestPost({ request: anfrage(formular()), env })).status, 200);
 }));
+
+test("Livegang: Ohne Herkunftsprüfung oder Zeitfalle ist der Schutz nicht bereit; in der Vorschau läuft das Formular auch ohne", async () => {
+  const { schutzBereit } = await import("../../gemeinsam/schutz.js");
+  assert.equal(schutzBereit({}, false), true, "Vorschau: ohne Schlüssel bedienbar");
+  assert.equal(schutzBereit({}, true), false, "live ohne beide: gesperrt");
+  assert.equal(schutzBereit({ ERLAUBTE_HERKUNFT: "https://www.autospeedy.ch" }, true), false, "live ohne Zeitfalle: gesperrt");
+  assert.equal(schutzBereit({ FORMULAR_HMAC: "x" }, true), false, "live ohne Herkunft: gesperrt");
+  assert.equal(schutzBereit({ ERLAUBTE_HERKUNFT: "https://www.autospeedy.ch", FORMULAR_HMAC: "x" }, true), true, "live mit beiden: bereit");
+});

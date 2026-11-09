@@ -6,16 +6,20 @@
 import { pruefe, GRENZEN, mailVoll, mailVollHtml, bestaetigungText, betreff } from "../../../gemeinsam/meldung.ts";
 import { sende, base64 } from "../../../gemeinsam/mail.js";
 import { istJpeg, ohneMetadaten } from "../../../gemeinsam/jpeg.js";
-import { antwort, herkunftOk, tokenAntwort, zeitfalle, gedrosselt } from "../../../gemeinsam/schutz.js";
+import { antwort, herkunftOk, schutzBereit, tokenAntwort, zeitfalle, gedrosselt } from "../../../gemeinsam/schutz.js";
 import betriebDaten from "../../src/content/betrieb.json" with { type: "json" };
+import bauDaten from "../../src/content/bau.json" with { type: "json" };
 
 const TEL = betriebDaten.tel.anzeige;
+const LIVE = bauDaten.vorschau === false;
 const fehlerAntwort = (status, fehler) => antwort(status, { ok: false, fehler, telefon: TEL });
 
 /** GET /api/schaden?t=1 → Zeitfalle-Token (HMAC über den Zeitstempel). Ohne FORMULAR_HMAC ist die Falle aus. */
 export const onRequestGet = ({ request, env }) => tokenAntwort(request, env);
 
 export async function onRequestPost({ request, env }) {
+  // 0. Livegang ohne eingerichteten Schutz: nicht offen laufen, sondern klar ablehnen (die Seite zeigt dann das Telefon)
+  if (!schutzBereit(env, LIVE)) { console.log("formular: gesperrt, ERLAUBTE_HERKUNFT oder FORMULAR_HMAC fehlt"); return fehlerAntwort(503, ["einrichtung"]); }
   // 1. Origin
   if (!herkunftOk(request, env)) return fehlerAntwort(403, ["herkunft"]);
   // 2. multipart

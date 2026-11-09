@@ -122,6 +122,23 @@ export default function dateien({ csp = false } = {}) {
           return;
         }
 
+        // Sperre für den Livegang: Jede offene Lücke (Marke aus Luecke.astro) muss in bau.json «lueckenFreigegeben»
+        // stehen (ein Textstück der Lücke, oder "*" für alle). Sonst bricht der Bau mit der Liste ab. Die Marken
+        // verschwinden danach aus dem HTML, damit live nichts davon zu sehen ist.
+        const frei = Array.isArray(bau.lueckenFreigegeben) ? bau.lueckenFreigegeben.filter((f) => typeof f === "string" && f.trim()) : [];
+        const offen = [];
+        for (const s of seiten) {
+          const datei = path.join(ziel, s);
+          const html = fs.readFileSync(datei, "utf8");
+          if (!html.includes("<!--luecke:")) continue;
+          for (const m of html.matchAll(/<!--luecke:([\s\S]*?)-->/g)) {
+            const text = m[1].trim();
+            if (!frei.includes("*") && !frei.some((f) => text.includes(f))) offen.push(`${adresseVon(s)}: «${text}»`);
+          }
+          fs.writeFileSync(datei, html.replace(/<!--luecke:[\s\S]*?-->\n?/g, ""));
+        }
+        if (offen.length) throw new Error(`Livegang gesperrt: ${offen.length} offene Lücken. Schliessen, oder in bau.json unter «lueckenFreigegeben» mit einem Textstück bewusst freigeben:\n  ` + offen.join("\n  "));
+
         const ki = bau.kiTraining.entscheid;
         const robots = [
           `# Entscheid KI-Training: ${ki} (${bau.kiTraining.datum})`,

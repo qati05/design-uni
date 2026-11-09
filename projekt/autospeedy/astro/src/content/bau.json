@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Technik. vorschau true: noindex, keine Sitemap, kein canonical. Erst nach Freigabe durch den Betrieb oder das Studio auf false (web-uni Livegang, WP9); dann sind adresse, kiTraining und crawlerListeGeprueft Pflicht. stufe «geruest»: fehlende spätere Texte (Beschreibung, Rechtsseiten) sind HINWEIS; «abgabe» (oder STUFE=abgabe beim Bau): FEHLER. Der Livegang prüft immer wie «abgabe».",
+  "_hinweis": "Technik. vorschau true: noindex, keine Sitemap, kein canonical. Erst nach Freigabe durch den Betrieb oder das Studio auf false (web-uni Livegang, WP9); dann sind adresse, kiTraining, crawlerListeGeprueft und pagesProjekt Pflicht, und jede offene Lücke muss geschlossen oder unter lueckenFreigegeben freigegeben sein. stufe «geruest»: fehlende spätere Texte (Beschreibung, Rechtsseiten) sind HINWEIS; «abgabe» (oder STUFE=abgabe beim Bau): FEHLER. Der Livegang prüft immer wie «abgabe».",
   "vorschau": true,
   "stufe": "geruest",
   "sprache": "de-CH",
@@ -10,6 +10,9 @@
   },
   "crawlerListeGeprueft": "",
   "pagesProjekt": null,
+  "_pagesProjekt": "Name des Projekts bei Cloudflare Pages (ohne .pages.dev). Im Livegang Pflicht: damit bleibt <name>.pages.dev ausserhalb von Google.",
+  "lueckenFreigegeben": [],
+  "_luecken": "Sperre für den Livegang: Der Live-Bau bricht ab, solange eine Lücke-Box offen ist. Hier ein Textstück der Lücke eintragen, wenn sie bewusst ohne Ersatz live gehen darf. \"*\" gibt alle frei (nur für Tests).",
   "formularEndpunkt": null,
   "_formular": "formularEndpunkt: null = kein Server, das Formular übergibt an das E-Mail-Programm (zusammenspiel Teil 7). \"/api/schaden\" erst, wenn functions/api/schaden.js deployt und MAIL_ENDPUNKT gesetzt ist (web-uni WP4, technik.md)."
 }

@@ -25,6 +25,10 @@ function gleich(a, b) {
   return r === 0;
 }
 
+/** Livegang: Ohne Herkunftsprüfung und Zeitfalle läuft das Formular nicht offen weiter, sondern meldet «nicht bereit».
+ *  In der Vorschau (live = false) bleibt es ohne Schlüssel bedienbar, damit man es vorführen kann. */
+export const schutzBereit = (env, live) => !live || (!!env.ERLAUBTE_HERKUNFT && !!env.FORMULAR_HMAC);
+
 /** Herkunft: nur prüfen, wenn ERLAUBTE_HERKUNFT gesetzt ist (dann muss Origin genau gleich sein, fehlend = fremd). */
 export const herkunftOk = (request, env) => !env.ERLAUBTE_HERKUNFT || request.headers.get("Origin") === env.ERLAUBTE_HERKUNFT;
 

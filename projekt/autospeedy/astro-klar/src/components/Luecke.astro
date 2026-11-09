@@ -1,7 +1,10 @@
 ---
 // Sichtbare Lücke statt erfundener Fakten (wie in der ersten Linie); data-luecke macht sie für Prüfungen zählbar.
-// A3: ein Schalter blendet die Lücke-Boxen aus, sobald «noindex» wegfällt. Der Schalter ist dieselbe Vorschau-Flagge,
-// die auch das noindex-Meta setzt (bau.json «vorschau»): in der Vorschau sichtbar, beim Livegang automatisch weg.
+// In der Vorschau sichtbar. Im Live-Bau unsichtbar, aber nicht still: Die Lücke hinterlässt eine Marke, die der Bau
+// (astro/bau/dateien.mjs) zählt, gegen bau.json «lueckenFreigegeben» prüft und danach aus dem HTML entfernt.
+// Ist eine Lücke nicht freigegeben, bricht der Live-Bau mit der Liste ab.
 import { vorschau } from "../../../astro/bau/daten.mjs";
+const roh = vorschau ? "" : ((await Astro.slots.render("default")) || "");
+const text = roh.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().replace(/-{2,}/g, "-").replace(/>/g, "");
 ---
-{vorschau && <p class="luecke" data-luecke><slot /></p>}
+{vorschau ? <p class="luecke" data-luecke><slot /></p> : <Fragment set:html={`<!--luecke:${text}-->`} />}
