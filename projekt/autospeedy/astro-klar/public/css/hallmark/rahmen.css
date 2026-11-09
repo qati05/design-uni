@@ -4,8 +4,12 @@
 /* The gutters the chrome measures with, as base.css sets them on the start page. */
 @media (max-width: 60rem) { :root { --gutter: 24px; --section-gap-s: 80px; --section-gap: 96px; --section-gap-l: 120px; } }
 @media (max-width: 40rem) { :root { --gutter: 16px; --section-gap-s: 56px; --section-gap: 72px; --section-gap-l: 96px; --gap-columns: 16px; } }
+/* Where the chrome stands: on the pages behind the start page, header and footer take the edges of the content
+ * (klar.css: --breit, --rand), so nothing jumps sideways between header, page and footer. The start page sets its
+ * own, wider column in seite.css. */
+:root { --rahmen-rand: var(--rand); --rahmen-breit: calc(var(--breit) - 2 * var(--rand)); }
 /* The project's header becomes a floating pill; its markup and script stay. */
-.kopf { inset: 0 0 auto; top: calc(var(--hinweis-hoehe, 0px) + var(--space-sm)); margin-inline: auto; width: min(100% - 2 * var(--gutter), var(--container) - 2 * var(--gutter)); height: 64px; padding: 0 var(--space-xs) 0 var(--space-lg); grid-template-columns: auto minmax(0, 1fr) auto; column-gap: var(--gap-columns); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: var(--color-paper); }
+.kopf { inset: 0 0 auto; top: calc(var(--hinweis-hoehe, 0px) + var(--space-sm)); margin-inline: auto; width: min(100% - 2 * var(--rahmen-rand), var(--rahmen-breit)); height: 64px; padding: 0 var(--space-xs) 0 var(--space-lg); grid-template-columns: auto minmax(0, 1fr) auto; column-gap: var(--gap-columns); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: var(--color-paper); }
 .kopf::before { content: none; }
 .kopf__nav { justify-self: start; }
 .kopf .kopf__aktion { min-height: 48px; padding: 0 var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: transparent; color: var(--color-ink); font: 500 var(--text-md)/1 var(--font-body); box-shadow: none; }
@@ -26,7 +30,7 @@
 
 /* The project's closing block: the page's gutter, controls and faces. */
 /* K16: der Fuss bleibt am Computer unter 700 px Höhe. */
-.fuss__blatt { max-width: var(--container); padding: var(--space-3xl) var(--gutter) 0; gap: var(--space-xl); }
+.fuss__blatt { max-width: calc(var(--rahmen-breit) + 2 * var(--rahmen-rand)); padding: var(--space-3xl) var(--rahmen-rand) 0; gap: var(--space-xl); }
 .fuss-aufruf { gap: var(--space-lg); }
 .fuss-aufruf__ruf { font-size: var(--text-section); line-height: 1.05; letter-spacing: var(--tracking-display); }
 .fuss .ctas { gap: var(--space-sm); }

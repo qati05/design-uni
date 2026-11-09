@@ -97,6 +97,8 @@ export default function dateien({ csp = false } = {}) {
         ];
         // Performance (Nachtrag 08.11.2026): Schriften ändern sich nie unter demselben Namen, darum lange im Browser behalten.
         kopf.push("", "/fonts/*", "  Cache-Control: public, max-age=31536000, immutable");
+        // Bilder behalten ihren Namen, darum nur ein Tag (nicht «immutable»): spart Nachfragen beim zweiten Besuch.
+        kopf.push("", "/bilder/*", "  Cache-Control: public, max-age=86400");
         // Editor /admin/ (Linie Klar, BAUPLAN 4.1): eigene, enge CSP. Eigenes Vanilla-JS aus 'self', keine Fremdhosts,
         // keine Einbettung. noindex und no-store. «! Content-Security-Policy» ersetzt (nicht ergänzt) die allgemeine Zeile.
         if (csp) kopf.push(

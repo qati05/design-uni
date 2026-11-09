@@ -2,6 +2,7 @@
 import Klar from "../layouts/Klar.astro";
 import Kopfbild from "../components/Kopfbild.astro";
 import { site } from "../../../astro/bau/daten.mjs";
+import { teamTitelSeite } from "../daten/team";
 // Namen, Rollen und Porträts wie auf autospeedy.ch/team; der Betrieb erlaubt die Übernahme (Roni, 04.11.2026). Das Feld einverstaendnis bleibt die Pflege-Sperre im Cockpit.
 const gruppen = site.team
   .map((g: any) => ({ ...g, leute: g.leute.filter((p: any) => p.einverstaendnis) }))
@@ -15,7 +16,7 @@ const personen = gruppen.flatMap((g: any) => g.leute.map((p: any) => {
 }));
 ---
 <Klar seite="team" brotkrumen={[{ name: "Startseite", pfad: "/" }, { name: "Team", pfad: "/team/" }]} ldExtra={personen}>
-<Kopfbild titel="Zehn Leute, vier Bereiche." foto="team-kabine" alt="Mitarbeiter in der Lackierkabine neben einer abgeklebten Fahrzeugtür">
+<Kopfbild titel={teamTitelSeite} foto="team-kabine" alt="Mitarbeiter in der Lackierkabine neben einer abgeklebten Fahrzeugtür">
   <p>Von der Annahme bis zum Finish: So ist das Team von Auto Speedy aufgeteilt.</p>
 </Kopfbild>
 <section class="abschnitt">

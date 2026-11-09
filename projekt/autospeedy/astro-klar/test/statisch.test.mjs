@@ -280,10 +280,47 @@ test("Nachtrag Schalter Live (Testbuild): index + Sitemap, kein noindex, sitemap
     const ld = JSON.parse(idx.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
     const shop = ld["@graph"].find((x) => /AutoBody|AutoRepair/.test(x["@type"]));
     assert.ok(!("aggregateRating" in shop), "live ohne Daten: kein aggregateRating");
+    // Livegang: Auf keiner Seite bleibt ein Rest der Vorschau stehen (Lücken, Entwürfe, Platzhalter-Hinweise).
+    const alle = [];
+    (function sammle(d) { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, e.name); if (e.isDirectory()) sammle(p); else if (e.name.endsWith(".html")) alle.push(p); } })(outDir);
+    assert.ok(alle.length >= 16, "live: Seiten gefunden");
+    for (const p of alle) {
+      if (/[\\/]admin[\\/]/.test(p)) continue;
+      const s = fs.readFileSync(p, "utf8").replace(/<script[\s\S]*?<\/script>/g, "");
+      const wo = path.relative(outDir, p);
+      assert.doesNotMatch(s, /data-luecke|data-vorschau/, `live ${wo}: keine Lücke, kein Vorschau-Balken`);
+      assert.doesNotMatch(s, /Entwurf:|Nur in der Vorschau|wird durch ein eigenes Foto ersetzt|Name folgt|Lücke:|Hier erscheint/, `live ${wo}: kein Vorschau-Text`);
+    }
   } finally {
     fs.rmSync(inhalt, { recursive: true, force: true });
     fs.rmSync(outDir, { recursive: true, force: true });
   }
+});
+
+test("Livegang: alte Adressen der früheren Website leiten dauerhaft auf eine Seite, die es gibt", () => {
+  const zeilen = lies(path.join(dist, "_redirects")).split("\n").filter((z) => z.trim() && !z.startsWith("#")).map((z) => z.trim().split(/\s+/));
+  assert.ok(zeilen.length >= 15, "Liste vorhanden");
+  for (const [von, nach, code] of zeilen) {
+    assert.equal(code, "301", `${von}: dauerhaft`);
+    assert.match(von, /^\/[a-z0-9\-/*]+$/, `${von}: Pfad`);
+    assert.ok(fs.existsSync(path.join(dist, nach, "index.html")), `${von} führt auf ${nach}, die Seite gibt es`);
+    assert.ok(!fs.existsSync(path.join(dist, von.replace(/\*$/, ""), "index.html")) || von.endsWith("*"), `${von} verdeckt keine neue Seite`);
+  }
+  // Jede Adresse der alten Sitemap hat ein Ziel (/, /team und /kontakt bleiben bestehen).
+  const alt = ["/kopie-von-spritzwerk", "/bilder-spritzwerk", "/kopie-von-folierung", "/kopie-von-alufelgen-1", "/auto-sppey-ag", "/dienstleistungen", "/bilder-carrosserie", "/book-online", "/services-4"];
+  for (const a of alt) assert.ok(zeilen.some(([von]) => von === a), `${a} hat eine Weiterleitung`);
+  assert.ok(zeilen.some(([von]) => von === "/service-page/*"), "Muster-Seiten des Baukastens leiten weiter");
+});
+
+test("Team: die Zahl in den Überschriften zählt mit (Cockpit ändert das Team)", () => {
+  const site = JSON.parse(lies(path.join(wurzel, "../astro/src/daten/site.json")));
+  const gruppen = site.team.map((g) => g.leute.filter((p) => p.einverstaendnis).length).filter((n) => n > 0);
+  const leute = gruppen.reduce((a, b) => a + b, 0);
+  const wort = ["null", "eine", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun", "zehn", "elf", "zwölf"];
+  const gross = (s) => s[0].toUpperCase() + s.slice(1);
+  assert.ok(leute >= 2 && leute <= 12 && gruppen.length >= 2, "Fixture: Team wie erwartet");
+  assert.ok(lies(path.join(dist, "index.html")).includes(`${gross(wort[leute])} Leute, eine Werkstatt.`), "Startseite zählt richtig");
+  assert.ok(lies(path.join(dist, "team", "index.html")).includes(`${gross(wort[leute])} Leute, ${wort[gruppen.length]} Bereiche.`), "Teamseite zählt richtig");
 });
 
 test("Nachtrag SEO/AEO 08.11.: Service je Leistungsseite, WebSite/WebPage, Brotkrumen auf Kontakt/Team, keine JSON-LD auf 404, llms.txt mit Zeiten", () => {

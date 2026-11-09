@@ -1,0 +1,21 @@
+# Alte Adressen der früheren Website (Wix, Sitemap gelesen am 09.11.2026) führen auf die passende neue Seite.
+# Format: Cloudflare Pages. 301 = dauerhaft. /team und /kontakt gibt es weiter, sie brauchen keine Zeile.
+/dienstleistungen /leistungen/ 301
+/dienstleistungen/ /leistungen/ 301
+/kopie-von-spritzwerk /leistungen/lack/ 301
+/kopie-von-spritzwerk/ /leistungen/lack/ 301
+/bilder-spritzwerk /leistungen/lack/ 301
+/bilder-spritzwerk/ /leistungen/lack/ 301
+/bilder-carrosserie /leistungen/unfall-carrosserie/ 301
+/bilder-carrosserie/ /leistungen/unfall-carrosserie/ 301
+/kopie-von-folierung /leistungen/folierung/ 301
+/kopie-von-folierung/ /leistungen/folierung/ 301
+/kopie-von-alufelgen-1 /leistungen/felgen/ 301
+/kopie-von-alufelgen-1/ /leistungen/felgen/ 301
+/auto-sppey-ag /team/ 301
+/auto-sppey-ag/ /team/ 301
+/services-4 /team/ 301
+/services-4/ /team/ 301
+/book-online /schaden-melden/ 301
+/book-online/ /schaden-melden/ 301
+/service-page/* /leistungen/ 301

@@ -1,9 +1,8 @@
 ---
 // Rahmen der Linie «Klar». Titel und Beschreibung aus texte.json wie in der ersten Linie (dieselbe Quelle, dieselben Prüfungen).
 // Nachtrag 04.11.2026: SEO (Titel, Beschreibung, Canonical, Open Graph, Twitter, Icons) und AEO (JSON-LD AutoBodyShop
-// mit Services, areaServed, sameAs; aggregateRating NUR live; FAQPage und BreadcrumbList je Seite als Props).
+// mit Services, areaServed, sameAs, Wochenzeiten und kommenden Feiertagen/Ferien; FAQPage und BreadcrumbList je Seite als Props).
 import { texte, vorschau, seite as lies } from "../../../astro/bau/daten.mjs";
-import bewDaten from "../daten/bewertungen.json";
 import { leistungen } from "../daten/leistungen";
 import Kopf from "../components/Kopf.astro";
 import Fuss from "../components/Fuss.astro";
@@ -22,24 +21,30 @@ const ogAbs = /^https?:/.test(ogBild) ? ogBild : basis + ogBild;
 // Öffnungszeiten für JSON-LD.
 const zeiten = b.zeiten.filter((z: any) => z.fenster).flatMap((z: any) => z.fenster.map(([von, bis]: string[]) => ({ "@type": "OpeningHoursSpecification", dayOfWeek: z.ld.length === 1 ? z.ld[0] : z.ld, opens: pad(von), closes: pad(bis) })));
 
-// aggregateRating NUR mit echten Daten und NUR live (nie in der Vorschau). Quelle: dieselbe bewertungen.json wie Bewertungen.astro.
-let rating: any = null;
-const bd = bewDaten as any;
-if (!vorschau && bd && bd.status === "ok" && typeof bd.note === "number" && typeof bd.anzahl === "number")
-  rating = { "@type": "AggregateRating", ratingValue: bd.note, reviewCount: bd.anzahl, bestRating: 5 };
+// Feiertage und Ferien (Cockpit) als eigene Einträge mit Zeitraum, damit Suchmaschinen und KI-Assistenten nicht «geöffnet» sagen,
+// wenn der Betrieb zu hat. Form nach Google (LocalBusiness): validFrom/validThrough, geschlossen = opens und closes «00:00».
+// Vergangenes fällt weg (wie in Zeiten.astro). Die Wochenzeiten oben bleiben unverändert.
+const heuteLd = new Date().toISOString().slice(0, 10);
+const alleTage = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const sonderzeiten = (b.ausnahmen || []).filter((a: any) => (a.ende || a.datum) >= heuteLd).flatMap((a: any) => {
+  const zeitraum = { "@type": "OpeningHoursSpecification", dayOfWeek: alleTage, validFrom: a.datum, validThrough: a.ende || a.datum };
+  return a.zu ? [{ ...zeitraum, opens: "00:00", closes: "00:00" }] : (a.fenster || []).map(([von, bis]: string[]) => ({ ...zeitraum, opens: pad(von), closes: pad(bis) }));
+});
+
+// Kein aggregateRating: Google sieht Sterne im eigenen JSON-LD eines Betriebs nicht vor (nur für Seiten, die andere bewerten).
+// Die Note steht sichtbar auf der Seite, mit Link zu Google.
 
 const betriebLd: any = {
   "@type": b.typ, "@id": basis + "/#betrieb", name: b.name, url: basis + "/", image: ogAbs, telephone: b.tel.e164, email: b.mail,
   address: { "@type": "PostalAddress", streetAddress: b.strasse, postalCode: b.plz, addressLocality: b.ort, addressRegion: b.kanton, addressCountry: b.land },
   logo: basis + "/bilder/logo-144.png", hasMap: b.route,
   areaServed: [{ "@type": "City", name: "Altstätten" }, { "@type": "AdministrativeArea", name: "Rheintal" }],
-  openingHoursSpecification: zeiten,
+  openingHoursSpecification: [...zeiten, ...sonderzeiten],
   makesOffer: leistungen.map((l) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: l.titel, description: l.kurz, url: basis + l.pfad } })),
 };
 if (b.geo && b.geo.lat && b.geo.lon) betriebLd.geo = { "@type": "GeoCoordinates", latitude: b.geo.lat, longitude: b.geo.lon };
 const sameAs = [b.bewertungen && b.bewertungen.facebook, b.occasionen && b.occasionen.liste].filter(Boolean);
 if (sameAs.length) betriebLd.sameAs = sameAs;
-if (rating) betriebLd.aggregateRating = rating;
 
 // Nachtrag 08.11.2026 (SEO/AEO): WebSite und WebPage je Seite, damit Suchmaschinen und KI-Assistenten Seite, Betrieb und
 // Brotkrumen verknüpfen; Service-Knoten auf Leistungsseiten (Prop `dienst`), weitere Knoten über `ldExtra` (Team, Occasionen).

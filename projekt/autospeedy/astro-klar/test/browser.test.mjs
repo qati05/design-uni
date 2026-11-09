@@ -371,18 +371,21 @@ test("Leistungen: je Zeile genau ein Link mit Foto, Titel und Text, Ziele in fes
   await ctx.close();
 });
 
-test("Leistungen: ein Zeichen beim Überfahren (Foto, nur transform, 420 ms), keines unter Reduced Motion", async () => {
+test("Leistungen: ein Zeichen beim Überfahren (der Strich unter dem Titel wird dunkel), das Foto bleibt ruhig", async () => {
   const { ctx, page } = await seite({ viewport: { width: 1280, height: 800 } });
   await page.goto(basis + "/");
-  const bild = await page.$eval(".hm-index__bild img", (el) => { const s = getComputedStyle(el); return { prop: s.transitionProperty, dur: s.transitionDuration }; });
-  assert.equal(bild.prop, "transform", "Foto animiert nur transform");
-  assert.match(bild.dur, /0\.42s/, "420 ms");
+  const zeile = page.locator(".hm-index a").first();
+  await zeile.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(900);
+  const lies = () => zeile.evaluate((a) => ({ strich: getComputedStyle(a.querySelector("h3")).textDecorationColor, bild: getComputedStyle(a.querySelector("img")).transform, prop: getComputedStyle(a.querySelector("h3")).transitionProperty }));
+  const vor = await lies();
+  await zeile.hover();
+  await page.waitForTimeout(400);
+  const nach = await lies();
+  assert.match(vor.prop, /text-decoration-color/, "Titel animiert nur die Farbe des Strichs");
+  assert.notEqual(nach.strich, vor.strich, "Strich ändert beim Überfahren die Farbe");
+  assert.equal(nach.bild, vor.bild, "Foto bewegt sich nicht (Hallmark: Bilder bleiben ruhig)");
   await ctx.close();
-  const ruhig = await seite({ viewport: { width: 1280, height: 800 }, reducedMotion: "reduce" });
-  await ruhig.page.goto(basis + "/");
-  const dauer = await ruhig.page.$eval(".hm-index__bild img", (el) => getComputedStyle(el).transitionDuration);
-  assert.match(dauer, /^0s/, `keine Bewegung unter Reduced Motion, war «${dauer}»`);
-  await ruhig.ctx.close();
 });
 
 test("Leistungen: Handy zeigt Zeilen, jede so breit wie die Spalte", async () => {
@@ -502,6 +505,24 @@ test("Kopfleiste verdeckt die H1 nicht (A1): H1-Oberkante unter der Kopf-Unterka
     // Die Kopfleiste schwebt (Hallmark-Fassung): höchstens ein schmaler Abstand zum oberen Rand, kein leerer Streifen.
     assert.ok(kopf.y <= 24, `${breite}px ${pfad}: Kopf sitzt oben (top ${kopf.y})`);
     assert.deepEqual(fehler, []);
+    await ctx.close();
+  }
+});
+
+test("Kopf, Inhalt und Fuss stehen auf denselben Kanten (Start- und Unterseiten, 390 bis 1920)", async () => {
+  for (const breite of [390, 768, 1024, 1280, 1440, 1920]) {
+    const { ctx, page } = await seite({ viewport: { width: breite, height: 900 }, reducedMotion: "reduce" });
+    for (const pfad of ["/", "/leistungen/lack/", "/kontakt/", "/team/", "/tesla/", "/impressum/"]) {
+      await page.goto(basis + pfad, { waitUntil: "load" });
+      const r = await page.evaluate(() => {
+        const x = (s) => { const e = document.querySelector(s); if (!e) return null; const b = e.getBoundingClientRect(); return [b.left, b.right]; };
+        return { kopf: x(".kopf"), inhalt: x("main .abschnitt__innen") || x("main .hm-fakten__liste"), fuss: x(".fuss-raster") };
+      });
+      for (const [name, k] of [["Inhalt", r.inhalt], ["Fuss", r.fuss]]) {
+        assert.ok(k, `${breite} ${pfad}: ${name} gefunden`);
+        assert.ok(Math.abs(k[0] - r.kopf[0]) <= 1 && Math.abs(k[1] - r.kopf[1]) <= 1, `${breite} ${pfad}: ${name} ${k.map(Math.round)} auf den Kanten des Kopfs ${r.kopf.map(Math.round)}`);
+      }
+    }
     await ctx.close();
   }
 });

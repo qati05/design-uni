@@ -3,7 +3,7 @@ import Klar from "../layouts/Klar.astro";
 import Kopfbild from "../components/Kopfbild.astro";
 import Rueckruf from "../components/Rueckruf.astro";
 import Luecke from "../components/Luecke.astro";
-import { betrieb as b } from "../../../astro/bau/daten.mjs";
+import { betrieb as b, vorschau } from "../../../astro/bau/daten.mjs";
 const w = b.occasionen?.widget;
 ---
 <Klar seite="occasionen" brotkrumen={[{ name: "Startseite", pfad: "/" }, { name: "Occasionen", pfad: "/occasionen/" }]}>
@@ -11,6 +11,8 @@ const w = b.occasionen?.widget;
   <p>Auf unserem Areal finden Sie laufend verschiedene Occasionen. Als markenunabhängige Garage kaufen wir auch Ihr Auto an.</p>
   <a class="k k--blau occasionen-liste" href={b.occasionen?.liste} rel="noopener" target="_blank">Aktuelle Occasionen auf AutoScout24</a>
 </Kopfbild>
+{/* Ohne Widget-Code gibt es live keinen leeren Kasten: der Knopf oben führt direkt zur Liste auf AutoScout24. Der Platzhalter steht nur in der Vorschau. */}
+{(w?.src || vorschau) && (
 <section class="abschnitt">
   <div class="abschnitt__innen">
     <div class="karte fremd" data-fremd data-art={w?.art} data-src={w?.src} data-hoehe={w?.hoehe ?? 900} data-titel="Occasionen anzeigen">
@@ -23,6 +25,7 @@ const w = b.occasionen?.widget;
     </div>
   </div>
 </section>
+)}
 <section class="abschnitt abschnitt--flaeche" aria-labelledby="angebot-titel">
   <div class="abschnitt__innen zwei-spalten">
     <div>

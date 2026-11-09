@@ -26,7 +26,8 @@ test("Startseite JSON-LD: openingHoursSpecification entspricht site.zeiten", () 
   const site = JSON.parse(lies(sitePfad));
   const erwartet = site.zeiten.filter((z) => !z.geschlossen).flatMap((z) =>
     z.fenster.map((f) => ({ dayOfWeek: z.wochentage.length === 1 ? z.wochentage[0] : z.wochentage, opens: pad(f.von), closes: pad(f.bis) })));
-  const ist = (betrieb.openingHoursSpecification || []).map((o) => ({ dayOfWeek: o.dayOfWeek, opens: o.opens, closes: o.closes }));
+  // Einträge mit Zeitraum (validFrom) sind Feiertage und Ferien; sie prüft der Fixture-Test weiter unten.
+  const ist = (betrieb.openingHoursSpecification || []).filter((o) => !o.validFrom).map((o) => ({ dayOfWeek: o.dayOfWeek, opens: o.opens, closes: o.closes }));
   assert.deepEqual(ist, erwartet, "JSON-LD-Zeiten weichen von site.zeiten ab");
 });
 
@@ -75,7 +76,14 @@ test("Fuss: eine Ausnahme in 10 Tagen erscheint in der Wochen-Tabelle (Fixture s
   const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
   const site = JSON.parse(lies(sitePfad));
-  site.ausnahmen = [{ name: "Betriebsferien", datum: iso, geschlossen: true }];
+  const plus = (n) => { const x = new Date(d); x.setDate(x.getDate() + n); return `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, "0")}-${String(x.getDate()).padStart(2, "0")}`; };
+  const gestern = (() => { const x = new Date(); x.setDate(x.getDate() - 2); return x.toISOString().slice(0, 10); })();
+  site.ausnahmen = [
+    { name: "Vorbei", datum: gestern, geschlossen: true },
+    { name: "Betriebsferien", datum: iso, geschlossen: true },
+    { name: "Sommerferien", datum: plus(20), bisDatum: plus(27), geschlossen: true },
+    { name: "Kurzer Tag", datum: plus(40), geschlossen: false, von: "8.00", bis: "12.00" },
+  ];
   const fixture = path.join(os.tmpdir(), `site-ausnahme-${process.pid}.json`);
   const outDir = path.join(os.tmpdir(), `dist-fuss-${process.pid}`);
   fs.writeFileSync(fixture, JSON.stringify(site));
@@ -93,6 +101,17 @@ test("Fuss: eine Ausnahme in 10 Tagen erscheint in der Wochen-Tabelle (Fixture s
     // Die Ausnahme steht auch in data-fuss fuer die Status-Berechnung.
     const daten = fussDaten(lies(path.join(outDir, "index.html")));
     assert.deepEqual(daten.ausnahmen[iso], [], "geschlossene Ausnahme = leeres Fenster in data-fuss");
+    // JSON-LD: kommende Feiertage und Ferien mit Zeitraum (geschlossen = 00:00 bis 00:00), Vergangenes nicht, Wochenzeiten bleiben.
+    const ld = JSON.parse(lies(path.join(outDir, "index.html")).match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+    const zeiten = ld["@graph"].find((x) => /AutoBody|AutoRepair/.test(x["@type"])).openingHoursSpecification;
+    const sonder = zeiten.filter((o) => o.validFrom).map((o) => [o.validFrom, o.validThrough, o.opens, o.closes]);
+    assert.deepEqual(sonder, [[iso, iso, "00:00", "00:00"], [plus(20), plus(27), "00:00", "00:00"], [plus(40), plus(40), "08:00", "12:00"]], "Ferien und Feiertage im JSON-LD");
+    assert.ok(zeiten.some((o) => !o.validFrom), "Wochenzeiten stehen weiter drin");
+    assert.ok(!("aggregateRating" in ld["@graph"][0]), "keine eigene Sterne-Angabe");
+    // llms.txt nennt die kommenden Schliessungen ebenfalls.
+    const llms = lies(path.join(outDir, "llms.txt"));
+    assert.match(llms, /Betriebsferien/, "llms.txt: Ferien genannt");
+    assert.doesNotMatch(llms, /Vorbei/, "llms.txt: Vergangenes nicht");
   } finally {
     fs.rmSync(fixture, { force: true });
     fs.rmSync(outDir, { recursive: true, force: true });

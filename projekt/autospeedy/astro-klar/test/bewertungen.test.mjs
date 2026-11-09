@@ -26,7 +26,11 @@ test("Fixture: Note und Anzahl erscheinen, keine Bewertungskarten, kein reviews-
   const s = fs.readFileSync(path.join(ausgabe, "index.html"), "utf8");
   const text = s.replace(/<[^>]+>/g, "");
   assert.match(text, /4,7 von 5 bei 128 Bewertungen/, "Note und Anzahl aus der Fixture");
-  assert.match(text, /4,7 von 5 bei 128 Bewertungen auf Google/, "Note auch in der Faktenleiste oben");
+  const hero = s.match(/<p class="hm-hero__note">[\s\S]*?<\/p>/);
+  assert.ok(hero, "Note steht direkt bei den Knöpfen im Hero");
+  assert.match(hero[0].replace(/<[^>]+>/g, "").replace(/\s+/g, " "), /4,7 von 5 bei 128 Bewertungen auf Google/, "Hero: Note und Anzahl");
+  assert.match(hero[0], /href="https:\/\/maps\.google\.com\//, "Hero: Link zu den Bewertungen");
+  assert.equal((s.match(/class="hm-fakten__liste"[\s\S]*?<\/dl>/)[0].match(/<dt>/g) || []).length, 4, "Faktenleiste bleibt bei vier Punkten");
   assert.match(s, /hm-bew__echt/, "Abschnitt mit echten Daten");
   assert.doesNotMatch(s, /data-luecke>Nur in der Vorschau|hm-zitate/, "mit echten Daten keine Vorschau-Zitate");
   assert.match(s, /Bewertungen von Google/, "Attribution");

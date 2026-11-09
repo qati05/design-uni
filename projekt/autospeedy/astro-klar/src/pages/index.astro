@@ -18,6 +18,7 @@ import { leistungen } from "../daten/leistungen";
 import { faqStart } from "../daten/faq";
 import { umwelt } from "../daten/umwelt";
 import { zeitenOffen as offen } from "../daten/zeiten";
+import { teamTitelStart } from "../daten/team";
 import zitDaten from "../daten/bewertungen-zitate.json";
 
 const arten = (artenDaten as any).arten;
@@ -81,6 +82,15 @@ const startFoto = ersatz.start ?? null;
           <a class="btn btn--quiet" href={`tel:${b.tel.e164}`}>Anrufen <span class="num">{b.tel.anzeige}</span></a>
         </div>
         <p class="hm-status" data-hero-status hidden><span data-status></span><span data-wenn-zu hidden> Online melden geht jederzeit, wir rufen Sie zurück.</span></p>
+        {/* Vertrauen direkt beim Aufruf: die Google-Note, sobald echte Zahlen da sind (nie in der Vorschau, nie erfunden). */}
+        {zeigeBew && hatBew && (
+          <p class="hm-hero__note">
+            <span class="hm-hero__stern" aria-hidden="true">★</span>
+            {mapsLink
+              ? <a href={mapsLink} rel="noopener"><span class="num">{bewNote}</span> von 5 bei <span class="num">{bew.anzahl}</span> Bewertungen auf Google</a>
+              : <span><span class="num">{bewNote}</span> von 5 bei <span class="num">{bew.anzahl}</span> Bewertungen auf Google</span>}
+          </p>
+        )}
       </div>
     </div>
     <figure class="hm-hero__bild">
@@ -117,12 +127,6 @@ const startFoto = ersatz.start ?? null;
         <dt>Zulassung</dt>
         <dd>Tesla Approved Body Shop</dd>
       </div>
-      {hatBew && (
-        <div>
-          <dt>Bewertung</dt>
-          <dd><span class="num">{bewNote}</span> von 5 bei <span class="num">{bew.anzahl}</span> Bewertungen auf Google</dd>
-        </div>
-      )}
     </dl>
   </div>
   <Partnerband titel="Zertifizierte Partner" />
@@ -187,7 +191,8 @@ const startFoto = ersatz.start ?? null;
         width="1280" height="549"
         loading="lazy" decoding="async"
         alt="Scheinwerfer eines schwarzen Tesla Model S">
-      <figcaption>Platzhalter von Unsplash (Philipp Mandler), wird durch ein eigenes Foto ersetzt.</figcaption>
+      {/* Nur in der Vorschau: live steht der Bildnachweis unter /bildnachweise/. */}
+      {vorschau && <figcaption data-luecke>Platzhalter von Unsplash (Philipp Mandler), wird durch ein eigenes Foto ersetzt.</figcaption>}
     </figure>
     <div class="hm-tesla__unten" data-reveal>
       <dl class="hm-spec">
@@ -202,7 +207,7 @@ const startFoto = ersatz.start ?? null;
           <li><b>Begutachten</b><span>Prüfung am Fahrzeug, Original-Teile bestellen, Versicherung klären.</span></li>
           <li><b>Reparieren</b><span>Instandsetzung nach Tesla-Vorgaben, Übergabe mit Erklärung.</span></li>
         </ol>
-        <p class="hm-tesla__hinweis">Entwurf: Ablauf vom Betrieb zu bestätigen.</p>
+        {vorschau && <p class="hm-tesla__hinweis" data-luecke>Entwurf: Ablauf vom Betrieb zu bestätigen.</p>}
         <a class="btn" href="/schaden-melden/?tesla=1">Tesla-Schaden melden</a>
       </div>
     </div>
@@ -223,7 +228,7 @@ const startFoto = ersatz.start ?? null;
 <section id="team" class="hm hm-team" aria-labelledby="team-titel">
   <div class="container">
     <div class="hm-team__kopf" data-reveal>
-      <h2 id="team-titel">Zehn Leute, eine Werkstatt.</h2>
+      <h2 id="team-titel">{teamTitelStart}</h2>
       <p class="lead">An der Alten Landstrasse in Altstätten, von der Annahme bis zum Finish.</p>
     </div>
     {freigegeben && chef && (

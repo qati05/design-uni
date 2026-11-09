@@ -8,6 +8,8 @@
 /* tokens.css und base.css lädt die Seite als eigene Dateien davor (gleichzeitig statt nacheinander). */
 
 /* Header and closing block live in rahmen.css, which every page loads (the start page and the pages behind it share one chrome). */
+/* The start page sets the chrome on its own column (see rahmen.css). */
+:root { --rahmen-rand: var(--gutter); --rahmen-breit: calc(var(--container) - 2 * var(--gutter)); }
 .partnerband--logos .partnerband__wortmarke { letter-spacing: 0; text-transform: none; color: var(--color-muted); font: 500 var(--text-lg)/1.2 var(--font-body); }
 .partnerband__karte { background: var(--color-paper); border-color: var(--color-rule); }
 
@@ -35,6 +37,10 @@
 .hm-hero .lead { max-width: none; margin-top: var(--space-lg); color: var(--color-ink-2); }
 .hm-hero__seite { margin-top: var(--space-lg); }
 .hm-status { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-3xs) var(--space-xs); min-height: 1lh; margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
+.hm-hero__note { display: flex; align-items: baseline; gap: var(--space-xs); margin-top: var(--space-xs); font-size: var(--text-sm); color: var(--color-ink); }
+.hm-hero__note a { color: inherit; text-decoration: underline 1px var(--color-rule); text-underline-offset: 0.2em; }
+.hm-hero__note a:hover { text-decoration-color: currentColor; }
+.hm-hero__stern { color: var(--color-accent); }
 .hm-status [data-status] { display: inline-flex; align-items: center; gap: var(--space-xs); color: var(--color-ink); font-weight: 500; }
 .hm-status [data-status][data-zustand]::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--color-muted); }
 .hm-status [data-status][data-zustand="offen"]::before { background: var(--color-open); }
@@ -257,20 +263,17 @@
   .hm-status [data-status][data-zustand]::before { animation: hm-punkt var(--dur-long) var(--ease-out) both; }
 
   /* Reveal-once on scroll. klar.js sets .reveal-an only when it can observe, so a failed script hides nothing. */
-  .reveal-an [data-reveal], .reveal-an [data-reveal-liste] > * { opacity: 0; transform: translateY(8px); transition: opacity var(--dur-long) var(--ease-out), transform var(--dur-long) var(--ease-out); transition-delay: calc(var(--i, 0) * 40ms); }
-  .reveal-an [data-reveal].is-in, .reveal-an [data-reveal-liste].is-in > * { opacity: 1; transform: none; }
+  .js.reveal-an [data-reveal], .js.reveal-an [data-reveal-liste] > * { opacity: 0; transform: translateY(8px); transition: opacity var(--dur-long) var(--ease-out), transform var(--dur-long) var(--ease-out); transition-delay: calc(var(--i, 0) * 40ms); }
+  .js.reveal-an [data-reveal].is-in, .js.reveal-an [data-reveal-liste].is-in > * { opacity: 1; transform: none; }
   [data-reveal-liste] > :nth-child(2) { --i: 1; } [data-reveal-liste] > :nth-child(3) { --i: 2; } [data-reveal-liste] > :nth-child(4) { --i: 3; }
   [data-reveal-liste] > :nth-child(5) { --i: 4; } [data-reveal-liste] > :nth-child(6) { --i: 5; } [data-reveal-liste] > :nth-child(n + 7) { --i: 6; }
 
-  /* Hover signal on the index: the photograph leans in while the name's rule darkens. Focus gets the same. */
-  .hm-index__bild img { transition: transform var(--dur-long) var(--ease-out); }
-  .hm-index a:focus-visible .hm-index__bild img { transform: scale(1.03); }
-  @media (hover: hover) and (pointer: fine) { .hm-index a:hover .hm-index__bild img { transform: scale(1.03); } }
+  /* Hover signal on the index: the rule under the name darkens (set with the index above). The photograph sits still. */
 
   /* An answer arrives under its question. */
   .hm-faq details[open] > p { animation: hm-auf var(--dur-short) var(--ease-out) both; }
 }
-@media print { .reveal-an [data-reveal], .reveal-an [data-reveal-liste] > * { opacity: 1 !important; transform: none !important; } }
+@media print { .js.reveal-an [data-reveal], .js.reveal-an [data-reveal-liste] > * { opacity: 1 !important; transform: none !important; } }
 
 @media (prefers-reduced-motion: reduce) {
   .btn, .hm-frage__liste a, .hm-index h3, .hm-faq__zeichen::before, .hm-faq__zeichen::after { transition: none; }
