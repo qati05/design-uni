@@ -1,0 +1,42 @@
+---
+// Studie Startseite (09.11.2026): Team. Dieselbe Logik wie Inhaber.astro (nur Personen mit Einverständnis und Foto,
+// Zitat erst mit site.stimme.freigegeben). Neu: Titel, Zeile und «Ganzes Team» stehen zusammen im Kopf,
+// am Handy liegen die Porträts in einer Reihe zum Wischen statt in zwei Zeilen.
+import { site } from "../../../../astro/bau/daten.mjs";
+const stimme = (site as any).stimme;
+const freigegeben = !!(stimme && stimme.freigegeben);
+const leute = (site as any).team
+  .flatMap((g: any) => g.leute)
+  .filter((p: any) => p.einverstaendnis && p.foto);
+const chef = leute[0];
+const reihe = leute.slice(freigegeben ? 1 : 0, (freigegeben ? 1 : 0) + 4);
+const kurz = (n: string) => n.replace(/ «.*»/, "");
+const pfeil = "M5 12h14M13 6l6 6-6 6";
+---
+<section id="team" class="st-team" aria-labelledby="team-titel">
+  <div class="st-innen">
+    <div class="st-kopfzeile">
+      <div>
+        <h2 class="titel" id="team-titel">Zehn Leute, eine Werkstatt.</h2>
+        <p class="st-team__zeile">An der Alten Landstrasse in Altstätten, von der Annahme bis zum Finish.</p>
+      </div>
+      <a class="st-mehr" href="/team/">Ganzes Team <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d={pfeil}/></svg></a>
+    </div>
+    {freigegeben && chef && (
+      <div class="inhaber">
+        <img class="inhaber__bild" src={chef.foto} width="640" height="800" loading="lazy" decoding="async" alt={`Porträt ${kurz(chef.name)}`}>
+        <blockquote><p>{stimme.text}</p><footer>{[stimme.name, stimme.rolle].filter(Boolean).join(", ")}</footer></blockquote>
+      </div>
+    )}
+    <ul class="st-leute">
+      {reihe.map((p: any) => (
+        <li>
+          <figure>
+            <img src={p.foto} width="640" height="800" loading="lazy" decoding="async" alt={`Porträt ${kurz(p.name)}`}>
+            <figcaption><b>{p.name}</b><span>{p.rolle}</span></figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,37 @@
+---
+// Studie Startseite (09.11.2026): Tesla als dunkles Band (Token «nacht», laut DESIGN.md sparsam: hier das einzige).
+// Wortlaut und Faktentabelle unverändert aus TeslaTeil.astro. Der dreiteilige Ablauf steht hier nicht mehr
+// (er ist noch Entwurf und wiederholt «Nach Ihrer Meldung»); er bleibt auf /tesla/.
+// Foto: weiterhin der Platzhalter von Unsplash (Philipp Mandler), Credit unter /bildnachweise/.
+const band = "/bilder/stock/b7-tesla";
+const pfeil = "M5 12h14M13 6l6 6-6 6";
+---
+<section id="tesla" class="st-tesla" aria-labelledby="tesla-titel">
+  <div class="st-innen st-tesla__raster">
+    <div class="st-tesla__text">
+      <h2 id="tesla-titel" class="titel">Tesla Approved Body Shop.</h2>
+      <p>Wir reparieren Ihren Tesla als zugelassener Carrosserie-Partner, nach den Reparaturvorgaben von Tesla und mit Original-Ersatzteilen.</p>
+      <dl class="spec">
+        <div><dt>Teile</dt><dd>Original-Ersatzteile</dd></div>
+        <div><dt>Versicherung</dt><dd>Abwicklung durch uns</dd></div>
+        <div><dt>Lack</dt><dd>Neue, grössere Lackierkabinen</dd></div>
+        <div><dt>Ersatzwagen</dt><dd>Tesla auf Anfrage</dd></div>
+      </dl>
+      <div class="st-tesla__ctas">
+        <a class="knopf knopf--akzent" href="/schaden-melden/?fahrzeug=tesla">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15.5 5.6 10a2 2 0 0 1 1.9-1.5h9a2 2 0 0 1 1.9 1.5l1.6 5.5"/><path d="M3.5 15.5h17v3h-17z"/><path d="M7 18.5v1.5M17 18.5v1.5"/><path d="m12 2.8.9 2.3 2.1-.7-.9 2"/></svg>Tesla-Schaden melden</a>
+        <a class="st-mehr" href="/tesla/">Mehr zu Tesla <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d={pfeil}/></svg></a>
+      </div>
+    </div>
+    <figure class="st-tesla__bild">
+      <img
+        src={`${band}-1280.webp`}
+        srcset={`${band}-640.webp 640w, ${band}-1280.webp 1280w, ${band}-1920.webp 1920w`}
+        sizes="(max-width: 960px) 100vw, 52vw"
+        width="1280" height="854"
+        loading="lazy" decoding="async"
+        alt="Scheinwerfer eines schwarzen Tesla Model S">
+      <figcaption>Platzhalter von Unsplash (Philipp Mandler), wird durch ein eigenes Foto ersetzt.</figcaption>
+    </figure>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+---
+// Studie Startseite (09.11.2026, Roni): gleiche Inhalte und gleicher Stil «Klar», anderer Aufbau.
+// Die bestehende Startseite (index.astro) bleibt unverändert; diese Seite steht nur zum Vergleich unter /studie/
+// und ist nie indexierbar. Neue Bausteine liegen in src/components/studie/, Stile in public/css/studie.css.
+// Partner-Laufband, Bewertungen, Fragen und Fuss sind die bestehenden Bausteine.
+import Klar from "../layouts/Klar.astro";
+import SHero from "../components/studie/SHero.astro";
+import SMelden from "../components/studie/SMelden.astro";
+import SLeistungen from "../components/studie/SLeistungen.astro";
+import STesla from "../components/studie/STesla.astro";
+import STeam from "../components/studie/STeam.astro";
+import Partnerband from "../components/Partnerband.astro";
+import Umwelt from "../components/Umwelt.astro";
+import Bewertungen from "../components/Bewertungen.astro";
+import Faq from "../components/Faq.astro";
+import { faqStart } from "../daten/faq";
+import { umwelt } from "../daten/umwelt";
+---
+<Klar seite="index" indexierbar={false} faq={faqStart} bildVorladen={{ href: "/bilder/defender-kabine-960.webp", srcset: "/bilder/defender-kabine-480.webp 480w, /bilder/defender-kabine-960.webp 960w, /bilder/defender-kabine-1600.webp 1600w", sizes: "(max-width: 760px) 100vw, 46vw" }}>
+<link slot="kopf" rel="stylesheet" href="/css/studie.css">
+<div class="st">
+  <SHero />
+  <Partnerband titel="Zertifizierte Partner" />
+  <SMelden />
+  <SLeistungen />
+  <STesla />
+  {/* Umwelt erst zeigen, wenn der Betrieb Angaben geliefert hat (bis dahin kein leerer Abschnitt). */}
+  {umwelt.punkte.length > 0 && <Umwelt />}
+  <STeam />
+  <Bewertungen />
+  <Faq fragen={faqStart} />
+</div>
+</Klar>

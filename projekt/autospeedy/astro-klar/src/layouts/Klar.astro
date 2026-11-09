@@ -90,6 +90,8 @@ const zeigeLd = !istFehlerseite; // alle Seiten ausser 404 (vorher nur mit jsonl
 <link rel="stylesheet" href="/css/klar.css">
 {zeigeLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)}></script>}
 <script is:inline src="/js/klar.js" defer></script>
+{/* Studie Startseite (09.11.2026): zusätzliche Stile nur für /studie/, sonst leer. */}
+<slot name="kopf" />
 {/* Besuche zählt Cloudflare Web Analytics (Entscheid Roni 09.11.2026): im Pages-Dashboard eingeschaltet, ohne Code und ohne Cookies. */}
 </head>
 <body data-seite={seite}>

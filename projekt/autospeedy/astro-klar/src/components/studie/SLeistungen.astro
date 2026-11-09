@@ -1,0 +1,36 @@
+---
+// Studie Startseite (09.11.2026): Leistungen mit Gewichtung statt sechs gleicher Karten.
+// Dieselben Daten (leistungen.ts) und dieselben Bilder. Oben zwei grosse Felder (Unfall, Hagel), darunter vier kleinere.
+// Am Handy bleibt die kompakte Liste mit kleinem Bild (hat sich bewährt), nur ohne Kartenrahmen.
+import { leistungen } from "../../daten/leistungen";
+const pfeil = "M5 12h14M13 6l6 6-6 6";
+---
+<section class="st-leist" id="leistungen" aria-labelledby="leistungen-titel">
+  <div class="st-innen">
+    <div class="st-kopfzeile">
+      <h2 class="titel" id="leistungen-titel">Was wir für Sie machen.</h2>
+      <a class="st-mehr" href="/leistungen/">Alle Leistungen <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d={pfeil}/></svg></a>
+    </div>
+    <ul class="st-felder">
+      {leistungen.map((k, i) => (
+        <li class={i < 2 ? "st-feld st-feld--gross" : "st-feld"}>
+          <a href={k.pfad}>
+            <span class="st-feld__bild">
+              <picture>
+                <source type="image/avif" srcset={`/bilder/leistungen/${k.slug}-400.avif 400w, /bilder/leistungen/${k.slug}-800.avif 800w`} sizes={i < 2 ? "(max-width: 760px) 84px, 50vw" : "(max-width: 760px) 84px, 25vw"} />
+                <source type="image/webp" srcset={`/bilder/leistungen/${k.slug}-400.webp 400w, /bilder/leistungen/${k.slug}-800.webp 800w`} sizes={i < 2 ? "(max-width: 760px) 84px, 50vw" : "(max-width: 760px) 84px, 25vw"} />
+                <img src={`/bilder/leistungen/${k.slug}-800.webp`} width="800" height="533" loading="lazy" decoding="async" alt={k.altKarte} />
+              </picture>
+            </span>
+            <span class="st-feld__text">
+              <h3>{k.titel}</h3>
+              <p>{k.kurz}</p>
+            </span>
+            <span class="st-feld__pfeil"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d={pfeil}/></svg></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="ausserdem">Ausserdem: Occasionen, Ankauf und Leasing. <a href="/occasionen/">Occasionen ansehen</a>.</p>
+  </div>
+</section>
