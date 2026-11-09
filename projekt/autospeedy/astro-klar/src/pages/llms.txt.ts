@@ -1,7 +1,8 @@
 // llms.txt (Nachtrag 08.11.2026, AEO): Kurzfassung für KI-Assistenten, beim Bau aus denselben Daten erzeugt wie die Website
 // (Betrieb, Zeiten, Leistungen, Fragen). So bleibt sie aktuell, wenn der Betrieb Zeiten im Cockpit ändert.
 // Ersetzt die frühere feste Datei public/llms.txt. Kein Eszett (Schweizer Schreibweise, Test in statisch.test.mjs).
-import { betrieb as b, bau, zeitenKurz } from "../../../astro/bau/daten.mjs";
+import { betrieb as b, bau } from "../../../astro/bau/daten.mjs";
+import { zeitenSatz as zeitenKurz } from "../daten/zeiten"; // QA K19: eine Schreibweise
 import { leistungen } from "../daten/leistungen";
 import { faqStart, faqTesla } from "../daten/faq";
 

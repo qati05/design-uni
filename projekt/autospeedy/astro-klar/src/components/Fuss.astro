@@ -8,8 +8,7 @@ const { ort = "fuss" } = Astro.props;
 // A5: Auf /schaden-melden/ steht im Fuss nur «Anrufen», kein zweiter «Schaden melden»-Knopf, der auf die Seite selbst zeigt.
 const aufSchaden = ort === "schaden-melden";
 
-const w = t.mikrotexte.zeiten;
-const zeile = (z: any) => z.zu ? w.geschlossen : z.fenster.map(([von, bis]: string[]) => w.fenster.replace("{von}", von).replace("{bis}", bis)).join(w.trenner);
+import { zeitZeile as zeile } from "../daten/zeiten"; // eine Schreibweise auf der ganzen Linie (QA K19)
 
 // Wochentage als Zahl (0 = Sonntag), damit das Skript die heutige Zeile markieren kann (ohne Skript: nichts markiert).
 const tagNr: Record<string, number> = { Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6 };
@@ -81,13 +80,15 @@ const whatsapp = b.whatsapp && b.whatsapp.nutzung_bestaetigt && b.whatsapp.numme
         <p class="fuss-ort__flotte">Für Flotten und Versicherungen: <a href="/flotten/">Firmenkunden</a></p>
         <span class="fuss-meldung" data-kopiert-ziel role="status" aria-live="polite"></span>
       </section>
-    </div>
 
-    <!-- 4. Slogan: sehr gross, blass (Kontrast fuer grossen Text >= 3:1), unten leicht angeschnitten. Echter Text (nicht aria-hidden). -->
-    <!-- Logo als Absender (Logo-Platzierung 05.11.2026): Das sportliche Zeichen bekommt am Schluss seine eigene Bühne,
-         direkt über dem Slogan, wie eine Unterschrift. Im Kopf bleibt es klein und ruhig. -->
-    <a class="fuss-marke feder" href="/" aria-label={`${b.name}, Startseite`}><img src="/bilder/logo-144.webp" srcset="/bilder/logo-96.webp 1x, /bilder/logo-144.webp 2x" width="203" height="72" alt={b.name} loading="lazy" decoding="async"></a>
-    <p class="fuss-slogan">Qualität, die man sieht und fährt.</p>
+      <!-- 4. Slogan: blass, seit QA K16 (09.11.2026) nicht mehr riesig, sondern nie groesser als ein H1. Echter Text (nicht aria-hidden).
+           Logo als Absender (Logo-Platzierung 05.11.2026) wie eine Unterschrift neben dem Slogan. Am Computer unter den
+           Öffnungszeiten (dort ist Platz frei), am Handy nach der Adresse. -->
+      <div class="fuss-unterschrift">
+        <a class="fuss-marke feder" href="/" aria-label={`${b.name}, Startseite`}><img src="/bilder/logo-144.webp" srcset="/bilder/logo-96.webp 1x, /bilder/logo-144.webp 2x" width="203" height="72" alt={b.name} loading="lazy" decoding="async"></a>
+        <p class="fuss-slogan">Qualität, die man sieht und fährt.</p>
+      </div>
+    </div>
 
     <!-- 5. Rechtszeile. «Nach oben» springt ohne Skript (href=#top), mit Skript ruhig (ausser bei reduzierter Bewegung). -->
     <div class="fuss__innen">

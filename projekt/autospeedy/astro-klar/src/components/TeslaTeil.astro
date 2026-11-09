@@ -1,7 +1,7 @@
 ---
 // Tesla-Abschnitt Entwurf C (BAUPLAN 2 Zeile 8, 3.5, 3.7). Struktur und Texte woertlich aus
 // referenz-c/entwurf-c.html (.tesla, .tesla-kopf, .spec, .tesla-bild, .ablauf, .tesla-ende):
-// 5fr Kopf mit Faktentabelle (.spec) | 7fr Fotoband 21:9 und Ablauf (01/02/03, bleibt als Entwurf markiert).
+// 5fr Kopf mit Faktentabelle (.spec) | 7fr Fotoband 21:9 und Ablauf (Punkte auf einer Linie, ohne Ziffern seit QA K12; bleibt als Entwurf markiert).
 // Fotoband B7 als WebP 640/1280/1920 aus public/bilder/stock/ (erzeugt von bau/stock-c.mjs).
 // Platzhalter von Unsplash (Philipp Mandler), Credit unter /bildnachweise/.
 const band = "/bilder/stock/b7-tesla";
@@ -29,9 +29,10 @@ const band = "/bilder/stock/b7-tesla";
       <figcaption>Platzhalter von Unsplash (Philipp Mandler), wird durch ein eigenes Foto ersetzt.</figcaption>
     </figure>
     <ol class="ablauf">
-      <li><b><span class="ziffer">01</span>Melden</b><span>Online mit Fotos oder per Telefon.</span></li>
-      <li><b><span class="ziffer">02</span>Begutachten</b><span>Prüfung am Fahrzeug, Original-Teile bestellen, Versicherung klären.</span></li>
-      <li><b><span class="ziffer">03</span>Reparieren</b><span>Instandsetzung nach Tesla-Vorgaben, Übergabe mit Erklärung.</span></li>
+      {/* QA K12: ohne Ziffern 01/02/03, damit keine zweite Schrittzählung neben «in zwei Schritten» (Formular) steht. */}
+      <li><b>Melden</b><span>Online mit Fotos oder per Telefon.</span></li>
+      <li><b>Begutachten</b><span>Prüfung am Fahrzeug, Original-Teile bestellen, Versicherung klären.</span></li>
+      <li><b>Reparieren</b><span>Instandsetzung nach Tesla-Vorgaben, Übergabe mit Erklärung.</span></li>
     </ol>
     <div class="tesla-ende">
       <p class="hinweis">Entwurf: Ablauf vom Betrieb zu bestätigen.</p>

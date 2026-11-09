@@ -3,10 +3,9 @@
 import { betrieb as b, texte as t, bau } from "../../../astro/bau/daten.mjs";
 // ausnahmen=false zeigt nur die regulaeren Zeiten (der Schluss-Abschnitt listet die Ferien/Feiertage separat).
 const { ausnahmen = true } = Astro.props;
-const w = t.mikrotexte.zeiten;
+import { zeitZeile as zeile } from "../daten/zeiten"; // eine Schreibweise auf der ganzen Linie (QA K19)
 const datum = new Intl.DateTimeFormat(bau.sprache, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 const heute = new Date().toISOString().slice(0, 10);
-const zeile = (z: any) => z.zu ? w.geschlossen : z.fenster.map(([von, bis]: string[]) => w.fenster.replace("{von}", von).replace("{bis}", bis)).join(w.trenner);
 ---
 <table class="zeiten"><tbody>
 {b.zeiten.map((z: any) => <tr><th scope="row">{z.tage}</th><td>{zeile(z)}</td></tr>)}

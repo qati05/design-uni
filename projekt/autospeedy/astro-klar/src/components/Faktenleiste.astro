@@ -8,10 +8,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { betrieb as b } from "../../../astro/bau/daten.mjs";
-// Nur geoeffnete Tage, je Gruppe eine Zeile «Kurzform Fenster1, Fenster2» (z. B. «Mo bis Do 7.30–12.00, 13.15–17.30»).
-const offen = b.zeiten
-  .filter((z: any) => z.fenster)
-  .map((z: any) => `${z.kurz || z.tage} ${z.fenster.map(([von, bis]: string[]) => `${von}–${bis}`).join(", ")}`);
+// Nur geoeffnete Tage, je Gruppe eine Zeile. QA K19: dieselbe Schreibweise wie im Fuss
+// («Mo bis Fr 7.30 bis 12.00 Uhr und 13.15 bis 17.30 Uhr»), aus src/daten/zeiten.ts.
+import { zeitenOffen as offen } from "../daten/zeiten";
 
 // Bewertungsdaten wie in Bewertungen.astro: nur mit echten Daten eine Zelle; nie «–,–».
 const bewDatei = process.env.BEWERTUNGEN_DATEI

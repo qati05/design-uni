@@ -93,9 +93,9 @@ const versicherer = ["AXA", "Zurich", "Mobiliar", "Allianz", "Helvetia", "Balois
         <button class="senden__wa" type="button" data-senden="whatsapp" data-zaehl="schaden-whatsapp">Lieber per WhatsApp senden</button>
         {wa && !wa.nummer_bestaetigt && <Luecke>Lücke: Die WhatsApp-Nummer {wa.anzeige} stammt von der Website; der Betrieb bestätigt sie noch.</Luecke>}
         {turnstile && <div class="cf-turnstile" data-sitekey={turnstile} data-language="de"></div>}
-        <p class="hilfe">Verantwortlich: {b.name}. Ihre Angaben dienen nur der Bearbeitung Ihrer Meldung.</p>
+        <p class="hilfe">Verantwortlich: {b.name}. Ihre Angaben dienen nur der Bearbeitung Ihrer Meldung. Mehr in der <a class="textlink" href="/datenschutz/">Datenschutzerklärung</a>.</p>
       </div>
-      <noscript><button class="k k--blau k--gross" type="submit">Meldung im E-Mail-Programm öffnen</button><p class="hilfe">Fotos hängen Sie in Ihrem E-Mail-Programm an.</p></noscript>
+      <noscript><button class="k k--blau k--gross" type="submit">Meldung im E-Mail-Programm öffnen</button><p class="hilfe">Fotos hängen Sie in Ihrem E-Mail-Programm an. Verantwortlich: {b.name}. Mehr in der <a class="textlink" href="/datenschutz/">Datenschutzerklärung</a>.</p></noscript>
       <div class="schritt__fuss" data-nur-js hidden><button class="k k--hell" type="button" data-zurueck="1">Zurück</button></div>
     </fieldset>
     <p class="rueckmeldung" data-rueckmeldung hidden role="status"></p>

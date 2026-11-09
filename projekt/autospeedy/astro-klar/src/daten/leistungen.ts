@@ -6,7 +6,7 @@ export const leistungen = [
   {
     slug: "unfall", pfad: "/leistungen/unfall-carrosserie/", titel: "Unfall und Carrosserie",
     kurz: "Unfall- und Blechschäden, Stossstangen, Rost, Schweissarbeiten.", altKarte: "Unfallschaden an einem Fahrzeug, zum Lackieren abgeklebt",
-    seitentitel: "Unfall und Carrosserie: Reparatur für alle Marken | Auto Speedy",
+    seitentitel: "Unfall und Carrosserie für alle Marken | Auto Speedy", // QA K10: höchstens 60 Zeichen
     beschreibung: "Unfallreparatur für alle Marken, vom Blechschaden bis zum Chassisschaden, mit Original-Ersatzteilen. Die Versicherung wickeln wir ab. Altstätten SG.",
     h1: "Vom Blechschaden bis zum Chassisschaden.",
     einleitung: "Unfallschäden reparieren wir für alle Marken, nach Herstellervorgaben und ausschliesslich mit Original-Ersatzteilen. Die Abwicklung mit Ihrer Versicherung übernehmen wir.",

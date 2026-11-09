@@ -10,8 +10,9 @@ const turnstile = process.env.TURNSTILE_SITEKEY || "";
 // Zeitwahl zum Antippen (Roni 07.11.): Wochentage × Vormittag/Nachmittag aus den Öffnungszeiten, freiwillig, mehrere möglich.
 const tage = [["Mo", "Montag"], ["Di", "Dienstag"], ["Mi", "Mittwoch"], ["Do", "Donnerstag"], ["Fr", "Freitag"]];
 const fenster = (b.zeiten.find((z: any) => z.fenster && z.fenster.length === 2) || { fenster: [["7.30", "12.00"], ["13.15", "17.30"]] }).fenster;
-const kurz = (t: string) => t.replace(/\.00$/, "");
-const teile = [["Vormittag", `${kurz(fenster[0][0])}–${kurz(fenster[0][1])}`], ["Nachmittag", `${kurz(fenster[1][0])}–${kurz(fenster[1][1])}`]];
+// QA K19: Zeiten in derselben Schreibweise wie im Fuss («7.30 bis 12.00 Uhr»).
+import { fensterText } from "../daten/zeiten";
+const teile = [["Vormittag", fensterText(fenster[0][0], fenster[0][1])], ["Nachmittag", fensterText(fenster[1][0], fenster[1][1])]];
 ---
 <form class="karte rueckruf" data-rueckruf action={`mailto:${b.mail}?subject=R%C3%BCckruf`} method="post" enctype="text/plain" data-endpunkt={endpunkt} data-ist-vorschau={vorschau ? "ja" : "nein"} data-zaehl-start={`rueckruf-${ort}`}>
   <h2 class="karte__titel">{titel}</h2>
@@ -39,7 +40,7 @@ const teile = [["Vormittag", `${kurz(fenster[0][0])}–${kurz(fenster[0][1])}`],
   <div class="honig" aria-hidden="true"><label for={`${id}-web`}>Bitte leer lassen (freiwillig)</label><input id={`${id}-web`} name="website" type="text" tabindex="-1" autocomplete="off"></div>
   <button class="k k--blau" type="submit" data-zaehl={`rueckruf-${ort}`} data-ort={ort}>Rückruf anfordern</button>
   {turnstile && <div class="cf-turnstile" data-sitekey={turnstile} data-language="de"></div>}
-  <p class="hilfe">Verantwortlich: {b.name}. Wir nutzen Name und Telefon nur für den Rückruf.</p>
+  <p class="hilfe">Verantwortlich: {b.name}. Wir nutzen Name und Telefon nur für den Rückruf. Mehr in der <a class="textlink" href="/datenschutz/">Datenschutzerklärung</a>.</p>
   {turnstile && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
   <p class="rueckmeldung" data-rueckmeldung hidden role="status"></p>
 </form>

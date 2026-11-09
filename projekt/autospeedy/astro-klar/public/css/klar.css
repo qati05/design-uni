@@ -246,6 +246,12 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
 .blatt a span { transition: transform var(--feder-knopf-dauer) var(--feder-knopf); }
 @media (hover: hover) and (pointer: fine) { .blatt a:hover span { transform: translateX(4px); } }
 .blatt__fuss { margin-top: 16px; padding: 16px; border-top: 1px solid var(--linie); color: var(--grau); font-size: 14px; display: grid; gap: 4px; }
+/* QA K22: Im offenen Menü sind «Schaden melden» und «Anrufen» Knöpfe, nicht Zeilen; am Handy deckt das Blatt die volle Breite. */
+.blatt a.blatt__aktion { justify-content: center; margin: 4px 0 8px; border-radius: var(--pille); background: var(--akzent); color: #fff; font-size: 16px; }
+.blatt a.blatt__tel { justify-content: center; gap: 8px; min-height: 48px; border-radius: var(--pille); background: var(--flaeche-2); color: var(--tinte); font-size: 16px; }
+@media (hover: hover) and (pointer: fine) { .blatt a.blatt__aktion:hover { background: var(--blau-tief); } .blatt a.blatt__tel:hover { background: var(--flaeche); } }
+.blatt__fuss > span { padding: 6px 4px 0; text-align: center; }
+@media (max-width: 560px) { .blatt__innen { width: 100vw; } }
 @media (max-width: 960px) {
   .kopf { grid-template-columns: 1fr auto; }
   .kopf__nav, .kopf__rechts a.tel { display: none; }
@@ -308,7 +314,14 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
 .zeitwahl__feld input:focus-visible + .zeitwahl__marke { outline: 2px solid var(--blau); outline-offset: 2px; }
 .nur-vorlesen { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 @media (prefers-reduced-motion: reduce) { .zeitwahl__marke, .zeitwahl__marke::after { transition: none; } }
-@media (max-width: 420px) { .zeitwahl__raster { gap: 4px; } .zeitwahl__teil { font-size: 13px; padding-right: 2px; } .zeitwahl__teil small { font-size: 11px; } }
+/* QA K09: Schmal steht «Vormittag/Nachmittag» als eigene Zeile über den fünf Feldern; so bekommt jedes Feld die volle
+   Fünftelbreite (bei 320 px mindestens 44 px statt 30 px). Die Tage stehen einmal oben über den Spalten. */
+@media (max-width: 560px) {
+  .zeitwahl__raster { grid-template-columns: repeat(5, minmax(44px, 1fr)); gap: 6px 4px; }
+  .zeitwahl__raster > span:first-child { display: none; }
+  .zeitwahl__teil { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; padding: 6px 0 0; font-size: 14px; }
+  .zeitwahl__teil small { font-size: 12px; }
+}
 .punkt-blau { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--blau); transform: translateY(-1px); }
 .melden { gap: 20px; }
 .fortschritt { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -319,7 +332,8 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
 .schritt { margin: 0; padding: 0; border: 0; display: grid; gap: 16px; }
 .schritt legend { font-size: 24px; font-weight: 500; letter-spacing: -.01em; margin-bottom: 4px; padding: 0; }
 .pflicht { font-size: 14px; font-weight: 400; color: var(--grau); }
-.arten { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.arten { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 10px; } /* QA K14: alle Karten gleich hoch */
+.art:last-child:nth-child(odd) { grid-column: 1 / -1; } /* «Etwas anderes» füllt die letzte Reihe */
 .art { position: relative; display: grid; gap: 2px; padding: 16px; border-radius: 12px; background: var(--flaeche); cursor: pointer; }
 @media (hover: hover) and (pointer: fine) { .art:hover { background: var(--flaeche-2); } }
 .art input { position: absolute; left: 0; top: 0; width: 1px; height: 1px; margin: 0; opacity: 0; z-index: 1; }
@@ -337,6 +351,10 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
 @media (hover: hover) and (pointer: fine) { .fotos__knopf:hover { border-color: var(--blau); background: #eef4fb; } }
 .fotos__plus { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--weiss); box-shadow: inset 0 0 0 1px var(--linie); font-size: 20px; }
 .fotos__eingabe { position: absolute; width: 1px; height: 1px; opacity: 0; }
+/* QA K01: «.feld input» gab dem versteckten Datei-Feld volle Breite, Polster und 48 px Höhe; ohne Bezugsrahmen ragte es
+   40 px über den Rand (Querscrollen in Schritt 2). Jetzt im eigenen Feld eingeschlossen und wirklich 1 px gross. */
+.feld:has(> .fotos__eingabe) { position: relative; }
+.feld .fotos__eingabe { left: 0; top: 0; width: 1px; min-height: 0; height: 1px; padding: 0; border: 0; overflow: hidden; }
 .fotos__eingabe:focus-visible + .fotos__liste, .fotos__knopf:has(+ .fotos__eingabe:focus-visible) { outline: 2px solid var(--blau); }
 .fotos__liste { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .fotos__liste:empty { display: none; }
@@ -404,8 +422,8 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
   .handyleiste .k, .handyleiste .knopf { min-width: 0; width: 100%; min-height: 48px; padding: 0 12px; }
   body:has(.handyleiste) { padding-bottom: calc(70px + env(safe-area-inset-bottom)) !important; }
   body.leiste-spaeter:not(.leiste-an) .handyleiste { transform: translateY(110%); transition: transform 200ms var(--hinaus); }
-  [data-vorschau] { top: auto; bottom: calc(80px + env(safe-area-inset-bottom)); }
-  body[data-seite="schaden-melden"] [data-vorschau], body.leiste-spaeter:not(.leiste-an) [data-vorschau] { bottom: 10px; }
+  /* QA K15: am Handy nicht mehr schwebend, sondern als Zeile unter dem Fuss (steht im HTML nach dem Fuss). */
+  [data-vorschau], body[data-seite="schaden-melden"] [data-vorschau], body.leiste-spaeter:not(.leiste-an) [data-vorschau] { position: static; inset: auto; max-width: none; margin: 0; padding: 12px var(--rand); border-radius: 0; background: var(--tinte); backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
 
 .schritt .chips legend { font-size: 14px; font-weight: 600; letter-spacing: 0; margin-bottom: 0; }
@@ -604,8 +622,10 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .tesla .k--glas { background: rgba(255, 255, 255, .1); color: #fff; }
 @media (hover: hover) and (pointer: fine) { .tesla .k--glas:hover { background: rgba(255, 255, 255, .18); } }
 /* C14: einfache Liste ohne Nummern, nicht wie eine Navigation. */
-.tesla__liste { list-style: none; margin: 24px 0 0; padding: 0; border-top: 1px solid rgba(255, 255, 255, .14); }
-.tesla__liste li { padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, .14); font-size: 17px; }
+/* QA K13: Häkchenliste statt Zeilen mit Trennlinien (nicht klickbar). */
+.tesla__liste { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 12px; }
+.tesla__liste li { position: relative; padding: 0 0 0 32px; font-size: 17px; }
+.tesla__liste li::before { content: ""; position: absolute; left: 3px; top: .45em; width: 12px; height: 6px; border: solid currentColor; border-width: 0 0 2px 2px; transform: rotate(-45deg); }
 .tesla__fuss { margin-top: 14px; font-size: 13px; color: rgba(255, 255, 255, .5) !important; }
 
 /* ---------- Abschnitte ---------- */
@@ -700,7 +720,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 /* Fuss = der eine letzte Block (Korrektur Footer): letzter Aufruf, Status + ganze Woche, Adresse, Slogan, Rechtszeile.
    Abschluss.astro ist darin aufgegangen (ein Aufruf, nicht zwei hintereinander). overflow: hidden schneidet den Slogan unten an. */
 .fuss { background: var(--grund); border-top: 1px solid var(--linie); overflow: hidden; }
-.fuss__blatt { max-width: var(--breit); margin-inline: auto; padding: clamp(56px, 8vw, 96px) var(--rand) 0; display: grid; gap: clamp(40px, 6vw, 68px); }
+.fuss__blatt { max-width: var(--breit); margin-inline: auto; padding: clamp(48px, 6vw, 72px) var(--rand) 0; display: grid; gap: clamp(28px, 4vw, 44px); } /* QA K16: straffer */
 
 /* 1. Letzter Aufruf: «Schaden? Rufen Sie an.» + Anrufen gefuellt (Haupt), Schaden melden als Kontur. */
 .fuss-aufruf { display: grid; gap: 22px; justify-items: start; }
@@ -709,7 +729,8 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .fuss-aufruf .nr { margin-left: .4ch; }
 
 /* 2. + 3. + 6. + 8. Zwei Spalten: links Status und ganze Woche, rechts Adresse/Route/Kopieren/Flotten. */
-.fuss-raster { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px 56px; border-top: 1px solid var(--linie); padding-top: 32px; }
+.fuss-raster { display: grid; grid-template-columns: 1.3fr 1fr; grid-template-areas: "zeiten ort" "unterschrift ort"; grid-template-rows: auto 1fr; gap: 32px 56px; border-top: 1px solid var(--linie); padding-top: 32px; }
+.fuss-zeiten { grid-area: zeiten; } .fuss-ort { grid-area: ort; } .fuss-unterschrift { grid-area: unterschrift; align-self: end; }
 .fuss-zeiten, .fuss-ort { display: grid; gap: 14px; align-content: start; }
 
 /* 2. Status als Text; der Punkt ist nur zusaetzlich (Farbe). Ohne Skript kein Punkt, nur die neutrale Zeile. */
@@ -741,12 +762,15 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 
 /* 4. Slogan: sehr gross, blass (>= 3:1 fuer grossen Text), unten leicht angeschnitten. Echter Text. */
 /* Logo als Absender über dem Slogan (05.11.2026): eigene Bühne für das sportliche Zeichen, links bündig mit dem Slogan. */
-.fuss-marke { display: inline-flex !important; margin: clamp(40px, 6vw, 72px) 0 0; }
-.fuss-marke img { height: clamp(52px, 6vw, 72px); width: auto; }
-.fuss-slogan { margin: 0 0 -.14em; font-family: var(--titel); font-weight: 400; font-size: clamp(56px, 11vw, 150px); line-height: .92; letter-spacing: -.02em; color: #6c6e73; }
+/* QA K16: Fuss straffer. Logo und Slogan als eine ruhige Unterschrift; der Slogan ist nie grösser als ein H1 der Seite
+   (kleinstes H1: Textseiten, 32 bis 48 px). Wortlaut unverändert. */
+.fuss-unterschrift { display: flex; flex-wrap: wrap; align-items: center; gap: 12px clamp(20px, 3vw, 36px); }
+.fuss-marke { display: inline-flex !important; margin: 0; }
+.fuss-marke img { height: clamp(40px, 4vw, 52px); width: auto; }
+.fuss-slogan { margin: 0; font-family: var(--titel); font-weight: 400; font-size: clamp(26px, 2.6vw, 36px); line-height: 1.1; letter-spacing: -.012em; color: #6c6e73; }
 
 /* 5. Rechtszeile: © Jahr, Impressum, Datenschutz, Bildnachweise, Nach oben. */
-.fuss__innen { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; justify-content: space-between; padding: 22px 0 40px; margin-top: clamp(24px, 4vw, 44px); border-top: 1px solid var(--linie); font-size: 13px; color: var(--grau); }
+.fuss__innen { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; justify-content: space-between; padding: 14px 0 28px; margin-top: 0; border-top: 1px solid var(--linie); font-size: 13px; color: var(--grau); }
 .fuss__recht { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 /* A2: alle Tippziele im Fuss mindestens 44 px. Die grossen CTAs (.knopf …) behalten ihre eigene Hoehe (48/64 px). */
 .fuss a:not(.knopf) { text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; color: inherit; }
@@ -755,8 +779,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 
 @media (max-width: 760px) {
   /* Handy-Reihenfolge: Anruf -> Status -> Zeiten -> Adresse -> Slogan. Anruf-Knopf volle Breite (siehe .ctas .knopf). */
-  .fuss-raster { grid-template-columns: 1fr; gap: 28px; }
-  .fuss-slogan { font-size: clamp(44px, 20vw, 96px); }
+  .fuss-raster { grid-template-columns: 1fr; grid-template-areas: "zeiten" "ort" "unterschrift"; grid-template-rows: auto; gap: 28px; }
 }
 
 @media (max-width: 960px) {
@@ -795,8 +818,10 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .text-gross { font-size: 19px; color: #2d3136; max-width: 62ch; }
 .abstand { margin-top: 48px; }
 .abschnitt h3 { font-size: 22px; margin-bottom: 10px; }
-.liste { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--linie); }
-.liste li { padding: 12px 0; border-bottom: 1px solid var(--linie); }
+/* QA K13: Nicht klickbare Listen als Häkchenliste, ohne die Trennlinien der klickbaren Pfeil-Zeilen («Weitere Leistungen»). */
+.liste { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.liste li { position: relative; padding: 0 0 0 30px; }
+.liste li::before { content: ""; position: absolute; left: 3px; top: .42em; width: 12px; height: 6px; border: solid var(--tinte); border-width: 0 0 2px 2px; transform: rotate(-45deg); }
 .quelle { margin-top: 12px; font-size: 14px; color: var(--grau); }
 .luecke { margin: 20px 0 0; padding: 12px 16px; border-radius: var(--rund); background: #fff7e6; color: #6b4300; font-size: 14px; }
 .zeilen { display: grid; gap: 56px; }
@@ -812,6 +837,15 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .gruppe h2 { font-size: 22px; margin-bottom: 16px; }
 .leute--seite { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .leute figcaption a { display: block; margin-top: 4px; font-size: 14px; color: var(--blau); text-decoration: none; overflow-wrap: anywhere; }
+/* QA K09 und K17: Mail als Tippziel mit 44 px Höhe; Umbruch nur an der Stelle nach «@» (<wbr> im HTML), nie mitten im Wort. */
+.leute figcaption a { display: block; min-height: 44px; margin-top: 0; padding: 11px 0; line-height: 22px; overflow-wrap: normal; word-break: normal; }
+@media (max-width: 400px) { .leute figcaption a { font-size: 13px; } }
+/* QA K07: Gruppen haben drei Personen. Drei Spalten füllen die Inhaltsbreite; eine einzelne Person steht als breite Karte
+   (Porträt in Spaltenbreite, Name daneben), damit kein leerer Rest über einer Spalte bleibt. */
+@media (min-width: 961px) {
+  .leute--seite { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .leute--seite[data-anzahl="1"] figure { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: 16px; align-items: end; }
+}
 .leute__leer { display: grid; place-items: center; aspect-ratio: 4 / 5; border-radius: var(--rund-gross); background: var(--flaeche); color: var(--grau); font-size: 32px; font-weight: 500; }
 .tesla--seite { padding-top: calc(var(--kopf) + 96px); }
 .tesla h1 { font-size: clamp(34px, 5vw, 58px); margin: 20px 0 16px; }
@@ -960,7 +994,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 /* Tesla: ruhige Nachtflaeche, Marke als Text */
 .tesla { background: var(--nacht); }
 .tesla__marke { border-color: rgba(255, 255, 255, .22); padding: 8px 14px 8px 12px; }
-.tesla__liste li { font-size: 18px; padding: 18px 0; }
+.tesla__liste li { font-size: 18px; }
 
 /* Fotos: ruhige Bildsprache, weiche Ecken */
 .kachel, .zeile img, .raster img, .leute img, .naehe__bild img { border-radius: var(--rund-gross); }
@@ -1005,6 +1039,12 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 /* Kontakt-Karten und Karten allgemein */
 .kontakt__karte { border-radius: var(--rund-gross); }
 .kontakt__karte h2, .gruppe h2 { font-family: var(--schrift); }
+/* QA K04: «.abschnitt h2» machte die Kartentitel 30 bis 42 px gross. Etikett klein wie Hilfetext, die Angabe ist der grösste Text. */
+.abschnitt .kontakt__karte h2 { font-size: 13px; font-weight: 600; line-height: 1.3; letter-spacing: .14em; text-transform: uppercase; color: var(--grau); }
+.kontakt__karte .kontakt__wert { font-size: 22px; line-height: 1.3; }
+/* QA K09: Mobilnummer, «Route planen» und «Schaden melden» als eigene Tippziele mit mindestens 44 px Höhe. */
+.kontakt__karte small { display: flex; flex-wrap: wrap; align-items: center; column-gap: .4ch; }
+.kontakt__karte small a.klein { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
 .gruppe h2 { font-weight: 600; font-size: 20px; }
 .textseite h2 { font-size: 28px; }
 .kontakt__karte { transition: transform .3s var(--sanft); }
@@ -1051,7 +1091,7 @@ a.klein { font-size: 14px; }
 .tesla-teil .ablauf li { position: relative; padding-top: 28px; }
 .tesla-teil .ablauf li::before { content: ""; position: absolute; top: 0; left: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--grund); border: 1.5px solid var(--tinte); }
 .tesla-teil .ablauf b { display: flex; align-items: baseline; gap: 10px; font-weight: 600; font-size: 17px; margin-bottom: 6px; }
-.tesla-teil .ablauf .ziffer { font-size: 14px; font-weight: 500; color: var(--akzent); }
+.tesla-teil .ablauf .ziffer { font-size: 14px; font-weight: 500; color: var(--leise); } /* QA K13 */
 .tesla-teil .ablauf li > span { color: #3f4247; font-size: 15.5px; display: block; }
 .tesla-ende { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--linie); }
 .tesla-ende .hinweis { margin: 0; font-size: 13px; color: var(--leise); }
@@ -1236,6 +1276,9 @@ a.klein { font-size: 14px; }
   .kopf__menu-icon span { transform: none; }
   .kopf__menu[aria-expanded="true"] .kopf__menu-icon span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .kopf__menu[aria-expanded="true"] .kopf__menu-icon span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  /* Schliessen-Knopf im Menü bleibt ein «×» (statischer Zustand, keine Bewegung) */
+  .blatt.ist-auf .blatt__zu .kopf__menu-icon span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .blatt.ist-auf .blatt__zu .kopf__menu-icon span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   /* Karten (BAUPLAN 3.3): nur Rand- und Pfeilfarbe, kein Weg */
   .karten a:hover, .karten a:active, .karten a:hover .pfeil, .karten a:active .pfeil, .karten a:focus-visible .pfeil { transform: none; }
   /* BEWEGUNG.md 8: kein Weg und kein Druckweg; Menue, Schritte, Ausklappen sofort; Ladezustand ohne Drehen, Text bleibt */
@@ -1500,7 +1543,7 @@ a.klein { font-size: 14px; }
 .ablauf-kunde .titel { font-size: clamp(30px, 3.2vw, 42px); line-height: 1.08; max-width: 16em; }
 .ablauf-kunde__liste { list-style: none; margin: clamp(24px, 4vw, 44px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 44px); }
 .ablauf-kunde__liste li { display: grid; gap: 8px; align-content: start; padding-top: 18px; border-top: 1px solid var(--tinte); }
-.ablauf-kunde__nr { font-size: 14px; letter-spacing: .04em; color: var(--akzent); }
+.ablauf-kunde__nr { font-size: 14px; letter-spacing: .04em; color: var(--leise); } /* QA K13: Linkblau nur für Klickbares */
 .ablauf-kunde h3 { font-family: var(--titel); font-weight: 400; font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -.012em; }
 .ablauf-kunde p { color: #3f4247; max-width: 34ch; }
 @media (max-width: 720px) {
@@ -1601,9 +1644,10 @@ a.klein { font-size: 14px; }
   .arbeiten__liste, .arbeiten__liste[data-anzahl="3"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 560px) {
-  .arbeiten__liste, .arbeiten__liste[data-anzahl="3"] { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .arbeiten__liste li { padding: 16px 0; border-top-color: var(--linie); }
-  .arbeiten__liste li:first-child { border-top-color: var(--tinte); }
+  /* QA K13: am Handy keine Zeilen mit Trennlinien wie bei klickbaren Listen, sondern Absätze mit Abstand. */
+  .arbeiten__liste, .arbeiten__liste[data-anzahl="3"] { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .arbeiten__liste li { padding: 0; border-top: 0; }
+  .arbeiten__liste li:first-child { padding-top: 16px; border-top: 1px solid var(--tinte); }
 }
 
 /* Zweitknöpfe heben sich auf dem Beige ab (klarer Kontrast, Roni 08.11.2026). */

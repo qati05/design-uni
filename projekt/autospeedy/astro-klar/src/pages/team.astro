@@ -23,11 +23,12 @@ const personen = gruppen.flatMap((g: any) => g.leute.map((p: any) => {
     {gruppen.map((g: any) => (
       <div class="gruppe">
         <h2>{g.name}</h2>
-        <div class="leute leute--seite">
+        {/* QA K07: Raster nach der Zahl der Personen (data-anzahl), damit keine leere Spalte bleibt. QA K17: Mail bricht nur nach «@». */}
+        <div class="leute leute--seite" data-anzahl={g.leute.length}>
           {g.leute.map((p: any) => (
             <figure>
               {p.foto ? <img src={p.foto} width="640" height="800" loading="lazy" decoding="async" alt={`Porträt ${p.name.replace(/ «.*»/, "")}`}> : <span class="leute__leer" aria-hidden="true">{p.name.split(" ").map((w: string) => w[0]).slice(0, 2).join("")}</span>}
-              <figcaption><b>{p.name}</b><span>{p.rolle}</span>{p.email && <a href={`mailto:${p.email}`} data-zaehl="mail" data-ort="team">{p.email}</a>}</figcaption>
+              <figcaption><b>{p.name}</b><span>{p.rolle}</span>{p.email && <a href={`mailto:${p.email}`} data-zaehl="mail" data-ort="team">{p.email.split("@")[0]}@<wbr />{p.email.split("@").slice(1).join("@")}</a>}</figcaption>
             </figure>
           ))}
         </div>

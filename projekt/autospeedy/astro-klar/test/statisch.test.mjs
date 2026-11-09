@@ -259,6 +259,11 @@ test("Nachtrag Schalter Live (Testbuild): index + Sitemap, kein noindex, sitemap
     const robots = fs.readFileSync(path.join(outDir, "robots.txt"), "utf8");
     assert.match(robots, /Sitemap: https:\/\/www\.autospeedy\.ch\/sitemap\.xml/, "live: robots.txt mit Sitemap");
     assert.ok(fs.existsSync(path.join(outDir, "sitemap.xml")), "live: sitemap.xml vorhanden");
+    // QA K11: Die Sitemap listet alle öffentlichen Seiten (ohne 404, Editor, Druckseite).
+    const karte = fs.readFileSync(path.join(outDir, "sitemap.xml"), "utf8");
+    for (const p of ["/", "/leistungen/", "/leistungen/unfall-carrosserie/", "/leistungen/hagel-dellen/", "/leistungen/lack/", "/leistungen/felgen/", "/leistungen/folierung/", "/leistungen/scheiben/", "/tesla/", "/flotten/", "/occasionen/", "/team/", "/kontakt/", "/schaden-melden/", "/impressum/", "/datenschutz/", "/bildnachweise/"])
+      assert.ok(karte.includes(`<loc>https://www.autospeedy.ch${p}</loc>`), `live: Sitemap mit ${p}`);
+    assert.doesNotMatch(karte, /404|\/admin\/|\/druck\//, "live: keine 404, kein Editor, keine Druckseite");
     // Ohne echte Bewertungen (bewertungen.json «leer») bleibt aggregateRating auch live weg.
     const ld = JSON.parse(idx.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
     const shop = ld["@graph"].find((x) => /AutoBody|AutoRepair/.test(x["@type"]));
@@ -281,4 +286,64 @@ test("Nachtrag SEO/AEO 08.11.: Service je Leistungsseite, WebSite/WebPage, Brotk
   const llms = lies(path.join(dist, "llms.txt"));
   assert.match(llms, /Öffnungszeiten: Mo bis Fr/, "llms.txt: Zeiten aus den Daten");
   assert.match(llms, /keine festen Preise/, "llms.txt: keine Fixpreise");
+});
+
+// QA-Befunde Linie «Klar» (B3, 09.11.2026), Teil ohne Browser.
+const seite = (rel) => lies(path.join(dist, rel === "" ? "index.html" : path.join(rel, "index.html")));
+const sichtbar = (s) => s.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " ").replace(/&nbsp;| /g, " ").replace(/\s+/g, " ");
+
+test("K08: Schaden- und Rückruf-Formulare verweisen auf /datenschutz/; Datenschutz nennt Hoster, Formular- und Maildienst mit Land", () => {
+  for (const rel of ["schaden-melden", "kontakt", "flotten", "occasionen"]) {
+    const s = seite(rel);
+    for (const f of s.match(/<form[\s\S]*?<\/form>/g)) assert.match(f, /href="\/datenschutz\/"/, `${rel}: Formular mit Link zur Datenschutzerklärung`);
+  }
+  const d = sichtbar(seite("datenschutz"));
+  assert.match(d, /Cloudflare Pages \(Cloudflare, Inc\., USA\)/, "Hoster mit Land");
+  assert.match(d, /Cloudflare Email \(Cloudflare, Inc\., USA\)/, "Formular-Mail an den Betrieb");
+  assert.match(d, /Brevo \(Sendinblue SAS, Frankreich\)/, "Maildienst an die Kundschaft");
+  assert.doesNotMatch(d, /Datenbank in Zürich|Werkstatt-System/, "kein veralteter Weg über eine Datenbank");
+  assert.match(d, /Vom Betrieb zu prüfen/, "Ergänzungen als vom Betrieb zu prüfen markiert");
+});
+
+test("K10: alle Titel höchstens 60 Zeichen", () => {
+  for (const p of html) {
+    const t = (lies(p).match(/<title>([^<]+)<\/title>/) || [])[1];
+    if (t) assert.ok(t.length <= 60, `${path.relative(dist, p)}: ${t.length} Zeichen («${t}»)`);
+  }
+});
+
+test("K11: JSON-LD ohne erfundene Koordinaten (geo erst mit Daten des Betriebs)", () => {
+  const ld = JSON.parse(seite("").match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+  const shop = ld["@graph"].find((x) => /AutoBody|AutoRepair/.test(x["@type"]));
+  assert.ok(!("geo" in shop), "kein geo, solange betrieb.json geo: null hat");
+});
+
+test("K12: «Termin» und «Offerte» sichtbar auf Start und Leistungen; keine Schrittzählung vor der Meldung", () => {
+  for (const rel of ["", "leistungen"]) {
+    const t = sichtbar(seite(rel));
+    assert.match(t, /Termin/, `${rel || "Start"}: Termin`);
+    assert.match(t, /Offerte/, `${rel || "Start"}: Offerte`);
+    assert.match(t, /Nach Ihrer Meldung geht es so weiter/, `${rel || "Start"}: Ablauf beginnt nach der Meldung`);
+  }
+  assert.doesNotMatch(seite(""), /class="ziffer"/, "Tesla-Teil ohne 01/02/03");
+  assert.match(sichtbar(seite("schaden-melden")), /In zwei Schritten/, "Formular: zwei Schritte");
+});
+
+test("K19: Öffnungszeiten überall in einer Schreibweise", () => {
+  const start = sichtbar(seite(""));
+  assert.match(start, /Mo bis Fr 7\.30 bis 12\.00 Uhr und 13\.15 bis 17\.30 Uhr/, "Faktenleiste wie der Fuss");
+  assert.doesNotMatch(start, /7\.30–12/, "keine Kurzform mit Gedankenstrich");
+  assert.doesNotMatch(sichtbar(seite("kontakt")), /7\.30–12/, "Rückruf-Zeitwahl ohne Kurzform");
+});
+
+test("K20: Impressum nennt alle geladenen Schriften", () => {
+  const t = sichtbar(seite("impressum"));
+  for (const s of ["Source Serif 4", "Hanken Grotesk", "Archivo"]) assert.ok(t.includes(s), s);
+});
+
+test("K21: «Was wir machen» bei Unfall zeigt eine Carrosseriereparatur, nicht die Folierung", () => {
+  const s = seite("leistungen/unfall-carrosserie");
+  const block = s.match(/<section class="abschnitt abschnitt--flaeche arbeiten"[\s\S]*?<\/section>/)[0];
+  assert.match(block, /\/bilder\/werkstatt-/, "Werkstatt-Foto");
+  assert.doesNotMatch(block, /abgeklebt-/, "nicht der teilfolierte Transporter");
 });

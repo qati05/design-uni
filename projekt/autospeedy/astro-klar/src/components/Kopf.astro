@@ -20,9 +20,9 @@ const wege = [["/leistungen/", "Leistungen"], ["/tesla/", "Tesla"], ["/occasione
 <dialog class="blatt" data-menu aria-label="Menü">
   <div class="blatt__innen">
     <button class="blatt__zu" type="button" data-menu-zu aria-label="Schliessen"><span class="kopf__menu-icon" aria-hidden="true"><span></span><span></span><span></span></span></button>
-    <a href="/schaden-melden/" data-zaehl="anfrage" data-ort="menue">Schaden melden <span aria-hidden="true">→</span></a>
+    <a class="blatt__aktion" href="/schaden-melden/" data-zaehl="anfrage" data-ort="menue">Schaden melden</a>
     {wege.map(([href, name]) => <a href={href}>{name} <span aria-hidden="true">→</span></a>)}
-    <div class="blatt__fuss"><a href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="menue">{b.tel.anzeige}</a><span>{b.strasse}, {b.plz} {b.ort}</span></div>
+    <div class="blatt__fuss"><a class="blatt__tel" href={`tel:${b.tel.e164}`} data-zaehl="anruf" data-ort="menue">Anrufen <span class="nr">{b.tel.anzeige}</span></a><span>{b.strasse}, {b.plz} {b.ort}</span></div>
   </div>
 </dialog>
 <!-- Ohne JavaScript: Der Hamburger ist ein Link auf diese Liste (:target). Mit JavaScript bleibt sie verborgen,

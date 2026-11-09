@@ -140,9 +140,22 @@
   }
   ["name", "telefon", "email"].forEach(function (n) { var e = f.elements[n]; if (e) e.addEventListener("input", function () { feldOk(e); }); });
 
-  // Schritt 1: Art wählen führt weiter; Stellen im Plan und in den Kästchen gleich
+  // Schritt 1: Art wählen führt weiter (Klick, Tippen, Leertaste); Stellen im Plan und in den Kästchen gleich.
+  // Tastatur (QA K02): Pfeiltasten wählen in der Gruppe nur aus und bleiben im Schritt, damit man alle Arten durchgehen
+  // kann. Enter oder «Weiter» führt dann mit der gewählten Art weiter.
+  var perPfeil = false;
   [].forEach.call(f.querySelectorAll('input[name="art"]'), function (r) {
-    r.addEventListener("change", function () { zeige(2); }); // sofort; die Kachel zeigt die Wahl, waehrend der Schritt hinausgleitet
+    r.addEventListener("keydown", function (e) {
+      if (/^Arrow/.test(e.key)) { perPfeil = true; return; }
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      if (!r.checked) { r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true })); } else zeige(2);
+    });
+    r.addEventListener("keyup", function () { setTimeout(function () { perPfeil = false; }, 0); });
+    r.addEventListener("change", function () {
+      if (perPfeil) { perPfeil = false; return; } // Pfeiltaste: nur wählen
+      zeige(2); // sofort; die Kachel zeigt die Wahl, waehrend der Schritt hinausgleitet
+    });
   });
   function zeichne() { kaestchen.forEach(function (k) { var g = plan && plan.querySelector('[data-stelle="' + k.dataset.stelle + '"]'); if (g) g.classList.toggle("ist-gewaehlt", k.checked); }); }
   kaestchen.forEach(function (k) { k.addEventListener("change", function () { zeichne(); fasseZusammen(); }); });
@@ -414,6 +427,8 @@
     balkenZeige(false);
     sendenEin(knopfEl, "Nochmals senden");
     melde("Das Senden hat nicht geklappt. Ihre Angaben bleiben erhalten. Bitte nochmals senden oder rufen Sie uns an: " + TEL + ".", true);
+    // Fokus zurück auf den Knopf (QA K03): Er war beim Senden gesperrt, sonst fiele der Fokus auf den Seitenanfang.
+    try { knopfEl.focus({ preventScroll: true }); if (!inSicht(knopfEl)) sanftZu(knopfEl, "center"); } catch (e) {}
   }
 
   [].forEach.call(f.querySelectorAll("[data-senden]"), function (k) {

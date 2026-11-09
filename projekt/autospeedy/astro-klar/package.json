@@ -7,7 +7,7 @@
     "prebuild": "npm ci --prefix ../gemeinsam --silent && node bau/teilen.mjs && node bau/bewertungen.mjs && node bau/qr.mjs",
     "build": "astro build",
     "dev": "node bau/teilen.mjs && node bau/qr.mjs && astro dev",
-    "test": "node --test --test-concurrency=1 test/validierung.test.mjs test/statisch.test.mjs test/bewertungen.test.mjs test/schluss.test.mjs test/hinweise.test.mjs test/access.test.mjs test/github.test.mjs test/functions-admin.test.mjs test/bewertung.test.mjs test/qr.test.mjs test/browser.test.mjs test/formular.test.mjs test/rueckruf.test.mjs test/hinweis-browser.test.mjs"
+    "test": "node --test --test-concurrency=1 test/validierung.test.mjs test/statisch.test.mjs test/bewertungen.test.mjs test/schluss.test.mjs test/hinweise.test.mjs test/access.test.mjs test/github.test.mjs test/functions-admin.test.mjs test/bewertung.test.mjs test/qr.test.mjs test/browser.test.mjs test/formular.test.mjs test/rueckruf.test.mjs test/qa-klar.test.mjs test/hinweis-browser.test.mjs"
   },
   "dependencies": {
     "astro": "7.4.1"

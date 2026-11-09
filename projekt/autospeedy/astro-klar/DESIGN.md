@@ -147,7 +147,8 @@ Knöpfe als Pille (999 px), Felder und kleine Karten 10 px, grosse Karten 20 px.
 - **Hero:** Serifentitel, kurzer Satz, Hauptaktion und Telefon, grosses Foto.
 - **Leistungen:** Karten 3:2 mit Foto.
 - **Bewertungen, FAQ, Faktenleiste, Tesla-Teil:** eigene Bausteine unter `src/components/`.
-- **Ablauf «So geht es nach dem Melden weiter»:** drei nummerierte Schritte (Archivo-Ziffern in Blau, Haarlinie in Tinte), direkt vor dem Aufruf.
+- **Ablauf «Nach Ihrer Meldung geht es so weiter»:** drei nummerierte Schritte nach der Meldung (Rückruf, Offerte und Termin, Reparatur), Archivo-Ziffern in Leise statt Blau (Blau nur für Klickbares, QA K13, 09.11.2026), Haarlinie in Tinte, direkt vor dem Aufruf.
+- **Nicht klickbare Listen:** Häkchen, keine Trennlinien; Zeilen mit Trennlinie und Pfeil sind Links vorbehalten (QA K13).
 - **Hero-Status:** Öffnungsstatus mit Punkt unter den Hero-Knöpfen; geschlossen mit dem Satz, dass Melden jederzeit geht.
 - **Bewegung «Feder»:** Inhalt sinkt beim Hereinscrollen 14 px von oben ein (1,1 s, ohne Überschwingen), Seitenwechsel sinkt 10 px ein, Mausrad rollt weich aus; alles aus unter «Bewegung reduzieren» (vorschau/c/KUNDENWEG.md).
 

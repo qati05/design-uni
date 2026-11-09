@@ -1,19 +1,21 @@
 ---
 // «So geht es weiter» (Kundenweg, KUNDENWEG.md 2): nimmt die Frage vorweg, die nach einem frischen Schaden vom
-// Melden abhält: «Was passiert, wenn ich melde?». Drei Schritte, nur Belegtes aus dem Formular und der Startseite
-// (Pflicht nur Art, Name, Telefon; Rückruf in der Regel in den Öffnungszeiten; Versicherung übernehmen wir;
-// Ersatzwagen auf Anfrage). Keine Fristen, keine Dauer, keine Zusagen.
+// Melden abhält: «Was passiert, wenn ich melde?». Nur Belegtes: Rückruf in der Regel in den Öffnungszeiten (Formular),
+// Preis hängt vom Schaden ab und die Offerte gibt es nur im Gespräch (Roni, 07.11.2026; FAQ), Kosten und Termin
+// besprechen wir (Rückruf-Hilfetext), Versicherung übernehmen wir, Ersatzwagen auf Anfrage. Keine Fristen, keine Dauer.
+// QA K12 (09.11.2026): Die Schritte zählen erst NACH der Meldung, damit sie nicht den «zwei Schritten» des Formulars
+// widersprechen; «Termin» und «Offerte» stehen sichtbar. QA K13: Ziffern nicht in Linkblau (siehe klar.css).
 // Steht direkt vor dem Aufruf (Anfrage), der die Knöpfe trägt; darum hier kein eigener Knopf.
 // Bewegung: Schritte sinken einzeln ein (Feder, .feder-liste in klar.js/klar.css), nie unter «Bewegung reduzieren».
 const schritte = [
-  { titel: "Sie melden", text: "Was passiert ist, Ihr Name und Ihre Telefonnummer. Fotos und alles Weitere sind freiwillig." },
   { titel: "Wir rufen zurück", text: "In der Regel telefonisch in den Öffnungszeiten. Fehlendes klären wir dann gemeinsam." },
+  { titel: "Offerte und Termin", text: "Was die Reparatur kostet, hängt vom Schaden ab. Die Offerte und den Termin besprechen wir persönlich mit Ihnen." },
   { titel: "Wir reparieren", text: "Die Abwicklung mit Ihrer Versicherung übernehmen wir. Einen Ersatzwagen erhalten Sie auf Anfrage." },
 ];
 ---
 <section class="ablauf-kunde" aria-labelledby="ablauf-titel">
   <div class="ablauf-kunde__kopf feder">
-    <h2 class="titel" id="ablauf-titel">So geht es nach dem Melden weiter.</h2>
+    <h2 class="titel" id="ablauf-titel">Nach Ihrer Meldung geht es so weiter.</h2>
   </div>
   <ol class="ablauf-kunde__liste feder-liste">
     {schritte.map((s, i) => (
