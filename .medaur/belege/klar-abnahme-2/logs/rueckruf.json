@@ -1,0 +1,506 @@
+[
+ {
+  "seite": "kontakt",
+  "m": "ok",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "leer": {
+   "text": "Bitte ergänzen Sie die rot markierten Felder.",
+   "role": "alert",
+   "aktiv": "INPUT#rr-kontakt-name \"\"",
+   "ariaInvalid": 2
+  },
+  "telFalsch": "Bitte prüfen Sie die Telefonnummer. Sie braucht mindestens 9 Ziffern.",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Angekommen. Wir rufen Sie zurück, wenn möglich Montag Vormittag, Mittwoch Nachmittag. Anliegen: Allgemein.",
+  "role": "status",
+  "knopfDisabled": true,
+  "aktiv": "P \"Angekommen. Wir rufen Sie zurück, wenn m\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Allgemein; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=kontakt; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "kontakt",
+  "m": "ok",
+  "w": 1440,
+  "ep": "/api/rueckruf",
+  "leer": {
+   "text": "Bitte ergänzen Sie die rot markierten Felder.",
+   "role": "alert",
+   "aktiv": "INPUT#rr-kontakt-name \"\"",
+   "ariaInvalid": 2
+  },
+  "telFalsch": "Bitte prüfen Sie die Telefonnummer. Sie braucht mindestens 9 Ziffern.",
+  "feldGroesse": [
+   70,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Angekommen. Wir rufen Sie zurück, wenn möglich Montag Vormittag, Mittwoch Nachmittag. Anliegen: Allgemein.",
+  "role": "status",
+  "knopfDisabled": true,
+  "aktiv": "P \"Angekommen. Wir rufen Sie zurück, wenn m\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Allgemein; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=kontakt; t=test-token",
+  "ueberlauf": {
+   "sw": 1425,
+   "cw": 1440
+  }
+ },
+ {
+  "seite": "kontakt",
+  "m": "okfalse",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+  "role": "alert",
+  "knopfDisabled": false,
+  "aktiv": "BUTTON \"Rückruf anfordern\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Allgemein; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=kontakt; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "kontakt",
+  "m": "leer",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+  "role": "alert",
+  "knopfDisabled": false,
+  "aktiv": "BUTTON \"Rückruf anfordern\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Allgemein; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=kontakt; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "kontakt",
+  "m": "500",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+  "role": "alert",
+  "knopfDisabled": false,
+  "aktiv": "BUTTON \"Rückruf anfordern\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Allgemein; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=kontakt; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "kontakt",
+  "m": "500",
+  "w": 1440,
+  "ep": "/api/rueckruf",
+  "feldGroesse": [
+   70,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+  "role": "alert",
+  "knopfDisabled": false,
+  "aktiv": "BUTTON \"Rückruf anfordern\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Allgemein; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=kontakt; t=test-token",
+  "ueberlauf": {
+   "sw": 1425,
+   "cw": 1440
+  }
+ },
+ {
+  "seite": "kontakt",
+  "m": "netz",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+  "role": "alert",
+  "knopfDisabled": false,
+  "aktiv": "BUTTON \"Rückruf anfordern\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Allgemein; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=kontakt; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "flotten",
+  "m": "ok",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "leer": {
+   "text": "Bitte ergänzen Sie die rot markierten Felder.",
+   "role": "alert",
+   "aktiv": "INPUT#rr-flotten-name \"\"",
+   "ariaInvalid": 2
+  },
+  "telFalsch": "Bitte prüfen Sie die Telefonnummer. Sie braucht mindestens 9 Ziffern.",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Angekommen. Wir rufen Sie zurück, wenn möglich Montag Vormittag, Mittwoch Nachmittag. Anliegen: Flotte oder Firmenfahrzeuge.",
+  "role": "status",
+  "knopfDisabled": true,
+  "aktiv": "P \"Angekommen. Wir rufen Sie zurück, wenn m\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Flotte oder Firmenfahrzeuge; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=flotten; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "flotten",
+  "m": "okfalse",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+  "role": "alert",
+  "knopfDisabled": false,
+  "aktiv": "BUTTON \"Rückruf anfordern\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Flotte oder Firmenfahrzeuge; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=flotten; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "flotten",
+  "m": "leer",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+  "role": "alert",
+  "knopfDisabled": false,
+  "aktiv": "BUTTON \"Rückruf anfordern\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Flotte oder Firmenfahrzeuge; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=flotten; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "flotten",
+  "m": "500",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+  "role": "alert",
+  "knopfDisabled": false,
+  "aktiv": "BUTTON \"Rückruf anfordern\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Flotte oder Firmenfahrzeuge; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=flotten; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "flotten",
+  "m": "netz",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+  "role": "alert",
+  "knopfDisabled": false,
+  "aktiv": "BUTTON \"Rückruf anfordern\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Flotte oder Firmenfahrzeuge; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=flotten; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "occasionen",
+  "m": "ok",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "leer": {
+   "text": "Bitte ergänzen Sie die rot markierten Felder.",
+   "role": "alert",
+   "aktiv": "INPUT#rr-occasionen-name \"\"",
+   "ariaInvalid": 2
+  },
+  "telFalsch": "Bitte prüfen Sie die Telefonnummer. Sie braucht mindestens 9 Ziffern.",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Angekommen. Wir rufen Sie zurück, wenn möglich Montag Vormittag, Mittwoch Nachmittag. Anliegen: Occasion kaufen.",
+  "role": "status",
+  "knopfDisabled": true,
+  "aktiv": "P \"Angekommen. Wir rufen Sie zurück, wenn m\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Occasion kaufen; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=occasionen; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "occasionen",
+  "m": "okfalse",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+  "role": "alert",
+  "knopfDisabled": false,
+  "aktiv": "BUTTON \"Rückruf anfordern\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Occasion kaufen; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=occasionen; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "occasionen",
+  "m": "leer",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+  "role": "alert",
+  "knopfDisabled": false,
+  "aktiv": "BUTTON \"Rückruf anfordern\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Occasion kaufen; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=occasionen; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "occasionen",
+  "m": "500",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+  "role": "alert",
+  "knopfDisabled": false,
+  "aktiv": "BUTTON \"Rückruf anfordern\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Occasion kaufen; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=occasionen; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "seite": "occasionen",
+  "m": "netz",
+  "w": 390,
+  "ep": "/api/rueckruf",
+  "feldGroesse": [
+   59,
+   44
+  ],
+  "gewaehlt": [
+   "Montag Vormittag",
+   "Mittwoch Nachmittag"
+  ],
+  "laden": "Wird gesendet …",
+  "ladenKnopfDisabled": false,
+  "ergebnis": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+  "role": "alert",
+  "knopfDisabled": false,
+  "aktiv": "BUTTON \"Rückruf anfordern\"",
+  "posts": 1,
+  "postUrl": "http://localhost:4403/api/rueckruf",
+  "body": "anliegen=Occasion kaufen; name=Testperson QA; telefon=079 000 00 00; zeit=Montag Vormittag; zeit=Mittwoch Nachmittag; bemerkung=; email=; website=; ort=occasionen; t=test-token",
+  "ueberlauf": {
+   "sw": 390,
+   "cw": 390
+  }
+ },
+ {
+  "zeit320": "45x44 45x44 45x44 45x44 45x44 45x44 45x44 45x44 45x44 45x44",
+  "ueberlauf": {
+   "sw": 320,
+   "cw": 320
+  }
+ },
+ {
+  "tastaturZeit": [
+   "Montag Vormittag",
+   "Dienstag Vormittag"
+  ],
+  "fokusSichtbar": {
+   "outline": "solid 2px",
+   "box": "none"
+  }
+ }
+]

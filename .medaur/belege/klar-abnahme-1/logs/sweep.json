@@ -1,0 +1,1582 @@
+[
+ {
+  "w": 320,
+  "rm": false,
+  "name": "start",
+  "h1": 1,
+  "h1t": "Qualität,die man sieht und fährt.",
+  "titel": 51,
+  "titelT": "Carrosserie und Lack in Altstätten SG | Auto Speedy",
+  "besch": 152,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,FAQPage"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 0,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "leistungen",
+  "h1": 1,
+  "h1t": "Carrosserie, Lack, Felgen. Unter einem Dach.",
+  "titel": 57,
+  "titelT": "Leistungen: Unfall, Lack, Felgen, Folierung | Auto Speedy",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,FAQPage"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 0,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "l-unfall",
+  "h1": 1,
+  "h1t": "Vom Blechschaden bis zum Chassisschaden.",
+  "titel": 52,
+  "titelT": "Unfall und Carrosserie für alle Marken | Auto Speedy",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 0,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "l-hagel",
+  "h1": 1,
+  "h1t": "Dellen drücken, Hagel richten.",
+  "titel": 45,
+  "titelT": "Hagelschaden und Dellen drücken | Auto Speedy",
+  "besch": 134,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 0,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "l-lack",
+  "h1": 1,
+  "h1t": "Kleine Lackschäden, ganze Lackierungen.",
+  "titel": 49,
+  "titelT": "Lack: Lackschaden bis Neulackierung | Auto Speedy",
+  "besch": 150,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 0,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "l-scheiben",
+  "h1": 1,
+  "h1t": "Scheiben wechseln und reparieren.",
+  "titel": 46,
+  "titelT": "Scheiben wechseln und reparieren | Auto Speedy",
+  "besch": 134,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 0,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "l-felgen",
+  "h1": 1,
+  "h1t": "Felgen, vorher und nachher.",
+  "titel": 52,
+  "titelT": "Felgen aufbereiten: vorher und nachher | Auto Speedy",
+  "besch": 124,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 0,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "l-folierung",
+  "h1": 1,
+  "h1t": "Fahrzeuge ganz oder teilweise folieren.",
+  "titel": 44,
+  "titelT": "Folierung: ganz oder teilweise | Auto Speedy",
+  "besch": 101,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 0,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "tesla",
+  "h1": 1,
+  "h1t": "Ihr Tesla. In zugelassenen Händen.",
+  "titel": 55,
+  "titelT": "Tesla Approved Body Shop in Altstätten SG | Auto Speedy",
+  "besch": 152,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 3,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "flotten",
+  "h1": 1,
+  "h1t": "Firmenautos zurück auf die Strasse.",
+  "titel": 59,
+  "titelT": "Firmen und Flotten: Carrosserie in Altstätten | Auto Speedy",
+  "besch": 143,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 2,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "occasionen",
+  "h1": 1,
+  "h1t": "Occasionen auf dem Areal.",
+  "titel": 58,
+  "titelT": "Occasionen, Ankauf und Leasing in Altstätten | Auto Speedy",
+  "besch": 150,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 1,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "team",
+  "h1": 1,
+  "h1t": "Zehn Leute, vier Bereiche.",
+  "titel": 49,
+  "titelT": "Team der Carrosserie Auto Speedy in Altstätten SG",
+  "besch": 146,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Person,Person,Person,Person,Person,Person,Person,Person,Person,Person"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 0,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "kontakt",
+  "h1": 1,
+  "h1t": "So erreichen Sie uns.",
+  "titel": 57,
+  "titelT": "Kontakt und Anfahrt, Carrosserie Altstätten | Auto Speedy",
+  "besch": 154,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 1,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "schaden",
+  "h1": 1,
+  "h1t": "In zwei Schritten gemeldet.",
+  "titel": 48,
+  "titelT": "Schaden melden in Altstätten SG | Auto Speedy AG",
+  "besch": 151,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 1,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "impressum",
+  "h1": 1,
+  "h1t": "Impressum",
+  "titel": 53,
+  "titelT": "Impressum | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 140,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 1,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "datenschutz",
+  "h1": 1,
+  "h1t": "Datenschutz",
+  "titel": 55,
+  "titelT": "Datenschutz | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 4,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "bildnachweise",
+  "h1": 1,
+  "h1t": "Bildnachweise",
+  "titel": 57,
+  "titelT": "Bildnachweise | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 155,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 0,
+  "sw2": 320
+ },
+ {
+  "w": 320,
+  "rm": false,
+  "name": "404",
+  "h1": 1,
+  "h1t": "Diese Seite gibt es nicht.",
+  "titel": 48,
+  "titelT": "Seite nicht gefunden | Auto Speedy AG Altstätten",
+  "besch": 150,
+  "ld": [],
+  "sw": 320,
+  "cw": 320,
+  "luecke": 0,
+  "sw2": 320
+ },
+ {
+  "log": {
+   "w": 320,
+   "rm": false,
+   "konsole": [],
+   "fehler": [],
+   "requests": [],
+   "fremd": [],
+   "posts": [],
+   "status400": []
+  }
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "start",
+  "h1": 1,
+  "h1t": "Qualität,die man sieht und fährt.",
+  "titel": 51,
+  "titelT": "Carrosserie und Lack in Altstätten SG | Auto Speedy",
+  "besch": 152,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "leistungen",
+  "h1": 1,
+  "h1t": "Carrosserie, Lack, Felgen. Unter einem Dach.",
+  "titel": 57,
+  "titelT": "Leistungen: Unfall, Lack, Felgen, Folierung | Auto Speedy",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "l-unfall",
+  "h1": 1,
+  "h1t": "Vom Blechschaden bis zum Chassisschaden.",
+  "titel": 52,
+  "titelT": "Unfall und Carrosserie für alle Marken | Auto Speedy",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "l-hagel",
+  "h1": 1,
+  "h1t": "Dellen drücken, Hagel richten.",
+  "titel": 45,
+  "titelT": "Hagelschaden und Dellen drücken | Auto Speedy",
+  "besch": 134,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "l-lack",
+  "h1": 1,
+  "h1t": "Kleine Lackschäden, ganze Lackierungen.",
+  "titel": 49,
+  "titelT": "Lack: Lackschaden bis Neulackierung | Auto Speedy",
+  "besch": 150,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "l-scheiben",
+  "h1": 1,
+  "h1t": "Scheiben wechseln und reparieren.",
+  "titel": 46,
+  "titelT": "Scheiben wechseln und reparieren | Auto Speedy",
+  "besch": 134,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "l-felgen",
+  "h1": 1,
+  "h1t": "Felgen, vorher und nachher.",
+  "titel": 52,
+  "titelT": "Felgen aufbereiten: vorher und nachher | Auto Speedy",
+  "besch": 124,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "l-folierung",
+  "h1": 1,
+  "h1t": "Fahrzeuge ganz oder teilweise folieren.",
+  "titel": 44,
+  "titelT": "Folierung: ganz oder teilweise | Auto Speedy",
+  "besch": 101,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "tesla",
+  "h1": 1,
+  "h1t": "Ihr Tesla. In zugelassenen Händen.",
+  "titel": 55,
+  "titelT": "Tesla Approved Body Shop in Altstätten SG | Auto Speedy",
+  "besch": 152,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 3,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "flotten",
+  "h1": 1,
+  "h1t": "Firmenautos zurück auf die Strasse.",
+  "titel": 59,
+  "titelT": "Firmen und Flotten: Carrosserie in Altstätten | Auto Speedy",
+  "besch": 143,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 2,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "occasionen",
+  "h1": 1,
+  "h1t": "Occasionen auf dem Areal.",
+  "titel": 58,
+  "titelT": "Occasionen, Ankauf und Leasing in Altstätten | Auto Speedy",
+  "besch": 150,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 1,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "team",
+  "h1": 1,
+  "h1t": "Zehn Leute, vier Bereiche.",
+  "titel": 49,
+  "titelT": "Team der Carrosserie Auto Speedy in Altstätten SG",
+  "besch": 146,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Person,Person,Person,Person,Person,Person,Person,Person,Person,Person"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "kontakt",
+  "h1": 1,
+  "h1t": "So erreichen Sie uns.",
+  "titel": 57,
+  "titelT": "Kontakt und Anfahrt, Carrosserie Altstätten | Auto Speedy",
+  "besch": 154,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 1,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "schaden",
+  "h1": 1,
+  "h1t": "In zwei Schritten gemeldet.",
+  "titel": 48,
+  "titelT": "Schaden melden in Altstätten SG | Auto Speedy AG",
+  "besch": 151,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 1,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "impressum",
+  "h1": 1,
+  "h1t": "Impressum",
+  "titel": 53,
+  "titelT": "Impressum | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 140,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 1,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "datenschutz",
+  "h1": 1,
+  "h1t": "Datenschutz",
+  "titel": 55,
+  "titelT": "Datenschutz | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 4,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "bildnachweise",
+  "h1": 1,
+  "h1t": "Bildnachweise",
+  "titel": 57,
+  "titelT": "Bildnachweise | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 155,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": false,
+  "name": "404",
+  "h1": 1,
+  "h1t": "Diese Seite gibt es nicht.",
+  "titel": 48,
+  "titelT": "Seite nicht gefunden | Auto Speedy AG Altstätten",
+  "besch": 150,
+  "ld": [],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "log": {
+   "w": 390,
+   "rm": false,
+   "konsole": [],
+   "fehler": [],
+   "requests": [],
+   "fremd": [],
+   "posts": [],
+   "status400": []
+  }
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "start",
+  "h1": 1,
+  "h1t": "Qualität,die man sieht und fährt.",
+  "titel": 51,
+  "titelT": "Carrosserie und Lack in Altstätten SG | Auto Speedy",
+  "besch": 152,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "leistungen",
+  "h1": 1,
+  "h1t": "Carrosserie, Lack, Felgen. Unter einem Dach.",
+  "titel": 57,
+  "titelT": "Leistungen: Unfall, Lack, Felgen, Folierung | Auto Speedy",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "l-unfall",
+  "h1": 1,
+  "h1t": "Vom Blechschaden bis zum Chassisschaden.",
+  "titel": 52,
+  "titelT": "Unfall und Carrosserie für alle Marken | Auto Speedy",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "l-hagel",
+  "h1": 1,
+  "h1t": "Dellen drücken, Hagel richten.",
+  "titel": 45,
+  "titelT": "Hagelschaden und Dellen drücken | Auto Speedy",
+  "besch": 134,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "l-lack",
+  "h1": 1,
+  "h1t": "Kleine Lackschäden, ganze Lackierungen.",
+  "titel": 49,
+  "titelT": "Lack: Lackschaden bis Neulackierung | Auto Speedy",
+  "besch": 150,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "l-scheiben",
+  "h1": 1,
+  "h1t": "Scheiben wechseln und reparieren.",
+  "titel": 46,
+  "titelT": "Scheiben wechseln und reparieren | Auto Speedy",
+  "besch": 134,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "l-felgen",
+  "h1": 1,
+  "h1t": "Felgen, vorher und nachher.",
+  "titel": 52,
+  "titelT": "Felgen aufbereiten: vorher und nachher | Auto Speedy",
+  "besch": 124,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "l-folierung",
+  "h1": 1,
+  "h1t": "Fahrzeuge ganz oder teilweise folieren.",
+  "titel": 44,
+  "titelT": "Folierung: ganz oder teilweise | Auto Speedy",
+  "besch": 101,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "tesla",
+  "h1": 1,
+  "h1t": "Ihr Tesla. In zugelassenen Händen.",
+  "titel": 55,
+  "titelT": "Tesla Approved Body Shop in Altstätten SG | Auto Speedy",
+  "besch": 152,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 3,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "flotten",
+  "h1": 1,
+  "h1t": "Firmenautos zurück auf die Strasse.",
+  "titel": 59,
+  "titelT": "Firmen und Flotten: Carrosserie in Altstätten | Auto Speedy",
+  "besch": 143,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 2,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "occasionen",
+  "h1": 1,
+  "h1t": "Occasionen auf dem Areal.",
+  "titel": 58,
+  "titelT": "Occasionen, Ankauf und Leasing in Altstätten | Auto Speedy",
+  "besch": 150,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 1,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "team",
+  "h1": 1,
+  "h1t": "Zehn Leute, vier Bereiche.",
+  "titel": 49,
+  "titelT": "Team der Carrosserie Auto Speedy in Altstätten SG",
+  "besch": 146,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Person,Person,Person,Person,Person,Person,Person,Person,Person,Person"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "kontakt",
+  "h1": 1,
+  "h1t": "So erreichen Sie uns.",
+  "titel": 57,
+  "titelT": "Kontakt und Anfahrt, Carrosserie Altstätten | Auto Speedy",
+  "besch": 154,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 1,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "schaden",
+  "h1": 1,
+  "h1t": "In zwei Schritten gemeldet.",
+  "titel": 48,
+  "titelT": "Schaden melden in Altstätten SG | Auto Speedy AG",
+  "besch": 151,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 1,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "impressum",
+  "h1": 1,
+  "h1t": "Impressum",
+  "titel": 53,
+  "titelT": "Impressum | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 140,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 1,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "datenschutz",
+  "h1": 1,
+  "h1t": "Datenschutz",
+  "titel": 55,
+  "titelT": "Datenschutz | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 4,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "bildnachweise",
+  "h1": 1,
+  "h1t": "Bildnachweise",
+  "titel": 57,
+  "titelT": "Bildnachweise | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 155,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "w": 390,
+  "rm": true,
+  "name": "404",
+  "h1": 1,
+  "h1t": "Diese Seite gibt es nicht.",
+  "titel": 48,
+  "titelT": "Seite nicht gefunden | Auto Speedy AG Altstätten",
+  "besch": 150,
+  "ld": [],
+  "sw": 390,
+  "cw": 390,
+  "luecke": 0,
+  "sw2": 390
+ },
+ {
+  "log": {
+   "w": 390,
+   "rm": true,
+   "konsole": [],
+   "fehler": [],
+   "requests": [],
+   "fremd": [],
+   "posts": [],
+   "status400": []
+  }
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "start",
+  "h1": 1,
+  "h1t": "Qualität,die man sieht und fährt.",
+  "titel": 51,
+  "titelT": "Carrosserie und Lack in Altstätten SG | Auto Speedy",
+  "besch": 152,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "leistungen",
+  "h1": 1,
+  "h1t": "Carrosserie, Lack, Felgen. Unter einem Dach.",
+  "titel": 57,
+  "titelT": "Leistungen: Unfall, Lack, Felgen, Folierung | Auto Speedy",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "l-unfall",
+  "h1": 1,
+  "h1t": "Vom Blechschaden bis zum Chassisschaden.",
+  "titel": 52,
+  "titelT": "Unfall und Carrosserie für alle Marken | Auto Speedy",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "l-hagel",
+  "h1": 1,
+  "h1t": "Dellen drücken, Hagel richten.",
+  "titel": 45,
+  "titelT": "Hagelschaden und Dellen drücken | Auto Speedy",
+  "besch": 134,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "l-lack",
+  "h1": 1,
+  "h1t": "Kleine Lackschäden, ganze Lackierungen.",
+  "titel": 49,
+  "titelT": "Lack: Lackschaden bis Neulackierung | Auto Speedy",
+  "besch": 150,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "l-scheiben",
+  "h1": 1,
+  "h1t": "Scheiben wechseln und reparieren.",
+  "titel": 46,
+  "titelT": "Scheiben wechseln und reparieren | Auto Speedy",
+  "besch": 134,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "l-felgen",
+  "h1": 1,
+  "h1t": "Felgen, vorher und nachher.",
+  "titel": 52,
+  "titelT": "Felgen aufbereiten: vorher und nachher | Auto Speedy",
+  "besch": 124,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "l-folierung",
+  "h1": 1,
+  "h1t": "Fahrzeuge ganz oder teilweise folieren.",
+  "titel": 44,
+  "titelT": "Folierung: ganz oder teilweise | Auto Speedy",
+  "besch": 101,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "tesla",
+  "h1": 1,
+  "h1t": "Ihr Tesla. In zugelassenen Händen.",
+  "titel": 55,
+  "titelT": "Tesla Approved Body Shop in Altstätten SG | Auto Speedy",
+  "besch": 152,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 3,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "flotten",
+  "h1": 1,
+  "h1t": "Firmenautos zurück auf die Strasse.",
+  "titel": 59,
+  "titelT": "Firmen und Flotten: Carrosserie in Altstätten | Auto Speedy",
+  "besch": 143,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 2,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "occasionen",
+  "h1": 1,
+  "h1t": "Occasionen auf dem Areal.",
+  "titel": 58,
+  "titelT": "Occasionen, Ankauf und Leasing in Altstätten | Auto Speedy",
+  "besch": 150,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 1,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "team",
+  "h1": 1,
+  "h1t": "Zehn Leute, vier Bereiche.",
+  "titel": 49,
+  "titelT": "Team der Carrosserie Auto Speedy in Altstätten SG",
+  "besch": 146,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Person,Person,Person,Person,Person,Person,Person,Person,Person,Person"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "kontakt",
+  "h1": 1,
+  "h1t": "So erreichen Sie uns.",
+  "titel": 57,
+  "titelT": "Kontakt und Anfahrt, Carrosserie Altstätten | Auto Speedy",
+  "besch": 154,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 1,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "schaden",
+  "h1": 1,
+  "h1t": "In zwei Schritten gemeldet.",
+  "titel": 48,
+  "titelT": "Schaden melden in Altstätten SG | Auto Speedy AG",
+  "besch": 151,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 1,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "impressum",
+  "h1": 1,
+  "h1t": "Impressum",
+  "titel": 53,
+  "titelT": "Impressum | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 140,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 1,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "datenschutz",
+  "h1": 1,
+  "h1t": "Datenschutz",
+  "titel": 55,
+  "titelT": "Datenschutz | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 4,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "bildnachweise",
+  "h1": 1,
+  "h1t": "Bildnachweise",
+  "titel": 57,
+  "titelT": "Bildnachweise | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 155,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": false,
+  "name": "404",
+  "h1": 1,
+  "h1t": "Diese Seite gibt es nicht.",
+  "titel": 48,
+  "titelT": "Seite nicht gefunden | Auto Speedy AG Altstätten",
+  "besch": 150,
+  "ld": [],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "log": {
+   "w": 1440,
+   "rm": false,
+   "konsole": [],
+   "fehler": [],
+   "requests": [],
+   "fremd": [],
+   "posts": [],
+   "status400": []
+  }
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "start",
+  "h1": 1,
+  "h1t": "Qualität,die man sieht und fährt.",
+  "titel": 51,
+  "titelT": "Carrosserie und Lack in Altstätten SG | Auto Speedy",
+  "besch": 152,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "leistungen",
+  "h1": 1,
+  "h1t": "Carrosserie, Lack, Felgen. Unter einem Dach.",
+  "titel": 57,
+  "titelT": "Leistungen: Unfall, Lack, Felgen, Folierung | Auto Speedy",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "l-unfall",
+  "h1": 1,
+  "h1t": "Vom Blechschaden bis zum Chassisschaden.",
+  "titel": 52,
+  "titelT": "Unfall und Carrosserie für alle Marken | Auto Speedy",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "l-hagel",
+  "h1": 1,
+  "h1t": "Dellen drücken, Hagel richten.",
+  "titel": 45,
+  "titelT": "Hagelschaden und Dellen drücken | Auto Speedy",
+  "besch": 134,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "l-lack",
+  "h1": 1,
+  "h1t": "Kleine Lackschäden, ganze Lackierungen.",
+  "titel": 49,
+  "titelT": "Lack: Lackschaden bis Neulackierung | Auto Speedy",
+  "besch": 150,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "l-scheiben",
+  "h1": 1,
+  "h1t": "Scheiben wechseln und reparieren.",
+  "titel": 46,
+  "titelT": "Scheiben wechseln und reparieren | Auto Speedy",
+  "besch": 134,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "l-felgen",
+  "h1": 1,
+  "h1t": "Felgen, vorher und nachher.",
+  "titel": 52,
+  "titelT": "Felgen aufbereiten: vorher und nachher | Auto Speedy",
+  "besch": 124,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "l-folierung",
+  "h1": 1,
+  "h1t": "Fahrzeuge ganz oder teilweise folieren.",
+  "titel": 44,
+  "titelT": "Folierung: ganz oder teilweise | Auto Speedy",
+  "besch": 101,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "tesla",
+  "h1": 1,
+  "h1t": "Ihr Tesla. In zugelassenen Händen.",
+  "titel": 55,
+  "titelT": "Tesla Approved Body Shop in Altstätten SG | Auto Speedy",
+  "besch": 152,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Service,FAQPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 3,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "flotten",
+  "h1": 1,
+  "h1t": "Firmenautos zurück auf die Strasse.",
+  "titel": 59,
+  "titelT": "Firmen und Flotten: Carrosserie in Altstätten | Auto Speedy",
+  "besch": 143,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 2,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "occasionen",
+  "h1": 1,
+  "h1t": "Occasionen auf dem Areal.",
+  "titel": 58,
+  "titelT": "Occasionen, Ankauf und Leasing in Altstätten | Auto Speedy",
+  "besch": 150,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 1,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "team",
+  "h1": 1,
+  "h1t": "Zehn Leute, vier Bereiche.",
+  "titel": 49,
+  "titelT": "Team der Carrosserie Auto Speedy in Altstätten SG",
+  "besch": 146,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList,Person,Person,Person,Person,Person,Person,Person,Person,Person,Person"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "kontakt",
+  "h1": 1,
+  "h1t": "So erreichen Sie uns.",
+  "titel": 57,
+  "titelT": "Kontakt und Anfahrt, Carrosserie Altstätten | Auto Speedy",
+  "besch": 154,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 1,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "schaden",
+  "h1": 1,
+  "h1t": "In zwei Schritten gemeldet.",
+  "titel": 48,
+  "titelT": "Schaden melden in Altstätten SG | Auto Speedy AG",
+  "besch": 151,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage,BreadcrumbList"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 1,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "impressum",
+  "h1": 1,
+  "h1t": "Impressum",
+  "titel": 53,
+  "titelT": "Impressum | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 140,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 1,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "datenschutz",
+  "h1": 1,
+  "h1t": "Datenschutz",
+  "titel": 55,
+  "titelT": "Datenschutz | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 148,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 4,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "bildnachweise",
+  "h1": 1,
+  "h1t": "Bildnachweise",
+  "titel": 57,
+  "titelT": "Bildnachweise | Auto Speedy AG, Carrosserie Altstätten SG",
+  "besch": 155,
+  "ld": [
+   "AutoBodyShop,WebSite,WebPage"
+  ],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "w": 1440,
+  "rm": true,
+  "name": "404",
+  "h1": 1,
+  "h1t": "Diese Seite gibt es nicht.",
+  "titel": 48,
+  "titelT": "Seite nicht gefunden | Auto Speedy AG Altstätten",
+  "besch": 150,
+  "ld": [],
+  "sw": 1425,
+  "cw": 1440,
+  "luecke": 0,
+  "sw2": 1425
+ },
+ {
+  "log": {
+   "w": 1440,
+   "rm": true,
+   "konsole": [],
+   "fehler": [],
+   "requests": [],
+   "fremd": [],
+   "posts": [],
+   "status400": []
+  }
+ }
+]

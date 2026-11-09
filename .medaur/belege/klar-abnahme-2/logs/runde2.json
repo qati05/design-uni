@@ -1,0 +1,1138 @@
+{
+ "C02": [
+  {
+   "w": 320,
+   "m": "500",
+   "sichtbar": true,
+   "text": "Das Senden hat nicht geklappt. Ihre Angaben bleiben erhalten. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+   "role": "alert",
+   "kopfUnten": 64,
+   "meldTop": 348,
+   "meldBottom": 512,
+   "knopfTop": 522,
+   "knopfBottom": 590,
+   "vh": 700,
+   "leisteTop": 700,
+   "direktVorKnopf": true,
+   "telHref": "tel:+41717558861",
+   "telRect": [
+    84,
+    478,
+    96,
+    20
+   ],
+   "telKlickbar": true,
+   "allgemeinVerborgen": true,
+   "name": "Testperson QA",
+   "bemerkung": "Synthetischer QA-Test",
+   "aktiv": "BUTTON.k \"Nochmals sendenMit Fotos, ohne weitere App\"",
+   "lade": {
+    "text": "Ihre Meldung wird gesendet …",
+    "top": 348.34375,
+    "bottom": 395.59375,
+    "vh": 700
+   },
+   "posts": 1,
+   "telTrial": "ok"
+  },
+  {
+   "w": 320,
+   "m": "netz",
+   "sichtbar": true,
+   "text": "Das Senden hat nicht geklappt. Ihre Angaben bleiben erhalten. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+   "role": "alert",
+   "kopfUnten": 64,
+   "meldTop": 348,
+   "meldBottom": 512,
+   "knopfTop": 522,
+   "knopfBottom": 590,
+   "vh": 700,
+   "leisteTop": 700,
+   "direktVorKnopf": true,
+   "telHref": "tel:+41717558861",
+   "telRect": [
+    84,
+    478,
+    96,
+    20
+   ],
+   "telKlickbar": true,
+   "allgemeinVerborgen": true,
+   "name": "Testperson QA",
+   "bemerkung": "Synthetischer QA-Test",
+   "aktiv": "BUTTON.k \"Nochmals sendenMit Fotos, ohne weitere App\"",
+   "lade": {
+    "text": "Ihre Meldung wird gesendet …",
+    "top": 348.34375,
+    "bottom": 395.59375,
+    "vh": 700
+   },
+   "posts": 1,
+   "telTrial": "ok"
+  },
+  {
+   "w": 390,
+   "m": "500",
+   "sichtbar": true,
+   "text": "Das Senden hat nicht geklappt. Ihre Angaben bleiben erhalten. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+   "role": "alert",
+   "kopfUnten": 64,
+   "meldTop": 420,
+   "meldBottom": 537,
+   "knopfTop": 547,
+   "knopfBottom": 615,
+   "vh": 844,
+   "leisteTop": 844,
+   "direktVorKnopf": true,
+   "telHref": "tel:+41717558861",
+   "telRect": [
+    108,
+    502,
+    96,
+    20
+   ],
+   "telKlickbar": true,
+   "allgemeinVerborgen": true,
+   "name": "Testperson QA",
+   "bemerkung": "Synthetischer QA-Test",
+   "aktiv": "BUTTON.k \"Nochmals sendenMit Fotos, ohne weitere App\"",
+   "lade": {
+    "text": "Ihre Meldung wird gesendet …",
+    "top": 419.515625,
+    "bottom": 466.765625,
+    "vh": 844
+   },
+   "posts": 1,
+   "telTrial": "ok"
+  },
+  {
+   "w": 390,
+   "m": "netz",
+   "sichtbar": true,
+   "text": "Das Senden hat nicht geklappt. Ihre Angaben bleiben erhalten. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+   "role": "alert",
+   "kopfUnten": 64,
+   "meldTop": 420,
+   "meldBottom": 537,
+   "knopfTop": 547,
+   "knopfBottom": 615,
+   "vh": 844,
+   "leisteTop": 844,
+   "direktVorKnopf": true,
+   "telHref": "tel:+41717558861",
+   "telRect": [
+    108,
+    502,
+    96,
+    20
+   ],
+   "telKlickbar": true,
+   "allgemeinVerborgen": true,
+   "name": "Testperson QA",
+   "bemerkung": "Synthetischer QA-Test",
+   "aktiv": "BUTTON.k \"Nochmals sendenMit Fotos, ohne weitere App\"",
+   "lade": {
+    "text": "Ihre Meldung wird gesendet …",
+    "top": 419.515625,
+    "bottom": 466.765625,
+    "vh": 844
+   },
+   "posts": 1,
+   "telTrial": "ok"
+  },
+  {
+   "w": 1440,
+   "m": "500",
+   "sichtbar": true,
+   "text": "Das Senden hat nicht geklappt. Ihre Angaben bleiben erhalten. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+   "role": "alert",
+   "kopfUnten": 64,
+   "meldTop": 448,
+   "meldBottom": 518,
+   "knopfTop": 528,
+   "knopfBottom": 596,
+   "vh": 900,
+   "leisteTop": 900,
+   "direktVorKnopf": true,
+   "telHref": "tel:+41717558861",
+   "telRect": [
+    998,
+    484,
+    96,
+    20
+   ],
+   "telKlickbar": true,
+   "allgemeinVerborgen": true,
+   "name": "Testperson QA",
+   "bemerkung": "Synthetischer QA-Test",
+   "aktiv": "BUTTON.k \"Nochmals sendenMit Fotos, ohne weitere App\"",
+   "lade": {
+    "text": "Ihre Meldung wird gesendet …",
+    "top": 447.984375,
+    "bottom": 495.234375,
+    "vh": 900
+   },
+   "posts": 1,
+   "telTrial": "ok"
+  },
+  {
+   "w": 1440,
+   "m": "netz",
+   "sichtbar": true,
+   "text": "Das Senden hat nicht geklappt. Ihre Angaben bleiben erhalten. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+   "role": "alert",
+   "kopfUnten": 64,
+   "meldTop": 448,
+   "meldBottom": 518,
+   "knopfTop": 528,
+   "knopfBottom": 596,
+   "vh": 900,
+   "leisteTop": 900,
+   "direktVorKnopf": true,
+   "telHref": "tel:+41717558861",
+   "telRect": [
+    998,
+    484,
+    96,
+    20
+   ],
+   "telKlickbar": true,
+   "allgemeinVerborgen": true,
+   "name": "Testperson QA",
+   "bemerkung": "Synthetischer QA-Test",
+   "aktiv": "BUTTON.k \"Nochmals sendenMit Fotos, ohne weitere App\"",
+   "lade": {
+    "text": "Ihre Meldung wird gesendet …",
+    "top": 447.984375,
+    "bottom": 495.234375,
+    "vh": 900
+   },
+   "posts": 1,
+   "telTrial": "ok"
+  }
+ ],
+ "C04": {
+  "kopfUnten": 64,
+  "vh": 900,
+  "karten": [
+   {
+    "text": "Telefon071 755 88 61Mobil 076 615 44 41",
+    "top": 505,
+    "bottom": 695
+   },
+   {
+    "text": "AdresseAlte Landstrasse 639450 AltstättenRoute planen →",
+    "top": 505,
+    "bottom": 695
+   },
+   {
+    "text": "Mailinfo@autospeedy.chFür Schäden schneller: Schaden melden",
+    "top": 505,
+    "bottom": 695
+   }
+  ],
+  "tel": {
+   "el": "A",
+   "top": 558,
+   "bottom": 602
+  },
+  "adresse": {
+   "el": "P",
+   "top": 558,
+   "bottom": 615
+  },
+  "ort": null
+ },
+ "C04team": {
+  "erstesPortraitTop": 605,
+  "bottom": 1061,
+  "vh": 900
+ },
+ "C04_1280x720": [
+  631,
+  631,
+  631
+ ],
+ "C05": {
+  "oben": {
+   "body": "leiste-spaeter",
+   "leiste": {
+    "top": 851,
+    "transform": "matrix(1, 0, 0, 1, 0, 74.8)",
+    "vis": "visible",
+    "opacity": "1",
+    "aria": null,
+    "inert": false
+   },
+   "knoepfe": [
+    {
+     "text": "Tesla-Schaden melden",
+     "href": "/schaden-melden/?fahrzeug=tesla",
+     "ort": "tesla",
+     "top": 597,
+     "h": 50,
+     "bg": "rgb(21, 102, 184)"
+    }
+   ],
+   "scrollY": 0
+  },
+  "heroKnopfUnten": 647.046875,
+  "halb": {
+   "body": "leiste-spaeter",
+   "leiste": {
+    "top": 851,
+    "transform": "matrix(1, 0, 0, 1, 0, 74.8)",
+    "vis": "visible",
+    "opacity": "1",
+    "aria": null,
+    "inert": false
+   },
+   "knoepfe": [
+    {
+     "text": "Tesla-Schaden melden",
+     "href": "/schaden-melden/?fahrzeug=tesla",
+     "ort": "tesla",
+     "top": 597,
+     "h": 50,
+     "bg": "rgb(21, 102, 184)"
+    }
+   ],
+   "scrollY": 0
+  },
+  "nachHero": {
+   "body": "leiste-spaeter leiste-an",
+   "leiste": {
+    "top": 776,
+    "transform": "none",
+    "vis": "visible",
+    "opacity": "1",
+    "aria": null,
+    "inert": false
+   },
+   "knoepfe": [
+    {
+     "text": "Schaden melden",
+     "href": "/schaden-melden/?fahrzeug=tesla",
+     "ort": "leiste",
+     "top": 786,
+     "h": 48,
+     "bg": "rgb(21, 102, 184)"
+    }
+   ],
+   "scrollY": 697
+  },
+  "ende": {
+   "body": "leiste-spaeter",
+   "leiste": {
+    "top": 851,
+    "transform": "matrix(1, 0, 0, 1, 0, 74.8)",
+    "vis": "visible",
+    "opacity": "1",
+    "aria": null,
+    "inert": false
+   },
+   "knoepfe": [],
+   "scrollY": 3577
+  },
+  "ziel": {
+   "url": "http://localhost:4403/schaden-melden/?fahrzeug=tesla",
+   "art": null,
+   "tesla": {
+    "tag": "INPUT",
+    "name": "tesla",
+    "wert": "ja",
+    "sichtbar": false
+   }
+  },
+  "schritt2": [
+   {
+    "name": "ersatzwagen_tesla",
+    "id": "",
+    "typ": "checkbox",
+    "wert": false,
+    "sichtbar": false
+   },
+   {
+    "name": "tesla",
+    "id": "",
+    "typ": "checkbox",
+    "wert": true,
+    "sichtbar": true
+   },
+   {
+    "name": "tesla_modell",
+    "id": "",
+    "typ": "radio",
+    "wert": false,
+    "sichtbar": true
+   },
+   {
+    "name": "tesla_modell",
+    "id": "",
+    "typ": "radio",
+    "wert": false,
+    "sichtbar": true
+   },
+   {
+    "name": "tesla_modell",
+    "id": "",
+    "typ": "radio",
+    "wert": false,
+    "sichtbar": true
+   },
+   {
+    "name": "tesla_modell",
+    "id": "",
+    "typ": "radio",
+    "wert": false,
+    "sichtbar": true
+   },
+   {
+    "name": "tesla_modell",
+    "id": "",
+    "typ": "radio",
+    "wert": false,
+    "sichtbar": true
+   }
+  ]
+ },
+ "C06": {
+  "390": {
+   "arten": [
+    "Parkschaden",
+    "Unfall",
+    "Hagel",
+    "Kratzer oder Lack",
+    "Scheibe",
+    "Felge",
+    "Etwas anderes"
+   ],
+   "liste": [
+    {
+     "t": "Parkschaden",
+     "href": "/schaden-melden/?art=parkschaden",
+     "vis": true,
+     "wh": [
+      119,
+      44
+     ]
+    },
+    {
+     "t": "Unfall",
+     "href": "/schaden-melden/?art=unfall",
+     "vis": true,
+     "wh": [
+      71,
+      44
+     ]
+    },
+    {
+     "t": "Hagel",
+     "href": "/schaden-melden/?art=hagel",
+     "vis": true,
+     "wh": [
+      70,
+      44
+     ]
+    },
+    {
+     "t": "Kratzer oder Lack",
+     "href": "/schaden-melden/?art=lack",
+     "vis": true,
+     "wh": [
+      153,
+      44
+     ]
+    },
+    {
+     "t": "Scheibe",
+     "href": "/schaden-melden/?art=scheibe",
+     "vis": true,
+     "wh": [
+      85,
+      44
+     ]
+    },
+    {
+     "t": "Felge",
+     "href": "/schaden-melden/?art=felge",
+     "vis": true,
+     "wh": [
+      68,
+      44
+     ]
+    },
+    {
+     "t": "Etwas anderes",
+     "href": "/schaden-melden/?art=anderes",
+     "vis": true,
+     "wh": [
+      130,
+      44
+     ]
+    }
+   ],
+   "tesla": [
+    {
+     "t": "Tesla? Hier entlang →",
+     "href": "/schaden-melden/?fahrzeug=tesla",
+     "inListe": false
+    }
+   ],
+   "teslaInListe": false,
+   "sw": 390,
+   "cw": 390,
+   "listeSW": [
+    350,
+    350
+   ],
+   "gleich": true,
+   "felgeZiel": {
+    "url": "http://localhost:4403/schaden-melden/?art=felge",
+    "art": "Felge",
+    "schritt": 2
+   }
+  },
+  "1440": {
+   "arten": [
+    "Parkschaden",
+    "Unfall",
+    "Hagel",
+    "Kratzer oder Lack",
+    "Scheibe",
+    "Felge",
+    "Etwas anderes"
+   ],
+   "liste": [
+    {
+     "t": "Parkschaden",
+     "href": "/schaden-melden/?art=parkschaden",
+     "vis": true,
+     "wh": [
+      119,
+      44
+     ]
+    },
+    {
+     "t": "Unfall",
+     "href": "/schaden-melden/?art=unfall",
+     "vis": true,
+     "wh": [
+      71,
+      44
+     ]
+    },
+    {
+     "t": "Hagel",
+     "href": "/schaden-melden/?art=hagel",
+     "vis": true,
+     "wh": [
+      70,
+      44
+     ]
+    },
+    {
+     "t": "Kratzer oder Lack",
+     "href": "/schaden-melden/?art=lack",
+     "vis": true,
+     "wh": [
+      153,
+      44
+     ]
+    },
+    {
+     "t": "Scheibe",
+     "href": "/schaden-melden/?art=scheibe",
+     "vis": true,
+     "wh": [
+      85,
+      44
+     ]
+    },
+    {
+     "t": "Felge",
+     "href": "/schaden-melden/?art=felge",
+     "vis": true,
+     "wh": [
+      68,
+      44
+     ]
+    },
+    {
+     "t": "Etwas anderes",
+     "href": "/schaden-melden/?art=anderes",
+     "vis": true,
+     "wh": [
+      130,
+      44
+     ]
+    }
+   ],
+   "tesla": [
+    {
+     "t": "Tesla? Hier entlang →",
+     "href": "/schaden-melden/?fahrzeug=tesla",
+     "inListe": false
+    }
+   ],
+   "teslaInListe": false,
+   "sw": 1425,
+   "cw": 1440,
+   "listeSW": [
+    575,
+    575
+   ],
+   "gleich": true,
+   "felgeZiel": {
+    "url": "http://localhost:4403/schaden-melden/?art=felge",
+    "art": "Felge",
+    "schritt": 2
+   }
+  }
+ },
+ "C08": [
+  {
+   "w": 390,
+   "leer": {
+    "rm": "Bitte ergänzen Sie die rot markierten Felder.",
+    "role": "alert",
+    "klasse": "rueckmeldung rueckmeldung--fehler",
+    "bg": "rgb(253, 236, 234)",
+    "farbe": "rgb(143, 29, 22)",
+    "felder": [
+     {
+      "n": "name",
+      "inv": "true",
+      "fehler": "Bitte geben Sie Ihren Namen an.",
+      "rand": "rgb(179, 38, 30)"
+     },
+     {
+      "n": "telefon",
+      "inv": "true",
+      "fehler": "Bitte geben Sie Ihre Telefonnummer an.",
+      "rand": "rgb(179, 38, 30)"
+     }
+    ],
+    "sichtbareFehler": [
+     "Bitte geben Sie Ihren Namen an.",
+     "Bitte geben Sie Ihre Telefonnummer an."
+    ]
+   },
+   "leerAktiv": "INPUT#rr-kontakt-name \"\"",
+   "nachName": {
+    "rm": "Bitte ergänzen Sie die rot markierten Felder.",
+    "role": "alert",
+    "klasse": "rueckmeldung rueckmeldung--fehler",
+    "bg": "rgb(253, 236, 234)",
+    "farbe": "rgb(143, 29, 22)",
+    "felder": [
+     {
+      "n": "name",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(21, 102, 184)"
+     },
+     {
+      "n": "telefon",
+      "inv": "true",
+      "fehler": "Bitte geben Sie Ihre Telefonnummer an.",
+      "rand": "rgb(179, 38, 30)"
+     }
+    ],
+    "sichtbareFehler": [
+     "Bitte geben Sie Ihre Telefonnummer an."
+    ]
+   },
+   "telKurz": {
+    "rm": "Bitte ergänzen Sie die rot markierten Felder.",
+    "role": "alert",
+    "klasse": "rueckmeldung rueckmeldung--fehler",
+    "bg": "rgb(253, 236, 234)",
+    "farbe": "rgb(143, 29, 22)",
+    "felder": [
+     {
+      "n": "name",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(205, 198, 187)"
+     },
+     {
+      "n": "telefon",
+      "inv": "true",
+      "fehler": "Bitte geben Sie Ihre Telefonnummer an.",
+      "rand": "rgb(179, 38, 30)"
+     }
+    ],
+    "sichtbareFehler": [
+     "Bitte geben Sie Ihre Telefonnummer an."
+    ]
+   },
+   "telGut": {
+    "rm": "(hidden)",
+    "role": "status",
+    "klasse": "rueckmeldung",
+    "bg": "rgb(235, 230, 222)",
+    "farbe": "rgb(29, 30, 32)",
+    "felder": [
+     {
+      "n": "name",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(205, 198, 187)"
+     },
+     {
+      "n": "telefon",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(21, 102, 184)"
+     }
+    ],
+    "sichtbareFehler": []
+   },
+   "laden": {
+    "rm": "Wird gesendet …",
+    "role": "status",
+    "klasse": "rueckmeldung",
+    "bg": "rgb(235, 230, 222)",
+    "farbe": "rgb(29, 30, 32)",
+    "felder": [
+     {
+      "n": "name",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(205, 198, 187)"
+     },
+     {
+      "n": "telefon",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(176, 183, 187)"
+     }
+    ],
+    "sichtbareFehler": [],
+    "busy": "true",
+    "disabled": false
+   },
+   "ok": {
+    "rm": "Angekommen. Wir rufen Sie zurück. Anliegen: Allgemein.",
+    "role": "status",
+    "klasse": "rueckmeldung rueckmeldung--ok",
+    "bg": "rgb(231, 244, 236)",
+    "farbe": "rgb(23, 87, 58)",
+    "felder": [
+     {
+      "n": "name",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(205, 198, 187)"
+     },
+     {
+      "n": "telefon",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(205, 198, 187)"
+     }
+    ],
+    "sichtbareFehler": []
+   },
+   "okAktiv": "P.rueckmeldung \"Angekommen. Wir rufen Sie zurück. Anliegen: Allgem\"",
+   "posts": 1,
+   "okKnopfDisabled": true,
+   "fehler": {
+    "rm": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+    "role": "alert",
+    "klasse": "rueckmeldung rueckmeldung--fehler",
+    "bg": "rgb(253, 236, 234)",
+    "farbe": "rgb(143, 29, 22)",
+    "tel": "tel:+41717558861"
+   },
+   "fehlerAktiv": "BUTTON Rückruf anfordern"
+  },
+  {
+   "w": 1440,
+   "leer": {
+    "rm": "Bitte ergänzen Sie die rot markierten Felder.",
+    "role": "alert",
+    "klasse": "rueckmeldung rueckmeldung--fehler",
+    "bg": "rgb(253, 236, 234)",
+    "farbe": "rgb(143, 29, 22)",
+    "felder": [
+     {
+      "n": "name",
+      "inv": "true",
+      "fehler": "Bitte geben Sie Ihren Namen an.",
+      "rand": "rgb(179, 38, 30)"
+     },
+     {
+      "n": "telefon",
+      "inv": "true",
+      "fehler": "Bitte geben Sie Ihre Telefonnummer an.",
+      "rand": "rgb(179, 38, 30)"
+     }
+    ],
+    "sichtbareFehler": [
+     "Bitte geben Sie Ihren Namen an.",
+     "Bitte geben Sie Ihre Telefonnummer an."
+    ]
+   },
+   "leerAktiv": "INPUT#rr-kontakt-name \"\"",
+   "nachName": {
+    "rm": "Bitte ergänzen Sie die rot markierten Felder.",
+    "role": "alert",
+    "klasse": "rueckmeldung rueckmeldung--fehler",
+    "bg": "rgb(253, 236, 234)",
+    "farbe": "rgb(143, 29, 22)",
+    "felder": [
+     {
+      "n": "name",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(21, 102, 184)"
+     },
+     {
+      "n": "telefon",
+      "inv": "true",
+      "fehler": "Bitte geben Sie Ihre Telefonnummer an.",
+      "rand": "rgb(179, 38, 30)"
+     }
+    ],
+    "sichtbareFehler": [
+     "Bitte geben Sie Ihre Telefonnummer an."
+    ]
+   },
+   "telKurz": {
+    "rm": "Bitte ergänzen Sie die rot markierten Felder.",
+    "role": "alert",
+    "klasse": "rueckmeldung rueckmeldung--fehler",
+    "bg": "rgb(253, 236, 234)",
+    "farbe": "rgb(143, 29, 22)",
+    "felder": [
+     {
+      "n": "name",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(205, 198, 187)"
+     },
+     {
+      "n": "telefon",
+      "inv": "true",
+      "fehler": "Bitte geben Sie Ihre Telefonnummer an.",
+      "rand": "rgb(179, 38, 30)"
+     }
+    ],
+    "sichtbareFehler": [
+     "Bitte geben Sie Ihre Telefonnummer an."
+    ]
+   },
+   "telGut": {
+    "rm": "(hidden)",
+    "role": "status",
+    "klasse": "rueckmeldung",
+    "bg": "rgb(235, 230, 222)",
+    "farbe": "rgb(29, 30, 32)",
+    "felder": [
+     {
+      "n": "name",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(205, 198, 187)"
+     },
+     {
+      "n": "telefon",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(21, 102, 184)"
+     }
+    ],
+    "sichtbareFehler": []
+   },
+   "laden": {
+    "rm": "Wird gesendet …",
+    "role": "status",
+    "klasse": "rueckmeldung",
+    "bg": "rgb(235, 230, 222)",
+    "farbe": "rgb(29, 30, 32)",
+    "felder": [
+     {
+      "n": "name",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(205, 198, 187)"
+     },
+     {
+      "n": "telefon",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(176, 183, 187)"
+     }
+    ],
+    "sichtbareFehler": [],
+    "busy": "true",
+    "disabled": false
+   },
+   "ok": {
+    "rm": "Angekommen. Wir rufen Sie zurück. Anliegen: Allgemein.",
+    "role": "status",
+    "klasse": "rueckmeldung rueckmeldung--ok",
+    "bg": "rgb(231, 244, 236)",
+    "farbe": "rgb(23, 87, 58)",
+    "felder": [
+     {
+      "n": "name",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(205, 198, 187)"
+     },
+     {
+      "n": "telefon",
+      "inv": null,
+      "fehler": "",
+      "rand": "rgb(205, 198, 187)"
+     }
+    ],
+    "sichtbareFehler": []
+   },
+   "okAktiv": "P.rueckmeldung \"Angekommen. Wir rufen Sie zurück. Anliegen: Allgem\"",
+   "posts": 1,
+   "okKnopfDisabled": true,
+   "fehler": {
+    "rm": "Das hat nicht geklappt. Bitte nochmals senden oder rufen Sie uns an: 071 755 88 61.",
+    "role": "alert",
+    "klasse": "rueckmeldung rueckmeldung--fehler",
+    "bg": "rgb(253, 236, 234)",
+    "farbe": "rgb(143, 29, 22)",
+    "tel": "tel:+41717558861"
+   },
+   "fehlerAktiv": "BUTTON Rückruf anfordern"
+  }
+ ],
+ "N01": [
+  {
+   "pfad": "/flotten/",
+   "aktiv": "P.rueckmeldung \"Angekommen. Wir rufen Sie zurück. Anliegen: Flotte\"",
+   "rm": "Angekommen. Wir rufen Sie zurück. Anliegen: Flotte oder Firmenfahrzeuge."
+  },
+  {
+   "pfad": "/occasionen/",
+   "aktiv": "P.rueckmeldung \"Angekommen. Wir rufen Sie zurück. Anliegen: Occasi\"",
+   "rm": "Angekommen. Wir rufen Sie zurück. Anliegen: Occasion kaufen."
+  }
+ ],
+ "C09": {
+  "390": {
+   "modelle": [
+    "Model 3",
+    "Model Y",
+    "Model S",
+    "Model X"
+   ],
+   "liStil": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(29, 30, 32)",
+    "radius": "0px",
+    "cursor": "auto",
+    "display": "list-item"
+   },
+   "interaktivInModellen": 0,
+   "chipsArtig": 0,
+   "spalten": [
+    [
+     20,
+     1581,
+     350,
+     344
+    ],
+    [
+     20,
+     1926,
+     350,
+     229
+    ]
+   ],
+   "sekBottom": 2227,
+   "letzterText": 2155,
+   "faqTop": 2285,
+   "luecke": 130
+  },
+  "1440": {
+   "modelle": [
+    "Model 3",
+    "Model Y",
+    "Model S",
+    "Model X"
+   ],
+   "liStil": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px none rgb(29, 30, 32)",
+    "radius": "0px",
+    "cursor": "auto",
+    "display": "list-item"
+   },
+   "interaktivInModellen": 0,
+   "chipsArtig": 0,
+   "spalten": [
+    [
+     149,
+     1204,
+     528,
+     267
+    ],
+    [
+     749,
+     1204,
+     528,
+     217
+    ]
+   ],
+   "sekBottom": 1471,
+   "letzterText": 1471,
+   "faqTop": 1583,
+   "luecke": 112
+  }
+ },
+ "C10": [
+  {
+   "s": "unfall-carrosserie",
+   "text": "Vom Blechschaden bis zum Chassisschaden.",
+   "zeilen": 2,
+   "hoehe": 110,
+   "lh": "55.08px",
+   "fs": "54px"
+  },
+  {
+   "s": "hagel-dellen",
+   "text": "Dellen drücken, Hagel richten.",
+   "zeilen": 2,
+   "hoehe": 110,
+   "lh": "55.08px",
+   "fs": "54px"
+  },
+  {
+   "s": "lack",
+   "text": "Kleine Lackschäden, ganze Lackierungen.",
+   "zeilen": 2,
+   "hoehe": 110,
+   "lh": "55.08px",
+   "fs": "54px"
+  },
+  {
+   "s": "felgen",
+   "text": "Felgen, vorher und nachher.",
+   "zeilen": 2,
+   "hoehe": 110,
+   "lh": "55.08px",
+   "fs": "54px"
+  },
+  {
+   "s": "folierung",
+   "text": "Fahrzeuge ganz oder teilweise folieren.",
+   "zeilen": 2,
+   "hoehe": 110,
+   "lh": "55.08px",
+   "fs": "54px"
+  },
+  {
+   "s": "scheiben",
+   "text": "Scheiben wechseln und reparieren.",
+   "zeilen": 2,
+   "hoehe": 110,
+   "lh": "55.08px",
+   "fs": "54px"
+  }
+ ],
+ "N": {
+  "N04": [
+   "rgb(91, 95, 102)"
+  ],
+  "N06": [
+   {
+    "pfad": "/",
+    "pos": "static",
+    "vor": "FOOTER",
+    "text": "Vorschau für ein Gespräch mit dem Betrieb. Nicht veröffentli"
+   },
+   {
+    "pfad": "/schaden-melden/",
+    "pos": "static",
+    "vor": "FOOTER",
+    "text": "Vorschau für ein Gespräch mit dem Betrieb. Nicht veröffentli"
+   },
+   {
+    "pfad": "/leistungen/",
+    "pos": "static",
+    "vor": "FOOTER",
+    "text": "Vorschau für ein Gespräch mit dem Betrieb. Nicht veröffentli"
+   },
+   {
+    "pfad": "/tesla/",
+    "pos": "static",
+    "vor": "FOOTER",
+    "text": "Vorschau für ein Gespräch mit dem Betrieb. Nicht veröffentli"
+   },
+   {
+    "pfad": "/kontakt/",
+    "pos": "static",
+    "vor": "FOOTER",
+    "text": "Vorschau für ein Gespräch mit dem Betrieb. Nicht veröffentli"
+   },
+   {
+    "pfad": "/team/",
+    "pos": "static",
+    "vor": "FOOTER",
+    "text": "Vorschau für ein Gespräch mit dem Betrieb. Nicht veröffentli"
+   }
+  ],
+  "N07": [
+   {
+    "neben": true,
+    "mitte": 0,
+    "bild": [
+     371,
+     463
+    ]
+   }
+  ],
+  "N05": [
+   {
+    "pfad": "/kontakt/",
+    "display": "inline",
+    "h": 17,
+    "zeilenAbstaende": [
+     21,
+     20
+    ],
+    "deko": "underline"
+   },
+   {
+    "pfad": "/flotten/",
+    "display": "inline",
+    "h": 17,
+    "zeilenAbstaende": [
+     20,
+     20
+    ],
+    "deko": "underline"
+   },
+   {
+    "pfad": "/occasionen/",
+    "display": "inline",
+    "h": 17,
+    "zeilenAbstaende": [
+     20,
+     20
+    ],
+    "deko": "underline"
+   },
+   {
+    "pfad": "/schaden-melden/?art=hagel",
+    "display": "inline",
+    "h": 17,
+    "zeilenAbstaende": [
+     20,
+     20
+    ],
+    "deko": "underline"
+   }
+  ]
+ }
+}

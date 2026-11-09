@@ -1,0 +1,55 @@
+
+> prebuild
+> npm ci --prefix ../gemeinsam --silent && node bau/teilen.mjs && node bau/bewertungen.mjs && node bau/qr.mjs
+
+teilen: Bilder und Skripte aus ../astro übernommen
+stock-c: Quelle fehlt, behalte vorhandene b1-hero-*.webp
+stock-c: Quelle fehlt, behalte vorhandene b7-tesla-*.webp
+stock-c: WebP-Platzhalter (B1) erzeugt
+bilder-c: Leistungskarten (3:2 AVIF/WebP), Hero/Tesla-AVIF, OG-Bild und Icons erzeugt
+bewertungen: kein Schluessel oder keine Place-ID — Platzhalter bleiben (Build laeuft weiter)
+qr: https://autospeedy.ch/bewerten/?q=qr → public/bewerten/qr.svg
+
+> build
+> astro build
+
+[vorlage] Stufe geruest: 0 FEHLER, 0 HINWEIS (spätere Texte sind im Gerüst nur HINWEIS; vor der Abgabe mit STUFE=abgabe bauen)
+10:15:01 [types] Generated 175ms
+10:15:01 [build] output: "static"
+10:15:01 [build] mode: "static"
+10:15:01 [build] directory: /tmp/claude-0/qa-abnahme/projekt/autospeedy/astro-klar/dist/
+10:15:01 [build] Collecting build info...
+10:15:01 [build] ✓ Completed in 243ms.
+10:15:01 [build] Building static entrypoints...
+10:15:01 [vite] ✓ built in 256ms
+10:15:01 [vite] ✓ built in 23ms
+10:15:01 [build] Rearranging server assets...
+
+ generating static routes 
+10:15:01   ├─ /404.html (+20ms) 
+10:15:01   ├─ /admin/index.html (+15ms) 
+10:15:01   ├─ /bewerten/druck/index.html (+4ms) 
+10:15:01   ├─ /bewerten/index.html (+5ms) 
+10:15:01   ├─ /bildnachweise/index.html (+4ms) 
+10:15:01   ├─ /datenschutz/index.html (+3ms) 
+10:15:01   ├─ /flotten/index.html (+7ms) 
+10:15:01   ├─ /impressum/index.html (+4ms) 
+10:15:01   ├─ /kontakt/index.html (+5ms) 
+10:15:01   ├─ /leistungen/felgen/index.html (+6ms) 
+10:15:01   ├─ /leistungen/folierung/index.html (+3ms) 
+10:15:01   ├─ /leistungen/hagel-dellen/index.html (+4ms) 
+10:15:01   ├─ /leistungen/lack/index.html (+3ms) 
+10:15:01   ├─ /leistungen/scheiben/index.html (+3ms) 
+10:15:01   ├─ /leistungen/unfall-carrosserie/index.html (+3ms) 
+10:15:01   ├─ /leistungen/index.html (+4ms) 
+10:15:01   ├─ /llms.txt (+2ms) 
+10:15:01   ├─ /occasionen/index.html (+3ms) 
+10:15:01   ├─ /schaden-melden/index.html (+4ms) 
+10:15:01   ├─ /team/index.html (+6ms) 
+10:15:01   ├─ /tesla/index.html (+3ms) 
+10:15:01   ├─ /index.html (+5ms) 
+10:15:01 ✓ Completed in 129ms.
+
+10:15:01 [build] ✓ Completed in 448ms.
+10:15:01 [build] 21 page(s) built in 699ms
+10:15:01 [build] Complete!

@@ -1,0 +1,603 @@
+{
+ "K15": [
+  {
+   "name": "start",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    851,
+    919
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:ausserhalb 861",
+    "Schaden melden:ausserhalb 861"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "leistungen",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    776,
+    844
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:frei",
+    "Schaden melden:frei"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "l-unfall",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    851,
+    919
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:ausserhalb 861",
+    "Schaden melden:ausserhalb 861"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "l-hagel",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    851,
+    919
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:ausserhalb 861",
+    "Schaden melden:ausserhalb 861"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "l-lack",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    851,
+    919
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:ausserhalb 861",
+    "Schaden melden:ausserhalb 861"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "l-scheiben",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    851,
+    919
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:ausserhalb 861",
+    "Schaden melden:ausserhalb 861"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "l-felgen",
+   "plakette": [
+    712,
+    774
+   ],
+   "leiste": [
+    851,
+    919
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:ausserhalb 861",
+    "Schaden melden:ausserhalb 861"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "l-folierung",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    851,
+    919
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:ausserhalb 861",
+    "Schaden melden:ausserhalb 861"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "tesla",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    776,
+    844
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:frei",
+    "Schaden melden:frei"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "flotten",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    776,
+    844
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:frei",
+    "Schaden melden:frei"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "occasionen",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    776,
+    844
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:frei",
+    "Schaden melden:frei"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "team",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    776,
+    844
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:frei",
+    "Schaden melden:frei"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "kontakt",
+   "plakette": [
+    712,
+    774
+   ],
+   "leiste": [
+    776,
+    844
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:frei",
+    "Schaden melden:frei"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "schaden",
+   "plakette": [
+    783,
+    844
+   ],
+   "leiste": null,
+   "vh": 844,
+   "oben": [],
+   "plaketteLesbar": true,
+   "padBottom": "0px"
+  },
+  {
+   "name": "impressum",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    776,
+    844
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:frei",
+    "Schaden melden:frei"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "datenschutz",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    776,
+    844
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:frei",
+    "Schaden melden:frei"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "bildnachweise",
+   "plakette": [
+    713,
+    774
+   ],
+   "leiste": [
+    776,
+    844
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:frei",
+    "Schaden melden:frei"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  },
+  {
+   "name": "404",
+   "plakette": [
+    712,
+    774
+   ],
+   "leiste": [
+    776,
+    844
+   ],
+   "vh": 844,
+   "oben": [
+    "Anrufen:frei",
+    "Schaden melden:frei"
+   ],
+   "plaketteLesbar": true,
+   "padBottom": "70px"
+  }
+ ],
+ "K16": [
+  {
+   "name": "start",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 35
+  },
+  {
+   "name": "start",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 62
+  },
+  {
+   "name": "leistungen",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 38
+  },
+  {
+   "name": "leistungen",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 62
+  },
+  {
+   "name": "l-unfall",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 34
+  },
+  {
+   "name": "l-unfall",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 54
+  },
+  {
+   "name": "l-hagel",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 34
+  },
+  {
+   "name": "l-hagel",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 54
+  },
+  {
+   "name": "l-lack",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 34
+  },
+  {
+   "name": "l-lack",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 54
+  },
+  {
+   "name": "l-scheiben",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 34
+  },
+  {
+   "name": "l-scheiben",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 54
+  },
+  {
+   "name": "l-felgen",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 34
+  },
+  {
+   "name": "l-felgen",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 54
+  },
+  {
+   "name": "l-folierung",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 34
+  },
+  {
+   "name": "l-folierung",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 54
+  },
+  {
+   "name": "tesla",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 38
+  },
+  {
+   "name": "tesla",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 62
+  },
+  {
+   "name": "flotten",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 38
+  },
+  {
+   "name": "flotten",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 62
+  },
+  {
+   "name": "occasionen",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 38
+  },
+  {
+   "name": "occasionen",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 62
+  },
+  {
+   "name": "team",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 38
+  },
+  {
+   "name": "team",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 62
+  },
+  {
+   "name": "kontakt",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 38
+  },
+  {
+   "name": "kontakt",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 62
+  },
+  {
+   "name": "schaden",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 38
+  },
+  {
+   "name": "schaden",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 62
+  },
+  {
+   "name": "impressum",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 32
+  },
+  {
+   "name": "impressum",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 48
+  },
+  {
+   "name": "datenschutz",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 32
+  },
+  {
+   "name": "datenschutz",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 48
+  },
+  {
+   "name": "bildnachweise",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 32
+  },
+  {
+   "name": "bildnachweise",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 48
+  },
+  {
+   "name": "404",
+   "w": 390,
+   "claim": "P.fuss-slogan",
+   "claimPx": 26,
+   "h1px": 32
+  },
+  {
+   "name": "404",
+   "w": 1440,
+   "claim": "P.fuss-slogan",
+   "claimPx": 36,
+   "h1px": 48
+  }
+ ],
+ "dialogModal": true,
+ "tabSeq": [
+  "D:A Schaden melden",
+  "D:A Leistungen →",
+  "D:A Tesla →",
+  "D:A Occasionen →",
+  "D:A Team →",
+  "D:A Kontakt →",
+  "D:A Anrufen 071 755 88 6",
+  "X:BODY Zum Inhalt springen\n",
+  "D:BUTTON ",
+  "D:A Schaden melden",
+  "D:A Leistungen →",
+  "D:A Tesla →"
+ ],
+ "heute": {
+  "farbe": "rgb(21, 102, 184)",
+  "bg": "rgba(0, 0, 0, 0)",
+  "px": "12px",
+  "eltern": "<th scope=\"row\">Montag bis Freitag<span class=\"fuss-woche__heute\">heute</span></th>"
+ },
+ "K21": [
+  "http://localhost:4402/bilder/werkstatt-480.webp | Auto mit abgebauter Front und offener Motorhaube in der Werkstatt, die Stossstange liegt auf dem Werkzeugwagen"
+ ],
+ "K21b": [
+  "http://localhost:4402/bilder/werkstatt-960.webp 1240w, angezeigt 1128"
+ ]
+}

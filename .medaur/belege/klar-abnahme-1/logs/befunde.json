@@ -1,0 +1,1336 @@
+{
+ "K04": [
+  {
+   "w": 390,
+   "h1": "So erreichen Sie uns.",
+   "k": [
+    {
+     "label": "Telefon",
+     "labelPx": "13px",
+     "wertPx": "22px",
+     "wertTop": 638,
+     "wertBottom": 682
+    },
+    {
+     "label": "Adresse",
+     "labelPx": "13px",
+     "wertPx": "22px",
+     "wertTop": 831,
+     "wertBottom": 888
+    },
+    {
+     "label": "Mail",
+     "labelPx": "13px",
+     "wertPx": "22px",
+     "wertTop": 1037,
+     "wertBottom": 1081
+    }
+   ],
+   "handyleisteTop": 776,
+   "vh": 844,
+   "adresseImMain": 1,
+   "tel": 1
+  },
+  {
+   "w": 1440,
+   "h1": "So erreichen Sie uns.",
+   "k": [
+    {
+     "label": "Telefon",
+     "labelPx": "13px",
+     "wertPx": "22px",
+     "wertTop": 892,
+     "wertBottom": 936
+    },
+    {
+     "label": "Adresse",
+     "labelPx": "13px",
+     "wertPx": "22px",
+     "wertTop": 892,
+     "wertBottom": 949
+    },
+    {
+     "label": "Mail",
+     "labelPx": "13px",
+     "wertPx": "22px",
+     "wertTop": 892,
+     "wertBottom": 936
+    }
+   ],
+   "handyleisteTop": null,
+   "vh": 900,
+   "adresseImMain": 1,
+   "tel": 1
+  }
+ ],
+ "K07": [
+  {
+   "w": 1440,
+   "raster": [
+    {
+     "cls": "leute leute--seite",
+     "anzahl": "3",
+     "cols": "365.328px 365.328px 365.344px",
+     "gap": "16px",
+     "rasterL": 149,
+     "rasterR": 1277,
+     "elternR": 1277,
+     "kinderR": 1277,
+     "rest": 0,
+     "kinder": 3
+    },
+    {
+     "cls": "leute leute--seite",
+     "anzahl": "3",
+     "cols": "365.328px 365.328px 365.344px",
+     "gap": "16px",
+     "rasterL": 149,
+     "rasterR": 1277,
+     "elternR": 1277,
+     "kinderR": 1277,
+     "rest": 0,
+     "kinder": 3
+    },
+    {
+     "cls": "leute leute--seite",
+     "anzahl": "3",
+     "cols": "365.328px 365.328px 365.344px",
+     "gap": "16px",
+     "rasterL": 149,
+     "rasterR": 1277,
+     "elternR": 1277,
+     "kinderR": 1277,
+     "rest": 0,
+     "kinder": 3
+    },
+    {
+     "cls": "leute leute--seite",
+     "anzahl": "1",
+     "cols": "365.328px 365.328px 365.328px",
+     "gap": "16px",
+     "rasterL": 149,
+     "rasterR": 1277,
+     "elternR": 1277,
+     "kinderR": 1277,
+     "rest": 0,
+     "kinder": 1
+    }
+   ]
+  },
+  {
+   "w": 1024,
+   "raster": [
+    {
+     "cls": "leute leute--seite",
+     "anzahl": "3",
+     "cols": "298.359px 298.359px 298.375px",
+     "gap": "16px",
+     "rasterL": 41,
+     "rasterR": 968,
+     "elternR": 968,
+     "kinderR": 968,
+     "rest": 0,
+     "kinder": 3
+    },
+    {
+     "cls": "leute leute--seite",
+     "anzahl": "3",
+     "cols": "298.359px 298.359px 298.375px",
+     "gap": "16px",
+     "rasterL": 41,
+     "rasterR": 968,
+     "elternR": 968,
+     "kinderR": 968,
+     "rest": 0,
+     "kinder": 3
+    },
+    {
+     "cls": "leute leute--seite",
+     "anzahl": "3",
+     "cols": "298.359px 298.359px 298.375px",
+     "gap": "16px",
+     "rasterL": 41,
+     "rasterR": 968,
+     "elternR": 968,
+     "kinderR": 968,
+     "rest": 0,
+     "kinder": 3
+    },
+    {
+     "cls": "leute leute--seite",
+     "anzahl": "1",
+     "cols": "298.359px 298.359px 298.359px",
+     "gap": "16px",
+     "rasterL": 41,
+     "rasterR": 968,
+     "elternR": 968,
+     "kinderR": 968,
+     "rest": 0,
+     "kinder": 1
+    }
+   ]
+  }
+ ],
+ "K09": [
+  {
+   "w": 320,
+   "pf": "/kontakt/",
+   "klein": []
+  },
+  {
+   "w": 320,
+   "pf": "/team/",
+   "klein": []
+  },
+  {
+   "w": 320,
+   "pf": "/flotten/",
+   "klein": [
+    {
+     "t": "INPUT. \"\"",
+     "w": 1,
+     "h": 1,
+     "imText": false,
+     "eltern": "LABEL."
+    },
+    {
+     "t": "INPUT. \"\"",
+     "w": 1,
+     "h": 1,
+     "imText": false,
+     "eltern": "LABEL."
+    },
+    {
+     "t": "INPUT. \"\"",
+     "w": 1,
+     "h": 1,
+     "imText": false,
+     "eltern": "LABEL."
+    }
+   ]
+  },
+  {
+   "w": 320,
+   "pf": "/occasionen/",
+   "klein": [
+    {
+     "t": "A. \"Datenschutzerklärung\"",
+     "w": 127,
+     "h": 17,
+     "imText": true,
+     "eltern": "P.hilfe"
+    },
+    {
+     "t": "INPUT. \"\"",
+     "w": 1,
+     "h": 1,
+     "imText": false,
+     "eltern": "LABEL."
+    },
+    {
+     "t": "INPUT. \"\"",
+     "w": 1,
+     "h": 1,
+     "imText": false,
+     "eltern": "LABEL."
+    },
+    {
+     "t": "INPUT. \"\"",
+     "w": 1,
+     "h": 1,
+     "imText": false,
+     "eltern": "LABEL."
+    }
+   ]
+  },
+  {
+   "w": 390,
+   "pf": "/kontakt/",
+   "klein": []
+  },
+  {
+   "w": 390,
+   "pf": "/team/",
+   "klein": []
+  },
+  {
+   "w": 390,
+   "pf": "/flotten/",
+   "klein": [
+    {
+     "t": "INPUT. \"\"",
+     "w": 1,
+     "h": 1,
+     "imText": false,
+     "eltern": "LABEL."
+    },
+    {
+     "t": "INPUT. \"\"",
+     "w": 1,
+     "h": 1,
+     "imText": false,
+     "eltern": "LABEL."
+    },
+    {
+     "t": "INPUT. \"\"",
+     "w": 1,
+     "h": 1,
+     "imText": false,
+     "eltern": "LABEL."
+    }
+   ]
+  },
+  {
+   "w": 390,
+   "pf": "/occasionen/",
+   "klein": [
+    {
+     "t": "A. \"Datenschutzerklärung\"",
+     "w": 127,
+     "h": 17,
+     "imText": true,
+     "eltern": "P.hilfe"
+    },
+    {
+     "t": "INPUT. \"\"",
+     "w": 1,
+     "h": 1,
+     "imText": false,
+     "eltern": "LABEL."
+    },
+    {
+     "t": "INPUT. \"\"",
+     "w": 1,
+     "h": 1,
+     "imText": false,
+     "eltern": "LABEL."
+    },
+    {
+     "t": "INPUT. \"\"",
+     "w": 1,
+     "h": 1,
+     "imText": false,
+     "eltern": "LABEL."
+    }
+   ]
+  }
+ ],
+ "K13": [
+  {
+   "pf": "/",
+   "w": 390,
+   "blau": [
+    "SPAN.fuss-woche__heute \"heute\""
+   ]
+  },
+  {
+   "pf": "/",
+   "w": 1440,
+   "blau": [
+    "SPAN.fuss-woche__heute \"heute\""
+   ]
+  },
+  {
+   "pf": "/leistungen/",
+   "w": 390,
+   "blau": [
+    "SPAN.fuss-woche__heute \"heute\""
+   ]
+  },
+  {
+   "pf": "/leistungen/",
+   "w": 1440,
+   "blau": [
+    "SPAN.fuss-woche__heute \"heute\""
+   ]
+  },
+  {
+   "pf": "/flotten/",
+   "w": 390,
+   "blau": [
+    "SPAN.fuss-woche__heute \"heute\""
+   ]
+  },
+  {
+   "pf": "/flotten/",
+   "w": 1440,
+   "blau": [
+    "SPAN.fuss-woche__heute \"heute\""
+   ]
+  },
+  {
+   "pf": "/tesla/",
+   "w": 390,
+   "blau": [
+    "SPAN.fuss-woche__heute \"heute\""
+   ]
+  },
+  {
+   "pf": "/tesla/",
+   "w": 1440,
+   "blau": [
+    "SPAN.fuss-woche__heute \"heute\""
+   ]
+  },
+  {
+   "pf": "/leistungen/unfall-carrosserie/",
+   "w": 390,
+   "blau": [
+    "SPAN.fuss-woche__heute \"heute\""
+   ]
+  },
+  {
+   "pf": "/leistungen/unfall-carrosserie/",
+   "w": 1440,
+   "blau": [
+    "SPAN.fuss-woche__heute \"heute\""
+   ]
+  }
+ ],
+ "K14": [
+  "151x120",
+  "151x120",
+  "151x120",
+  "151x120",
+  "151x120",
+  "151x120",
+  "310x120"
+ ],
+ "K15": [
+  {
+   "name": "start",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "A \"Anrufen\"",
+    "A \"Schaden melden\""
+   ]
+  },
+  {
+   "name": "start",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "A \"Unfall und Carrosserie\n       \"",
+    "A \"Felgen\n          Randstein- un\"",
+    "SUMMARY \"Muss ich zuerst zur Versicheru\"",
+    "SUMMARY \"Was kostet eine Reparatur bei \"",
+    "A \"Schaden melden\"",
+    "A \"Anrufen 071 755 88 61\""
+   ]
+  },
+  {
+   "name": "leistungen",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "leistungen",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "A \"Unfall und Carrosserie\n       \"",
+    "A \"Felgen\n          Randstein- un\"",
+    "SUMMARY \"Wann hat Auto Speedy geöffnet?\"",
+    "SUMMARY \"Was kostet eine Reparatur bei \"",
+    "A \"Schaden melden\"",
+    "A \"Anrufen 071 755 88 61\""
+   ]
+  },
+  {
+   "name": "l-unfall",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "l-unfall",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "SUMMARY \"Wer zahlt die Reparatur?\""
+   ]
+  },
+  {
+   "name": "l-hagel",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "l-hagel",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "A \"Hagelschaden melden\"",
+    "A \"Anrufen 071 755 88 61\""
+   ]
+  },
+  {
+   "name": "l-lack",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "A \"Anrufen\"",
+    "A \"Schaden melden\""
+   ]
+  },
+  {
+   "name": "l-lack",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "SUMMARY \"Wer zahlt die Reparatur?\"",
+    "A \"\""
+   ]
+  },
+  {
+   "name": "l-scheiben",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "l-scheiben",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "SUMMARY \"Wo finde ich Auto Speedy?\"",
+    "A \"Unfall und Carrosserie\"",
+    "A \"Felgen\""
+   ]
+  },
+  {
+   "name": "l-felgen",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "A \"Anrufen\"",
+    "A \"Schaden melden\""
+   ]
+  },
+  {
+   "name": "l-felgen",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "l-folierung",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "l-folierung",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "tesla",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "tesla",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "SUMMARY \"Welche Teile verwenden Sie am \""
+   ]
+  },
+  {
+   "name": "flotten",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "A \"Anrufen\"",
+    "A \"Schaden melden\""
+   ]
+  },
+  {
+   "name": "flotten",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "A \"\""
+   ]
+  },
+  {
+   "name": "occasionen",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "occasionen",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "team",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "team",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "A \"\""
+   ]
+  },
+  {
+   "name": "kontakt",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "kontakt",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "schaden",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "schaden",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "impressum",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "A \"Anrufen\"",
+    "A \"Schaden melden\""
+   ]
+  },
+  {
+   "name": "impressum",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "datenschutz",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "datenschutz",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "bildnachweise",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "bildnachweise",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "404",
+   "w": 390,
+   "pos": "static",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": []
+  },
+  {
+   "name": "404",
+   "w": 1440,
+   "pos": "fixed",
+   "nachFuss": "FOOTER",
+   "ueberdeckt": [
+    "A \"\""
+   ]
+  }
+ ],
+ "K16": [
+  {
+   "name": "start",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 35,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "start",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 62,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "leistungen",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 38,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "leistungen",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 62,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "l-unfall",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 34,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "l-unfall",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 54,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "l-hagel",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 34,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "l-hagel",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 54,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "l-lack",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 34,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "l-lack",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 54,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "l-scheiben",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 34,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "l-scheiben",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 54,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "l-felgen",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 34,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "l-felgen",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 54,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "l-folierung",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 34,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "l-folierung",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 54,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "tesla",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 38,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "tesla",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 62,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "flotten",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 38,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "flotten",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 62,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "occasionen",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 38,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "occasionen",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 62,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "team",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 38,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "team",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 62,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "kontakt",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 38,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "kontakt",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 62,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "schaden",
+   "w": 390,
+   "fussH": 1019,
+   "h1px": 38,
+   "groessterFussText": {
+    "t": "Lieber sprechen? Rufen Sie an.",
+    "px": 32
+   }
+  },
+  {
+   "name": "schaden",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 62,
+   "groessterFussText": {
+    "t": "Lieber sprechen? Rufen Sie an.",
+    "px": 54
+   }
+  },
+  {
+   "name": "impressum",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 32,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "impressum",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 48,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "datenschutz",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 32,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "datenschutz",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 48,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "bildnachweise",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 32,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "bildnachweise",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 48,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  },
+  {
+   "name": "404",
+   "w": 390,
+   "fussH": 1095,
+   "h1px": 32,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 32
+   }
+  },
+  {
+   "name": "404",
+   "w": 1440,
+   "fussH": 672,
+   "h1px": 48,
+   "groessterFussText": {
+    "t": "Schaden? Melden Sie ihn online oder rufe",
+    "px": 54
+   }
+  }
+ ],
+ "K17": [
+  {
+   "w": 320,
+   "mails": [
+    {
+     "txt": "speedy@autospeedy.ch",
+     "brueche": [
+      "speedy@|a"
+     ]
+    },
+    {
+     "txt": "lea.schlegel@autospeedy.ch",
+     "brueche": [
+      "ea.schlegel@|a"
+     ]
+    },
+    {
+     "txt": "martyna.skweres@autospeedy.ch",
+     "brueche": [
+      "yna.skweres@|a"
+     ]
+    }
+   ]
+  },
+  {
+   "w": 390,
+   "mails": [
+    {
+     "txt": "speedy@autospeedy.ch",
+     "brueche": []
+    },
+    {
+     "txt": "lea.schlegel@autospeedy.ch",
+     "brueche": []
+    },
+    {
+     "txt": "martyna.skweres@autospeedy.ch",
+     "brueche": [
+      "yna.skweres@|a"
+     ]
+    }
+   ]
+  }
+ ],
+ "K18": [
+  {
+   "w": 320,
+   "n": 1,
+   "r": [
+    {
+     "txt": "Zertifizierte K + L Partner von",
+     "brueche": [
+      "rtifizierte |K"
+     ]
+    }
+   ]
+  },
+  {
+   "w": 390,
+   "n": 1,
+   "r": [
+    {
+     "txt": "Zertifizierte K + L Partner von",
+     "brueche": [
+      "rtifizierte |K"
+     ]
+    }
+   ]
+  }
+ ],
+ "K22": [
+  {
+   "w": 390,
+   "rm": false,
+   "offen": {
+    "open": true,
+    "blatt": [
+     0,
+     390
+    ],
+    "aktion": [
+     358,
+     52,
+     "rgb(21, 102, 184)",
+     "rgb(255, 255, 255)"
+    ],
+    "tel": [
+     326,
+     48,
+     "rgb(226, 219, 207)"
+    ],
+    "aktiv": "Schliessen",
+    "zuIcon": [
+     "matrix(0.707107, 0.707107, -0.707107, 0.707107, 0, 7) op1",
+     "none op0",
+     "matrix(0.707107, -0.707107, 0.707107, 0.707107, 0, -7) op1"
+    ],
+    "zuGroesse": [
+     44,
+     44
+    ]
+   },
+   "tabImDialog": false,
+   "nachEsc": {
+    "open": false,
+    "aktiv": "kopf__menu"
+   },
+   "nachKnopf": {
+    "open": false,
+    "aktiv": "kopf__menu",
+    "sichtbar": "none"
+   },
+   "tastaturAuf": {
+    "open": true,
+    "aktiv": "Schliessen"
+   },
+   "ueberlauf": {
+    "sw": 390,
+    "cw": 390
+   }
+  },
+  {
+   "w": 390,
+   "rm": true,
+   "offen": {
+    "open": true,
+    "blatt": [
+     0,
+     390
+    ],
+    "aktion": [
+     358,
+     52,
+     "rgb(21, 102, 184)",
+     "rgb(255, 255, 255)"
+    ],
+    "tel": [
+     326,
+     48,
+     "rgb(226, 219, 207)"
+    ],
+    "aktiv": "Schliessen",
+    "zuIcon": [
+     "matrix(0.707107, 0.707107, -0.707107, 0.707107, 0, 7) op1",
+     "none op0",
+     "matrix(0.707107, -0.707107, 0.707107, 0.707107, 0, -7) op1"
+    ],
+    "zuGroesse": [
+     44,
+     44
+    ]
+   },
+   "tabImDialog": false,
+   "nachEsc": {
+    "open": false,
+    "aktiv": "kopf__menu"
+   },
+   "nachKnopf": {
+    "open": false,
+    "aktiv": "kopf__menu",
+    "sichtbar": "none"
+   },
+   "tastaturAuf": {
+    "open": true,
+    "aktiv": "Schliessen"
+   },
+   "ueberlauf": {
+    "sw": 390,
+    "cw": 390
+   }
+  },
+  {
+   "w": 320,
+   "rm": false,
+   "offen": {
+    "open": true,
+    "blatt": [
+     0,
+     320
+    ],
+    "aktion": [
+     288,
+     52,
+     "rgb(21, 102, 184)",
+     "rgb(255, 255, 255)"
+    ],
+    "tel": [
+     256,
+     48,
+     "rgb(226, 219, 207)"
+    ],
+    "aktiv": "Schliessen",
+    "zuIcon": [
+     "matrix(0.707107, 0.707107, -0.707107, 0.707107, 0, 7) op1",
+     "none op0",
+     "matrix(0.707107, -0.707107, 0.707107, 0.707107, 0, -7) op1"
+    ],
+    "zuGroesse": [
+     44,
+     44
+    ]
+   },
+   "tabImDialog": false,
+   "nachEsc": {
+    "open": false,
+    "aktiv": "kopf__menu"
+   },
+   "nachKnopf": {
+    "open": false,
+    "aktiv": "kopf__menu",
+    "sichtbar": "none"
+   },
+   "tastaturAuf": {
+    "open": true,
+    "aktiv": "Schliessen"
+   },
+   "ueberlauf": {
+    "sw": 320,
+    "cw": 320
+   }
+  },
+  {
+   "w": 320,
+   "rm": true,
+   "offen": {
+    "open": true,
+    "blatt": [
+     0,
+     320
+    ],
+    "aktion": [
+     288,
+     52,
+     "rgb(21, 102, 184)",
+     "rgb(255, 255, 255)"
+    ],
+    "tel": [
+     256,
+     48,
+     "rgb(226, 219, 207)"
+    ],
+    "aktiv": "Schliessen",
+    "zuIcon": [
+     "matrix(0.707107, 0.707107, -0.707107, 0.707107, 0, 7) op1",
+     "none op0",
+     "matrix(0.707107, -0.707107, 0.707107, 0.707107, 0, -7) op1"
+    ],
+    "zuGroesse": [
+     44,
+     44
+    ]
+   },
+   "tabImDialog": false,
+   "nachEsc": {
+    "open": false,
+    "aktiv": "kopf__menu"
+   },
+   "nachKnopf": {
+    "open": false,
+    "aktiv": "kopf__menu",
+    "sichtbar": "none"
+   },
+   "tastaturAuf": {
+    "open": true,
+    "aktiv": "Schliessen"
+   },
+   "ueberlauf": {
+    "sw": 320,
+    "cw": 320
+   }
+  }
+ ]
+}

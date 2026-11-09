@@ -1,0 +1,434 @@
+{
+ "K01": [
+  {
+   "w": 320,
+   "z": [
+    [
+     "laden",
+     {
+      "sw": 320,
+      "cw": 320
+     }
+    ],
+    [
+     "schritt2 (Klick) Schritt=2",
+     {
+      "sw": 320,
+      "cw": 320
+     },
+     {
+      "l": 256,
+      "r": 300,
+      "vw": 320
+     }
+    ],
+    [
+     "leer gesendet: aktiv=INPUT#f-name \"\" fehler=2",
+     {
+      "sw": 320,
+      "cw": 320
+     },
+     {
+      "l": 256,
+      "r": 300,
+      "vw": 320
+     }
+    ],
+    [
+     "tel abc / mail x@: Bitte geben Sie Ihren Namen an. / Bitte prüfen Sie die Telefonnummer. Sie braucht mindestens 9 Ziffern. / Bitte prüfen Sie die Mail-Adresse oder lassen Sie das Feld leer.",
+     {
+      "sw": 320,
+      "cw": 320
+     },
+     {
+      "l": 256,
+      "r": 300,
+      "vw": 320
+     }
+    ],
+    [
+     "2 Fotos + Ausweis: 2 / 1",
+     {
+      "sw": 320,
+      "cw": 320
+     },
+     {
+      "l": 256,
+      "r": 300,
+      "vw": 320
+     }
+    ]
+   ]
+  },
+  {
+   "w": 390,
+   "z": [
+    [
+     "laden",
+     {
+      "sw": 390,
+      "cw": 390
+     }
+    ],
+    [
+     "schritt2 (Klick) Schritt=2",
+     {
+      "sw": 390,
+      "cw": 390
+     },
+     {
+      "l": 326,
+      "r": 370,
+      "vw": 390
+     }
+    ],
+    [
+     "leer gesendet: aktiv=INPUT#f-name \"\" fehler=2",
+     {
+      "sw": 390,
+      "cw": 390
+     },
+     {
+      "l": 326,
+      "r": 370,
+      "vw": 390
+     }
+    ],
+    [
+     "tel abc / mail x@: Bitte geben Sie Ihren Namen an. / Bitte prüfen Sie die Telefonnummer. Sie braucht mindestens 9 Ziffern. / Bitte prüfen Sie die Mail-Adresse oder lassen Sie das Feld leer.",
+     {
+      "sw": 390,
+      "cw": 390
+     },
+     {
+      "l": 326,
+      "r": 370,
+      "vw": 390
+     }
+    ],
+    [
+     "2 Fotos + Ausweis: 2 / 1",
+     {
+      "sw": 390,
+      "cw": 390
+     },
+     {
+      "l": 326,
+      "r": 370,
+      "vw": 390
+     }
+    ]
+   ]
+  },
+  {
+   "w": 430,
+   "z": [
+    [
+     "laden",
+     {
+      "sw": 430,
+      "cw": 430
+     }
+    ],
+    [
+     "schritt2 (Klick) Schritt=2",
+     {
+      "sw": 430,
+      "cw": 430
+     },
+     {
+      "l": 366,
+      "r": 410,
+      "vw": 430
+     }
+    ],
+    [
+     "leer gesendet: aktiv=INPUT#f-name \"\" fehler=2",
+     {
+      "sw": 430,
+      "cw": 430
+     },
+     {
+      "l": 366,
+      "r": 410,
+      "vw": 430
+     }
+    ],
+    [
+     "tel abc / mail x@: Bitte geben Sie Ihren Namen an. / Bitte prüfen Sie die Telefonnummer. Sie braucht mindestens 9 Ziffern. / Bitte prüfen Sie die Mail-Adresse oder lassen Sie das Feld leer.",
+     {
+      "sw": 430,
+      "cw": 430
+     },
+     {
+      "l": 366,
+      "r": 410,
+      "vw": 430
+     }
+    ],
+    [
+     "2 Fotos + Ausweis: 2 / 1",
+     {
+      "sw": 430,
+      "cw": 430
+     },
+     {
+      "l": 366,
+      "r": 410,
+      "vw": 430
+     }
+    ]
+   ]
+  }
+ ],
+ "K02": [
+  {
+   "w": 1440,
+   "z": [
+    "Tabs bis Gruppe: 11, aktiv INPUT[parkschaden] \"Parkschaden\", checked=undefined",
+    "→ checked=Unfall Schritt=1",
+    "→ checked=Hagel Schritt=1",
+    "→ checked=Kratzer oder Lack Schritt=1",
+    "→ checked=Scheibe Schritt=1",
+    "→ checked=Felge Schritt=1",
+    "→ checked=Etwas anderes Schritt=1",
+    "← checked=Felge Schritt=1",
+    "→ checked=Etwas anderes Schritt=1",
+    "Weiter sichtbar: true",
+    "Enter → Schritt=2 aktiv=LEGEND \"Wie erreichen wir Sie?\" zusammen=Etwas anderes",
+    "Zurück(Enter) → Schritt=1 aktiv=LEGEND \"Was ist passiert? (Pflicht)\"",
+    "Tabs zu Weiter: 2 aktiv=BUTTON \"Weiter\"",
+    "Weiter(Enter) → Schritt=2 art=Etwas anderes",
+    "Leertaste auf Hagel → Schritt=2 art=Hagel"
+   ]
+  },
+  {
+   "w": 390,
+   "z": [
+    "Tabs bis Gruppe: 5, aktiv INPUT[parkschaden] \"Parkschaden\", checked=undefined",
+    "→ checked=Unfall Schritt=1",
+    "→ checked=Hagel Schritt=1",
+    "→ checked=Kratzer oder Lack Schritt=1",
+    "→ checked=Scheibe Schritt=1",
+    "→ checked=Felge Schritt=1",
+    "→ checked=Etwas anderes Schritt=1",
+    "← checked=Felge Schritt=1",
+    "→ checked=Etwas anderes Schritt=1",
+    "Weiter sichtbar: true",
+    "Enter → Schritt=2 aktiv=LEGEND \"Wie erreichen wir Sie?\" zusammen=Etwas anderes",
+    "Zurück(Enter) → Schritt=1 aktiv=LEGEND \"Was ist passiert? (Pflicht)\"",
+    "Tabs zu Weiter: 2 aktiv=BUTTON \"Weiter\"",
+    "Weiter(Enter) → Schritt=2 art=Etwas anderes",
+    "Leertaste auf Hagel → Schritt=2 art=Hagel"
+   ]
+  }
+ ],
+ "tap": "Tap Scheibe → Schritt=2 zusammen=Scheibe",
+ "senden": [
+  {
+   "w": 390,
+   "m": "ok",
+   "lade": {
+    "disabled": true,
+    "busy": "true",
+    "text": "Hier auf der Website sendenMit Fotos, ohne weitere App"
+   },
+   "posts": 1,
+   "postUrl": "http://localhost:4403/api/schaden",
+   "hatFoto": true,
+   "hatToken": true,
+   "st": {
+    "rapportSichtbar": true,
+    "rapportTitel": "Danke, Ihre Meldung ist bei uns.",
+    "stand": "Angekommen bei Auto Speedy. Wir sind heute ab 13.15 Uhr wieder da und melden uns dann bei Ihnen, in der Regel telefonisch.",
+    "meldung": "",
+    "role": "status",
+    "name": "Testperson QA",
+    "knopf": "Hier auf der Website sendenMit Fotos, ohne weitere App"
+   },
+   "aktiv": "ARTICLE \"Danke, Ihre Meldung ist bei uns.\n    Montag, 9. No\"",
+   "sw": 390,
+   "cw": 390
+  },
+  {
+   "w": 390,
+   "m": "500",
+   "lade": {
+    "disabled": true,
+    "busy": "true",
+    "text": "Hier auf der Website sendenMit Fotos, ohne weitere App"
+   },
+   "posts": 1,
+   "postUrl": "http://localhost:4403/api/schaden",
+   "hatFoto": true,
+   "hatToken": true,
+   "st": {
+    "rapportSichtbar": false,
+    "rapportTitel": "Schadenmeldung",
+    "stand": "",
+    "meldung": "",
+    "role": "status",
+    "name": "Testperson QA",
+    "knopf": "Nochmals sendenMit Fotos, ohne weitere App"
+   },
+   "aktiv": "BUTTON \"Nochmals sendenMit Fotos, ohne weitere App\"",
+   "sw": 390,
+   "cw": 390
+  },
+  {
+   "w": 390,
+   "m": "netz",
+   "lade": {
+    "disabled": true,
+    "busy": "true",
+    "text": "Hier auf der Website sendenMit Fotos, ohne weitere App"
+   },
+   "posts": 1,
+   "postUrl": "http://localhost:4403/api/schaden",
+   "hatFoto": true,
+   "hatToken": true,
+   "st": {
+    "rapportSichtbar": false,
+    "rapportTitel": "Schadenmeldung",
+    "stand": "",
+    "meldung": "",
+    "role": "status",
+    "name": "Testperson QA",
+    "knopf": "Nochmals sendenMit Fotos, ohne weitere App"
+   },
+   "aktiv": "BUTTON \"Nochmals sendenMit Fotos, ohne weitere App\"",
+   "sw": 390,
+   "cw": 390
+  },
+  {
+   "w": 390,
+   "m": "okfalse",
+   "lade": {
+    "disabled": true,
+    "busy": "true",
+    "text": "Hier auf der Website sendenMit Fotos, ohne weitere App"
+   },
+   "posts": 1,
+   "postUrl": "http://localhost:4403/api/schaden",
+   "hatFoto": true,
+   "hatToken": true,
+   "st": {
+    "rapportSichtbar": false,
+    "rapportTitel": "Schadenmeldung",
+    "stand": "",
+    "meldung": "",
+    "role": "status",
+    "name": "Testperson QA",
+    "knopf": "Nochmals sendenMit Fotos, ohne weitere App"
+   },
+   "aktiv": "BUTTON \"Nochmals sendenMit Fotos, ohne weitere App\"",
+   "sw": 390,
+   "cw": 390
+  },
+  {
+   "w": 1440,
+   "m": "ok",
+   "lade": {
+    "disabled": true,
+    "busy": "true",
+    "text": "Hier auf der Website sendenMit Fotos, ohne weitere App"
+   },
+   "posts": 1,
+   "postUrl": "http://localhost:4403/api/schaden",
+   "hatFoto": true,
+   "hatToken": true,
+   "st": {
+    "rapportSichtbar": true,
+    "rapportTitel": "Danke, Ihre Meldung ist bei uns.",
+    "stand": "Angekommen bei Auto Speedy. Wir sind heute ab 13.15 Uhr wieder da und melden uns dann bei Ihnen, in der Regel telefonisch.",
+    "meldung": "",
+    "role": "status",
+    "name": "Testperson QA",
+    "knopf": "Hier auf der Website sendenMit Fotos, ohne weitere App"
+   },
+   "aktiv": "ARTICLE \"Danke, Ihre Meldung ist bei uns.\n    Montag, 9. No\"",
+   "sw": 1425,
+   "cw": 1440
+  },
+  {
+   "w": 1440,
+   "m": "500",
+   "lade": {
+    "disabled": true,
+    "busy": "true",
+    "text": "Hier auf der Website sendenMit Fotos, ohne weitere App"
+   },
+   "posts": 1,
+   "postUrl": "http://localhost:4403/api/schaden",
+   "hatFoto": true,
+   "hatToken": true,
+   "st": {
+    "rapportSichtbar": false,
+    "rapportTitel": "Schadenmeldung",
+    "stand": "",
+    "meldung": "",
+    "role": "status",
+    "name": "Testperson QA",
+    "knopf": "Nochmals sendenMit Fotos, ohne weitere App"
+   },
+   "aktiv": "BUTTON \"Nochmals sendenMit Fotos, ohne weitere App\"",
+   "sw": 1425,
+   "cw": 1440
+  },
+  {
+   "w": 1440,
+   "m": "netz",
+   "lade": {
+    "disabled": true,
+    "busy": "true",
+    "text": "Hier auf der Website sendenMit Fotos, ohne weitere App"
+   },
+   "posts": 1,
+   "postUrl": "http://localhost:4403/api/schaden",
+   "hatFoto": true,
+   "hatToken": true,
+   "st": {
+    "rapportSichtbar": false,
+    "rapportTitel": "Schadenmeldung",
+    "stand": "",
+    "meldung": "",
+    "role": "status",
+    "name": "Testperson QA",
+    "knopf": "Nochmals sendenMit Fotos, ohne weitere App"
+   },
+   "aktiv": "BUTTON \"Nochmals sendenMit Fotos, ohne weitere App\"",
+   "sw": 1425,
+   "cw": 1440
+  },
+  {
+   "w": 1440,
+   "m": "okfalse",
+   "lade": {
+    "disabled": true,
+    "busy": "true",
+    "text": "Hier auf der Website sendenMit Fotos, ohne weitere App"
+   },
+   "posts": 1,
+   "postUrl": "http://localhost:4403/api/schaden",
+   "hatFoto": true,
+   "hatToken": true,
+   "st": {
+    "rapportSichtbar": false,
+    "rapportTitel": "Schadenmeldung",
+    "stand": "",
+    "meldung": "",
+    "role": "status",
+    "name": "Testperson QA",
+    "knopf": "Nochmals sendenMit Fotos, ohne weitere App"
+   },
+   "aktiv": "BUTTON \"Nochmals sendenMit Fotos, ohne weitere App\"",
+   "sw": 1425,
+   "cw": 1440
+  }
+ ],
+ "vorschau": {
+  "posts": 0,
+  "titel": "Schadenmeldung (Vorschau)",
+  "aktiv": "ARTICLE \"Schadenmeldung (Vorschau)\n    Montag, 9. November \""
+ }
+}

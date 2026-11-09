@@ -1,0 +1,40 @@
+[vorlage] Stufe abgabe: 0 FEHLER, 0 HINWEIS
+11:05:03 [types] Generated 48ms
+11:05:03 [build] output: "static"
+11:05:03 [build] mode: "static"
+11:05:03 [build] directory: /tmp/claude-0/-home-claude-design-uni/74937679-c533-5ae7-8450-0374beafdd1e/scratchpad/qa2/dist-live/
+11:05:03 [build] Collecting build info...
+11:05:03 [build] ✓ Completed in 110ms.
+11:05:03 [build] Building static entrypoints...
+11:05:03 [vite] ✓ built in 279ms
+11:05:03 [vite] ✓ built in 34ms
+11:05:03 [build] Rearranging server assets...
+
+ generating static routes 
+11:05:03   ├─ /404.html (+24ms) 
+11:05:03   ├─ /admin/index.html (+6ms) 
+11:05:03   ├─ /bewerten/druck/index.html (+2ms) 
+11:05:03   ├─ /bewerten/index.html (+4ms) 
+11:05:03   ├─ /bildnachweise/index.html (+3ms) 
+11:05:03   ├─ /datenschutz/index.html (+3ms) 
+11:05:03   ├─ /flotten/index.html (+5ms) 
+11:05:03   ├─ /impressum/index.html (+3ms) 
+11:05:03   ├─ /kontakt/index.html (+7ms) 
+11:05:03   ├─ /leistungen/felgen/index.html (+5ms) 
+11:05:03   ├─ /leistungen/folierung/index.html (+2ms) 
+11:05:03   ├─ /leistungen/hagel-dellen/index.html (+3ms) 
+11:05:03   ├─ /leistungen/lack/index.html (+2ms) 
+11:05:03   ├─ /leistungen/scheiben/index.html (+2ms) 
+11:05:03   ├─ /leistungen/unfall-carrosserie/index.html (+2ms) 
+11:05:03   ├─ /leistungen/index.html (+3ms) 
+11:05:03   ├─ /llms.txt (+1ms) 
+11:05:03   ├─ /occasionen/index.html (+2ms) 
+11:05:03   ├─ /schaden-melden/index.html (+3ms) 
+11:05:03   ├─ /team/index.html (+3ms) 
+11:05:03   ├─ /tesla/index.html (+2ms) 
+11:05:03   ├─ /index.html (+4ms) 
+11:05:03 ✓ Completed in 107ms.
+
+11:05:03 [build] ✓ Completed in 471ms.
+11:05:03 [build] 21 page(s) built in 589ms
+11:05:03 [build] Complete!

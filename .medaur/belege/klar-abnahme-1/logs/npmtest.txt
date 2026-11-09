@@ -1,0 +1,982 @@
+
+> test
+> node --test --test-concurrency=1 test/validierung.test.mjs test/statisch.test.mjs test/bewertungen.test.mjs test/schluss.test.mjs test/hinweise.test.mjs test/access.test.mjs test/github.test.mjs test/functions-admin.test.mjs test/bewertung.test.mjs test/qr.test.mjs test/browser.test.mjs test/formular.test.mjs test/rueckruf.test.mjs test/qa-klar.test.mjs test/hinweis-browser.test.mjs
+
+TAP version 13
+# Subtest: gültiges JWT: Mailadresse wird zurückgegeben
+ok 1 - gültiges JWT: Mailadresse wird zurückgegeben
+  ---
+  duration_ms: 64.752826
+  type: 'test'
+  ...
+# Subtest: falsches aud: null
+ok 2 - falsches aud: null
+  ---
+  duration_ms: 1.462802
+  type: 'test'
+  ...
+# Subtest: abgelaufen: null
+ok 3 - abgelaufen: null
+  ---
+  duration_ms: 1.315616
+  type: 'test'
+  ...
+# Subtest: falscher iss: null
+ok 4 - falscher iss: null
+  ---
+  duration_ms: 0.951553
+  type: 'test'
+  ...
+# Subtest: kein Header: null
+ok 5 - kein Header: null
+  ---
+  duration_ms: 0.221763
+  type: 'test'
+  ...
+# Subtest: manipulierte Signatur: null
+ok 6 - manipulierte Signatur: null
+  ---
+  duration_ms: 0.890096
+  type: 'test'
+  ...
+# Subtest: ohne Access → 401, keine Mail
+ok 7 - ohne Access → 401, keine Mail
+  ---
+  duration_ms: 32.708274
+  type: 'test'
+  ...
+# Subtest: gültige Adresse → 200 und genau EINE Mail (kein GitHub-Aufruf = kein Speicher)
+ok 8 - gültige Adresse → 200 und genau EINE Mail (kein GitHub-Aufruf = kein Speicher)
+  ---
+  duration_ms: 5.83911
+  type: 'test'
+  ...
+# Subtest: falsche Adresse → 422, keine Mail
+ok 9 - falsche Adresse → 422, keine Mail
+  ---
+  duration_ms: 7.601759
+  type: 'test'
+  ...
+# Subtest: Drossel (Binding meldet kein Kontingent) → 429, keine Mail
+ok 10 - Drossel (Binding meldet kein Kontingent) → 429, keine Mail
+  ---
+  duration_ms: 3.47663
+  type: 'test'
+  ...
+# Subtest: ohne Drossel-Binding wird übersprungen (→ 200)
+ok 11 - ohne Drossel-Binding wird übersprungen (→ 200)
+  ---
+  duration_ms: 3.957457
+  type: 'test'
+  ...
+# Subtest: fremde Herkunft → 403
+ok 12 - fremde Herkunft → 403
+  ---
+  duration_ms: 1.89922
+  type: 'test'
+  ...
+# Subtest: die Adresse wird nicht geloggt
+ok 13 - die Adresse wird nicht geloggt
+  ---
+  duration_ms: 2.903637
+  type: 'test'
+  ...
+# Subtest: Mailtext: neutral, mit Link und DSG-Satz, ohne Gating-Wort
+ok 14 - Mailtext: neutral, mit Link und DSG-Satz, ohne Gating-Wort
+  ---
+  duration_ms: 1.022151
+  type: 'test'
+  ...
+# Subtest: Mailtext: ohne Vorname nur «Guten Tag»
+ok 15 - Mailtext: ohne Vorname nur «Guten Tag»
+  ---
+  duration_ms: 0.379979
+  type: 'test'
+  ...
+# Subtest: domainAus: bau.adresse vor betrieb.mail, Fallback autospeedy.ch
+ok 16 - domainAus: bau.adresse vor betrieb.mail, Fallback autospeedy.ch
+  ---
+  duration_ms: 0.412888
+  type: 'test'
+  ...
+# Subtest: Fixture: Note und Anzahl erscheinen, keine Bewertungskarten, kein reviews-Feld
+ok 17 - Fixture: Note und Anzahl erscheinen, keine Bewertungskarten, kein reviews-Feld
+  ---
+  duration_ms: 1213.875301
+  type: 'test'
+  ...
+# Subtest: Slider folgt der Maus ohne Klick, Pfeiltasten, aria-valuetext
+ok 18 - Slider folgt der Maus ohne Klick, Pfeiltasten, aria-valuetext
+  ---
+  duration_ms: 594.172221
+  type: 'test'
+  ...
+# Subtest: Slider: Wischen auf dem Handy
+ok 19 - Slider: Wischen auf dem Handy
+  ---
+  duration_ms: 520.730395
+  type: 'test'
+  ...
+# Subtest: Slider: Touch folgt 1:1 ohne Transition, data-quelle touch (BAUPLAN 3.8)
+ok 20 - Slider: Touch folgt 1:1 ohne Transition, data-quelle touch (BAUPLAN 3.8)
+  ---
+  duration_ms: 465.968845
+  type: 'test'
+  ...
+# Subtest: Slider: Tastatur springt mit Federkurve linear() 340 ms (BAUPLAN 3.8)
+ok 21 - Slider: Tastatur springt mit Federkurve linear() 340 ms (BAUPLAN 3.8)
+  ---
+  duration_ms: 345.382985
+  type: 'test'
+  ...
+# Subtest: Slider-Hinweis: laeuft einmal bei 60 % und bricht bei Eingabe ab (BAUPLAN 3.8)
+ok 22 - Slider-Hinweis: laeuft einmal bei 60 % und bricht bei Eingabe ab (BAUPLAN 3.8)
+  ---
+  duration_ms: 365.344231
+  type: 'test'
+  ...
+# Subtest: Handy: Leiste mit Anrufen und Schaden melden erscheint nach dem Hero
+ok 23 - Handy: Leiste mit Anrufen und Schaden melden erscheint nach dem Hero
+  ---
+  duration_ms: 463.600516
+  type: 'test'
+  ...
+# Subtest: Schaden melden: zwei Schritte ohne CSP-Fehler
+ok 24 - Schaden melden: zwei Schritte ohne CSP-Fehler
+  ---
+  duration_ms: 292.82075
+  type: 'test'
+  ...
+# Subtest: Federknopf: transform mit Federkurve, nur Farbe bei Reduced Motion (BAUPLAN 3.2)
+ok 25 - Federknopf: transform mit Federkurve, nur Farbe bei Reduced Motion (BAUPLAN 3.2)
+  ---
+  duration_ms: 589.936905
+  type: 'test'
+  ...
+# Subtest: Fokusring erscheint ohne Transition (BAUPLAN 3.12)
+ok 26 - Fokusring erscheint ohne Transition (BAUPLAN 3.12)
+  ---
+  duration_ms: 268.179353
+  type: 'test'
+  ...
+# Subtest: Handyleiste: an nach Hero, aus beim Fuss, aus bei Fokus (BAUPLAN 3.11)
+ok 27 - Handyleiste: an nach Hero, aus beim Fuss, aus bei Fokus (BAUPLAN 3.11)
+  ---
+  duration_ms: 2360.448612
+  type: 'test'
+  ...
+# Subtest: Handyleiste: im Fuss aus (dort stehen dieselben Knöpfe, BAUPLAN 3.11)
+ok 28 - Handyleiste: im Fuss aus (dort stehen dieselben Knöpfe, BAUPLAN 3.11)
+  ---
+  duration_ms: 1112.532423
+  type: 'test'
+  ...
+# Subtest: Hero ohne JS: h1, Lead, CTAs und Faktenleiste nach 1000 ms mit opacity 1 (BAUPLAN 3.4/3.6)
+ok 29 - Hero ohne JS: h1, Lead, CTAs und Faktenleiste nach 1000 ms mit opacity 1 (BAUPLAN 3.4/3.6)
+  ---
+  duration_ms: 1309.703121
+  type: 'test'
+  ...
+# Subtest: Hero unter Reduced Motion: Kinder von .hero-text ohne animation-name (BAUPLAN 3.4)
+ok 30 - Hero unter Reduced Motion: Kinder von .hero-text ohne animation-name (BAUPLAN 3.4)
+  ---
+  duration_ms: 291.63369
+  type: 'test'
+  ...
+# Subtest: Handy-Hero: H1 und «Schaden melden» stehen vor dem Foto, im ersten Bildschirm (Design-Review 22:00, 1)
+ok 31 - Handy-Hero: H1 und «Schaden melden» stehen vor dem Foto, im ersten Bildschirm (Design-Review 22:00, 1)
+  ---
+  duration_ms: 299.761451
+  type: 'test'
+  ...
+# Subtest: Anrufen-Knopf hat eine nicht transparente Hintergrundfarbe (Entscheid Reshat)
+ok 32 - Anrufen-Knopf hat eine nicht transparente Hintergrundfarbe (Entscheid Reshat)
+  ---
+  duration_ms: 317.018277
+  type: 'test'
+  ...
+# Subtest: Handyleiste und Hero-CTAs sind beim Scrollen nie gleichzeitig sichtbar (Design-Review 22:00, 2)
+ok 33 - Handyleiste und Hero-CTAs sind beim Scrollen nie gleichzeitig sichtbar (Design-Review 22:00, 2)
+  ---
+  duration_ms: 5608.734484
+  type: 'test'
+  ...
+# Subtest: Partnerband: Pausieren-Knopf haelt das Laufband an (BAUPLAN 3.9)
+ok 34 - Partnerband: Pausieren-Knopf haelt das Laufband an (BAUPLAN 3.9)
+  ---
+  duration_ms: 402.762476
+  type: 'test'
+  ...
+# Subtest: Partnerband unter Reduced Motion: Band steht, kein Knopf (BAUPLAN 3.9)
+ok 35 - Partnerband unter Reduced Motion: Band steht, kein Knopf (BAUPLAN 3.9)
+  ---
+  duration_ms: 308.168458
+  type: 'test'
+  ...
+# Subtest: Handy: Leiste bleibt beim Runterscrollen stehen
+ok 36 - Handy: Leiste bleibt beim Runterscrollen stehen
+  ---
+  duration_ms: 446.735976
+  type: 'test'
+  ...
+# Subtest: Leistungskarten: je Karte genau ein Link, Pfeil aria-hidden, Ziele (BAUPLAN 2 Zeile 5)
+ok 37 - Leistungskarten: je Karte genau ein Link, Pfeil aria-hidden, Ziele (BAUPLAN 2 Zeile 5)
+  ---
+  duration_ms: 376.171509
+  type: 'test'
+  ...
+# Subtest: Leistungskarten: Hover-Transition mit Feder, Pfeil 40 ms spaeter (BAUPLAN 3.3)
+ok 38 - Leistungskarten: Hover-Transition mit Feder, Pfeil 40 ms spaeter (BAUPLAN 3.3)
+  ---
+  duration_ms: 303.334714
+  type: 'test'
+  ...
+# Subtest: Leistungskarten: Handy zeigt Zeilen, Karte so breit wie die Spalte (BAUPLAN 2 Zeile 5)
+ok 39 - Leistungskarten: Handy zeigt Zeilen, Karte so breit wie die Spalte (BAUPLAN 2 Zeile 5)
+  ---
+  duration_ms: 290.125892
+  type: 'test'
+  ...
+# Subtest: Tesla-Ablauf: nach dem Scrollen zeichnet sich die Linie fertig, Punkte voll sichtbar (BAUPLAN 3.7)
+ok 40 - Tesla-Ablauf: nach dem Scrollen zeichnet sich die Linie fertig, Punkte voll sichtbar (BAUPLAN 3.7)
+  ---
+  duration_ms: 1643.902295
+  type: 'test'
+  ...
+# Subtest: Tesla-Ablauf: unter Reduced Motion sofort voll sichtbar (BAUPLAN 3.7)
+ok 41 - Tesla-Ablauf: unter Reduced Motion sofort voll sichtbar (BAUPLAN 3.7)
+  ---
+  duration_ms: 375.061826
+  type: 'test'
+  ...
+# Subtest: Tesla-Ablauf ohne JS: Linie und Punkte sofort sichtbar, Fotoband sichtbar (BAUPLAN 3.5/3.7)
+ok 42 - Tesla-Ablauf ohne JS: Linie und Punkte sofort sichtbar, Fotoband sichtbar (BAUPLAN 3.5/3.7)
+  ---
+  duration_ms: 300.618076
+  type: 'test'
+  ...
+# Subtest: Bewertungen: ohne echte Daten kein Abschnitt, nie «–,– von 5» live (Design-Review 22:00, 3)
+ok 43 - Bewertungen: ohne echte Daten kein Abschnitt, nie «–,– von 5» live (Design-Review 22:00, 3)
+  ---
+  duration_ms: 282.868587
+  type: 'test'
+  ...
+# Subtest: Bewertungen: ohne Klick keine Anfrage an *.google* (BAUPLAN 4.3)
+ok 44 - Bewertungen: ohne Klick keine Anfrage an *.google* (BAUPLAN 4.3)
+  ---
+  duration_ms: 2492.640579
+  type: 'test'
+  ...
+# Subtest: Fuss-Status: reine Funktion liefert offen, Mittag, Abend, Sonntag, Feiertag (feste Uhrzeiten, Europe/Zurich)
+ok 45 - Fuss-Status: reine Funktion liefert offen, Mittag, Abend, Sonntag, Feiertag (feste Uhrzeiten, Europe/Zurich)
+  ---
+  duration_ms: 304.09964
+  type: 'test'
+  ...
+# Subtest: Fuss: Status wird live gesetzt, Kopieren-Knopf erscheint und meldet «Kopiert»
+ok 46 - Fuss: Status wird live gesetzt, Kopieren-Knopf erscheint und meldet «Kopiert»
+  ---
+  duration_ms: 377.41378
+  type: 'test'
+  ...
+# Subtest: Kopfleiste verdeckt die H1 nicht (A1): H1-Oberkante unter der Kopf-Unterkante bei 390 und 1440
+ok 47 - Kopfleiste verdeckt die H1 nicht (A1): H1-Oberkante unter der Kopf-Unterkante bei 390 und 1440
+  ---
+  duration_ms: 626.827942
+  type: 'test'
+  ...
+# Subtest: Fuss: Tippziele mindestens 44 px, beide Aufruf-Knöpfe mindestens 48 px
+ok 48 - Fuss: Tippziele mindestens 44 px, beide Aufruf-Knöpfe mindestens 48 px
+  ---
+  duration_ms: 342.530784
+  type: 'test'
+  ...
+# Subtest: Alle Seiten laden ohne Konsolenfehler (CSP)
+ok 49 - Alle Seiten laden ohne Konsolenfehler (CSP)
+  ---
+  duration_ms: 1135.852745
+  type: 'test'
+  ...
+# Subtest: Leistungsseiten: Aufruf ohne Scrollen sichtbar, passende Schadenart, keine Sprungleiste
+ok 50 - Leistungsseiten: Aufruf ohne Scrollen sichtbar, passende Schadenart, keine Sprungleiste
+  ---
+  duration_ms: 383.435982
+  type: 'test'
+  ...
+# Subtest: Schrittwechsel: Art wählen führt weiter, Fokus auf die Schritt-Überschrift, Fortschrittstext
+not ok 51 - Schrittwechsel: Art wählen führt weiter, Fokus auf die Schritt-Überschrift, Fortschrittstext
+  ---
+  duration_ms: 436.901993
+  type: 'test'
+  location: '/tmp/claude-0/qa-abnahme/projekt/autospeedy/astro-klar/test/formular.test.mjs:43:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.check: Clicking the checkbox did not change its state
+    Call log:
+    [2m  - waiting for locator('input[name="art"][data-art="hagel"]')[22m
+    [2m    - locator resolved to <input name="art" required="" type="radio" value="Hagel" data-art="hagel"/>[22m
+    [2m  - attempting click action[22m
+    [2m    - scrolling into view if needed[22m
+    [2m    - done scrolling[22m
+    [2m    - forcing action[22m
+    [2m    - performing click action[22m
+    [2m    - click action done[22m
+    [2m    - waiting for scheduled navigations to finish[22m
+    [2m    - navigations have finished[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/qa-abnahme/projekt/autospeedy/astro-klar/test/formular.test.mjs:45:61)
+  ...
+# Subtest: Fehler pro Feld: aria-invalid, Text, Sammelhinweis als role=alert, kein Schütteln (keine @keyframes)
+ok 52 - Fehler pro Feld: aria-invalid, Text, Sammelhinweis als role=alert, kein Schütteln (keine @keyframes)
+  ---
+  duration_ms: 774.441891
+  type: 'test'
+  ...
+# Subtest: Ersatzwagen: Tesla-Unterfrage erscheint nur bei Haken; ?tesla=1 belegt sie vor
+ok 53 - Ersatzwagen: Tesla-Unterfrage erscheint nur bei Haken; ?tesla=1 belegt sie vor
+  ---
+  duration_ms: 1249.463713
+  type: 'test'
+  ...
+# Subtest: lange Eingaben laufen nicht aus dem Feld oder aus der Erfolgsmeldung
+ok 54 - lange Eingaben laufen nicht aus dem Feld oder aus der Erfolgsmeldung
+  ---
+  duration_ms: 1526.615049
+  type: 'test'
+  ...
+# Subtest: Zwei Schritte: nach der Art folgt der Kontakt, freiwillige Angaben sind ohne Aufklappen sichtbar
+ok 55 - Zwei Schritte: nach der Art folgt der Kontakt, freiwillige Angaben sind ohne Aufklappen sichtbar
+  ---
+  duration_ms: 336.00586
+  type: 'test'
+  ...
+# Subtest: Senden geht ohne Foto, eine falsche Mail wird am Feld gemeldet
+ok 56 - Senden geht ohne Foto, eine falsche Mail wird am Feld gemeldet
+  ---
+  duration_ms: 2006.740951
+  type: 'test'
+  ...
+# Subtest: WhatsApp: alle Angaben im Text, Fotos nicht als mitgesendet gezeigt, Nachtrag bei der Bestätigung
+ok 57 - WhatsApp: alle Angaben im Text, Fotos nicht als mitgesendet gezeigt, Nachtrag bei der Bestätigung
+  ---
+  duration_ms: 1550.293812
+  type: 'test'
+  ...
+# Subtest: laden ohne Access → 401
+ok 58 - laden ohne Access → 401
+  ---
+  duration_ms: 88.929584
+  type: 'test'
+  ...
+# Subtest: speichern ohne Access → 401
+ok 59 - speichern ohne Access → 401
+  ---
+  duration_ms: 0.95823
+  type: 'test'
+  ...
+# Subtest: foto ohne Access → 401
+ok 60 - foto ohne Access → 401
+  ---
+  duration_ms: 0.684113
+  type: 'test'
+  ...
+# Subtest: falsches aud → 401 (speichern)
+ok 61 - falsches aud → 401 (speichern)
+  ---
+  duration_ms: 4.406955
+  type: 'test'
+  ...
+# Subtest: laden mit Access liefert site und sha
+ok 62 - laden mit Access liefert site und sha
+  ---
+  duration_ms: 5.100108
+  type: 'test'
+  ...
+# Subtest: speichern: gültige Daten → 200, Commit-Nachricht nennt Bereich und Mail
+ok 63 - speichern: gültige Daten → 200, Commit-Nachricht nennt Bereich und Mail
+  ---
+  duration_ms: 9.574531
+  type: 'test'
+  ...
+# Subtest: speichern: ungültige Daten → 422
+ok 64 - speichern: ungültige Daten → 422
+  ---
+  duration_ms: 2.723733
+  type: 'test'
+  ...
+# Subtest: speichern: SHA-Konflikt → 409
+ok 65 - speichern: SHA-Konflikt → 409
+  ---
+  duration_ms: 3.802303
+  type: 'test'
+  ...
+# Subtest: speichern: fremde Herkunft → 403
+ok 66 - speichern: fremde Herkunft → 403
+  ---
+  duration_ms: 2.043948
+  type: 'test'
+  ...
+# Subtest: slugVonName: Umlaute aufgelöst, nur a–z/0–9/-
+ok 67 - slugVonName: Umlaute aufgelöst, nur a–z/0–9/-
+  ---
+  duration_ms: 0.558234
+  type: 'test'
+  ...
+# Subtest: foto: kein JPEG (falsche Magic Bytes) → 422
+ok 68 - foto: kein JPEG (falsche Magic Bytes) → 422
+  ---
+  duration_ms: 7.442829
+  type: 'test'
+  ...
+# Subtest: foto: gültiges JPEG wird unter <slug>.jpg abgelegt, nicht unter dem Originalnamen
+ok 69 - foto: gültiges JPEG wird unter <slug>.jpg abgelegt, nicht unter dem Originalnamen
+  ---
+  duration_ms: 3.212565
+  type: 'test'
+  ...
+# Subtest: foto: zu gross (> 400 KB) → 413
+ok 70 - foto: zu gross (> 400 KB) → 413
+  ---
+  duration_ms: 3.562421
+  type: 'test'
+  ...
+# Subtest: Allowlist: site.json und Teamfotos erlaubt, alles andere nicht
+ok 71 - Allowlist: site.json und Teamfotos erlaubt, alles andere nicht
+  ---
+  duration_ms: 1.234954
+  type: 'test'
+  ...
+# Subtest: schreiben an einen nicht erlaubten Pfad wirft, ohne fetch
+ok 72 - schreiben an einen nicht erlaubten Pfad wirft, ohne fetch
+  ---
+  duration_ms: 0.887445
+  type: 'test'
+  ...
+# Subtest: lesen liefert Inhalt und SHA
+ok 73 - lesen liefert Inhalt und SHA
+  ---
+  duration_ms: 1.735679
+  type: 'test'
+  ...
+# Subtest: lesen einer fehlenden Datei gibt null (404)
+ok 74 - lesen einer fehlenden Datei gibt null (404)
+  ---
+  duration_ms: 0.73316
+  type: 'test'
+  ...
+# Subtest: schreiben sendet SHA und content mit; Erfolg liefert neuen SHA
+ok 75 - schreiben sendet SHA und content mit; Erfolg liefert neuen SHA
+  ---
+  duration_ms: 0.504956
+  type: 'test'
+  ...
+# Subtest: Konflikt (409) wird als code «konflikt» geworfen
+ok 76 - Konflikt (409) wird als code «konflikt» geworfen
+  ---
+  duration_ms: 0.304246
+  type: 'test'
+  ...
+# Subtest: ohne Token/Repo wirft github.js (keine Anfrage)
+ok 77 - ohne Token/Repo wirft github.js (keine Anfrage)
+  ---
+  duration_ms: 0.258765
+  type: 'test'
+  ...
+# Subtest: Banner: info erscheint mit festem Design (Klasse, Symbol, Text)
+ok 78 - Banner: info erscheint mit festem Design (Klasse, Symbol, Text)
+  ---
+  duration_ms: 515.859992
+  type: 'test'
+  ...
+# Subtest: abgelaufener Hinweis (ferien) erscheint nicht (Build filtert nach heute)
+ok 79 - abgelaufener Hinweis (ferien) erscheint nicht (Build filtert nach heute)
+  ---
+  duration_ms: 289.986856
+  type: 'test'
+  ...
+# Subtest: Banner schliessbar: Klick entfernt ihn und merkt es in der Sitzung
+ok 80 - Banner schliessbar: Klick entfernt ihn und merkt es in der Sitzung
+  ---
+  duration_ms: 360.454853
+  type: 'test'
+  ...
+# Subtest: Pop-up: erscheint nach 2 s, nur einmal pro Sitzung, Esc schliesst
+ok 81 - Pop-up: erscheint nach 2 s, nur einmal pro Sitzung, Esc schliesst
+  ---
+  duration_ms: 4789.43434
+  type: 'test'
+  ...
+# Subtest: Pop-up nie auf /schaden-melden/
+ok 82 - Pop-up nie auf /schaden-melden/
+  ---
+  duration_ms: 2718.9516
+  type: 'test'
+  ...
+# Subtest: Admin-Seite: lädt ohne Inline-Skript und ohne CSP-Fehler, Reiter sind da
+ok 83 - Admin-Seite: lädt ohne Inline-Skript und ohne CSP-Fehler, Reiter sind da
+  ---
+  duration_ms: 698.029883
+  type: 'test'
+  ...
+# Subtest: Admin-Reiter Hinweise: Vorschau nutzt dieselbe Hinweis-Gestaltung
+ok 84 - Admin-Reiter Hinweise: Vorschau nutzt dieselbe Hinweis-Gestaltung
+  ---
+  duration_ms: 805.61294
+  type: 'test'
+  ...
+# Subtest: dist enthält keine Geheim-Werte (GITHUB_TOKEN, ACCESS_AUD)
+ok 85 - dist enthält keine Geheim-Werte (GITHUB_TOKEN, ACCESS_AUD)
+  ---
+  duration_ms: 4.874943
+  type: 'test'
+  ...
+# Subtest: klar.css definiert für jede Hinweis-Art ein Design
+ok 86 - klar.css definiert für jede Hinweis-Art ein Design
+  ---
+  duration_ms: 1.066183
+  type: 'test'
+  ...
+# Subtest: Admin-HTML: Skript nur mit src, keine on…-Attribute
+ok 87 - Admin-HTML: Skript nur mit src, keine on…-Attribute
+  ---
+  duration_ms: 0.745935
+  type: 'test'
+  ...
+# Subtest: hinweise: gültige Liste wird übernommen
+ok 88 - hinweise: gültige Liste wird übernommen
+  ---
+  duration_ms: 7.312894
+  type: 'test'
+  ...
+# Subtest: Migration: aktives Altfeld «hinweis» wird zu einem info-Banner in «hinweise»
+ok 89 - Migration: aktives Altfeld «hinweis» wird zu einem info-Banner in «hinweise»
+  ---
+  duration_ms: 0.516277
+  type: 'test'
+  ...
+# Subtest: Migration: inaktives Altfeld ergibt keinen Hinweis (bestehende site.json bleibt leer)
+ok 90 - Migration: inaktives Altfeld ergibt keinen Hinweis (bestehende site.json bleibt leer)
+  ---
+  duration_ms: 0.949979
+  type: 'test'
+  ...
+# Subtest: Zeitraum: sichtbar nur mit von ≤ heute ≤ bis (im Zeitraum, davor, danach)
+ok 91 - Zeitraum: sichtbar nur mit von ≤ heute ≤ bis (im Zeitraum, davor, danach)
+  ---
+  duration_ms: 0.20088
+  type: 'test'
+  ...
+# Subtest: heuteZuerich liefert ein ISO-Datum
+ok 92 - heuteZuerich liefert ein ISO-Datum
+  ---
+  duration_ms: 10.968958
+  type: 'test'
+  ...
+# Subtest: Pop-up nur für hagel und aktion
+ok 93 - Pop-up nur für hagel und aktion
+  ---
+  duration_ms: 1.404612
+  type: 'test'
+  ...
+# Subtest: höchstens ein Pop-up gleichzeitig
+ok 94 - höchstens ein Pop-up gleichzeitig
+  ---
+  duration_ms: 0.636523
+  type: 'test'
+  ...
+# Subtest: höchstens 3 Hinweise (inkl. migriertem Altfeld)
+ok 95 - höchstens 3 Hinweise (inkl. migriertem Altfeld)
+  ---
+  duration_ms: 1.189332
+  type: 'test'
+  ...
+# Subtest: Text ohne < und >, Längen begrenzt (Titel ≤50, Text ≤160)
+ok 96 - Text ohne < und >, Längen begrenzt (Titel ≤50, Text ≤160)
+  ---
+  duration_ms: 1.228969
+  type: 'test'
+  ...
+# Subtest: «bis» darf nicht vor «von» liegen
+ok 97 - «bis» darf nicht vor «von» liegen
+  ---
+  duration_ms: 0.662406
+  type: 'test'
+  ...
+# Subtest: K01: Schritt 2 ohne Querscrollen bei 320/390/430, auch mit Fehlern und Foto; Menü-Knopf ganz sichtbar
+ok 98 - K01: Schritt 2 ohne Querscrollen bei 320/390/430, auch mit Fehlern und Foto; Menü-Knopf ganz sichtbar
+  ---
+  duration_ms: 1398.20241
+  type: 'test'
+  ...
+# Subtest: K02: Pfeiltasten gehen alle 7 Arten durch, ohne den Schritt zu wechseln; Enter führt mit der Wahl weiter; Klick unverändert
+ok 99 - K02: Pfeiltasten gehen alle 7 Arten durch, ohne den Schritt zu wechseln; Enter führt mit der Wahl weiter; Klick unverändert
+  ---
+  duration_ms: 728.095837
+  type: 'test'
+  ...
+# Subtest: K03: Nach Sendefehler (500 und Netzabbruch) liegt der Fokus auf dem Senden-Knopf
+ok 100 - K03: Nach Sendefehler (500 und Netzabbruch) liegt der Fokus auf dem Senden-Knopf
+  ---
+  duration_ms: 761.666169
+  type: 'test'
+  ...
+# Subtest: K04: Kontakt – Etiketten kleiner als die Angabe, Telefonnummer im ersten Bild am Handy, Adresse im Inhalt einmal
+ok 101 - K04: Kontakt – Etiketten kleiner als die Angabe, Telefonnummer im ersten Bild am Handy, Adresse im Inhalt einmal
+  ---
+  duration_ms: 456.516641
+  type: 'test'
+  ...
+# Subtest: K07: Team-Raster füllt die Inhaltsbreite bei 1440 und 1024
+ok 102 - K07: Team-Raster füllt die Inhaltsbreite bei 1440 und 1024
+  ---
+  duration_ms: 595.470629
+  type: 'test'
+  ...
+# Subtest: K09: eigenständige Links und Knöpfe auf Kontakt, Team, Flotten, Occasionen mindestens 44 × 44 px (320/390)
+ok 103 - K09: eigenständige Links und Knöpfe auf Kontakt, Team, Flotten, Occasionen mindestens 44 × 44 px (320/390)
+  ---
+  duration_ms: 1804.297258
+  type: 'test'
+  ...
+# Subtest: K14: alle 7 Schadenart-Karten bei 390 gleich hoch
+ok 104 - K14: alle 7 Schadenart-Karten bei 390 gleich hoch
+  ---
+  duration_ms: 240.846569
+  type: 'test'
+  ...
+# Subtest: K15: Vorschau-Plakette verdeckt bei 390 keinen Inhalt (steht nach dem Fuss, nicht fix)
+ok 105 - K15: Vorschau-Plakette verdeckt bei 390 keinen Inhalt (steht nach dem Fuss, nicht fix)
+  ---
+  duration_ms: 1102.727321
+  type: 'test'
+  ...
+# Subtest: K16: Fuss bei 1440 höchstens 700 px hoch, Slogan nie grösser als das H1
+ok 106 - K16: Fuss bei 1440 höchstens 700 px hoch, Slogan nie grösser als das H1
+  ---
+  duration_ms: 1896.42151
+  type: 'test'
+  ...
+# Subtest: K17 und K18: Mailadressen brechen nicht im Wort, «K + L» bleibt auf einer Zeile (320/390)
+ok 107 - K17 und K18: Mailadressen brechen nicht im Wort, «K + L» bleibt auf einer Zeile (320/390)
+  ---
+  duration_ms: 754.673852
+  type: 'test'
+  ...
+# Subtest: K22: offenes Menü am Handy volle Breite, «Schaden melden» und «Anrufen» als Knöpfe ≥ 44 px
+ok 108 - K22: offenes Menü am Handy volle Breite, «Schaden melden» und «Anrufen» als Knöpfe ≥ 44 px
+  ---
+  duration_ms: 346.087666
+  type: 'test'
+  ...
+# Subtest: K13: Ablauf-Ziffern und nicht klickbare Listen tragen nicht die Linkfarbe
+ok 109 - K13: Ablauf-Ziffern und nicht klickbare Listen tragen nicht die Linkfarbe
+  ---
+  duration_ms: 642.334829
+  type: 'test'
+  ...
+# Subtest: Ziel-URL zeigt auf /bewerten/?q=qr
+ok 110 - Ziel-URL zeigt auf /bewerten/?q=qr
+  ---
+  duration_ms: 0.847663
+  type: 'test'
+  ...
+# Subtest: erzeugte qr.svg lässt sich scannen und ergibt die Ziel-URL
+ok 111 - erzeugte qr.svg lässt sich scannen und ergibt die Ziel-URL
+  ---
+  duration_ms: 61.612447
+  type: 'test'
+  ...
+# Subtest: Rückruf direkt per Mail (POST /api/rueckruf)
+    # Subtest: Kontakt, Zeitfalle an, sofort gesendet: automatischer Neuversand, «Angekommen» erst nach Server-OK, genau 1 Mail
+    ok 1 - Kontakt, Zeitfalle an, sofort gesendet: automatischer Neuversand, «Angekommen» erst nach Server-OK, genau 1 Mail
+      ---
+      duration_ms: 4529.11903
+      type: 'test'
+      ...
+    # Subtest: Flotten: gewähltes Anliegen geht mit
+    ok 2 - Flotten: gewähltes Anliegen geht mit
+      ---
+      duration_ms: 4549.030358
+      type: 'test'
+      ...
+    # Subtest: Telefon zu kurz: Hinweis am Formular, nichts gesendet
+    ok 3 - Telefon zu kurz: Hinweis am Formular, nichts gesendet
+      ---
+      duration_ms: 1721.115728
+      type: 'test'
+      ...
+    # Subtest: Server antwortet 200 ohne ok:true: kein «Angekommen», Hinweis mit Telefonnummer, Knopf bleibt aktiv
+    ok 4 - Server antwortet 200 ohne ok:true: kein «Angekommen», Hinweis mit Telefonnummer, Knopf bleibt aktiv
+      ---
+      duration_ms: 1754.172033
+      type: 'test'
+      ...
+    # Subtest: Server antwortet 502: kein «Angekommen», Hinweis mit Telefonnummer, Knopf bleibt aktiv
+    ok 5 - Server antwortet 502: kein «Angekommen», Hinweis mit Telefonnummer, Knopf bleibt aktiv
+      ---
+      duration_ms: 1762.080551
+      type: 'test'
+      ...
+    1..5
+ok 112 - Rückruf direkt per Mail (POST /api/rueckruf)
+  ---
+  duration_ms: 14527.756038
+  type: 'suite'
+  ...
+# Subtest: Startseite JSON-LD: openingHoursSpecification entspricht site.zeiten
+ok 113 - Startseite JSON-LD: openingHoursSpecification entspricht site.zeiten
+  ---
+  duration_ms: 2.947227
+  type: 'test'
+  ...
+# Subtest: Fuss: letzter Aufruf, Status, Wochen-Tabelle, Adresse, Slogan, Rechtszeile
+ok 114 - Fuss: letzter Aufruf, Status, Wochen-Tabelle, Adresse, Slogan, Rechtszeile
+  ---
+  duration_ms: 1.040567
+  type: 'test'
+  ...
+# Subtest: Fuss ist auf jeder Seite vorhanden (auch ohne frueheren Abschluss)
+ok 115 - Fuss ist auf jeder Seite vorhanden (auch ohne frueheren Abschluss)
+  ---
+  duration_ms: 1.563189
+  type: 'test'
+  ...
+# Subtest: Fuss: eine Ausnahme in 10 Tagen erscheint in der Wochen-Tabelle (Fixture site.json über SITE_JSON)
+ok 116 - Fuss: eine Ausnahme in 10 Tagen erscheint in der Wochen-Tabelle (Fixture site.json über SITE_JSON)
+  ---
+  duration_ms: 1381.049207
+  type: 'test'
+  ...
+# Subtest: _headers: volle CSP ohne unsafe-inline/eval bei Skripten
+ok 117 - _headers: volle CSP ohne unsafe-inline/eval bei Skripten
+  ---
+  duration_ms: 2.488388
+  type: 'test'
+  ...
+# Subtest: kein ausführbares Inline-Skript, keine on…-Attribute
+ok 118 - kein ausführbares Inline-Skript, keine on…-Attribute
+  ---
+  duration_ms: 3.008661
+  type: 'test'
+  ...
+# Subtest: de-CH: kein ß in Seiten, CSS und JS
+ok 119 - de-CH: kein ß in Seiten, CSS und JS
+  ---
+  duration_ms: 1.983043
+  type: 'test'
+  ...
+# Subtest: Vergleich zugänglich auf /leistungen/felgen/ (nicht auf der Startseite), Handyleiste komplett
+ok 120 - Vergleich zugänglich auf /leistungen/felgen/ (nicht auf der Startseite), Handyleiste komplett
+  ---
+  duration_ms: 0.669262
+  type: 'test'
+  ...
+# Subtest: Tesla-Seite: kein «Rückruf»-Versprechen und keine interne Notiz «nachgeprüft» (A3/A4)
+ok 121 - Tesla-Seite: kein «Rückruf»-Versprechen und keine interne Notiz «nachgeprüft» (A3/A4)
+  ---
+  duration_ms: 0.366234
+  type: 'test'
+  ...
+# Subtest: Fuss auf /schaden-melden/ ohne Selbstlink «Schaden melden» (A5)
+ok 122 - Fuss auf /schaden-melden/ ohne Selbstlink «Schaden melden» (A5)
+  ---
+  duration_ms: 0.691651
+  type: 'test'
+  ...
+# Subtest: Inhaber und Team: echte Porträts, keine B8-Platzhalter, kein erfundenes Zitat (Review 07.11.2026)
+ok 123 - Inhaber und Team: echte Porträts, keine B8-Platzhalter, kein erfundenes Zitat (Review 07.11.2026)
+  ---
+  duration_ms: 0.685885
+  type: 'test'
+  ...
+# Subtest: Bewertungen ohne Daten: Abschnitt fehlt ganz (Entscheid 22:00), keine Platzhalter-Note, keine Karten
+ok 124 - Bewertungen ohne Daten: Abschnitt fehlt ganz (Entscheid 22:00), keine Platzhalter-Note, keine Karten
+  ---
+  duration_ms: 1.005663
+  type: 'test'
+  ...
+# Subtest: dist enthält keinen Schlüssel und nicht den Header «X-Goog-Api-Key»
+ok 125 - dist enthält keinen Schlüssel und nicht den Header «X-Goog-Api-Key»
+  ---
+  duration_ms: 2.700488
+  type: 'test'
+  ...
+# Subtest: src/daten/bewertungen.json: keine Bewertungstexte (reviews) und keine erfundene Note
+ok 126 - src/daten/bewertungen.json: keine Bewertungstexte (reviews) und keine erfundene Note
+  ---
+  duration_ms: 0.51682
+  type: 'test'
+  ...
+# Subtest: Schriften liegen selbst gehostet vor, kein Google-CDN
+ok 127 - Schriften liegen selbst gehostet vor, kein Google-CDN
+  ---
+  duration_ms: 1.853157
+  type: 'test'
+  ...
+# Subtest: keine Schriftdatei groesser als 60 KB
+ok 128 - keine Schriftdatei groesser als 60 KB
+  ---
+  duration_ms: 0.271628
+  type: 'test'
+  ...
+# Subtest: Nachtrag: 6 Leistungskarten in fester Reihenfolge, Titel «Felgen» (nie «Alufelgen»)
+ok 129 - Nachtrag: 6 Leistungskarten in fester Reihenfolge, Titel «Felgen» (nie «Alufelgen»)
+  ---
+  duration_ms: 2.241061
+  type: 'test'
+  ...
+# Subtest: Nachtrag SEO: jede Inhaltsseite hat Title, Description (<=155), Canonical, OG- und Twitter-Bild
+ok 130 - Nachtrag SEO: jede Inhaltsseite hat Title, Description (<=155), Canonical, OG- und Twitter-Bild
+  ---
+  duration_ms: 1.978739
+  type: 'test'
+  ...
+# Subtest: Nachtrag Icons/OG: favicon.ico, SVG-Icon, apple-touch-icon und og-Bild liegen im Bau
+ok 131 - Nachtrag Icons/OG: favicon.ico, SVG-Icon, apple-touch-icon und og-Bild liegen im Bau
+  ---
+  duration_ms: 0.373216
+  type: 'test'
+  ...
+# Subtest: Nachtrag: Hero-Bild nicht lazy, fetchpriority=high, vorgeladen (LCP)
+ok 132 - Nachtrag: Hero-Bild nicht lazy, fetchpriority=high, vorgeladen (LCP)
+  ---
+  duration_ms: 0.481117
+  type: 'test'
+  ...
+# Subtest: Nachtrag AEO: JSON-LD je Seite parsebar; AutoBodyShop mit Adresse/Telefon/Zeiten/6 Services; FAQPage; kein aggregateRating in der Vorschau
+ok 133 - Nachtrag AEO: JSON-LD je Seite parsebar; AutoBodyShop mit Adresse/Telefon/Zeiten/6 Services; FAQPage; kein aggregateRating in der Vorschau
+  ---
+  duration_ms: 1.196129
+  type: 'test'
+  ...
+# Subtest: Nachtrag AEO: die FAQ-Antworten stehen als sichtbarer Text auf der Seite (nicht nur im JSON-LD)
+ok 134 - Nachtrag AEO: die FAQ-Antworten stehen als sichtbarer Text auf der Seite (nicht nur im JSON-LD)
+  ---
+  duration_ms: 0.368182
+  type: 'test'
+  ...
+# Subtest: Nachtrag llms.txt vorhanden, mit Kurzbeschreibung und Seiten-Links
+ok 135 - Nachtrag llms.txt vorhanden, mit Kurzbeschreibung und Seiten-Links
+  ---
+  duration_ms: 0.263031
+  type: 'test'
+  ...
+# Subtest: Nachtrag Bewertungen: in der Vorschau 3 Zitate (Note 4,8, «Name folgt», Hinweis), kein echter Abschnitt ohne Daten
+ok 136 - Nachtrag Bewertungen: in der Vorschau 3 Zitate (Note 4,8, «Name folgt», Hinweis), kein echter Abschnitt ohne Daten
+  ---
+  duration_ms: 0.480203
+  type: 'test'
+  ...
+# Subtest: Nachtrag Schalter Vorschau: noindex-Meta und robots.txt ohne Sperre, keine Sitemap
+ok 137 - Nachtrag Schalter Vorschau: noindex-Meta und robots.txt ohne Sperre, keine Sitemap
+  ---
+  duration_ms: 0.477015
+  type: 'test'
+  ...
+# Subtest: Nachtrag Schalter Live (Testbuild): index + Sitemap, kein noindex, sitemap.xml vorhanden, weiterhin kein aggregateRating ohne echte Bewertungen
+ok 138 - Nachtrag Schalter Live (Testbuild): index + Sitemap, kein noindex, sitemap.xml vorhanden, weiterhin kein aggregateRating ohne echte Bewertungen
+  ---
+  duration_ms: 1376.581649
+  type: 'test'
+  ...
+# Subtest: Nachtrag SEO/AEO 08.11.: Service je Leistungsseite, WebSite/WebPage, Brotkrumen auf Kontakt/Team, keine JSON-LD auf 404, llms.txt mit Zeiten
+ok 139 - Nachtrag SEO/AEO 08.11.: Service je Leistungsseite, WebSite/WebPage, Brotkrumen auf Kontakt/Team, keine JSON-LD auf 404, llms.txt mit Zeiten
+  ---
+  duration_ms: 0.770169
+  type: 'test'
+  ...
+# Subtest: K08: Schaden- und Rückruf-Formulare verweisen auf /datenschutz/; Datenschutz nennt Hoster, Formular- und Maildienst mit Land
+ok 140 - K08: Schaden- und Rückruf-Formulare verweisen auf /datenschutz/; Datenschutz nennt Hoster, Formular- und Maildienst mit Land
+  ---
+  duration_ms: 0.754109
+  type: 'test'
+  ...
+# Subtest: K10: alle Titel höchstens 60 Zeichen
+ok 141 - K10: alle Titel höchstens 60 Zeichen
+  ---
+  duration_ms: 1.575235
+  type: 'test'
+  ...
+# Subtest: K11: JSON-LD ohne erfundene Koordinaten (geo erst mit Daten des Betriebs)
+ok 142 - K11: JSON-LD ohne erfundene Koordinaten (geo erst mit Daten des Betriebs)
+  ---
+  duration_ms: 0.365974
+  type: 'test'
+  ...
+# Subtest: K12: «Termin» und «Offerte» sichtbar auf Start und Leistungen; keine Schrittzählung vor der Meldung
+ok 143 - K12: «Termin» und «Offerte» sichtbar auf Start und Leistungen; keine Schrittzählung vor der Meldung
+  ---
+  duration_ms: 1.020359
+  type: 'test'
+  ...
+# Subtest: K19: Öffnungszeiten überall in einer Schreibweise
+ok 144 - K19: Öffnungszeiten überall in einer Schreibweise
+  ---
+  duration_ms: 1.027739
+  type: 'test'
+  ...
+# Subtest: K20: Impressum nennt alle geladenen Schriften
+ok 145 - K20: Impressum nennt alle geladenen Schriften
+  ---
+  duration_ms: 0.264409
+  type: 'test'
+  ...
+# Subtest: K21: «Was wir machen» bei Unfall zeigt eine Carrosseriereparatur, nicht die Folierung
+ok 146 - K21: «Was wir machen» bei Unfall zeigt eine Carrosseriereparatur, nicht die Folierung
+  ---
+  duration_ms: 0.201721
+  type: 'test'
+  ...
+# Subtest: die echte site.json besteht die Pruefung
+ok 147 - die echte site.json besteht die Pruefung
+  ---
+  duration_ms: 5.890921
+  type: 'test'
+  ...
+# Subtest: Migration: team-Eintraege ohne Feld bekommen einverstaendnis = false
+ok 148 - Migration: team-Eintraege ohne Feld bekommen einverstaendnis = false
+  ---
+  duration_ms: 0.647836
+  type: 'test'
+  ...
+# Subtest: Team wie auf autospeedy.ch: zehn Personen, alle freigegeben
+ok 149 - Team wie auf autospeedy.ch: zehn Personen, alle freigegeben
+  ---
+  duration_ms: 0.227978
+  type: 'test'
+  ...
+# Subtest: stimme ist optional und setzt freigegeben auf false als Vorgabe
+ok 150 - stimme ist optional und setzt freigegeben auf false als Vorgabe
+  ---
+  duration_ms: 0.664645
+  type: 'test'
+  ...
+# Subtest: stimme: < und > sind verboten, Laengen werden begrenzt
+ok 151 - stimme: < und > sind verboten, Laengen werden begrenzt
+  ---
+  duration_ms: 0.762473
+  type: 'test'
+  ...
+# Subtest: bewertungen.zeigen ist optional und Vorgabe true
+ok 152 - bewertungen.zeigen ist optional und Vorgabe true
+  ---
+  duration_ms: 1.018928
+  type: 'test'
+  ...
+# Subtest: eine ungueltige Test-site.json (test/fixtures) laesst den Bau scheitern
+ok 153 - eine ungueltige Test-site.json (test/fixtures) laesst den Bau scheitern
+  ---
+  duration_ms: 0.76128
+  type: 'test'
+  ...
+1..153
+# tests 157
+# suites 1
+# pass 156
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 78043.868693
