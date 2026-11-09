@@ -304,7 +304,7 @@
     if (wert("email")) z += "Mail: " + wert("email") + "\n";
     if (wert("kontrollschild")) z += "Kontrollschild: " + wert("kontrollschild") + "\n";
     if (wert("versicherung")) z += "Versicherung: " + wert("versicherung") + "\n";
-    if (wert("schadennummer")) z += "Schadennummer: " + wert("schadennummer") + "\n";
+    if (wert("schadennummer")) z += "Police- oder Schadennummer: " + wert("schadennummer") + "\n";
     return z;
   }
 

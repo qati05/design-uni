@@ -89,15 +89,15 @@ describe("Rückruf direkt per Mail (POST /api/rueckruf)", () => {
     await ctx.close();
   });
 
-  test("Flotten: gewähltes Anliegen geht mit", async () => {
-    const { ctx, page, form } = await seite("/flotten/");
-    await form.getByRole("radio", { name: "Garage oder Händler" }).check({ force: true });
-    await form.getByLabel("Name (Pflicht)").fill("Firma AG");
+  test("Occasionen: gewähltes Anliegen geht mit", async () => {
+    const { ctx, page, form } = await seite("/occasionen/");
+    await form.getByRole("radio", { name: "Mein Auto verkaufen" }).check({ force: true });
+    await form.getByLabel("Name (Pflicht)").fill("Test Person");
     await form.getByLabel("Telefon (Pflicht)").fill("+41 71 755 88 61");
     await page.waitForTimeout(4200); // nach der Zeitfalle: ohne Neuversand
     await form.getByRole("button", { name: "Rückruf anfordern" }).click();
     await page.waitForFunction(() => /Angekommen/.test(document.querySelector("form[data-rueckruf] [data-rueckmeldung]").textContent), null, { timeout: 10000 });
-    assert.equal(mails.length, 1); assert.match(klartext(mails[0]), /Anliegen: Garage oder Händler/);
+    assert.equal(mails.length, 1); assert.match(klartext(mails[0]), /Anliegen: Mein Auto verkaufen/);
     await ctx.close();
   });
 

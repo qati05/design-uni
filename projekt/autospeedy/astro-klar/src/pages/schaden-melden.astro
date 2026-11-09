@@ -47,15 +47,33 @@ const versicherer = ["AXA", "Zurich", "Mobiliar", "Allianz", "Helvetia", "Balois
       <div class="feld"><label for="f-name">Name (Pflicht)</label><input id="f-name" name="name" type="text" autocomplete="name" maxlength="120" required></div>
       <div class="feld"><label for="f-tel">Telefon (Pflicht)</label><input id="f-tel" name="telefon" type="tel" autocomplete="tel" maxlength="40" required><p class="hilfe">Damit wir Sie zurückrufen können.</p></div>
 
-      {/* Kritik C01: Schritt 2 kurz. Sichtbar sind Name, Telefon, Fotos (empfohlen) und «Es ist ein Tesla» (Vorauswahl
-          über ?fahrzeug=tesla bleibt sichtbar, Kritik B1), danach gleich der Senden-Knopf. Alles andere ist freiwillig und
-          steht eingeklappt unter «Mehr angeben (freiwillig)». Feldnamen unverändert (functions/api/schaden.js). */}
-      <div class="feld fotos-empfohlen" data-nur-js hidden>
-        <span class="feld__label">Fotos vom Schaden <span class="empfohlen">empfohlen</span></span>
-        <label class="fotos__knopf fotos__knopf--klein" for="f-fotos"><span aria-hidden="true" class="fotos__plus">+</span> Foto machen oder auswählen</label>
-        <input id="f-fotos" class="fotos__eingabe" type="file" accept="image/jpeg,image/*" multiple data-fotos>
-        <ul class="fotos__liste" data-fotoliste aria-live="polite"></ul>
-        <p class="hilfe">Ein Foto aus etwas Abstand und eines von nah helfen uns am meisten. Höchstens 6.</p>
+      {/* Roni 09.11.2026: Freiwillige Angaben, die dem Betrieb die Arbeit stark erleichtern (Fahrzeugausweis, Fotos,
+          Versicherung, Police- oder Schadennummer), stehen offen in einem ruhigen Block und sind klar als freiwillig
+          bezeichnet. Pflicht bleiben nur Art, Name und Telefon, der Senden-Knopf folgt direkt danach. Der Rest steht
+          eingeklappt unter «Weitere Angaben (freiwillig)». Feldnamen unverändert (functions/api/schaden.js). */}
+      <div class="hilft" role="group" aria-labelledby="hilft-titel">
+        <p class="hilft__titel" id="hilft-titel">Das hilft uns, schneller zu helfen <span class="empfohlen">freiwillig</span></p>
+        <p class="hilfe">Gerade nicht zur Hand? Kein Problem. Senden Sie die Meldung trotzdem ab, den Rest klären wir am Telefon.</p>
+        <div class="hilft__fotos" data-nur-js hidden>
+          <div class="feld">
+            <span class="feld__label">Fahrzeugausweis</span>
+            <label class="fotos__knopf fotos__knopf--klein" for="f-ausweis"><span aria-hidden="true" class="fotos__plus">+</span> Ausweis fotografieren</label>
+            <input id="f-ausweis" class="fotos__eingabe" type="file" accept="image/jpeg,image/*" data-ausweis>
+            <ul class="fotos__liste" data-ausweisliste aria-live="polite"></ul>
+            <p class="hilfe">Ein Foto genügt. So müssen Sie nichts abtippen.</p>
+          </div>
+          <div class="feld fotos-empfohlen">
+            <span class="feld__label">Fotos vom Schaden</span>
+            <label class="fotos__knopf fotos__knopf--klein" for="f-fotos"><span aria-hidden="true" class="fotos__plus">+</span> Schaden fotografieren</label>
+            <input id="f-fotos" class="fotos__eingabe" type="file" accept="image/jpeg,image/*" multiple data-fotos>
+            <ul class="fotos__liste" data-fotoliste aria-live="polite"></ul>
+            <p class="hilfe">Eines aus Abstand, eines von nah. Höchstens 6.</p>
+          </div>
+        </div>
+        <div class="hilft__paar">
+          <div class="feld"><label for="f-vers">Versicherung</label><input id="f-vers" name="versicherung" type="text" maxlength="80" list="versicherer" autocomplete="off"><datalist id="versicherer">{versicherer.map((v) => <option value={v}></option>)}</datalist></div>
+          <div class="feld"><label for="f-schadennr">Police- oder Schadennummer</label><input id="f-schadennr" name="schadennummer" type="text" maxlength="40" autocomplete="off"></div>
+        </div>
       </div>
 
       <label class="schalter"><input type="checkbox" name="tesla" value="ja" data-tesla><span class="schalter__bahn" aria-hidden="true"></span><span>Es ist ein Tesla <small>Auto Speedy ist Tesla Approved Body Shop</small></span></label>
@@ -65,9 +83,9 @@ const versicherer = ["AXA", "Zurich", "Mobiliar", "Allianz", "Helvetia", "Balois
       </fieldset>
 
       <details class="mehr-angaben" data-ergaenzen data-freiwillig>
-        <summary><span>Mehr angeben (freiwillig)</span><span class="mehr-angaben__zeichen" aria-hidden="true"></span></summary>
+        <summary><span>Weitere Angaben (freiwillig)</span><span class="mehr-angaben__zeichen" aria-hidden="true"></span></summary>
         <div class="mehr-angaben__inhalt">
-          <p class="hilfe">Mail, Kontrollschild, Versicherung, Bemerkung und mehr. Was fehlt, klären wir am Telefon.</p>
+          <p class="hilfe">Ersatzwagen, Stelle am Auto, Bemerkung, Mail und Kontrollschild.</p>
 
           <label class="schalter"><input type="checkbox" name="ersatzwagen" value="ja" data-ersatzwagen><span class="schalter__bahn" aria-hidden="true"></span><span>Ich brauche einen Ersatzwagen <small>Auf Anfrage, wir schauen, was möglich ist</small></span></label>
           <label class="schalter schalter--unter" data-ersatzwagen-tesla-feld hidden><input type="checkbox" name="ersatzwagen_tesla" value="ja" data-ersatzwagen-tesla><span class="schalter__bahn" aria-hidden="true"></span><span>Wenn möglich einen Tesla <small>Ohne Zusage, je nach Verfügbarkeit</small></span></label>
@@ -80,14 +98,6 @@ const versicherer = ["AXA", "Zurich", "Mobiliar", "Allianz", "Helvetia", "Balois
           <div class="feld"><label for="f-bem">Bemerkung</label><textarea id="f-bem" name="bemerkung" rows="3" maxlength="3000"></textarea><p class="hilfe">Zum Beispiel: hinten links, beim Parkieren.</p></div>
           <div class="feld"><label for="f-mail">Mail</label><input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254"><p class="hilfe">Für eine Bestätigung und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nichts.</p></div>
           <div class="feld"><label for="f-schild">Kontrollschild</label><input id="f-schild" name="kontrollschild" type="text" maxlength="15" autocomplete="off" inputmode="text"></div>
-          <div class="feld"><label for="f-vers">Versicherung</label><input id="f-vers" name="versicherung" type="text" maxlength="80" list="versicherer" autocomplete="off"><datalist id="versicherer">{versicherer.map((v) => <option value={v}></option>)}</datalist></div>
-          <div class="feld"><label for="f-schadennr">Schadennummer</label><input id="f-schadennr" name="schadennummer" type="text" maxlength="40" autocomplete="off"></div>
-          <div class="feld" data-nur-js hidden>
-            <span class="feld__label">Foto vom Fahrzeugausweis (max. 1)</span>
-            <label class="fotos__knopf fotos__knopf--klein" for="f-ausweis"><span aria-hidden="true" class="fotos__plus">+</span> Fahrzeugausweis fotografieren</label>
-            <input id="f-ausweis" class="fotos__eingabe" type="file" accept="image/jpeg,image/*" data-ausweis>
-            <ul class="fotos__liste" data-ausweisliste aria-live="polite"></ul>
-          </div>
         </div>
       </details>
 

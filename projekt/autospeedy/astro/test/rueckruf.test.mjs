@@ -35,17 +35,17 @@ const klartext = (m) => (m.raw.match(/\r\n\r\n([A-Za-z0-9+/=]+)\r\n/g) || []).ma
 
 // ---- Gültig: genau eine Mail
 test("Rückruf gültig: 200 ok und genau 1 Mail an SCHADEN_AN, mit Anliegen, Zeiten und Nachricht, ohne Namen im Betreff", () => mitMail(async ({ env, betrieb, brevo }) => {
-  const r = await onRequestPost({ request: anfrage(formular({ anliegen: "Leasing", bemerkung: "Leasing für einen Tesla", ort: "flotten" }, ["Dienstag Nachmittag", "Montag Vormittag"])), env });
+  const r = await onRequestPost({ request: anfrage(formular({ anliegen: "Mein Auto verkaufen", bemerkung: "Verkauf eines Tesla", ort: "occasionen" }, ["Dienstag Nachmittag", "Montag Vormittag"])), env });
   assert.equal(r.status, 200); assert.deepEqual(await r.json(), { ok: true });
   assert.equal(betrieb.length, 1); assert.equal(brevo.length, 0, "ohne Mail-Adresse keine Bestätigung");
   assert.equal(betrieb[0].to, "info@autospeedy.ch");
   assert.match(betrieb[0].raw, /^Subject: =\?UTF-8\?B\?/m);
   const betreff = new TextDecoder().decode(Uint8Array.from(atob(betrieb[0].raw.match(/^Subject: =\?UTF-8\?B\?(.*)\?=/m)[1]), (c) => c.charCodeAt(0)));
-  assert.equal(betreff, "Neue Rückruf-Bitte: Leasing");
+  assert.equal(betreff, "Neue Rückruf-Bitte: Mein Auto verkaufen");
   const t = klartext(betrieb[0]);
   assert.match(t, /Name: Test Person/); assert.match(t, /Telefon: 071 555 00 00/);
   assert.match(t, /Wann anrufen: Montag Vormittag, Dienstag Nachmittag/, "Zeiten in Raster-Reihenfolge");
-  assert.match(t, /Nachricht: Leasing für einen Tesla/); assert.match(t, /Formular: flotten/);
+  assert.match(t, /Nachricht: Verkauf eines Tesla/); assert.match(t, /Formular: occasionen/);
   assert.doesNotMatch(betrieb[0].raw, /^Reply-To:/m);
 }));
 test("Empfänger: RUECKRUF_AN geht SCHADEN_AN vor", () => mitMail(async ({ env, betrieb }) => {

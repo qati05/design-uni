@@ -12,7 +12,7 @@ Autofahrerinnen und Autofahrer aus Altstätten und dem St. Galler Rheintal, die 
 
 Weitere bestätigte Gruppen:
 - Tesla-Besitzer, die eine zugelassene Carrosserie suchen (Wunsch 2 des Betriebs).
-- Firmen, Garagen und Leasingfirmen mit eigenen Fahrzeugen (Seite Flotten).
+- Keine eigene Zielgruppe «Firmen und Flotten» und kein Leasing (Roni 09.11.2026). Beim Autohandel gibt es nur Verkauf und Ankauf.
 - Leute, die eine Occasion kaufen oder ihr Auto verkaufen wollen.
 
 Der Betrieb selbst (Annahme, Administration) liest Meldungen im Cockpit und pflegt Zeiten, Ferien, Hinweis und Team. Er gilt als nicht technikaffin [Entscheid · Studio, 02.11.2026].

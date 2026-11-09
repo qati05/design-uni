@@ -3,8 +3,8 @@
 // Pflicht: Anliegen, Name, Telefon (mind. 9 Ziffern). Freiwillig: Wunschzeiten aus dem Zeitwahl-Raster, Nachricht, Mail.
 // Plain JS ohne Abhängigkeit (läuft bei Cloudflare und im Node-Test).
 
-/** Alle Anliegen, die ein Rückruf-Formular der Website anbietet (Seiten kontakt, occasionen, flotten). */
-export const ANLIEGEN = ["Allgemein", "Occasion kaufen", "Mein Auto verkaufen", "Leasing", "Flotte oder Firmenfahrzeuge", "Garage oder Händler"];
+/** Alle Anliegen, die ein Rückruf-Formular der Website anbietet (Seiten kontakt, occasionen). Roni 09.11.2026: keine Firmen/Flotten, kein Leasing. */
+export const ANLIEGEN = ["Allgemein", "Occasion kaufen", "Mein Auto verkaufen"];
 /** Zeitwahl-Raster aus Rueckruf.astro (Linie Klar): Wochentag × Vormittag/Nachmittag. */
 export const TAGE = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"];
 export const TEILE = ["Vormittag", "Nachmittag"];

@@ -66,7 +66,7 @@ const whatsapp = b.whatsapp && b.whatsapp.nutzung_bestaetigt && b.whatsapp.numme
         </table>
       </section>
 
-      <!-- 3. + 7. + 8. Adresse, Route, Kopieren, (WhatsApp nur mit Daten), Flotten-Zeile. -->
+      <!-- 3. + 7. + 8. Adresse, Route, Kopieren, (WhatsApp nur mit Daten). -->
       <section class="fuss-ort" aria-label="Kontakt">
         <p class="fuss-ort__adr">{b.strasse}<br>{b.plz} {b.ort} {b.kanton}</p>
         <p class="fuss-ort__akt">
@@ -80,7 +80,6 @@ const whatsapp = b.whatsapp && b.whatsapp.nutzung_bestaetigt && b.whatsapp.numme
         {whatsapp && (
           <p class="fuss-ort__wa"><a href={`https://wa.me/${whatsapp.nummer}`} target="_blank" rel="noopener">WhatsApp schreiben <span aria-hidden="true">↗</span></a></p>
         )}
-        <p class="fuss-ort__flotte">Für Flotten und Versicherungen: <a href="/flotten/">Firmenkunden</a></p>
         <span class="fuss-meldung" data-kopiert-ziel role="status" aria-live="polite"></span>
       </section>
 

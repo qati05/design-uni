@@ -149,8 +149,8 @@ test("K07: Team-Raster füllt die Inhaltsbreite bei 1440 und 1024", async () => 
   }
 });
 
-test("K09: eigenständige Links und Knöpfe auf Kontakt, Team, Flotten, Occasionen mindestens 44 × 44 px (320/390)", async () => {
-  for (const w of [320, 390]) for (const s of ["/kontakt/", "/team/", "/flotten/", "/occasionen/"]) {
+test("K09: eigenständige Links und Knöpfe auf Kontakt, Team, Occasionen mindestens 44 × 44 px (320/390)", async () => {
+  for (const w of [320, 390]) for (const s of ["/kontakt/", "/team/", "/occasionen/"]) {
     const { ctx, page } = await seite(w);
     await page.goto(basis + s);
     const klein = await page.evaluate(() => [...document.querySelectorAll("main a, main button, main label.zeitwahl__feld, main .chips__wahl label")].filter((e) => {
@@ -195,15 +195,12 @@ test("K16: Fuss bei 1440 höchstens 700 px hoch, Slogan nie grösser als das H1"
   }
 });
 
-test("K17 und K18: Mailadressen brechen nicht im Wort, «K + L» bleibt auf einer Zeile (320/390)", async () => {
+test("K17: Mailadressen brechen nicht im Wort (320/390)", async () => {
   for (const w of [320, 390]) {
     const { ctx, page } = await seite(w);
     await page.goto(basis + "/team/");
     const teile = await page.$$eval('main a[href^="mailto:"]', (l) => l.flatMap((a) => [...a.childNodes].filter((n) => n.nodeType === 3).map((n) => { const r = document.createRange(); r.selectNodeContents(n); return [n.textContent, r.getClientRects().length]; })));
     for (const [t, n] of teile) assert.equal(n, 1, `${w}: «${t}» auf einer Zeile`);
-    await page.goto(basis + "/flotten/");
-    const kl = await page.evaluate(() => { const h = [...document.querySelectorAll("main h2")].find((x) => /K \+ L/.test(x.textContent)); const n = [...h.childNodes].find((c) => c.nodeType === 3 && /K \+ L/.test(c.textContent)); const i = n.textContent.indexOf("K +"); const r = document.createRange(); r.setStart(n, i); r.setEnd(n, i + 5); return r.getClientRects().length; });
-    assert.equal(kl, 1, `${w}: K + L auf einer Zeile`);
     await ctx.close();
   }
 });
@@ -228,7 +225,7 @@ test("K22: offenes Menü am Handy volle Breite, «Schaden melden» und «Anrufen
 
 test("K13: Ablauf-Ziffern und nicht klickbare Listen tragen nicht die Linkfarbe", async () => {
   const { ctx, page } = await seite(1440, 900);
-  for (const s of ["/", "/leistungen/", "/flotten/", "/tesla/", "/leistungen/unfall-carrosserie/"]) {
+  for (const s of ["/", "/leistungen/", "/tesla/", "/leistungen/unfall-carrosserie/"]) {
     await page.goto(basis + s);
     const blau = await page.evaluate(() => {
       const link = "rgb(21, 102, 184)"; // --akzent, die Linkfarbe
@@ -444,7 +441,7 @@ test("N09: Rückruf – der Telefon-Fehlertext passt sich beim Tippen dem aktuel
 });
 
 test("B3: Rückruf-Erfolg ohne «Anliegen: Allgemein», gewähltes Thema natürlich im Satz", async () => {
-  for (const [pfad, muster] of [["/kontakt/", /^Angekommen\. Wir rufen Sie zurück\.$/], ["/flotten/", /^Angekommen\. Wir rufen Sie zum Thema «Flotte oder Firmenfahrzeuge» zurück\.$/]]) {
+  for (const [pfad, muster] of [["/kontakt/", /^Angekommen\. Wir rufen Sie zurück\.$/], ["/occasionen/", /^Angekommen\. Wir rufen Sie zum Thema «Occasion kaufen» zurück\.$/]]) {
     const { ctx, page } = await seite(390);
     await rueckrufMock(page, pfad);
     const f = page.locator("[data-rueckruf]");

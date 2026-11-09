@@ -76,7 +76,7 @@ function zurHand(d: Meldung): { vorhanden: string[]; fehlend: string[] } {
   const felder: [string, boolean][] = [
     ["Kontrollschild", !!d.kontrollschild],
     ["Versicherung", !!d.versicherung],
-    ["Schadennummer", !!d.schadennummer],
+    ["Police- oder Schadennummer", !!d.schadennummer],
     ["Foto Fahrzeugausweis", !!d.ausweis],
   ];
   return { vorhanden: felder.filter(([, v]) => v).map(([n]) => n), fehlend: felder.filter(([, v]) => !v).map(([n]) => n) };
@@ -95,7 +95,7 @@ function felder(d: Meldung): [string, string][] {
   paare.push(["Fotos", `${d.fotos.length}${d.fotos.length ? " (im Anhang)" : ""}`]);
   if (d.kontrollschild) paare.push(["Kontrollschild", sauber(d.kontrollschild)]);
   if (d.versicherung) paare.push(["Versicherung", sauber(d.versicherung)]);
-  if (d.schadennummer) paare.push(["Schadennummer", sauber(d.schadennummer)]);
+  if (d.schadennummer) paare.push(["Police- oder Schadennummer", sauber(d.schadennummer)]);
   paare.push(["Bemerkung", sauber(d.bemerkung, true) || "keine"]);
   paare.push(["Name", sauber(d.name)]);
   paare.push(["Telefon", sauber(d.telefon)]);

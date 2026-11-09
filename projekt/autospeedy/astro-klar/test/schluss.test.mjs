@@ -50,8 +50,8 @@ test("Fuss: letzter Aufruf, Status, Wochen-Tabelle, Adresse, Slogan, Rechtszeile
   assert.match(f, /target="_blank" rel="noopener"/, "Route im neuen Tab mit noopener");
   assert.match(f, /<button type="button" class="fuss-kopf" hidden data-kopieren="071 755 88 61"/, "Telefon-Kopieren (versteckt ohne Skript)");
   assert.match(f, /data-kopiert-ziel role="status" aria-live="polite"/, "aria-live fuer «Kopiert»");
-  // 8. Flotten-Zeile vorhanden; WhatsApp fehlt, weil die Nummer nicht bestaetigt ist (Luecke, nichts erfunden).
-  assert.match(f, /Für Flotten und Versicherungen: <a href="\/flotten\/">/, "Flotten-Zeile");
+  // 8. Keine Flotten-Zeile mehr (Roni 09.11.2026: Firmen und Flotten gibt es nicht); WhatsApp fehlt, weil die Nummer nicht bestaetigt ist (Luecke, nichts erfunden).
+  assert.ok(!/flotten|Firmenkunden/i.test(f), "keine Flotten-Zeile");
   assert.ok(!/wa\.me/.test(f), "kein WhatsApp-Link ohne bestaetigte Nummer");
   // 4. Slogan als echter Text.
   assert.match(f, /<p class="fuss-slogan">Qualität, die man sieht und fährt\.<\/p>/, "Slogan");
@@ -62,7 +62,7 @@ test("Fuss: letzter Aufruf, Status, Wochen-Tabelle, Adresse, Slogan, Rechtszeile
 });
 
 test("Fuss ist auf jeder Seite vorhanden (auch ohne frueheren Abschluss)", () => {
-  for (const p of ["kontakt", "schaden-melden", "flotten", "occasionen", "impressum"]) {
+  for (const p of ["kontakt", "schaden-melden", "occasionen", "impressum"]) {
     const f = fussVon(lies(path.join(dist, p, "index.html")));
     assert.match(f, /class="fuss-aufruf__ruf"/, `${p}: letzter Aufruf`);
     assert.match(f, /fuss-slogan/, `${p}: Slogan`);
