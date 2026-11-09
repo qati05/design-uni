@@ -38,7 +38,7 @@ function leere(wert, pfad, aus) {
 
 // Was der Betrieb selbst ändert (Zeiten, Feiertage, Hinweis, Team) steht in src/daten/site.json. Der Bau prüft die Datei
 // mit dem gemeinsamen Schema und bricht bei Fehlern ab: lieber kein neuer Stand als eine kaputte Seite.
-import { siteSchema } from "../../gemeinsam/site.ts";
+import { siteSchema, telefonCH } from "../../gemeinsam/site.ts";
 import siteStandard from "../src/daten/site.json" with { type: "json" };
 // Normalfall: die eingebundene astro/src/daten/site.json. Im Test ueber SITE_JSON eine Fixture (nur test/fixtures),
 // nie in Produktion; so laesst sich z. B. eine Ausnahme mit einem Datum relativ zum Build-Tag pruefen.
@@ -52,7 +52,15 @@ export const pflege = site; // Name, den Layouts und Seiten schon nutzen
 function mitPflege(b, p) {
   const zeiten = p.zeiten.map((z) => z.geschlossen ? { tage: z.tage, kurz: z.kurz, zu: true } : { tage: z.tage, kurz: z.kurz, ld: z.wochentage, fenster: z.fenster.map((f) => [f.von, f.bis]) });
   const ausnahmen = p.ausnahmen.map((a) => a.geschlossen ? { name: a.name, datum: a.datum, zu: true } : { name: a.name, datum: a.datum, fenster: [[a.von, a.bis]] });
-  return { ...b, zeiten, ausnahmen: ausnahmen.length ? ausnahmen : null }; // keine Ausnahmen: bewusst nichts zeigen
+  // Kontakt (Cockpit, 09.11.2026): Telefon und Mail aus site.json gehen betrieb.json vor. Eine WhatsApp-Nummer, die der Betrieb
+  // dort selbst einträgt, gilt als bestätigt; ohne Eintrag bleibt der Stand aus betrieb.json (Nummer noch unbestätigt).
+  const k = p.kontakt ?? {};
+  const tel = k.telefon ? telefonCH(k.telefon) : null, wa = k.whatsapp ? telefonCH(k.whatsapp) : null;
+  const kontakt = {
+    ...(tel ? { tel } : {}), ...(k.mail ? { mail: k.mail } : {}),
+    ...(wa ? { whatsapp: { ...(b.whatsapp ?? {}), nummer: wa.e164.slice(1), anzeige: wa.anzeige, nutzung_bestaetigt: true, nummer_bestaetigt: true } } : {}),
+  };
+  return { ...b, ...kontakt, zeiten, ausnahmen: ausnahmen.length ? ausnahmen : null }; // keine Ausnahmen: bewusst nichts zeigen
 }
 export const betrieb = mitPflege(lies("betrieb.json"), pflege);
 /** Eine Zeile für den ersten Bildschirm, z. B. «Mo bis Do 7.30 bis 12.00 und 13.15 bis 17.30 Uhr, Fr 7.30 bis …». */

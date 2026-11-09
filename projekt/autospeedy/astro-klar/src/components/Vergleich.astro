@@ -5,12 +5,12 @@
 // Container-Query-Einheit cqi (kein Layout-Lesen pro Frame). Ohne JavaScript steht die Linie in der Mitte.
 // caption: C-Rahmenstil mit einer Bildunterschrift. Ohne caption die bestehende Hilfe (Unterseiten).
 import Bild from "./Bild.astro";
-const { vorher, nachher, altVorher, altNachher, titel, caption = null, platzhalter = false, sizes = "(max-width: 960px) 100vw, 60vw" } = Astro.props;
+const { vorher, nachher, altVorher, altNachher, titel, caption = null, platzhalter = false, platzVorher = null, platzNachher = null, sizes = "(max-width: 960px) 100vw, 60vw" } = Astro.props;
 ---
 <figure class="vergleich" data-vergleich>
   <div class="vergleich__buehne">
-    <Bild name={nachher} alt={`Nachher: ${altNachher}`} sizes={sizes} klasse="vergleich__nachher" />
-    <div class="vergleich__vorher"><Bild name={vorher} alt={`Vorher: ${altVorher}`} sizes={sizes} /></div>
+    <Bild name={nachher} platz={platzNachher} vorsatz="Nachher: " alt={altNachher} sizes={sizes} klasse="vergleich__nachher" />
+    <div class="vergleich__vorher"><Bild name={vorher} platz={platzVorher} vorsatz="Vorher: " alt={altVorher} sizes={sizes} /></div>
     <span class="vergleich__linie" aria-hidden="true"><span class="vergleich__griff"></span></span>
     <span class="vergleich__marke vergleich__marke--vorher" aria-hidden="true">Vorher</span>
     <span class="vergleich__marke vergleich__marke--nachher" aria-hidden="true">Nachher</span>

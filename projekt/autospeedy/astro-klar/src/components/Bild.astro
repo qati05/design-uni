@@ -1,10 +1,16 @@
 ---
 // Foto aus den Bildern der ersten Linie (alle von der Website des Betriebs, rechte.md), mit allen Breiten.
+// platz: Name aus BILD_PLAETZE (gemeinsam/site.ts). Hat der Betrieb dieses Foto im Cockpit ersetzt (site.json, Feld «bilder»),
+// zeigt die Seite sein Foto mit seiner Beschreibung; vorsatz (z. B. «Vorher: ») bleibt davor stehen.
 import bilder from "../../../astro/src/content/bilder.json";
-const { name, alt, sizes = "100vw", lcp = false, klasse } = Astro.props;
+import { site } from "../../../astro/bau/daten.mjs";
+const { name, alt, sizes = "100vw", lcp = false, klasse, platz = null, vorsatz = "" } = Astro.props;
+const ersatz = platz ? (site.bilder as any)?.[platz] ?? null : null;
 const b = (bilder as any)[name];
 if (!b || alt === undefined) throw new Error(`Bild ${name}: unbekannt oder ohne alt`);
 const [rw, rh] = b.ratio;
 const gross = b.w[b.w.length - 1];
 ---
-<img class={klasse} src={`/bilder/${name}-${gross}.webp`} srcset={b.w.map((w: number) => `/bilder/${name}-${w}.webp ${w}w`).join(", ")} sizes={sizes} alt={alt} width={gross} height={Math.round(gross * rh / rw)} loading={lcp ? undefined : "lazy"} fetchpriority={lcp ? "high" : undefined} decoding="async">
+{ersatz
+  ? <img class={klasse} src={ersatz.foto} alt={vorsatz + ersatz.alt} width={ersatz.b} height={ersatz.h} loading={lcp ? undefined : "lazy"} fetchpriority={lcp ? "high" : undefined} decoding="async">
+  : <img class={klasse} src={`/bilder/${name}-${gross}.webp`} srcset={b.w.map((w: number) => `/bilder/${name}-${w}.webp ${w}w`).join(", ")} sizes={sizes} alt={vorsatz + alt} width={gross} height={Math.round(gross * rh / rw)} loading={lcp ? undefined : "lazy"} fetchpriority={lcp ? "high" : undefined} decoding="async">}
