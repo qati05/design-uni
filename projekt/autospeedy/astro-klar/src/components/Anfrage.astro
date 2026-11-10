@@ -1,11 +1,11 @@
 ---
 // Wiederkehrende CTA-Box «Anfrage» Entwurf C (BAUPLAN 2 Zeile 7). Wiederverwendbar ueber Props
-// (titel, text). Standardtext woertlich aus referenz-c/entwurf-c.html (.anfrage). CTAs wie im Hero
+// (titel, text). Standardtext nach referenz-c/entwurf-c.html (.anfrage), ohne «mit ein paar Fotos». CTAs wie im Hero
 // (gleiche Klassen und Icons: knopf--akzent «Schaden melden», knopf--kontur «Anrufen»).
 import { betrieb as b } from "../../../astro/bau/daten.mjs";
 const {
   titel = "Ein Schaden am Auto?",
-  text = "Melden Sie ihn online mit ein paar Fotos, oder rufen Sie uns direkt an.",
+  text = "Melden Sie ihn online in zwei Schritten, oder rufen Sie uns direkt an.", // Roni 10.11.2026: «mit ein paar Fotos» klang nach Pflicht; Fotos sind freiwillig
 } = Astro.props;
 ---
 <aside class="anfrage">
