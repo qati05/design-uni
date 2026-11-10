@@ -46,16 +46,18 @@
 .hm-status [data-status][data-zustand="offen"]::before { background: var(--color-open); }
 .hm-status [data-status][data-zustand="zu"]::before { background: var(--color-closed); }
 
-.hm-frage { background: var(--color-night); color: var(--color-on-night); }
-.hm-frage__innen { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--gap-columns); align-items: stretch; }
-.hm-frage__titel { align-self: center; font: 400 clamp(1.75rem, 2.7vw, 2.441rem)/1.2 var(--font-display); letter-spacing: var(--tracking-display); white-space: nowrap; }
-.hm-frage__liste { display: flex; margin: 0; padding: 0; list-style: none; }
-.hm-frage__liste li { flex: 1 1 auto; border-left: 1px solid var(--color-night-2); }
-.hm-frage__liste a { display: flex; align-items: center; justify-content: center; min-height: 136px; padding-inline: var(--space-xs); font-size: clamp(1rem, 1.3vw, 1.25rem); font-weight: 500; white-space: nowrap; text-decoration: underline 1px var(--color-on-night-muted); text-underline-offset: 0.4em; transition: background-color var(--dur-short) var(--ease-out); }
-.hm-frage__liste a:hover { background: var(--color-night-2); text-decoration-color: currentColor; }
-.hm-frage__liste .hm-frage__tesla a { background: var(--color-night-2); }
-.hm-frage__liste .hm-frage__tesla a:hover { background: color-mix(in oklab, var(--color-night-2) 80%, var(--color-on-night)); }
-.hm-frage__liste a:focus-visible { outline-color: var(--color-on-night); outline-offset: -4px; }
+/* Die Frage unter dem Hero (Roni 10.11.2026: kein schwarzer Balken). Warmes Band in der Hausfarbe; die Antworten stehen
+   in der Serifenschrift mit feinem Strich und Pfeil, wie die Liste der Leistungen weiter unten. Wortlaut und Links wie zuvor. */
+.hm-frage { background: var(--color-paper-2); color: var(--color-ink); }
+.hm-frage__innen { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--space-2xl); align-items: start; padding-block: var(--space-xl); }
+.hm-frage__titel { font: 400 clamp(1.953rem, 3vw, 2.75rem)/1.1 var(--font-display); letter-spacing: var(--tracking-display); white-space: nowrap; }
+.hm-frage__liste { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--space-lg); margin: 0; padding: 0; list-style: none; }
+.hm-frage__liste li { border-top: 1px solid color-mix(in oklab, var(--color-ink) 22%, transparent); }
+.hm-frage__liste a { display: flex; align-items: center; justify-content: space-between; gap: var(--space-xs); min-height: 64px; font: 400 clamp(1.125rem, 1.45vw, 1.375rem)/1.2 var(--font-display); letter-spacing: var(--tracking-display); text-decoration: none; white-space: nowrap; transition: color var(--dur-short) var(--ease-out); }
+.hm-frage__liste a::after { content: ""; flex: none; width: 0.5em; height: 0.5em; margin-right: 0.2em; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; transform: rotate(45deg); opacity: 0.45; transition: opacity var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out); }
+.hm-frage__liste a:hover { color: var(--color-accent-deep); }
+.hm-frage__liste a:hover::after { opacity: 1; transform: translateX(3px) rotate(45deg); }
+.hm-frage__liste .hm-frage__tesla a { color: var(--color-accent-deep); }
 
 /* The shop in four facts, then the partners. */
 .hm-fakten { padding-block: var(--section-gap-s) 0; }
@@ -178,11 +180,8 @@
 .hm-faq details[open] .hm-faq__zeichen::after { transform: rotate(0deg); }
 .hm-faq details > p { max-width: 65ch; padding-bottom: var(--space-lg); color: var(--color-ink-2); }
 
-@media (max-width: 72rem) {
-  .hm-frage__innen { grid-template-columns: minmax(0, 1fr); }
-  .hm-frage__titel { padding-top: var(--space-md); }
-  .hm-frage__liste li:first-child { border-left: 0; }
-  .hm-frage__liste a { min-height: 72px; }
+@media (max-width: 80rem) {
+  .hm-frage__innen { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-md); padding-block: var(--space-lg); }
 }
 
 @media (max-width: 60rem) {
@@ -194,10 +193,8 @@
   .hm-hero .lead, .hm-hero__seite { margin-top: var(--space-md); }
   .hm-ablauf__raster, .hm-tesla__kopf, .hm-tesla__unten, .hm-team__kopf, .hm-bew__raster, .hm-team__stimme { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-xl); }
   .hm-ablauf__kopf, .hm-schritte, .hm-tesla__kopf h2, .hm-tesla__kopf .lead, .hm-spec, .hm-tesla__weg, .hm-team__kopf h2, .hm-team__kopf .lead, .hm-bew__raster > :first-child, .hm-bew__raster > :last-child { grid-column: 1 / -1; }
-  .hm-frage__liste { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--space-md); margin-top: var(--space-sm); padding-bottom: var(--space-md); }
-  .hm-frage__liste li { border-left: 0; border-top: 1px solid var(--color-night-2); }
-  .hm-frage__liste a { justify-content: flex-start; min-height: 56px; padding-inline: 0; white-space: normal; }
-  .hm-frage__liste .hm-frage__tesla a { padding-inline: var(--space-xs); }
+  .hm-frage__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hm-frage__liste a { min-height: 56px; }
   .hm-fakten__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-xl); }
   .hm-fakten__liste > div:nth-child(odd) { padding-left: 0; border-left: 0; }
   .hm-index__bild { grid-column: 1 / span 4; }
@@ -209,15 +206,14 @@
 }
 
 @media (max-width: 40rem) {
-  .hm-frage__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .hm-frage__liste a { min-height: 48px; font-size: var(--text-md); white-space: nowrap; }
+  .hm-frage__innen { row-gap: var(--space-sm); padding-block: var(--space-md); }
+  .hm-frage__liste { column-gap: var(--space-md); }
+  .hm-frage__liste a { white-space: normal; }
   .hm-ctas .btn { flex: 1 1 0; padding-inline: var(--space-md); }
   .hm-hero .btn .num { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   .hm-hero .lead { font-size: var(--text-md); line-height: 1.5; }
   .hm-hero__raster { padding-bottom: var(--space-md); row-gap: var(--space-md); }
   .hm-hero .lead, .hm-hero__seite { margin-top: var(--space-sm); }
-  .hm-frage__titel { padding-top: var(--space-sm); }
-  .hm-frage__liste { margin-top: var(--space-xs); }
   .hm-fakten__liste { grid-template-columns: minmax(0, 1fr); row-gap: 0; }
   .hm-fakten__liste > div, .hm-fakten__liste > div:first-child { padding: var(--space-md) 0; border-left: 0; border-top: 1px solid var(--color-rule); }
   .hm-fakten__liste > div:first-child { border-top: 0; padding-top: 0; }
@@ -240,7 +236,7 @@
 }
 
 @media (max-width: 22.5rem) {
-  .hm-frage__liste a { font-size: var(--text-sm); }
+  .hm-frage__liste a { font-size: var(--text-md); }
 }
 
 /* Motion (craft § 5, microinteractions.md): calm. Three primitives: one reveal (the entrance of the first screen on load, then
@@ -276,5 +272,5 @@
 @media print { .js.reveal-an [data-reveal], .js.reveal-an [data-reveal-liste] > * { opacity: 1 !important; transform: none !important; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .btn, .hm-frage__liste a, .hm-index h3, .hm-faq__zeichen::before, .hm-faq__zeichen::after { transition: none; }
+  .btn, .hm-frage__liste a, .hm-frage__liste a::after, .hm-index h3, .hm-faq__zeichen::before, .hm-faq__zeichen::after { transition: none; }
 }
