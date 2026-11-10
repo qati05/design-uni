@@ -10,8 +10,9 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     scope: "/",
     display: "standalone",
-    background_color: "#fbfaf8",
-    theme_color: "#ffffff",
+    // Grund des Cockpits (DESIGN.md «grund»): Startbild und Leiste oben haben die Farbe der Seite.
+    background_color: "#f2f2f7",
+    theme_color: "#f2f2f7",
     lang: "de-CH",
     icons: [
       { src: "/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },

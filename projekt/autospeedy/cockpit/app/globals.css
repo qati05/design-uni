@@ -76,11 +76,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .zeile__name { flex: none; max-width: 60%; }
 .zeile__name small { display: block; color: var(--leise); font-size: 13px; }
 .zeile__wert { flex: 1; min-width: 0; color: var(--leise); text-align: right; overflow-wrap: anywhere; }
-.zeile--feld { flex-wrap: wrap; }
+/* Eingabe und Auswahl füllen die Zeile fast ganz (44 von 48 Punkten): Am Handy trifft der Finger das Feld, nicht den Rand daneben. */
+.zeile--feld { flex-wrap: wrap; row-gap: 0; padding-top: 2px; padding-bottom: 2px; }
 .zeile--feld:focus-within, .zeile--lang:focus-within { background: #f6f9fe; box-shadow: inset 0 0 0 2px var(--blau); }
-.zeile__eingabe { flex: 1; min-width: 0; min-height: 32px; padding: 0; border: 0; background: transparent; text-align: right; outline: 0; }
+.zeile__eingabe { flex: 1; min-width: 0; min-height: 44px; padding: 0; border: 0; background: transparent; text-align: right; outline: 0; }
 input[type=date].zeile__eingabe { flex: none; margin-left: auto; min-width: 150px; }
-.zeile__hinweis { flex-basis: 100%; color: var(--rot); font-size: 13px; text-align: right; }
+.zeile__hinweis { flex-basis: 100%; padding-bottom: 8px; color: var(--rot); font-size: 13px; text-align: right; }
 .zeile--lang { display: block; padding-top: 10px; }
 .zeile--lang .zeile__name { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; max-width: none; color: var(--leise); font-size: 13px; }
 .zaehler { font-variant-numeric: tabular-nums; }
@@ -116,6 +117,10 @@ input[type=date].zeile__eingabe { flex: none; margin-left: auto; min-width: 150p
 .schieber { display: flex; gap: 10px; padding: 0 12px 0 4px; }
 .marke { flex: none; padding: 3px 9px; border-radius: 99px; background: var(--fuell); color: var(--leise); font-size: 12px; font-weight: 500; white-space: nowrap; }
 .marke--gruen { background: var(--gruen-hell); color: var(--gruen-text); }
+/* Im Modus «Bearbeiten» steht die Marke unter dem Namen: Neben Minus und Pfeilen bliebe am Handy kein Platz für den Namen. */
+.marke--unten { justify-self: start; margin-top: 3px; }
+/* Verlauf: Das Datum bekommt den Platz, Marke oder «Laden» stehen rechts. */
+.zeile--stand .zeile__name { flex: 1; min-width: 0; max-width: none; }
 .zeile--chips { flex-wrap: wrap; gap: 8px; }
 .chip { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 14px 0 10px; border: 0; border-radius: 99px; background: var(--blau-hell); color: var(--blau-dunkel); font-weight: 500; cursor: pointer; }
 .zeile--schritt { align-items: flex-start; }
@@ -132,16 +137,18 @@ input[type=date].zeile__eingabe { flex: none; margin-left: auto; min-width: 150p
 .klappe > summary .sym { color: var(--pfeil); transition: transform .2s var(--sanft); }
 .klappe[open] > summary .sym { transform: rotate(90deg); }
 .klappe > * + * { border-top: 1px solid var(--linie); }
+.zeile--anleitung { display: block; }
+.zeile--anleitung b { font-weight: 600; }
 /* Gruppe, zu der das Cockpit springt (neuer Hinweis): nicht unter dem Kopf verstecken */
 .gruppe[id] { scroll-margin-top: 68px; border-radius: var(--rund); }
 
 /* ---------- Auswahl-Menü (statt des Auswahlfelds des Browsers): wie ein Menü am Mac oder iPhone */
-.wahl { flex: 1; min-width: 0; display: inline-flex; align-items: center; justify-content: flex-end; gap: 4px; min-height: 32px; padding: 0; border: 0; background: none; color: var(--blau-dunkel); text-align: right; cursor: pointer; outline: 0; }
+.wahl { flex: 1; min-width: 0; display: inline-flex; align-items: center; justify-content: flex-end; gap: 4px; min-height: 44px; padding: 0; border: 0; background: none; color: var(--blau-dunkel); text-align: right; cursor: pointer; outline: 0; }
 .wahl__wert { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .wahl .sym { width: 18px; height: 18px; color: var(--leise); }
 .menue { position: fixed; inset: auto; z-index: 60; margin: 0; min-width: 220px; max-width: min(340px, calc(100vw - 16px)); max-height: min(60vh, 440px); overflow: auto; padding: 6px; border: 0; border-radius: 14px; background: rgba(255, 255, 255, .94); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); color: var(--tinte); box-shadow: 0 0 0 .5px rgba(0, 0, 0, .16), 0 2px 6px rgba(0, 0, 0, .08), 0 14px 44px rgba(0, 0, 0, .22); outline: 0; transform-origin: 100% 0; animation: menue-auf .18s var(--sanft); }
 .menue[data-von="unten"] { transform-origin: 100% 100%; }
-.menue__punkt { display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 6px 14px 6px 8px; border-radius: 9px; cursor: pointer; -webkit-user-select: none; user-select: none; }
+.menue__punkt { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 14px 6px 8px; border-radius: 9px; cursor: pointer; -webkit-user-select: none; user-select: none; }
 .menue__punkt .sym { visibility: hidden; width: 18px; height: 18px; color: var(--blau); stroke-width: 2.4; }
 .menue__punkt[aria-selected="true"] .sym { visibility: visible; }
 .menue__punkt[aria-selected="true"] { font-weight: 600; }
@@ -151,7 +158,7 @@ input[type=date].zeile__eingabe { flex: none; margin-left: auto; min-width: 150p
 
 /* ---------- Umschalter (Handy | Computer) und Auswahl mit Bildern (Darstellung) */
 .umschalter { display: flex; gap: 2px; width: max-content; max-width: 100%; min-inline-size: 0; margin: 0 auto 16px; padding: 2px; border: 0; border-radius: 11px; background: var(--fuell-2); }
-.umschalter__feld span { display: grid; place-items: center; min-width: 112px; min-height: 40px; padding: 0 14px; border-radius: 9px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color .18s var(--sanft), box-shadow .18s var(--sanft); }
+.umschalter__feld span { display: grid; place-items: center; min-width: 112px; min-height: 44px; padding: 0 14px; border-radius: 9px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color .18s var(--sanft), box-shadow .18s var(--sanft); }
 .umschalter__feld input:checked + span { background: var(--karte); box-shadow: 0 1px 3px rgba(0, 0, 0, .16); }
 .umschalter__feld input:focus-visible + span { outline: 2px solid var(--blau); outline-offset: 1px; }
 .kacheln { min-inline-size: 0; margin: 0; padding: 12px 12px 12px; border: 0; }
@@ -310,10 +317,12 @@ input[type=date].zeile__eingabe { flex: none; margin-left: auto; min-width: 150p
 .tabelle th:last-child, .tabelle td:last-child { text-align: right; }
 
 /* ---------- Unten: Meldungen und «Prüfen und veröffentlichen» */
-.unten { position: fixed; z-index: 20; left: var(--leiste-breit); right: 0; bottom: 0; display: grid; gap: 8px; padding: 0 16px calc(14px + env(safe-area-inset-bottom)); pointer-events: none; }
+.unten { position: fixed; z-index: 20; left: var(--leiste-breit); right: 0; bottom: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 0 16px calc(14px + env(safe-area-inset-bottom)); pointer-events: none; }
 .unten > * { width: 100%; max-width: var(--breit); margin: 0 auto; pointer-events: auto; box-shadow: var(--schatten); }
 .speichern { display: flex; align-items: center; gap: 8px; padding: 10px 10px 10px 18px; border-radius: 18px; background: var(--karte); }
 .speichern__text { flex: 1; min-width: 0; font-size: 15px; }
+.speichern__text, .toast > span, .balken > span { overflow-wrap: anywhere; }
+.toast > span { min-width: 0; }
 .toast { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 10px 10px 18px; min-height: 52px; border-radius: 16px; background: #2c2c2e; color: #fff; font-size: 15px; animation: herein .25s var(--sanft); }
 .toast__tat { min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: rgba(255, 255, 255, .16); color: #fff; font-weight: 600; cursor: pointer; flex: none; }
 .balken { display: flex; align-items: center; gap: 8px; padding: 10px 10px 10px 18px; min-height: 52px; border-radius: 16px; font-size: 15px; }
@@ -332,9 +341,13 @@ input[type=date].zeile__eingabe { flex: none; margin-left: auto; min-width: 150p
 .blatt__fertig { grid-column: 3; justify-self: end; }
 .blatt__inhalt { overflow: auto; padding: 22px 16px calc(26px + env(safe-area-inset-bottom)); overscroll-behavior: contain; }
 .blatt[open] { animation: herein .25s var(--sanft); }
+/* Meldungen («Rückgängig») stehen im offenen Blatt, sonst lägen sie dahinter und liessen sich nicht antippen. */
+.blatt__unten { position: absolute; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: minmax(0, 1fr); padding: 0 10px calc(10px + env(safe-area-inset-bottom)); pointer-events: none; }
+.blatt__unten > * { width: 100%; max-width: var(--breit); margin: 0 auto; pointer-events: auto; box-shadow: var(--schatten); }
+.blatt:has(.blatt__unten > *) .blatt__inhalt { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
 
 /* ---------- Anmeldung, 403, Demo-Postfach */
-.seite { max-width: 1100px; margin: 0 auto; padding: 32px 20px 64px; }
+.seite { max-width: 1100px; margin: 0 auto; padding: 32px max(20px, env(safe-area-inset-right)) calc(64px + env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
 .schmal { max-width: 440px; }
 .anmelden { display: grid; gap: 16px; padding-top: clamp(40px, 10vh, 96px); }
 .anmelden img { height: 44px; width: auto; }
@@ -343,6 +356,7 @@ input[type=date].zeile__eingabe { flex: none; margin-left: auto; min-width: 150p
 .formular label { font-weight: 600; font-size: 15px; }
 .formular input { width: 100%; min-height: 48px; padding: 10px 14px; border: 1px solid #c7c7cc; border-radius: 10px; background: var(--karte); }
 .formular input:focus-visible { outline-offset: 0; border-color: var(--blau); }
+.formular__zurueck { justify-self: center; display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; font-size: 15px; }
 input.code { font-size: 28px; font-variant-numeric: tabular-nums; letter-spacing: .3em; text-align: center; }
 .hinweis { padding: 12px 16px; border-radius: 10px; background: var(--fuell); font-size: 15px; }
 .meldung-text { color: var(--rot); }
@@ -356,7 +370,12 @@ input.code { font-size: 28px; font-variant-numeric: tabular-nums; letter-spacing
 
 /* ---------- Handy: eine Liste, antippen führt auf die Unterseite, oben «‹ Übersicht» */
 @media (max-width: 859px) {
-  .app { display: flex; flex-direction: column; min-height: 100vh; }
+  /* Blatt offen: Die Seite dahinter rollt nicht mit. Beim Fokussieren bleibt ein Feld über der Leiste unten. */
+  html { scroll-padding-bottom: 140px; }
+  html:has(dialog[open]) { overflow: hidden; }
+  /* Querformat mit Kerbe (viewport-fit=cover): Inhalt bleibt neben der Kerbe. */
+  .app { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+  .blatt__innen { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
   .inhalt { order: 1; padding: 0 16px; }
   .app--bereich .inhalt { padding-bottom: 190px; }
   .leiste { order: 2; position: static; align-self: stretch; height: auto; overflow: visible; padding: 0 16px 190px; background: none; border: 0; }
@@ -368,19 +387,34 @@ input.code { font-size: 28px; font-variant-numeric: tabular-nums; letter-spacing
   .nav:hover { background: none; }
   .nav > .sym:last-child { display: block; }
   .feld { width: 30px; height: 30px; }
-  .kopf { position: sticky; top: 0; z-index: 10; display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; min-height: 52px; margin: 0 -16px 18px; padding: 4px 8px; background: rgba(242, 242, 247, .88); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border-bottom: 1px solid var(--linie); }
+  .kopf { position: sticky; top: 0; z-index: 10; max-width: none; display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; min-height: 52px; margin: 0 -16px 18px; padding: 4px 8px; background: rgba(242, 242, 247, .88); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border-bottom: 1px solid var(--linie); }
   .kopf h1 { grid-column: 2; margin: 0; font-size: 17px; font-weight: 600; letter-spacing: 0; text-align: center; }
   .kopf__zurueck { grid-column: 1; display: inline-flex; align-items: center; gap: 2px; min-height: 44px; padding: 0 8px 0 2px; justify-self: start; color: var(--blau-dunkel); text-decoration: none; }
   .kopf__logo { grid-column: 1; display: block; height: 26px; width: auto; margin-left: 8px; }
   .kopf__tat { grid-column: 3; justify-self: end; }
-  .unten { left: 0; padding: 0 10px calc(10px + env(safe-area-inset-bottom)); }
+  .unten { left: env(safe-area-inset-left); right: env(safe-area-inset-right); padding: 0 10px calc(10px + env(safe-area-inset-bottom)); }
+  .blatt { width: 100%; margin: auto 0 0; max-height: 92dvh; border-radius: 16px 16px 0 0; }
+  .zeile--foto { flex-wrap: wrap; }
+  /* Titel des Blatts: am Handy bis zwei Zeilen statt abgeschnitten («Prüfen und veröffentlichen» bei 320 Punkten). */
+  .blatt__kopf h2 { max-width: none; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; white-space: normal; overflow-wrap: anywhere; line-height: 1.2; text-align: center; }
+  .fotokarte__bild { width: 96px; height: 72px; }
+  .zeile__name { max-width: 50%; }
+}
+/* Schmales Handy: Die Leiste unten bricht in zwei Zeilen um. Im Querformat bleibt sie eine Zeile hoch und verdeckt wenig. */
+@media (max-width: 559px) {
   .speichern { flex-wrap: wrap; padding: 12px; }
   .speichern__text { flex-basis: 100%; padding: 0 6px 4px; }
   .speichern .knopf { flex: 1; padding: 0 10px; }
   .speichern .knopf--leise { flex: 0 1 auto; }
-  .blatt { width: 100%; margin: auto 0 0; max-height: 92dvh; border-radius: 16px 16px 0 0; }
-  .zeile--foto { flex-wrap: wrap; }
-  .fotokarte__bild { width: 96px; height: 72px; }
-  .zeile__name { max-width: 50%; }
 }
+/* Schmales Handy, Fotos: «Ersetzen» steht unter dem Titel. Daneben bliebe für den Titel zu wenig Platz (er bräche Buchstabe für Buchstabe um). */
+@media (max-width: 379px) {
+  .zeile--foto { display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: start; gap: 8px 12px; }
+  .zeile--foto .fotokarte__bild { grid-row: span 2; }
+  .zeile--foto .bildknopf { grid-column: 2; justify-items: start; }
+}
+/* Sehr schmales Handy im Modus «Bearbeiten»: ohne Bild, damit der Name lesbar bleibt. */
+@media (max-width: 359px) { .zeile--ordnen .eintrag > .portraet, .zeile--ordnen .eintrag > .logo { display: none; } }
+/* Läuft das Cockpit schon als App (vom Home-Bildschirm), braucht es die Anleitung dazu nicht mehr. */
+@media (display-mode: standalone), (display-mode: fullscreen), (display-mode: minimal-ui) { .nur-browser { display: none; } }
 @media (prefers-reduced-motion: reduce) { *, *::before { transition: none !important; animation: none !important; } }

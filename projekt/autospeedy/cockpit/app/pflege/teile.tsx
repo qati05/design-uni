@@ -2,7 +2,7 @@
 
 // Bausteine der Oberfläche, wie man sie von den Einstellungen auf dem iPhone oder Mac kennt: Gruppen mit Zeilen,
 // Schalter, Blätter, die von unten kommen. Ohne style-Attribute (die strenge CSP des Cockpits erlaubt sie nicht).
-import { createContext, useContext, useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useId, useLayoutEffect, useRef, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import type { BildArt } from "./bild";
 import type { BereichId, Entwurf } from "@/lib/pflege";
 
@@ -20,6 +20,11 @@ export type Kontext = {
   ordnen: boolean;
   /** Holt den Auftrag der Übersicht für diesen Bereich ab («öffne diesen Eintrag»). Einmal: Danach ist er weg. */
   nimmAuftrag: <B extends Auftrag["bereich"]>(bereich: B) => Extract<Auftrag, { bereich: B }> | null;
+  /** Zählt die Tipps auf «Rückgängig». Ein offenes Blatt gleicht sich danach neu mit dem Entwurf ab. */
+  zurueckgenommen: number;
+  /** Das offene Blatt meldet hier den Ort für Meldungen an (und beim Schliessen wieder ab). Meldungen der Seite lägen
+   *  sonst hinter dem Blatt und liessen sich nicht antippen. */
+  setzeBlattOrt: Dispatch<SetStateAction<HTMLElement | null>>;
 };
 /** Auftrag der Übersicht an einen Bereich, z. B. nach «Heute geschlossen»: Der Bereich zeigt gleich den neuen Eintrag. */
 export type Auftrag = { bereich: "ausnahmen"; index: number } | { bereich: "hinweise"; index: number } | { bereich: "team"; g: number; p: number };
@@ -74,15 +79,24 @@ export function Gruppe({ titel, fuss, children, id }: { titel?: string; fuss?: R
   );
 }
 
-type FeldProps = { name: string; wert: string; setze: (w: string) => void; art?: "text" | "email" | "tel" | "date" | "time"; platz?: string; max?: number; hinweis?: string; min?: string | undefined };
-/** Eine Zeile mit Namen links und Eingabe rechts. */
-export function Feld({ name, wert, setze, art = "text", platz, max, hinweis, min }: FeldProps) {
+type FeldProps = {
+  name: string; wert: string; setze: (w: string) => void; art?: "text" | "email" | "tel" | "date" | "time"; platz?: string; max?: number; hinweis?: string; min?: string | undefined;
+  /** Was das Handy vorschlagen darf (autocomplete). Ohne Angabe nichts: Die meisten Felder gehören nicht zur Person am Handy. */
+  auto?: "tel" | "email";
+  /** Name einer Person oder Firma: Wörter gross beginnen, keine Autokorrektur (sie verändert Nachnamen). */
+  eigenname?: boolean;
+};
+/** Eine Zeile mit Namen links und Eingabe rechts. Am Handy zeigt die Tastatur «Fertig»; die Taste schliesst sie. */
+export function Feld({ name, wert, setze, art = "text", platz, max, hinweis, min, auto, eigenname }: FeldProps) {
   const id = useId();
+  const tippen = art === "text" || art === "email" || art === "tel";
   return (
     <div className="zeile zeile--feld">
       <label className="zeile__name" htmlFor={id}>{name}</label>
       <input id={id} className="zeile__eingabe" type={art} value={wert} onChange={(x) => setze(x.target.value)} placeholder={platz} maxLength={max} min={min}
-        inputMode={art === "tel" ? "tel" : art === "email" ? "email" : undefined} autoCapitalize={art === "email" ? "none" : undefined} aria-describedby={hinweis ? id + "h" : undefined} />
+        inputMode={art === "tel" ? "tel" : art === "email" ? "email" : undefined} autoCapitalize={art === "email" ? "none" : eigenname ? "words" : undefined}
+        autoComplete={tippen ? auto ?? "off" : undefined} autoCorrect={eigenname || art === "email" ? "off" : undefined} spellCheck={eigenname || art === "email" ? false : undefined}
+        enterKeyHint={tippen ? "done" : undefined} onKeyDown={tippen ? (x) => { if (x.key === "Enter") x.currentTarget.blur(); } : undefined} aria-describedby={hinweis ? id + "h" : undefined} />
       {hinweis ? <span className="zeile__hinweis" id={id + "h"}>{hinweis}</span> : null}
     </div>
   );
@@ -222,8 +236,8 @@ export function Eintrag({ bild, titel, unter, marke, auf, weg, hoch, runter }: {
       {ordnen ? <button type="button" className="rund rund--rot" onClick={weg} aria-label={`${name} entfernen`}><Symbol name="minus" klein /></button> : null}
       <button type="button" className="eintrag" onClick={auf} aria-label={`${name} bearbeiten`}>
         {bild}
-        <span className="eintrag__text"><span className="eintrag__titel">{name}</span>{unter ? <span className="eintrag__unter">{unter}</span> : null}</span>
-        {marke ? <span className="marke">{marke}</span> : null}
+        <span className="eintrag__text"><span className="eintrag__titel">{name}</span>{unter ? <span className="eintrag__unter">{unter}</span> : null}{ordnen && marke ? <span className="marke marke--unten">{marke}</span> : null}</span>
+        {marke && !ordnen ? <span className="marke">{marke}</span> : null}
         {ordnen ? null : <Symbol name="pfeil" klein />}
       </button>
       {ordnen ? (
@@ -236,19 +250,24 @@ export function Eintrag({ bild, titel, unter, marke, auf, weg, hoch, runter }: {
   );
 }
 
-/** Blatt: kommt auf dem Handy von unten, steht am Computer in der Mitte. Schliessen mit «Fertig», Esc oder Tippen daneben. */
+/** Blatt: kommt auf dem Handy von unten, steht am Computer in der Mitte. Schliessen mit «Fertig», Esc oder Tippen daneben.
+ *  Unten im Blatt ist Platz für die Meldung der Seite («Rückgängig»), solange das Blatt offen ist. */
 export function Blatt({ titel, zu, children, fertig = "Fertig" }: { titel: string; zu: () => void; children: ReactNode; fertig?: string }) {
-  const ref = useRef<HTMLDialogElement>(null);
+  const ref = useRef<HTMLDialogElement>(null), unten = useRef<HTMLDivElement>(null);
+  const { setzeBlattOrt } = usePflege();
   useEffect(() => {
     // Kein close() beim Abbau: Das Element verschwindet ohnehin, und ein close() würde «zu» ein zweites Mal auslösen.
-    const d = ref.current;
+    const d = ref.current, u = unten.current;
     if (d && !d.open) d.showModal();
-  }, []);
+    setzeBlattOrt(u);
+    return () => setzeBlattOrt((jetzt) => (jetzt === u ? null : jetzt));
+  }, [setzeBlattOrt]);
   return (
     <dialog ref={ref} className="blatt" aria-label={titel} onClose={zu} onClick={(x) => { if (x.target === ref.current) ref.current?.close(); }}>
       <div className="blatt__innen">
         <header className="blatt__kopf"><h2>{titel}</h2><button type="button" className="blatt__fertig" onClick={() => ref.current?.close()}>{fertig}</button></header>
         <div className="blatt__inhalt">{children}</div>
+        <div className="blatt__unten" ref={unten} />
       </div>
     </dialog>
   );

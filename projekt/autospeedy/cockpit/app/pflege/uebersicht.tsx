@@ -73,8 +73,9 @@ export function Uebersicht({ basis, besucher, geaendert, website, gehe, sage, wa
   );
 }
 
-/** Hilfe: die drei Schritte und, wenn eingerichtet, der Weg zum Betreuer. Am Handy steht sie unter der Liste der Bereiche
- *  und ist eingeklappt, am Computer auf der Übersicht und offen. */
+/** Hilfe: die drei Schritte, die Anleitung «Als App aufs Handy» und, wenn eingerichtet, der Weg zum Betreuer. Am Handy steht
+ *  sie unter der Liste der Bereiche und ist eingeklappt, am Computer auf der Übersicht und offen. Läuft das Cockpit schon als
+ *  App (vom Home-Bildschirm geöffnet), blendet das Stylesheet die Anleitung aus (.nur-browser). */
 export function Hilfe({ handy, mail }: { handy?: boolean; mail: string | null }) {
   return (
     <Gruppe titel="Hilfe">
@@ -83,6 +84,12 @@ export function Hilfe({ handy, mail }: { handy?: boolean; mail: string | null })
         <p className="zeile zeile--schritt"><span className="schritt">1</span>{handy ? "Einen Bereich antippen und ändern, was Sie möchten." : "Links einen Bereich wählen und ändern, was Sie möchten."}</p>
         <p className="zeile zeile--schritt"><span className="schritt">2</span>Unten auf «Prüfen und veröffentlichen» tippen. Sie sehen alle Änderungen in einer Liste.</p>
         <p className="zeile zeile--schritt"><span className="schritt">3</span>«Jetzt veröffentlichen». Etwas falsch? Im Verlauf nehmen Sie es zurück.</p>
+      </details>
+      <details className="klappe nur-browser">
+        <summary className="zeile">Als App aufs Handy<Symbol name="pfeil" klein /></summary>
+        <p className="zeile zeile--anleitung"><b>iPhone:</b> Öffnen Sie das Cockpit in Safari. Tippen Sie unten auf «Teilen» und dann auf «Zum Home-Bildschirm».</p>
+        <p className="zeile zeile--anleitung"><b>Android:</b> Öffnen Sie das Cockpit in Chrome. Tippen Sie oben rechts auf die drei Punkte und dann auf «App installieren» oder «Zum Startbildschirm hinzufügen».</p>
+        <p className="zeile zeile--anleitung">Danach öffnen Sie das Cockpit mit einem Tipp auf das Symbol.</p>
       </details>
       {mail ? (
         <a className="zeile zeile--link" href={`mailto:${mail}?subject=${encodeURIComponent("Frage zum Cockpit")}`}>

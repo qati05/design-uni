@@ -65,7 +65,7 @@ Die Schrift des Geräts: San Francisco auf iPhone und Mac, Segoe UI auf Windows,
 
 ## Layout
 
-Computer (ab 860 px): Seitenleiste links mit den Bereichen, rechts der gewählte Bereich, höchstens 720 px breit. Handy: zuerst die Liste der Bereiche, Antippen führt auf die Unterseite, oben links «Übersicht» zum Zurückgehen. Tippziele mindestens 44 px.
+Computer (ab 860 px): Seitenleiste links mit den Bereichen, rechts der gewählte Bereich, höchstens 720 px breit. Handy: zuerst die Liste der Bereiche, Antippen führt auf die Unterseite, oben links «Übersicht» zum Zurückgehen. Tippziele mindestens 44 px, auch Eingabe und Auswahl in einer Zeile (die Zeile bleibt 48 px hoch). Felder haben mindestens 16 px Schrift. Nichts rollt waagrecht, lange Wörter brechen um. Untergrenze ist 320 px Breite: Wo es eng wird, rutscht der Knopf unter den Text («Ersetzen» bei den Fotos), statt den Text zu zerhacken. Im Querformat ist die Leiste unten eine Zeile hoch.
 
 Jeder Bereich besteht aus Gruppen: ein kleiner Titel, eine weisse Fläche mit Zeilen, darunter bei Bedarf ein erklärender Satz. In einer Zeile steht links der Name und rechts der Wert oder die Eingabe.
 
@@ -82,13 +82,13 @@ Gruppen 12 px, Knöpfe 12 px, Blatt 16 px, Porträts rund.
 - **Zeile:** Name links, Wert oder Eingabe rechts. Die ganze Zeile zeigt den Fokus.
 - **Schalter:** wie auf dem iPhone, grün ist an.
 - **Eintrag:** Zeile einer Liste (Person, Frage, Partner, Feiertag). Antippen öffnet das Blatt.
-- **Bearbeiten:** oben rechts. Dann zeigt jeder Eintrag links ein rotes Minus (entfernen) und rechts Pfeile (verschieben).
+- **Bearbeiten:** oben rechts. Dann zeigt jeder Eintrag links ein rotes Minus (entfernen) und rechts Pfeile (verschieben). Eine Marke («nicht sichtbar») steht dann unter dem Namen. Unter 360 px Breite fällt dabei das Bild weg, damit der Name lesbar bleibt. Kein Ziehen: Alles geht mit Tippen.
 - **Blatt:** kommt auf dem Handy von unten, steht am Computer in der Mitte. Oben rechts «Fertig».
 - **Schnell erledigt:** Zeilen auf der Übersicht für die häufigsten Fälle. Ein Tipp legt einen Entwurf an und zeigt ihn gleich (Blatt oder Bereich). Blau wie jede Zeile, die etwas tut.
 - **Vorlagen:** «Hinweis hinzufügen» öffnet ein Blatt mit Vorlagen als Einträge (Zeichen, Name, ein Satz). Die Texte sind Vorschläge.
-- **Aufklappen:** eine Zeile mit Pfeil, die weitere Zeilen zeigt («So geht es» in der Hilfe).
+- **Aufklappen:** eine Zeile mit Pfeil, die weitere Zeilen zeigt («So geht es» und «Als App aufs Handy» in der Hilfe).
 - **Leiste unten:** erscheint, sobald etwas geändert ist: Zahl der Änderungen, «Verwerfen», «Prüfen und veröffentlichen».
-- **Meldung unten:** dunkel, nach dem Entfernen mit «Rückgängig».
+- **Meldung unten:** dunkel, nach dem Entfernen mit «Rückgängig». Ist ein Blatt offen, steht sie unten im Blatt (dahinter liesse sie sich nicht antippen). «Rückgängig» gibt es dort nur für das, was in diesem Blatt geschah.
 - **Besucher:** eine grosse Zahl, darunter Säulen pro Tag in einer Farbe, dazu dieselben Werte als Tabelle.
 
 ## Do's and Don'ts

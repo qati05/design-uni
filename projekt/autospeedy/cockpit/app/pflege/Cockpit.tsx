@@ -3,6 +3,7 @@
 // Das Cockpit: links (Handy: als Liste) die Bereiche, rechts der gewählte Bereich. Alles, was man ändert, ist zuerst ein Entwurf
 // im Browser. Unten erscheint dann «Prüfen und veröffentlichen»: erst nach dem Blick auf die Liste der Änderungen geht es auf die Website.
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { createPortal } from "react-dom";
 import type { Besucher as BesucherZahlen, PflegeStand, VerlaufEintrag } from "@/lib/backend";
 import { BEREICHE, NEU, aenderungen, entwurfAus, entwurfPruefen, entwurfZuDaten, fotoAnzeige, neueFotos, type BereichId, type Entwurf } from "@/lib/pflege";
 import { abmelden } from "../aktionen";
@@ -40,7 +41,13 @@ export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute, 
   const rueck = useRef<Entwurf[]>([]);
   const fotos = useRef(new Map<string, { blob: Blob; url: string }>());
   const [verlauf, setVerlauf] = useState(verlaufStart);
-  const [hinweis, setHinweis] = useState<{ text: string; rueck: boolean; nr: number } | null>(null);
+  // Meldung unten. «ort» merkt, in welchem Blatt sie entstand (null: auf der Seite).
+  const [hinweis, setHinweis] = useState<{ text: string; rueck: boolean; nr: number; ort: HTMLElement | null } | null>(null);
+  // Solange ein Blatt offen ist, steht die Meldung darin (Ort vom Blatt gemeldet): Dahinter liesse sie sich nicht antippen.
+  const [blattOrt, setzeBlattOrt] = useState<HTMLElement | null>(null);
+  const blattJetzt = useRef<HTMLElement | null>(null);
+  blattJetzt.current = blattOrt;
+  const [zurueckgenommen, setZurueckgenommen] = useState(0);
   const [meldung, setMeldung] = useState<Meldung | null>(null);
   const [ordnen, setOrdnen] = useState(false);
   const [pruefen, setPruefen] = useState(false);
@@ -52,7 +59,7 @@ export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute, 
   const auftrag = useRef<Auftrag | null>(null);
 
   const setze = useCallback((neu: Entwurf, merken?: string) => {
-    if (merken) { rueck.current.push(eJetzt.current); if (rueck.current.length > 40) rueck.current.shift(); setHinweis({ text: merken, rueck: true, nr: ++nr.current }); }
+    if (merken) { rueck.current.push(eJetzt.current); if (rueck.current.length > 40) rueck.current.shift(); setHinweis({ text: merken, rueck: true, nr: ++nr.current, ort: blattJetzt.current }); }
     eJetzt.current = neu; setE(neu);
   }, []);
   const aendern = useCallback<Kontext["aendern"]>((fn, merken) => { const neu = structuredClone(eJetzt.current); fn(neu); setze(neu, merken); }, [setze]);
@@ -65,7 +72,8 @@ export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute, 
     auftrag.current = typeof ziel === "string" ? null : ziel;
     location.hash = typeof ziel === "string" ? ziel : ziel.bereich;
   }, []);
-  const zurueck = () => { const alt = rueck.current.pop(); if (!alt) return; eJetzt.current = alt; setE(alt); setHinweis({ text: "Zurückgenommen.", rueck: false, nr: ++nr.current }); };
+  const sage = useCallback((text: string) => setHinweis({ text, rueck: false, nr: ++nr.current, ort: blattJetzt.current }), []);
+  const zurueck = () => { const alt = rueck.current.pop(); if (!alt) return; eJetzt.current = alt; setE(alt); setZurueckgenommen((n) => n + 1); sage("Zurückgenommen."); };
   const zeige = useCallback((wert: string) => (wert.startsWith(NEU) ? fotos.current.get(wert.slice(NEU.length))?.url ?? "" : fotoAnzeige(wert)), []);
   const waehle = useCallback(async (datei: File, art: BildArt) => {
     const r = await bildVorbereiten(datei, art);
@@ -124,7 +132,15 @@ export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute, 
     });
   }
 
-  const kontext: Kontext = { e, aendern, zeige, waehle, heute, ordnen, nimmAuftrag };
+  const kontext: Kontext = { e, aendern, zeige, waehle, heute, ordnen, nimmAuftrag, zurueckgenommen, setzeBlattOrt };
+  // «Rückgängig» gibt es im offenen Blatt nur für das, was in diesem Blatt geschah. Eine ältere Meldung der Seite zeigt dort
+  // nur ihren Text: Sie nähme sonst etwas zurück, während das Blatt einen anderen Eintrag zeigt. Nach dem Schliessen ist der Knopf wieder da.
+  const meldungUnten = hinweis ? (
+    <div className="toast" key={hinweis.nr} role="status">
+      <span>{hinweis.text}</span>
+      {hinweis.rueck && (!blattOrt || hinweis.ort === blattOrt) ? <button type="button" className="toast__tat" onClick={zurueck}>Rückgängig</button> : null}
+    </div>
+  ) : null;
   const punkte = new Set(liste.map((a) => a.bereich));
   const aktiveHinweise = e.hinweise.filter((h) => h.text.trim() && h.von <= heute && heute <= h.bis).length;
   const wert: Partial<Record<BereichId, string>> = {
@@ -176,7 +192,7 @@ export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute, 
             {bereich === "" ? (
               <>
                 <Uebersicht basis={basis} besucher={besucher} geaendert={punkte} website={website} gehe={gehe}
-                  sage={(text) => setHinweis({ text, rueck: false, nr: ++nr.current })} warne={(text, b) => setMeldung({ ok: false, text, bereich: b })} />
+                  sage={sage} warne={(text, b) => setMeldung({ ok: false, text, bereich: b })} />
                 <div className="nur-computer"><Hilfe mail={hilfeMail} /></div>
               </>
             ) : null}
@@ -195,12 +211,7 @@ export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute, 
         </main>
 
         <div className="unten">
-          {hinweis ? (
-            <div className="toast" key={hinweis.nr} role="status">
-              <span>{hinweis.text}</span>
-              {hinweis.rueck ? <button type="button" className="toast__tat" onClick={zurueck}>Rückgängig</button> : null}
-            </div>
-          ) : null}
+          {blattOrt ? null : meldungUnten}
           {meldung ? (
             <div className={meldung.ok ? "balken balken--ok" : "balken balken--fehler"} role={meldung.ok ? "status" : "alert"}>
               <span>{meldung.text}</span>
@@ -217,6 +228,7 @@ export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute, 
           ) : null}
         </div>
 
+        {blattOrt && meldungUnten ? createPortal(meldungUnten, blattOrt) : null}
         {pruefen ? (
           <Blatt titel="Prüfen und veröffentlichen" fertig="Abbrechen" zu={() => setPruefen(false)}>
             <p className="einleitung">Das ändert sich auf Ihrer Website:</p>

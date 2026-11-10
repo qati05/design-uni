@@ -167,7 +167,7 @@ export function Zeiten() {
 const tageZahl = (von: string, bis: string) => Math.round((Date.parse(bis) - Date.parse(von)) / 864e5) + 1;
 type Ausnahme = Entwurf["ausnahmen"][number];
 export function Ausnahmen() {
-  const { e, aendern, heute, nimmAuftrag } = usePflege();
+  const { e, aendern, heute, nimmAuftrag, zurueckgenommen } = usePflege();
   const [offen, setOffen] = useState<number | null>(null);
   // Der Hinweis, der zum offenen Eintrag gehört (Regeln in lib/alltag.ts). Das Blatt hält die Verbindung, solange es offen ist.
   const [bindung, setBindung] = useState<FerienBindung | null>(null);
@@ -177,6 +177,8 @@ export function Ausnahmen() {
   const oeffne = (i: number, x: Ausnahme | undefined, neu = false) => { frisch.current = neu && x ? { i, bild: JSON.stringify(x) } : null; setBindung(ferienBindung(e.hinweise, x)); setOffen(i); };
   // Von der Übersicht («Heute geschlossen», «Ferien eintragen»): gleich das Blatt dieses Eintrags zeigen.
   useEffect(() => { const auf = nimmAuftrag("ausnahmen"); if (auf) oeffne(auf.index, e.ausnahmen[auf.index], true); }, []);
+  // «Rückgängig» im offenen Blatt (nach «Hinweis dazu entfernt»): Der Hinweis ist wieder im Entwurf, das Blatt nimmt die Verbindung wieder auf.
+  useEffect(() => { if (zurueckgenommen && offen !== null) setBindung(ferienBindung(e.hinweise, e.ausnahmen[offen])); }, [zurueckgenommen]);
   const setze = (fn: (x: Ausnahme) => void) => { const i = offen; if (i !== null) aendern((d) => ausnahmeAendern(d, i, fn, heute, bindung)); };
   const schliesse = () => {
     const i = offen, f = frisch.current;
@@ -300,7 +302,7 @@ export function Team() {
             </span>
           </div>
           <Gruppe>
-            <Feld name="Name" wert={person.name} setze={(w) => setze((x) => { x.name = w; })} max={80} platz="Vorname Name" />
+            <Feld name="Name" eigenname wert={person.name} setze={(w) => setze((x) => { x.name = w; })} max={80} platz="Vorname Name" />
             <Feld name="Aufgabe" wert={person.rolle} setze={(w) => setze((x) => { x.rolle = w; })} max={80} platz="z. B. Carrosserie-Spengler" />
             <Feld name="Mail" art="email" wert={person.email} setze={(w) => setze((x) => { x.email = w; })} max={120} platz="freiwillig" />
           </Gruppe>
@@ -424,7 +426,7 @@ export function Partner() {
             </span>
           </div>
           <Gruppe fuss="Am besten ein PNG mit durchsichtigem Hintergrund. Bitte nur Logos von Partnern, die damit einverstanden sind.">
-            <Feld name="Name" wert={x.name} setze={(w) => setze((p) => { p.name = w; })} max={40} platz="z. B. AMAG" />
+            <Feld name="Name" eigenname wert={x.name} setze={(w) => setze((p) => { p.name = w; })} max={40} platz="z. B. AMAG" />
           </Gruppe>
           <Gruppe><Tat rot tu={() => { const i = offen; setOffen(null); aendern((d) => { d.partner!.splice(i, 1); }, `${x.name || "Partner"} entfernt`); }}>Partner entfernen</Tat></Gruppe>
         </Blatt>
@@ -439,7 +441,7 @@ export function Inhaber() {
     <>
       <Gruppe titel="Satz vom Inhaber" fuss="Ein persönlicher Satz auf der Startseite. Er erscheint erst, wenn der Schalter an ist.">
         <Langtext name="Satz" wert={e.stimme.text} setze={(w) => aendern((d) => { d.stimme.text = w; })} max={240} />
-        <Feld name="Name" wert={e.stimme.name} setze={(w) => aendern((d) => { d.stimme.name = w; })} max={60} />
+        <Feld name="Name" eigenname wert={e.stimme.name} setze={(w) => aendern((d) => { d.stimme.name = w; })} max={60} />
         <Feld name="Rolle" wert={e.stimme.rolle} setze={(w) => aendern((d) => { d.stimme.rolle = w; })} max={40} platz="z. B. Geschäftsführer" />
         <Schalter name="Auf der Website zeigen" an={e.stimme.freigegeben} setze={(an) => aendern((d) => { d.stimme.freigegeben = an; })} />
       </Gruppe>
@@ -457,11 +459,11 @@ export function Kontakt() {
   return (
     <>
       <Gruppe titel="So erreicht man Sie" fuss="Diese Angaben stehen überall auf der Website: oben, im Fuss, auf der Kontaktseite und bei Google.">
-        <Feld name="Telefon" art="tel" wert={e.kontakt.telefon} setze={(w) => aendern((d) => { d.kontakt.telefon = w; })} max={20} platz="071 755 88 61" hinweis={pruef(e.kontakt.telefon)} />
-        <Feld name="Mail" art="email" wert={e.kontakt.mail} setze={(w) => aendern((d) => { d.kontakt.mail = w; })} max={120} platz="info@autospeedy.ch" />
+        <Feld name="Telefon" art="tel" auto="tel" wert={e.kontakt.telefon} setze={(w) => aendern((d) => { d.kontakt.telefon = w; })} max={20} platz="071 755 88 61" hinweis={pruef(e.kontakt.telefon)} />
+        <Feld name="Mail" art="email" auto="email" wert={e.kontakt.mail} setze={(w) => aendern((d) => { d.kontakt.mail = w; })} max={120} platz="info@autospeedy.ch" />
       </Gruppe>
       <Gruppe titel="WhatsApp" fuss="Erst wenn hier eine Nummer steht, zeigt die Website den WhatsApp-Knopf. Leer lassen heisst: kein WhatsApp.">
-        <Feld name="Nummer" art="tel" wert={e.kontakt.whatsapp} setze={(w) => aendern((d) => { d.kontakt.whatsapp = w; })} max={20} platz="keine Nummer" hinweis={pruef(e.kontakt.whatsapp)} />
+        <Feld name="Nummer" art="tel" auto="tel" wert={e.kontakt.whatsapp} setze={(w) => aendern((d) => { d.kontakt.whatsapp = w; })} max={20} platz="keine Nummer" hinweis={pruef(e.kontakt.whatsapp)} />
       </Gruppe>
       <p className="gruppe__fuss">Wohin die Formulare der Website geschickt werden, ändert das Studio. Diese Mail-Adresse hier ist die, die Besucher sehen.</p>
     </>
@@ -537,9 +539,9 @@ export function Verlauf({ verlauf, lade, laeuft }: { verlauf: VerlaufEintrag[]; 
         </Gruppe>
       ) : null}
       <Gruppe titel="Veröffentlichte Stände">
-        <Wert name={zeitText(jetzt!.zeit)}><span className="marke marke--gruen">auf der Website</span></Wert>
+        <div className="zeile zeile--wert zeile--stand"><span className="zeile__name">{zeitText(jetzt!.zeit)}</span><span className="marke marke--gruen">auf der Website</span></div>
         {frueher.map((v) => (
-          <div className="zeile zeile--wert" key={v.id}>
+          <div className="zeile zeile--wert zeile--stand" key={v.id}>
             <span className="zeile__name">{zeitText(v.zeit)}</span>
             <button type="button" className="knopf knopf--leise knopf--klein" onClick={() => lade(v)} disabled={laeuft}>Laden</button>
           </div>
