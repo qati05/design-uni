@@ -1,9 +1,10 @@
 // Rückruf-Bitte (Cloudflare Pages Function, POST /api/rueckruf). Entscheid Roni 08./09.11.2026: direkt per Mail an den
 // Betrieb, kein Cockpit, keine Datenbank, nichts gespeichert, kein Log mit Personendaten.
 // Prüfreihenfolge wie /api/schaden: Origin, Format, Grösse, Honigtopf, Zeitfalle, Drossel, Prüfung, genau EINE Mail.
-// Empfänger: RUECKRUF_AN, sonst SCHADEN_AN. Bestätigung an die Kundschaft nur, wenn eine Mail-Adresse angegeben wurde.
+// Empfänger: RUECKRUF_AN, sonst SCHADEN_AN. Bestätigung an die Kundschaft nur mit angegebener Mail-Adresse UND
+// bestandener Turnstile-Prüfung (sonst wäre das Formular eine Mailschleuder an fremde Adressen).
 import { pruefeRueckruf, GRENZEN_RUECKRUF, betreffRueckruf, mailRueckruf, mailRueckrufHtml, bestaetigungRueckruf } from "../../../gemeinsam/rueckruf.js";
-import { antwort, herkunftOk, schutzBereit, tokenAntwort, zeitfalle, gedrosselt } from "../../../gemeinsam/schutz.js";
+import { antwort, herkunftOk, schutzBereit, tokenAntwort, zeitfalle, gedrosselt, turnstile } from "../../../gemeinsam/schutz.js";
 import { sende } from "../../../gemeinsam/mail.js";
 import betriebDaten from "../../src/content/betrieb.json" with { type: "json" };
 import bauDaten from "../../src/content/bau.json" with { type: "json" };
@@ -17,7 +18,7 @@ export const onRequestGet = ({ request, env }) => tokenAntwort(request, env);
 
 export async function onRequestPost({ request, env }) {
   // 0. Livegang ohne eingerichteten Schutz: nicht offen laufen, sondern klar ablehnen (die Seite zeigt dann das Telefon)
-  if (!schutzBereit(env, LIVE)) { console.log("formular: gesperrt, ERLAUBTE_HERKUNFT oder FORMULAR_HMAC fehlt"); return fehlerAntwort(503, ["einrichtung"]); }
+  if (!schutzBereit(env, LIVE)) { console.log("formular: gesperrt, Schutz nicht eingerichtet (Herkunft, Zeitfalle, Turnstile oder Drossel)"); return fehlerAntwort(503, ["einrichtung"]); }
   // 1. Origin
   if (!herkunftOk(request, env)) return fehlerAntwort(403, ["herkunft"]);
   // 2. Format: FormData aus rueckruf.js (multipart) oder ein klassisches Formular (urlencoded)
@@ -38,7 +39,13 @@ export async function onRequestPost({ request, env }) {
   if (falle.stand === "alt" || falle.stand === "kaputt") return fehlerAntwort(422, ["zeit"]); // Seite holt ein neues Token
 
   // 6. Drossel
-  if (await gedrosselt(env, request.headers.get("CF-Connecting-IP"))) return fehlerAntwort(429, ["drossel"]);
+  const ip = request.headers.get("CF-Connecting-IP");
+  if (await gedrosselt(env, ip, "rueckruf")) return fehlerAntwort(429, ["drossel"]);
+
+  // 6b. Turnstile: Mit TURNSTILE_SECRET prüft der Server das Token bei Cloudflare. Ohne Schlüssel gibt es keine Prüfung
+  // («aus»), dann aber auch keine Bestätigungsmail an die Kundschaft (Entscheid Roni 03.11.2026).
+  const mensch = await turnstile(env, form.get("cf-turnstile-response"), ip);
+  if (mensch === "nein") return fehlerAntwort(403, ["turnstile"]);
 
   // 7. Prüfung
   const { daten: d, fehler } = pruefeRueckruf({
@@ -57,8 +64,8 @@ export async function onRequestPost({ request, env }) {
     return fehlerAntwort(502, ["senden"]);
   }
 
-  // 9. Optionale Bestätigung an die Kundschaft. Scheitert sie, ist die Rückruf-Bitte trotzdem beim Betrieb.
-  if (d.email) {
+  // 9. Bestätigung an die Kundschaft, nur nach bestandener Turnstile-Prüfung. Scheitert sie, ist die Rückruf-Bitte trotzdem beim Betrieb.
+  if (d.email && mensch === "ok") {
     try {
       await sende({
         an: d.email, betreff: `Ihre Rückruf-Bitte bei ${betriebDaten.name}`,

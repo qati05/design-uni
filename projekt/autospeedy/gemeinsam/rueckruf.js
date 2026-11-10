@@ -65,8 +65,8 @@ export function mailRueckrufHtml(d) {
 }
 /** Bestätigung an die Kundschaft, nur mit freiwillig angegebener Mail. Ohne Nachricht und ohne Telefonnummer. */
 export function bestaetigungRueckruf(d, betrieb) {
-  const vorname = d.name.split(/\s+/)[0] || "";
-  return [`Guten Tag ${vorname}`.trim(), "",
+  // Ohne Namen aus dem Formular: Die Mail geht an eine frei eingegebene Adresse und darf keinen fremden Text tragen.
+  return ["Guten Tag", "",
     `Ihre Rückruf-Bitte (${d.anliegen}) ist bei ${betrieb.name} angekommen. Wir rufen Sie zurück${d.zeiten.length ? ", wenn möglich zur gewünschten Zeit" : ""}.`,
     "", `Dringend? Rufen Sie uns an: ${betrieb.tel}.`, "", "Freundliche Grüsse", betrieb.name, "",
     "Sie erhalten diese Mail, weil Sie Ihre Mail-Adresse angegeben haben."].join("\n");

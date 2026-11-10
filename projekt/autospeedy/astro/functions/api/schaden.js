@@ -1,12 +1,12 @@
 // Schadenmeldung (Cloudflare Pages Function, POST /api/schaden). Ohne Datenbank, ohne Cockpit (Entscheid Reshat 03.11.):
 // prüfen, Fotos von Metadaten befreien und genau EINE Mail mit den Fotos im Anhang an SCHADEN_AN schicken.
 // Nichts wird gespeichert, kein Log mit Personendaten, kein Schlüssel in einem Log oder einer Fehlermeldung.
-// Prüfreihenfolge (BAUPLAN 4.3): Origin, multipart, 16e6, Honigtopf, Zeitfalle, Drossel, pruefe, Fotos, Mail.
+// Prüfreihenfolge (BAUPLAN 4.3): Origin, multipart, 16e6, Honigtopf, Zeitfalle, Drossel, Turnstile, pruefe, Fotos, Mail.
 // Mailweg: Betrieb über Cloudflare Email (send_email-Binding), Kundschaft über Brevo — Einstellung in gemeinsam/mail.js.
 import { pruefe, GRENZEN, mailVoll, mailVollHtml, bestaetigungText, betreff } from "../../../gemeinsam/meldung.ts";
 import { sende, base64 } from "../../../gemeinsam/mail.js";
 import { istJpeg, ohneMetadaten } from "../../../gemeinsam/jpeg.js";
-import { antwort, herkunftOk, schutzBereit, tokenAntwort, zeitfalle, gedrosselt } from "../../../gemeinsam/schutz.js";
+import { antwort, herkunftOk, schutzBereit, tokenAntwort, zeitfalle, gedrosselt, turnstile } from "../../../gemeinsam/schutz.js";
 import betriebDaten from "../../src/content/betrieb.json" with { type: "json" };
 import bauDaten from "../../src/content/bau.json" with { type: "json" };
 
@@ -19,7 +19,7 @@ export const onRequestGet = ({ request, env }) => tokenAntwort(request, env);
 
 export async function onRequestPost({ request, env }) {
   // 0. Livegang ohne eingerichteten Schutz: nicht offen laufen, sondern klar ablehnen (die Seite zeigt dann das Telefon)
-  if (!schutzBereit(env, LIVE)) { console.log("formular: gesperrt, ERLAUBTE_HERKUNFT oder FORMULAR_HMAC fehlt"); return fehlerAntwort(503, ["einrichtung"]); }
+  if (!schutzBereit(env, LIVE)) { console.log("formular: gesperrt, Schutz nicht eingerichtet (Herkunft, Zeitfalle, Turnstile oder Drossel)"); return fehlerAntwort(503, ["einrichtung"]); }
   // 1. Origin
   if (!herkunftOk(request, env)) return fehlerAntwort(403, ["herkunft"]);
   // 2. multipart
@@ -40,7 +40,13 @@ export async function onRequestPost({ request, env }) {
   if (falle.stand === "alt" || falle.stand === "kaputt") return fehlerAntwort(422, ["zeit"]); // Seite holt ein neues Token und sendet einmal nochmals
 
   // 6. Drossel
-  if (await gedrosselt(env, request.headers.get("CF-Connecting-IP"))) return fehlerAntwort(429, ["drossel"]);
+  const ip = request.headers.get("CF-Connecting-IP");
+  if (await gedrosselt(env, ip, "schaden")) return fehlerAntwort(429, ["drossel"]);
+
+  // 6b. Turnstile: Mit TURNSTILE_SECRET prüft der Server das Token bei Cloudflare. Ohne Schlüssel gibt es keine Prüfung
+  // («aus»), dann aber auch keine Bestätigungsmail an die Kundschaft (Entscheid Roni 03.11.2026).
+  const mensch = await turnstile(env, form.get("cf-turnstile-response"), ip);
+  if (mensch === "nein") return fehlerAntwort(403, ["turnstile"]);
 
   // 7. pruefe
   const fotos = form.getAll("foto").filter((f) => typeof f === "object" && f !== null && typeof f.arrayBuffer === "function");
@@ -79,8 +85,10 @@ export async function onRequestPost({ request, env }) {
     return fehlerAntwort(502, ["senden"]);
   }
 
-  // 10. Optionale Bestätigung an die Kundin oder den Kunden (neutral, ohne Fotos). Scheitert sie, ist die Meldung trotzdem da.
-  if (d.email) {
+  // 10. Bestätigung an die Kundin oder den Kunden: nur nach bestandener Turnstile-Prüfung, sonst liesse sich das Formular
+  // als Mailschleuder an fremde Adressen brauchen. Neutral, ohne Fotos und ohne Angaben aus dem Formular (nur die Schadenart
+  // aus der festen Liste). Scheitert sie, ist die Meldung trotzdem da.
+  if (d.email && mensch === "ok") {
     try {
       await sende({
         an: d.email, betreff: `Ihre Meldung bei ${betriebDaten.name}`,

@@ -1,5 +1,5 @@
 // Schutz für die Formular-Funktionen der Website (POST /api/schaden, POST /api/rueckruf): eine Regel, zwei Formulare.
-// Reihenfolge in jeder Funktion: Origin, Format/Grösse, Honigtopf, Zeitfalle, Drossel, Prüfung, Mail.
+// Reihenfolge in jeder Funktion: Origin, Format/Grösse, Honigtopf, Zeitfalle, Drossel, Turnstile, Prüfung, Mail.
 // Plain JS ohne Abhängigkeit (läuft bei Cloudflare und im Node-Test). Nichts wird gespeichert, kein Log mit Personendaten.
 
 export const ZEIT_MIN = 4000; // Zeitfalle: frühestens so viele ms nach dem Laden des Formulars
@@ -25,9 +25,38 @@ function gleich(a, b) {
   return r === 0;
 }
 
+/** Gibt es eine Bremse gegen Massenversand? Das Rate-Limiting-Binding DROSSEL (nur Workers) oder ein KV-Namespace
+ *  DROSSEL_KV (Cloudflare Pages kennt das Rate-Limiting-Binding nicht, KV schon). */
+export const drosselAktiv = (env) =>
+  !!(env.DROSSEL && typeof env.DROSSEL.limit === "function") || !!(env.DROSSEL_KV && typeof env.DROSSEL_KV.get === "function" && typeof env.DROSSEL_KV.put === "function");
+
 /** Livegang: Ohne Herkunftsprüfung und Zeitfalle läuft das Formular nicht offen weiter, sondern meldet «nicht bereit».
+ *  Seit 10.11.2026 zusätzlich: mindestens eine Bremse gegen Massenversand (Turnstile mit Server-Prüfung oder Drossel),
+ *  und nie ein sichtbares Turnstile ohne Server-Prüfung (TURNSTILE_SITEKEY gesetzt, TURNSTILE_SECRET fehlt).
  *  In der Vorschau (live = false) bleibt es ohne Schlüssel bedienbar, damit man es vorführen kann. */
-export const schutzBereit = (env, live) => !live || (!!env.ERLAUBTE_HERKUNFT && !!env.FORMULAR_HMAC);
+export const schutzBereit = (env, live) => !live || (
+  !!env.ERLAUBTE_HERKUNFT && !!env.FORMULAR_HMAC
+  && (!!env.TURNSTILE_SECRET || drosselAktiv(env))
+  && !(env.TURNSTILE_SITEKEY && !env.TURNSTILE_SECRET));
+
+/** Turnstile auf dem Server prüfen (siteverify). Rückgabe: "aus" (kein TURNSTILE_SECRET, nichts geprüft), "ok" oder "nein".
+ *  Im Zweifel «nein»: fehlendes Token, Netzfehler oder eine unklare Antwort lassen nichts durch. Das Token gilt bei
+ *  Cloudflare genau einmal. Der geheime Schlüssel steht nie in einem Log oder einer Fehlermeldung. */
+export async function turnstile(env, token, ip) {
+  if (!env.TURNSTILE_SECRET) return "aus";
+  if (typeof token !== "string" || !token || token.length > 2048) return "nein";
+  try {
+    const body = new URLSearchParams({ secret: env.TURNSTILE_SECRET, response: token });
+    if (ip) body.set("remoteip", ip);
+    const r = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body, signal: AbortSignal.timeout(8000) });
+    if (!r.ok) return "nein";
+    const j = await r.json();
+    if (!j || j.success !== true) return "nein";
+    // Das Token muss für diese Website gelöst worden sein (sofern die Herkunft eingerichtet ist).
+    if (env.ERLAUBTE_HERKUNFT && j.hostname && j.hostname !== new URL(env.ERLAUBTE_HERKUNFT).hostname) return "nein";
+    return "ok";
+  } catch { return "nein"; }
+}
 
 /** Herkunft: nur prüfen, wenn ERLAUBTE_HERKUNFT gesetzt ist (dann muss Origin genau gleich sein, fehlend = fremd). */
 export const herkunftOk = (request, env) => !env.ERLAUBTE_HERKUNFT || request.headers.get("Origin") === env.ERLAUBTE_HERKUNFT;
@@ -54,11 +83,30 @@ export async function zeitfalle(env, token, wer = "formular") {
   return { stand: "ok" };
 }
 
-/** Drossel ohne Datenbank: Workers Rate Limiting Binding; Schlüssel = SHA-256 der IP, nicht gespeichert. */
-export async function gedrosselt(env, ip) {
-  if (!env.DROSSEL || typeof env.DROSSEL.limit !== "function") return false; // kein Binding: überspringen
-  try {
-    const { success } = await env.DROSSEL.limit({ key: await sha256hex(ip || "unbekannt") });
-    return !success;
-  } catch { return false; }
+export const DROSSEL_MAX = 6; // so viele Sendungen je Fenster und Absender-Adresse (beide Formulare zusammen)
+export const DROSSEL_FENSTER = 600; // Sekunden
+
+/** Drossel je Absender. Zwei Wege:
+ *  DROSSEL    Workers Rate Limiting Binding (gibt es bei Cloudflare Pages nicht).
+ *  DROSSEL_KV KV-Namespace (geht bei Pages): Zähler je Fenster, verfällt nach zwei Fenstern von selbst. KV zählt nicht
+ *             streng (gleichzeitige Anfragen können sich überholen); als Bremse gegen Massenversand genügt das.
+ *  Schlüssel ist nie die IP selbst, sondern ein Prüfwert: HMAC mit FORMULAR_HMAC, ohne Schlüssel SHA-256.
+ *  Fehlt beides, wird nicht gedrosselt; das steht dann im Log (ohne Personendaten), und live sperrt schutzBereit. */
+export async function gedrosselt(env, ip, wer = "formular") {
+  const wert = ip || "unbekannt";
+  const key = env.FORMULAR_HMAC ? await hmacHex(env.FORMULAR_HMAC, `drossel:${wert}`) : await sha256hex(wert);
+  if (env.DROSSEL && typeof env.DROSSEL.limit === "function") {
+    try { const { success } = await env.DROSSEL.limit({ key }); return !success; } catch { return false; }
+  }
+  if (env.DROSSEL_KV && typeof env.DROSSEL_KV.get === "function" && typeof env.DROSSEL_KV.put === "function") {
+    const k = `d:${key}:${Math.floor(Date.now() / 1000 / DROSSEL_FENSTER)}`;
+    try {
+      const n = Number(await env.DROSSEL_KV.get(k)) || 0;
+      if (n >= DROSSEL_MAX) return true;
+      await env.DROSSEL_KV.put(k, String(n + 1), { expirationTtl: DROSSEL_FENSTER * 2 });
+      return false;
+    } catch { return false; }
+  }
+  console.log(`${wer}: Drossel aus (weder DROSSEL noch DROSSEL_KV eingerichtet)`);
+  return false;
 }

@@ -96,7 +96,7 @@ const versicherer = ["AXA", "Zurich", "Mobiliar", "Allianz", "Helvetia", "Balois
           </fieldset>
 
           <div class="feld"><label for="f-bem">Bemerkung</label><textarea id="f-bem" name="bemerkung" rows="3" maxlength="3000"></textarea><p class="hilfe">Zum Beispiel: hinten links, beim Parkieren.</p></div>
-          <div class="feld"><label for="f-mail">Mail</label><input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254"><p class="hilfe">Für eine Bestätigung und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nichts.</p></div>
+          <div class="feld"><label for="f-mail">Mail</label><input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254"><p class="hilfe">{turnstile ? "Für eine Bestätigung und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nichts." : "Für Rückfragen und, wenn Ihr Auto fertig ist, einmal die Bitte um eine Bewertung. Sonst nichts."}</p></div>
           <div class="feld"><label for="f-schild">Kontrollschild</label><input id="f-schild" name="kontrollschild" type="text" maxlength="15" autocomplete="off" inputmode="text"></div>
         </div>
       </details>

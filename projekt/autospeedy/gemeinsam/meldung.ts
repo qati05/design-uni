@@ -135,8 +135,8 @@ export function hinweisText(d: Meldung, cockpitLink: string, fertigLink?: string
 
 /** Bestätigung an die Kundin oder den Kunden, nur mit freiwillig angegebener Mail. Ohne Inhalt der Meldung, ohne Fotos. */
 export function bestaetigungText(d: Meldung, betrieb: { name: string; tel: string }): string {
-  const vorname = sauber(d.name).split(/\s+/)[0] || "";
-  return [`Guten Tag ${vorname}`.trim(), "", `Ihre Meldung (${sauber(d.art)}) ist bei ${betrieb.name} angekommen. Wir melden uns bei Ihnen, in der Regel telefonisch.`,
+  // Ohne Namen aus dem Formular: Die Mail geht an eine frei eingegebene Adresse und darf keinen fremden Text tragen.
+  return ["Guten Tag", "", `Ihre Meldung (${sauber(d.art)}) ist bei ${betrieb.name} angekommen. Wir melden uns bei Ihnen, in der Regel telefonisch.`,
     "", `Dringend? Rufen Sie uns an: ${betrieb.tel}.`, "", "Freundliche Grüsse", betrieb.name, "",
     "Sie erhalten diese Mail, weil Sie Ihre Mail-Adresse angegeben haben."].join("\n");
 }

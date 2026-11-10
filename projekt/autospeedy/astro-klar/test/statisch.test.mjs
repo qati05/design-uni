@@ -16,11 +16,12 @@ const lies = (p) => fs.readFileSync(p, "utf8");
 
 // Zweiter Bau mit eingeblendeten Notizen (NOTIZEN=an), einmal je Testlauf: belegt, dass die gelben Kästen, die Platzhalter
 // und die Vorschau-Zeile weiter funktionieren, obwohl die Vorgabe (bau.json «notizen» false) sie nicht mehr zeigt.
+// Derselbe Bau hat Turnstile eingeschaltet (Test-Schlüssel von Cloudflare): Nur dann verspricht die Seite eine Bestätigungsmail.
 const notizDist = path.join(os.tmpdir(), `dist-notizen-${process.pid}`);
 let notizGebaut = false;
 function mitNotizen(p) {
   if (!notizGebaut) {
-    execSync(`npx astro build --outDir ${notizDist}`, { cwd: wurzel, env: { ...process.env, NOTIZEN: "an" }, stdio: "pipe" });
+    execSync(`npx astro build --outDir ${notizDist}`, { cwd: wurzel, env: { ...process.env, NOTIZEN: "an", TURNSTILE_SITEKEY: "1x00000000000000000000AA" }, stdio: "pipe" });
     notizGebaut = true;
     process.on("exit", () => fs.rmSync(notizDist, { recursive: true, force: true }));
   }
@@ -470,7 +471,18 @@ test("K08: Schaden- und Rückruf-Formulare verweisen auf /datenschutz/; Datensch
   const d = sichtbar(seite("datenschutz"));
   assert.match(d, /Cloudflare Pages \(Cloudflare, Inc\., USA\)/, "Hoster mit Land");
   assert.match(d, /Cloudflare Email \(Cloudflare, Inc\., USA\)/, "Formular-Mail an den Betrieb");
-  assert.match(d, /Brevo \(Sendinblue SAS, Frankreich\)/, "Maildienst an die Kundschaft");
+  // Prüfung 10.11.2026: Eine Bestätigungsmail gibt es nur mit Turnstile (Server-Prüfung). Ohne verspricht die Seite keine.
+  assert.doesNotMatch(d, /schicken wir Ihnen eine Bestätigung/, "ohne Turnstile kein Versprechen einer Bestätigung");
+  assert.match(d, /nutzen wir sie für Rückfragen zu Ihrer Meldung/, "ohne Turnstile: Mail-Adresse nur für Rückfragen und die Bewertungs-Bitte");
+  assert.doesNotMatch(seite("schaden-melden"), /Für eine Bestätigung/, "Formular ohne Turnstile: kein Versprechen einer Bestätigung");
+  assert.match(d, /höchstens 20 Minuten einen Prüfwert/, "Drossel: Prüfwert mit Frist genannt");
+  const dt = sichtbar(mitNotizen("datenschutz/index.html"));
+  assert.match(dt, /schicken wir Ihnen eine Bestätigung/, "mit Turnstile: Bestätigung zugesagt");
+  assert.match(dt, /Brevo \(Sendinblue SAS, Frankreich\)/, "mit Turnstile: Maildienst an die Kundschaft genannt");
+  assert.match(dt, /prüft Cloudflare Turnstile beim Senden/, "mit Turnstile: Prüfung erklärt");
+  const ft = mitNotizen("schaden-melden/index.html");
+  assert.match(ft, /Für eine Bestätigung und/, "Formular mit Turnstile: Bestätigung zugesagt");
+  assert.match(ft, /class="cf-turnstile" data-sitekey="1x00000000000000000000AA"/, "Formular mit Turnstile: Widget im Formular");
   assert.doesNotMatch(d, /Datenbank in Zürich|Werkstatt-System/, "kein veralteter Weg über eine Datenbank");
   assert.match(mitNotizen("datenschutz/index.html"), /data-luecke>Vom Betrieb zu prüfen/, "Ergänzungen als vom Betrieb zu prüfen markiert (mit Notizen sichtbar, sperrt den Livegang)");
 });

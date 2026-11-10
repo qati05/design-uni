@@ -25,22 +25,30 @@ function formular(felder = {}, fotos = [], ausweis = null) {
 }
 const anfrage = (body, kopf = {}) => new Request("https://vorschau.example/api/schaden", { method: "POST", headers: { Origin: "https://vorschau.example", ...kopf }, body });
 
-/** Attrappe: Cloudflare-Binding für den Betrieb, fetch für Brevo (Kundschaft). */
-function mitMail(fn, { betriebFehler = false, brevoFehler = false } = {}) {
+/** Attrappe: Cloudflare-Binding für den Betrieb, fetch für Brevo (Kundschaft) und für die Turnstile-Prüfung.
+ *  Turnstile: Das Token «gut» besteht, alles andere fällt durch; «turnstile» sammelt die Prüf-Anfragen. */
+function mitMail(fn, { betriebFehler = false, brevoFehler = false, env: extra = {}, turnstileKaputt = false } = {}) {
   const betrieb = [];
   const brevo = [];
+  const turnstile = [];
   const env = {
     ...BASIS,
     EMAIL: { send: async (m) => { if (betriebFehler) throw new Error("x"); betrieb.push(m); } },
     BREVO_SCHLUESSEL: "BREVO",
+    ...extra,
   };
   const alt = globalThis.fetch;
   globalThis.fetch = async (url, opt = {}) => {
     const u = String(url);
+    if (u.includes("challenges.cloudflare.com/turnstile/v0/siteverify")) {
+      const p = new URLSearchParams(String(opt.body)); turnstile.push(Object.fromEntries(p));
+      if (turnstileKaputt) throw new Error("netz");
+      return new Response(JSON.stringify({ success: p.get("response") === "gut", hostname: "vorschau.example" }), { status: 200 });
+    }
     if (u.includes("api.brevo.com")) { if (brevoFehler) return new Response("x", { status: 500 }); brevo.push(JSON.parse(opt.body)); return new Response("{}", { status: 201 }); }
     return new Response("{}", { status: 200 });
   };
-  return fn({ env, betrieb, brevo }).finally(() => { globalThis.fetch = alt; });
+  return fn({ env, betrieb, brevo, turnstile }).finally(() => { globalThis.fetch = alt; });
 }
 // Betrieb-Mail über Cloudflare lesbar machen: MIME dekodieren ist mühsam, darum Betrieb-Weg im Test auf Brevo stellen.
 const envBrevoBetrieb = { ...BASIS, BREVO_SCHLUESSEL: "BREVO", MAIL_WEG_BETRIEB: "brevo", MAIL_WEG_KUNDE: "brevo" };
@@ -116,17 +124,42 @@ test("Mailversand scheitert: 502 mit Telefonnummer", () => mitBrevo(async (mails
   const r = await onRequestPost({ request: anfrage(formular()), env: envBrevoBetrieb });
   assert.equal(r.status, 502); const b = await r.json(); assert.ok(b.telefon); assert.deepEqual(b.fehler, ["senden"]);
 }, { fehler: true }));
-test("Bestätigung an die Kundschaft über Brevo, ohne Inhalt der Meldung", () => mitMail(async ({ env, betrieb, brevo }) => {
-  const r = await onRequestPost({ request: anfrage(formular({ email: "Kunde@Beispiel.ch", bemerkung: "geheim" })), env });
+// Prüfung 10.11.2026 (Hinweis von aussen, im Code bestätigt): Die Bestätigung ging an jede eingegebene Adresse und trug den
+// Vornamen aus dem Formular; Turnstile wurde nie auf dem Server geprüft. Entscheid Roni 03.11.2026: Bestätigung nur mit Turnstile.
+const MIT_TURNSTILE = { TURNSTILE_SECRET: "GEHEIM" };
+test("Bestätigung an die Kundschaft: nur nach bestandener Turnstile-Prüfung, ohne Inhalt der Meldung und ohne Namen aus dem Formular", () => mitMail(async ({ env, betrieb, brevo, turnstile }) => {
+  const r = await onRequestPost({ request: anfrage(formular({ email: "Kunde@Beispiel.ch", bemerkung: "geheim", name: "https://boese.example Jetzt-kaufen", "cf-turnstile-response": "gut" }), { "CF-Connecting-IP": "203.0.113.7" }), env });
   assert.equal(r.status, 200);
   assert.equal(betrieb.length, 1); // Betrieb über Cloudflare
+  assert.equal(turnstile.length, 1, "genau eine Prüfung bei Cloudflare");
+  assert.deepEqual(turnstile[0], { secret: "GEHEIM", response: "gut", remoteip: "203.0.113.7" });
   const best = brevo.find((m) => m.to[0].email === "kunde@beispiel.ch");
   assert.ok(best, "Bestätigung an die Kundschaft"); assert.match(best.textContent, /angekommen/); assert.doesNotMatch(best.textContent, /geheim/);
+  assert.match(best.textContent, /^Guten Tag\n/, "Anrede ohne Namen");
+  assert.doesNotMatch(best.textContent, /boese|Jetzt-kaufen|https?:/, "kein Text aus dem Formular in der Mail an eine frei eingegebene Adresse");
+}, { env: MIT_TURNSTILE }));
+test("Ohne Turnstile-Schlüssel: Meldung kommt an, aber KEINE Mail an die eingegebene Adresse", () => mitMail(async ({ env, betrieb, brevo, turnstile }) => {
+  const r = await onRequestPost({ request: anfrage(formular({ email: "opfer@beispiel.ch" })), env });
+  assert.equal(r.status, 200); assert.equal(betrieb.length, 1);
+  assert.equal(brevo.length, 0, "keine Bestätigung ohne Server-Prüfung"); assert.equal(turnstile.length, 0, "ohne Schlüssel keine Anfrage an Cloudflare");
 }));
+test("Turnstile: fehlendes, falsches oder nicht prüfbares Token: 403 turnstile mit Telefonnummer, nichts gesendet", async () => {
+  for (const [token, opt] of [[undefined, {}], ["falsch", {}], ["x".repeat(3000), {}], ["gut", { turnstileKaputt: true }]]) {
+    await mitMail(async ({ env, betrieb, brevo }) => {
+      const r = await onRequestPost({ request: anfrage(formular({ email: "opfer@beispiel.ch", "cf-turnstile-response": token })), env });
+      assert.equal(r.status, 403); const b = await r.json(); assert.deepEqual(b.fehler, ["turnstile"]); assert.ok(b.telefon);
+      assert.equal(betrieb.length + brevo.length, 0, "nichts gesendet");
+    }, { env: MIT_TURNSTILE, ...opt });
+  }
+});
+test("Turnstile: Token von einer fremden Website zählt nicht", () => mitMail(async ({ env, betrieb }) => {
+  const r = await onRequestPost({ request: anfrage(formular({ "cf-turnstile-response": "gut" }), { Origin: "https://andere.example" }), env: { ...env, ERLAUBTE_HERKUNFT: "https://andere.example" } });
+  assert.equal(r.status, 403); assert.equal(betrieb.length, 0);
+}, { env: MIT_TURNSTILE }));
 test("Bestätigung scheitert: Meldung trotzdem 200", () => mitMail(async ({ env, betrieb }) => {
-  assert.equal((await onRequestPost({ request: anfrage(formular({ email: "kunde@beispiel.ch" })), env })).status, 200);
+  assert.equal((await onRequestPost({ request: anfrage(formular({ email: "kunde@beispiel.ch", "cf-turnstile-response": "gut" })), env })).status, 200);
   assert.equal(betrieb.length, 1);
-}, { brevoFehler: true }));
+}, { brevoFehler: true, env: MIT_TURNSTILE }));
 
 // ---- Ersatzwagen
 test("Ersatzwagen gewünscht (mit Tesla) steht im Betreff und in der Mail", () => mitBrevo(async (mails) => {
@@ -192,6 +225,25 @@ test("Drossel-Binding sagt Ja: 200; kein Binding: übersprungen", () => mitBrevo
   const env = { ...envBrevoBetrieb, DROSSEL: { limit: async () => ({ success: true }) } };
   assert.equal((await onRequestPost({ request: anfrage(formular()), env })).status, 200);
 }));
+// Prüfung 10.11.2026: Cloudflare Pages kennt das Rate-Limiting-Binding nicht, die Drossel fiel dort still weg. Darum ein Weg über KV.
+function kvAttrappe() { const m = new Map(); const ttl = []; return { m, ttl, get: async (k) => m.get(k) ?? null, put: async (k, v, o) => { m.set(k, v); ttl.push(o && o.expirationTtl); } }; }
+test("Drossel über KV (Cloudflare Pages): nach 6 Sendungen je Adresse 429, andere Adresse geht weiter, Zähler verfällt", () => mitBrevo(async (mails) => {
+  const { DROSSEL_MAX, DROSSEL_FENSTER } = await import("../../gemeinsam/schutz.js");
+  const kv = kvAttrappe();
+  const env = { ...envBrevoBetrieb, DROSSEL_KV: kv };
+  const sende = (ip) => onRequestPost({ request: anfrage(formular(), { "CF-Connecting-IP": ip }), env });
+  for (let i = 0; i < DROSSEL_MAX; i++) assert.equal((await sende("203.0.113.7")).status, 200, `Sendung ${i + 1} geht`);
+  const r = await sende("203.0.113.7");
+  assert.equal(r.status, 429); assert.deepEqual((await r.json()).fehler, ["drossel"]);
+  assert.equal(mails.length, DROSSEL_MAX, "die gedrosselte Sendung löst keine Mail aus");
+  assert.equal((await sende("203.0.113.8")).status, 200, "andere Adresse ist nicht betroffen");
+  assert.ok([...kv.m.keys()].every((k) => !k.includes("203.0.113")), "im Speicher steht nie die IP selbst");
+  assert.ok(kv.ttl.every((t) => t === DROSSEL_FENSTER * 2), "Zähler verfällt von selbst");
+}));
+test("Drossel: KV fällt aus → Meldung geht trotzdem durch (lieber eine Meldung zu viel als eine verlorene)", () => mitBrevo(async () => {
+  const env = { ...envBrevoBetrieb, DROSSEL_KV: { get: async () => { throw new Error("kv"); }, put: async () => {} } };
+  assert.equal((await onRequestPost({ request: anfrage(formular()), env })).status, 200);
+}));
 
 test("Livegang: Ohne Herkunftsprüfung oder Zeitfalle ist der Schutz nicht bereit; in der Vorschau läuft das Formular auch ohne", async () => {
   const { schutzBereit } = await import("../../gemeinsam/schutz.js");
@@ -199,5 +251,12 @@ test("Livegang: Ohne Herkunftsprüfung oder Zeitfalle ist der Schutz nicht berei
   assert.equal(schutzBereit({}, true), false, "live ohne beide: gesperrt");
   assert.equal(schutzBereit({ ERLAUBTE_HERKUNFT: "https://www.autospeedy.ch" }, true), false, "live ohne Zeitfalle: gesperrt");
   assert.equal(schutzBereit({ FORMULAR_HMAC: "x" }, true), false, "live ohne Herkunft: gesperrt");
-  assert.equal(schutzBereit({ ERLAUBTE_HERKUNFT: "https://www.autospeedy.ch", FORMULAR_HMAC: "x" }, true), true, "live mit beiden: bereit");
+  const beide = { ERLAUBTE_HERKUNFT: "https://www.autospeedy.ch", FORMULAR_HMAC: "x" };
+  // Seit 10.11.2026: live braucht zusätzlich eine Bremse gegen Massenversand (Turnstile mit Server-Prüfung oder Drossel).
+  assert.equal(schutzBereit(beide, true), false, "live ohne Turnstile und ohne Drossel: gesperrt");
+  assert.equal(schutzBereit({ ...beide, TURNSTILE_SECRET: "s" }, true), true, "live mit Turnstile-Prüfung: bereit");
+  assert.equal(schutzBereit({ ...beide, DROSSEL_KV: { get: async () => null, put: async () => {} } }, true), true, "live mit Drossel über KV: bereit");
+  assert.equal(schutzBereit({ ...beide, DROSSEL: { limit: async () => ({ success: true }) } }, true), true, "live mit Drossel-Binding: bereit");
+  assert.equal(schutzBereit({ ...beide, DROSSEL_KV: { get: async () => null, put: async () => {} }, TURNSTILE_SITEKEY: "k" }, true), false, "live: sichtbares Turnstile ohne Server-Prüfung ist gesperrt");
+  assert.equal(schutzBereit({ ...beide, TURNSTILE_SITEKEY: "k", TURNSTILE_SECRET: "s" }, true), true);
 });

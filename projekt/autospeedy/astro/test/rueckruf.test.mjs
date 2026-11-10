@@ -26,6 +26,8 @@ function mitMail(fn, { env: extra = {}, betriebFehler = false, brevoFehler = fal
   globalThis.fetch = async (url, opt = {}) => {
     const u = String(url);
     if (u.includes("api.brevo.com")) { if (brevoFehler) return new Response("x", { status: 500 }); brevo.push(JSON.parse(opt.body)); return new Response("{}", { status: 201 }); }
+    // Turnstile-Prüfung (nur mit TURNSTILE_SECRET): Das Token «gut» besteht, alles andere fällt durch.
+    if (env.TURNSTILE_SECRET && u.includes("challenges.cloudflare.com/turnstile/v0/siteverify")) return new Response(JSON.stringify({ success: new URLSearchParams(String(opt.body)).get("response") === "gut" }), { status: 200 });
     fremd.push(u); return new Response("{}", { status: 599 });
   };
   return fn({ env, betrieb, brevo }).finally(() => { globalThis.fetch = alt; assert.deepEqual(fremd, [], "kein anderer Netzaufruf"); });
@@ -52,17 +54,30 @@ test("Empfänger: RUECKRUF_AN geht SCHADEN_AN vor", () => mitMail(async ({ env, 
   assert.equal((await onRequestPost({ request: anfrage(formular()), env })).status, 200);
   assert.equal(betrieb.length, 1); assert.equal(betrieb[0].to, "rueckruf@autospeedy.ch");
 }, { env: { RUECKRUF_AN: "rueckruf@autospeedy.ch" } }));
-test("Mail-Adresse angegeben: Betrieb-Mail mit Reply-To, Bestätigung an die Kundschaft ohne Nachricht", () => mitMail(async ({ env, betrieb, brevo }) => {
-  const r = await onRequestPost({ request: anfrage(formular({ email: "Kunde@Beispiel.ch", bemerkung: "geheim" })), env });
+test("Mail-Adresse angegeben und Turnstile bestanden: Betrieb-Mail mit Reply-To, Bestätigung ohne Nachricht und ohne Namen aus dem Formular", () => mitMail(async ({ env, betrieb, brevo }) => {
+  const r = await onRequestPost({ request: anfrage(formular({ email: "Kunde@Beispiel.ch", bemerkung: "geheim", name: "https://boese.example Kaufen", "cf-turnstile-response": "gut" })), env });
   assert.equal(r.status, 200);
   assert.equal(betrieb.length, 1); assert.match(betrieb[0].raw, /^Reply-To: kunde@beispiel\.ch/m);
   assert.equal(brevo.length, 1); assert.equal(brevo[0].to[0].email, "kunde@beispiel.ch");
   assert.match(brevo[0].textContent, /Rückruf-Bitte \(Allgemein\) ist bei .* angekommen/); assert.doesNotMatch(brevo[0].textContent, /geheim/);
+  assert.match(brevo[0].textContent, /^Guten Tag\n/); assert.doesNotMatch(brevo[0].textContent, /boese|Kaufen|https?:/, "kein Text aus dem Formular");
+}, { env: { TURNSTILE_SECRET: "GEHEIM" } }));
+test("Ohne Turnstile-Schlüssel: Betrieb bekommt die Bitte mit Reply-To, aber KEINE Mail geht an die eingegebene Adresse", () => mitMail(async ({ env, betrieb, brevo }) => {
+  const r = await onRequestPost({ request: anfrage(formular({ email: "opfer@beispiel.ch" })), env });
+  assert.equal(r.status, 200); assert.equal(betrieb.length, 1); assert.match(betrieb[0].raw, /^Reply-To: opfer@beispiel\.ch/m);
+  assert.equal(brevo.length, 0);
 }));
+test("Turnstile nicht bestanden: 403 turnstile mit Telefonnummer, nichts gesendet", () => mitMail(async ({ env, betrieb, brevo }) => {
+  for (const token of [undefined, "falsch"]) {
+    const r = await onRequestPost({ request: anfrage(formular({ email: "opfer@beispiel.ch", "cf-turnstile-response": token })), env });
+    assert.equal(r.status, 403); const b = await r.json(); assert.deepEqual(b.fehler, ["turnstile"]); assert.ok(b.telefon);
+  }
+  assert.equal(betrieb.length + brevo.length, 0);
+}, { env: { TURNSTILE_SECRET: "GEHEIM" } }));
 test("Bestätigung scheitert: trotzdem 200, Betrieb hat die Mail", () => mitMail(async ({ env, betrieb }) => {
-  assert.equal((await onRequestPost({ request: anfrage(formular({ email: "kunde@beispiel.ch" })), env })).status, 200);
+  assert.equal((await onRequestPost({ request: anfrage(formular({ email: "kunde@beispiel.ch", "cf-turnstile-response": "gut" })), env })).status, 200);
   assert.equal(betrieb.length, 1);
-}, { brevoFehler: true }));
+}, { brevoFehler: true, env: { TURNSTILE_SECRET: "GEHEIM" } }));
 test("Versand an den Betrieb scheitert: 502 mit Telefonnummer, nie ok", () => mitMail(async ({ env }) => {
   const r = await onRequestPost({ request: anfrage(formular()), env });
   assert.equal(r.status, 502); const j = await r.json(); assert.equal(j.ok, false); assert.deepEqual(j.fehler, ["senden"]); assert.ok(j.telefon);
