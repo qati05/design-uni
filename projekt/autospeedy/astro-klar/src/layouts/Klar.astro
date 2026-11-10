@@ -7,7 +7,7 @@ import { leistungen } from "../daten/leistungen";
 import Kopf from "../components/Kopf.astro";
 import Fuss from "../components/Fuss.astro";
 import Hinweis from "../components/Hinweis.astro";
-const { seite, titel, beschreibung, indexierbar = true, jsonld = false, bildVorladen = null, ogBild = "/bilder/stock/og-start.jpg", brotkrumen = null, faq = null, dienst = null, ldExtra = [] } = Astro.props;
+const { seite, titel, beschreibung, indexierbar = true, jsonld = false, bildVorladen = null, ogBild = "/bilder/og-start.jpg", brotkrumen = null, faq = null, dienst = null, ldExtra = [] } = Astro.props;
 import { betrieb as b, bau } from "../../../astro/bau/daten.mjs";
 const pad = (z: string) => z.replace(".", ":").padStart(5, "0");
 const s = { ...lies(seite), ...(titel ? { titel } : {}), ...(beschreibung ? { beschreibung } : {}) };

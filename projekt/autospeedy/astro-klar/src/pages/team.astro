@@ -1,7 +1,8 @@
 ---
 import Klar from "../layouts/Klar.astro";
 import Kopfbild from "../components/Kopfbild.astro";
-import { site } from "../../../astro/bau/daten.mjs";
+import Luecke from "../components/Luecke.astro";
+import { site, vorschau } from "../../../astro/bau/daten.mjs";
 import { teamTitelSeite } from "../daten/team";
 // Namen, Rollen und Porträts wie auf autospeedy.ch/team; der Betrieb erlaubt die Übernahme (Roni, 04.11.2026). Das Feld einverstaendnis bleibt die Pflege-Sperre im Cockpit.
 const gruppen = site.team
@@ -35,8 +36,11 @@ const personen = gruppen.flatMap((g: any) => g.leute.map((p: any) => {
         </div>
       </div>
     ))}
-    <h2 class="abstand">Ausbildung und Stellen</h2>
-    <p class="text-gross">Auto Speedy ist Ausbildungsbetrieb, unter anderem für Carrosserielackierer/-in EFZ (laut Carrosserie Suisse). Zurzeit sind keine Stellen offen (Stand der bisherigen Website).</p>
+    {/* Prüfung 10.11.2026, Befund 6: Beides ist vom Betrieb nicht bestätigt (fakten.md F8: Verzeichnis von Carrosserie Suisse;
+        F16: Stellenseite der bisherigen Website, Stand 02.11.2026). Darum kein Kundentext mit Quellenvermerk, sondern eine Lücke.
+        Die Überschrift steht nur in der Vorschau, damit live keine Überschrift ohne Text bleibt. */}
+    {vorschau && <h2 class="abstand">Ausbildung und Stellen</h2>}
+    <Luecke>Lücke: Ob Auto Speedy Ausbildungsbetrieb ist (das Verzeichnis von Carrosserie Suisse nennt Carrosserielackierer/-in EFZ) und ob zurzeit Stellen offen sind, bestätigt der Betrieb noch. Bis dahin steht hier kein Text.</Luecke>
   </div>
 </section>
 </Klar>

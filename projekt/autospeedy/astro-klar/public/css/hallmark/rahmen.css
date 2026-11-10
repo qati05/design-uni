@@ -12,12 +12,17 @@
 .kopf { inset: 0 0 auto; top: calc(var(--hinweis-hoehe, 0px) + var(--space-sm)); margin-inline: auto; width: min(100% - 2 * var(--rahmen-rand), var(--rahmen-breit)); height: 64px; padding: 0 var(--space-xs) 0 var(--space-lg); grid-template-columns: auto minmax(0, 1fr) auto; column-gap: var(--gap-columns); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: var(--color-paper); }
 .kopf::before { content: none; }
 .kopf__nav { justify-self: start; }
-.kopf .kopf__aktion { min-height: 48px; padding: 0 var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: transparent; color: var(--color-ink); font: 500 var(--text-md)/1 var(--font-body); box-shadow: none; }
-.kopf .kopf__aktion:hover { background: var(--color-paper-2); }
+/* «Schaden melden» im Kopf (Prüfung 10.11.2026, Befund 3; Entscheid 1 «jederzeit erreichbar»): auf allen Seiten von Anfang an
+ * sichtbar und gefüllt. Nur die Startseite hält ihn zurück, bis man an den beiden Knöpfen im Hero vorbei ist (dort stehen
+ * sie im ersten Bild); ohne Scroll-Timeline oder mit «Bewegung reduzieren» steht er auch dort von Anfang an, ruhig. */
+.kopf .kopf__aktion { min-height: 48px; padding: 0 var(--space-lg); border: 1px solid var(--color-accent); border-radius: var(--radius-pill); background: var(--color-accent); color: var(--color-accent-ink); font: 500 var(--text-md)/1 var(--font-body); box-shadow: none; }
+.kopf .kopf__aktion:hover { background: var(--color-accent-deep); border-color: var(--color-accent-deep); }
+[data-seite="index"] .kopf .kopf__aktion { border-color: var(--color-rule); background: transparent; color: var(--color-ink); }
+[data-seite="index"] .kopf .kopf__aktion:hover { background: var(--color-paper-2); border-color: var(--color-rule); }
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: scroll()) {
-    .kopf .kopf__aktion { border-color: var(--color-accent); background: var(--color-accent); color: var(--color-accent-ink); animation: hm-aktion linear both; animation-timeline: scroll(root); animation-range: 240px 420px; }
-    .kopf .kopf__aktion:hover { background: var(--color-accent-deep); }
+    [data-seite="index"] .kopf .kopf__aktion { border-color: var(--color-accent); background: var(--color-accent); color: var(--color-accent-ink); animation: hm-aktion linear both; animation-timeline: scroll(root); animation-range: 240px 420px; }
+    [data-seite="index"] .kopf .kopf__aktion:hover { background: var(--color-accent-deep); border-color: var(--color-accent-deep); }
   }
 }
 .kopf .kopf__marke img { height: 48px; }
@@ -50,6 +55,8 @@
 .fuss-ort a { color: var(--color-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.16em; }
 .fuss-ort__tel .nr { font-size: var(--text-lg); font-weight: 500; }
 .fuss-kopf { border-color: var(--color-rule); background: transparent; color: var(--color-muted); font: 500 var(--text-sm)/1 var(--font-body); }
+/* Prüfung 10.11.2026, Befund 19: Rückmeldung nach dem Kopieren («Kopiert» mit Haken, 2 Sekunden; Zustand setzt klar.js). */
+.fuss-kopf.ist-kopiert { border-color: var(--color-success); color: var(--color-success); }
 .fuss-slogan { color: var(--color-muted); letter-spacing: var(--tracking-display); }
 .fuss__innen { font-size: var(--text-sm); color: var(--color-muted); border-top-color: var(--color-rule); }
 

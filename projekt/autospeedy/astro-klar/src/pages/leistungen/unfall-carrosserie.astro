@@ -1,6 +1,7 @@
 ---
 import LeistungSeite from "../../components/LeistungSeite.astro";
 import Arbeiten from "../../components/Arbeiten.astro";
+import Luecke from "../../components/Luecke.astro";
 const punkte = [
   { titel: "Unfallschäden", text: "Vom kleinen Blechschaden bis zum Chassis richten und ersetzen wir, was beschädigt ist." },
   { titel: "Stossstangen", text: "Risse und Kratzer reparieren wir, wenn das sinnvoll ist, statt gleich zu ersetzen." },
@@ -10,5 +11,9 @@ const punkte = [
 ---
 <LeistungSeite slug="unfall">
 {/* QA K21: statt des teilfolierten Transporters ein Auto mit abgebauter Front in der Werkstatt (Carrosseriereparatur). */}
-<Arbeiten bild="werkstatt" alt="Auto mit abgebauter Front und offener Motorhaube in der Werkstatt, die Stossstange liegt auf dem Werkzeugwagen" punkte={punkte} zeile="Auch Lieferwagen, Anhänger, Wohnmobile und Oldtimer reparieren wir." />
+<Arbeiten bild="werkstatt" alt="Auto mit abgebauter Front und offener Motorhaube in der Werkstatt, die Stossstange liegt auf dem Werkzeugwagen" punkte={punkte}>
+  {/* Prüfung 10.11.2026, Befund 11: Der Satz «Auch Lieferwagen, Anhänger, Wohnmobile und Oldtimer reparieren wir.» steht nicht in
+      fakten.md (F5, F6) und ist darum kein Kundentext mehr, sondern eine Lücke. */}
+  <Luecke>Lücke: Ob Auto Speedy auch Lieferwagen, Anhänger, Wohnmobile und Oldtimer repariert, bestätigt der Betrieb noch.</Luecke>
+</Arbeiten>
 </LeistungSeite>

@@ -488,8 +488,15 @@ test("Fuss: Status wird live gesetzt, Kopieren-Knopf erscheint und meldet «Kopi
   // Kopieren: ohne JS versteckt, mit Clipboard-API sichtbar; Bestätigung über aria-live.
   const knopf = page.locator(".fuss-ort__tel .fuss-kopf");
   assert.ok(await knopf.isVisible(), "Kopieren-Knopf sichtbar");
+  const vorher = (await knopf.textContent()).trim(), breite = (await knopf.boundingBox()).width;
   await knopf.click();
   await page.waitForFunction(() => /kopiert/i.test(document.querySelector("[data-kopiert-ziel]").textContent));
+  // Prüfung 10.11.2026, Befund 19: sichtbare Rückmeldung im Knopf («Kopiert»), hörbar über role=status; danach wieder wie vorher.
+  assert.equal((await knopf.textContent()).trim(), "Kopiert", "Knopf zeigt «Kopiert»");
+  assert.ok((await knopf.boundingBox()).width >= breite - 0.5, "Knopf wird beim Wechsel nicht schmaler");
+  assert.equal(await page.getAttribute("[data-kopiert-ziel]", "role"), "status");
+  assert.equal(await page.evaluate(() => navigator.clipboard.readText()), "071 755 88 61", "Nummer liegt in der Zwischenablage");
+  await page.waitForFunction((t) => document.querySelector(".fuss-ort__tel .fuss-kopf").textContent.trim() === t && !document.querySelector("[data-kopiert-ziel]").textContent, vorher, { timeout: 5000 });
   assert.deepEqual(fehler, []);
   await ctx.close();
 });

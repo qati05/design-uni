@@ -370,11 +370,16 @@ html.menue-offen, html:has(.blatt[open]) { overflow: hidden; }
 .feld:has(> .fotos__eingabe) { position: relative; }
 .feld .fotos__eingabe { left: 0; top: 0; width: 1px; min-height: 0; height: 1px; padding: 0; border: 0; overflow: hidden; }
 .fotos__eingabe:focus-visible + .fotos__liste, .fotos__knopf:has(+ .fotos__eingabe:focus-visible) { outline: 2px solid var(--blau); }
-.fotos__liste { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+/* Prüfung 10.11.2026, Befund 1: Jedes Foto ist eine Karte, oben das Bild, darunter sein eigenes «Entfernen» über die
+   ganze Kartenbreite (44 px hoch). Nichts liegt mehr über dem Bild oder über der Nachbarkarte. Die Spaltenzahl richtet
+   sich nach dem Platz (ab 76 px je Karte): drei am Computer und bei 390 und 360, zwei bei 320. */
+.fotos__liste { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 8px; }
 .fotos__liste:empty { display: none; }
-.fotos__liste li { position: relative; }
-.fotos__liste img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; }
-.fotos__weg { position: absolute; right: 6px; bottom: 6px; min-height: 32px; padding: 0 10px; border: 0; border-radius: 999px; background: rgba(22, 25, 29, .78); color: #fff; font: 500 12px var(--schrift); cursor: pointer; }
+.fotos__liste li { display: grid; overflow: hidden; border-radius: var(--rund); background: var(--weiss); box-shadow: inset 0 0 0 1px var(--linie); }
+.fotos__liste img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+.fotos__weg { min-height: 44px; padding: 0 4px; border: 0; background: none; color: var(--blau); font: 500 13px/1 var(--schrift); cursor: pointer; }
+.fotos__weg:focus-visible { outline: 2px solid var(--blau); outline-offset: -2px; border-radius: 0 0 var(--rund) var(--rund); }
+@media (hover: hover) and (pointer: fine) { .fotos__weg:hover { background: #eef4fb; } }
 .zusammen { padding: 10px 14px; border-radius: 8px; background: var(--flaeche); font-size: 14px; color: #2d3136; }
 .schalter { position: relative; display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 0; cursor: pointer; font-weight: 500; }
 .schalter input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; z-index: 1; cursor: pointer; }
@@ -789,6 +794,12 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .fuss-kopf { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--linie); border-radius: var(--pille); background: var(--papier); color: var(--leise); font: 500 13px/1 var(--schrift); cursor: pointer; }
 @media (hover: hover) and (pointer: fine) { .fuss-kopf:hover { color: var(--tinte); border-color: var(--leise); } }
 .fuss-meldung { min-height: 1.2em; font-size: 13px; color: #1b7f4b; }
+/* Befund 19: kurze Rückmeldung im Knopf selbst («Kopiert» mit Haken, 2 Sekunden). Die Zeile .fuss-meldung trägt denselben
+   Satz für Screenreader (role=status) und ist nur noch für sie da, damit die Meldung nicht doppelt zu sehen ist. */
+.fuss-kopf { justify-content: center; gap: 6px; }
+/* Farbe des Zustands: hallmark/rahmen.css (.fuss-kopf.ist-kopiert), dort stehen auch die übrigen Farben des Knopfs. */
+.fuss-kopf.ist-kopiert::before { content: ""; width: 10px; height: 5px; margin-top: -3px; border: solid currentColor; border-width: 0 0 2px 2px; transform: rotate(-45deg); }
+.fuss-meldung { position: absolute; width: 1px; height: 1px; min-height: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* 4. Slogan: sehr gross, blass (>= 3:1 fuer grossen Text), unten leicht angeschnitten. Echter Text. */
 /* Logo als Absender über dem Slogan (05.11.2026): eigene Bühne für das sportliche Zeichen, links bündig mit dem Slogan. */
@@ -870,13 +881,11 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 /* QA K09 und K17: Mail als Tippziel mit 44 px Höhe; Umbruch nur an der Stelle nach «@» (<wbr> im HTML), nie mitten im Wort. */
 .leute figcaption a { display: block; min-height: 44px; margin-top: 0; padding: 11px 0; line-height: 22px; overflow-wrap: normal; word-break: normal; }
 @media (max-width: 400px) { .leute figcaption a { font-size: 13px; } }
-/* QA K07: Gruppen haben drei Personen. Drei Spalten füllen die Inhaltsbreite; eine einzelne Person steht als breite Karte
-   (Porträt in Spaltenbreite, Name daneben), damit kein leerer Rest über einer Spalte bleibt. */
+/* QA K07: Gruppen haben drei Personen, drei Spalten füllen die Inhaltsbreite. Prüfung 10.11.2026, Befund 4: Eine einzelne
+   Person steht wie alle anderen in einer Spalte, Name und Rolle unter dem Porträt (die frühere Sonderform «breite Karte,
+   Name daneben» aus QA K07/N07 ist entfernt). */
 @media (min-width: 961px) {
   .leute--seite { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  /* QA N07: Name und Rolle mittig neben dem Porträt (vorher unten am Rand, darüber eine Leerfläche) */
-  .leute--seite[data-anzahl="1"] figure { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: 16px; align-items: center; }
-  .leute--seite[data-anzahl="1"] figcaption { align-self: center; }
 }
 .leute__leer { display: grid; place-items: center; aspect-ratio: 4 / 5; border-radius: var(--rund-gross); background: var(--flaeche); color: var(--grau); font-size: 32px; font-weight: 500; }
 .tesla--seite { padding-top: calc(var(--kopf) + 96px); }
@@ -1573,6 +1582,11 @@ a.klein { font-size: 14px; }
   .hilft__paar { grid-template-columns: minmax(0, 1fr); }
   .hilft__fotos { gap: 10px; }
   .hilft .fotos__knopf { flex-direction: column; gap: 2px; font-size: 15px; }
+  /* Befund 1: Solange kein Foto angehängt ist, bleiben die zwei Felder am Handy nebeneinander (der Senden-Knopf bleibt
+     nah). Sobald ein Foto da ist, stehen Fahrzeugausweis und Schadenfotos untereinander, damit die Foto-Karten Platz
+     haben (nebeneinander blieben je Karte nur 40 px). */
+  .hilft__fotos:has(.fotos__liste:not(:empty)) { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .hilft__fotos:has(.fotos__liste:not(:empty)) .fotos__knopf { flex-direction: row; gap: 10px; min-height: 64px; }
 }
 .mehr-angaben { border-top: 1px solid var(--linie); border-bottom: 1px solid var(--linie); }
 .mehr-angaben > summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; padding: 4px 0; cursor: pointer; list-style: none; font-size: 15px; font-weight: 600; color: var(--blau); }
@@ -1733,6 +1747,17 @@ a.klein { font-size: 14px; }
   [data-seite="team"] .seitenkopf__bild img { object-position: 50% 8%; } /* Gesicht bleibt im kürzeren Ausschnitt */
   [data-seite="kontakt"] .seitenkopf--bild .seitenkopf__text, [data-seite="team"] .seitenkopf--bild .seitenkopf__text { padding-top: 32px; }
   [data-seite="kontakt"] main > .abschnitt:first-of-type, [data-seite="team"] main > .abschnitt:first-of-type { padding-top: 56px; }
+}
+
+/* Prüfung 10.11.2026, Befund 5: Am Handy lag das Gesicht im Kopfbild unter der Kopfleiste. Der Kopf steht im Foto ganz
+   oben, ein anderer Ausschnitt allein holt ihn nicht darunter hervor. Darum beginnt das Foto hier unter der Leiste (wie das
+   Hero-Foto der Startseite am Handy), im Rahmen der Seite und im Format des Fotos (4:3), ohne den weissen Verlauf.
+   Am Computer bleibt das Kopfbild wie bisher. */
+@media (max-width: 960px) {
+  [data-seite="team"] .seitenkopf__bild { height: auto; aspect-ratio: 4 / 3; max-height: 46svh; margin: 80px var(--rand) 0; border-radius: var(--rund-gross); }
+  [data-seite="team"] .seitenkopf__bild::after { content: none; }
+  [data-seite="team"] .seitenkopf__bild img { object-position: 62% 0; }
+  [data-seite="team"] .seitenkopf--bild .seitenkopf__text { padding-top: 32px; }
 }
 
 /* QA C06: Tesla neben den Schadenarten als eigener, ruhiger Link (keine Schadenart) */

@@ -393,15 +393,27 @@
     });
   }
 
-  // Kopieren (Telefon, Adresse): nur mit Clipboard-API; Bestaetigung ueber die aria-live-Zeile. Ohne JS kein Knopf.
+  // Kopieren (Telefon, Adresse): nur mit Clipboard-API. Ohne JS kein Knopf.
+  // Rueckmeldung (Pruefung 10.11.2026, Befund 19): Der Knopf selbst zeigt kurz «Kopiert» mit Haken (sichtbar dort, wo man
+  // getippt hat, Breite bleibt gleich), und die aria-live-Zeile (role=status) sagt «Adresse kopiert» bzw. «Telefon kopiert»
+  // fuer Screenreader. Nach 2 Sekunden steht wieder der alte Text; die Zeile wird geleert, damit ein zweites Kopieren
+  // wieder gemeldet wird.
   if (navigator.clipboard && navigator.clipboard.writeText) {
     [].forEach.call(document.querySelectorAll("[data-kopieren]"), function (knopf) {
+      var text = knopf.textContent, zurueck = 0;
       knopf.hidden = false;
       knopf.addEventListener("click", function () {
         navigator.clipboard.writeText(knopf.getAttribute("data-kopieren")).then(function () {
           var ziel = knopf.closest(".fuss-ort");
           var meldung = ziel && ziel.querySelector("[data-kopiert-ziel]");
-          if (meldung) { meldung.textContent = knopf.getAttribute("data-kopiert") || "Kopiert"; }
+          if (meldung) { meldung.textContent = ""; meldung.textContent = knopf.getAttribute("data-kopiert") || "Kopiert"; }
+          if (!knopf.classList.contains("ist-kopiert")) knopf.style.minWidth = knopf.offsetWidth + "px";
+          knopf.classList.add("ist-kopiert"); knopf.textContent = "Kopiert";
+          clearTimeout(zurueck);
+          zurueck = setTimeout(function () {
+            knopf.classList.remove("ist-kopiert"); knopf.textContent = text; knopf.style.minWidth = "";
+            if (meldung) meldung.textContent = "";
+          }, 2000);
         }).catch(function () {});
       });
     });

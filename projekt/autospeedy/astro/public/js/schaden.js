@@ -150,7 +150,25 @@
     var id = input.id ? input.id + "-fehler" : null;
     if (id && input.getAttribute("aria-describedby")) input.setAttribute("aria-describedby", input.getAttribute("aria-describedby").replace(id, "").trim());
   }
-  ["name", "telefon", "email"].forEach(function (n) { var e = f.elements[n]; if (e) e.addEventListener("input", function () { feldOk(e); }); });
+  // Ein Feld prüfen; gibt den Fehlertext zurück oder "" (gültig). Dieselben Regeln nutzt pruefe() beim Senden.
+  var SAMMELHINWEIS = "Bitte ergänzen Sie die rot markierten Felder.";
+  function fehlerVon(n) {
+    if (n === "name") return wert("name") ? "" : "Bitte geben Sie Ihren Namen an.";
+    if (n === "telefon") return !wert("telefon") ? "Bitte geben Sie Ihre Telefonnummer an." : telefonOk(wert("telefon")) ? "" : "Bitte prüfen Sie die Telefonnummer. Sie braucht mindestens 9 Ziffern.";
+    return wert("email") && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(wert("email")) ? "Bitte prüfen Sie die Mail-Adresse oder lassen Sie das Feld leer." : "";
+  }
+  // Während der Eingabe (wie in rueckruf.js): Die rote Markierung verschwindet, sobald das Feld stimmt; steht kein Feld
+  // mehr rot, verschwindet auch der Sammelhinweis. Bleibt ein Fehler, passt der Text am Feld zum aktuellen Fehler.
+  ["name", "telefon", "email"].forEach(function (n) {
+    var e = f.elements[n]; if (!e) return;
+    e.addEventListener("input", function () {
+      if (e.getAttribute("aria-invalid") !== "true") return;
+      var t = fehlerVon(n);
+      if (t) { var p = (e.closest(".feld") || e.parentElement).querySelector(".feld-fehler"); if (p && p.textContent !== t) p.textContent = t; return; }
+      feldOk(e);
+      if (!f.querySelector('[aria-invalid="true"]') && !rueck.hidden && rueck.textContent === SAMMELHINWEIS) melde("");
+    });
+  });
 
   // Schritt 1: Art wählen führt weiter (Klick, Tippen, Leertaste); Stellen im Plan und in den Kästchen gleich.
   // Tastatur (QA K02): Pfeiltasten wählen in der Gruppe nur aus und bleiben im Schritt, damit man alle Arten durchgehen
@@ -200,13 +218,20 @@
 
   // Schritt 2: Schadenfotos
   var eingabe = f.querySelector("[data-fotos]"), liste = f.querySelector("[data-fotoliste]"), fotoWeiter = f.querySelector("[data-fotoweiter]");
+  // Nach «Entfernen» bleibt der Fokus in der Nähe: auf dem «Entfernen» des Fotos, das nachgerückt ist (sonst des letzten);
+  // ist die Liste leer, auf dem Feld zum Hinzufügen. Ohne das fiele er auf den Seitenanfang.
+  function fokusNachEntfernen(listeEl, i, feld) {
+    var k = listeEl ? listeEl.querySelectorAll(".fotos__weg") : [];
+    var ziel = k.length ? k[Math.min(i, k.length - 1)] : feld;
+    if (ziel) ziel.focus({ preventScroll: true });
+  }
   function zeichneFotos() {
     liste.innerHTML = "";
     fotos.forEach(function (x, i) {
       var li = document.createElement("li"), im = document.createElement("img"), weg = document.createElement("button");
       im.src = x.url; im.alt = "Foto " + (i + 1) + " vom Schaden"; li.className = "foto-neu";
       weg.type = "button"; weg.className = "fotos__weg"; weg.textContent = "Entfernen"; weg.setAttribute("aria-label", "Foto " + (i + 1) + " entfernen");
-      weg.addEventListener("click", function () { URL.revokeObjectURL(x.url); fotos.splice(i, 1); zeichneFotos(); });
+      weg.addEventListener("click", function () { URL.revokeObjectURL(x.url); fotos.splice(i, 1); zeichneFotos(); fokusNachEntfernen(liste, i, eingabe); });
       li.appendChild(im); li.appendChild(weg); liste.appendChild(li);
     });
     fasseZusammen();
@@ -229,7 +254,7 @@
     var li = document.createElement("li"), im = document.createElement("img"), weg = document.createElement("button");
     im.src = ausweis.url; im.alt = "Foto vom Fahrzeugausweis"; li.className = "foto-neu";
     weg.type = "button"; weg.className = "fotos__weg"; weg.textContent = "Entfernen"; weg.setAttribute("aria-label", "Foto vom Fahrzeugausweis entfernen");
-    weg.addEventListener("click", function () { URL.revokeObjectURL(ausweis.url); ausweis = null; zeichneAusweis(); });
+    weg.addEventListener("click", function () { URL.revokeObjectURL(ausweis.url); ausweis = null; zeichneAusweis(); fokusNachEntfernen(ausweisListe, 0, ausweisEingabe); });
     li.appendChild(im); li.appendChild(weg); ausweisListe.appendChild(li);
   }
   if (ausweisEingabe) ausweisEingabe.addEventListener("change", function () {
@@ -314,13 +339,13 @@
     var ok = true;
     if (!art()) { zeige(1); melde("Bitte wählen Sie, was passiert ist.", true); return false; }
     var name = f.elements.name, tel = f.elements.telefon, mail = f.elements.email;
-    if (!wert("name")) { feldFehler(name, "Bitte geben Sie Ihren Namen an."); ok = false; } else feldOk(name);
-    if (!wert("telefon")) { feldFehler(tel, "Bitte geben Sie Ihre Telefonnummer an."); ok = false; }
-    else if (!telefonOk(wert("telefon"))) { feldFehler(tel, "Bitte prüfen Sie die Telefonnummer. Sie braucht mindestens 9 Ziffern."); ok = false; }
-    else feldOk(tel);
-    if (mail && wert("email") && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(wert("email"))) { feldFehler(mail, "Bitte prüfen Sie die Mail-Adresse oder lassen Sie das Feld leer."); ok = false; } else feldOk(mail);
+    [["name", name], ["telefon", tel], ["email", mail]].forEach(function (x) {
+      if (!x[1]) return;
+      var t = fehlerVon(x[0]);
+      if (t) { feldFehler(x[1], t); ok = false; } else feldOk(x[1]);
+    });
     if (!ok) {
-      melde("Bitte ergänzen Sie die rot markierten Felder.", true);
+      melde(SAMMELHINWEIS, true);
       // Zum ersten Fehlerfeld, nicht an den Seitenanfang: Fokus ohne Sprung, dann ruhig in die Mitte
       var erstes = f.querySelector('[aria-invalid="true"]'); if (erstes) { var zu = erstes.closest("details"); if (zu) zu.open = true; erstes.focus({ preventScroll: true }); sanftZu(erstes, "center"); }
       return false;
@@ -465,7 +490,7 @@
         if (!waNr) { melde("WhatsApp ist hier nicht hinterlegt. Bitte rufen Sie uns an: " + TEL + ".", true); return; }
         var wa = "https://wa.me/" + waNr + "?text=" + encodeURIComponent(text);
         window.open(wa, "_blank", "noopener");
-        var anhang = fotos.length ? "Bitte hängen Sie dort Ihre " + (fotos.length === 1 ? "1 Foto" : fotos.length + " Fotos") + (ausweis ? " und den Fahrzeugausweis" : "") + " an." : ausweis ? "Bitte hängen Sie dort den Fahrzeugausweis an." : "Fotos hängen Sie in WhatsApp an.";
+        var anhang = fotos.length ? "Bitte hängen Sie dort " + (fotos.length === 1 ? "Ihr Foto" : "Ihre " + fotos.length + " Fotos") + (ausweis ? " und den Fahrzeugausweis" : "") + " an." : ausweis ? "Bitte hängen Sie dort den Fahrzeugausweis an." : "Fotos hängen Sie in WhatsApp an.";
         bestaetige("Meldung für WhatsApp", "WhatsApp ist geöffnet. Gesendet ist die Nachricht erst, wenn Sie dort auf Senden tippen. " + anhang, wa, false, true);
         return;
       }

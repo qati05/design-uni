@@ -30,7 +30,9 @@ before(() => {
   outDir = path.join(os.tmpdir(), `dist-hinweise-${process.pid}`);
   fs.writeFileSync(fixture, JSON.stringify(site));
   try {
-    execSync(`npx astro build --outDir ${outDir}`, { cwd: wurzel, env: { ...process.env, DATEN: "../astro/src/content", SITE_JSON: fixture }, stdio: "pipe" });
+    execSync(`npx astro build --outDir ${outDir}`, { cwd: wurzel, // EDITOR_AKTIV=true: Die Seite /admin/ gehört seit dem 10.11.2026 nicht mehr zum normalen Bau (Pflege im Cockpit);
+      // hier wird der eigene Editor ausdrücklich mitgebaut. EDITOR_REPO leer: nicht der Sveltia-Notweg.
+      env: { ...process.env, DATEN: "../astro/src/content", SITE_JSON: fixture, EDITOR_AKTIV: "true", EDITOR_REPO: "" }, stdio: "pipe" });
   } finally { fs.rmSync(fixture, { force: true }); }
   csp = fs.readFileSync(path.join(outDir, "_headers"), "utf8").match(/^\s+Content-Security-Policy: (.*)$/m)[1];
 });

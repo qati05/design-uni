@@ -4,7 +4,7 @@
 //   - 6 Leistungskarten als 3:2 in AVIF + WebP (400/800) -> public/bilder/leistungen/{slug}-{w}.{avif,webp}
 //   - Hero B1 zusaetzlich als AVIF (inkl. ~800 px fuers Handy) -> public/bilder/stock/b1-hero-{w}.avif
 //   - Tesla B7 zusaetzlich als AVIF -> public/bilder/stock/b7-tesla-{w}.avif
-//   - Teilen-Bild (Open Graph) 1200x630 -> public/bilder/stock/og-start.jpg
+//   - Teilen-Bild (Open Graph) 1200x630 aus dem eigenen Hero-Foto der Startseite -> public/bilder/og-start.jpg
 //   - Favicon/Icon/Apple-Touch aus dem Logo -> public/bilder/icons/
 // Platzhalter sind spaeter im Shooting ersetzbar (gleiche, klar benannte Dateinamen, S03-S08 der SHOOTING-LISTE).
 import { createRequire } from "node:module";
@@ -51,9 +51,18 @@ if (fs.existsSync(heroQuelle)) {
     if (w === 800 && !fs.existsSync(path.join(stockZiel, "b1-hero-800.webp")))
       await sharp(heroQuelle).resize({ width: w }).webp({ quality: 76 }).toFile(path.join(stockZiel, "b1-hero-800.webp"));
   }
-  // Open-Graph-Bild 1200x630 aus derselben Quelle (Credit B1, siehe /bildnachweise/)
-  await sharp(path.join(stockQuelle, "pexels-14615261.jpg")).resize({ width: 1200, height: 630, fit: "cover" }).jpeg({ quality: 82 }).toFile(path.join(stockZiel, "og-start.jpg"));
 }
+// --- Teilen-Bild (Open Graph, auch «image» im JSON-LD), 1200x630. Prüfung 10.11.2026, Befund 8: kein fremdes Stockfoto mehr,
+// sondern das eigene Foto, das die Startseite im Hero zeigt (defender-kabine). Ausschnitt wie im Hero (Mitte, leicht unter
+// der Bildmitte: object-position 50% 55%). Entsteht bei jedem Bau neu; das frühere stock/og-start.jpg ist entfernt. ---
+const ogQuelle = path.join(pub, "defender-kabine-1600.webp");
+if (fs.existsSync(ogQuelle)) {
+  const og = { b: 1200, h: 630 };
+  const meta = await sharp(ogQuelle).metadata();
+  const hoch = Math.round(meta.height * og.b / meta.width);
+  await sharp(ogQuelle).resize({ width: og.b }).extract({ left: 0, top: Math.max(0, Math.round((hoch - og.h) * 0.55)), width: og.b, height: Math.min(og.h, hoch) })
+    .jpeg({ quality: 82, mozjpeg: true }).toFile(path.join(pub, "og-start.jpg"));
+} else console.warn("bilder-c: Hero-Foto fehlt, kein Teilen-Bild erzeugt: defender-kabine-1600.webp");
 const teslaQuelle = path.join(stockQuelle, "unsplash-wbZ-k80yOqI.jpg");
 if (fs.existsSync(teslaQuelle)) {
   for (const w of [640, 1280, 1920]) await sharp(teslaQuelle).resize({ width: w }).avif({ quality: 52 }).toFile(path.join(stockZiel, `b7-tesla-${w}.avif`));

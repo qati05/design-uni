@@ -44,8 +44,10 @@
   ],
   "mobil": {
     "anzeige": "076 615 44 41",
-    "e164": "+41766154441"
+    "e164": "+41766154441",
+    "bestaetigt": false
   },
+  "_mobil": "Mobilnummer von autospeedy.ch (fakten.md F2, Zweck offen). bestaetigt false zeigt auf der Kontaktseite der Linie Klar eine sichtbare Lücke; true erst nach Bestätigung durch den Betrieb.",
   "whatsapp": {
     "nummer": "41766154441",
     "anzeige": "076 615 44 41",

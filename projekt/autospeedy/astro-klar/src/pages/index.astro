@@ -12,6 +12,7 @@ import { fileURLToPath } from "node:url";
 import Klar from "../layouts/Klar.astro";
 import Bild from "../components/Bild.astro";
 import Partnerband from "../components/Partnerband.astro";
+import Luecke from "../components/Luecke.astro";
 import { betrieb as b, site, vorschau } from "../../../astro/bau/daten.mjs";
 import artenDaten from "../../../astro/src/content/arten.json";
 import { leistungen } from "../daten/leistungen";
@@ -19,7 +20,6 @@ import { faqStart } from "../daten/faq";
 import { umwelt } from "../daten/umwelt";
 import { zeitenOffen as offen } from "../daten/zeiten";
 import { teamTitelStart } from "../daten/team";
-import zitDaten from "../daten/bewertungen-zitate.json";
 
 const arten = (artenDaten as any).arten;
 
@@ -38,7 +38,9 @@ const chef = leute[0];
 const reihe = leute.slice(freigegeben ? 1 : 0, (freigegeben ? 1 : 0) + 4);
 const kurz = (n: string) => n.replace(/ «.*»/, "");
 
-// Bewertungen: dieselbe Logik wie Bewertungen.astro (echte Daten live; Zitate nur in der Vorschau).
+// Bewertungen: echte Daten aus bewertungen.json (Status ok) live und in der Vorschau. Ohne echte Daten zeigt nur die
+// Vorschau den Abschnitt als Muster: Platzhalter statt Note und Zitate, als Lücke gekennzeichnet (Prüfung 10.11.2026, Befund 2).
+// Keine Zahl ohne Beleg: Die frühere Vorschau-Note stand nicht in fakten.md.
 const zeigeBew = (site as any).bewertungen ? (site as any).bewertungen.zeigen !== false : true;
 const bewDatei = process.env.BEWERTUNGEN_DATEI
   ? path.resolve(process.cwd(), process.env.BEWERTUNGEN_DATEI)
@@ -49,10 +51,7 @@ const hatBew = bew && bew.status === "ok" && typeof bew.note === "number" && typ
 const bewNote = hatBew ? bew.note.toFixed(1).replace(".", ",") : "";
 const mapsLink: string | null = hatBew && typeof bew.maps_link === "string" ? bew.maps_link : null;
 const schreiben = (b as any).bewertungen && (b as any).bewertungen.google ? (b as any).bewertungen.google : null;
-const zitate: any[] = Array.isArray((zitDaten as any).zitate) ? (zitDaten as any).zitate : [];
-const zitNote: number | null = typeof (zitDaten as any).note === "number" ? (zitDaten as any).note : null;
-const zitNoteText = zitNote == null ? "" : zitNote.toFixed(1).replace(".", ",");
-const zeigeZitate = vorschau && !hatBew && zitate.length > 0;
+const zeigeMuster = vorschau && !hatBew;
 
 // Umwelt: nur mit bestätigten Angaben des Betriebs (heute leer, siehe src/daten/umwelt.ts).
 const umweltPunkte = umwelt.bestaetigt ? umwelt.punkte : [];
@@ -269,22 +268,19 @@ const startFoto = ersatz.start ?? null;
 </section>
 )}
 
-{zeigeBew && zeigeZitate && (
+{zeigeBew && zeigeMuster && (
 <section class="hm hm-bew" aria-labelledby="bew-vorschau-titel">
   <div class="container hm-bew__raster" data-reveal>
     <div class="hm-bew__kopf">
       <h2 id="bew-vorschau-titel">Was Kundinnen und Kunden auf Google schreiben.</h2>
-      <p class="hm-bew__note"><span class="num">{zitNoteText}</span> von 5 auf Google</p>
-      <p class="hm-bew__hinweis" data-luecke>Nur in der Vorschau. Vor dem Livegang übernehmen wir Zitate, Namen, Datum und Anzahl wörtlich aus dem Google-Unternehmensprofil; dann wird dieser Abschnitt live geschaltet.</p>
+      <Luecke>Platzhalter, nur in der Vorschau: Hier steht noch keine echte Bewertung. Note, Anzahl und Zitate übernehmen wir vor dem Livegang wörtlich aus dem Google-Unternehmensprofil.</Luecke>
     </div>
-    <div>
-      <ul class="hm-zitate">
-        {zitate.slice(0, 3).map((z: any) => (
+    <div class="hm-bew__muster">
+      <p class="hm-platz hm-platz--note">Platzhalter: Note und Anzahl der Bewertungen</p>
+      <ul class="hm-zitate hm-zitate--platz">
+        {[1, 2, 3].map(() => (
           <li>
-            <figure>
-              <blockquote>{z.text}</blockquote>
-              <figcaption>{z.name || "Name folgt"}, Google</figcaption>
-            </figure>
+            <p class="hm-platz">Platzhalter: Zitat aus dem Google-Profil, mit Name und Datum</p>
           </li>
         ))}
       </ul>

@@ -1,5 +1,10 @@
 # Editor `/admin/` einrichten (Auto Speedy)
 
+**Stand 10.11.2026:** Die Pflege liegt im Cockpit. Die Seite `/admin/` gehört darum nicht mehr zum normalen Bau.
+Sie entsteht nur, wenn beim Bau ausdrücklich `EDITOR_AKTIV=true` gesetzt ist (z. B. nach einer Kündigung des Cockpits).
+Ohne den Schalter fehlen `/admin/`, `/js/admin.js` und `/css/admin.css` im Bau; die Functions unter `/api/admin/*`
+bleiben und antworten ohne Anmeldung mit 401.
+
 Der Editor läuft ganz auf den Konten von Auto Speedy. Keine Datenbank, kein Cockpit, keine laufenden Kosten.
 Diese Anleitung nennt nur **Namen** von Einstellungen – nie Werte. Schlüssel kommen ausschliesslich in die
 verschlüsselten Umgebungsvariablen von Cloudflare Pages, nie ins Git.
@@ -51,5 +56,6 @@ Hinweise erscheinen nur mit `von ≤ heute ≤ bis` (Zeitzone Europe/Zurich). Da
 
 ## 5. Fallback
 
-Der frühere Sveltia-CMS-Weg (`astro/bau/editor.mjs`) bleibt als Notweg bestehen (Standard aus, `EDITOR_AKTIV`),
-braucht aber ein GitHub-Login. Der Weg über `/admin/` ist der empfohlene.
+Der frühere Sveltia-CMS-Weg (`astro/bau/editor.mjs`) bleibt als Notweg bestehen: Ist beim Bau neben `EDITOR_AKTIV=true`
+auch `EDITOR_REPO` gesetzt, legt er seine Seite wie bisher über `/admin/` (braucht ein GitHub-Login). Mit `EDITOR_AKTIV=true`
+allein entsteht der eigene Editor aus dieser Anleitung; das ist der empfohlene Weg.

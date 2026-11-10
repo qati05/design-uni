@@ -32,7 +32,7 @@ test("Fixture: Note und Anzahl erscheinen, keine Bewertungskarten, kein reviews-
   assert.match(hero[0], /href="https:\/\/maps\.google\.com\//, "Hero: Link zu den Bewertungen");
   assert.equal((s.match(/class="hm-fakten__liste"[\s\S]*?<\/dl>/)[0].match(/<dt>/g) || []).length, 4, "Faktenleiste bleibt bei vier Punkten");
   assert.match(s, /hm-bew__echt/, "Abschnitt mit echten Daten");
-  assert.doesNotMatch(s, /data-luecke>Nur in der Vorschau|hm-zitate/, "mit echten Daten keine Vorschau-Zitate");
+  assert.doesNotMatch(s, /bew-vorschau-titel|hm-zitate|hm-platz|Platzhalter, nur in der Vorschau/, "mit echten Daten kein Muster-Abschnitt mit Platzhaltern");
   assert.match(s, /Bewertungen von Google/, "Attribution");
   assert.match(s, /Alle Bewertungen auf Google/, "Link auf Google");
   assert.doesNotMatch(s, /class="bew-reihe"|class="bew"[\s>]|Bewertungskarte/, "keine Bewertungskarten");

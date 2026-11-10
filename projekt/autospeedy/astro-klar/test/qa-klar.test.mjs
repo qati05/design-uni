@@ -143,7 +143,8 @@ test("K07: Team-Raster füllt die Inhaltsbreite bei 1440 und 1024", async () => 
   for (const w of [1440, 1024]) {
     const { ctx, page } = await seite(w, 900);
     await page.goto(basis + "/team/");
-    const r = await page.$$eval(".leute--seite", (l) => l.map((g) => { const b = g.getBoundingClientRect(); const rechts = Math.max(...[...g.children].map((c) => c.getBoundingClientRect().right)); return [b.right - rechts, parseFloat(getComputedStyle(g).columnGap)]; }));
+    // Seit Befund 4 (10.11.2026) steht eine einzelne Person wie alle anderen in einer Spalte; diese Gruppe füllt die Breite nicht.
+    const r = await page.$$eval('.leute--seite:not([data-anzahl="1"])', (l) => l.map((g) => { const b = g.getBoundingClientRect(); const rechts = Math.max(...[...g.children].map((c) => c.getBoundingClientRect().right)); return [b.right - rechts, parseFloat(getComputedStyle(g).columnGap)]; }));
     for (const [rest, abstand] of r) assert.ok(rest <= abstand + 1, `${w}: Rest ${rest}px ≤ Spaltenabstand ${abstand}px`);
     await ctx.close();
   }
@@ -299,15 +300,18 @@ test("N06: Vorschau-Plakette auch bei 1440 im Fluss nach dem Fuss, verdeckt nich
   }
 });
 
-test("N07: Einzelperson im Team – Name mittig neben dem Porträt (1440, 1024)", async () => {
-  for (const w of [1440, 1024]) {
+test("Befund 4: Einzelperson im Team gesetzt wie alle anderen Karten (Name unter dem Porträt, gleiche Breite; 1440, 1024, 390)", async () => {
+  for (const w of [1440, 1024, 390]) {
     const { ctx, page } = await seite(w, 900);
     await page.goto(basis + "/team/");
-    const r = await page.$$eval('.leute--seite[data-anzahl="1"] figure', (l) => l.map((f) => {
+    const r = await page.$$eval(".leute--seite figure", (l) => l.map((f) => {
       const bild = f.querySelector("img, .leute__leer").getBoundingClientRect(), text = f.querySelector("figcaption").getBoundingClientRect();
-      return { neben: text.left >= bild.right, mitte: Math.abs((text.top + text.bottom) / 2 - (bild.top + bild.bottom) / 2) };
+      return { allein: f.parentElement.dataset.anzahl === "1", unter: text.top >= bild.bottom - 1, links: Math.abs(text.left - bild.left) <= 1, b: Math.round(bild.width), h: Math.round(bild.height) };
     }));
-    for (const x of r) { assert.ok(x.neben, `${w}: Name neben dem Porträt`); assert.ok(x.mitte <= 4, `${w}: mittig (${x.mitte}px)`); }
+    const allein = r.filter((x) => x.allein), andere = r.filter((x) => !x.allein);
+    assert.ok(allein.length >= 1 && andere.length >= 1, `${w}: Einzelperson und andere Karten vorhanden`);
+    for (const x of r) { assert.ok(x.unter, `${w}: Name unter dem Porträt`); assert.ok(x.links, `${w}: Name bündig mit dem Porträt`); }
+    for (const x of allein) assert.deepEqual([x.b, x.h], [andere[0].b, andere[0].h], `${w}: Porträt so gross wie bei den anderen`);
     await ctx.close();
   }
 });
@@ -529,6 +533,161 @@ test("Umwelt: /leistungen/ zeigt den Abschnitt mit sichtbarer Lücke; die Starts
     await page.goto(basis + pfad);
     const ld = await page.$$eval('script[type="application/ld+json"]', (l) => l.map((s) => s.textContent).join(""));
     assert.doesNotMatch(ld, /Umwelt/i, `${pfad}: kein JSON-LD-Claim`);
+    await ctx.close();
+  }
+});
+
+// ── Prüfung vor dem ersten Test durch den Betrieb (10.11.2026), Befunde aus befund.md ──────────────────────────────────
+
+test("Befund 1: Foto-Karten im Schadenformular (320/360/390/1440) – nichts überlappt, «Entfernen» gehört zur Karte, mindestens 44 px", async () => {
+  for (const w of [320, 360, 390, 1440]) {
+    const { ctx, page, fehler } = await seite(w, 900);
+    await page.goto(basis + "/schaden-melden/?art=hagel");
+    await page.waitForSelector('[data-schritt="2"]:not([hidden])');
+    await page.setInputFiles("[data-ausweis]", { name: "ausweis.png", mimeType: "image/png", buffer: PNG });
+    await page.waitForSelector("[data-ausweisliste] img");
+    await page.setInputFiles("[data-fotos]", [1, 2, 3, 4, 5, 6].map((n) => ({ name: `f${n}.png`, mimeType: "image/png", buffer: PNG })));
+    await page.waitForFunction(() => document.querySelectorAll("[data-fotoliste] li").length === 6);
+    const m = await page.evaluate(() => {
+      const r = (e) => e.getBoundingClientRect(), kasten = r(document.querySelector(".hilft"));
+      const karten = [...document.querySelectorAll("[data-fotoliste] li, [data-ausweisliste] li")];
+      const teile = karten.flatMap((li) => [li.querySelector("img"), li.querySelector("button")]);
+      const ueber = [];
+      for (let i = 0; i < teile.length; i++) for (let j = i + 1; j < teile.length; j++) { const a = r(teile[i]), b = r(teile[j]); if (a.left < b.right - 1 && b.left < a.right - 1 && a.top < b.bottom - 1 && b.top < a.bottom - 1) ueber.push(`${i}/${j}`); }
+      return {
+        ueber,
+        draussen: teile.filter((e) => r(e).left < kasten.left || r(e).right > kasten.right).length,
+        inKarte: karten.every((li) => { const k = r(li), b = r(li.querySelector("button")), i = r(li.querySelector("img")); return b.left >= k.left - 0.5 && b.right <= k.right + 0.5 && b.top >= i.bottom - 0.5 && b.bottom <= k.bottom + 0.5; }),
+        knopf: karten.map((li) => { const b = li.querySelector("button"); return [r(b).width, r(b).height, b.scrollWidth <= b.clientWidth]; }),
+        bild: Math.min(...karten.map((li) => r(li.querySelector("img")).width)),
+      };
+    });
+    assert.deepEqual(m.ueber, [], `${w}: Fotos und Knöpfe überlappen nicht`);
+    assert.equal(m.draussen, 0, `${w}: nichts ragt aus dem Kasten`);
+    assert.ok(m.inKarte, `${w}: jedes «Entfernen» steht in seiner Karte unter dem Foto`);
+    for (const [b, h, passt] of m.knopf) { assert.ok(h >= 44 && b >= 44, `${w}: Tippfläche ${b} × ${h}`); assert.ok(passt, `${w}: «Entfernen» passt in den Knopf`); }
+    assert.ok(m.bild >= 64, `${w}: Foto erkennbar (${m.bild}px breit)`);
+    // am Computer zieht Chrome die Rollleiste von scrollWidth ab (1425 bei 1440), darum hier «nicht breiter als»
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), `${w}: kein Querscrollen`);
+    assert.deepEqual(fehler, []);
+    await ctx.close();
+  }
+});
+
+test("Befund 15: nach «Entfernen» bleibt der Fokus beim nächsten Foto, am Schluss auf dem Feld zum Hinzufügen", async () => {
+  const { ctx, page } = await seite(390);
+  await page.goto(basis + "/schaden-melden/?art=hagel");
+  await page.waitForSelector('[data-schritt="2"]:not([hidden])');
+  await page.setInputFiles("[data-fotos]", [1, 2, 3].map((n) => ({ name: `f${n}.png`, mimeType: "image/png", buffer: PNG })));
+  await page.waitForFunction(() => document.querySelectorAll("[data-fotoliste] li").length === 3);
+  const fokus = () => page.evaluate(() => document.activeElement.getAttribute("aria-label") || document.activeElement.id || document.activeElement.tagName);
+  await page.locator("[data-fotoliste] button").nth(1).focus(); await page.keyboard.press("Enter");
+  assert.equal(await fokus(), "Foto 2 entfernen", "das nachgerückte Foto");
+  await page.keyboard.press("Enter");
+  assert.equal(await fokus(), "Foto 1 entfernen", "letztes entfernt: das Foto davor");
+  await page.keyboard.press("Enter");
+  assert.equal(await fokus(), "f-fotos", "keines mehr: Feld zum Hinzufügen");
+  await page.setInputFiles("[data-ausweis]", { name: "ausweis.png", mimeType: "image/png", buffer: PNG });
+  await page.waitForSelector("[data-ausweisliste] button");
+  await page.locator("[data-ausweisliste] button").focus(); await page.keyboard.press("Enter");
+  assert.equal(await fokus(), "f-ausweis", "Ausweis entfernt: Feld zum Hinzufügen");
+  await ctx.close();
+});
+
+test("Befund 14: Sammelhinweis und rote Markierung verschwinden, sobald die Felder stimmen", async () => {
+  const { ctx, page } = await seite(390);
+  await page.goto(basis + "/schaden-melden/?art=hagel");
+  await page.waitForSelector('[data-schritt="2"]:not([hidden])');
+  await page.locator('[data-senden="website"]').click();
+  await page.waitForSelector('#f-name[aria-invalid="true"]');
+  const sammel = page.locator("[data-rueckmeldung]");
+  assert.match(await sammel.textContent(), /rot markierten Felder/);
+  await page.fill("#f-name", "Test Muster");
+  assert.equal(await page.getAttribute("#f-name", "aria-invalid"), null, "Name stimmt: nicht mehr rot");
+  assert.ok(await sammel.isVisible(), "Telefon fehlt noch: Sammelhinweis bleibt");
+  await page.fill("#f-tel", "079");
+  assert.equal(await page.getAttribute("#f-tel", "aria-invalid"), "true", "Telefon noch zu kurz: bleibt rot");
+  assert.match(await page.locator("#f-tel-fehler").textContent(), /mindestens 9 Ziffern/, "Text am Feld passt zum Fehler");
+  await page.fill("#f-tel", "079 000 00 00");
+  assert.equal(await page.getAttribute("#f-tel", "aria-invalid"), null, "Telefon stimmt: nicht mehr rot");
+  assert.ok(await sammel.isHidden(), "alle Felder stimmen: Sammelhinweis weg");
+  assert.equal(await page.locator(".feld-fehler").count(), 0, "kein Fehlertext mehr");
+  // Mail (freiwillig): falsch gesendet, dann korrigiert
+  await page.evaluate(() => { document.querySelector("[data-ergaenzen]").open = true; });
+  await page.fill("#f-mail", "falsch@");
+  await page.locator('[data-senden="website"]').click();
+  await page.waitForSelector('#f-mail[aria-invalid="true"]');
+  await page.fill("#f-mail", "qa@example.com");
+  assert.equal(await page.getAttribute("#f-mail", "aria-invalid"), null, "Mail stimmt: nicht mehr rot");
+  assert.ok(await sammel.isHidden(), "Sammelhinweis wieder weg");
+  await ctx.close();
+});
+
+test("Befund 3: «Schaden melden» im Kopf am Computer von Anfang an sichtbar (alle Seiten ausser der Startseite), ohne leere Stelle", async () => {
+  for (const [w, h] of [[1440, 900], [1280, 720]]) {
+    // ohne «Bewegung reduzieren»: so, wie die meisten Besucher die Seite sehen
+    const ctx = await browser.newContext({ viewport: { width: w, height: h } });
+    const page = await ctx.newPage();
+    for (const p of ["/leistungen/", "/leistungen/lack/", "/tesla/", "/occasionen/", "/team/", "/kontakt/", "/impressum/", "/datenschutz/", "/bildnachweise/"]) {
+      await page.goto(basis + p);
+      const m = await page.$eval(".kopf__aktion", (a) => { const c = getComputedStyle(a), r = a.getBoundingClientRect(), k = a.closest(".kopf").getBoundingClientRect(); return { op: c.opacity, vis: c.visibility, text: a.textContent.trim(), b: r.width, hoehe: r.height, innen: r.left >= k.left && r.right <= k.right && r.top >= k.top && r.bottom <= k.bottom, y: window.scrollY }; });
+      assert.equal(m.y, 0, `${w} ${p}: oben, nicht gerollt`);
+      assert.equal(m.op, "1", `${w} ${p}: deckend`);
+      assert.equal(m.vis, "visible", `${w} ${p}: sichtbar`);
+      assert.equal(m.text, "Schaden melden");
+      assert.ok(m.b > 100 && m.hoehe >= 44 && m.innen, `${w} ${p}: im Kopf, ${m.b} × ${m.hoehe}`);
+    }
+    await ctx.close();
+  }
+});
+
+test("Befund 17: «Tesla? Hier entlang» und alle anderen Einträge im Streifen auf einer Zeile, ohne Überlauf (320/360/390)", async () => {
+  for (const w of [320, 360, 390]) {
+    const { ctx, page } = await seite(w);
+    await page.goto(basis + "/");
+    await page.evaluate(() => document.fonts.ready);
+    const m = await page.$$eval(".hm-frage__liste a", (l) => l.map((a) => {
+      const r = document.createRange(); r.selectNodeContents(a);
+      const zeilen = new Set([...r.getClientRects()].map((x) => Math.round(x.top))).size;
+      return { t: a.textContent.trim(), zeilen, ueberlauf: a.scrollWidth > a.clientWidth, h: a.getBoundingClientRect().height };
+    }));
+    assert.equal(m.length, 8, `${w}: acht Einträge`);
+    assert.equal(m[m.length - 1].t, "Tesla? Hier entlang", "Wortlaut unverändert");
+    for (const x of m) { assert.equal(x.zeilen, 1, `${w}: «${x.t}» auf einer Zeile`); assert.ok(!x.ueberlauf, `${w}: «${x.t}» ohne Überlauf`); assert.ok(x.h >= 44, `${w}: Tippfläche`); }
+    assert.equal(new Set(m.map((x) => Math.round(x.h))).size, 1, `${w}: alle Zeilen gleich hoch`);
+    assert.ok(await querfrei(page), `${w}: kein Querscrollen`);
+    await ctx.close();
+  }
+});
+
+test("Befund 20: Druckvorlage /bewerten/druck/ ohne Querscrollen am Handy (320/360/390), QR-Code ganz im Blatt", async () => {
+  for (const w of [320, 360, 390]) {
+    const { ctx, page } = await seite(w);
+    await page.goto(basis + "/bewerten/druck/");
+    assert.ok(await querfrei(page), `${w}: kein Querscrollen`);
+    const m = await page.evaluate(() => { const b = document.querySelector(".a6").getBoundingClientRect(), q = document.querySelector(".a6 img").getBoundingClientRect(); return { rechts: b.right, qr: q.left >= b.left && q.right <= b.right && q.width > 120 && Math.abs(q.width - q.height) < 1 }; });
+    assert.ok(m.rechts <= w, `${w}: Blatt im Bild`);
+    assert.ok(m.qr, `${w}: QR-Code ganz im Blatt und quadratisch`);
+    await ctx.close();
+  }
+});
+
+test("Befund 5: Team-Kopfbild am Handy (390/360) beginnt unter der Kopfleiste und zeigt den oberen Bildrand (Gesicht frei)", async () => {
+  for (const [w, h] of [[390, 844], [360, 640]]) {
+    const { ctx, page } = await seite(w, h);
+    await page.goto(basis + "/team/");
+    const m = await page.evaluate(() => {
+      const bild = document.querySelector(".seitenkopf__bild img"), b = bild.getBoundingClientRect(), k = document.querySelector(".kopf").getBoundingClientRect();
+      const s = getComputedStyle(bild), verlauf = getComputedStyle(document.querySelector(".seitenkopf__bild"), "::after").content;
+      // Wie viel vom Foto oben abgeschnitten wird (object-fit: cover): 0 heisst, der obere Bildrand ist zu sehen.
+      const mass = Math.max(b.width / bild.naturalWidth, b.height / bild.naturalHeight), oben = (bild.naturalHeight * mass - b.height) * (parseFloat(s.objectPosition.split(" ")[1]) / 100);
+      return { bildOben: b.top, kopfUnten: k.bottom, oben, verlauf, hoch: b.height, h1: document.querySelector("h1").getBoundingClientRect().top };
+    });
+    assert.ok(m.bildOben >= m.kopfUnten, `${w}: Foto beginnt unter der Kopfleiste (${m.bildOben} ≥ ${m.kopfUnten})`);
+    assert.ok(m.oben < 1, `${w}: oben nichts abgeschnitten (${m.oben}px)`);
+    assert.equal(m.verlauf, "none", `${w}: kein weisser Verlauf über dem Gesicht`);
+    assert.ok(m.hoch >= 180, `${w}: Foto gross genug (${m.hoch}px)`);
+    assert.ok(m.h1 < h, `${w}: Titel im ersten Bild (${m.h1} < ${h})`);
     await ctx.close();
   }
 });

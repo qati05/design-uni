@@ -12,5 +12,6 @@ const { bild, alt, punkte, zeile, titelId = "arbeiten-titel" } = Astro.props;
       {punkte.map((p: { titel: string; text: string }) => <li><h3>{p.titel}</h3><p>{p.text}</p></li>)}
     </ul>
     {zeile ? <p class="arbeiten__zeile">{zeile}</p> : null}
+    <slot />
   </div>
 </section>

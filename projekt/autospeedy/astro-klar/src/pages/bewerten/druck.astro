@@ -21,6 +21,13 @@ import { betrieb as b } from "../../../../astro/bau/daten.mjs";
   .a6 img { width: 55mm; height: 55mm; }
   .a6 .marke { font-weight: 600; color: var(--tinte); }
   @media screen { body { background: var(--grund); padding: 24px; } .a6 { border: 1px solid var(--linie); background: #fff; } }
+  /* Prüfung 10.11.2026, Befund 20: Am Handy ist das Blatt (105 mm) breiter als der Bildschirm. Nur in der Ansicht am
+     Bildschirm passt es sich der Breite an und behält das Seitenverhältnis A6; der Druck bleibt unverändert A6. */
+  @media screen and (max-width: 480px) {
+    body { padding: 16px; }
+    .a6 { width: 100%; height: auto; min-height: calc((100vw - 32px) * 148 / 105); padding: 10mm 8mm; }
+    .a6 img { max-width: 100%; height: auto; }
+  }
 </style>
 </head>
 <body>

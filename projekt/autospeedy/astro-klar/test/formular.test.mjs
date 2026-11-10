@@ -203,6 +203,9 @@ test("WhatsApp: alle Angaben im Text, Fotos nicht als mitgesendet gezeigt, Nacht
   const url = (await page.evaluate(() => window.__offen))[0];
   assert.match(decodeURIComponent(url), /Mail: test@example\.ch/);
   assert.ok(await page.locator("[data-r-fotos]").isHidden(), "keine Vorschau, als wären die Fotos dabei");
-  assert.match(await page.locator("[data-r-stand]").textContent(), /1 Foto an\./);
+  // Prüfung 10.11.2026, Befund 13: Einzahl richtig («Ihr Foto», nicht «Ihre 1 Foto»)
+  const stand = await page.locator("[data-r-stand]").textContent();
+  assert.match(stand, /Bitte hängen Sie dort Ihr Foto an\./);
+  assert.doesNotMatch(stand, /Ihre 1 Foto/);
   await ctx.close();
 });

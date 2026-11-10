@@ -37,7 +37,9 @@ const zitate: any[] = Array.isArray((zitDaten as any).zitate) ? (zitDaten as any
 const zitNote: number | null = typeof (zitDaten as any).note === "number" ? (zitDaten as any).note : null;
 const zitNoteText = zitNote == null ? "" : zitNote.toFixed(1).replace(".", ",");
 const zitSterne = zitNote == null ? [] : [0, 1, 2, 3, 4].map((i) => Math.max(0, Math.min(1, zitNote - i)));
-const zeigeZitate = vorschau && !hatDaten && zitate.length > 0;
+// Prüfung 10.11.2026, Befund 2: ohne belegte Note (bewertungen-zitate.json: note null) kein Vorschau-Block mit Zahl.
+// Dieser Baustein ist zurzeit auf keiner Seite eingebunden; die Startseite zeigt in der Vorschau Platzhalter (index.astro).
+const zeigeZitate = vorschau && !hatDaten && zitate.length > 0 && zitNote != null;
 ---
 {zeigen && hatDaten && (
 <section class="abschnitt abschnitt--rand bewertungen-teil" aria-labelledby="bewertungen-titel">

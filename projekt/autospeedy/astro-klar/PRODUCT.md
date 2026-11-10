@@ -19,7 +19,7 @@ Der Betrieb selbst (Annahme, Administration) liest Meldungen im Cockpit und pfle
 
 ## Product Purpose
 
-Die Website der Auto Speedy AG, Carrosserie und Spritzwerk in Altstätten SG. Sie bringt Schadenmeldungen und Anrufe. Hauptaktion ist die Schadenmeldung «in drei Tipps» (Art, Fotos, Kontakt), gesendet über die Website oder WhatsApp. Zweitaktion ist der Anruf.
+Die Website der Auto Speedy AG, Carrosserie und Spritzwerk in Altstätten SG. Sie bringt Schadenmeldungen und Anrufe. Hauptaktion ist die Schadenmeldung in zwei Schritten (zuerst die Art des Schadens, dann der Kontakt; Fotos und weitere Angaben sind freiwillig), gesendet über die Website oder WhatsApp. Zweitaktion ist der Anruf.
 
 Erfolg heisst: Wer einen Schaden hat, meldet ihn ohne Hilfe vom Handy aus, mit Fotos, und der Betrieb bekommt eine vollständige Meldung. Gemessen wird nach dem Livegang mit Cloudflare Web Analytics (ohne Cookies, im Pages-Dashboard eingeschaltet) und an den eingehenden Meldungen per Mail.
 
@@ -41,7 +41,7 @@ Erfolg heisst: Wer einen Schaden hat, meldet ihn ohne Hilfe vom Handy aus, mit F
 ## Capabilities and Constraints
 
 - Astro 7.4.1, statische Ausgabe, Cloudflare Pages; Node ab 22.22.0.
-- Hell und übersichtlich (Entscheid 3); Dunkelmodus folgt dem Gerät, Knopf im Kopf wählt für den Besuch um und speichert nichts.
+- Hell und übersichtlich (Entscheid 3). Kein Dunkelmodus: Die Website bleibt hell, auch wenn das Gerät dunkel eingestellt ist.
 - Vorbild greco-car.ch: Wirkung und Techniken lernen, nichts kopieren (Entscheid 4).
 - Keine Preise, Fristen, Garantien oder Superlative ohne Freigabe; «Beste Preise garantiert» der alten Website ist bewusst nicht übernommen (F13).
 - Keine Cookies, kein Tracking, Schriften lokal, fremde Inhalte erst nach Klick.
@@ -63,11 +63,11 @@ Erfolg heisst: Wer einen Schaden hat, meldet ihn ohne Hilfe vom Handy aus, mit F
 
 ## Product Principles
 
-1. Schaden melden geht immer und in drei Tipps, auch mit einer Hand am Handy.
+1. Schaden melden geht immer und in zwei Schritten, auch mit einer Hand am Handy.
 2. Nur Belegtes steht da; jede Lücke bleibt als sichtbarer Satz stehen, bis der Betrieb sie füllt.
 3. Hell und übersichtlich vor Effekt; Bewegung nur, wo sie etwas zeigt, und nie unter «Bewegung reduzieren».
 4. Der Betrieb pflegt selbst, ohne Technik zu verstehen.
 
 ## Accessibility & Inclusion
 
-WCAG 2.2 AA in beiden Lacken: Kontrast, Fokus, Tastatur, Reduced Motion, Formular und Schadenstellen ohne JavaScript nutzbar, Tippziele mindestens 44 × 44 px.
+WCAG 2.2 AA, hell (kein Dunkelmodus): Kontrast, Fokus, Tastatur, Reduced Motion, Formular und Schadenstellen ohne JavaScript nutzbar, Tippziele mindestens 44 × 44 px.

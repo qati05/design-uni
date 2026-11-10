@@ -167,7 +167,7 @@ test("Nachtrag SEO: jede Inhaltsseite hat Title, Description (<=155), Canonical,
 });
 
 test("Nachtrag Icons/OG: favicon.ico, SVG-Icon, apple-touch-icon und og-Bild liegen im Bau", () => {
-  for (const f of ["bilder/icons/favicon.ico", "bilder/icons/icon.svg", "bilder/icons/apple-touch-icon.png", "bilder/stock/og-start.jpg"])
+  for (const f of ["bilder/icons/favicon.ico", "bilder/icons/icon.svg", "bilder/icons/apple-touch-icon.png", "bilder/og-start.jpg"])
     assert.ok(fs.existsSync(path.join(dist, f)), f);
   const s = lies(path.join(dist, "index.html"));
   assert.match(s, /<link rel="icon" href="\/bilder\/icons\/favicon\.ico"/);
@@ -227,19 +227,63 @@ test("Nachtrag llms.txt vorhanden, mit Kurzbeschreibung und Seiten-Links", () =>
   assert.ok(!s.includes("ß"), "kein Eszett in llms.txt");
 });
 
-test("Nachtrag Bewertungen: in der Vorschau 3 Zitate (Note 4,8, «Name folgt», Hinweis), kein echter Abschnitt ohne Daten", () => {
+test("Bewertungen ohne echte Daten: in der Vorschau nur Platzhalter mit sichtbarer Lücke unter der Überschrift, keine Note, kein Zitat", () => {
   const s = lies(path.join(dist, "index.html"));
   // Der echte Bewertungs-Abschnitt (mit Note aus bewertungen.json) erscheint ohne Daten gar nicht.
   assert.doesNotMatch(s, /id="bewertungen-titel"/, "kein echter Bewertungs-Abschnitt ohne Daten");
   assert.doesNotMatch(s, /–,– von 5/, "nie der Platzhalter «–,– von 5»");
-  // Die Vorschau-Zitate sind sichtbar, als Vorschau markiert und live ausgeblendet (gleicher Schalter wie Lücke-Boxen).
+  // Prüfung 10.11.2026, Befund 2: Der Abschnitt bleibt in der Vorschau als Muster sichtbar, aber ohne erfundene Zahl und
+  // ohne Zitate. Der Hinweis steht als Lücke direkt unter der Überschrift; live gibt es den Abschnitt ohne Daten nicht.
   const vor = s.match(/<section class="hm hm-bew" aria-labelledby="bew-vorschau-titel"[\s\S]*?<\/section>/);
-  assert.ok(vor, "Vorschau-Bewertungen sichtbar (noindex-Vorschau)");
-  assert.match(vor[0].replace(/<[^>]+>/g, ""), /4,8 von 5 auf Google/, "Note 4,8");
-  assert.equal((vor[0].match(/<blockquote/g) || []).length, 3, "genau 3 Zitate");
-  assert.match(vor[0], /data-luecke/, "als Vorschau markiert (live ausgeblendet)");
-  assert.match(vor[0], /Name folgt/, "Namen stehen auf «Name folgt»");
-  assert.match(vor[0], /Nur in der Vorschau/, "Hinweis, dass der Block live noch aus ist");
+  assert.ok(vor, "Muster-Abschnitt sichtbar (noindex-Vorschau)");
+  const text = vor[0].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+  assert.doesNotMatch(text, /\d[,.]\d|von 5|\d+ Bewertungen/, "keine Note und keine Anzahl ohne echte Daten");
+  assert.doesNotMatch(vor[0], /<blockquote/, "kein Zitat ohne echte Daten");
+  assert.match(vor[0], /<\/h2>\s*<p class="luecke" data-luecke>Platzhalter, nur in der Vorschau/, "Lücke direkt unter der Überschrift");
+  assert.equal((vor[0].match(/class="hm-platz[ "]/g) || []).length, 4, "ein Platzhalter für die Note, drei für Zitate");
+  assert.doesNotMatch(s, /4,8/, "die frühere Vorschau-Note steht nirgends auf der Startseite");
+});
+
+test("Editor /admin/: in der Vorgabe nicht im Bau (Pflege im Cockpit), auch nicht sein Skript und Stil", () => {
+  // Prüfung 10.11.2026, Befund 10: nur mit EDITOR_AKTIV=true beim Bau (siehe astro.config.mjs und hinweis-browser.test.mjs).
+  for (const p of ["admin", "admin/index.html", "js/admin.js", "css/admin.css"]) assert.ok(!fs.existsSync(path.join(dist, p)), `${p} fehlt im normalen Bau`);
+  for (const p of html) assert.doesNotMatch(lies(p), /href="\/admin\//, `${p}: kein Link auf /admin/`);
+});
+
+test("Kundentext ohne Quellenvermerk und ohne unbelegte Aussagen (Tesla, Team, Unfall, llms.txt, FAQ)", () => {
+  // Prüfung 10.11.2026, Befunde 6, 11 und 12.
+  const sicht = (p) => lies(path.join(dist, p)).replace(/<script[\s\S]*?<\/script>/g, "").replace(/<p class="luecke"[\s\S]*?<\/p>/g, "").replace(/<[^>]+>/g, " ");
+  for (const p of ["tesla/index.html", "team/index.html", "llms.txt"]) {
+    assert.doesNotMatch(sicht(p), /steht auf der (bisherigen )?Website|\(laut |laut Website|\(Stand /, `${p}: kein Quellenvermerk`);
+  }
+  assert.match(sicht("tesla/index.html"), /Ja\. Auto Speedy ist Tesla Approved Body Shop und damit von Tesla als Carrosseriewerkstatt zugelassen\./, "Tesla-Frage: schlichte Aussage");
+  assert.doesNotMatch(sicht("team/index.html"), /Ausbildungsbetrieb|keine Stellen offen/, "Team: Unbestätigtes steht nicht als Aussage da");
+  assert.match(lies(path.join(dist, "team/index.html")), /data-luecke>Lücke: Ob Auto Speedy Ausbildungsbetrieb ist/, "Team: als Lücke geführt");
+  assert.doesNotMatch(sicht("leistungen/unfall-carrosserie/index.html"), /Lieferwagen/, "Unfall: unbelegter Satz ist kein Kundentext mehr");
+  assert.match(lies(path.join(dist, "leistungen/unfall-carrosserie/index.html")), /data-luecke>Lücke: Ob Auto Speedy auch Lieferwagen/, "Unfall: als Lücke geführt");
+  assert.match(lies(path.join(dist, "leistungen/felgen/index.html")), /data-luecke>Lücke: Beispielbilder/, "Felgen: Beispielbilder als Lücke");
+  assert.match(lies(path.join(dist, "kontakt/index.html")), /data-luecke>Lücke: Die Mobilnummer/, "Kontakt: Mobilnummer als Lücke");
+  // Befund 12: «An der Alten Landstrasse 63», sichtbar, in llms.txt und im FAQ-JSON-LD
+  for (const p of ["index.html", "leistungen/index.html", "llms.txt"]) {
+    const s = lies(path.join(dist, p));
+    assert.doesNotMatch(s, /An der Alte Landstrasse/, `${p}: nicht «An der Alte»`);
+    assert.match(s, /An der Alten Landstrasse 63 in 9450 Altstätten SG/, `${p}: «An der Alten Landstrasse 63»`);
+  }
+  const ld = JSON.parse(lies(path.join(dist, "tesla/index.html")).match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+  const faq = ld["@graph"].find((x) => x["@type"] === "FAQPage");
+  assert.doesNotMatch(JSON.stringify(faq), /steht auf der Website/, "FAQ-JSON-LD ohne Quellenvermerk");
+});
+
+test("Teilen-Bild: eigenes Hero-Foto 1200 × 630, kein Stockbild mehr", () => {
+  // Prüfung 10.11.2026, Befund 8. JPEG-Masse aus dem SOF-Abschnitt gelesen (ohne Bildbibliothek).
+  const b = fs.readFileSync(path.join(dist, "bilder/og-start.jpg"));
+  let i = 2, masse = null;
+  while (i < b.length) { const m = b[i + 1], l = b.readUInt16BE(i + 2); if (m >= 0xc0 && m <= 0xc2) { masse = [b.readUInt16BE(i + 7), b.readUInt16BE(i + 5)]; break; } i += 2 + l; }
+  assert.deepEqual(masse, [1200, 630]);
+  assert.ok(!fs.existsSync(path.join(dist, "bilder/stock/og-start.jpg")), "altes Stockbild entfernt");
+  const s = lies(path.join(dist, "index.html"));
+  assert.match(s, /<meta property="og:image" content="https:\/\/[^"]+\/bilder\/og-start\.jpg">/);
+  assert.match(s, /"image":"https:\/\/[^"]+\/bilder\/og-start\.jpg"/, "auch im JSON-LD");
 });
 
 test("Nachtrag Schalter Vorschau: noindex-Meta und robots.txt ohne Sperre, keine Sitemap", () => {

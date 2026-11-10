@@ -7,6 +7,8 @@ import Luecke from "../components/Luecke.astro";
 import { betrieb as b } from "../../../astro/bau/daten.mjs";
 ---
 <Klar seite="kontakt" brotkrumen={[{ name: "Startseite", pfad: "/" }, { name: "Kontakt", pfad: "/kontakt/" }]}>
+{/* Prüfung 10.11.2026, Befund 7: Die Mobilnummer ist wie im Schadenformular eine Lücke, bis der Betrieb sie bestätigt
+    (betrieb.json, mobil.bestaetigt; fakten.md F2 «Zweck offen»). */}
 {/* QA K04: Titel sagt, worum es geht; die Adresse steht im Inhalt nur einmal (in der Karte), die Etiketten sind klein,
     Nummer, Adresse und Mail der grösste Text. QA K09: Links in den Karten mindestens 44 px hoch. */}
 <Kopfbild titel="So erreichen Sie uns." foto="fassade" alt="Gebäude der Auto Speedy AG mit Schild und Eingang «Büro – Empfang»">
@@ -15,7 +17,7 @@ import { betrieb as b } from "../../../astro/bau/daten.mjs";
 <section class="abschnitt">
   <div class="abschnitt__innen">
     <div class="kontakt">
-      <div class="kontakt__karte"><h2>Telefon</h2><a class="kontakt__wert" href={`tel:${b.tel.e164}`}>{b.tel.anzeige}</a><small>Mobil <a class="klein" href={`tel:${b.mobil.e164}`}>{b.mobil.anzeige}</a></small></div>
+      <div class="kontakt__karte"><h2>Telefon</h2><a class="kontakt__wert" href={`tel:${b.tel.e164}`}>{b.tel.anzeige}</a><small>Mobil <a class="klein" href={`tel:${b.mobil.e164}`}>{b.mobil.anzeige}</a></small>{!b.mobil.bestaetigt && <Luecke>Lücke: Die Mobilnummer {b.mobil.anzeige} stammt von der bisherigen Website; der Betrieb bestätigt sie noch.</Luecke>}</div>
       <div class="kontakt__karte"><h2>Adresse</h2><p class="kontakt__wert">{b.strasse}<br>{b.plz} {b.ort}</p><small><a class="klein" href={b.route}>Route planen →</a></small></div>
       <div class="kontakt__karte"><h2>Mail</h2><a class="kontakt__wert" href={`mailto:${b.mail}`}>{b.mail}</a><small>Für Schäden schneller: <a class="klein" href="/schaden-melden/">Schaden melden</a></small></div>
     </div>
