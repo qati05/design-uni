@@ -2,6 +2,8 @@
   "_hinweis": "Technik. vorschau true: noindex, keine Sitemap, kein canonical. Erst nach Freigabe durch den Betrieb oder das Studio auf false (web-uni Livegang, WP9); dann sind adresse, kiTraining, crawlerListeGeprueft und pagesProjekt Pflicht, und jede offene Lücke muss geschlossen oder unter lueckenFreigegeben freigegeben sein. stufe «geruest»: fehlende spätere Texte (Beschreibung, Rechtsseiten) sind HINWEIS; «abgabe» (oder STUFE=abgabe beim Bau): FEHLER. Der Livegang prüft immer wie «abgabe».",
   "vorschau": true,
   "stufe": "geruest",
+  "notizen": false,
+  "_notizen": "false: Die Vorschau zeigt keine gelben Notizen (Lücke, Entwurf, Platzhalter-Hinweise, Vorschau-Zeile). true oder NOTIZEN=an beim Bau: Sie sind wieder sichtbar. Die Sperre für den Livegang (lueckenFreigegeben) gilt in beiden Fällen.",
   "sprache": "de-CH",
   "adresse": "",
   "kiTraining": {

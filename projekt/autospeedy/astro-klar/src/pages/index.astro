@@ -13,7 +13,7 @@ import Klar from "../layouts/Klar.astro";
 import Bild from "../components/Bild.astro";
 import Partnerband from "../components/Partnerband.astro";
 import Luecke from "../components/Luecke.astro";
-import { betrieb as b, site, vorschau } from "../../../astro/bau/daten.mjs";
+import { betrieb as b, site, notizen } from "../../../astro/bau/daten.mjs";
 import artenDaten from "../../../astro/src/content/arten.json";
 import { leistungen } from "../daten/leistungen";
 import { faqStart } from "../daten/faq";
@@ -51,7 +51,7 @@ const hatBew = bew && bew.status === "ok" && typeof bew.note === "number" && typ
 const bewNote = hatBew ? bew.note.toFixed(1).replace(".", ",") : "";
 const mapsLink: string | null = hatBew && typeof bew.maps_link === "string" ? bew.maps_link : null;
 const schreiben = (b as any).bewertungen && (b as any).bewertungen.google ? (b as any).bewertungen.google : null;
-const zeigeMuster = vorschau && !hatBew;
+const zeigeMuster = notizen && !hatBew;
 
 // Umwelt: nur mit bestätigten Angaben des Betriebs (heute leer, siehe src/daten/umwelt.ts).
 const umweltPunkte = umwelt.bestaetigt ? umwelt.punkte : [];
@@ -191,7 +191,7 @@ const startFoto = ersatz.start ?? null;
         loading="lazy" decoding="async"
         alt="Scheinwerfer eines schwarzen Tesla Model S">
       {/* Nur in der Vorschau: live steht der Bildnachweis unter /bildnachweise/. */}
-      {vorschau && <figcaption data-luecke>Platzhalter von Unsplash (Philipp Mandler), wird durch ein eigenes Foto ersetzt.</figcaption>}
+      {notizen && <figcaption data-luecke>Platzhalter von Unsplash (Philipp Mandler), wird durch ein eigenes Foto ersetzt.</figcaption>}
     </figure>
     <div class="hm-tesla__unten" data-reveal>
       <dl class="hm-spec">
@@ -206,7 +206,7 @@ const startFoto = ersatz.start ?? null;
           <li><b>Begutachten</b><span>Prüfung am Fahrzeug, Original-Teile bestellen, Versicherung klären.</span></li>
           <li><b>Reparieren</b><span>Instandsetzung nach Tesla-Vorgaben, Übergabe mit Erklärung.</span></li>
         </ol>
-        {vorschau && <p class="hm-tesla__hinweis" data-luecke>Entwurf: Ablauf vom Betrieb zu bestätigen.</p>}
+        {notizen && <p class="hm-tesla__hinweis" data-luecke>Entwurf: Ablauf vom Betrieb zu bestätigen.</p>}
         <a class="btn" href="/schaden-melden/?tesla=1">Tesla-Schaden melden</a>
       </div>
     </div>

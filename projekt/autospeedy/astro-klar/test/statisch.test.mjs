@@ -14,6 +14,49 @@ const html = [];
 (function lauf(d) { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, e.name); if (e.isDirectory()) lauf(p); else if (p.endsWith(".html")) html.push(p); } })(dist);
 const lies = (p) => fs.readFileSync(p, "utf8");
 
+// Zweiter Bau mit eingeblendeten Notizen (NOTIZEN=an), einmal je Testlauf: belegt, dass die gelben Kästen, die Platzhalter
+// und die Vorschau-Zeile weiter funktionieren, obwohl die Vorgabe (bau.json «notizen» false) sie nicht mehr zeigt.
+const notizDist = path.join(os.tmpdir(), `dist-notizen-${process.pid}`);
+let notizGebaut = false;
+function mitNotizen(p) {
+  if (!notizGebaut) {
+    execSync(`npx astro build --outDir ${notizDist}`, { cwd: wurzel, env: { ...process.env, NOTIZEN: "an" }, stdio: "pipe" });
+    notizGebaut = true;
+    process.on("exit", () => fs.rmSync(notizDist, { recursive: true, force: true }));
+  }
+  return lies(path.join(notizDist, p));
+}
+
+test("Ohne Notizen (Vorgabe, Roni 10.11.2026): keine Lücke, kein Entwurf, kein Platzhalter-Hinweis, keine Vorschau-Zeile, keine leere Stelle", () => {
+  assert.ok(html.length >= 16, "Seiten gefunden");
+  for (const p of html) {
+    const s = lies(p).replace(/<script[\s\S]*?<\/script>/g, "");
+    const wo = path.relative(dist, p);
+    assert.doesNotMatch(s, /data-luecke|data-vorschau[ >=]|class="luecke"|<!--luecke:/, `${wo}: keine Notiz und keine Marke`);
+    assert.doesNotMatch(s, /Entwurf:|Entwurf, |Nur in der Vorschau|nur in der Vorschau|wird durch ein eigenes Foto ersetzt|Name folgt|Lücke:|Hier erscheint|Vom Betrieb zu prüfen|Rechtsprüfung nötig|Platzhalter:|Platzhalter von|Platzhalter-Fotos<|hm-platz/, `${wo}: kein Notiz-Text`);
+    assert.doesNotMatch(s, /Nicht veröffentlicht, nicht freigegeben/, `${wo}: keine Vorschau-Zeile`);
+  }
+  // Wo nur eine Notiz stand, bleibt nichts Halbes zurück: keine Überschrift ohne Text, kein leerer Kasten.
+  assert.doesNotMatch(lies(path.join(dist, "team/index.html")), /Ausbildung und Stellen/, "Team: keine Überschrift ohne Text");
+  assert.doesNotMatch(lies(path.join(dist, "occasionen/index.html")), /platzhalter-widget|data-fremd[ >]/, "Occasionen: kein leerer Kasten, der Knopf führt zur Liste");
+  assert.match(lies(path.join(dist, "occasionen/index.html")), /Aktuelle Occasionen auf AutoScout24/, "Occasionen: Knopf zur Liste bleibt");
+  assert.doesNotMatch(lies(path.join(dist, "leistungen/index.html")), /id="umwelt"/, "Leistungen: kein leerer Abschnitt Umwelt");
+  assert.doesNotMatch(lies(path.join(dist, "index.html")), /bew-vorschau-titel/, "Startseite: kein Muster-Abschnitt Bewertungen");
+  assert.match(lies(path.join(dist, "leistungen/felgen/index.html")), /<figcaption class="vergleich__text">/, "Felgen: normale Bildunterschrift statt Notiz");
+  // Die Vorschau bleibt eine Vorschau: weiterhin noindex.
+  assert.match(lies(path.join(dist, "index.html")), /<meta name="robots" content="noindex">/);
+});
+
+test("Mit Notizen (NOTIZEN=an): Kästen, Platzhalter und Vorschau-Zeile sind wieder da", () => {
+  const start = mitNotizen("index.html");
+  assert.match(start, /<\/footer>\s*<p data-vorschau>/, "Vorschau-Zeile im Fluss direkt nach dem Fuss");
+  assert.match(start, /data-luecke>Entwurf: Ablauf vom Betrieb zu bestätigen\./);
+  assert.match(mitNotizen("tesla/index.html"), /data-luecke>Entwurf: Den genauen Ablauf für Tesla bestätigt der Betrieb noch\./, "Tesla: Ablauf bleibt offen");
+  assert.match(mitNotizen("leistungen/index.html"), /id="umwelt"[\s\S]*?data-luecke>Lücke: Was Auto Speedy für die Umwelt macht, ergänzt der Betrieb/, "Leistungen: Lücke Umwelt");
+  assert.match(mitNotizen("team/index.html"), /Ausbildung und Stellen/);
+  assert.match(mitNotizen("occasionen/index.html"), /platzhalter-widget/);
+});
+
 test("_headers: volle CSP ohne unsafe-inline/eval bei Skripten", () => {
   const h = lies(path.join(dist, "_headers"));
   const csp = h.match(/^\s+Content-Security-Policy: (.*)$/m)[1];
@@ -244,15 +287,15 @@ test("Nachtrag llms.txt vorhanden, mit Kurzbeschreibung und Seiten-Links", () =>
   assert.ok(!s.includes("ß"), "kein Eszett in llms.txt");
 });
 
-test("Bewertungen ohne echte Daten: in der Vorschau nur Platzhalter mit sichtbarer Lücke unter der Überschrift, keine Note, kein Zitat", () => {
-  const s = lies(path.join(dist, "index.html"));
+test("Bewertungen ohne echte Daten: mit Notizen nur Platzhalter mit sichtbarer Lücke unter der Überschrift, keine Note, kein Zitat", () => {
+  const s = mitNotizen("index.html");
   // Der echte Bewertungs-Abschnitt (mit Note aus bewertungen.json) erscheint ohne Daten gar nicht.
   assert.doesNotMatch(s, /id="bewertungen-titel"/, "kein echter Bewertungs-Abschnitt ohne Daten");
   assert.doesNotMatch(s, /–,– von 5/, "nie der Platzhalter «–,– von 5»");
-  // Prüfung 10.11.2026, Befund 2: Der Abschnitt bleibt in der Vorschau als Muster sichtbar, aber ohne erfundene Zahl und
+  // Prüfung 10.11.2026, Befund 2: Der Abschnitt bleibt mit Notizen als Muster sichtbar, aber ohne erfundene Zahl und
   // ohne Zitate. Der Hinweis steht als Lücke direkt unter der Überschrift; live gibt es den Abschnitt ohne Daten nicht.
   const vor = s.match(/<section class="hm hm-bew" aria-labelledby="bew-vorschau-titel"[\s\S]*?<\/section>/);
-  assert.ok(vor, "Muster-Abschnitt sichtbar (noindex-Vorschau)");
+  assert.ok(vor, "Muster-Abschnitt sichtbar (Vorschau mit Notizen)");
   const text = vor[0].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
   assert.doesNotMatch(text, /\d[,.]\d|von 5|\d+ Bewertungen/, "keine Note und keine Anzahl ohne echte Daten");
   assert.doesNotMatch(vor[0], /<blockquote/, "kein Zitat ohne echte Daten");
@@ -275,11 +318,11 @@ test("Kundentext ohne Quellenvermerk und ohne unbelegte Aussagen (Tesla, Team, U
   }
   assert.match(sicht("tesla/index.html"), /Ja\. Auto Speedy ist Tesla Approved Body Shop und damit von Tesla als Carrosseriewerkstatt zugelassen\./, "Tesla-Frage: schlichte Aussage");
   assert.doesNotMatch(sicht("team/index.html"), /Ausbildungsbetrieb|keine Stellen offen/, "Team: Unbestätigtes steht nicht als Aussage da");
-  assert.match(lies(path.join(dist, "team/index.html")), /data-luecke>Lücke: Ob Auto Speedy Ausbildungsbetrieb ist/, "Team: als Lücke geführt");
+  assert.match(mitNotizen("team/index.html"), /data-luecke>Lücke: Ob Auto Speedy Ausbildungsbetrieb ist/, "Team: als Lücke geführt");
   assert.doesNotMatch(sicht("leistungen/unfall-carrosserie/index.html"), /Lieferwagen/, "Unfall: unbelegter Satz ist kein Kundentext mehr");
-  assert.match(lies(path.join(dist, "leistungen/unfall-carrosserie/index.html")), /data-luecke>Lücke: Ob Auto Speedy auch Lieferwagen/, "Unfall: als Lücke geführt");
-  assert.match(lies(path.join(dist, "leistungen/felgen/index.html")), /data-luecke>Lücke: Beispielbilder/, "Felgen: Beispielbilder als Lücke");
-  assert.match(lies(path.join(dist, "kontakt/index.html")), /data-luecke>Lücke: Die Mobilnummer/, "Kontakt: Mobilnummer als Lücke");
+  assert.match(mitNotizen("leistungen/unfall-carrosserie/index.html"), /data-luecke>Lücke: Ob Auto Speedy auch Lieferwagen/, "Unfall: als Lücke geführt");
+  assert.match(mitNotizen("leistungen/felgen/index.html"), /data-luecke>Lücke: Beispielbilder/, "Felgen: Beispielbilder als Lücke");
+  assert.match(mitNotizen("kontakt/index.html"), /data-luecke>Lücke: Die Mobilnummer/, "Kontakt: Mobilnummer als Lücke");
   // Befund 12: «An der Alten Landstrasse 63», sichtbar, in llms.txt und im FAQ-JSON-LD
   for (const p of ["index.html", "leistungen/index.html", "llms.txt"]) {
     const s = lies(path.join(dist, p));
@@ -429,7 +472,7 @@ test("K08: Schaden- und Rückruf-Formulare verweisen auf /datenschutz/; Datensch
   assert.match(d, /Cloudflare Email \(Cloudflare, Inc\., USA\)/, "Formular-Mail an den Betrieb");
   assert.match(d, /Brevo \(Sendinblue SAS, Frankreich\)/, "Maildienst an die Kundschaft");
   assert.doesNotMatch(d, /Datenbank in Zürich|Werkstatt-System/, "kein veralteter Weg über eine Datenbank");
-  assert.match(d, /Vom Betrieb zu prüfen/, "Ergänzungen als vom Betrieb zu prüfen markiert");
+  assert.match(mitNotizen("datenschutz/index.html"), /data-luecke>Vom Betrieb zu prüfen/, "Ergänzungen als vom Betrieb zu prüfen markiert (mit Notizen sichtbar, sperrt den Livegang)");
 });
 
 test("K10: alle Titel höchstens 60 Zeichen", () => {

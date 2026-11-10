@@ -4,6 +4,7 @@
 // 5fr Kopf mit Faktentabelle (.spec) | 7fr Fotoband 21:9 und Ablauf (Punkte auf einer Linie, ohne Ziffern seit QA K12; bleibt als Entwurf markiert).
 // Fotoband B7 als WebP 640/1280/1920 aus public/bilder/stock/ (erzeugt von bau/stock-c.mjs).
 // Platzhalter von Unsplash (Philipp Mandler), Credit unter /bildnachweise/.
+import { notizen } from "../../../astro/bau/daten.mjs";
 const band = "/bilder/stock/b7-tesla";
 ---
 <section id="tesla" class="tesla-teil" aria-labelledby="tesla-titel">
@@ -26,7 +27,7 @@ const band = "/bilder/stock/b7-tesla";
         width="1280" height="549"
         loading="lazy" decoding="async"
         alt="Scheinwerfer eines schwarzen Tesla Model S">
-      <figcaption>Platzhalter von Unsplash (Philipp Mandler), wird durch ein eigenes Foto ersetzt.</figcaption>
+      {notizen && <figcaption data-luecke>Platzhalter von Unsplash (Philipp Mandler), wird durch ein eigenes Foto ersetzt.</figcaption>}
     </figure>
     <ol class="ablauf">
       {/* QA K12: ohne Ziffern 01/02/03, damit keine zweite Schrittzählung neben «in zwei Schritten» (Formular) steht. */}

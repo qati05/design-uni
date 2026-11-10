@@ -3,7 +3,7 @@ import Klar from "../layouts/Klar.astro";
 import Luecke from "../components/Luecke.astro";
 import Faq from "../components/Faq.astro";
 import { faqTesla } from "../daten/faq";
-import { vorschau } from "../../../astro/bau/daten.mjs";
+import { notizen } from "../../../astro/bau/daten.mjs";
 // Tesla-Seite (Nachtrag 04.11., C14/C15): kein Raster, kein Glow, keine Pill mit Punkt. Marke als ruhiger Eyebrow,
 // gerahmtes Foto wie auf der Startseite (AVIF + WebP), Liste ohne Pseudo-Navigation, Schritte auf einer Linie,
 // kurze Tesla-FAQ aus Fakten, am Ende CTA «Tesla-Schaden melden» (→ /schaden-melden/?fahrzeug=tesla, vom Formular unterstützt).
@@ -34,7 +34,7 @@ const brotkrumen = [{ name: "Startseite", pfad: "/" }, { name: "Tesla", pfad: "/
           <img src={`${band}-1280.webp`} width="1280" height="549" loading="lazy" decoding="async" alt="Scheinwerfer eines schwarzen Tesla Model S">
         </picture>
       </span>
-      {vorschau && <figcaption data-luecke>Platzhalter von Unsplash (Philipp Mandler), wird durch ein eigenes Foto ersetzt.</figcaption>}
+      {notizen && <figcaption data-luecke>Platzhalter von Unsplash (Philipp Mandler), wird durch ein eigenes Foto ersetzt.</figcaption>}
     </figure>
   </div>
 </section>

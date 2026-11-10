@@ -7,7 +7,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { betrieb, site, vorschau } from "../../../astro/bau/daten.mjs";
+import { betrieb, site, notizen } from "../../../astro/bau/daten.mjs";
 import Luecke from "./Luecke.astro";
 import zitDaten from "../daten/bewertungen-zitate.json";
 
@@ -39,7 +39,7 @@ const zitNoteText = zitNote == null ? "" : zitNote.toFixed(1).replace(".", ",");
 const zitSterne = zitNote == null ? [] : [0, 1, 2, 3, 4].map((i) => Math.max(0, Math.min(1, zitNote - i)));
 // Prüfung 10.11.2026, Befund 2: ohne belegte Note (bewertungen-zitate.json: note null) kein Vorschau-Block mit Zahl.
 // Dieser Baustein ist zurzeit auf keiner Seite eingebunden; die Startseite zeigt in der Vorschau Platzhalter (index.astro).
-const zeigeZitate = vorschau && !hatDaten && zitate.length > 0 && zitNote != null;
+const zeigeZitate = notizen && !hatDaten && zitate.length > 0 && zitNote != null;
 ---
 {zeigen && hatDaten && (
 <section class="abschnitt abschnitt--rand bewertungen-teil" aria-labelledby="bewertungen-titel">

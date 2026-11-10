@@ -1,10 +1,11 @@
 ---
 // Sichtbare Lücke statt erfundener Fakten (wie in der ersten Linie); data-luecke macht sie für Prüfungen zählbar.
-// In der Vorschau sichtbar. Im Live-Bau unsichtbar, aber nicht still: Die Lücke hinterlässt eine Marke, die der Bau
+// Vorschau mit Notizen (bau.json «notizen» oder NOTIZEN=an): sichtbarer Kasten. Vorschau ohne Notizen: nichts.
+// Im Live-Bau unsichtbar, aber nicht still: Die Lücke hinterlässt eine Marke, die der Bau
 // (astro/bau/dateien.mjs) zählt, gegen bau.json «lueckenFreigegeben» prüft und danach aus dem HTML entfernt.
 // Ist eine Lücke nicht freigegeben, bricht der Live-Bau mit der Liste ab.
-import { vorschau } from "../../../astro/bau/daten.mjs";
+import { vorschau, notizen } from "../../../astro/bau/daten.mjs";
 const roh = vorschau ? "" : ((await Astro.slots.render("default")) || "");
 const text = roh.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().replace(/-{2,}/g, "-").replace(/>/g, "");
 ---
-{vorschau ? <p class="luecke" data-luecke><slot /></p> : <Fragment set:html={`<!--luecke:${text}-->`} />}
+{notizen ? <p class="luecke" data-luecke><slot /></p> : vorschau ? null : <Fragment set:html={`<!--luecke:${text}-->`} />}

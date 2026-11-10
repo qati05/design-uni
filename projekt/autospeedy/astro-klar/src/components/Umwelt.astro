@@ -1,13 +1,13 @@
 ---
 // Abschnitt «Umwelt»: ruhig, ohne Werbeversprechen. Inhalt nur aus src/daten/umwelt.ts (Fakten des Betriebs).
-// Leer: in der Vorschau eine Lücke, live gar nichts. Unbestätigt: Punkte nur in der Vorschau, mit Entwurfs-Hinweis.
+// Leer: mit Notizen (bau.json) eine Lücke, sonst gar nichts. Unbestätigt: Punkte nur mit Notizen, mit Entwurfs-Hinweis.
 // `kurz` (für /leistungen/): gleicher Inhalt, kleinere Fassung ohne eigenen Abschnittshintergrund.
 import Luecke from "./Luecke.astro";
 import { umwelt } from "../daten/umwelt";
-import { vorschau } from "../../../astro/bau/daten.mjs";
+import { notizen } from "../../../astro/bau/daten.mjs";
 const { kurz = false } = Astro.props;
-const punkte = umwelt.bestaetigt || vorschau ? umwelt.punkte : [];
-const zeigen = punkte.length > 0 || vorschau;
+const punkte = umwelt.bestaetigt || notizen ? umwelt.punkte : [];
+const zeigen = punkte.length > 0 || notizen;
 ---
 {zeigen && (
 <section id="umwelt" class:list={["umwelt", { "umwelt--kurz": kurz }]} aria-labelledby="umwelt-titel">

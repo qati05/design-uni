@@ -6,8 +6,9 @@
 // caption: C-Rahmenstil mit einer Bildunterschrift. Ohne caption die bestehende Hilfe (Unterseiten).
 import Bild from "./Bild.astro";
 import Luecke from "./Luecke.astro";
-// luecke: Vermerk, den der Betrieb noch auflösen muss (z. B. Beispielbilder). Steht in der Vorschau als sichtbarer Kasten
-// unter dem Regler und sperrt den Live-Bau, bis er geschlossen oder freigegeben ist.
+import { notizen } from "../../../astro/bau/daten.mjs";
+// luecke: Vermerk, den der Betrieb noch auflösen muss (z. B. Beispielbilder). Steht mit Notizen als sichtbarer Kasten
+// unter dem Regler (sonst die normale Bildunterschrift) und sperrt den Live-Bau, bis er geschlossen oder freigegeben ist.
 const { vorher, nachher, altVorher, altNachher, titel, caption = null, luecke = null, platzhalter = false, platzVorher = null, platzNachher = null, sizes = "(max-width: 960px) 100vw, 60vw" } = Astro.props;
 ---
 <figure class="vergleich" data-vergleich>
@@ -17,11 +18,12 @@ const { vorher, nachher, altVorher, altNachher, titel, caption = null, luecke = 
     <span class="vergleich__linie" aria-hidden="true"><span class="vergleich__griff"></span></span>
     <span class="vergleich__marke vergleich__marke--vorher" aria-hidden="true">Vorher</span>
     <span class="vergleich__marke vergleich__marke--nachher" aria-hidden="true">Nachher</span>
-    {platzhalter && !caption && <span class="vergleich__platzhalter">Platzhalter-Fotos</span>}
+    {notizen && platzhalter && !caption && <span class="vergleich__platzhalter">Platzhalter-Fotos</span>}
     <input class="vergleich__regler" type="range" min="0" max="100" step="1" value="50" aria-label={`${titel}: Anteil «vorher» im Bild`} aria-valuetext="50 Prozent vorher">
   </div>
-  {luecke
-    ? <Luecke>{luecke}</Luecke>
+  {luecke && <Luecke>{luecke}</Luecke>}
+  {luecke && notizen
+    ? null
     : caption
     ? <figcaption class="vergleich__text">{caption}</figcaption>
     : <figcaption class="vergleich__text"><b>{titel}</b> <span class="vergleich__hilfe"><span class="nur-maus">Maus über das Bild bewegen</span><span class="nur-touch">Waagrecht wischen</span></span></figcaption>}

@@ -174,13 +174,12 @@ test("K14: alle 7 Schadenart-Karten bei 390 gleich hoch", async () => {
   await ctx.close();
 });
 
-test("K15: Vorschau-Plakette verdeckt bei 390 keinen Inhalt (steht nach dem Fuss, nicht fix)", async () => {
+test("K15: bei 390 keine Vorschau-Plakette und keine Notiz mehr (nichts verdeckt Inhalt)", async () => {
   for (const s of ["/", "/schaden-melden/", "/kontakt/", "/team/"]) {
     const { ctx, page } = await seite(390);
     await page.goto(basis + s);
-    const r = await page.$eval("[data-vorschau]", (v) => [getComputedStyle(v).position, v.previousElementSibling && v.previousElementSibling.tagName]);
-    assert.equal(r[0], "static", `${s}: nicht schwebend`);
-    assert.equal(r[1], "FOOTER", `${s}: nach dem Fuss`);
+    // Roni 10.11.2026: Die Notizen sind weg, also auch die Plakette. Die Lage mit Notizen prüft statisch.test.mjs (NOTIZEN=an).
+    assert.equal(await page.locator("[data-vorschau], [data-luecke]").count(), 0, `${s}: keine Plakette, keine Notiz`);
     await ctx.close();
   }
 });
@@ -289,13 +288,12 @@ test("N05: Datenschutz-Link fliesst im Hilfesatz mit (Inline, normale Zeilenhöh
   }
 });
 
-test("N06: Vorschau-Plakette auch bei 1440 im Fluss nach dem Fuss, verdeckt nichts", async () => {
+test("N06: auch bei 1440 keine Vorschau-Plakette und keine Notiz mehr", async () => {
   for (const s of ["/", "/schaden-melden/", "/leistungen/", "/tesla/"]) {
     const { ctx, page } = await seite(1440, 900);
     await page.goto(basis + s);
-    const r = await page.$eval("[data-vorschau]", (v) => [getComputedStyle(v).position, v.previousElementSibling && v.previousElementSibling.tagName]);
-    assert.equal(r[0], "static", `${s}: nicht schwebend`);
-    assert.equal(r[1], "FOOTER", `${s}: nach dem Fuss`);
+    // Roni 10.11.2026: Die Notizen sind weg, also auch die Plakette. Die Lage mit Notizen prüft statisch.test.mjs (NOTIZEN=an).
+    assert.equal(await page.locator("[data-vorschau], [data-luecke]").count(), 0, `${s}: keine Plakette, keine Notiz`);
     await ctx.close();
   }
 });
@@ -399,12 +397,12 @@ test("bewerten: noindex (Meta und _headers), nicht in der Sitemap-Liste", () => 
 // ===== Runde 3 (09.11.2026): C03, Zähler, N09–N11, B1–B3 =====
 const lesen = (...t) => fs.readFileSync(path.join(dist, ...t), "utf8");
 
-test("C03: Tesla-Zulassung ohne «Offene Frage»; die Lücke zum genauen Ablauf bleibt", () => {
+test("C03: Tesla-Zulassung ohne «Offene Frage» und ohne sichtbare Notiz", () => {
   const html = lesen("tesla", "index.html");
   assert.doesNotMatch(html, /Offene Frage/, "keine «Offene Frage» auf der Tesla-Seite");
   assert.doesNotMatch(html, /Werkstattsuche/, "kein Vorbehalt zur Werkstattsuche");
   assert.match(html, /von Tesla als Carrosseriewerkstatt zugelassen/, "Zulassung als Tatsache");
-  assert.match(html, /data-luecke>Entwurf: Den genauen Ablauf für Tesla bestätigt der Betrieb noch\./, "Ablauf bleibt offen");
+  assert.doesNotMatch(html, /data-luecke|Entwurf:/, "keine sichtbare Notiz (mit NOTIZEN=an bleibt die Lücke, siehe statisch.test.mjs)");
 });
 
 test("B2: Tesla-Seite hat nur einen Abschluss-Aufruf (Fuss mit Tesla-Vorauswahl)", () => {
@@ -499,7 +497,7 @@ test("N11: Tesla bei 390 – Abstand vor «Gut zu wissen» mindestens 32 px", as
   await ctx.close();
 });
 
-test("Umwelt: /leistungen/ zeigt den Abschnitt mit sichtbarer Lücke; die Startseite zeigt ihn erst mit bestätigten Punkten", async () => {
+test("Umwelt: /leistungen/ und Startseite zeigen den Abschnitt erst mit bestätigten Punkten", async () => {
   const { umwelt } = await import("../src/daten/umwelt.ts").catch(() => ({ umwelt: null }));
   const leer = !umwelt || umwelt.punkte.length === 0;
   const bestaetigt = !!umwelt && umwelt.bestaetigt && !leer;
@@ -507,14 +505,10 @@ test("Umwelt: /leistungen/ zeigt den Abschnitt mit sichtbarer Lücke; die Starts
     const { ctx, page, fehler } = await seite(390);
     await page.goto(basis + "/leistungen/");
     const teil = page.locator("section#umwelt");
-    assert.equal(await teil.count(), 1, "/leistungen/: Abschnitt da");
-    assert.match(await teil.locator("h2").textContent(), /Umwelt/);
-    if (leer) {
-      const l = teil.locator("[data-luecke]");
-      assert.ok(await l.isVisible(), "/leistungen/: Lücke sichtbar");
-      assert.match(await l.textContent(), /Was Auto Speedy für die Umwelt macht, ergänzt der Betrieb/);
-      assert.equal(await teil.locator(".umwelt__liste li").count(), 0, "/leistungen/: keine erfundenen Punkte");
-    }
+    // Ohne Notizen (Roni 10.11.2026): ohne bestätigte Punkte gibt es den Abschnitt gar nicht, also auch keine leere Überschrift.
+    assert.equal(await teil.count(), bestaetigt ? 1 : 0, "/leistungen/: Abschnitt nur mit bestätigten Punkten");
+    if (bestaetigt) assert.match(await teil.locator("h2").textContent(), /Umwelt/);
+    assert.equal(await page.locator("[data-luecke]").count(), 0, "/leistungen/: keine sichtbare Notiz");
     assert.deepEqual(fehler, []);
     await ctx.close();
   }

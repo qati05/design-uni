@@ -70,6 +70,10 @@ export const zeitenKurz = betrieb.zeiten.filter((z) => z.fenster).map((z) => `${
 export const texte = lies("texte.json");
 export const bau = lies("bau.json");
 export const vorschau = bau.vorschau !== false;
+// Notizen für uns und den Betrieb (gelbe Kästen «Lücke», «Entwurf», Platzhalter-Hinweise, Vorschau-Zeile im Fuss).
+// Entscheid Roni 10.11.2026: Die Test-Version zeigt sie nicht mehr. bau.json «notizen» true oder NOTIZEN=an beim Bau
+// blendet sie wieder ein (nur in der Vorschau). Die Sperre für den Livegang zählt die Lücken unabhängig davon weiter.
+export const notizen = vorschau && (process.env.NOTIZEN ? process.env.NOTIZEN === "an" : bau.notizen === true);
 export const stufe = vorschau ? (process.env.STUFE || bau.stufe || "geruest") : "abgabe";
 export const streng = stufe === "abgabe";
 
