@@ -107,6 +107,13 @@ test("Vergleich zugänglich auf /leistungen/felgen/ (nicht auf der Startseite), 
   assert.doesNotMatch(start, /data-vergleich/, "kein Felgen-Regler mehr auf der Startseite");
   const leist = lies(path.join(dist, "leistungen", "felgen", "index.html"));
   assert.match(leist, /data-vergleich/, "Regler auf /leistungen/felgen/");
+  // Roni, 10.11.2026: Die drei einzelnen Felgen-Fotos sind weg, es bleibt nur der Regler, neben dem Text statt in voller Breite.
+  // Unter dem Regler steht nur der Titel (wie man ihn bedient, sagt schon die Zeile unter der Überschrift).
+  assert.doesNotMatch(leist, /felge-markiert|felge-gold|felge-pink/, "Felgen: keine einzelnen Felgen-Fotos");
+  assert.doesNotMatch(leist, /Maus über das Bild bewegen|Waagrecht wischen/, "Felgen: kein doppelter Bedienhinweis");
+  const abschnitt = leist.match(/<div class="felgen-vergleich">[\s\S]*?<\/section>/)?.[0] || "";
+  assert.match(abschnitt, /id="felgen-titel"[\s\S]*data-vergleich/, "Felgen: Text und Regler in einem Raster");
+  assert.equal((abschnitt.match(/<img /g) || []).length, 2, "Felgen: nur die zwei Bilder des Reglers (vorher, nachher)");
   assert.match(leist, /<input[^>]*type="range"[^>]*aria-label="[^"]+"/, "zugänglicher Range-Regler");
   const leiste = start.match(/<nav class="handyleiste"[\s\S]*?<\/nav>/)[0];
   assert.match(leiste, /href="tel:/);

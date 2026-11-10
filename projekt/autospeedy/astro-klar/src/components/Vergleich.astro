@@ -4,12 +4,13 @@
 // Tippen und Tastatur springen (--feder-regler). Linie und Griff ueber transform: translateX mit der
 // Container-Query-Einheit cqi (kein Layout-Lesen pro Frame). Ohne JavaScript steht die Linie in der Mitte.
 // caption: C-Rahmenstil mit einer Bildunterschrift. Ohne caption die bestehende Hilfe (Unterseiten).
+// ohneHilfe: nur der Titel als Unterschrift, wenn die Seite schon sagt, wie man den Regler bedient.
 import Bild from "./Bild.astro";
 import Luecke from "./Luecke.astro";
 import { notizen } from "../../../astro/bau/daten.mjs";
 // luecke: Vermerk, den der Betrieb noch auflösen muss (z. B. Beispielbilder). Steht mit Notizen als sichtbarer Kasten
 // unter dem Regler (sonst die normale Bildunterschrift) und sperrt den Live-Bau, bis er geschlossen oder freigegeben ist.
-const { vorher, nachher, altVorher, altNachher, titel, caption = null, luecke = null, platzhalter = false, platzVorher = null, platzNachher = null, sizes = "(max-width: 960px) 100vw, 60vw" } = Astro.props;
+const { vorher, nachher, altVorher, altNachher, titel, caption = null, luecke = null, platzhalter = false, platzVorher = null, platzNachher = null, ohneHilfe = false, sizes = "(max-width: 960px) 100vw, 60vw" } = Astro.props;
 ---
 <figure class="vergleich" data-vergleich>
   <div class="vergleich__buehne">
@@ -26,5 +27,5 @@ const { vorher, nachher, altVorher, altNachher, titel, caption = null, luecke = 
     ? null
     : caption
     ? <figcaption class="vergleich__text">{caption}</figcaption>
-    : <figcaption class="vergleich__text"><b>{titel}</b> <span class="vergleich__hilfe"><span class="nur-maus">Maus über das Bild bewegen</span><span class="nur-touch">Waagrecht wischen</span></span></figcaption>}
+    : <figcaption class="vergleich__text"><b>{titel}</b>{!ohneHilfe && <span class="vergleich__hilfe"><span class="nur-maus">Maus über das Bild bewegen</span><span class="nur-touch">Waagrecht wischen</span></span>}</figcaption>}
 </figure>

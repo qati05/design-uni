@@ -1,18 +1,14 @@
 ---
 // Fehlender Text zu den Arbeiten an Felgen bleibt eine sichtbare Lücke. Titel «Felgen», nie «Alufelgen».
 import LeistungSeite from "../../components/LeistungSeite.astro";
-import Bild from "../../components/Bild.astro";
 import Vergleich from "../../components/Vergleich.astro";
 ---
 <LeistungSeite slug="felgen">
 <section class="abschnitt abschnitt--flaeche" aria-labelledby="felgen-titel">
   <div class="abschnitt__innen">
-    <div class="abschnitt__kopf"><h2 id="felgen-titel">Der Vergleich am Beispiel.</h2><p>Fahren Sie über das Bild, am Handy wischen Sie.</p></div>
-    <Vergleich titel="Felge vorher und nachher" vorher="felge-schaden" platzVorher="felge-vorher" platzNachher="felge-nachher" altVorher="Felge mit Kratzern am Rand" nachher="felge-fertig" altNachher="aufbereitete schwarze Felge" luecke="Lücke: Beispielbilder. Die beiden Fotos zeigen nicht dieselbe Felge; ein Paar aus gleichem Blickwinkel folgt vom Shooting." sizes="(max-width: 1240px) 100vw, 1240px" />
-    <div class="raster raster--drei">
-      <Bild name="felge-markiert" alt="Markierter Schaden am Felgenrand" sizes="(max-width: 960px) 100vw, 33vw" />
-      <Bild name="felge-gold" alt="Goldene Kreuzspeichen-Felge" sizes="(max-width: 960px) 100vw, 33vw" />
-      <Bild name="felge-pink" alt="Pink lackierte Felge auf dem Gitter" sizes="(max-width: 960px) 100vw, 33vw" />
+    <div class="felgen-vergleich">
+      <div class="abschnitt__kopf"><h2 id="felgen-titel">Der Vergleich am Beispiel.</h2><p>Fahren Sie über das Bild, am Handy wischen Sie.</p></div>
+      <Vergleich titel="Felge vorher und nachher" ohneHilfe vorher="felge-schaden" platzVorher="felge-vorher" platzNachher="felge-nachher" altVorher="Felge mit Kratzern am Rand" nachher="felge-fertig" altNachher="aufbereitete schwarze Felge" luecke="Lücke: Beispielbilder. Die beiden Fotos zeigen nicht dieselbe Felge; ein Paar aus gleichem Blickwinkel folgt vom Shooting." sizes="(max-width: 860px) 100vw, 640px" />
     </div>
   </div>
 </section>
