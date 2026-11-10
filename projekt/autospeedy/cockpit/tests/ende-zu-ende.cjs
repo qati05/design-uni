@@ -14,16 +14,8 @@ fs.mkdirSync(S + '/e2e', { recursive: true });
 const ok = (b, t) => { if (!b) throw new Error('FEHLER: ' + t); console.log('ok  ' + t); };
 const konsole = [];
 
-async function mailCode(b, an) {
-  const p = await (await b.newContext()).newPage(); await p.goto(C + '/demo/postfach');
-  const t = await p.textContent('.postfach'); await p.close();
-  return (t.match(new RegExp('An ' + an.replace(/[.@]/g, '\\$&') + '[\\s\\S]*?Ihr Code: (\\d{6})')) || [])[1];
-}
-/** Meldet an. «pruef» (freiwillig) schaut sich die beiden Schritte der Anmeldung an: pruef('mail') und pruef('code'). */
-async function anmelden(b, p, an, pruef) {
-  await p.goto(C + '/login'); if (pruef) await pruef('mail'); await p.fill('#email', an); await p.click('button[type=submit]'); await p.waitForSelector('#code'); if (pruef) await pruef('code');
-  await p.fill('#code', await mailCode(b, an)); await p.click('button[type=submit]'); await p.waitForURL((u) => u.pathname !== '/login');
-}
+/** Demo: keine Anmeldung. Im Betrieb steht Cloudflare Access davor (geprüft in tests/betrieb.cjs und tests/proxy.test.ts). */
+async function oeffnen(p) { await p.goto(C + '/'); await p.waitForSelector('h1'); }
 /** Misst die Ansicht am Handy (bei offenem Blatt nur das Blatt): Rollt die Seite waagrecht? Steht etwas über den Rand?
  *  Ist eine Tippfläche kleiner als 44 × 44 Punkte? Hat ein Feld weniger als 16 Punkte Schrift (dann zoomt das iPhone beim Antippen)? */
 const handyMass = () => {
@@ -68,23 +60,17 @@ async function veroeffentlichen(p, erwartet, was) {
 
 (async () => {
   const b = await chromium.launch();
-  // Ohne Anmeldung: zum Login
-  const a = await (await b.newContext()).newPage(); await a.goto(C + '/'); ok(new URL(a.url()).pathname === '/login', 'ohne Anmeldung: Login');
+  // Eine eigene Login-Seite gibt es nicht mehr: alte Lesezeichen führen auf die Startseite
+  const a = await (await b.newContext()).newPage(); await a.goto(C + '/login'); ok(new URL(a.url()).pathname === '/', 'alte Adresse /login führt auf die Startseite (die Anmeldung macht Cloudflare Access)');
+  ok((await a.goto(C + '/demo/postfach')).status() === 404, 'das Demo-Postfach gibt es nicht mehr → 404'); await a.close();
 
   // ---------- Handy der Werkstatt
   const hc = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, locale: 'de-CH' }); const h = await hc.newPage();
   // 404 gehört zum Test (entfernte Pfade, gelöschte Fotos); alles andere in der Konsole ist ein Fehler.
   h.on('console', (m) => { if (m.type() === 'error' && !/status of 404/.test(m.text())) konsole.push(m.text()); }); h.on('pageerror', (e) => konsole.push(String(e)));
-  await anmelden(b, h, 'werkstatt@autospeedy.example', async (schritt) => {
-    const f = await h.evaluate((id) => { const x = document.getElementById(id); return { type: x.type, inputmode: x.getAttribute('inputmode'), autocomplete: x.getAttribute('autocomplete'), px: parseFloat(getComputedStyle(x).fontSize), hoehe: x.getBoundingClientRect().height, schmal: document.documentElement.scrollWidth <= innerWidth }; }, schritt === 'mail' ? 'email' : 'code');
-    if (schritt === 'mail') ok(f.type === 'email' && f.inputmode === 'email' && f.autocomplete === 'email' && f.px >= 16 && f.hoehe >= 44 && f.schmal, 'Handy, Anmeldung: Mail-Feld mit Mail-Tastatur, Schrift mindestens 16 Punkte (kein Zoom am iPhone), kein seitliches Scrollen');
-    else {
-      ok(f.inputmode === 'numeric' && f.autocomplete === 'one-time-code' && f.px >= 16 && f.schmal, 'Handy, Anmeldung: Code-Feld mit Zifferntastatur (inputmode numeric) und autocomplete one-time-code');
-      ok(await h.evaluate(() => { const a = document.querySelector('.formular a[href="/login"]'); return !!a && /Andere Mail-Adresse verwenden/.test(a.textContent) && a.getBoundingClientRect().height >= 44; }), 'Handy, Anmeldung: vom Code-Schritt führt ein eigener Weg zurück (als App gibt es keinen Zurück-Knopf des Browsers)');
-    }
-  }); await h.waitForURL(C + '/');
-  ok(/Website pflegen/.test(await h.textContent('h1')), 'mit Mail-Code direkt auf «Website pflegen»');
-  const ck = (await hc.cookies()).find((c) => c.name === 'as_demo_sitzung'); ok(ck && ck.httpOnly && ck.expires - Date.now() / 1000 > 29 * 86400, 'Sitzung httpOnly, 30 Tage auf diesem Gerät');
+  await oeffnen(h);
+  ok(/Website pflegen/.test(await h.textContent('h1')), 'Demo: ohne Anmeldung direkt auf «Website pflegen»');
+  ok((await hc.cookies()).length === 0, 'das Cockpit setzt keine eigenen Cookies (die Anmeldung hält Cloudflare Access)');
   const schmal = () => h.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
   ok(await schmal(), 'Handy: kein seitliches Scrollen');
   await handyOk(h, 'Handy 390, Übersicht');
@@ -96,8 +82,6 @@ async function veroeffentlichen(p, erwartet, was) {
   ok(/gibt es nicht/.test(await h.textContent('h1')) && await h.evaluate(() => getComputedStyle(document.querySelector('.knopf')).borderRadius !== '0px'), '404-Seite im Stil des Cockpits (ohne eingebettete Styles, die die CSP blockiert)');
   const api = await h.request.post(C + '/api/meldung', { multipart: { art: 'Hagel' } }); ok([400, 404].includes(api.status()) && !/"ok":true/.test(await api.text()), 'POST /api/meldung nimmt nichts an (' + api.status() + '): keine Kundendaten im Cockpit');
   const alt = await h.goto(C + '/pflege'); ok(new URL(h.url()).pathname === '/' && alt.status() === 200, 'alter Link /pflege führt auf die Startseite');
-  const g = await (await b.newContext()).newPage(); await anmelden(b, g, 'fremd@beispiel.example');
-  const r403 = await g.goto(C + '/'); ok(r403.status() === 403 && /Kein Zugang/.test(await g.textContent('h1')), 'Konto ohne Mitgliedschaft: 403');
 
   // ---------- Übersicht: was gerade gilt, «Schnell erledigt», Hilfe. Alles bleibt Entwurf und wird am Ende verworfen.
   await hin(h, '');
@@ -215,7 +199,7 @@ async function veroeffentlichen(p, erwartet, was) {
   await h.click('.speichern .knopf:not(.knopf--leise)'); await h.waitForSelector(blatt + ' .knopf--gross'); await h.waitForTimeout(450); await h.screenshot({ path: S + '/e2e/3-pruefen-handy.png' }); await h.click(blatt + ' .blatt__fertig'); await h.waitForSelector(blatt, { state: 'detached' });
   await veroeffentlichen(h, ['Öffnungszeiten neu: Mo bis Fr 7.30 bis 12.00 und 13.15 bis 16.00 Uhr', 'Neuer Hinweis: «Hagel? Jetzt melden.»', 'Neuer Tag: Heiligabend (24.12.2026)', 'Neue Ferien: Betriebsferien (28.12.2026 bis 02.01.2027)'], 'Zeiten, Hinweis, Feiertag, Ferien');
   await h.reload(); await hin(h, '');
-  ok(/13.15 bis 16.00 Uhr/.test(await h.textContent('main')) && /werkstatt@autospeedy.example/.test(await h.textContent('main .gruppe')), 'nach Neuladen: neue Zeit, und wer zuletzt veröffentlicht hat');
+  ok(/13.15 bis 16.00 Uhr/.test(await h.textContent('main')) && await h.evaluate(() => { const t = document.querySelector('main').textContent; return /Zuletzt veröffentlicht/.test(t) && !/noch nie über das Cockpit/.test(t) && !/@/.test(t); }), 'nach Neuladen: neue Zeit, und «Zuletzt veröffentlicht» nennt den Zeitpunkt (ohne Namen oder Adresse)');
   ok(/1 aktiv/.test(await h.textContent('a.nav[href="#hinweise"]')), 'Liste zeigt: 1 Hinweis aktiv');
   await hin(h, 'hinweise'); ok((await h.inputValue('.kachel input:checked')) === 'ecke', 'nach dem Veröffentlichen ist die Darstellung «Karte in der Ecke» gespeichert');
   await h.getByRole('button', { name: /^Art / }).focus(); await h.keyboard.press('ArrowDown'); await h.waitForSelector('.menue'); await h.keyboard.press('ArrowDown'); await h.keyboard.press('Enter');
@@ -327,7 +311,7 @@ async function veroeffentlichen(p, erwartet, was) {
   // ---------- Kleines Handy (320 × 568, die Untergrenze) und Querformat: jede Ansicht, Blatt, Menü, Meldungen. Alles bleibt Entwurf.
   const kc = await b.newContext({ viewport: { width: 320, height: 568 }, isMobile: true, hasTouch: true, locale: 'de-CH' }); const k = await kc.newPage();
   k.on('console', (x) => { if (x.type() === 'error' && !/status of 404/.test(x.text())) konsole.push(x.text()); }); k.on('pageerror', (e) => konsole.push(String(e)));
-  await anmelden(b, k, 'werkstatt@autospeedy.example'); await k.waitForURL(C + '/');
+  await oeffnen(k);
   await handyOk(k, 'kleines Handy 320, Übersicht');
   const APP = '.nur-handy .klappe:has(summary:has-text("Als App aufs Handy"))';
   await k.click(APP + ' summary'); const appText = await k.textContent(APP);
@@ -384,14 +368,14 @@ async function veroeffentlichen(p, erwartet, was) {
   const symbole = [];
   for (const [pfad, mass] of [['/icon-192.png', '192x192'], ['/icon-512.png', '512x512'], ['/icon-maskable-512.png', '512x512'], ['/apple-touch-icon.png', '180x180']]) { const r = await m.request.get(C + pfad, { maxRedirects: 0 }); symbole.push(r.status() === 200 && /image\/png/.test(r.headers()['content-type'] || '') && pngMass(await r.body()) === mass ? '' : pfad + ' ' + r.status()); }
   const mr = await m.request.get(C + '/manifest.webmanifest', { maxRedirects: 0 });
-  ok(mr.status() === 200 && mj.name === 'Auto Speedy Cockpit' && mj.short_name === 'Cockpit' && mj.lang === 'de-CH' && mj.start_url === '/' && mj.scope === '/' && mj.background_color === '#f2f2f7' && mj.theme_color === '#f2f2f7' && !mj.orientation && mj.icons.some((i) => i.purpose === 'maskable') && symbole.every((x) => !x), 'Manifest und Symbole ohne Anmeldung erreichbar (keine Umleitung auf den Login): Name, Start, Farben, Symbole 192, 512, maskable 512 und apple-touch-icon 180 als PNG in der richtigen Grösse' + symbole.filter(Boolean).join(' '));
-  await m.goto(C + '/login');
-  ok(await m.evaluate(() => document.querySelector('link[rel="manifest"]')?.getAttribute('href')?.startsWith('/manifest.webmanifest') && !!document.querySelector('link[rel="apple-touch-icon"][href^="/apple-touch-icon.png"]') && document.querySelector('meta[name="theme-color"]')?.content === '#f2f2f7' && /viewport-fit=cover/.test(document.querySelector('meta[name="viewport"]')?.content || '')) && /manifest-src 'self'/.test((await m.request.get(C + '/login')).headers()['content-security-policy'] || ''), 'Kopf der Seite: Manifest, apple-touch-icon, theme-color und viewport-fit=cover sind gesetzt, die CSP erlaubt das Manifest');
-  ok((await m.goto(C + '/sw.js')).status() === 200 && (await m.goto(C + '/offline.html')).status() === 200, 'Service Worker und Offline-Seite ohne Login');
+  ok(mr.status() === 200 && mj.name === 'Auto Speedy Cockpit' && mj.short_name === 'Cockpit' && mj.lang === 'de-CH' && mj.start_url === '/' && mj.scope === '/' && mj.background_color === '#f2f2f7' && mj.theme_color === '#f2f2f7' && !mj.orientation && mj.icons.some((i) => i.purpose === 'maskable') && symbole.every((x) => !x), 'Manifest und Symbole erreichbar (keine Umleitung): Name, Start, Farben, Symbole 192, 512, maskable 512 und apple-touch-icon 180 als PNG in der richtigen Grösse' + symbole.filter(Boolean).join(' '));
+  await m.goto(C + '/');
+  ok(await m.evaluate(() => document.querySelector('link[rel="manifest"]')?.getAttribute('href')?.startsWith('/manifest.webmanifest') && document.querySelectorAll('link[rel="manifest"]').length === 1 && document.querySelector('link[rel="manifest"]').getAttribute('crossorigin') === 'use-credentials' && !!document.querySelector('link[rel="apple-touch-icon"][href^="/apple-touch-icon.png"]') && document.querySelector('meta[name="theme-color"]')?.content === '#f2f2f7' && /viewport-fit=cover/.test(document.querySelector('meta[name="viewport"]')?.content || '')) && /manifest-src 'self'/.test((await m.request.get(C + '/')).headers()['content-security-policy'] || ''), 'Kopf der Seite: Manifest (genau eines, mit «use-credentials», damit der Browser es hinter der Anmeldung von Cloudflare Access abholen kann), apple-touch-icon, theme-color und viewport-fit=cover sind gesetzt, die CSP erlaubt das Manifest');
+  ok((await m.goto(C + '/sw.js')).status() === 200 && (await m.goto(C + '/offline.html')).status() === 200, 'Service Worker und Offline-Seite erreichbar');
   await hin(h, ''); await h.waitForTimeout(800); ok(await h.evaluate(async () => !!(await navigator.serviceWorker.getRegistration())), 'Service Worker angemeldet');
   const dc = await b.newContext({ viewport: { width: 1280, height: 860 }, locale: 'de-CH' }); const d = await dc.newPage();
   d.on('console', (x) => { if (x.type() === 'error' && !/status of 404/.test(x.text())) konsole.push(x.text()); }); d.on('pageerror', (e) => konsole.push(String(e)));
-  await anmelden(b, d, 'werkstatt@autospeedy.example'); await d.waitForURL(C + '/');
+  await oeffnen(d);
   ok(await d.isVisible('.leiste nav') && /Website pflegen/.test(await d.textContent('h1')), 'Computer: Seitenleiste links, Übersicht rechts');
   ok(await d.isVisible(SCHNELL) && (await d.locator('main .klappe .zeile--schritt:visible').count()) === 3 && !(await d.isVisible('.leiste .klappe')), 'Computer: «Schnell erledigt» und die Hilfe mit den 3 Schritten stehen offen auf der Übersicht');
   await d.click(SCHNELL + ' button:has-text("Ferien eintragen")'); await d.waitForSelector(blatt);
@@ -402,6 +386,6 @@ async function veroeffentlichen(p, erwartet, was) {
   await d.keyboard.press('Tab'); ok(await d.evaluate(() => !!document.activeElement && document.activeElement !== document.body), 'Computer: mit der Tastatur bedienbar');
   await d.waitForTimeout(450); await d.screenshot({ path: S + '/e2e/9-team-computer.png' });
   ok(konsole.length === 0, 'keine Fehler in der Konsole (auch keine CSP-Verstösse)' + (konsole.length ? ': ' + konsole.join(' | ') : ''));
-  await hin(h, ''); await h.click('button:has-text("Abmelden")'); await h.waitForURL(C + '/login'); await h.goto(C + '/'); ok(new URL(h.url()).pathname === '/login', 'Abmelden: danach wieder Login');
+  await hin(h, ''); ok(/Angemeldet als werkstatt@autospeedy\.example/.test(await h.textContent('.konto')) && !(await h.$('button:has-text("Abmelden")')), 'Demo: zeigt, wer angemeldet ist; «Abmelden» gibt es nur im Betrieb (dort beendet es die Anmeldung bei Cloudflare Access)');
   await b.close(); console.log('ALLES GRÜN');
 })().catch((e) => { console.error(e.message); if (konsole.length) console.error('Konsole: ' + konsole.join(' | ')); process.exit(1); });

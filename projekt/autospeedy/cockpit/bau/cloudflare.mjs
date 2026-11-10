@@ -19,9 +19,6 @@ const SPERRDATEIEN = ["bun.lockb", "bun.lock", "package-lock.json", "yarn.lock",
 const abbruch = (text) => { console.error("\nBau abgebrochen: " + text + "\n"); process.exit(1); };
 
 process.chdir(cockpit);
-// Beide Werte werden fest in den Bau geschrieben. Ohne sie gelänge der Bau, und das Cockpit scheiterte erst im Betrieb.
-for (const name of ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"])
-  if (!process.env[name]) abbruch(`${name} fehlt. Beide NEXT_PUBLIC_…-Werte müssen beim Bau gesetzt sein (EINRICHTEN.md, Schritt 9).`);
 if (!fs.existsSync(path.join(wurzel, "gemeinsam/node_modules/zod")))
   abbruch("../gemeinsam ist nicht installiert. Zuerst: npm ci --prefix ../gemeinsam");
 

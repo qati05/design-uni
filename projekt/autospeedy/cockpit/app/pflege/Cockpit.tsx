@@ -14,7 +14,7 @@ import { Blatt, Gruppe, KontextGeber, Symbol, type Auftrag, type Kontext } from 
 import { Hilfe, Uebersicht } from "./uebersicht";
 
 type Props = {
-  stand: PflegeStand; verlauf: VerlaufEintrag[]; besucher: BesucherZahlen | null; email: string; heute: string;
+  stand: PflegeStand; verlauf: VerlaufEintrag[]; besucher: BesucherZahlen | null; email: string; abmeldbar: boolean; heute: string;
   /** Adresse der Website (WEBSITE_URL) und Mail des Betreuers (HILFE_MAIL). Beides freiwillig: Fehlt es, fehlt die Zeile. */
   website: { adresse: string; name: string } | null; hilfeMail: string | null;
 };
@@ -34,7 +34,7 @@ function useBereich(): BereichId | "" {
   return b;
 }
 
-export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute, website, hilfeMail }: Props) {
+export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, abmeldbar, heute, website, hilfeMail }: Props) {
   const [basis, setBasis] = useState(stand);
   const [e, setE] = useState<Entwurf>(() => entwurfAus(stand.daten));
   const eJetzt = useRef(e);
@@ -177,7 +177,7 @@ export function Cockpit({ stand, verlauf: verlaufStart, besucher, email, heute, 
           <div className="gruppe konto">
             <div className="gruppe__karte">
               <p className="konto__mail">Angemeldet als {email}</p>
-              <form action={abmelden}><button type="submit" className="zeile zeile--tat">Abmelden</button></form>
+              {abmeldbar ? <form action={abmelden}><button type="submit" className="zeile zeile--tat">Abmelden</button></form> : null}
             </div>
           </div>
         </aside>

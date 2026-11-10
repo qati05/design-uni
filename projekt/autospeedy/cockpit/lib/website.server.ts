@@ -49,7 +49,7 @@ export async function siteSchreiben(r: Repo, daten: Site, sha: string): Promise<
   const inhalt = Buffer.from(JSON.stringify(g.data, null, 2) + "\n", "utf8").toString("base64");
   const a = await fetch(adresse(r), {
     method: "PUT", headers: { ...kopf(r), "content-type": "application/json" }, cache: "no-store", signal: AbortSignal.timeout(15000),
-    // Keine Namen in der Commit-Nachricht: Git vergisst nicht. Wer gespeichert hat, steht im Audit-Log des Cockpits.
+    // Keine Namen in der Commit-Nachricht: Git vergisst nicht.
     body: JSON.stringify({ message: "Website pflegen (Cockpit)", content: inhalt, sha, branch: r.zweig }),
   }).catch(() => null);
   if (!a) return "unklar";

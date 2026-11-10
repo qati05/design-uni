@@ -12,7 +12,10 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="de-CH">
       <body>
-        {process.env.COCKPIT_DEMO === "1" ? <p className="demo-band">Demo: Änderungen bleiben auf diesem Rechner, kein echter Mailversand, die echte Website bleibt unverändert.</p> : null}
+        {/* Das Manifest liegt wie alles hinter der Anmeldung von Cloudflare Access. Der Browser holt es nur mit «use-credentials»
+            samt Anmeldung ab; ohne das bekäme er die Anmeldeseite statt des Manifests, und «App installieren» ginge nicht. */}
+        <link rel="manifest" href="/manifest.webmanifest" crossOrigin="use-credentials" />
+        {process.env.COCKPIT_DEMO === "1" ? <p className="demo-band">Demo: Änderungen bleiben auf diesem Rechner, die echte Website bleibt unverändert. Im Betrieb steht davor die Anmeldung mit einem Code per Mail.</p> : null}
         {children}
         <AppAnmelden />
       </body>

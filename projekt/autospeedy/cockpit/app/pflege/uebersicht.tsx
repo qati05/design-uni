@@ -58,7 +58,7 @@ export function Uebersicht({ basis, besucher, geaendert, website, gehe, sage, wa
         <Wert name="Geöffnet">{zeitenZeile(basis.daten) || "geschlossen"}</Wert>
         <a className="zeile zeile--link" href="#hinweise"><span className="zeile__name">Hinweise</span><span className="zeile__wert">{hinweiseStand(basis.daten.hinweise, heute)}</span>{offen("hinweise")}<Symbol name="pfeil" klein /></a>
         <a className="zeile zeile--link" href="#ausnahmen"><span className="zeile__name">Nächste Ferien</span><span className="zeile__wert">{ferienStand(basis.daten.ausnahmen, heute)}</span>{offen("ausnahmen")}<Symbol name="pfeil" klein /></a>
-        <Wert name="Zuletzt veröffentlicht">{basis.geaendert ? `${zeitText(basis.geaendert)}${basis.von ? `, ${basis.von}` : ""}` : "noch nie über das Cockpit"}</Wert>
+        <Wert name="Zuletzt veröffentlicht">{basis.geaendert ? zeitText(basis.geaendert) : "noch nie über das Cockpit"}</Wert>
         {besucher ? <a className="zeile zeile--link" href="#besucher"><span className="zeile__name">Besuche in 28 Tagen</span><span className="zeile__wert">{besucher.tage.reduce((n, t) => n + t.besuche, 0).toLocaleString("de-CH")}{besucher.beispiel ? " (Beispiel)" : ""}</span><Symbol name="pfeil" klein /></a> : null}
         {website ? <a className="zeile zeile--link" href={website.adresse} target="_blank" rel="noopener noreferrer"><span className="zeile__name">Website ansehen<span className="unsichtbar"> (öffnet in einem neuen Tab)</span></span><span className="zeile__wert">{website.name}</span><Symbol name="aussen" klein /></a> : null}
       </Gruppe>

@@ -13,14 +13,11 @@
     "demo": "COCKPIT_DEMO=1 next start -p 4400",
     "typen": "tsc --noEmit",
     "test": "vitest run",
-    "rauchprobe": "bash tests/db/rauchprobe.sh",
     "bilder": "node bau/bilder.mjs",
     "bau:cloudflare": "node bau/cloudflare.mjs",
     "vorschau:cloudflare": "wrangler dev --port 8790 --var COCKPIT_DEMO:1"
   },
   "dependencies": {
-    "@supabase/ssr": "0.12.7",
-    "@supabase/supabase-js": "2.117.3",
     "aws4fetch": "1.0.20",
     "next": "16.4.6",
     "react": "19.3.0",

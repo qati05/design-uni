@@ -1,8 +1,8 @@
 import "server-only";
 import { istDemo, type Backend } from "./backend";
 import { demoBackend } from "./backend.demo.server";
-import { supabaseBackend } from "./backend.supabase.server";
+import { cloudflareBackend } from "./backend.cloudflare.server";
 
 export function holeBackend(): Backend {
-  return istDemo() ? demoBackend : supabaseBackend;
+  return istDemo() ? demoBackend : cloudflareBackend;
 }

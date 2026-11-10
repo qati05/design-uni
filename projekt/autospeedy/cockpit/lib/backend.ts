@@ -1,28 +1,25 @@
-// Eine Schnittstelle für Anmeldung und Website-Pflege, zwei Umsetzungen:
-//   supabase (echter Betrieb, Muster aus qati05/medaur) und demo (lokal, ohne fremde Dienste, alles als Demo gekennzeichnet).
-// Das Cockpit speichert keine Kundendaten: Formulare der Website gehen direkt per Mail an den Betrieb.
+// Eine Schnittstelle für die Website-Pflege, zwei Umsetzungen:
+//   cloudflare (echter Betrieb) und demo (lokal, ohne fremde Dienste, alles als Demo gekennzeichnet).
+// Das Cockpit hat keine eigene Anmeldung und keine Datenbank: Cloudflare Access steht davor (Code per Mail) und lässt nur
+// die Adressen herein, die dort eingetragen sind. Das Cockpit prüft bei jeder Anfrage den Ausweis von Access (lib/zugriff.server.ts).
+// Es speichert keine Kundendaten: Formulare der Website gehen direkt per Mail an den Betrieb.
 import type { FotoOrdner, Pflege } from "./pflege";
 
 /** Stand der Website-Pflege: Inhalt von site.json und ihre Version (sha) für den Konfliktschutz beim Speichern. */
-export type PflegeStand = { daten: Pflege; sha: string; geaendert: string | null; von: string | null };
+export type PflegeStand = { daten: Pflege; sha: string; geaendert: string | null };
 export type PflegeSpeichern = "ok" | "konflikt" | "fehler" | "unklar" | "nicht_eingerichtet";
-/** Ein veröffentlichter Stand der Website (ein Commit an site.json). Ohne Namen: Wer es war, steht im Audit-Log. */
+/** Ein veröffentlichter Stand der Website (ein Commit an site.json). Ohne Namen: Git vergisst nicht. */
 export type VerlaufEintrag = { id: string; zeit: string };
 /** Besucherzahlen der Website, nur zum Lesen. Summen pro Tag und pro Seite, keine einzelnen Besucher. */
 export type Besucher = { beispiel: boolean; tage: { datum: string; besuche: number }[]; seiten: { pfad: string; besuche: number }[] };
 export type FotoTyp = "image/jpeg" | "image/png" | "image/webp";
 
-export type SitzungsStand = { userId: string; email: string; mitglied: boolean } | null;
-export type CodeAntwort = { status: "gesendet" | "zu_viele" | "fehler" };
-export type AuditEintrag = { aktion: string; ergebnis: "ok" | "abgelehnt" | "fehler"; ziel?: string };
+/** Wer angemeldet ist. null: kein gültiger Ausweis von Cloudflare Access (dann geht nichts). */
+export type SitzungsStand = { email: string } | null;
 
 export interface Backend {
-  readonly art: "supabase" | "demo";
-  codeAnfordern(email: string): Promise<CodeAntwort>;
-  codePruefen(email: string, code: string): Promise<boolean>;
+  readonly art: "cloudflare" | "demo";
   sitzung(): Promise<SitzungsStand>;
-  abmelden(): Promise<void>;
-  audit(e: AuditEintrag): Promise<void>;
   /** Pflege der Website: site.json im Repo des Betriebs. null: nicht erreichbar oder nicht eingerichtet. */
   pflegeLesen(): Promise<PflegeStand | null>;
   /** Speichert nur, wenn site.json noch die Version «sha» hat (sonst «konflikt»). */

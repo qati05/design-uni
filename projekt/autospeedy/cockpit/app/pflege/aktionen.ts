@@ -19,7 +19,7 @@ const KONFLIKT = "Inzwischen hat jemand anderes veröffentlicht. Bitte die Seite
 export async function veroeffentlichen(form: FormData): Promise<Antwort> {
   const b = holeBackend();
   const s = await b.sitzung();
-  if (!s || !s.mitglied) { log({ aktion: "pflege", status: "abgelehnt" }); return { ok: false, meldung: "Bitte neu anmelden." }; }
+  if (!s) { log({ aktion: "pflege", status: "abgelehnt" }); return { ok: false, meldung: "Bitte neu anmelden." }; }
   const alt = await b.pflegeLesen();
   if (!alt) return { ok: false, meldung: "Die Website ist gerade nicht erreichbar. Nichts veröffentlicht. Bitte später nochmals versuchen." };
   if (String(form.get("sha") ?? "") !== alt.sha) return { ok: false, meldung: KONFLIKT };
@@ -59,7 +59,6 @@ export async function veroeffentlichen(form: FormData): Promise<Antwort> {
   if (!fotosErlaubt(r.data, alt.daten, neu)) { await aufraeumen(); log({ aktion: "pflege", status: "foto_fremd" }); return { ok: false, meldung: "Ein Foto ist ungültig. Bitte die Seite neu laden." }; }
 
   const ergebnis = await b.pflegeSpeichern(r.data, alt.sha);
-  await b.audit({ aktion: "pflege", ergebnis: ergebnis === "ok" ? "ok" : "fehler" }).catch(() => log({ aktion: "pflege", status: "audit_fehler" }));
   log({ aktion: "pflege", status: ergebnis });
   if (ergebnis === "unklar") {
     // Keine Antwort von GitHub: vielleicht doch gespeichert. Fotos behalten (lieber ein übriges Bild als ein kaputtes auf der Website).
@@ -76,7 +75,7 @@ export async function veroeffentlichen(form: FormData): Promise<Antwort> {
   const bleibt = new Set(speicherFotos(r.data));
   let nichtGeloescht = 0;
   for (const u of speicherFotos(alt.daten)) if (!bleibt.has(u) && !(await b.bildLoeschen(u))) nichtGeloescht++;
-  if (nichtGeloescht) { log({ aktion: "foto_loeschen", status: "fehler" }); await b.audit({ aktion: "foto_loeschen", ergebnis: "fehler" }).catch(() => {}); }
+  if (nichtGeloescht) log({ aktion: "foto_loeschen", status: "fehler" });
   revalidatePath("/");
   const [stand, verlauf] = await Promise.all([b.pflegeLesen(), b.verlauf()]);
   return {
@@ -92,7 +91,7 @@ export async function veroeffentlichen(form: FormData): Promise<Antwort> {
 export async function standLaden(id: string): Promise<StandAntwort> {
   const b = holeBackend();
   const s = await b.sitzung();
-  if (!s || !s.mitglied) return { ok: false, meldung: "Bitte neu anmelden." };
+  if (!s) return { ok: false, meldung: "Bitte neu anmelden." };
   if (typeof id !== "string" || !/^[0-9a-f]{40}$/.test(id)) return { ok: false, meldung: "Dieser Stand ist nicht bekannt." };
   const [verlauf, heute] = await Promise.all([b.verlauf(), b.pflegeLesen()]);
   const eintrag = verlauf.find((v) => v.id === id);

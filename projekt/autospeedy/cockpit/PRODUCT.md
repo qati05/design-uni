@@ -26,7 +26,7 @@ Nicht mehr Teil des Cockpits [Entscheid · Roni, 08./09.11.2026]: Schadenmeldung
 
 ## Capabilities and Constraints
 
-- Anmeldung nur mit Code per Mail, danach 30 Tage angemeldet pro Gerät; kein Fingerabdruck [Entscheid · Roni, 08.11.2026].
+- Anmeldung nur mit Code per Mail (Cloudflare Access vor dem Cockpit, keine eigene Anmeldeseite), danach einen Monat angemeldet pro Gerät; kein Fingerabdruck [Entscheid · Roni, 08.11.2026 und 10.11.2026].
 - Nur echte Angaben, keine erfundenen Zahlen oder Zusagen.
 
 ## Brand Commitments

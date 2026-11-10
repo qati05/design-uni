@@ -1,9 +1,9 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { holeBackend } from "@/lib/backend.server";
 
+// Abmelden macht Cloudflare Access: Diese Adresse gehört Access und beendet die Anmeldung auf diesem Gerät.
+// Danach zeigt Access beim nächsten Aufruf wieder seine Anmeldung. (In der Demo gibt es kein Abmelden.)
 export async function abmelden() {
-  await holeBackend().abmelden();
-  redirect("/login");
+  redirect("/cdn-cgi/access/logout");
 }

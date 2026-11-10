@@ -1,66 +1,72 @@
-// Proxy im echten Betrieb (ohne COCKPIT_DEMO): Erneuert Supabase im Proxy die Sitzung, müssen die neuen Cookies mit JEDER
-// Antwort zum Browser, auch mit der 403-Seite. Sonst behält der Browser das schon benutzte Refresh-Token, Supabase beendet
-// die Sitzung beim nächsten Versuch (nach 10 Sekunden Kulanz), und das Konto landet statt auf «Kein Zugang» wieder im Login.
-// Supabase ist hier eine Attrappe: getUser() spielt eine Erneuerung, indem es setAll mit neuen Cookies aufruft.
+// Proxy im echten Betrieb (ohne COCKPIT_DEMO): Cloudflare Access steht vor dem Cockpit. Der Proxy lässt nur Anfragen durch,
+// die einen gültigen Ausweis von Access tragen (Kopf «Cf-Access-Jwt-Assertion»). Access ist hier eine Attrappe mit echtem
+// Schlüsselpaar: Die Unterschrift wird wirklich geprüft.
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
+import { _speicherLeeren } from "../../gemeinsam/access.js";
+import { AUD, TEAM, accessFetch, ausweis, paar } from "./access-hilfe";
 
-type Cookie = { name: string; value: string; options?: Record<string, unknown> };
-type Optionen = { cookies: { getAll: () => Cookie[]; setAll: (liste: Cookie[]) => void } };
-const lage = { mitglied: true, konto: "konto-1" as string | null, erneuert: true };
+const echt = paar(), fremd = paar("k1"); // fremd: gleiche Kennung, anderer Schlüssel
+const anfrage = (pfad: string, jwt?: string) => new NextRequest("https://cockpit.test" + pfad, { headers: jwt ? { "cf-access-jwt-assertion": jwt } : {} });
+let netz: ReturnType<typeof accessFetch>;
 
-vi.mock("@supabase/ssr", () => ({
-  createServerClient: (_url: string, _key: string, o: Optionen) => ({
-    auth: {
-      getUser: async () => {
-        if (lage.erneuert) o.cookies.setAll([{ name: "sb-test-auth-token", value: "NEU", options: { maxAge: 34_560_000, domain: "fremd.example" } }]);
-        return { data: { user: lage.konto ? { id: lage.konto } : null } };
-      },
-    },
-    rpc: async () => ({ data: lage.mitglied }),
-  }),
-}));
-
-const anfrage = (pfad = "/") => new NextRequest("https://cockpit.test" + pfad, { headers: { cookie: "sb-test-auth-token=ALT" } });
-const gesetzt = (a: Response) => a.headers.getSetCookie().filter((c) => c.startsWith("sb-test-auth-token="));
-
-describe("Proxy im echten Betrieb: erneuerte Sitzung kommt mit jeder Antwort zum Browser", () => {
+describe("Proxy im echten Betrieb: nur mit gültigem Ausweis von Cloudflare Access", () => {
   beforeEach(() => {
-    vi.stubEnv("COCKPIT_DEMO", ""); vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://test.supabase.co"); vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "sb_publishable_test");
-    Object.assign(lage, { mitglied: true, konto: "konto-1", erneuert: true });
+    vi.stubEnv("COCKPIT_DEMO", ""); vi.stubEnv("ACCESS_TEAM", TEAM); vi.stubEnv("ACCESS_AUD", AUD);
+    _speicherLeeren(); netz = accessFetch([echt]); vi.stubGlobal("fetch", netz.f);
   });
-  afterEach(() => vi.unstubAllEnvs());
+  afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
 
-  it("Mitglied: weiter, mit den neuen Cookies (gehärtet: httpOnly, höchstens 30 Tage, keine fremde Domain)", async () => {
+  it("gültiger Ausweis: weiter, mit strenger CSP und den Sicherheits-Headern; es werden keine Cookies gesetzt", async () => {
     const { proxy } = await import("../proxy");
-    const a = await proxy(anfrage());
+    const a = await proxy(anfrage("/", ausweis(echt)));
     expect(a.status).toBe(200);
-    expect(gesetzt(a)).toHaveLength(1);
-    expect(gesetzt(a)[0]).toMatch(/^sb-test-auth-token=NEU;/);
-    expect(gesetzt(a)[0]).toMatch(/HttpOnly/i); expect(gesetzt(a)[0]).toMatch(/Max-Age=2592000/i); expect(gesetzt(a)[0]).not.toMatch(/Domain=/i);
     expect(a.headers.get("content-security-policy")).toMatch(/script-src 'self' 'nonce-/);
+    expect(a.headers.get("content-security-policy")).toMatch(/connect-src 'self';/);
+    expect(a.headers.get("cache-control")).toBe("no-store"); expect(a.headers.get("x-frame-options")).toBe("DENY");
+    expect(a.headers.getSetCookie()).toHaveLength(0);
   });
-  it("kein Mitglied (oder Cockpit des Betriebs aus): 403, und die neuen Cookies kommen trotzdem mit", async () => {
-    lage.mitglied = false;
+  it("ohne Ausweis: 403 mit der Seite «Kein Zugang», auch auf Unterseiten und für die alte Login-Adresse", async () => {
     const { proxy } = await import("../proxy");
-    const a = await proxy(anfrage("/irgendwo"));
-    expect(a.status).toBe(403);
-    expect(a.headers.get("x-middleware-rewrite")).toBe("https://cockpit.test/403");
-    expect(gesetzt(a)).toHaveLength(1);
-    expect(gesetzt(a)[0]).toMatch(/^sb-test-auth-token=NEU;/);
-    expect(gesetzt(a)[0]).toMatch(/HttpOnly/i);
+    for (const p of ["/", "/irgendwo", "/login", "/api/demo-foto/x.webp"]) {
+      const a = await proxy(anfrage(p));
+      expect(a.status).toBe(403); expect(a.headers.get("x-middleware-rewrite")).toBe("https://cockpit.test/403");
+    }
   });
-  it("Sitzung ungültig: zum Login, Cookies (hier: das Aufräumen von Supabase) kommen mit", async () => {
-    lage.konto = null;
+  it("gefälschter Ausweis (anderer Schlüssel), fremde Anwendung, fremdes Team, abgelaufen, kein RS256: 403", async () => {
     const { proxy } = await import("../proxy");
-    const a = await proxy(anfrage());
-    expect(a.status).toBe(303); expect(a.headers.get("location")).toBe("https://cockpit.test/login");
-    expect(gesetzt(a)).toHaveLength(1);
+    const vorbei = Math.floor(Date.now() / 1000) - 3600;
+    for (const jwt of [ausweis(fremd), ausweis(echt, { aud: ["b".repeat(64)] }), ausweis(echt, { iss: "https://fremd.cloudflareaccess.com" }), ausweis(echt, { exp: vorbei }), ausweis(echt, {}, { alg: "none" }), "kein.jwt", ausweis(echt).replace(/\.[^.]+$/, ".AAAA")])
+      expect((await proxy(anfrage("/", jwt))).status).toBe(403);
   });
-  it("ohne Erneuerung setzt der Proxy keine Cookies", async () => {
-    lage.erneuert = false; lage.mitglied = false;
+  it("Ausweis ohne Mail-Adresse (z. B. Dienst-Token): 403", async () => {
     const { proxy } = await import("../proxy");
-    const a = await proxy(anfrage());
-    expect(a.status).toBe(403); expect(gesetzt(a)).toHaveLength(0);
+    expect((await proxy(anfrage("/", ausweis(echt, { email: undefined })))).status).toBe(403);
+  });
+  it("nicht eingerichtet (ACCESS_TEAM oder ACCESS_AUD fehlt): niemand kommt herein, auch nicht mit Ausweis", async () => {
+    const { proxy } = await import("../proxy");
+    vi.stubEnv("ACCESS_AUD", "");
+    expect((await proxy(anfrage("/", ausweis(echt)))).status).toBe(403);
+    vi.stubEnv("ACCESS_AUD", AUD); vi.stubEnv("ACCESS_TEAM", "");
+    expect((await proxy(anfrage("/", ausweis(echt)))).status).toBe(403);
+  });
+  it("Access nicht erreichbar (Schlüssel lassen sich nicht holen): 403 statt offen", async () => {
+    const { proxy } = await import("../proxy");
+    vi.stubGlobal("fetch", async () => { throw new Error("kein Netz"); });
+    expect((await proxy(anfrage("/", ausweis(echt)))).status).toBe(403);
+  });
+  it("öffentliche Dateien brauchen keinen Ausweis, und die Schlüssel werden nur einmal geholt", async () => {
+    const { proxy } = await import("../proxy");
+    expect((await proxy(anfrage("/bilder/logo-96.webp"))).status).toBe(200);
+    expect(netz.stand.aufrufe).toBe(0);
+    await proxy(anfrage("/", ausweis(echt))); await proxy(anfrage("/", ausweis(echt)));
+    expect(netz.stand.aufrufe).toBe(1);
+    expect(netz.stand.adressen[0]).toBe(`https://${TEAM}.cloudflareaccess.com/cdn-cgi/access/certs`);
+  });
+  it("Demo (nur lokal): ohne Anmeldung", async () => {
+    vi.stubEnv("COCKPIT_DEMO", "1");
+    const { proxy } = await import("../proxy");
+    expect((await proxy(anfrage("/"))).status).toBe(200);
+    expect(netz.stand.aufrufe).toBe(0);
   });
 });
