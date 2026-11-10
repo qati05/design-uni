@@ -571,7 +571,7 @@ body[data-seite="tesla"] .kopf:not(.ist-unten)::before { opacity: 1; background:
 .partner-logos img { background: #fff; padding: 10px 14px; box-sizing: content-box; border: 1px solid #dde3ea; }
 
 /* Partnerband Entwurf C (BAUPLAN 2 Zeile 4, 3.9): Abschnitt unter der Faktenleiste, Label links,
-   Pausieren-Knopf rechts, darunter das ruhige Laufband. Optik und Laufband wie in der ersten Linie. */
+   darunter das ruhige Laufband. Optik und Laufband wie in der ersten Linie. */
 .partner { max-width: var(--breit); margin-inline: auto; padding: 22px var(--rand) 28px; border-bottom: 1px solid var(--linie); }
 /* Textvariante (Vorgabe, rechte.md): Partnernamen in Archivo statt Logo */
 
@@ -1504,16 +1504,14 @@ a.klein { font-size: 14px; }
 .schritt__fuss .k[data-fotoweiter]:not(.hat-foto) { padding: 0 8px; white-space: nowrap; }
 [data-schritt="2"] > legend .pflicht { white-space: nowrap; }
 
-/* Partner: Laufband (auf Wunsch zurück, 04.11.2026). Anhalten per Knopf, Pause bei Hover und Fokus, statisch unter Reduced Motion. */
+/* Partner: Laufband (auf Wunsch zurück, 04.11.2026). Pause bei Hover und Fokus, am Handy per Tipp auf das Band, statisch unter Reduced Motion. */
 .partner__kopf { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
 .partner__label { margin: 0; }
-.partner__pause { background: none; border: 0; padding: 16px 6px; margin: -16px -6px; font: 500 13px/1 var(--schrift); color: var(--leise); cursor: pointer; border-radius: var(--rund); }
-@media (hover: hover) and (pointer: fine) { .partner__pause:hover { color: var(--tinte); } }
 .partnerband { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
 .partnerband__spur { display: flex; gap: 16px; width: max-content; margin: 0; padding: 6px 0; list-style: none; animation: partnerband var(--dauer, 40s) linear infinite; }
 .partnerband:focus-within .partnerband__spur { animation-play-state: paused; }
 @media (hover: hover) and (pointer: fine) { .partnerband:hover .partnerband__spur { animation-play-state: paused; } }
-/* Pausieren-Knopf (BAUPLAN 3.9): Klasse .ist-pausiert haelt das Laufband an */
+/* Tipp auf das Band (klar.js): Klasse .ist-pausiert haelt das Laufband an */
 .partnerband.ist-pausiert .partnerband__spur { animation-play-state: paused; }
 .partnerband__karte { display: flex; align-items: center; justify-content: center; width: 196px; height: 84px; padding: 14px 22px; box-sizing: border-box; background: var(--papier); border: 1px solid var(--linie); border-radius: var(--rund); transition: border-color var(--farbe) linear, transform var(--feder-ruhig-dauer) var(--feder-ruhig); }
 @media (hover: hover) and (pointer: fine) { .partnerband__karte:hover { border-color: var(--akzent); transform: translateY(-2px); } }
@@ -1533,7 +1531,6 @@ a.klein { font-size: 14px; }
 }
 @media (max-width: 860px) { .partnerband--logos .partnerband__karte img { max-height: 32px; } .partnerband--logos .partnerband__karte--tesla img { max-height: 24px; } .partnerband--logos .partnerband__wortmarke { font-size: 16px; } }
 @media (prefers-reduced-motion: reduce) {
-  .partner__pause { display: none; }
   .partnerband { -webkit-mask-image: none; mask-image: none; }
   .partnerband__spur { animation: none; flex-wrap: wrap; width: auto; }
   .partnerband__karte[data-kopie] { display: none; }

@@ -1,6 +1,7 @@
 ---
 // Partnerband Entwurf C (Nachtrag 04.11.2026): echte Logos in Graustufen, automatisches Laufband von links nach
-// rechts, nahtlos (Spur doppelt), Pause bei Hover/Fokus und per Knopf, bei prefers-reduced-motion statisch.
+// rechts, nahtlos (Spur doppelt), Pause bei Hover/Fokus und am Handy per Tipp auf das Band, bei prefers-reduced-motion statisch.
+// Der sichtbare Knopf «Anhalten» ist weg (Roni 10.11.2026: wirkt wie eine Demo).
 // Nur CSS-Animation von transform (@keyframes partnerband, animation-direction: reverse = links nach rechts).
 // Logos sind vom Betrieb freigegeben (Reshat 04.11.). Land Rover ohne Logo als Wortmarke im gleichen Grau.
 // Tesla-Logo optisch gleich schwer gemacht (kleinere Kappenhöhe, .partnerband__karte--tesla in klar.css).
@@ -25,9 +26,8 @@ const { titel = "Zertifizierte Partner" } = Astro.props;
 <section class="partner" aria-labelledby="partner-label">
   <div class="partner__kopf">
     <h2 class="partner__label" id="partner-label">{titel}</h2>
-    <button class="partner__pause" type="button" data-partner-pause aria-pressed="false">Anhalten</button>
   </div>
-  <div class="partnerband partnerband--logos">
+  <div class="partnerband partnerband--logos" data-partnerband>
     <ul class="partnerband__spur" style={`--dauer: ${haelfte.length * 5}s`}>
       {spur.map((p: any) => {
         const inhalt = p.wortmarke

@@ -69,7 +69,6 @@
 .hm-fakten .partner { max-width: var(--container); margin: var(--space-xl) auto 0; padding: 0 var(--gutter); border: 0; }
 .hm-fakten .partner__kopf { align-items: baseline; margin-bottom: var(--space-lg); padding-top: var(--space-xl); border-top: 1px solid var(--color-rule); }
 .hm-fakten .partner__label { max-width: none; font-size: var(--text-title); line-height: 1.2; }
-.hm-fakten .partner__pause { font: 500 var(--text-sm)/1 var(--font-body); color: var(--color-muted); }
 .hm-fakten .partnerband { container-type: inline-size; -webkit-mask-image: none; mask-image: none; }
 .hm-fakten .partnerband__spur { gap: var(--gap-columns); padding: 0; }
 .hm-fakten .partnerband__karte { width: calc((100cqi - 3 * var(--gap-columns)) / 4); height: 104px; border-radius: var(--radius-card); }

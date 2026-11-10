@@ -289,15 +289,15 @@
     }
   });
 
-  // Partnerband: Pausieren-Knopf (BAUPLAN 3.9, WCAG 2.2.2). Klasse .ist-pausiert haelt das Laufband an.
-  // Unter Reduced Motion laeuft nichts und der Knopf ist per CSS ausgeblendet.
-  [].forEach.call(document.querySelectorAll("[data-partner-pause]"), function (knopf) {
-    var band = knopf.closest(".partner") && knopf.closest(".partner").querySelector(".partnerband");
-    if (!band) return;
-    knopf.addEventListener("click", function () {
-      var pausiert = band.classList.toggle("ist-pausiert");
-      knopf.setAttribute("aria-pressed", pausiert ? "true" : "false");
-      knopf.textContent = pausiert ? "Weiter" : "Anhalten";
+  // Partnerband: ohne sichtbaren Knopf (Roni 10.11.2026). Mit der Maus haelt es beim Darueberfahren an, mit der Tastatur
+  // beim Fokus (beides CSS). Ohne Maus (Handy) haelt ein Tipp auf das Band es an, der naechste Tipp laesst es weiterlaufen
+  // (WCAG 2.2.2: Bewegung laesst sich anhalten). Ein Tipp auf ein verlinktes Logo oeffnet wie bisher den Link.
+  // Unter Reduced Motion laeuft nichts.
+  [].forEach.call(document.querySelectorAll("[data-partnerband]"), function (band) {
+    band.addEventListener("click", function (e) {
+      if (!window.matchMedia || !window.matchMedia("(hover: none)").matches) return;
+      if (e.target.closest && e.target.closest("a")) return;
+      band.classList.toggle("ist-pausiert");
     });
   });
 

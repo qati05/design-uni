@@ -316,22 +316,41 @@ test("Handyleiste und Hero-CTAs sind beim Scrollen nie gleichzeitig sichtbar (De
   await ctx.close();
 });
 
-test("Partnerband: Pausieren-Knopf haelt das Laufband an (BAUPLAN 3.9)", async () => {
-  const { ctx, page, fehler } = await seite({ viewport: { width: 1280, height: 800 } });
-  await page.goto(basis + "/");
-  const spur = page.locator(".partner .partnerband__spur");
-  const knopf = page.locator("[data-partner-pause]");
-  const lauf = () => spur.evaluate((el) => getComputedStyle(el).animationPlayState);
-  assert.equal(await lauf(), "running", "laeuft zuerst");
-  await knopf.click();
-  assert.equal(await lauf(), "paused", "nach Klick pausiert");
-  assert.equal(await knopf.getAttribute("aria-pressed"), "true");
-  assert.equal((await knopf.textContent()).trim(), "Weiter");
-  await knopf.click();
-  assert.equal(await lauf(), "running", "zweiter Klick: laeuft wieder");
-  assert.equal(await knopf.getAttribute("aria-pressed"), "false");
-  assert.deepEqual(fehler, []);
-  await ctx.close();
+test("Partnerband: kein Knopf «Anhalten» (Roni 10.11.2026); Maus darüber hält an, am Handy ein Tipp auf das Band", async () => {
+  {
+    const { ctx, page, fehler } = await seite({ viewport: { width: 1280, height: 800 } });
+    await page.goto(basis + "/");
+    const teil = page.locator(".partner");
+    assert.equal(await teil.locator("button").count(), 0, "kein Knopf im Partner-Abschnitt");
+    assert.doesNotMatch(await teil.textContent(), /Anhalten|Weiter/, "kein «Anhalten»");
+    const spur = teil.locator(".partnerband__spur");
+    const lauf = () => spur.evaluate((el) => getComputedStyle(el).animationPlayState);
+    assert.equal(await lauf(), "running", "laeuft zuerst");
+    await teil.locator(".partnerband").hover();
+    assert.equal(await lauf(), "paused", "Maus darüber: hält an");
+    await page.mouse.move(2, 2);
+    assert.equal(await lauf(), "running", "Maus weg: läuft weiter");
+    await teil.locator(".partnerband").click({ position: { x: 5, y: 5 } });
+    await page.mouse.move(2, 2);
+    assert.equal(await lauf(), "running", "mit Maus schaltet ein Klick nichts um");
+    assert.deepEqual(fehler, []);
+    await ctx.close();
+  }
+  {
+    const { ctx, page, fehler } = await seite({ viewport: { width: 390, height: 800 }, hasTouch: true, isMobile: true });
+    await page.goto(basis + "/");
+    const band = page.locator(".partner .partnerband");
+    const lauf = () => band.locator(".partnerband__spur").evaluate((el) => getComputedStyle(el).animationPlayState);
+    await band.scrollIntoViewIfNeeded();
+    assert.equal(await lauf(), "running", "Handy: läuft zuerst");
+    const tipp = () => band.evaluate((el) => { const k = [...el.querySelectorAll(".partnerband__karte")].find((x) => !x.querySelector("a")); k.click(); });
+    await tipp();
+    assert.equal(await lauf(), "paused", "Handy: Tipp hält an");
+    await tipp();
+    assert.equal(await lauf(), "running", "Handy: zweiter Tipp lässt weiterlaufen");
+    assert.deepEqual(fehler, []);
+    await ctx.close();
+  }
 });
 
 test("Partnerband unter Reduced Motion: Band steht, kein Knopf (BAUPLAN 3.9)", async () => {
@@ -339,7 +358,7 @@ test("Partnerband unter Reduced Motion: Band steht, kein Knopf (BAUPLAN 3.9)", a
   await page.goto(basis + "/");
   const spur = page.locator(".partner .partnerband__spur");
   assert.equal(await spur.evaluate((el) => getComputedStyle(el).animationName), "none", "kein Lauf");
-  assert.ok(!(await page.locator("[data-partner-pause]").isVisible()), "kein Pausieren-Knopf");
+  assert.equal(await page.locator(".partner button").count(), 0, "kein Knopf");
   await ctx.close();
 });
 
