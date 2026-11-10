@@ -1,0 +1,15 @@
+// Cockpit auf Cloudflare Workers (OpenNext). Bau: npm run bau:cloudflare. Einrichtung: EINRICHTEN.md.
+// Hier stehen keine Werte und keine Geheimnisse. Die trägt der Auftraggeber im Dashboard ein (Settings → Variables and Secrets).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "cockpit",
+  "compatibility_date": "2026-10-01",
+  // nodejs_compat: Buffer, node:crypto und process.env (das Cockpit liest seine Einstellungen aus process.env).
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  // Muss gleich heissen wie «name».
+  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "cockpit" }],
+  // Werte aus dem Dashboard bleiben beim Hochladen erhalten. Ohne diese Zeile löscht jedes Hochladen sie.
+  "keep_vars": true
+}

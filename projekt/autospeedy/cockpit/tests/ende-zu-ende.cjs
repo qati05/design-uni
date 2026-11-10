@@ -356,6 +356,9 @@ async function veroeffentlichen(p, erwartet, was) {
   await k.uncheck(SCH); await k.waitForSelector(blatt + ' .toast');
   ok(await k.evaluate(() => { const t = document.querySelector('dialog[open] .toast__tat'), r = t.getBoundingClientRect(); return r.height >= 44 && document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2) === t; }), 'Meldung «Hinweis dazu entfernt» steht im offenen Blatt (nicht dahinter), «Rückgängig» lässt sich antippen');
   await k.click(blatt + ' .toast__tat'); await k.waitForSelector(blatt + ' .toast:has-text("Zurückgenommen.")');
+  // Die Meldung erscheint einen Bildaufbau vor dem Schalter: Das Blatt nimmt die Verbindung zum Hinweis erst danach wieder auf
+  // (useEffect in bereiche.tsx). Darum auf den Zustand warten, nicht auf Zeit. Kommt er nicht, schlägt die Prüfung darunter fehl.
+  await k.waitForSelector(SCH + ':checked', { timeout: 5000 }).catch(() => {});
   ok(await k.isChecked(SCH) && (await k.textContent(blatt)).includes('Betriebsferien vom ' + ch(F1) + ' bis ' + ch(F2) + '.'), '«Rückgängig» im Blatt: Der Schalter ist wieder an, der Hinweis ist wieder da'); await fertig(k);
   await hin(k, 'hinweise'); ok((await k.$$('[id^="hinweis-"]')).length === 2, 'nach «Rückgängig» im Blatt gibt es den Hinweis zu den Ferien genau einmal');
   // Meldung mit einem langen Wort: bricht um, die Knöpfe bleiben im Bild

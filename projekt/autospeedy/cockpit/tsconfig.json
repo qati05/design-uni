@@ -23,5 +23,5 @@
     "paths": { "@/*": ["./*"] }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts"],
-  "exclude": ["node_modules", ".next", "test-results", "playwright-report"]
+  "exclude": ["node_modules", ".next", ".open-next", ".wrangler", "test-results", "playwright-report"]
 }

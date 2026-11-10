@@ -5,6 +5,7 @@ import type { AuditEintrag, Backend, CodeAntwort, SitzungsStand } from "./backen
 import { siteLesen, siteSchreiben, siteVerlauf, fotoHochladen, fotoLoeschen, type Repo, type BildSpeicher } from "./website.server";
 import { besucherLesen } from "./besucher.server";
 import { COOKIE_GRUNDLAGE, haerte } from "./cookies";
+import { log } from "./log";
 
 // Muster aus qati05/medaur cockpit-app/lib/supabase.server.ts: Sitzung nur in httpOnly-Cookies, kein Browser-Client.
 // Supabase hält nur Konten, Betriebe, Mitgliedschaften und das Audit-Log. Keine Kundendaten.
@@ -45,6 +46,9 @@ export const supabaseBackend: Backend = {
   art: "supabase",
   async codeAnfordern(email): Promise<CodeAntwort> {
     const { error } = await (await sb()).auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
+    // Der Nutzer sieht immer dieselbe Antwort. Im Log steht aber, warum Supabase ablehnte (z. B. Mail-Versand falsch eingerichtet):
+    // nur der Fehlercode, nie die Adresse. Auch eine Adresse ohne Konto ergibt einen Fehlercode.
+    if (error) log({ aktion: "login_code_supabase", status: typeof error.code === "string" && /^[a-z0-9_]{1,40}$/.test(error.code) ? error.code : `http_${Number(error.status) || 0}` });
     return { status: error ? (error.status === 429 ? "zu_viele" : "gesendet") : "gesendet" }; // gleiche Antwort für unbekannte Adressen
   },
   async codePruefen(email, code) {
@@ -91,10 +95,12 @@ export const supabaseBackend: Backend = {
     const e = process.env;
     return e.CF_KONTO && e.CF_SEITE && e.CF_ANALYSE_TOKEN ? besucherLesen({ konto: e.CF_KONTO, seite: e.CF_SEITE, token: e.CF_ANALYSE_TOKEN }) : null;
   },
-  async abmelden() { await (await sb()).auth.signOut(); },
+  // Nur dieses Gerät: Ohne «local» meldet Supabase alle Geräte des Kontos ab, auch den PC, wenn sich jemand am Handy abmeldet.
+  async abmelden() { await (await sb()).auth.signOut({ scope: "local" }); },
   async audit(e: AuditEintrag) {
     const h = await headers();
-    const roh = h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "";
+    // Auf Cloudflare setzt die Plattform cf-connecting-ip selbst (ein Aufrufer kann den Kopf nicht vorgeben). Sonst wie bisher x-forwarded-for.
+    const roh = h.get("cf-connecting-ip")?.trim() || h.get("x-forwarded-for")?.split(",")[0]?.trim() || "";
     const { error } = await (await sb()).rpc("audit_schreiben", { p_aktion: e.aktion, p_ergebnis: e.ergebnis, p_ziel: e.ziel ?? null, p_ip: /^[0-9a-fA-F:.]{2,45}$/.test(roh) ? roh : null, p_user_agent: h.get("user-agent")?.slice(0, 400) ?? null });
     // supabase-js wirft bei Fehlern nicht. Ohne diese Zeile ginge ein abgelehnter Audit-Eintrag still verloren; so loggen die Aufrufer «audit_fehler».
     if (error) throw new Error("audit_schreiben fehlgeschlagen");

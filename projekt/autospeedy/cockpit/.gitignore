@@ -3,5 +3,7 @@ node_modules/
 next-env.d.ts
 *.tsbuildinfo
 .env*
-node_modules/
-.next/
+# Cloudflare Workers (OpenNext): Bau-Ergebnis, lokaler Zustand von wrangler, lokale Werte
+.open-next/
+.wrangler/
+.dev.vars*
