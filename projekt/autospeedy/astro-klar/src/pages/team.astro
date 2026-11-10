@@ -10,10 +10,11 @@ const gruppen = site.team
   .filter((g: any) => g.leute.length);
 // Nachtrag 08.11.2026 (AEO): Personen als JSON-LD mit Rolle und Bezug zum Betrieb (ohne E-Mail-Adressen).
 import { bau } from "../../../astro/bau/daten.mjs";
+// Ein Foto aus dem Cockpit (Bild-Speicher) steht schon als volle Adresse da; nur Fotos aus dem Repo bekommen die Adresse der Website davor.
 const basis = (bau.adresse || "https://www.autospeedy.ch").replace(/\/$/, "");
 const personen = gruppen.flatMap((g: any) => g.leute.map((p: any) => {
   const spitz = p.name.match(/«(.+)»/);
-  return { "@type": "Person", name: p.name.replace(/ «.*»/, ""), ...(spitz ? { alternateName: spitz[1] } : {}), jobTitle: p.rolle, ...(p.foto ? { image: basis + p.foto } : {}), worksFor: { "@id": basis + "/#betrieb" } };
+  return { "@type": "Person", name: p.name.replace(/ «.*»/, ""), ...(spitz ? { alternateName: spitz[1] } : {}), jobTitle: p.rolle, ...(p.foto ? { image: /^https:\/\//.test(p.foto) ? p.foto : basis + p.foto } : {}), worksFor: { "@id": basis + "/#betrieb" } };
 }));
 ---
 <Klar seite="team" brotkrumen={[{ name: "Startseite", pfad: "/" }, { name: "Team", pfad: "/team/" }]} ldExtra={personen}>

@@ -26,7 +26,24 @@ const adresseVon = (datei) => "/" + datei.replace(/index\.html$/, "");
 // Voraussetzung: kein ausführbares Inline-Skript und keine onclick-Attribute (JSON-LD ist Daten und bleibt erlaubt).
 // Fremde Herkünfte: Turnstile, absoluter Formular-Endpunkt, AutoScout-Widget (aus der Konfiguration) und Cloudflare Web Analytics.
 const herkunft = (u) => { try { return /^https:\/\//.test(u || "") ? new URL(u).origin : null; } catch { return null; } };
-export function cspZeile({ bau, betrieb }) {
+// Bilder aus dem Bild-Speicher des Cockpits (R2): Teamfotos, ersetzte Fotos und Partner-Logos stehen in site.json als
+// volle https-Adresse (Form geprüft in gemeinsam/site.ts). Ihre Herkunft kommt in img-src, sonst sperrt der Browser sie.
+// Dieselbe Aufzählung wie speicherFotos() in gemeinsam/site.ts. Steht in bau.json «bilderHost», ist nur diese Herkunft
+// erlaubt und der Bau bricht bei einer anderen ab (Schutz vor einer falsch gesetzten Adresse im Cockpit).
+export function bildHerkuenfte(site, bau = {}) {
+  const fotos = [
+    ...(site?.team ?? []).flatMap((g) => (g.leute ?? []).map((l) => l.foto)),
+    ...Object.values(site?.bilder ?? {}).map((x) => x?.foto),
+    ...(site?.partner ?? []).map((x) => x?.logo),
+  ];
+  const gefunden = [...new Set(fotos.map(herkunft).filter(Boolean))].sort();
+  const fest = herkunft(bau.bilderHost);
+  if (bau.bilderHost && !fest) throw new Error(`bau.json «bilderHost» ist keine https-Adresse: ${bau.bilderHost}`);
+  const fremd = fest ? gefunden.filter((h) => h !== fest) : [];
+  if (fremd.length) throw new Error(`Bild von fremder Adresse: ${fremd.join(", ")}. Erlaubt ist nur ${fest} (bau.json «bilderHost»).`);
+  return gefunden;
+}
+export function cspZeile({ bau, betrieb, site }) {
   // Turnstile (challenges.cloudflare.com) nur in die CSP, wenn ein Sitekey gesetzt ist; sonst gar nicht (BAUPLAN 4.3).
   const ts = process.env.TURNSTILE_SITEKEY ? "https://challenges.cloudflare.com" : null;
   const verbinden = [process.env.FORMULAR_ENDPUNKT || bau.formularEndpunkt].map(herkunft).filter(Boolean);
@@ -41,7 +58,7 @@ export function cspZeile({ bau, betrieb }) {
     "default-src 'self'",
     `script-src ${liste("'self'", ts, widget, analyse.skript)}`,
     "style-src 'self' 'unsafe-inline'", // style="--dauer" im Partnerband und Turnstile
-    "img-src 'self' data: blob:",
+    `img-src ${liste("'self'", "data:", "blob:", ...bildHerkuenfte(site, bau))}`,
     "font-src 'self'",
     `connect-src ${liste("'self'", ts, ...verbinden, analyse.melden)}`,
     `frame-src ${rahmen || "'none'"}`,
@@ -57,7 +74,7 @@ export default function dateien({ csp = false } = {}) {
     name: "vorlage-dateien",
     hooks: {
       "astro:build:done": async ({ dir }) => {
-        const { bau, betrieb, vorschau, RECHTSSEITEN, meldeSpaeter } = await import("./daten.mjs");
+        const { bau, betrieb, site, vorschau, RECHTSSEITEN, meldeSpaeter } = await import("./daten.mjs");
         const ziel = fileURLToPath(dir);
         const seiten = htmlDateien(ziel);
 
@@ -92,7 +109,7 @@ export default function dateien({ csp = false } = {}) {
           ...(vorschau ? ["  X-Robots-Tag: noindex"] : ["  Strict-Transport-Security: max-age=31536000"]),
           "  X-Content-Type-Options: nosniff",
           "  Referrer-Policy: strict-origin-when-cross-origin",
-          `  Content-Security-Policy: ${csp ? cspZeile({ bau, betrieb }) : "frame-ancestors 'none'"}`,
+          `  Content-Security-Policy: ${csp ? cspZeile({ bau, betrieb, site }) : "frame-ancestors 'none'"}`,
           "  Permissions-Policy: camera=(), microphone=(), geolocation=()",
         ];
         // Performance (Nachtrag 08.11.2026): Schriften ändern sich nie unter demselben Namen, darum lange im Browser behalten.

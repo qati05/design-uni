@@ -13,6 +13,8 @@
   "_pagesProjekt": "Name des Projekts bei Cloudflare Pages (ohne .pages.dev). Im Livegang Pflicht: damit bleibt <name>.pages.dev ausserhalb von Google.",
   "lueckenFreigegeben": [],
   "_luecken": "Sperre für den Livegang: Der Live-Bau bricht ab, solange eine Lücke-Box offen ist. Hier ein Textstück der Lücke eintragen, wenn sie bewusst ohne Ersatz live gehen darf. \"*\" gibt alle frei (nur für Tests).",
+  "bilderHost": null,
+  "_bilderHost": "Adresse des Bild-Speichers für Fotos aus dem Cockpit, zum Beispiel https://pub-….r2.dev (dieselbe wie TEAMFOTO_BASIS im Cockpit). null: Der Bau erlaubt die Adressen, die in site.json stehen. Gesetzt: nur diese eine, sonst bricht der Bau ab.",
   "formularEndpunkt": null,
   "_formular": "formularEndpunkt: null = kein Server, das Formular übergibt an das E-Mail-Programm (zusammenspiel Teil 7). \"/api/schaden\" erst, wenn functions/api/schaden.js deployt und MAIL_ENDPUNKT gesetzt ist (web-uni WP4, technik.md)."
 }

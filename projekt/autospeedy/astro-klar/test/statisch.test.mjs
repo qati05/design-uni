@@ -24,6 +24,23 @@ test("_headers: volle CSP ohne unsafe-inline/eval bei Skripten", () => {
   assert.match(h, /X-Content-Type-Options: nosniff/);
 });
 
+test("CSP: Fotos aus dem Cockpit (Bild-Speicher) sind erlaubt, fremde Adressen bei gesetztem bilderHost nicht", async () => {
+  const { bildHerkuenfte, cspZeile } = await import("../../astro/bau/dateien.mjs");
+  const u = "0f8fad5b-d9cb-469f-a165-70867728950e";
+  const site = {
+    team: [{ leute: [{ foto: "/bilder/team/a.webp" }, { foto: `https://pub-abc.r2.dev/team/${u}.webp` }, {}] }],
+    bilder: { hero: { foto: `https://pub-abc.r2.dev/bild/${u}.jpg` } },
+    partner: [{ logo: "/bilder/partner/x.svg" }, { logo: `https://pub-abc.r2.dev/bild/${u}.png` }],
+  };
+  assert.deepEqual(bildHerkuenfte(site), ["https://pub-abc.r2.dev"]);
+  assert.deepEqual(bildHerkuenfte({ team: [{ leute: [{ foto: "/bilder/team/a.webp" }] }] }), [], "nur Fotos aus dem Repo: nichts Fremdes");
+  assert.match(cspZeile({ bau: {}, betrieb: {}, site }), /img-src 'self' data: blob: https:\/\/pub-abc\.r2\.dev;/);
+  assert.match(cspZeile({ bau: {}, betrieb: {}, site: { team: [] } }), /img-src 'self' data: blob:;/);
+  assert.deepEqual(bildHerkuenfte(site, { bilderHost: "https://pub-abc.r2.dev" }), ["https://pub-abc.r2.dev"]);
+  assert.throws(() => bildHerkuenfte(site, { bilderHost: "https://pub-anders.r2.dev" }), /fremder Adresse/);
+  assert.throws(() => bildHerkuenfte(site, { bilderHost: "pub-abc.r2.dev" }), /keine https-Adresse/);
+});
+
 test("kein ausführbares Inline-Skript, keine on…-Attribute", () => {
   for (const p of html) {
     const s = lies(p);
