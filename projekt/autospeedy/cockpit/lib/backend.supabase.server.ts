@@ -95,6 +95,8 @@ export const supabaseBackend: Backend = {
   async audit(e: AuditEintrag) {
     const h = await headers();
     const roh = h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "";
-    await (await sb()).rpc("audit_schreiben", { p_aktion: e.aktion, p_ergebnis: e.ergebnis, p_ziel: e.ziel ?? null, p_ip: /^[0-9a-fA-F:.]{2,45}$/.test(roh) ? roh : null, p_user_agent: h.get("user-agent")?.slice(0, 400) ?? null });
+    const { error } = await (await sb()).rpc("audit_schreiben", { p_aktion: e.aktion, p_ergebnis: e.ergebnis, p_ziel: e.ziel ?? null, p_ip: /^[0-9a-fA-F:.]{2,45}$/.test(roh) ? roh : null, p_user_agent: h.get("user-agent")?.slice(0, 400) ?? null });
+    // supabase-js wirft bei Fehlern nicht. Ohne diese Zeile ginge ein abgelehnter Audit-Eintrag still verloren; so loggen die Aufrufer «audit_fehler».
+    if (error) throw new Error("audit_schreiben fehlgeschlagen");
   },
 };

@@ -74,6 +74,9 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     log({ aktion: "zugang_abgelehnt", status: "abgelehnt" });
     const url = request.nextUrl.clone(); url.pathname = "/403"; url.search = "";
     antwort = NextResponse.rewrite(url, { status: 403, request: { headers: kopf } });
+    // Hat Supabase eben die Sitzung erneuert, müssen die neuen Cookies auch mit der 403-Seite zum Browser. Sonst bleibt dort das
+    // schon benutzte Refresh-Token, die Sitzung endet beim nächsten Versuch, und das Konto landet im Login statt auf «Kein Zugang».
+    for (const c of neueCookies) antwort.cookies.set(c.name, c.value, c.options);
   }
   for (const h of sicherheitsHeader()) antwort.headers.set(h.key, h.value);
   if (!pfad.startsWith("/api/")) antwort.headers.set("Content-Security-Policy", csp);
