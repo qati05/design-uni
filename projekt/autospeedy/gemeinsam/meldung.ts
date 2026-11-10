@@ -2,7 +2,7 @@
 // Plain TypeScript ohne Abhängigkeit, damit er überall läuft (Cloudflare, Node).
 // Pflicht sind nur Art, Name und Telefon (Entscheid Reshat 03.11., Formular-Psychologie). Alles andere ist freiwillig.
 
-export const ARTEN = ["Parkschaden", "Unfall", "Hagel", "Kratzer oder Lack", "Scheibe", "Felge", "Etwas anderes", "Rückruf"];
+export const ARTEN = ["Parkschaden", "Unfall", "Hagel", "Lackschaden", "Scheibe", "Felge", "Etwas anderes", "Rückruf"];
 export const TESLA_MODELLE = ["Model 3", "Model Y", "Model S", "Model X", "Anderes Modell"];
 export const GRENZEN = {
   email: 254, bemerkung: 3000, name: 120, telefon: 40, stelle: 40, stellen: 12,

@@ -8,7 +8,7 @@ web
 
 ## Users
 
-Autofahrerinnen und Autofahrer aus Altstätten und dem St. Galler Rheintal, die gerade einen Schaden am Auto haben: Parkschaden, Unfall, Hagel, Kratzer oder Lack, Scheibe, Felge. Sie sind oft am Handy, manchmal direkt nach dem Schaden, und wollen schnell wissen, wo sie melden, wen sie anrufen und ob die Versicherung abgewickelt wird.
+Autofahrerinnen und Autofahrer aus Altstätten und dem St. Galler Rheintal, die gerade einen Schaden am Auto haben: Parkschaden, Unfall, Hagel, Lackschaden, Scheibe, Felge. Sie sind oft am Handy, manchmal direkt nach dem Schaden, und wollen schnell wissen, wo sie melden, wen sie anrufen und ob die Versicherung abgewickelt wird.
 
 Weitere bestätigte Gruppen:
 - Tesla-Besitzer, die eine zugelassene Carrosserie suchen (Wunsch 2 des Betriebs).

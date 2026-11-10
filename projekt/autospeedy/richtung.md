@@ -68,7 +68,7 @@ Boden gemessen: Reduced Motion 0 Animationen; nach 5 s läuft nichts; `h1` und T
 - Handy: Etiketten zweizeilig («Seite / links vorne», «Front- / Stossstange»), Schrift rund 16 px; Auto steht unter Titel und Einleitung. Kein seitliches Scrollen.
 
 ## Schadenmeldung «in drei Tipps» (02.11.2026)
-- Startseite: Schnellstart «Was ist passiert?» mit sieben grossen Knöpfen im Lackverlauf (Parkschaden, Unfall, Hagel, Kratzer oder Lack, Scheibe, Felge, Etwas anderes) und dem Weg 1 · 2 · 3; ein Tipp öffnet die Meldung bei Schritt 2.
+- Startseite: Schnellstart «Was ist passiert?» mit sieben grossen Knöpfen im Lackverlauf (Parkschaden, Unfall, Hagel, Lackschaden, Scheibe, Felge, Etwas anderes) und dem Weg 1 · 2 · 3; ein Tipp öffnet die Meldung bei Schritt 2.
 - Meldung: ein Schritt pro Bildschirm mit Fortschritt 1 2 3, Zurück ohne Datenverlust; Foto-Schritt mit grossem Kamera-Feld und Vorschau; Schritt 3 mit Zusammenfassung «Hagel · 2 Fotos», Kontakt, Tesla-Häkchen, drei Sende-Knöpfen in Rangfolge (Website blau, WhatsApp grün, E-Mail als Rahmen); Bestätigung mit Fotos.
 - Der beschriftete Schadenplan bleibt als freiwillige Hilfe in Schritt 1; das grosse Auto ist von der Startseite entfernt. Die Wörter der Schadenarten sind `[Annahme]` (keine Kundenworte gesammelt) und gehören im Gespräch geprüft.
 
